@@ -42,6 +42,17 @@ public static class GridEx
         return chunk.Get(posInChunk.x, posInChunk.y, posInChunk.z);
     }
 
+    public static void SetBlock(Grid grid, Vector3Int pos, BlockType block)
+    {
+        Vector3Int chunkIndex = Grid.PosToChunkIndex(pos);
+        Vector3Int posInChunk = Grid.PosToPosInChunk(pos);
+
+        var chunk = grid.Get(chunkIndex);
+        if (chunk == null)
+            return;
+        chunk.Set(posInChunk.x, posInChunk.y, posInChunk.z, block);
+    }
+
     public static void GetNearMatrix(Grid grid, Vector3Int pos, NearMatrix3<BlockType> mat)
     {
         for(int i = -1; i <= 1; i++)
@@ -110,6 +121,16 @@ public static class GridEx
                 }
             }
         }
+    }
+
+    public static int GetRealSize(Grid grid)
+    {
+        return grid.Size() * Grid.ChunkSize;
+    }
+
+    public static int GetRealHeight(Grid grid)
+    {
+        return grid.Height() * Grid.ChunkSize;
     }
 }
 
