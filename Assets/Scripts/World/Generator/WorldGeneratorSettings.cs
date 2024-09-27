@@ -5,7 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class WorldGeneratorSettings : ScriptableObject
+[Serializable]
+public class WorldGeneratorSettings
 {
     [HideInInspector]
     public int seed = 0;
