@@ -10,6 +10,19 @@ public class GridBehaviour : MonoBehaviour
     Grid m_grid;
     Matrix<ChunkBehaviour> m_chunks;
 
+    SubscriberList m_subscriberList = new SubscriberList();
+
+    private void Awake()
+    {
+        m_subscriberList.Add(new Event<GetGridEvent>.Subscriber(GetGrid));
+        m_subscriberList.Subscribe();
+    }
+
+    private void OnDestroy()
+    {
+        m_subscriberList.Unsubscribe();
+    }
+
     public void SetGrid(Grid grid)
     {
         m_grid = grid;
@@ -19,6 +32,11 @@ public class GridBehaviour : MonoBehaviour
     public Grid GetGrid()
     {
         return m_grid;
+    }
+
+    public void GetGrid(GetGridEvent e)
+    {
+        e.grid = m_grid;
     }
 
     void CreateChunks()

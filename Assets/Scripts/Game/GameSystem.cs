@@ -44,8 +44,11 @@ public class GameSystem : MonoBehaviour
                     int generatedChunks = m_grid.GetGeneratedCount();
                     int totalChunks = m_grid.GetTotalCount();
 
-                    if(generatedChunks == totalChunks)
+                    if (generatedChunks == totalChunks)
+                    {
                         m_state = State.Ended;
+                        Event<GenerationFinishedEvent>.Broadcast(new GenerationFinishedEvent());
+                    }
 
                     break;
                 }
