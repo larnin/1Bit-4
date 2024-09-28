@@ -36,6 +36,8 @@ public static class WorldGenerator
 
             m_state = GenerationState.Working;
             m_stateTxt = "Starting";
+
+            m_settings = settings;
         }
 
         ThreadPool.StartJob(JobWorker, OnEndJob, 1000);
@@ -46,8 +48,13 @@ public static class WorldGenerator
         m_state = GenerationState.Idle;
         m_stateTxt = "";
 
-         m_settings = null;
+        m_settings = null;
         m_grid = null;
+    }
+
+    public static Grid GetGrid()
+    {
+        return m_grid;
     }
 
     public static GenerationState GetState()

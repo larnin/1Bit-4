@@ -88,7 +88,7 @@ public static class GridEx
                     var chunk = grid.Get(new Vector3Int(i, j, k));
 
                     Vector3Int min = new Vector3Int(0, 0, 0);
-                    Vector3Int max = new Vector3Int(Grid.ChunkSize, Grid.ChunkSize, Grid.ChunkSize);
+                    Vector3Int max = new Vector3Int(Grid.ChunkSize - 1, Grid.ChunkSize - 1, Grid.ChunkSize - 1);
 
                     if (i == minIndex.x)
                         min.x = minInChunk.x;

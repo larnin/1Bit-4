@@ -147,23 +147,23 @@ public class ChunkRenderer
         int startIndex = data.indexesSize;
         int startVertice = data.verticesSize;
 
-        data.vertices[startIndex].pos = new Vector3(-0.5f, -0.5f, -0.5f);
-        data.vertices[startIndex].uv = new Vector2(0, 0);
-        data.vertices[startIndex + 1].pos = new Vector3(-0.5f, -0.5f, 0.5f);
-        data.vertices[startIndex + 1].uv = new Vector2(0, 1);
-        data.vertices[startIndex + 2].pos = new Vector3(0.5f, -0.5f, 0.5f);
-        data.vertices[startIndex + 2].uv = new Vector2(1, 1);
-        data.vertices[startIndex + 3].pos = new Vector3(0.5f, -0.5f, -0.5f);
-        data.vertices[startIndex + 3].uv = new Vector2(1, 0);
+        data.vertices[startVertice].pos = new Vector3(-0.5f, -0.5f, -0.5f);
+        data.vertices[startVertice].uv = new Vector2(0, 0);
+        data.vertices[startVertice + 1].pos = new Vector3(-0.5f, -0.5f, 0.5f);
+        data.vertices[startVertice + 1].uv = new Vector2(0, 1);
+        data.vertices[startVertice + 2].pos = new Vector3(0.5f, -0.5f, 0.5f);
+        data.vertices[startVertice + 2].uv = new Vector2(1, 1);
+        data.vertices[startVertice + 3].pos = new Vector3(0.5f, -0.5f, -0.5f);
+        data.vertices[startVertice + 3].uv = new Vector2(1, 0);
 
-        TransformFace(data.vertices, startIndex, face);
-        MoveFace(data.vertices, startIndex, pos);
+        TransformFace(data.vertices, startVertice, face);
+        MoveFace(data.vertices, startVertice, pos);
 
         data.verticesSize += 4;
 
         data.indexes[startIndex] = (ushort)startVertice;
-        data.indexes[startIndex + 1] = (ushort)(startVertice + 1);
-        data.indexes[startIndex + 2] = (ushort)(startVertice + 3);
+        data.indexes[startIndex + 1] = (ushort)(startVertice + 3);
+        data.indexes[startIndex + 2] = (ushort)(startVertice + 1);
         data.indexes[startIndex + 3] = (ushort)(startVertice + 1);
         data.indexes[startIndex + 4] = (ushort)(startVertice + 3);
         data.indexes[startIndex + 5] = (ushort)(startVertice + 2);
@@ -184,13 +184,13 @@ public class ChunkRenderer
             if (face == BlockFace.Top)
                 vertices[i].pos = Quaternion.Euler(180, 0, 0) * vertices[i].pos;
             else if (face == BlockFace.Left)
-                vertices[i].pos = Quaternion.Euler(90, 0, 0) * vertices[i].pos;
-            else if(face == BlockFace.Front)
                 vertices[i].pos = Quaternion.Euler(90, 90, 0) * vertices[i].pos;
-            else if (face == BlockFace.Right)
+            else if(face == BlockFace.Front)
                 vertices[i].pos = Quaternion.Euler(90, 180, 0) * vertices[i].pos;
-            else //back
+            else if (face == BlockFace.Right)
                 vertices[i].pos = Quaternion.Euler(90, 270, 0) * vertices[i].pos;
+            else //back
+                vertices[i].pos = Quaternion.Euler(90, 0, 0) * vertices[i].pos;
         }
     }
 

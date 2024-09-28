@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_generatorSettings:
     seed: 0
-    size: 16
+    size: 8
     height: 4
     waterZones:
-      baseFrequency: 1
-      baseAmplitude: 1
-      nbLayers: 1
+      baseFrequency: 4
+      baseAmplitude: 15
+      nbLayers: 2
       layerAmplitudeScale: 0.5
     waterHeight: 0
     HeightPerlin:
@@ -35,3 +35,6 @@ MonoBehaviour:
       nbLayers: 1
       layerAmplitudeScale: 0.5
     islandProportion: 0.9
+  m_blockDatas:
+    defaultMaterial: {fileID: 2100000, guid: 92973c878653c034db0d19b8295d1e0a, type: 2}
+    waterMaterial: {fileID: 2100000, guid: 92973c878653c034db0d19b8295d1e0a, type: 2}
