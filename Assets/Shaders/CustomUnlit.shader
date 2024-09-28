@@ -1,4 +1,4 @@
-Shader "Unlit/CustomLighted"
+Shader "Unlit/CustomUnlit"
 {
     Properties
     {
@@ -17,9 +17,6 @@ Shader "Unlit/CustomLighted"
 
             #include "UnityCG.cginc"
 
-            uniform sampler2D _LightTex;
-            uniform float _LightTexSize;
-
             struct appdata
             {
                 float4 vertex : POSITION;
@@ -32,7 +29,6 @@ Shader "Unlit/CustomLighted"
                 float4 vertex : SV_POSITION;
                 float3 normal : NORMAL;
                 float2 uv : TEXCOORD0;
-                float4 initialVertex : TEXCOORD1;
             };
 
             sampler2D _MainTex;
@@ -42,7 +38,6 @@ Shader "Unlit/CustomLighted"
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.initialVertex = mul(unity_ObjectToWorld, v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 o.normal = v.normal;
                 return o;
@@ -50,12 +45,6 @@ Shader "Unlit/CustomLighted"
 
             fixed4 frag(v2f i) : SV_Target
             {
-                float2 lightUV = i.initialVertex.xz / _LightTexSize;
-                lightUV.x = clamp(lightUV.x, 0, 1);
-                lightUV.y = clamp(lightUV.y, 0, 1);
-
-                fixed4 light = tex2D(_LightTex, lightUV);
-
                 fixed4 col = tex2D(_MainTex, i.uv);
 
                 float lightUp = 1;
@@ -66,7 +55,7 @@ Shader "Unlit/CustomLighted"
                 mul += abs(dot(i.normal, float3(1, 0, 0))) * lightLeft;
                 mul += abs(dot(i.normal, float3(0, 0, 1))) * lightFront;
 
-                return col * light * mul;
+                return col * mul;
             }
             ENDCG
         }
