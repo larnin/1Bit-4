@@ -36,5 +36,5 @@ MonoBehaviour:
       layerAmplitudeScale: 0.5
     islandProportion: 0.9
   m_blockDatas:
-    defaultMaterial: {fileID: 2100000, guid: 92973c878653c034db0d19b8295d1e0a, type: 2}
+    defaultMaterial: {fileID: 2100000, guid: 963d52d036299094b986f2c929f03250, type: 2}
     waterMaterial: {fileID: 2100000, guid: 92973c878653c034db0d19b8295d1e0a, type: 2}
