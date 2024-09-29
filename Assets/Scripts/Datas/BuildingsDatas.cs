@@ -10,6 +10,9 @@ public class OneBuildingData
 {
     public BuildingType type;
     public GameObject prefab;
+    public Sprite sprite;
+    public Sprite spriteWithBorder;
+    public Vector3Int size = Vector3Int.one;
 }
 
 [Serializable]
@@ -17,15 +20,7 @@ public class BuildingsDatas
 {
     [SerializeField] List<OneBuildingData> m_buildings;
 
-    public GameObject GetPrefab(BuildingType type)
-    {
-        var b = GetBuilding(type);
-        if (b == null)
-            return null;
-        return b.prefab;
-    }
-
-    OneBuildingData GetBuilding(BuildingType type)
+    public OneBuildingData GetBuilding(BuildingType type)
     {
         foreach(var b in m_buildings)
         {

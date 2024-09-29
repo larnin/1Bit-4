@@ -20,7 +20,6 @@ public enum EnergyUptakePriority
 public abstract class BuildingBase : MonoBehaviour
 {
     [SerializeField] float m_life;
-    [SerializeField] Vector3Int m_size = Vector3Int.one;
 
     bool m_added = false;
     bool m_asCursor = false;
@@ -41,7 +40,11 @@ public abstract class BuildingBase : MonoBehaviour
 
     public Vector3Int GetSize()
     {
-        return m_size;
+        var building = Global.instance.buildingDatas.GetBuilding(GetBuildingType());
+        if (building == null)
+            return Vector3Int.one;
+
+        return building.size;
     }
 
     public Vector3Int GetPos()

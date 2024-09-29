@@ -38,3 +38,15 @@ MonoBehaviour:
   m_blockDatas:
     defaultMaterial: {fileID: 2100000, guid: 963d52d036299094b986f2c929f03250, type: 2}
     waterMaterial: {fileID: 2100000, guid: 92973c878653c034db0d19b8295d1e0a, type: 2}
+  m_buildingDatas:
+    m_buildings:
+    - type: 0
+      prefab: {fileID: 3018199022925658705, guid: 845fcb3417acb4f4f8c610b63aa90822, type: 3}
+      sprite: {fileID: -484218993, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
+      spriteWithBorder: {fileID: -1893695053, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
+      size: {x: 1, y: 3, z: 1}
+    - type: 1
+      prefab: {fileID: 3334202810605349984, guid: fa3a8b84138b4f94aa313b2f9260b268, type: 3}
+      sprite: {fileID: 716385322, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
+      spriteWithBorder: {fileID: 1286962569, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
+      size: {x: 2, y: 4, z: 2}
