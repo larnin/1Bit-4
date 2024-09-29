@@ -3,6 +3,10 @@ Shader "Unlit/CustomLighted"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _LightTop("LightTop", float) = 1
+        _LightLeft("LightLeft", float) = 0.8
+        _LightFront("LightFront", float) = 0.2
+
     }
         SubShader
     {
@@ -38,6 +42,10 @@ Shader "Unlit/CustomLighted"
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
+            float _LightTop;
+            float _LightLeft;
+            float _LightFront;
+
             v2f vert (appdata v)
             {
                 v2f o;
@@ -58,13 +66,9 @@ Shader "Unlit/CustomLighted"
 
                 fixed4 col = tex2D(_MainTex, i.uv);
 
-                float lightUp = 1;
-                float lightLeft = 0.8;
-                float lightFront = 0.2;
-
-                float mul = abs(dot(i.normal, float3(0, 1, 0))) * lightUp;
-                mul += abs(dot(i.normal, float3(1, 0, 0))) * lightLeft;
-                mul += abs(dot(i.normal, float3(0, 0, 1))) * lightFront;
+                float mul = abs(dot(i.normal, float3(0, 1, 0))) * _LightTop * _LightTop;
+                mul += abs(dot(i.normal, float3(1, 0, 0))) * _LightLeft * _LightLeft;
+                mul += abs(dot(i.normal, float3(0, 0, 1))) * _LightFront * _LightFront;
 
                 return col * light * mul;
             }

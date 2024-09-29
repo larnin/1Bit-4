@@ -73,8 +73,24 @@ public class ChunkBehaviour : MonoBehaviour
         }
 
         //draw colliders
-        index = 0;
-        //todo
+        int nbColliders = m_renderer.GetColliderMeshCount();
+        for(int i = 0; i < nbColliders; i++)
+        {
+            var obj = new GameObject("Collider " + i);
+            obj.transform.parent = transform;
+            obj.transform.localPosition = Vector3.zero;
+            obj.transform.localRotation = Quaternion.identity;
+            obj.transform.localScale = Vector3.one;
+
+            var mesh = new Mesh();
+            m_renderer.ApplyColliderMesh(mesh, i);
+
+            var collider = obj.AddComponent<MeshCollider>();
+            collider.sharedMesh = mesh;
+            collider.convex = false;
+
+            m_colliders.Add(obj);
+        }
 
         m_renderer = null;
     }

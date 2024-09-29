@@ -66,9 +66,25 @@ public class ChunkRenderer
         mesh.bounds = new Bounds(new Vector3(Grid.ChunkSize, Grid.ChunkSize, Grid.ChunkSize) / 2, new Vector3(Grid.ChunkSize, Grid.ChunkSize, Grid.ChunkSize));
     }
 
-    public void ApplyColliderMesh(Mesh mesh)
+    public int GetColliderMeshCount()
     {
+        return m_meshParams.GetColliderMeshCount();
+    }
 
+    public void ApplyColliderMesh(Mesh mesh, int index)
+    {
+        var data = m_meshParams.GetColliderMesh(index);
+
+        MeshEx.SetColliderMeshParams(mesh, data.verticesSize, data.indexesSize);
+
+        mesh.SetVertexBufferData(data.vertices, 0, 0, data.verticesSize);
+        mesh.SetIndexBufferData(data.indexes, 0, 0, data.indexesSize);
+
+        mesh.subMeshCount = 1;
+        mesh.SetSubMesh(0, new UnityEngine.Rendering.SubMeshDescriptor(0, data.indexesSize, MeshTopology.Triangles));
+
+        //full chunk layer
+        mesh.bounds = new Bounds(new Vector3(Grid.ChunkSize, Grid.ChunkSize, Grid.ChunkSize) / 2, new Vector3(Grid.ChunkSize, Grid.ChunkSize, Grid.ChunkSize));
     }
 
     void JobWorker()
@@ -104,6 +120,8 @@ public class ChunkRenderer
                 }
             }
         }
+
+        CopyRenderToCollider();
     }
 
     void OnEndJob()
@@ -265,5 +283,35 @@ public class ChunkRenderer
             data.vertices[i2].tangent = tan;
             data.vertices[i3].tangent = tan;
         }
+    }
+
+    void CopyRenderToCollider()
+    {
+        var mats = m_meshParams.GetNonEmptyMaterials();
+        foreach(var mat in mats)
+        {
+            int nbMesh = m_meshParams.GetMeshCount(mat);
+
+            for(int i = 0; i < nbMesh; i++)
+            {
+                var meshData = m_meshParams.GetMesh(mat, i);
+                
+                var data = m_meshParams.AllocateCollider(meshData.verticesSize, meshData.indexesSize);
+
+                for(int v = 0; v < meshData.verticesSize; v++)
+                {
+                    data.vertices[v + data.verticesSize].pos = meshData.vertices[v].pos;
+                    data.vertices[v + data.verticesSize].normal = meshData.vertices[v].normal;
+                }
+
+                for(int index = 0; index < meshData.indexesSize; index++)
+                    data.indexes[index + data.indexesSize] = (ushort)(meshData.indexes[index] + data.verticesSize);
+
+                data.verticesSize += meshData.verticesSize;
+                data.indexesSize += meshData.indexesSize;
+            }
+        }
+
+        
     }
 }
