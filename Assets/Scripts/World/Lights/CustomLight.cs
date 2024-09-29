@@ -9,7 +9,7 @@ public class CustomLight : MonoBehaviour
 {
     [SerializeField] float m_radius;
 
-    bool added = false;
+    bool m_added = false;
 
     private void OnEnable()
     {
@@ -22,12 +22,12 @@ public class CustomLight : MonoBehaviour
         if (manager != null)
             manager.UnRegister(this);
 
-        added = false;
+        m_added = false;
     }
 
     private void Update()
     {
-        if (!added)
+        if (!m_added)
             Add();
     }
 
@@ -36,7 +36,7 @@ public class CustomLight : MonoBehaviour
         var manager = CustomLightsManager.instance;
         if (manager != null)
         {
-            added = true;
+            m_added = true;
             manager.Register(this);
         }
     }
