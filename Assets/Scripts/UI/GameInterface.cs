@@ -18,6 +18,7 @@ public class GameInterface : MonoBehaviour
     [SerializeField] float m_oneBuildingSize;
     [SerializeField] float m_buildingStartOffset;
     [SerializeField] float m_buildingListMoreSpace;
+    [SerializeField] PlaceBuildingCursor m_buildingCursor;
 
     RectTransform m_buildingsBackground;
     List<BuildingButton> m_buildingButtons = new List<BuildingButton>();
@@ -31,7 +32,10 @@ public class GameInterface : MonoBehaviour
 
     public void OnClickBuilding(BuildingType type)
     {
+        if (m_buildingCursor == null)
+            return;
 
+        m_buildingCursor.SetBuildingType(type);
     }
 
     public void OnClickOptions()
@@ -110,7 +114,7 @@ public class GameInterface : MonoBehaviour
             return null;
 
         var obj = Instantiate(m_buildingsButtonPrefab);
-        obj.transform.parent = m_buildingsBackground;
+        obj.transform.SetParent(m_buildingsBackground, false);
 
         var button = obj.GetComponent<Button>();
         if(button != null)

@@ -50,6 +50,7 @@ public class GameCamera : MonoBehaviour
     private void Awake()
     {
         m_subscriberList.Add(new Event<GenerationFinishedEvent>.Subscriber(OnGenerationEnd));
+        m_subscriberList.Add(new Event<GetCameraEvent>.Subscriber(GetCamera));
         m_subscriberList.Subscribe();
     }
 
@@ -227,6 +228,17 @@ public class GameCamera : MonoBehaviour
 
     void OnGenerationEnd(GenerationFinishedEvent e)
     {
+        if(BuildingList.instance != null)
+        {
+            var tower = BuildingList.instance.GetFirstBuilding(BuildingType.Tower);
+            if(tower != null)
+            {
+                var center = tower.GetGroundCenter();
+                transform.position = center;
+                return;
+            }
+        }
+
         var grid = new GetGridEvent();
         Event<GetGridEvent>.Broadcast(grid);
         if (grid.grid == null)
@@ -237,5 +249,10 @@ public class GameCamera : MonoBehaviour
 
         Vector3 pos = new Vector3(size, height, size) / 2;
         transform.position = pos;
+    }
+
+    void GetCamera(GetCameraEvent e)
+    {
+        e.camera = m_camera;
     }
 }

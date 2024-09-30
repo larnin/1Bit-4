@@ -54,6 +54,7 @@ public class ChunkBehaviour : MonoBehaviour
             {
                 var obj = new GameObject("Mesh " + index);
                 index++;
+                obj.layer = gameObject.layer;
                 obj.transform.parent = transform;
                 obj.transform.localPosition = Vector3.zero;
                 obj.transform.localRotation = Quaternion.identity;
@@ -77,6 +78,7 @@ public class ChunkBehaviour : MonoBehaviour
         for(int i = 0; i < nbColliders; i++)
         {
             var obj = new GameObject("Collider " + i);
+            obj.layer = gameObject.layer;
             obj.transform.parent = transform;
             obj.transform.localPosition = Vector3.zero;
             obj.transform.localRotation = Quaternion.identity;

@@ -11,6 +11,7 @@ public class GameSystem : MonoBehaviour
     {
         Starting,
         GeneratingWorld,
+        PlaceTower,
         RenderingWorld,
         Ended
     }
@@ -63,8 +64,14 @@ public class GameSystem : MonoBehaviour
                     {
                         var grid = WorldGenerator.GetGrid();
                         m_grid.SetGrid(grid);
-                        m_state = State.RenderingWorld;
+                        m_state = State.PlaceTower;
                     }
+                    break;
+                }
+            case State.PlaceTower:
+                {
+                    PlaceTower();
+                    m_state = State.RenderingWorld;
                     break;
                 }
             case State.RenderingWorld:
@@ -83,5 +90,25 @@ public class GameSystem : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    void PlaceTower()
+    {
+        if (BuildingList.instance == null)
+            return;
+
+        var grid = m_grid.GetGrid();
+        var size = GridEx.GetRealSize(grid);
+
+        Vector3Int towerPos = new Vector3Int(size / 2, 0, size / 2);
+        towerPos.y = GridEx.GetHeight(grid, new Vector2Int(towerPos.x, towerPos.z)) + 1;
+
+        var buildingData = Global.instance.buildingDatas.GetBuilding(BuildingType.Tower);
+        if (buildingData == null || buildingData.prefab == null)
+            return;
+
+        var obj = Instantiate(buildingData.prefab);
+        obj.transform.parent = BuildingList.instance.transform;
+        obj.transform.localPosition = towerPos;
     }
 }

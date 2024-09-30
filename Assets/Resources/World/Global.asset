@@ -44,7 +44,7 @@ MonoBehaviour:
       prefab: {fileID: 3018199022925658705, guid: 845fcb3417acb4f4f8c610b63aa90822, type: 3}
       sprite: {fileID: -484218993, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
       spriteWithBorder: {fileID: -1893695053, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
-      size: {x: 1, y: 3, z: 1}
+      size: {x: 1, y: 2, z: 1}
     - type: 1
       prefab: {fileID: 3334202810605349984, guid: fa3a8b84138b4f94aa313b2f9260b268, type: 3}
       sprite: {fileID: 716385322, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}

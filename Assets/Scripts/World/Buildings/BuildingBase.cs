@@ -9,6 +9,7 @@ public enum BuildingType
 {
     Tower,
     Pylon,
+    BigPylon,
 }
 
 public enum EnergyUptakePriority
@@ -54,6 +55,15 @@ public abstract class BuildingBase : MonoBehaviour
         return new Vector3Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y), Mathf.RoundToInt(pos.z));
     }
 
+    public Vector3 GetGroundCenter()
+    {
+        Vector3 pos = GetPos();
+        Vector3 size = GetSize();
+        size -= Vector3.one;
+
+        return pos + size / 2;
+    }
+
     public BoundsInt GetBounds()
     {
         return new BoundsInt(GetPos(), GetSize());
@@ -68,10 +78,12 @@ public abstract class BuildingBase : MonoBehaviour
     public virtual float EnergyStorageValue() { return 0; }
     public virtual float EnergyStorageMax() { return 0; }
     public virtual float PlacementRadius() { return 0; }
+    public virtual bool CanBePlaced(Vector3Int pos) { return true; }
 
     public virtual void OnEnable()
     {
-        Add();
+        if(!m_asCursor)
+            Add();
     }
 
     public virtual void OnDisable()
@@ -81,7 +93,7 @@ public abstract class BuildingBase : MonoBehaviour
 
     public virtual void Update()
     {
-        if (!m_added)
+        if (!m_added && !m_asCursor)
             Add();
     }
 
@@ -94,7 +106,6 @@ public abstract class BuildingBase : MonoBehaviour
             manager.Register(this);
             SetComponentsEnabled(m_added);
         }
-
     }
 
     void Remove()

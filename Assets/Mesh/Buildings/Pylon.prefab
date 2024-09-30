@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4680463279019041375}
   - component: {fileID: 4084902537894630116}
   - component: {fileID: 3839561003768364625}
+  - component: {fileID: 6194130918001885576}
   m_Layer: 0
   m_Name: Pylon
   m_TagString: Untagged
@@ -97,3 +98,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_radius: 10
+--- !u!114 &6194130918001885576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3334202810605349984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81415bc3e68d543499c1059349fca975, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_life: 10
+  m_powerGeneration: 1
+  m_generationRadius: 4
+  m_placementRadius: 5

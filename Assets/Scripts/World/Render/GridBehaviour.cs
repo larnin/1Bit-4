@@ -62,6 +62,7 @@ public class GridBehaviour : MonoBehaviour
     {
         var chunkObj = new GameObject("Chunk " + index.x.ToString() + " " + index.y.ToString() + " " + index.z.ToString());
 
+        chunkObj.layer = gameObject.layer;
         chunkObj.transform.parent = transform;
         chunkObj.transform.localPosition = new Vector3(index.x, index.y, index.z) * Grid.ChunkSize;
         chunkObj.transform.localRotation = Quaternion.identity;
