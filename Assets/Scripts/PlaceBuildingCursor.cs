@@ -157,15 +157,15 @@ public class PlaceBuildingCursor : MonoBehaviour
             Vector3Int min = bounds.min;
             Vector3Int max = bounds.max;
 
-            for(int i = min.x; i <= max.x; i++)
+            for(int i = min.x; i < max.x; i++)
             {
-                for(int k = min.z; k <= max.z; k++)
+                for(int k = min.z; k < max.z; k++)
                 {
                     var ground = GridEx.GetBlock(grid.grid, new Vector3Int(i, min.y - 1, k));
                     if (ground != BlockType.ground)
                         return;
 
-                    for(int j = min.y; j <= max.y; j++)
+                    for(int j = min.y; j < max.y; j++)
                     {
                         var block = GridEx.GetBlock(grid.grid, new Vector3Int(i, j, k));
                         if (block != BlockType.air)
@@ -181,7 +181,8 @@ public class PlaceBuildingCursor : MonoBehaviour
         {
             var b = BuildingList.instance.GetBuildingFromIndex(i);
             var otherBounds = b.GetBounds();
-            if (otherBounds.Intersects(bounds))
+
+            if (Utility.Intersects(otherBounds, bounds))
                 return;
         }
 
@@ -223,8 +224,6 @@ public class PlaceBuildingCursor : MonoBehaviour
 
         pos += 10 * m_crossSprite.transform.forward;
         m_crossSprite.transform.position = pos;
-
-        Debug.Log(m_instance.transform.position + " " + m_crossSprite.transform.position);
     }
 
     void OnClick()
