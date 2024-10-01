@@ -26,11 +26,17 @@ public class BuildingList : MonoBehaviour
     public void Register(BuildingBase building)
     {
         m_buildings.Add(building);
+
+        if (ConnexionSystem.instance != null)
+            ConnexionSystem.instance.OnBuildingChange();
     }
 
     public void UnRegister(BuildingBase building)
     {
         m_buildings.Remove(building);
+
+        if (ConnexionSystem.instance != null)
+            ConnexionSystem.instance.OnBuildingChange();
     }
 
     public int GetBuildingNb()

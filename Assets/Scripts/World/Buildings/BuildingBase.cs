@@ -25,6 +25,9 @@ public abstract class BuildingBase : MonoBehaviour
     bool m_added = false;
     bool m_asCursor = false;
 
+    Vector3 m_localRayPoint = Vector3.zero;
+    bool m_rayPointInit = false;
+
     public void SetAsCursor(bool asCursor)
     {
         m_asCursor = asCursor;
@@ -53,6 +56,21 @@ public abstract class BuildingBase : MonoBehaviour
         var pos = transform.localPosition;
 
         return new Vector3Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y), Mathf.RoundToInt(pos.z));
+    }
+
+    public Vector3 GetRayPoint()
+    {
+        if(!m_rayPointInit)
+        {
+            var point = transform.Find("RayPoint");
+            if(point != null)
+            {
+                m_localRayPoint = point.localPosition;
+                m_rayPointInit = true;
+            }
+        }
+
+        return transform.position + m_localRayPoint;
     }
 
     public Vector3 GetGroundCenter()

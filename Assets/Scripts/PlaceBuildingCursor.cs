@@ -81,7 +81,7 @@ public class PlaceBuildingCursor : MonoBehaviour
         UpdateCanPlace();
         UpdateCross();
 
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonDown(0))
             OnClick();
         else if (Input.GetMouseButtonDown(1))
             SetCursorDisabled();
