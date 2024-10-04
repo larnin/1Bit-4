@@ -20,12 +20,10 @@ public class BuildingPylon : BuildingBase
     {
         if (ConnexionSystem.instance == null)
             return m_powerGeneration;
-        if (!ConnexionSystem.instance.IsConnected(this))
-            return 0;
 
         float maxDistance = m_generationRadius * m_generationRadius;
         var pos = GetGroundCenter();
-        var connected = ConnexionSystem.instance.ConnectedBuilding(this);
+        var connected = ConnexionSystem.instance.GetConnectedBuilding(this);
         foreach(var c in connected)
         {
             var otherPos = c.GetGroundCenter();

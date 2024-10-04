@@ -19,6 +19,9 @@ public class Global : ScriptableObject
     [SerializeField] BuildingsDatas m_buildingDatas;
     public BuildingsDatas buildingDatas { get { return m_buildingDatas; } }
 
+    [SerializeField] ResourceDatas m_resourcesDatas;
+    public ResourceDatas resourceDatas { get { return m_resourcesDatas; } }
+
     static Global m_instance;
 
     static string s_path = "World";

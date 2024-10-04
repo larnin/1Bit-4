@@ -172,12 +172,25 @@ public class ConnexionSystem : MonoBehaviour
         return obj;
     }
 
+    public int GetConnectedBuildingNb()
+    {
+        return m_connectedBuildings.Count;
+    }
+
+    public BuildingBase GetConnectedBuildingFromIndex(int index)
+    {
+        if (index < 0 || index >= m_connectedBuildings.Count)
+            return null;
+
+        return m_connectedBuildings[index];
+    }
+
     public bool IsConnected(BuildingBase building)
     {
         return m_connectedBuildings.Contains(building);
     }
 
-    public List<BuildingBase> ConnectedBuilding(BuildingBase building)
+    public List<BuildingBase> GetConnectedBuilding(BuildingBase building)
     {
         List<BuildingBase> connected = new List<BuildingBase>();
 

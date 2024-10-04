@@ -50,3 +50,13 @@ MonoBehaviour:
       sprite: {fileID: 716385322, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
       spriteWithBorder: {fileID: 1286962569, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
       size: {x: 1, y: 3, z: 1}
+  m_resourcesDatas:
+    m_resources:
+    - type: 0
+      sprite: {fileID: -925305509, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
+    - type: 1
+      sprite: {fileID: 529542824, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
+    - type: 2
+      sprite: {fileID: 1128867592, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
+    - type: 3
+      sprite: {fileID: -1288272088, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}

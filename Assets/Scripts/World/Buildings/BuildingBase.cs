@@ -95,6 +95,7 @@ public abstract class BuildingBase : MonoBehaviour
     public virtual EnergyUptakePriority EnergyPriority() { return EnergyUptakePriority.consumption; }
     public virtual float EnergyStorageValue() { return 0; }
     public virtual float EnergyStorageMax() { return 0; }
+    public virtual void ConsumeStoredEnergy(float value) { }
     public virtual float PlacementRadius() { return 0; }
     public virtual bool CanBePlaced(Vector3Int pos) { return true; }
 
