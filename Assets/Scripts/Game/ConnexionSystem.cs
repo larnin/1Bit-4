@@ -171,4 +171,24 @@ public class ConnexionSystem : MonoBehaviour
 
         return obj;
     }
+
+    public bool IsConnected(BuildingBase building)
+    {
+        return m_connectedBuildings.Contains(building);
+    }
+
+    public List<BuildingBase> ConnectedBuilding(BuildingBase building)
+    {
+        List<BuildingBase> connected = new List<BuildingBase>();
+
+        foreach(var c in m_connexions)
+        {
+            if (c.building1 == building)
+                connected.Add(c.building2);
+            if (c.building2 == building)
+                connected.Add(c.building1);
+        }
+
+        return connected;
+    }
 }
