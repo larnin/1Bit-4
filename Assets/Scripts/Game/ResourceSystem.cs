@@ -7,6 +7,12 @@ using UnityEngine;
 
 public class ResourceSystem : MonoBehaviour
 {
+    class OneResourceHistory
+    {
+        public float count;
+        public float time;
+    }
+
     class ResourceInfo
     {
         public ResourceType type;
@@ -14,6 +20,33 @@ public class ResourceSystem : MonoBehaviour
         public float storageMax;
         public float production;
         public float consumption;
+
+        List<OneResourceHistory> m_history = new List<OneResourceHistory>();
+        public void UpdateHistory()
+        {
+            var newPoint = new OneResourceHistory();
+            newPoint.count = production - consumption;
+            newPoint.time = Time.time;
+
+            m_history.Insert(0, newPoint);
+
+            for(int i = 0; i < m_history.Count; i++)
+            {
+                if(m_history[i].time < Time.time - 1)
+                {
+                    m_history.RemoveAt(i);
+                    i--;
+                }
+            }
+        }
+
+        public float GetHistory()
+        {
+            float value = 0;
+            foreach (var h in m_history)
+                value += h.count;
+            return value;
+        }
     }
 
     List<ResourceInfo> m_resources = new List<ResourceInfo>();
@@ -27,6 +60,9 @@ public class ResourceSystem : MonoBehaviour
     {
         foreach(var r in m_resources)
         {
+            r.UpdateHistory();
+            if (r.type == ResourceType.Energy)
+                continue;
             r.production = 0;
             r.consumption = 0;
         }
@@ -34,22 +70,7 @@ public class ResourceSystem : MonoBehaviour
 
     void UpdateEnergy()
     {
-        ResourceInfo energy = null;
-        foreach(var r in m_resources)
-        {
-            if(r.type == ResourceType.Energy)
-            {
-                energy = r;
-                break;
-            }
-        }
-        if(energy == null)
-        {
-            energy = new ResourceInfo();
-            energy.type = ResourceType.Energy;
-            m_resources.Add(energy);
-        }
-
+        ResourceInfo energy = GetResourceOrCreate(ResourceType.Energy);
         energy.production = 0;
         energy.consumption = 0;
         energy.storageMax = 0;
@@ -121,5 +142,60 @@ public class ResourceSystem : MonoBehaviour
         }
 
         energy.consumption = consumptionWanted + storageWanted * storagePercent;
+    }
+
+    ResourceInfo GetResourceOrCreate(ResourceType type)
+    {
+        foreach (var r in m_resources)
+        {
+            if (r.type == ResourceType.Energy)
+                return r;
+        }
+
+        ResourceInfo resource = new ResourceInfo();
+        resource.type = type;
+        m_resources.Add(resource);
+
+        return resource;
+    }
+
+    public void AddResource(ResourceType type, float count)
+    {
+        if (type == ResourceType.Energy)
+            return;
+
+        var resource = GetResourceOrCreate(type);
+        resource.production += count;
+        resource.stored += count;
+    }
+
+    public void RemoveResource(ResourceType type, float count)
+    {
+        if (type == ResourceType.Energy)
+            return;
+
+        var resource = GetResourceOrCreate(type);
+        if (resource.stored < count)
+            count = resource.stored;
+        resource.consumption += count;
+        resource.stored -= count;
+    }
+
+    public float GetResourceStored(ResourceType type)
+    {
+        var resource = GetResourceOrCreate(type);
+        return resource.stored;
+    }
+
+    public float GetResourceStorageMax(ResourceType type)
+    {
+        var resource = GetResourceOrCreate(type);
+        return resource.storageMax;
+    }
+
+    public float GetLastSecondResourceMean(ResourceType type)
+    {
+        var resource = GetResourceOrCreate(type);
+        return resource.GetHistory();
     }
 }
