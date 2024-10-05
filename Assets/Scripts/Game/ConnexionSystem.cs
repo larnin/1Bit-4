@@ -85,7 +85,7 @@ public class ConnexionSystem : MonoBehaviour
 
                 Vector3 pos = building.GetPos();
 
-                float dist = (pos - currentPos).sqrMagnitude;
+                float dist = VectorEx.SqrMagnitudeXZ(pos - currentPos);
 
                 float radius = currentRadius + building.PlacementRadius();
 

@@ -122,7 +122,7 @@ public class PlaceBuildingCursor : MonoBehaviour
         if(buildingData == null)
             return;
 
-        if (BuildingList.instance == null)
+        if (BuildingList.instance == null || ConnexionSystem.instance == null)
             return;
 
         //test at range of an other pylon
@@ -137,9 +137,12 @@ public class PlaceBuildingCursor : MonoBehaviour
         bool canPlace = false;
         foreach(var b in connectable)
         {
+            if (!ConnexionSystem.instance.IsConnected(b))
+                continue;
+
             var targetPos = b.GetGroundCenter();
             var targetRadius = radius + b.PlacementRadius();
-            if((targetPos - pos).sqrMagnitude < targetRadius * targetRadius)
+            if(VectorEx.SqrMagnitudeXZ(targetPos - pos) < targetRadius * targetRadius)
             {
                 canPlace = true;
                 break;

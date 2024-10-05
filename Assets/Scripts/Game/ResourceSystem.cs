@@ -51,6 +51,20 @@ public class ResourceSystem : MonoBehaviour
 
     List<ResourceInfo> m_resources = new List<ResourceInfo>();
 
+    static ResourceSystem m_instance = null;
+    public static ResourceSystem instance { get { return m_instance; } }
+
+    private void Awake()
+    {
+        m_instance = this;
+    }
+
+    private void OnDestroy()
+    {
+        if (m_instance == this)
+            m_instance = null;
+    }
+
     private void Update()
     {
         UpdateEnergy();
@@ -148,7 +162,7 @@ public class ResourceSystem : MonoBehaviour
     {
         foreach (var r in m_resources)
         {
-            if (r.type == ResourceType.Energy)
+            if (r.type == type)
                 return r;
         }
 
@@ -196,6 +210,20 @@ public class ResourceSystem : MonoBehaviour
     public float GetLastSecondResourceMean(ResourceType type)
     {
         var resource = GetResourceOrCreate(type);
+        if (type == ResourceType.Energy)
+            return resource.production - resource.consumption;
+
         return resource.GetHistory();
+    }
+
+    public bool HaveResource(ResourceType type)
+    {
+        foreach(var r in m_resources)
+        {
+            if (r.type == type)
+                return true;
+        }
+
+        return false;
     }
 }
