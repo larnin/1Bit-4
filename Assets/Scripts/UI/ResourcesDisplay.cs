@@ -23,8 +23,8 @@ public class ResourcesDisplay : MonoBehaviour
         foreach(var value in list)
         {
             var type = (ResourceType)value;
-            //if (!ResourceSystem.instance.HaveResource(type))
-            //    continue;
+            if (!ResourceSystem.instance.HaveResource(type))
+                continue;
 
             if (m_resources.Count == nb)
                 m_resources.Add(CreateOneResource());

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class GameInterface : MonoBehaviour
@@ -19,6 +20,7 @@ public class GameInterface : MonoBehaviour
     [SerializeField] float m_buildingStartOffset;
     [SerializeField] float m_buildingListMoreSpace;
     [SerializeField] PlaceBuildingCursor m_buildingCursor;
+    [SerializeField] BuildingDetailDisplay m_detail;
 
     RectTransform m_buildingsBackground;
     List<BuildingButton> m_buildingButtons = new List<BuildingButton>();
@@ -36,6 +38,16 @@ public class GameInterface : MonoBehaviour
             return;
 
         m_buildingCursor.SetBuildingType(type);
+    }
+
+    public void OnHoverBuilding(BuildingType type)
+    {
+        m_detail.SetBuilding(type);
+    }
+
+    public void OnHoverEnd()
+    {
+        m_detail.SetDisabled();
     }
 
     public void OnClickOptions()
@@ -117,8 +129,20 @@ public class GameInterface : MonoBehaviour
         obj.transform.SetParent(m_buildingsBackground, false);
 
         var button = obj.GetComponent<Button>();
-        if(button != null)
-            button.onClick.AddListener(()=>{ OnClickBuilding(type); });
+        if (button != null)
+            button.onClick.AddListener(() => { OnClickBuilding(type); });
+
+        var trigger = obj.AddComponent<EventTrigger>();
+        
+        EventTrigger.Entry hoverEntry = new EventTrigger.Entry();
+        hoverEntry.eventID = EventTriggerType.PointerEnter;
+        hoverEntry.callback.AddListener((data) => { OnHoverBuilding(type); });
+        trigger.triggers.Add(hoverEntry);
+
+        EventTrigger.Entry endEntry = new EventTrigger.Entry();
+        endEntry.eventID = EventTriggerType.PointerExit;
+        endEntry.callback.AddListener((data) => { OnHoverEnd(); });
+        trigger.triggers.Add(endEntry);
 
         var imgTransform = obj.transform.Find("Image");
         if(imgTransform != null)

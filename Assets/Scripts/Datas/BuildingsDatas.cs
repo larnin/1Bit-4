@@ -6,6 +6,51 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 [Serializable]
+public class OneResourceCost
+{
+    public ResourceType type;
+    public float count;
+}
+
+[Serializable]
+public class ResourceCost
+{
+    public List<OneResourceCost> cost;
+
+    public bool HaveMoney()
+    {
+        if (ResourceSystem.instance == null)
+            return false;
+
+        foreach(var r in cost)
+        {
+            if (!ResourceSystem.instance.HaveResource(r.type))
+                return false;
+
+            float count = ResourceSystem.instance.GetResourceStored(r.type);
+            if (count < r.count)
+                return false;
+        }
+
+        return true;
+    }
+
+    public void ConsumeCost()
+    {
+        if (ResourceSystem.instance == null)
+            return;
+
+        foreach (var r in cost)
+        {
+            if (!ResourceSystem.instance.HaveResource(r.type))
+                continue;
+
+            ResourceSystem.instance.RemoveResource(r.type, r.count, false);
+        }
+    }
+}
+
+[Serializable]
 public class OneBuildingData
 {
     public BuildingType type;
@@ -13,6 +58,10 @@ public class OneBuildingData
     public Sprite sprite;
     public Sprite spriteWithBorder;
     public Vector3Int size = Vector3Int.one;
+    public string name;
+    [Multiline]
+    public string description;
+    public ResourceCost cost;
 }
 
 [Serializable]

@@ -7,6 +7,13 @@ using UnityEngine;
 
 public class ResourceSystem : MonoBehaviour
 {
+    [Serializable]
+    class InitialResource
+    {
+        public ResourceType type;
+        public float count;
+    }
+
     class OneResourceHistory
     {
         public float count;
@@ -48,6 +55,8 @@ public class ResourceSystem : MonoBehaviour
             return value;
         }
     }
+    
+    [SerializeField] List<InitialResource> m_initialResources;
 
     List<ResourceInfo> m_resources = new List<ResourceInfo>();
 
@@ -63,6 +72,15 @@ public class ResourceSystem : MonoBehaviour
     {
         if (m_instance == this)
             m_instance = null;
+    }
+
+    private void Start()
+    {
+        foreach(var r in m_initialResources)
+        {
+            var resource = GetResourceOrCreate(r.type);
+            resource.stored += r.count;
+        }
     }
 
     private void Update()
@@ -183,7 +201,7 @@ public class ResourceSystem : MonoBehaviour
         resource.stored += count;
     }
 
-    public void RemoveResource(ResourceType type, float count)
+    public void RemoveResource(ResourceType type, float count, bool keepTrack = true)
     {
         if (type == ResourceType.Energy)
             return;
@@ -191,7 +209,8 @@ public class ResourceSystem : MonoBehaviour
         var resource = GetResourceOrCreate(type);
         if (resource.stored < count)
             count = resource.stored;
-        resource.consumption += count;
+        if(keepTrack)
+            resource.consumption += count;
         resource.stored -= count;
     }
 

@@ -45,11 +45,22 @@ MonoBehaviour:
       sprite: {fileID: -484218993, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
       spriteWithBorder: {fileID: -1893695053, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
       size: {x: 2, y: 4, z: 2}
+      name: Tower
+      description: The core of your factory, you must keep it alive at all cost.
+      cost:
+        cost: []
     - type: 1
       prefab: {fileID: 8340085762057836841, guid: afe66380c42f1a9438ae1c04fe2fa676, type: 3}
       sprite: {fileID: 716385322, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
       spriteWithBorder: {fileID: 1286962569, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
       size: {x: 1, y: 3, z: 1}
+      name: Small Pylon
+      description: Allows you to connect buildings to each others. Generate a small
+        quantity of energy
+      cost:
+        cost:
+        - type: 1
+          count: 10
   m_resourcesDatas:
     m_resources:
     - type: 0

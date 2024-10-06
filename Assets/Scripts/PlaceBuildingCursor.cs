@@ -122,6 +122,9 @@ public class PlaceBuildingCursor : MonoBehaviour
         if(buildingData == null)
             return;
 
+        if (!buildingData.cost.HaveMoney())
+            return;
+
         if (BuildingList.instance == null || ConnexionSystem.instance == null)
             return;
 
@@ -244,6 +247,8 @@ public class PlaceBuildingCursor : MonoBehaviour
         var buildingData = Global.instance.buildingDatas.GetBuilding(m_type);
         if (buildingData == null || buildingData.prefab == null)
             return;
+
+        buildingData.cost.ConsumeCost();
 
         var obj = Instantiate(buildingData.prefab);
         obj.transform.parent = BuildingList.instance.transform;
