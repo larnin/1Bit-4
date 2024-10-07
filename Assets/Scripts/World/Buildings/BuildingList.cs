@@ -162,4 +162,17 @@ public class BuildingList : MonoBehaviour
 
         return bestBuilding;
     }
+
+    public BuildingBase GetBuildingAt(Vector3Int pos)
+    {
+        foreach(var b in m_buildings)
+        {
+            var bounds = b.GetBounds();
+            var min = bounds.min;
+            var max = bounds.max;
+            if (pos.x >= min.x && pos.x < max.x && pos.y >= min.y && pos.y < max.y && pos.z >= min.z && pos.z < max.z)
+                return b;
+        }
+        return null;
+    }
 }

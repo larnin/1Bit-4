@@ -24,7 +24,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 17
+  controlID: 7985
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -142,7 +142,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 18
+  controlID: 7986
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -167,7 +167,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 19
+  controlID: 7987
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -538,9 +538,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 665.3164, y: 283.67615, z: 33.628296}
+    m_Target: {x: 615.8401, y: 184.53671, z: 21.25882}
     speed: 2
-    m_Value: {x: 665.3164, y: 283.67615, z: 33.628296}
+    m_Value: {x: 615.8401, y: 184.53671, z: 21.25882}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -591,9 +591,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: -0.06326642, y: 0.0009047863, z: -0.00008905366, w: -0.9979963}
   m_Size:
-    m_Target: 346.2322
+    m_Target: 231.90446
     speed: 2
-    m_Value: 346.2322
+    m_Value: 231.90446
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -687,21 +687,21 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Resources/World
+    - Assets/Prefabs/UI
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 78
   m_LastFolders:
-  - Assets/Resources/World
+  - Assets/Prefabs/UI
   m_LastFoldersGridSize: 78
   m_LastProjectPath: C:\Users\ni-la\Prog\Unity\1Bit-4
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 79}
-    m_SelectedIDs: aa5a0000
-    m_LastClickedID: 23210
+    m_SelectedIDs: c85a0000
+    m_LastClickedID: 23240
     m_ExpandedIDs: 00000000925a0000945a0000965a0000985a0000a85a000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -730,7 +730,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000925a0000945a0000965a0000985a0000
+    m_ExpandedIDs: 00000000925a0000945a0000965a0000985a000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
