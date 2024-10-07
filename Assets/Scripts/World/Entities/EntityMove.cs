@@ -21,6 +21,11 @@ public class EntityMove : MonoBehaviour
         m_path.SetTarget(transform.position, target);
     }
 
+    public void Stop()
+    {
+        m_path.SetTarget(transform.position, transform.position);
+    }
+
     public bool IsMoving()
     {
         return m_path.GetStatus() != EntityPathStatus.Stopped;

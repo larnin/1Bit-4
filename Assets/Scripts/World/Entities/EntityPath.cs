@@ -45,7 +45,7 @@ public class EntityPath
             m_target = target;
             StartJob();
         }
-        else
+        else if(target != m_target)
         {
             m_nextCurrent = current;
             m_nextTarget = target;
