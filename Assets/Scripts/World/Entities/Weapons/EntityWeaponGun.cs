@@ -7,28 +7,13 @@ using UnityEngine;
 
 public class EntityWeaponGun : EntityWeaponBase
 {
-    enum TurretState
-    {
-        NoTarget,
-        MovingToTarget,
-        Target,
-        MovingToDefault,
-    }
-
     [SerializeField] GameObject m_projectilePrefab;
     [SerializeField] GameObject m_firePrefab;
     [SerializeField] float m_rangeStopMove;
     [SerializeField] float m_fireRange;
     [SerializeField] float m_fireRate;
-    [SerializeField] float m_turretRotSpeed;
 
     List<Transform> m_firePoints = new List<Transform>();
-    Transform m_turretPivot;
-    Quaternion m_turretInitialRotation;
-    Quaternion m_turretStartRotation;
-    TurretState m_turretState;
-    float m_turretTimer;
-    float m_turretTimerMax;
 
     float m_fireTimer;
     int m_fireIndex;
@@ -36,13 +21,14 @@ public class EntityWeaponGun : EntityWeaponBase
     BuildingBase m_towerTarget;
     BuildingBase m_target;
 
+    TurretBehaviour m_turret;
+
     private void Start()
     {
-        m_turretPivot = transform.Find("Pivot");
+        m_turret = GetComponent<TurretBehaviour>();
 
-        Transform initialPoint = m_turretPivot == null ? transform : m_turretPivot;
         m_firePoints.Clear();
-        GetFirePoints(initialPoint);
+        GetFirePoints(transform);
     }
 
     void GetFirePoints(Transform transform)
@@ -93,125 +79,32 @@ public class EntityWeaponGun : EntityWeaponBase
 
     void UpdateTurret()
     {
-        if (m_turretPivot == null)
+        if(m_turret != null)
         {
-            m_turretState = TurretState.Target;
-        }
-        else
-        {
-            switch (m_turretState)
-            {
-                case TurretState.NoTarget:
-                    {
-                        if(IsTargetAtRange())
-                        {
-                            m_turretStartRotation = m_turretPivot.rotation;
-
-                            var targetPos = GetTargetPos();
-                            var forward = (targetPos - m_turretPivot.position).normalized;
-
-                            Quaternion targetAngle = Quaternion.LookRotation(forward, Vector3.up);
-                            float angle = Mathf.Abs(Quaternion.Angle(m_turretStartRotation, m_turretInitialRotation));
-                            m_turretTimer = 0;
-                            m_turretTimerMax = angle / m_turretRotSpeed;
-
-                            m_turretState = TurretState.MovingToTarget;
-                        }
-
-                        break;
-                    }
-                case TurretState.MovingToTarget:
-                    {
-                        if(!IsTargetAtRange())
-                        {
-                            m_turretStartRotation = m_turretPivot.localRotation;
-                            float angle = Mathf.Abs(Quaternion.Angle(m_turretStartRotation, m_turretInitialRotation));
-                            m_turretTimer = 0;
-                            m_turretTimerMax = angle / m_turretRotSpeed;
-
-                            m_turretState = TurretState.MovingToDefault;
-                            break;
-                        }
-
-                        m_turretTimer += Time.deltaTime;
-                        if(m_turretTimer >= m_turretTimerMax)
-                        {
-                            m_turretTimer = m_turretTimerMax;
-                            m_turretState = TurretState.Target;
-                        }
-
-                        float normTime = m_turretTimer / m_turretTimerMax;
-
-                        var targetPos = GetTargetPos();
-                        var forward = (targetPos - m_turretPivot.position).normalized;
-                        Quaternion targetAngle = Quaternion.LookRotation(forward, Vector3.up);
-
-                        transform.rotation = Quaternion.Lerp(m_turretStartRotation, targetAngle, normTime);
-
-                        break;
-                    }
-                case TurretState.Target:
-                    {
-                        if (!IsTargetAtRange())
-                        {
-                            m_turretStartRotation = m_turretPivot.localRotation;
-                            float angle = Mathf.Abs(Quaternion.Angle(m_turretStartRotation, m_turretInitialRotation));
-                            m_turretTimer = 0;
-                            m_turretTimerMax = angle / m_turretRotSpeed;
-
-                            m_turretState = TurretState.MovingToDefault;
-                        }
-
-                        break;
-                    }
-                case TurretState.MovingToDefault:
-                    {
-                        if(IsTargetAtRange())
-                        {
-                            m_turretState = TurretState.NoTarget;
-                            break;
-                        }
-
-                        m_turretTimer += Time.deltaTime;
-                        if (m_turretTimer >= m_turretTimerMax)
-                        {
-                            m_turretTimer = m_turretTimerMax;
-                            m_turretState = TurretState.NoTarget;
-                        }
-
-                        float normTime = m_turretTimer / m_turretTimerMax;
-
-                        transform.localRotation = Quaternion.Lerp(m_turretStartRotation, m_turretInitialRotation, normTime);
-
-                        break;
-                    }
-            }
+            if (!IsTargetAtRange())
+                m_turret.SetNoTarget();
+            else m_turret.SetTarget(GetTargetPos());
         }
 
-        if(m_turretState == TurretState.Target)
+        float rateTimer = 1 / m_fireRate;
+        m_fireTimer += Time.deltaTime;
+        if((m_turret == null && IsTargetAtRange()) || m_turret.CanFire())
         {
-            var targetPos = GetTargetPos();
-            m_turretPivot.LookAt(targetPos, Vector3.up);
-
-            float rateTimer = 1 / m_fireRate;
-            m_fireTimer += Time.deltaTime;
             while (m_fireTimer >= rateTimer)
             {
                 m_fireTimer -= rateTimer;
                 Fire();
             }
         }
-        else
-        {
-            float rateTimer = 1 / m_fireRate;
-            m_fireTimer += Time.deltaTime;
-            if (m_fireTimer > rateTimer)
-                m_fireTimer = rateTimer;
-        }
+        else if (m_fireTimer > rateTimer)
+            m_fireTimer = rateTimer;
     }
 
     void Fire()
     {
+        if (m_firePoints.Count == 0)
+            return;
+
         if (m_fireIndex < 0 || m_fireIndex >= m_firePoints.Count)
             m_fireIndex = 0;
 
