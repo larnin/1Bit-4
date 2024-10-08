@@ -229,7 +229,18 @@ public class EntityWeaponGun : EntityWeaponBase
             var obj = Instantiate(m_projectilePrefab);
             obj.transform.position = firePos.position;
             obj.transform.rotation = firePos.rotation;
-            //todo projectile stuff
+
+            var projectile = obj.GetComponent<ProjectileBase>();
+            if(projectile != null)
+            {
+                var target = GetTarget();
+                if (target != null)
+                {
+                    projectile.SetTarget(target);
+                    projectile.SetCaster(gameObject);
+                    //multipliers & others stuffs
+                }
+            }
         }
 
         m_fireIndex++;
