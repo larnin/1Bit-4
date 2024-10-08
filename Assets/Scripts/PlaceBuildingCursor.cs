@@ -55,7 +55,7 @@ public class PlaceBuildingCursor : MonoBehaviour
             if (type == m_type)
                 return;
 
-            Destroy(m_instance);
+            Destroy(m_instance.gameObject);
         }
 
         var buildingData = Global.instance.buildingDatas.GetBuilding(m_type);

@@ -10,6 +10,7 @@ public enum BuildingType
     Tower,
     Pylon,
     BigPylon,
+    Turret1,
 }
 
 public enum EnergyUptakePriority
@@ -20,8 +21,6 @@ public enum EnergyUptakePriority
 
 public abstract class BuildingBase : MonoBehaviour
 {
-    [SerializeField] float m_life;
-
     bool m_added = false;
     bool m_asCursor = false;
 

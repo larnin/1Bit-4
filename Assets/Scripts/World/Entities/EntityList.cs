@@ -32,4 +32,35 @@ public class EntityList : MonoBehaviour
     {
         m_entities.Remove(entity);
     }
+
+    public int GetEntityNb()
+    {
+        return m_entities.Count();
+    }
+
+    public EnnemyEntity GetEntityFromIndex(int index)
+    {
+        if (index < 0 || index >= m_entities.Count)
+            return null;
+        return m_entities[index];
+    }
+
+    public EnnemyEntity GetNearestEntity(Vector3 pos)
+    {
+        float bestDist = 0;
+        EnnemyEntity bestEntity = null;
+
+        foreach(var e in m_entities)
+        {
+            float dist = (pos - e.transform.position).sqrMagnitude;
+
+            if(dist < bestDist || bestEntity == null)
+            {
+                bestDist = dist;
+                bestEntity = e;
+            }
+        }
+
+        return bestEntity;
+    }
 }

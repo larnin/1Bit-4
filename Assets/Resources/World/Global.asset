@@ -61,6 +61,16 @@ MonoBehaviour:
         cost:
         - type: 1
           count: 10
+    - type: 3
+      prefab: {fileID: 2386629846189063210, guid: 01cb1a9794f4d754393dba54f54deefd, type: 3}
+      sprite: {fileID: -1178010555, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
+      spriteWithBorder: {fileID: 1298837695, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
+      size: {x: 1, y: 2, z: 1}
+      name: Energy turret
+      description: Fire small energy beams, deal small damages but only consume a
+        small quantity of energy
+      cost:
+        cost: []
   m_resourcesDatas:
     m_resources:
     - type: 0
