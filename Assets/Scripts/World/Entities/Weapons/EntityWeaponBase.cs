@@ -24,6 +24,8 @@ public abstract class EntityWeaponBase : MonoBehaviour
             return null;
 
         var building = BuildingList.instance.GetNearestBuilding(transform.position);
+        if (building == null)
+            return null;
 
         float dist = (building.GetGroundCenter() - transform.position).sqrMagnitude;
         if (dist <= range * range)

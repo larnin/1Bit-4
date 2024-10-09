@@ -119,8 +119,9 @@ public class EntityPath
             SetEmptyPath(m_target);
             return;
         }
-
-        List<PathStep> path = new List<PathStep>();
+        Matrix<bool> visitedPoint = new Matrix<bool>(GridEx.GetRealSize(grid.grid), GridEx.GetRealHeight(grid.grid), GridEx.GetRealSize(grid.grid));
+        visitedPoint.SetAll(false);
+        List<PathStep> path = new List<PathStep>(GridEx.GetRealSize(grid.grid) * GridEx.GetRealSize(grid.grid));
         List<PathStep> openList = new List<PathStep>();
 
         PathStep startStep = new PathStep();
@@ -129,6 +130,7 @@ public class EntityPath
         startStep.weight = 0;
         startStep.targetWeight = 0;
         openList.Add(startStep);
+        visitedPoint.Set(m_current.x, m_current.y, m_current.z, true);
 
         while(openList.Count > 0)
         {
@@ -149,13 +151,15 @@ public class EntityPath
                             continue;
 
                         Vector3Int target = step.pos + new Vector3Int(i, j, k);
-
-                        if (path.Exists((x) => { return x.pos == target; }))
-                            continue;
-                        if (openList.Exists((x) => { return x.pos == target; }))
-                            continue;
+                        
+                        //if (path.Exists((x) => { return x.pos == target; }))
+                        //    continue;
+                        //if (openList.Exists((x) => { return x.pos == target; }))
+                        //    continue;
 
                         if (!IsPosValid(grid.grid, target))
+                            continue;
+                        if (visitedPoint.Get(target.x, target.y, target.z))
                             continue;
 
                         PathStep newStep = new PathStep();
@@ -172,6 +176,7 @@ public class EntityPath
                         }
 
                         Insert(openList, newStep);
+                        visitedPoint.Set(target.x, target.y, target.z, true);
                     }
 
                     if (found)

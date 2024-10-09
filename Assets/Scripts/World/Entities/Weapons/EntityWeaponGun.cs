@@ -88,7 +88,7 @@ public class EntityWeaponGun : EntityWeaponBase
 
         float rateTimer = 1 / m_fireRate;
         m_fireTimer += Time.deltaTime;
-        if((m_turret == null && IsTargetAtRange()) || m_turret.CanFire())
+        if(IsTargetAtRange() && (m_turret == null || m_turret.CanFire()))
         {
             while (m_fireTimer >= rateTimer)
             {

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 830894263450348497}
   - component: {fileID: 4316212641510862939}
   - component: {fileID: 5517554001623212225}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6551746470464788001}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RayPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,7 +125,9 @@ GameObject:
   - component: {fileID: 1455139692181464192}
   - component: {fileID: 4563145185567032268}
   - component: {fileID: 4460641274274085506}
-  m_Layer: 0
+  - component: {fileID: 9043141151901849544}
+  - component: {fileID: 9107417369259299291}
+  m_Layer: 7
   m_Name: Pylon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -161,7 +163,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81415bc3e68d543499c1059349fca975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_life: 10
   m_powerGeneration: 1
   m_generationRadius: 4
   m_placementRadius: 5
@@ -178,3 +179,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_radius: 10
+--- !u!65 &9043141151901849544
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8340085762057836841}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 4, z: 1}
+  m_Center: {x: 0, y: 1.5, z: 0}
+--- !u!114 &9107417369259299291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8340085762057836841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea1b57c4fdc500c40aa17e0bc75161ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_maxLife: 10
