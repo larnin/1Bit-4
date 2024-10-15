@@ -43,20 +43,22 @@ public class EntityMove : MonoBehaviour
         if (m_speed > m_moveSpeed)
             m_speed = m_moveSpeed;
 
+        DebugDraw.Line(transform.position, target, Color.cyan);
+
         if (m_speed > 0.001f)
         {
             Vector3 dir = target - transform.position;
             float angleDir = Mathf.Atan2(dir.z, dir.x);
             float deltaAngle = angleDir - m_angle;
-            while (deltaAngle < Mathf.PI)
+            while (deltaAngle < -Mathf.PI)
                 deltaAngle += Mathf.PI * 2;
             while (deltaAngle > Mathf.PI)
-                deltaAngle += Mathf.PI * 2;
+                deltaAngle -= Mathf.PI * 2;
 
             float angleDist = m_rotationSpeed * Time.deltaTime;
             if (angleDist > Mathf.Abs(deltaAngle))
                 angleDist = Mathf.Abs(deltaAngle);
-            angleDist *= Mathf.Sign(angleDist);
+            angleDist *= Mathf.Sign(deltaAngle);
 
             m_angle += angleDist;
 

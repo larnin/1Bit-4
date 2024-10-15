@@ -65,7 +65,7 @@ public class SpawnerTest : MonoBehaviour
         var distrib = new UniformVector2CircleSurfaceDistribution();
 
         var pos = distrib.Next(gen);
-        pos *= size / 2.0f;
+        pos *= size / 2.1f;
         pos += new Vector2(size, size) / 2;
 
         var posInt = new Vector2Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y));

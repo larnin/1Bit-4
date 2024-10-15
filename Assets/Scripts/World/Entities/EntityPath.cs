@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using NRand;
 
 public enum EntityPathStatus
 {
@@ -39,22 +40,27 @@ public class EntityPath
 
     public void SetTarget(Vector3Int current, Vector3Int target)
     {
-        if(m_status != EntityPathStatus.Generating)
+        if (target != m_target)
         {
-            m_current = current;
-            m_target = target;
-            StartJob();
-        }
-        else if(target != m_target)
-        {
-            m_nextCurrent = current;
-            m_nextTarget = target;
-            m_nextTargetSet = true;
+            if (m_status != EntityPathStatus.Generating)
+            {
+                m_current = current;
+                m_target = target;
+                StartJob();
+            }
+            else
+            {
+                m_nextCurrent = current;
+                m_nextTarget = target;
+                m_nextTargetSet = true;
+            }
         }
     }
 
     public Vector3Int GetNextPoint(Vector3 pos)
     {
+        DebugDrawPath();
+
         Vector3Int posInt = new Vector3Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y), Mathf.RoundToInt(pos.z));
         lock (m_pointsLock)
         {
@@ -119,43 +125,41 @@ public class EntityPath
             SetEmptyPath(m_target);
             return;
         }
+
+        var start = GetNearestValidPosition(grid.grid, m_current);
+        var end = GetNearestValidPosition(grid.grid, m_target);
+
         Matrix<bool> visitedPoint = new Matrix<bool>(GridEx.GetRealSize(grid.grid), GridEx.GetRealHeight(grid.grid), GridEx.GetRealSize(grid.grid));
         visitedPoint.SetAll(false);
         List<PathStep> path = new List<PathStep>(GridEx.GetRealSize(grid.grid) * GridEx.GetRealSize(grid.grid));
         List<PathStep> openList = new List<PathStep>();
 
         PathStep startStep = new PathStep();
-        startStep.pos = m_current;
+        startStep.pos = start;
         startStep.previousIndex = -1;
         startStep.weight = 0;
         startStep.targetWeight = 0;
         openList.Add(startStep);
-        visitedPoint.Set(m_current.x, m_current.y, m_current.z, true);
+        visitedPoint.Set(start.x, start.y, start.z, true);
 
-        while(openList.Count > 0)
+        bool found = false;
+        while (openList.Count > 0)
         {
             var step = openList[0];
             openList.RemoveAt(0);
 
             path.Add(step);
 
-            bool found = false;
-
-            for(int i = -1; i <= 1; i++)
+            for (int i = -1; i <= 1; i++)
             {
-                for(int j = -1; j <= 1; j++)
+                for (int j = -1; j <= 1; j++)
                 {
-                    for(int k = -1; k <= 1; k++)
+                    for (int k = -1; k <= 1; k++)
                     {
                         if (i == 0 && k == 0)
                             continue;
 
                         Vector3Int target = step.pos + new Vector3Int(i, j, k);
-                        
-                        //if (path.Exists((x) => { return x.pos == target; }))
-                        //    continue;
-                        //if (openList.Exists((x) => { return x.pos == target; }))
-                        //    continue;
 
                         if (!IsPosValid(grid.grid, target))
                             continue;
@@ -166,9 +170,9 @@ public class EntityPath
                         newStep.pos = target;
                         newStep.previousIndex = path.Count - 1;
                         newStep.weight = step.weight + (new Vector3Int(i, j, k)).magnitude;
-                        newStep.targetWeight = (m_target - target).magnitude;
+                        newStep.targetWeight = (end - target).magnitude;
 
-                        if(target == m_target)
+                        if (target == end)
                         {
                             found = true;
                             path.Add(newStep);
@@ -189,9 +193,25 @@ public class EntityPath
                 break;
         }
 
-        List<Vector3Int> newPath = new List<Vector3Int>();
-
         int index = path.Count - 1;
+        if(!found) //get nearest point
+        {
+            int bestIndex = -1;
+            float bestDist = 0;
+            for (int i = 0; i < path.Count; i++)
+            {
+                float dist = (path[i].pos - end).sqrMagnitude;
+                if(dist < bestDist || bestIndex < 0)
+                {
+                    bestIndex = i;
+                    bestDist = dist;
+                }
+            }
+            index = bestIndex;
+        }
+
+        List<Vector3Int> newPath = new List<Vector3Int>();
+        
         while(index > 0)
         {
             newPath.Insert(0, path[index].pos);
@@ -203,6 +223,48 @@ public class EntityPath
             m_points = newPath;
             m_currentPoint = 0;
         }
+    }
+
+    Vector3Int GetNearestValidPosition(Grid grid, Vector3Int pos)
+    {
+        var rand = new StaticRandomGenerator<MT19937>();
+        var gen = new UniformIntDistribution(0, 4);
+
+        var building = BuildingList.instance.GetBuildingAt(pos);
+        if(building != null)
+        {
+            var bounds = building.GetBounds();
+
+            while (true)
+            {
+                Rotation toAdd = (Rotation)(gen.Next(rand));
+
+                int nbOut = 0;
+                int distance = 1;
+                for (int i = 0; i < 4; i++)
+                {
+                    var dir = RotationEx.ToVector3Int(RotationEx.Add((Rotation)i, toAdd));
+                    Vector3Int newPos = pos + dir * distance;
+                    int y = GridEx.GetHeight(grid, new Vector2Int(newPos.x, newPos.z));
+                    if (y < 0)
+                    {
+                        nbOut++;
+                        continue;
+                    }
+                    newPos.y = y + 1;
+                    if (BuildingList.instance.GetBuildingAt(newPos) == null)
+                        return newPos;
+                }
+
+                if(nbOut == 4)
+                {
+                    return pos;
+                }
+            }
+        }
+
+        int testY = GridEx.GetHeight(grid, new Vector2Int(pos.x, pos.z));
+        return new Vector3Int(pos.x, testY, pos.z);
     }
 
     bool IsPosValid(Grid grid, Vector3Int pos)
@@ -252,6 +314,17 @@ public class EntityPath
         lock (m_pointsLock)
         {
             m_status = EntityPathStatus.Following;
+        }
+    }
+
+    void DebugDrawPath()
+    {
+        lock(m_pointsLock)
+        {
+            for(int i = 0; i < m_points.Count - 1; i++)
+            {
+                DebugDraw.Line(m_points[i], m_points[i + 1], Color.red);
+            }
         }
     }
 }
