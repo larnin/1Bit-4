@@ -46,6 +46,8 @@ GameObject:
   - component: {fileID: 5680781066075594713}
   - component: {fileID: 4266665055697071461}
   - component: {fileID: 4727998870322003791}
+  - component: {fileID: 1316661711635897309}
+  - component: {fileID: 8610695730473116602}
   m_Layer: 0
   m_Name: EnnemyTest
   m_TagString: Untagged
@@ -139,6 +141,34 @@ MonoBehaviour:
   m_moveSpeed: 1
   m_acceleration: 1
   m_rotationSpeed: 1
+--- !u!114 &1316661711635897309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5112624563529137943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea1b57c4fdc500c40aa17e0bc75161ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_maxLife: 1
+--- !u!114 &8610695730473116602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5112624563529137943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa95a2f98595e3d44b73120496694a1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_lifebarPrefab: {fileID: 403841948413428351, guid: 865e80a7aecab34408fe71ab6fb1fed9, type: 3}
+  m_barHeight: 1
+  m_barScale: 1
 --- !u!1 &5334251002733021847
 GameObject:
   m_ObjectHideFlags: 0

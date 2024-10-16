@@ -1200,6 +1200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_entityPrefab: {fileID: 5112624563529137943, guid: 6e80dcf2ef4cf7a4c8c9f22287f978cf, type: 3}
   m_spawnDelay: 1
+  m_maxCount: 1
 --- !u!4 &1383525981
 Transform:
   m_ObjectHideFlags: 0

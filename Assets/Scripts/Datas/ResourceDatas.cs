@@ -11,6 +11,7 @@ public enum ResourceType
     Crystal,
     Titanium,
     Deuterium,
+    EnemyPart,
 }
 
 [Serializable]
