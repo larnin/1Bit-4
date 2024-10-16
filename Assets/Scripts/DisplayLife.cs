@@ -3,7 +3,7 @@ using System.Collections;
 
 public class DisplayLife : MonoBehaviour
 {
-    const string lifeParam = "FillPercent";
+    const string lifeParam = "_FillPercent";
 
     [SerializeField] GameObject m_lifebarPrefab;
     [SerializeField] float m_barHeight = 1;
@@ -18,7 +18,6 @@ public class DisplayLife : MonoBehaviour
         m_lifeComponent = GetComponent<LifeComponent>();
     }
     
-
     void Update()
     {
         if(m_lifeComponent == null)
@@ -29,7 +28,6 @@ public class DisplayLife : MonoBehaviour
         }
 
         float fLife = m_lifeComponent.GetLifePercent();
-        fLife = Random.value;
         if(fLife >= 1)
         {
             if (m_lifebarInstance != null)
@@ -40,6 +38,7 @@ public class DisplayLife : MonoBehaviour
             m_lifebarInstance = Instantiate(m_lifebarPrefab);
             m_lifebarInstance.transform.parent = transform;
             m_lifebarInstance.transform.localPosition = new Vector3(0, m_barHeight, 0);
+            m_lifebarInstance.transform.localScale = new Vector3(m_barScale, m_barScale, m_barScale);
             m_barRenderer = m_lifebarInstance.GetComponentInChildren<Renderer>();
         }
 

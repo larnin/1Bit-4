@@ -10,6 +10,15 @@ public enum BuildingType
     Tower,
     Pylon,
     BigPylon,
+    SolarPanel,
+    BigSolarPanel,
+    PowerPlant,
+    Battery,
+    BigBattery,
+    ResearchCenter,
+    CrystalMine,
+    DeuteriumPump,
+    TitaniumMine,
     Turret1,
 }
 
@@ -108,7 +117,7 @@ public abstract class BuildingBase : MonoBehaviour
         Remove();
     }
 
-    public virtual void Update()
+    protected virtual void Update()
     {
         if (!m_added && !m_asCursor)
             Add();

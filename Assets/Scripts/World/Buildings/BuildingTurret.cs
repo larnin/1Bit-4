@@ -64,7 +64,7 @@ public class BuildingTurret : BuildingBase
             m_energy = m_energyStorage;
     }
 
-    public override void Update()
+    protected override void Update()
     {
         base.Update();
 

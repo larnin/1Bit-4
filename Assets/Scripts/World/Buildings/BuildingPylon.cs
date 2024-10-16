@@ -10,9 +10,12 @@ public class BuildingPylon : BuildingBase
     [SerializeField] float m_powerGeneration = 1;
     [SerializeField] float m_generationRadius = 4;
     [SerializeField] float m_placementRadius = 5;
+    [SerializeField] bool m_bigPylon = false;
 
     public override BuildingType GetBuildingType()
     {
+        if (m_bigPylon)
+            return BuildingType.BigPylon;
         return BuildingType.Pylon;
     }
 
