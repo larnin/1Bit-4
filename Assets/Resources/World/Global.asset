@@ -38,6 +38,9 @@ MonoBehaviour:
   m_blockDatas:
     defaultMaterial: {fileID: 2100000, guid: 963d52d036299094b986f2c929f03250, type: 2}
     waterMaterial: {fileID: 2100000, guid: 92973c878653c034db0d19b8295d1e0a, type: 2}
+    customBlocks:
+    - type: 3
+      prefab: {fileID: 4641640985918625755, guid: d54fbf1147769194eae1a4915554ee16, type: 3}
   m_buildingDatas:
     m_buildings:
     - type: 0

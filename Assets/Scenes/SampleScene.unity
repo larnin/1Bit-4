@@ -844,6 +844,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_renderTexture: {fileID: 8400000, guid: 591fe3e50089171479aa14081b67789d, type: 2}
   m_circleMaterial: {fileID: 2100000, guid: 28b58a05c2815574e85f5015f639a4ee, type: 2}
+  m_lightedMaterials:
+  - {fileID: 2100000, guid: 963d52d036299094b986f2c929f03250, type: 2}
+  - {fileID: 2100000, guid: 62b1df7190384634fb819dd47b16fcbc, type: 2}
 --- !u!4 &750648393
 Transform:
   m_ObjectHideFlags: 0

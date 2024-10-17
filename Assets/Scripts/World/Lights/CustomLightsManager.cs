@@ -14,6 +14,7 @@ public class CustomLightsManager : MonoBehaviour
 
     [SerializeField] RenderTexture m_renderTexture;
     [SerializeField] Material m_circleMaterial;
+    [SerializeField] List<Material> m_lightedMaterials;
 
     List<CustomLight> m_lights = new List<CustomLight>();
 
@@ -72,7 +73,8 @@ public class CustomLightsManager : MonoBehaviour
 
         RenderTextureEx.EndRendering(m_renderTexture);
 
-        UpdateMaterial(Global.instance.blockDatas.defaultMaterial, grid.grid);
+        foreach(var m in m_lightedMaterials)
+            UpdateMaterial(m, grid.grid);
     }
 
     void UpdateMaterial(Material mat, Grid grid)
