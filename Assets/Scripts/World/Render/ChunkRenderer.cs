@@ -133,25 +133,25 @@ public class ChunkRenderer
     void DrawBlock(Vector3Int pos, NearMatrix3<BlockType> mat)
     {
         var type = mat.Get(0, 0, 0);
-        if (type == BlockType.air)
+        if (!CanRender(type))
             return;
 
-        if (mat.Get(0, 1, 0) == BlockType.air)
+        if (!CanRender(mat.Get(0, 1, 0)))
             DrawFace(pos, BlockFace.Top, mat);
 
-        if (mat.Get(0, -1, 0) == BlockType.air)
+        if (!CanRender(mat.Get(0, -1, 0)))
             DrawFace(pos, BlockFace.Bottom, mat);
 
-        if (mat.Get(0, 0, 1) == BlockType.air)
+        if (!CanRender(mat.Get(0, 0, 1)))
             DrawFace(pos, BlockFace.Front, mat);
 
-        if (mat.Get(0, 0, -1) == BlockType.air)
+        if (!CanRender(mat.Get(0, 0, -1)))
             DrawFace(pos, BlockFace.Back, mat);
 
-        if (mat.Get(1, 0, 0) == BlockType.air)
+        if (!CanRender(mat.Get(1, 0, 0)))
             DrawFace(pos, BlockFace.Right, mat);
 
-        if (mat.Get(-1, 0, 0) == BlockType.air)
+        if (!CanRender(mat.Get(-1, 0, 0)))
             DrawFace(pos, BlockFace.Left, mat);
     }
 
@@ -311,7 +311,16 @@ public class ChunkRenderer
                 data.indexesSize += meshData.indexesSize;
             }
         }
+    }
 
-        
+    bool CanRender(BlockType type)
+    {
+        if (type == BlockType.air)
+            return false;
+
+        if (Global.instance.blockDatas.IsCustomBlock(type))
+            return false;
+
+        return true;
     }
 }

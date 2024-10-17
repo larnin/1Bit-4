@@ -31,6 +31,7 @@ public enum EnergyUptakePriority
 public abstract class BuildingBase : MonoBehaviour
 {
     bool m_added = false;
+    bool m_startCalled = false;
     bool m_asCursor = false;
 
     Vector3 m_localRayPoint = Vector3.zero;
@@ -108,7 +109,22 @@ public abstract class BuildingBase : MonoBehaviour
 
     public virtual void OnEnable()
     {
-        if(!m_asCursor)
+        if (!m_startCalled)
+            return;
+
+        m_pos = transform.position;
+
+        if (!m_asCursor)
+            Add();
+    }
+
+    public virtual void Start()
+    {
+        m_startCalled = true;
+
+        m_pos = transform.position;
+
+        if (!m_added && !m_asCursor)
             Add();
     }
 
@@ -119,10 +135,10 @@ public abstract class BuildingBase : MonoBehaviour
 
     protected virtual void Update()
     {
+        m_pos = transform.position;
+
         if (!m_added && !m_asCursor)
             Add();
-
-        m_pos = transform.position;
     }
 
     void Add()

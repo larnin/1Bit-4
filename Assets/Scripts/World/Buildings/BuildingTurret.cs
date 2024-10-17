@@ -26,8 +26,10 @@ public class BuildingTurret : BuildingBase
     float m_fireTimer;
     int m_fireIndex;
 
-    private void Start()
+    public override void Start()
     {
+        base.Start();
+
         m_turret = GetComponent<TurretBehaviour>(); 
         GetFirePoints(transform);
     }

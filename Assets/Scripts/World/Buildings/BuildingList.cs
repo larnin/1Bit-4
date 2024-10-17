@@ -8,6 +8,7 @@ using UnityEngine;
 public class BuildingList : MonoBehaviour
 {
     List<BuildingBase> m_buildings = new List<BuildingBase>();
+    Dictionary<ulong, BuildingBase> m_buildingsPos = new Dictionary<ulong, BuildingBase>();
 
     static BuildingList m_instance = null;
     public static BuildingList instance { get { return m_instance; } }
@@ -27,6 +28,21 @@ public class BuildingList : MonoBehaviour
     {
         m_buildings.Add(building);
 
+        var bounds = building.GetBounds();
+        var min = bounds.min;
+        var max = bounds.max;
+
+        for (int x = min.x; x < max.x; x++)
+        {
+            for (int y = min.y; y < max.y; y++)
+            {
+                for (int z = min.z; z < max.z; z++)
+                {
+                    m_buildingsPos.Add(Utility.PosToID(new Vector3Int(x, y, z)), building);
+                }
+            }
+        }
+
         if (ConnexionSystem.instance != null)
             ConnexionSystem.instance.OnBuildingChange();
     }
@@ -34,6 +50,21 @@ public class BuildingList : MonoBehaviour
     public void UnRegister(BuildingBase building)
     {
         m_buildings.Remove(building);
+
+        var bounds = building.GetBounds();
+        var min = bounds.min;
+        var max = bounds.max;
+
+        for (int x = min.x; x < max.x; x++)
+        {
+            for (int y = min.y; y < max.y; y++)
+            {
+                for (int z = min.z; z < max.x; z++)
+                {
+                    m_buildingsPos.Remove(Utility.PosToID(new Vector3Int(x, y, z)));
+                }
+            }
+        }
 
         if (ConnexionSystem.instance != null)
             ConnexionSystem.instance.OnBuildingChange();
@@ -165,14 +196,9 @@ public class BuildingList : MonoBehaviour
 
     public BuildingBase GetBuildingAt(Vector3Int pos)
     {
-        foreach(var b in m_buildings)
-        {
-            var bounds = b.GetBounds();
-            var min = bounds.min;
-            var max = bounds.max;
-            if (pos.x >= min.x && pos.x < max.x && pos.y >= min.y && pos.y < max.y && pos.z >= min.z && pos.z < max.z)
-                return b;
-        }
-        return null;
+        BuildingBase b;
+        if (!m_buildingsPos.TryGetValue(Utility.PosToID(pos), out b))
+            return null;
+        return b;
     }
 }

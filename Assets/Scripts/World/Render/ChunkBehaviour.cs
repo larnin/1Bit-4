@@ -14,6 +14,7 @@ public class ChunkBehaviour : MonoBehaviour
 
     List<GameObject> m_renders = new List<GameObject>();
     List<GameObject> m_colliders = new List<GameObject>();
+    List<GameObject> m_customBlocks = new List<GameObject>();
 
     public void SetChunk(Grid grid, Vector3Int index)
     {
@@ -95,5 +96,32 @@ public class ChunkBehaviour : MonoBehaviour
         }
 
         m_renderer = null;
+
+        InstantiateCustomBlocks();
+    }
+
+    void InstantiateCustomBlocks()
+    {
+        var chunk = m_grid.Get(m_index);
+
+        for(int i = 0; i < Grid.ChunkSize; i++)
+        {
+            for(int j = 0; j < Grid.ChunkSize; j++)
+            {
+                for(int k = 0; k < Grid.ChunkSize; k++)
+                {
+                    var b = Global.instance.blockDatas.GetCustomBlock(chunk.Get(i, j, k));
+                    if (b == null)
+                        continue;
+
+                    var obj = Instantiate(b.prefab);
+                    obj.transform.parent = transform;
+                    obj.transform.localPosition = new Vector3(i, j, k);
+                    obj.transform.localRotation = Quaternion.identity; // maybe random rotation ?
+                    obj.transform.localScale = Vector3.one;
+                    m_customBlocks.Add(obj);
+                }
+            }
+        }
     }
 }

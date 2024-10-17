@@ -8,5 +8,8 @@ public enum BlockType : byte
 {
     air,
     ground,
-    water
+    water,
+    crystal,
+    Deuterium,
+    Titanium
 }
