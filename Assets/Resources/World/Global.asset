@@ -16,27 +16,41 @@ MonoBehaviour:
     seed: 0
     size: 8
     height: 4
-    waterZones:
-      baseFrequency: 4
-      baseAmplitude: 15
+    minBaseHeight: -10
+    maxBaseHeight: 10
+    plateformSurfaceScale: 0.1
+    MontainsPlacement:
+      baseFrequency: 10
+      baseAmplitude: 2
       nbLayers: 2
       layerAmplitudeScale: 0.5
-    waterHeight: 0
-    HeightPerlin:
-      baseFrequency: 1
-      baseAmplitude: 1
-      nbLayers: 1
-      layerAmplitudeScale: 0.5
-    heightMultiplier: 1
-    heightPower: 1
+    montainsMinPlacementHeight: -0.5
+    montainsMaxPlacementHeight: 0.5
+    MontainsHeight:
+      baseFrequency: 16
+      baseAmplitude: -10
+      nbLayers: 3
+      layerAmplitudeScale: 1.5
+    montainsHeightMultiplier: 20
+    montainsHeightPower: 0.5
+    montainsHeightOffset: 10
+    montainsMinPlacementDist: 0.2
+    montainsMaxPacementDist: 0.8
+    montainsPlacementBlendDist: 0.25
     islandBorder:
       baseFrequency: 1
       baseAmplitude: 1
       nbLayers: 1
       layerAmplitudeScale: 0.5
     islandProportion: 0.9
+    waterZones:
+      baseFrequency: 8
+      baseAmplitude: -10
+      nbLayers: 10
+      layerAmplitudeScale: 2
+    waterHeight: 0
   m_blockDatas:
-    defaultMaterial: {fileID: 2100000, guid: 963d52d036299094b986f2c929f03250, type: 2}
+    defaultMaterial: {fileID: 2100000, guid: 92973c878653c034db0d19b8295d1e0a, type: 2}
     waterMaterial: {fileID: 2100000, guid: 92973c878653c034db0d19b8295d1e0a, type: 2}
     customBlocks:
     - type: 3

@@ -81,9 +81,126 @@ public static class WorldGenerator
         m_grid = new Grid(m_settings.size, m_settings.height);
 
         m_stateTxt = "Generate Heights";
-        var waterAreasHeight = GenerateWaterAreas();
+        var waterAreasHeight = GenerateMontains();
         m_stateTxt = "Generate Ground";
         SimpleApplyHeight(waterAreasHeight);
+    }
+
+    static Matrix<float> GenerateBaseSurface()
+    {
+        int size = GridEx.GetRealSize(m_grid);
+        var mat = new Matrix<float>(size, size);
+
+        Vector2 center = new Vector2(size / 2.0f, size / 2.0f);
+        float maxDist = size / 2.0f;
+
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                var pos = new Vector2(i, j) - center;
+
+                float height = m_settings.maxBaseHeight;
+                float dist = pos.magnitude / maxDist;
+                if(dist > m_settings.plateformSurfaceScale)
+                {
+                    float norm = (dist - m_settings.plateformSurfaceScale) / (1 - m_settings.plateformSurfaceScale);
+                    height = (1 - norm) * m_settings.maxBaseHeight + norm * m_settings.minBaseHeight;
+                }
+
+                mat.Set(i, j, height);
+            }
+        }
+
+        return mat;
+    }
+
+    static Matrix<float> GenerateMontains()
+    {
+        int size = GridEx.GetRealSize(m_grid);
+        var mat = new Matrix<float>(size, size);
+
+        Vector2 center = new Vector2(size / 2.0f, size / 2.0f);
+        float maxDist = size / 2.0f;
+
+        Perlin[] placement = new Perlin[m_settings.MontainsPlacement.nbLayers];
+        for (int i = 0; i < m_settings.MontainsPlacement.nbLayers; i++)
+        {
+            placement[i] = new Perlin(size, m_settings.MontainsPlacement.baseAmplitude * MathF.Pow(m_settings.MontainsPlacement.layerAmplitudeScale, i)
+                , (int)(m_settings.MontainsPlacement.baseFrequency / MathF.Pow(2, i)), m_settings.seed + i);
+        }
+
+        Turbulence[] montains = new Turbulence[m_settings.MontainsHeight.nbLayers];
+        for (int i = 0; i < m_settings.MontainsHeight.nbLayers; i++)
+        {
+            montains[i] = new Turbulence(size, m_settings.MontainsHeight.baseAmplitude * MathF.Pow(m_settings.MontainsHeight.layerAmplitudeScale, i)
+                , (int)(m_settings.MontainsHeight.baseFrequency / MathF.Pow(2, i)), m_settings.seed + i);
+        }
+
+        float maxHeight = 0;
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                float height = 0;
+                foreach (var p in placement)
+                    height += p.Get(i, j);
+                if (height < m_settings.montainsMinPlacementHeight)
+                    height = 0;
+                else if (height > m_settings.montainsMaxPlacementHeight)
+                    height = 1;
+                else height = (height - m_settings.montainsMinPlacementHeight) / (m_settings.montainsMaxPlacementHeight - m_settings.montainsMinPlacementHeight);
+                height *= GetMontainPlacement(i, j);
+
+                float montainHeight = 0;
+                if(height > 0)
+                {
+                    foreach (var m in montains)
+                        montainHeight += m.Get(i, j);
+                    montainHeight += m_settings.montainsHeightOffset;
+                    if (montainHeight < 0)
+                        montainHeight = 0;
+                    height *= montainHeight;
+                }
+
+                if (height > maxHeight)
+                    maxHeight = height;
+                mat.Set(i, j, height);
+            }
+        }
+        
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                float currentHeight = mat.Get(i, j);
+                currentHeight /= maxHeight;
+                currentHeight = Mathf.Pow(currentHeight, m_settings.montainsHeightPower) * m_settings.montainsHeightMultiplier;
+                mat.Set(i, j, currentHeight);
+            }
+        }
+
+        return mat;
+    }
+
+    static float GetMontainPlacement(int x, int y)
+    {
+        int size = GridEx.GetRealSize(m_grid);
+
+        Vector2 center = new Vector2(size / 2.0f, size / 2.0f);
+        float maxDist = size / 2.0f;
+
+        var pos = new Vector2(x, y) - center;
+        
+        float dist = pos.magnitude / maxDist;
+        if (dist > m_settings.montainsMinPlacementDist && dist < m_settings.montainsMinPlacementDist + m_settings.montainsPlacementBlendDist)
+            return (dist - m_settings.montainsMinPlacementDist) / m_settings.montainsPlacementBlendDist;
+        if (dist > m_settings.montainsMaxPacementDist - m_settings.montainsPlacementBlendDist && dist < m_settings.montainsMaxPacementDist)
+            return 1 - (dist - (m_settings.montainsMaxPacementDist - m_settings.montainsPlacementBlendDist)) / m_settings.montainsPlacementBlendDist;
+        if (dist >= m_settings.montainsMinPlacementDist + m_settings.montainsPlacementBlendDist && dist <= m_settings.montainsMaxPacementDist - m_settings.montainsPlacementBlendDist)
+            return 1;
+
+        return 0;
     }
 
     static Matrix<float> GenerateWaterAreas()
@@ -92,10 +209,10 @@ public static class WorldGenerator
 
         var mat = new Matrix<float>(size, size);
 
-        Perlin[] perlins = new Perlin[m_settings.waterZones.nbLayers];
+        Turbulence[] perlins = new Turbulence[m_settings.waterZones.nbLayers];
         for(int i = 0; i < m_settings.waterZones.nbLayers; i++)
         {
-            perlins[i] = new Perlin(size, m_settings.waterZones.baseAmplitude * MathF.Pow(m_settings.waterZones.layerAmplitudeScale, i)
+            perlins[i] = new Turbulence(size, m_settings.waterZones.baseAmplitude * MathF.Pow(m_settings.waterZones.layerAmplitudeScale, i)
                 , (int)(m_settings.waterZones.baseFrequency / MathF.Pow(2, i)), m_settings.seed + i);
         }
 
