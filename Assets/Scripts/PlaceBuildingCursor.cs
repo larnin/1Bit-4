@@ -154,45 +154,7 @@ public class PlaceBuildingCursor : MonoBehaviour
         if (!canPlace)
             return;
 
-        //test if the ground can support this building
-        var grid = new GetGridEvent();
-        Event<GetGridEvent>.Broadcast(grid);
-        var bounds = m_instance.GetBounds();
-        if (grid.grid != null)
-        {
-            Vector3Int min = bounds.min;
-            Vector3Int max = bounds.max;
-
-            for(int i = min.x; i < max.x; i++)
-            {
-                for(int k = min.z; k < max.z; k++)
-                {
-                    var ground = GridEx.GetBlock(grid.grid, new Vector3Int(i, min.y - 1, k));
-                    if (ground != BlockType.ground)
-                        return;
-
-                    for(int j = min.y; j < max.y; j++)
-                    {
-                        var block = GridEx.GetBlock(grid.grid, new Vector3Int(i, j, k));
-                        if (block != BlockType.air)
-                            return;
-                    }
-                }
-            }
-        }
-
-        //test if an other building already here
-        int nbBuilding = BuildingList.instance.GetBuildingNb();
-        for(int i = 0; i < nbBuilding; i++)
-        {
-            var b = BuildingList.instance.GetBuildingFromIndex(i);
-            var otherBounds = b.GetBounds();
-
-            if (Utility.Intersects(otherBounds, bounds))
-                return;
-        }
-
-        m_canPlace = true;
+        m_canPlace = m_instance.CanBePlaced(m_instance.GetPos());
     }
 
     void UpdateCross()

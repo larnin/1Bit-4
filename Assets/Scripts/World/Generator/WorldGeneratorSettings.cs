@@ -29,10 +29,16 @@ public class WorldGeneratorSettings
     public float montainsMaxPacementDist = 0.8f;
     public float montainsPlacementBlendDist = 0.1f;
 
-    public PerlinSettings islandBorder;
-    public float islandProportion = 0.9f;
-    public PerlinSettings waterZones;
+    public PerlinSettings Plains;
+
     public float waterHeight = 0;
+
+    public float crystalPatchSizeBase = 5;
+    public float crystalPatchIncrease = 10;
+    public float crystalPatchDensity = 1;
+    public float crystalElevationMaxVariation = 3;
+    public float crystalRetryCount = 2;
+    public float crystalInitialPatchDistance = 10;
 
 }
 
