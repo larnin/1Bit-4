@@ -24,7 +24,7 @@ public static class ThreadPool
         }
     }
 
-    const int m_threadCount = 2;
+    const int m_threadCount = 4;
 
     static bool m_started = false;
     static bool m_aborted = false;

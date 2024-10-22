@@ -57,6 +57,9 @@ public class BuildingCrystalMine : BuildingBase
     {
         base.Update();
 
+        if (!IsAdded())
+            return;
+
         float count = m_crystals.Count * Time.deltaTime * m_energyEfficiency * m_generation;
 
         if (ResourceSystem.instance != null)
@@ -90,17 +93,17 @@ public class BuildingCrystalMine : BuildingBase
 
         for (int i = min.x; i <= max.x; i++)
         {
-            for (int j = min.z; j < max.z; j++)
+            for (int j = min.z; j <= max.z; j++)
             {
-                var offset = min - bounds.min;
+                var offset = new Vector2Int(i - bounds.min.x, j - bounds.min.z);
                 if (offset.x > 0 && offset.x < bounds.size.x)
                     offset.x = 0;
                 else if (offset.x >= bounds.size.x)
-                    offset.x -= bounds.size.x;
-                if (offset.y > 0 && offset.y < bounds.size.y)
+                    offset.x -= bounds.size.x - 1;
+                if (offset.y > 0 && offset.y < bounds.size.z)
                     offset.y = 0;
-                else if (offset.y >= bounds.size.y)
-                    offset.y -= bounds.size.y;
+                else if (offset.y >= bounds.size.z)
+                    offset.y -= bounds.size.z - 1;
 
                 if (offset.x == 0 && offset.y == 0)
                     continue;

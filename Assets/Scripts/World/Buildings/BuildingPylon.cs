@@ -29,6 +29,8 @@ public class BuildingPylon : BuildingBase
         var connected = ConnexionSystem.instance.GetConnectedBuilding(this);
         foreach(var c in connected)
         {
+            if (c.GetBuildingType() != BuildingType.Pylon)
+                continue;
             var otherPos = c.GetGroundCenter();
             float dist = (pos - otherPos).sqrMagnitude;
 

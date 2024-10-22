@@ -47,9 +47,9 @@ public abstract class BuildingBase : MonoBehaviour
             Add();
     }
 
-    public bool IsCursor()
+    public bool IsAdded()
     {
-        return m_asCursor;
+        return m_added && !m_asCursor;
     }
 
     public Vector3Int GetSize()

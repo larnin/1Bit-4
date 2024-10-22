@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_energyConsumption: 1
-  m_generatedResource: 0
+  m_generatedResource: 1
   m_generation: 1
   m_mineRadius: 1
 --- !u!114 &8589368998247089672
