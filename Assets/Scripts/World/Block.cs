@@ -10,6 +10,6 @@ public enum BlockType : byte
     ground,
     water,
     crystal,
-    Deuterium,
+    oil,
     Titanium
 }

@@ -16,3 +16,15 @@ public class IsCrystalUsedEvent
         used = false;
     }
 }
+
+public class IsTitaniumUsedEvent
+{
+    public Vector3Int pos;
+    public bool used;
+
+    public IsTitaniumUsedEvent(Vector3Int _pos)
+    {
+        pos = _pos;
+        used = false;
+    }
+}

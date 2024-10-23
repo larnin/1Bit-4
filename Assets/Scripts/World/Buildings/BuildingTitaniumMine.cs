@@ -5,21 +5,25 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class BuildingCrystalMine : BuildingBase
+public class BuildingTitaniumMine : BuildingBase
 {
     [SerializeField] float m_energyConsumption = 1;
+    [SerializeField] ResourceType m_consumedResource;
+    [SerializeField] float m_consumedResourceNb = 1;
     [SerializeField] ResourceType m_generatedResource;
-    [SerializeField] float m_generation = 1;
+    [SerializeField] float m_generatedResourceNb = 1;
+    [SerializeField] float m_generatedResourceCycle = 1;
     [SerializeField] int m_mineRadius = 1;
 
     float m_energyEfficiency = 1;
-    List<Vector3Int> m_crystals = new List<Vector3Int>();
+    float m_timer = 0;
+    List<Vector3Int> m_titaniums = new List<Vector3Int>();
 
     SubscriberList m_subscriberList = new SubscriberList();
 
     private void Awake()
     {
-        m_subscriberList.Add(new Event<IsCrystalUsedEvent>.Subscriber(IsCrystalUsed));
+        m_subscriberList.Add(new Event<IsTitaniumUsedEvent>.Subscriber(IsTitaniumUsed));
         m_subscriberList.Subscribe();
     }
 
@@ -33,12 +37,12 @@ public class BuildingCrystalMine : BuildingBase
         return BuildingType.CrystalMine;
     }
 
-    public override float EnergyUptakeWanted() 
-    { 
-        return m_energyConsumption; 
+    public override float EnergyUptakeWanted()
+    {
+        return m_energyConsumption;
     }
 
-    public override void EnergyUptake(float value) 
+    public override void EnergyUptake(float value)
     {
         m_energyEfficiency = value / m_energyConsumption;
         if (m_energyEfficiency > 1)
@@ -50,7 +54,7 @@ public class BuildingCrystalMine : BuildingBase
     public override void Start()
     {
         base.Start();
-        m_crystals = GetCrystalsAround(GetPos());
+        m_titaniums = GetTitaniumsAround(GetPos());
     }
 
     protected override void Update()
@@ -63,22 +67,51 @@ public class BuildingCrystalMine : BuildingBase
         if (ConnexionSystem.instance != null && !ConnexionSystem.instance.IsConnected(this))
             return;
 
-        float count = m_crystals.Count * Time.deltaTime * m_energyEfficiency * m_generation;
-
+        float consumeMultiplier = 0;
         if (ResourceSystem.instance != null)
-            ResourceSystem.instance.AddResource(m_generatedResource, count);
+        {
+            if (ResourceSystem.instance.HaveResource(m_consumedResource))
+            {
+                float consumeCount = m_consumedResourceNb * Time.deltaTime;
+                float stored = ResourceSystem.instance.GetResourceStored(m_consumedResource);
+                if(stored > 0 && consumeCount > 0)
+                {
+                    if (stored > consumeCount)
+                        consumeMultiplier = 1;
+                    else
+                    {
+                        consumeMultiplier = stored / consumeCount;
+                        consumeCount = stored;
+                    }
+                }
+
+                if (consumeCount > 0)
+                    ResourceSystem.instance.RemoveResource(m_consumedResource, m_consumedResourceNb);
+            }
+        }
+
+        if (consumeMultiplier > 0)
+        {
+            m_timer += Time.deltaTime * m_energyEfficiency * consumeMultiplier;
+            if (m_timer >= m_generatedResourceCycle)
+            {
+                m_timer -= m_generatedResourceCycle;
+                if (ResourceSystem.instance != null)
+                    ResourceSystem.instance.AddResource(m_generatedResource, m_generatedResourceNb * m_titaniums.Count);
+            }
+        }
     }
 
-    public override bool CanBePlaced(Vector3Int pos) 
+    public override bool CanBePlaced(Vector3Int pos)
     {
         if (!base.CanBePlaced(pos))
             return false;
 
-        var points = GetCrystalsAround(pos);
+        var points = GetTitaniumsAround(pos);
         return points.Count > 0;
     }
 
-    List<Vector3Int> GetCrystalsAround(Vector3Int pos)
+    List<Vector3Int> GetTitaniumsAround(Vector3Int pos)
     {
         List<Vector3Int> points = new List<Vector3Int>();
 
@@ -115,17 +148,17 @@ public class BuildingCrystalMine : BuildingBase
                     continue;
 
                 int height = GridEx.GetHeight(grid.grid, new Vector2Int(i, j));
-                if (height < 0 || Mathf.Abs(pos.y - height) > 1)
+                if (height < 0 || height < pos.y || height >= bounds.max.y)
                     continue;
 
                 Vector3Int itemPos = new Vector3Int(i, height, j);
                 var item = GridEx.GetBlock(grid.grid, itemPos);
-                if (item != BlockType.crystal)
+                if (item != BlockType.Titanium)
                     continue;
 
-                IsCrystalUsedEvent crystal = new IsCrystalUsedEvent(itemPos);
-                Event<IsCrystalUsedEvent>.Broadcast(crystal);
-                if (crystal.used)
+                IsTitaniumUsedEvent titanium = new IsTitaniumUsedEvent(itemPos);
+                Event<IsTitaniumUsedEvent>.Broadcast(titanium);
+                if (titanium.used)
                     continue;
 
                 points.Add(itemPos);
@@ -135,14 +168,14 @@ public class BuildingCrystalMine : BuildingBase
         return points;
     }
 
-    public void IsCrystalUsed(IsCrystalUsedEvent e)
+    public void IsTitaniumUsed(IsTitaniumUsedEvent e)
     {
         if (e.used)
             return;
 
-        foreach(var p in m_crystals)
+        foreach (var p in m_titaniums)
         {
-            if(p == e.pos)
+            if (p == e.pos)
             {
                 e.used = true;
                 break;
@@ -150,4 +183,3 @@ public class BuildingCrystalMine : BuildingBase
         }
     }
 }
-

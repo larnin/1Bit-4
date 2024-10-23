@@ -17,8 +17,9 @@ public enum BuildingType
     BigBattery,
     ResearchCenter,
     CrystalMine,
-    DeuteriumPump,
+    OilPump,
     TitaniumMine,
+    WaterPump,
     Turret1,
 }
 

@@ -10,8 +10,9 @@ public enum ResourceType
     Energy,
     Crystal,
     Titanium,
-    Deuterium,
+    Oil,
     EnemyPart,
+    Water,
 }
 
 [Serializable]

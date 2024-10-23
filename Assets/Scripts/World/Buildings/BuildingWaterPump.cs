@@ -5,40 +5,27 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class BuildingCrystalMine : BuildingBase
+public class BuildingWaterPump : BuildingBase
 {
     [SerializeField] float m_energyConsumption = 1;
     [SerializeField] ResourceType m_generatedResource;
     [SerializeField] float m_generation = 1;
-    [SerializeField] int m_mineRadius = 1;
+    [SerializeField] int m_pumpRadius = 1;
 
     float m_energyEfficiency = 1;
-    List<Vector3Int> m_crystals = new List<Vector3Int>();
-
-    SubscriberList m_subscriberList = new SubscriberList();
-
-    private void Awake()
-    {
-        m_subscriberList.Add(new Event<IsCrystalUsedEvent>.Subscriber(IsCrystalUsed));
-        m_subscriberList.Subscribe();
-    }
-
-    private void OnDestroy()
-    {
-        m_subscriberList.Unsubscribe();
-    }
+    bool m_connectedToWater = false;
 
     public override BuildingType GetBuildingType()
     {
-        return BuildingType.CrystalMine;
+        return BuildingType.WaterPump;
     }
 
-    public override float EnergyUptakeWanted() 
-    { 
-        return m_energyConsumption; 
+    public override float EnergyUptakeWanted()
+    {
+        return m_energyConsumption;
     }
 
-    public override void EnergyUptake(float value) 
+    public override void EnergyUptake(float value)
     {
         m_energyEfficiency = value / m_energyConsumption;
         if (m_energyEfficiency > 1)
@@ -50,7 +37,7 @@ public class BuildingCrystalMine : BuildingBase
     public override void Start()
     {
         base.Start();
-        m_crystals = GetCrystalsAround(GetPos());
+        m_connectedToWater = HaveWaterAround(GetPos());
     }
 
     protected override void Update()
@@ -63,36 +50,36 @@ public class BuildingCrystalMine : BuildingBase
         if (ConnexionSystem.instance != null && !ConnexionSystem.instance.IsConnected(this))
             return;
 
-        float count = m_crystals.Count * Time.deltaTime * m_energyEfficiency * m_generation;
+        if (m_connectedToWater)
+        {
+            float count = Time.deltaTime * m_energyEfficiency * m_generation;
 
-        if (ResourceSystem.instance != null)
-            ResourceSystem.instance.AddResource(m_generatedResource, count);
+            if (ResourceSystem.instance != null)
+                ResourceSystem.instance.AddResource(m_generatedResource, count);
+        }
     }
 
-    public override bool CanBePlaced(Vector3Int pos) 
+    public override bool CanBePlaced(Vector3Int pos)
     {
         if (!base.CanBePlaced(pos))
             return false;
 
-        var points = GetCrystalsAround(pos);
-        return points.Count > 0;
+        return HaveWaterAround(pos);
     }
 
-    List<Vector3Int> GetCrystalsAround(Vector3Int pos)
+    bool HaveWaterAround(Vector3Int pos)
     {
-        List<Vector3Int> points = new List<Vector3Int>();
-
         GetGridEvent grid = new GetGridEvent();
         Event<GetGridEvent>.Broadcast(grid);
         if (grid.grid == null)
-            return points;
+            return false;
 
         var bounds = new BoundsInt(pos, GetSize());
 
         var min = bounds.min;
         var max = bounds.max - Vector3Int.one;
-        min -= new Vector3Int(m_mineRadius, 0, m_mineRadius);
-        max += new Vector3Int(m_mineRadius, 0, m_mineRadius);
+        min -= new Vector3Int(m_pumpRadius, 0, m_pumpRadius);
+        max += new Vector3Int(m_pumpRadius, 0, m_pumpRadius);
 
         for (int i = min.x; i <= max.x; i++)
         {
@@ -111,7 +98,7 @@ public class BuildingCrystalMine : BuildingBase
                 if (offset.x == 0 && offset.y == 0)
                     continue;
 
-                if (MathF.Abs(offset.x) + Math.Abs(offset.y) > m_mineRadius)
+                if (MathF.Abs(offset.x) + Math.Abs(offset.y) > m_pumpRadius)
                     continue;
 
                 int height = GridEx.GetHeight(grid.grid, new Vector2Int(i, j));
@@ -120,34 +107,13 @@ public class BuildingCrystalMine : BuildingBase
 
                 Vector3Int itemPos = new Vector3Int(i, height, j);
                 var item = GridEx.GetBlock(grid.grid, itemPos);
-                if (item != BlockType.crystal)
+                if (item != BlockType.water)
                     continue;
-
-                IsCrystalUsedEvent crystal = new IsCrystalUsedEvent(itemPos);
-                Event<IsCrystalUsedEvent>.Broadcast(crystal);
-                if (crystal.used)
-                    continue;
-
-                points.Add(itemPos);
+                
+                return true;
             }
         }
 
-        return points;
-    }
-
-    public void IsCrystalUsed(IsCrystalUsedEvent e)
-    {
-        if (e.used)
-            return;
-
-        foreach(var p in m_crystals)
-        {
-            if(p == e.pos)
-            {
-                e.used = true;
-                break;
-            }
-        }
+        return false;
     }
 }
-
