@@ -49,6 +49,16 @@ MonoBehaviour:
     crystalElevationMaxVariation: 2
     crystalRetryCount: 2
     crystalInitialPatchDistance: 10
+    crystalMinDistance: 15
+    oilDensity: 5
+    oilRetryCount: 1
+    oilMinDistance: 20
+    titaniumPatchMin: 4
+    titaniumPatchMax: 10
+    titaniumPatchDensity: 7
+    titaniumElevationMinVariation: 5
+    titaniumRetryCount: 2
+    titaniumMinDistance: 20
   m_blockDatas:
     defaultMaterial: {fileID: 2100000, guid: 963d52d036299094b986f2c929f03250, type: 2}
     waterMaterial: {fileID: 2100000, guid: ce8f60df2fcaed342971dd0e90f4368f, type: 2}

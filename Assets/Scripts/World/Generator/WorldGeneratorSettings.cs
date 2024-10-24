@@ -39,7 +39,18 @@ public class WorldGeneratorSettings
     public float crystalElevationMaxVariation = 3;
     public float crystalRetryCount = 2;
     public float crystalInitialPatchDistance = 10;
+    public float crystalMinDistance = 15;
 
+    public float oilDensity = 1;
+    public float oilRetryCount = 1;
+    public float oilMinDistance = 20;
+
+    public int titaniumPatchMin = 4;
+    public int titaniumPatchMax = 10;
+    public float titaniumPatchDensity = 1;
+    public float titaniumElevationMinVariation = 5;
+    public float titaniumRetryCount = 2;
+    public float titaniumMinDistance = 20;
 }
 
 [Serializable]

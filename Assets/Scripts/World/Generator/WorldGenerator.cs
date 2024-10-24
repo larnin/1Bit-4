@@ -87,6 +87,8 @@ public static class WorldGenerator
         SimpleApplyHeight(areasHeight);
 
         GenerateCrystal();
+        GenerateOil();
+        GenerateTitanium();
     }
 
     static Matrix<float> GenerateMontains()
@@ -251,7 +253,7 @@ public static class WorldGenerator
     {
         int size = GridEx.GetRealSize(m_grid);
 
-        MT19937 rand = new MT19937((uint)m_settings.seed);
+        MT19937 rand = new MT19937((uint)m_settings.seed + 1);
 
         //place initial patch
         var initialPoint = new UniformVector2CircleSurfaceDistribution().Next(rand);
@@ -276,8 +278,8 @@ public static class WorldGenerator
                     int y = new UniformIntDistribution(minY, maxY).Next(rand);
 
                     float d = new Vector2Int(x - size / 2, y - size / 2).sqrMagnitude;
-                    if (d < m_settings.crystalInitialPatchDistance * m_settings.crystalInitialPatchDistance * 1.5f * 1.5f)
-                        continue;
+                    if (d < m_settings.crystalMinDistance * m_settings.crystalMinDistance)
+                        break;
 
                     if (!CanPlaceCrystalAt(new Vector2Int(x, y)))
                         continue;
@@ -341,7 +343,7 @@ public static class WorldGenerator
 
         float radius = Mathf.Sqrt(maxCount) / 2 + 1;
 
-        var rand = new MT19937((uint)m_settings.seed + 1);
+        var rand = new MT19937((uint)(m_settings.seed + pos.x + pos.y));
 
         while(openList.Count > 0 && addedCount < maxCount)
         {
@@ -406,6 +408,209 @@ public static class WorldGenerator
 
             testPos.y++;
             points.Add(testPos);
+        }
+
+        return points;
+    }
+
+    static void GenerateOil()
+    {
+        int size = GridEx.GetRealSize(m_grid);
+
+        MT19937 rand = new MT19937((uint)m_settings.seed + 2);
+
+        // rain drom patchs
+        float densitySize = (float)size / m_settings.oilDensity;
+        for (int i = 0; i < m_settings.oilDensity; i++)
+        {
+            for (int j = 0; j < m_settings.oilDensity; j++)
+            {
+                int minX = Mathf.FloorToInt(i * densitySize);
+                int maxX = Mathf.CeilToInt((i + 1) * densitySize);
+                int minY = Mathf.FloorToInt(j * densitySize);
+                int maxY = Mathf.CeilToInt((j + 1) * densitySize);
+
+                for (int k = 0; k < m_settings.oilRetryCount + 1; k++)
+                {
+                    int x = new UniformIntDistribution(minX, maxX).Next(rand);
+                    int y = new UniformIntDistribution(minY, maxY).Next(rand);
+
+                    float d = new Vector2Int(x - size / 2, y - size / 2).sqrMagnitude;
+                    if (d < m_settings.oilMinDistance * m_settings.oilMinDistance)
+                        break;
+
+                    if (!CanPlaceOilAt(new Vector2Int(x, y)))
+                        continue;
+
+                    int height = GridEx.GetHeight(m_grid, new Vector2Int(i, j));
+                    GridEx.SetBlock(m_grid, new Vector3Int(i, height, j), BlockType.oil);
+                    break;
+                }
+            }
+        }
+    }
+
+    static bool CanPlaceOilAt(Vector2Int pos)
+    {
+        int height = GridEx.GetHeight(m_grid, pos);
+        if (height < 0)
+            return false;
+
+        for(int i = -1; i <= 1; i ++)
+        {
+            for(int j = -1; j <= 1; j++)
+            {
+                Vector2Int localPos = new Vector2Int(pos.x + i, pos.y + j);
+                int localHeight = GridEx.GetHeight(m_grid, localPos);
+                if (localHeight != height)
+                    return false;
+
+                var item = GridEx.GetBlock(m_grid, new Vector3Int(localPos.x, localHeight, localPos.y));
+                if (item != BlockType.ground)
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
+    static void GenerateTitanium()
+    {
+        int size = GridEx.GetRealSize(m_grid);
+
+        MT19937 rand = new MT19937((uint)m_settings.seed + 3);
+
+        // rain drom patchs
+        float densitySize = (float)size / m_settings.titaniumPatchDensity;
+        for (int i = 0; i < m_settings.titaniumPatchDensity; i++)
+        {
+            for (int j = 0; j < m_settings.titaniumPatchDensity; j++)
+            {
+                int minX = Mathf.FloorToInt(i * densitySize);
+                int maxX = Mathf.CeilToInt((i + 1) * densitySize);
+                int minY = Mathf.FloorToInt(j * densitySize);
+                int maxY = Mathf.CeilToInt((j + 1) * densitySize);
+
+                for (int k = 0; k < m_settings.titaniumRetryCount + 1; k++)
+                {
+                    int x = new UniformIntDistribution(minX, maxX).Next(rand);
+                    int y = new UniformIntDistribution(minY, maxY).Next(rand);
+
+                    float d = new Vector2Int(x - size / 2, y - size / 2).sqrMagnitude;
+                    if (d < m_settings.titaniumMinDistance * m_settings.titaniumMinDistance)
+                        break;
+
+                    if (!CanPlaceTitaniumAt(new Vector2Int(x, y)))
+                        continue;
+
+                    PlaceTitaniumAt(new Vector2Int(x, y));
+                    break;
+                }
+            }
+        }
+    }
+
+    static bool CanPlaceTitaniumAt(Vector2Int pos)
+    {
+        int height = GridEx.GetHeight(m_grid, pos);
+        if (height < 0)
+            return false;
+
+        float radius = 2.5f;
+        int minHeight = -1;
+        int maxHeight = -1;
+
+        for (int i = Mathf.FloorToInt(-radius); i <= Mathf.CeilToInt(radius); i++)
+        {
+            for (int j = Mathf.FloorToInt(-radius); j <= Mathf.CeilToInt(radius); j++)
+            {
+                Vector2Int localPos = new Vector2Int(pos.x + i, pos.y + j);
+                float dist = (localPos - pos).sqrMagnitude;
+                if (dist > radius)
+                    continue;
+
+                int localHeight = GridEx.GetHeight(m_grid, localPos);
+                var item = GridEx.GetBlock(m_grid, new Vector3Int(localPos.x, localHeight, localPos.y));
+                if (item != BlockType.ground)
+                    return false;
+
+                if (minHeight < 0 || minHeight > localHeight)
+                    minHeight = localHeight;
+                if (maxHeight < 0 || maxHeight < localHeight)
+                    maxHeight = localHeight;
+            }
+        }
+
+        return maxHeight - minHeight > m_settings.titaniumElevationMinVariation;
+    }
+
+    static void PlaceTitaniumAt(Vector2Int pos)
+    {
+        int height = GridEx.GetHeight(m_grid, pos);
+        if (height < 0)
+            return;
+        int size = GridEx.GetRealSize(m_grid);
+
+        height++;
+
+        Vector3Int initialPos = new Vector3Int(pos.x, height, pos.y);
+        GridEx.SetBlock(m_grid, initialPos, BlockType.Titanium);
+
+        List<Vector3Int> openList = new List<Vector3Int>();
+        openList.Add(initialPos);
+
+        int addedCount = 1;
+
+        var rand = new MT19937((uint)(m_settings.seed + 1 + pos.x + pos.y));
+
+        int maxCount = new UniformIntDistribution(m_settings.titaniumPatchMin, m_settings.titaniumPatchMax).Next(rand);
+        float radius = Mathf.Sqrt(maxCount) / 2 + 1;
+
+        while (openList.Count > 0 && addedCount < maxCount)
+        {
+            int currentIndex = 0;
+            if (openList.Count > 1)
+                currentIndex = new UniformIntDistribution(0, openList.Count).Next(rand);
+
+            var points = GetValidTitaniumPosAround(openList[currentIndex], initialPos, radius);
+            if (points.Count == 0)
+            {
+                openList.RemoveAt(currentIndex);
+                continue;
+            }
+
+            int pointIndex = 0;
+            if (points.Count > 1)
+                pointIndex = new UniformIntDistribution(0, points.Count).Next(rand);
+
+            GridEx.SetBlock(m_grid, points[pointIndex], BlockType.Titanium);
+            openList.Add(points[pointIndex]);
+            addedCount++;
+
+            if (points.Count == 1)
+                openList.RemoveAt(currentIndex);
+        }
+    }
+
+    static List<Vector3Int> GetValidTitaniumPosAround(Vector3Int pos, Vector3Int initialPos, float maxDist)
+    {
+        List<Vector3Int> points = new List<Vector3Int>();
+
+        for (int i = 0; i < 4; i++)
+        {
+            var dir = RotationEx.ToVector3Int((Rotation)i);
+
+            Vector3Int testPos = pos + dir;
+
+            int height = GridEx.GetHeight(m_grid, new Vector2Int(testPos.x, testPos.z));
+            Vector3Int newPos = new Vector3Int(testPos.x, height, testPos.z);
+
+            var item = GridEx.GetBlock(m_grid, newPos);
+            if (item == BlockType.ground)
+            {
+                newPos.y++;
+                points.Add(testPos);
+            }
         }
 
         return points;
