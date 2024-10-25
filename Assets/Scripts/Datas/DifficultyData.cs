@@ -35,8 +35,11 @@ public class DifficultyOneEnnemyData
 [Serializable]
 public class DifficultySpawnerData
 {
+    public GameObject prefab;
     public float delayBetweenWavesMin;
     public float delayBetweenWavesMax;
+    public float distanceFromBuildingsMin;
+    public float distanceFromBuildingsMax;
 
     public DifficultyCurve difficultyToMaxEnnemies;
 
