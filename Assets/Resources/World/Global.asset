@@ -123,3 +123,44 @@ MonoBehaviour:
       sprite: {fileID: -1288272088, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
     - type: 4
       sprite: {fileID: -2075664385, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
+  m_difficultyDatas:
+    difficultyPerMinute:
+      baseValue: 0
+      powValue: 0
+      multiplierValue: 0
+      addValue: 0
+      finalAddValue: 0
+    difficultyPerDistance:
+      baseValue: 0
+      powValue: 0
+      multiplierValue: 0
+      addValue: 0
+      finalAddValue: 0
+    difficultyPerKill:
+      baseValue: 0
+      powValue: 0
+      multiplierValue: 0
+      addValue: 0
+      finalAddValue: 0
+    difficultyPerSpawner:
+      baseValue: 0
+      powValue: 0
+      multiplierValue: 0
+      addValue: 0
+      finalAddValue: 0
+    difficultyToSpawnerNb:
+      baseValue: 0
+      powValue: 0
+      multiplierValue: 0
+      addValue: 0
+      finalAddValue: 0
+    spawnersData:
+      delayBetweenWavesMin: 0
+      delayBetweenWavesMax: 0
+      difficultyToMaxEnnemies:
+        baseValue: 0
+        powValue: 0
+        multiplierValue: 0
+        addValue: 0
+        finalAddValue: 0
+      ennemies: []
