@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using NRand;
 
 public class DifficultySystem : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class DifficultySystem : MonoBehaviour
     float m_time = 0;
     float m_maxDifficulty = 0;
     int m_nbSpawnerToSpawn = 0;
+
+    List<EnnemySpawner> m_spawners = new List<EnnemySpawner>();
 
     static DifficultySystem m_instance = null;
     public static DifficultySystem instance { get { return m_instance; } }
@@ -114,6 +117,96 @@ public class DifficultySystem : MonoBehaviour
 
     void TrySpawnSpawner()
     {
+        if (ConnexionSystem.instance == null)
+            return;
 
+        int nbBuilding = ConnexionSystem.instance.GetConnectedBuildingNb();
+
+        var rand = new StaticRandomGenerator<MT19937>();
+        var distrib = new UniformVector2CircleSurfaceDistribution(1);
+        var distribDist = new UniformFloatDistribution(0, 1);
+        var distribBuilding = new UniformIntDistribution(0, nbBuilding);
+
+        for(int i = 0; i < 10; i++)
+        {
+            var buildingIndex = distribBuilding.Next(rand);
+            var building = ConnexionSystem.instance.GetConnectedBuildingFromIndex(buildingIndex);
+
+            var offsetDistance = distribDist.Next(rand);
+            offsetDistance = offsetDistance * Global.instance.difficultyDatas.spawnersData.distanceFromBuildingsMin + (1 - offsetDistance) * Global.instance.difficultyDatas.spawnersData.distanceFromBuildingsMax;
+            var offset = distrib.Next(rand) * offsetDistance;
+
+            var pos = building.GetGroundCenter() + new Vector3(offset.x, 0, offset.y);
+            var posI = new Vector3Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y), Mathf.RoundToInt(pos.z));
+
+            bool distOk = true;
+            for(int j = 0; j < nbBuilding; j++)
+            {
+                Vector3 buildingPos = ConnexionSystem.instance.GetConnectedBuildingFromIndex(j).GetGroundCenter();
+
+                float dist = (buildingPos - posI).SqrMagnitudeXZ();
+                if(dist < Global.instance.difficultyDatas.spawnersData.distanceFromBuildingsMin * Global.instance.difficultyDatas.spawnersData.distanceFromBuildingsMin)
+                {
+                    distOk = false;
+                    break;
+                }
+            }
+
+            if(distOk)
+            {
+                var prefab = Global.instance.difficultyDatas.spawnersData.prefab;
+                if(prefab != null)
+                {
+                    var obj = Instantiate(prefab);
+                    obj.transform.parent = transform;
+                    obj.transform.position = posI;
+                }
+
+                m_nbSpawnerToSpawn--;
+
+                return;
+            }
+        }
+    }
+
+    public void Register(EnnemySpawner spawner)
+    {
+        m_spawners.Add(spawner);
+    }
+
+    public void UnRegister(EnnemySpawner spawner)
+    {
+        m_spawners.Remove(spawner);
+    }
+
+    public int GetSpawnerNb()
+    {
+        return m_spawners.Count();
+    }
+
+    public EnnemySpawner GetSpawnerFromIndex(int index)
+    {
+        if (index < 0 || index >= m_spawners.Count)
+            return null;
+        return m_spawners[index];
+    }
+
+    public EnnemySpawner GetNearestSpawner(Vector3 pos)
+    {
+        float bestDist = 0;
+        EnnemySpawner bestSpawner = null;
+
+        foreach (var s in m_spawners)
+        {
+            float dist = (pos - s.transform.position).sqrMagnitude;
+
+            if (dist < bestDist || bestSpawner == null)
+            {
+                bestDist = dist;
+                bestSpawner = s;
+            }
+        }
+
+        return bestSpawner;
     }
 }
