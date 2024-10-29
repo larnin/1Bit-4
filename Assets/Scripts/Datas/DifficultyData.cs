@@ -41,6 +41,10 @@ public class DifficultySpawnerData
     public float distanceFromBuildingsMin;
     public float distanceFromBuildingsMax;
 
+    public float delayBaseBetweenEnnemies;
+    public int delayReduceAfterNbEnnemies;
+    public float delaySpeedMultiplayerPerEnnemies;
+
     public DifficultyCurve difficultyToMaxEnnemies;
 
     public List<DifficultyOneEnnemyData> ennemies;

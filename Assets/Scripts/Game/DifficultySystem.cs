@@ -102,7 +102,7 @@ public class DifficultySystem : MonoBehaviour
             
     }
 
-    float GetDifficulty()
+    public float GetDifficulty()
     {
         float difficultyPerMinute = Global.instance.difficultyDatas.difficultyPerMinute.Get(m_time / 60);
         float difficultyPerDistance = Global.instance.difficultyDatas.difficultyPerMinute.Get(m_maxDistance);
