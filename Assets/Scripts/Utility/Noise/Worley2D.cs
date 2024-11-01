@@ -29,18 +29,18 @@ namespace Noise
         void GenerateCells(Int32 seed)
         {
             MT19937 rand = new MT19937((uint)seed);
-            UniformVector2SquareDistribution d = new UniformVector2SquareDistribution();
 
             m_cellPoints = new Vector2[m_frequency * m_frequency];
 
             float cellSize = (float)(m_size) / m_frequency;
 
             for (int i = 0; i < m_frequency; i++)
+            {
                 for (int j = 0; j < m_frequency; j++)
                 {
-                    d.SetParams(i * cellSize, (i + 1) * cellSize, j * cellSize, (j + 1) * cellSize);
-                    m_cellPoints[PosToIndex(i, j)] = d.Next(rand);
+                    m_cellPoints[PosToIndex(i, j)] = Rand2D.UniformVector2SquareDistribution(i * cellSize, (i + 1) * cellSize, j * cellSize, (j + 1) * cellSize, rand);
                 }
+            }
         }
 
         public float Get(float x, float y, float blendDist = 1.0f, Lerp.Operator lerp = Lerp.Operator.Linear)

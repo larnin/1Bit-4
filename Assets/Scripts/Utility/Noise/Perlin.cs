@@ -15,9 +15,6 @@ namespace Noise
         float m_amplitude;
 
         RandomHash m_generator;
-        UniformFloatDistribution m_distribution;
-        UniformVector2SquareSurfaceDistribution m_2DDistribution;
-        UniformVector3BoxSurfaceDistribution m_3DDistribution;
 
         public Perlin(int size, float amplitude, int frequency, Int32 seed)
         {
@@ -26,9 +23,6 @@ namespace Noise
             m_amplitude = amplitude;
 
             m_generator = new RandomHash(seed);
-            m_distribution = new UniformFloatDistribution(-amplitude, amplitude);
-            m_2DDistribution = new UniformVector2SquareSurfaceDistribution(-1, 1);
-            m_3DDistribution = new UniformVector3BoxSurfaceDistribution(-1, 1);
         }
 
         public float Get(float x, Lerp.Operator o = Lerp.Operator.Square)
@@ -37,15 +31,15 @@ namespace Noise
             int x1, x2;
             SplitValue(x, m_size, m_frequency, out x1, out x2, out dec);
 
-            float v1 = m_distribution.Next(m_generator.Set(x1));
-            float v2 = m_distribution.Next(m_generator.Set(x2));
+            float v1 = Rand.UniformFloatDistribution(-m_amplitude, m_amplitude, m_generator.Set(x1));
+            float v2 = Rand.UniformFloatDistribution(-m_amplitude, m_amplitude, m_generator.Set(x2));
 
             return Lerp.LerpValue(v1, v2, dec, o);
         }
 
         float Dot2D(int x, int y, float decX, float decY)
         {
-            var value = m_2DDistribution.Next(m_generator.Set(x, y));
+            var value = Rand2D.UniformVector2SquareSurfaceDistribution(-1, 1, m_generator.Set(x, y));
 
             return value.x * decX + value.y * decY;
         }
@@ -68,7 +62,7 @@ namespace Noise
 
         float Dot3D(int x, int y, int z, float decX, float decY, float decZ)
         {
-            var value = m_3DDistribution.Next(m_generator.Set(x, y, z));
+            var value = Rand3D.UniformVector3BoxSurfaceDistribution(-1, 1, m_generator.Set(x, y, z));
             return value.x * decX + value.y * decY + value.z * decZ;
         }
 

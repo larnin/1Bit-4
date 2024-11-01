@@ -29,19 +29,21 @@ namespace Noise
         void GenerateCells(Int32 seed)
         {
             MT19937 rand = new MT19937((uint)seed);
-            UniformVector3BoxDistribution d = new UniformVector3BoxDistribution();
 
             m_cellPoints = new Vector3[m_frequency * m_frequency * m_frequency];
 
             float cellSize = (float)(m_size) / m_frequency;
 
             for (int i = 0; i < m_frequency; i++)
+            {
                 for (int j = 0; j < m_frequency; j++)
+                {
                     for (int k = 0; k < m_frequency; k++)
                     {
-                        d.SetParams(i * cellSize, (i + 1) * cellSize, j * cellSize, (j + 1) * cellSize, k * cellSize, (k + 1) * cellSize);
-                        m_cellPoints[PosToIndex(i, j, k)] = d.Next(rand);
+                        m_cellPoints[PosToIndex(i, j, k)] = Rand3D.UniformVector3BoxDistribution(i * cellSize, (i + 1) * cellSize, j * cellSize, (j + 1) * cellSize, k * cellSize, (k + 1) * cellSize, rand);
                     }
+                }
+            }
         }
 
         public float Get(float x, float y, float z, float blendDist = 1.0f, Lerp.Operator lerp = Lerp.Operator.Linear)

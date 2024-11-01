@@ -61,10 +61,7 @@ public class SpawnerTest : MonoBehaviour
 
         var size = GridEx.GetRealSize(grid.grid);
 
-        var gen = new StaticRandomGenerator<MT19937>();
-        var distrib = new UniformVector2CircleSurfaceDistribution();
-
-        var pos = distrib.Next(gen);
+        var pos = Rand2D.UniformVector2CircleSurfaceDistribution(StaticRandomGenerator<MT19937>.Get());
         pos *= size / 2.1f;
         pos += new Vector2(size, size) / 2;
 

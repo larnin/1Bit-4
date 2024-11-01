@@ -8,11 +8,9 @@ namespace NRand
         {
             int nb = list.Count;
 
-            UniformIntDistribution d = new UniformIntDistribution(0, nb);
-
             for(int i = 0; i < nb; i++)
             {
-                int index = d.Next(generator);
+                int index = Rand.UniformIntDistribution(0, nb, generator);
                 list.Swap(i, index);
             }
 

@@ -256,7 +256,7 @@ public static class WorldGenerator
         MT19937 rand = new MT19937((uint)m_settings.seed + 1);
 
         //place initial patch
-        var initialPoint = new UniformVector2CircleSurfaceDistribution().Next(rand);
+        var initialPoint = Rand2D.UniformVector2CircleSurfaceDistribution(rand);
         initialPoint *= m_settings.crystalInitialPatchDistance;
         initialPoint += new Vector2(size / 2, size / 2);
         PlaceCrystalAt(new Vector2Int(Mathf.RoundToInt(initialPoint.x), Mathf.RoundToInt(initialPoint.y)));
@@ -274,8 +274,8 @@ public static class WorldGenerator
 
                 for (int k = 0; k < m_settings.crystalRetryCount + 1; k++)
                 {
-                    int x = new UniformIntDistribution(minX, maxX).Next(rand);
-                    int y = new UniformIntDistribution(minY, maxY).Next(rand);
+                    int x = Rand.UniformIntDistribution(minX, maxX, rand);
+                    int y = Rand.UniformIntDistribution(minY, maxY, rand);
 
                     float d = new Vector2Int(x - size / 2, y - size / 2).sqrMagnitude;
                     if (d < m_settings.crystalMinDistance * m_settings.crystalMinDistance)
@@ -349,7 +349,7 @@ public static class WorldGenerator
         {
             int currentIndex = 0;
             if(openList.Count > 1)
-                currentIndex = new UniformIntDistribution(0, openList.Count).Next(rand);
+                currentIndex = Rand.UniformIntDistribution(0, openList.Count, rand);
 
             var points = GetValidCrystalPosAround(openList[currentIndex], initialPos, radius);
             if (points.Count == 0)
@@ -360,7 +360,7 @@ public static class WorldGenerator
 
             int pointIndex = 0;
             if (points.Count > 1)
-                pointIndex = new UniformIntDistribution(0, points.Count).Next(rand);
+                pointIndex = Rand.UniformIntDistribution(0, points.Count, rand);
 
             GridEx.SetBlock(m_grid, points[pointIndex], BlockType.crystal);
             openList.Add(points[pointIndex]);
@@ -432,8 +432,8 @@ public static class WorldGenerator
 
                 for (int k = 0; k < m_settings.oilRetryCount + 1; k++)
                 {
-                    int x = new UniformIntDistribution(minX, maxX).Next(rand);
-                    int y = new UniformIntDistribution(minY, maxY).Next(rand);
+                    int x = Rand.UniformIntDistribution(minX, maxX, rand);
+                    int y = Rand.UniformIntDistribution(minY, maxY, rand);
 
                     float d = new Vector2Int(x - size / 2, y - size / 2).sqrMagnitude;
                     if (d < m_settings.oilMinDistance * m_settings.oilMinDistance)
@@ -493,8 +493,8 @@ public static class WorldGenerator
 
                 for (int k = 0; k < m_settings.titaniumRetryCount + 1; k++)
                 {
-                    int x = new UniformIntDistribution(minX, maxX).Next(rand);
-                    int y = new UniformIntDistribution(minY, maxY).Next(rand);
+                    int x = Rand.UniformIntDistribution(minX, maxX, rand);
+                    int y = Rand.UniformIntDistribution(minY, maxY, rand);
 
                     float d = new Vector2Int(x - size / 2, y - size / 2).sqrMagnitude;
                     if (d < m_settings.titaniumMinDistance * m_settings.titaniumMinDistance)
@@ -563,14 +563,14 @@ public static class WorldGenerator
 
         var rand = new MT19937((uint)(m_settings.seed + 1 + pos.x + pos.y));
 
-        int maxCount = new UniformIntDistribution(m_settings.titaniumPatchMin, m_settings.titaniumPatchMax).Next(rand);
+        int maxCount = Rand.UniformIntDistribution(m_settings.titaniumPatchMin, m_settings.titaniumPatchMax, rand);
         float radius = Mathf.Sqrt(maxCount) / 2 + 1;
 
         while (openList.Count > 0 && addedCount < maxCount)
         {
             int currentIndex = 0;
             if (openList.Count > 1)
-                currentIndex = new UniformIntDistribution(0, openList.Count).Next(rand);
+                currentIndex = Rand.UniformIntDistribution(0, openList.Count, rand);
 
             var points = GetValidTitaniumPosAround(openList[currentIndex], initialPos, radius);
             if (points.Count == 0)
@@ -581,7 +581,7 @@ public static class WorldGenerator
 
             int pointIndex = 0;
             if (points.Count > 1)
-                pointIndex = new UniformIntDistribution(0, points.Count).Next(rand);
+                pointIndex = Rand.UniformIntDistribution(0, points.Count, rand);
 
             GridEx.SetBlock(m_grid, points[pointIndex], BlockType.Titanium);
             openList.Add(points[pointIndex]);

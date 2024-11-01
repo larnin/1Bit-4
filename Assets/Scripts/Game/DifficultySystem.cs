@@ -122,19 +122,16 @@ public class DifficultySystem : MonoBehaviour
 
         int nbBuilding = ConnexionSystem.instance.GetConnectedBuildingNb();
 
-        var rand = new StaticRandomGenerator<MT19937>();
-        var distrib = new UniformVector2CircleSurfaceDistribution(1);
-        var distribDist = new UniformFloatDistribution(0, 1);
-        var distribBuilding = new UniformIntDistribution(0, nbBuilding);
+        var rand = StaticRandomGenerator<MT19937>.Get();
 
         for(int i = 0; i < 10; i++)
         {
-            var buildingIndex = distribBuilding.Next(rand);
+            var buildingIndex = Rand.UniformIntDistribution(nbBuilding, rand);
             var building = ConnexionSystem.instance.GetConnectedBuildingFromIndex(buildingIndex);
 
-            var offsetDistance = distribDist.Next(rand);
+            var offsetDistance = Rand.UniformFloatDistribution(rand);
             offsetDistance = offsetDistance * Global.instance.difficultyDatas.spawnersData.distanceFromBuildingsMin + (1 - offsetDistance) * Global.instance.difficultyDatas.spawnersData.distanceFromBuildingsMax;
-            var offset = distrib.Next(rand) * offsetDistance;
+            var offset = Rand2D.UniformVector2CircleSurfaceDistribution(rand) * offsetDistance;
 
             var pos = building.GetGroundCenter() + new Vector3(offset.x, 0, offset.y);
             var posI = new Vector3Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y), Mathf.RoundToInt(pos.z));

@@ -227,8 +227,7 @@ public class EntityPath
 
     Vector3Int GetNearestValidPosition(Grid grid, Vector3Int pos)
     {
-        var rand = new StaticRandomGenerator<MT19937>();
-        var gen = new UniformIntDistribution(0, 4);
+        var rand = StaticRandomGenerator<MT19937>.Get();
 
         var building = BuildingList.instance.GetBuildingAt(pos);
         if(building != null)
@@ -237,7 +236,7 @@ public class EntityPath
 
             while (true)
             {
-                Rotation toAdd = (Rotation)(gen.Next(rand));
+                Rotation toAdd = (Rotation)(Rand.UniformIntDistribution(4, rand));
 
                 int nbOut = 0;
                 int distance = 1;

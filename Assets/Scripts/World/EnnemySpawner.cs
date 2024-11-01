@@ -41,8 +41,10 @@ public class EnnemySpawner : MonoBehaviour
 
     void StartNextWait()
     {
-        var distrib = new UniformFloatDistribution(Global.instance.difficultyDatas.spawnersData.delayBetweenWavesMin, Global.instance.difficultyDatas.spawnersData.delayBetweenWavesMax);
-        float time = distrib.Next(new StaticRandomGenerator<MT19937>());
+        float min = Global.instance.difficultyDatas.spawnersData.delayBetweenWavesMin;
+        float max = Global.instance.difficultyDatas.spawnersData.delayBetweenWavesMax;
+
+        float time = Rand.UniformFloatDistribution(min, max, StaticRandomGenerator<MT19937>.Get());
 
         m_timer = time;
         m_state = State.Waiting;
@@ -85,18 +87,16 @@ public class EnnemySpawner : MonoBehaviour
         m_timer = 0;
         m_state = State.Spawning;
 
-        var rand = new StaticRandomGenerator<MT19937>();
-        var weightsDistrib = new DiscreteDistribution(weights);
+        var rand = StaticRandomGenerator<MT19937>.Get();
 
         while (difficulty > 0)
         {
-            var tabIndex = weightsDistrib.Next(rand);
+            var tabIndex = Rand.DiscreteDistribution(weights, rand);
             var index = allowedIndexs[tabIndex];
             m_entityIndexs.Add(index);
 
             var e = Global.instance.difficultyDatas.spawnersData.ennemies[index];
-            var distrib = new UniformFloatDistribution(e.difficultyCostMin, e.difficultyCostMax);
-            difficulty -= distrib.Next(rand);
+            difficulty -= Rand.UniformFloatDistribution(e.difficultyCostMin, e.difficultyCostMax, rand);
         }
 
         m_entityIndexs.Shuffle(rand);
