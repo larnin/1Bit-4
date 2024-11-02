@@ -5,6 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+public enum EntityType
+{
+    None,
+    Building,
+    Ennemy,
+    Spawner,
+    Projectile,
+}
+
 public class GameSystem : MonoBehaviour
 {
     enum State
@@ -110,5 +119,19 @@ public class GameSystem : MonoBehaviour
         var obj = Instantiate(buildingData.prefab);
         obj.transform.parent = BuildingList.instance.transform;
         obj.transform.localPosition = towerPos;
+    }
+
+    public static EntityType GetEntityType(GameObject obj)
+    {
+        if (obj.GetComponent<BuildingBase>() != null)
+            return EntityType.Building;
+        if (obj.GetComponent<EnnemyEntity>() != null)
+            return EntityType.Ennemy;
+        if (obj.GetComponent<EnnemySpawner>() != null)
+            return EntityType.Spawner;
+        if (obj.GetComponent<ProjectileBase>() != null)
+            return EntityType.Projectile;
+
+        return EntityType.None;
     }
 }

@@ -97,15 +97,20 @@ public class PlaceBuildingCursor : MonoBehaviour
         if (cam.camera == null)
             return;
 
+        m_posValid = false;
+        IsMouseOverUIEvent overUI = new IsMouseOverUIEvent();
+        Event<IsMouseOverUIEvent>.Broadcast(overUI);
+        if (overUI.overUI)
+            return;
+
         var ray = cam.camera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        m_posValid = false;
         bool haveHit = Physics.Raycast(ray, out hit, float.MaxValue, m_groundLayer.value);
         if(!haveHit)
             return;
 
-        Vector3 target = hit.point;
+         Vector3 target = hit.point;
         target += hit.normal * 0.5f;
 
         Vector3Int targetInt = new Vector3Int(Mathf.RoundToInt(target.x), Mathf.RoundToInt(target.y), Mathf.RoundToInt(target.z));

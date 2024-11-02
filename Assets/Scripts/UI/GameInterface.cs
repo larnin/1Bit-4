@@ -20,10 +20,24 @@ public class GameInterface : MonoBehaviour
     [SerializeField] float m_buildingStartOffset;
     [SerializeField] float m_buildingListMoreSpace;
     [SerializeField] PlaceBuildingCursor m_buildingCursor;
+    [SerializeField] SelectCursor m_selectCursor;
     [SerializeField] BuildingDetailDisplay m_detail;
 
     RectTransform m_buildingsBackground;
     List<BuildingButton> m_buildingButtons = new List<BuildingButton>();
+
+    SubscriberList m_subscriberList = new SubscriberList();
+
+    private void Awake()
+    {
+        m_subscriberList.Add(new Event<IsMouseOverUIEvent>.Subscriber(IsMouseOverUI));
+        m_subscriberList.Subscribe();
+    }
+
+    private void OnDestroy()
+    {
+        m_subscriberList.Unsubscribe();
+    }
 
     private void Start()
     {
@@ -38,6 +52,7 @@ public class GameInterface : MonoBehaviour
             return;
 
         m_buildingCursor.SetBuildingType(type);
+        m_selectCursor.SetCursorEnabled(false);
     }
 
     public void OnHoverBuilding(BuildingType type)
@@ -58,6 +73,12 @@ public class GameInterface : MonoBehaviour
     private void Update()
     {
         UpdateBuildingsButtons();
+
+        if (m_buildingCursor != null && m_selectCursor != null)
+        {
+            if (!m_buildingCursor.IsCursorEnabled() && !m_selectCursor.IsCursorEnabled())
+                m_selectCursor.SetCursorEnabled(true);
+        }
     }
 
     void UpdateBuildingsButtons()
@@ -157,5 +178,27 @@ public class GameInterface : MonoBehaviour
         }
 
         return obj;
+    }
+
+    void IsMouseOverUI(IsMouseOverUIEvent e)
+    {
+        e.overUI = false;
+
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        eventData.position = Input.mousePosition;
+
+        List<RaycastResult> raysastResults = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, raysastResults);
+
+        for (int index = 0; index < raysastResults.Count; index++)
+        {
+            RaycastResult curRaysastResult = raysastResults[index];
+
+            if (curRaysastResult.gameObject.layer == LayerMask.NameToLayer("UI"))
+            {
+                e.overUI = true;
+                break;
+            }
+        }
     }
 }
