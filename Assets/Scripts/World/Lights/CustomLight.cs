@@ -18,11 +18,12 @@ public class CustomLight : MonoBehaviour
 
     private void OnDisable()
     {
-        var manager = CustomLightsManager.instance;
-        if (manager != null)
-            manager.UnRegister(this);
+        Remove();
+    }
 
-        m_added = false;
+    private void OnDestroy()
+    {
+        Remove();
     }
 
     private void Update()
@@ -39,6 +40,18 @@ public class CustomLight : MonoBehaviour
             m_added = true;
             manager.Register(this);
         }
+    }
+
+    void Remove()
+    {
+        if (!m_added)
+            return;
+
+        var manager = CustomLightsManager.instance;
+        if (manager != null)
+            manager.UnRegister(this);
+
+        m_added = false;
     }
 
     public void SetRadius(float radius)

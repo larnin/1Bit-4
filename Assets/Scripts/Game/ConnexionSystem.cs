@@ -132,6 +132,25 @@ public class ConnexionSystem : MonoBehaviour
             c.connexion = CreateLine(c.building1, c.building2);
         }
 
+        foreach(var old in m_connexions)
+        {
+            bool found = false;
+            foreach (var c in connexions)
+            {
+                if ((old.building1 == c.building1 && old.building2 == c.building2)
+                    || (old.building1 == c.building2 && old.building2 == c.building1))
+                {
+                    found = true;
+                    c.connexion = old.connexion;
+                    break;
+                }
+            }
+            if (found)
+                continue;
+
+            Destroy(old.connexion);
+        }
+
         m_connexions = connexions;
     }
 

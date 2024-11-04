@@ -59,7 +59,7 @@ public class BuildingList : MonoBehaviour
         {
             for (int y = min.y; y < max.y; y++)
             {
-                for (int z = min.z; z < max.x; z++)
+                for (int z = min.z; z < max.z; z++)
                 {
                     m_buildingsPos.Remove(Utility.PosToID(new Vector3Int(x, y, z)));
                 }

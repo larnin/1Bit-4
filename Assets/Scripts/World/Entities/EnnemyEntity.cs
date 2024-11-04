@@ -19,6 +19,11 @@ public class EnnemyEntity : MonoBehaviour
         Remove();
     }
 
+    private void OnDestroy()
+    {
+        Remove();
+    }
+
     public virtual void Update()
     {
         if (!m_added)
@@ -37,6 +42,9 @@ public class EnnemyEntity : MonoBehaviour
 
     void Remove()
     {
+        if (!m_added)
+            return;
+
         var manager = EntityList.instance;
         if (manager != null)
             manager.UnRegister(this);

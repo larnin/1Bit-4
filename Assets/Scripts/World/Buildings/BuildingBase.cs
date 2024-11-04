@@ -179,6 +179,11 @@ public abstract class BuildingBase : MonoBehaviour
         Remove();
     }
 
+    private void OnDestroy()
+    {
+        Remove();
+    }
+
     protected virtual void Update()
     {
         m_pos = transform.position;
@@ -200,6 +205,9 @@ public abstract class BuildingBase : MonoBehaviour
 
     void Remove()
     {
+        if (!m_added)
+            return;
+
         var manager = BuildingList.instance;
         if (manager != null)
             manager.UnRegister(this);

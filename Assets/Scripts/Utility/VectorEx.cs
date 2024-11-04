@@ -17,7 +17,7 @@ public static class VectorEx
         return vect.x * vect.x + vect.z * vect.z;
     }
 
-    public static void Encapsulate(this Rect rect, Vector2 point)
+    public static Rect Encapsulate(this Rect rect, Vector2 point)
     {
         var min = rect.min;
         var max = rect.max;
@@ -34,6 +34,8 @@ public static class VectorEx
         var size = max - min;
 
         rect.Set(min.x, min.y, size.x, size.y);
+
+        return rect;
     }
 }
 

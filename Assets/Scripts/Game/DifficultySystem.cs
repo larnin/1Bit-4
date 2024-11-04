@@ -206,4 +206,30 @@ public class DifficultySystem : MonoBehaviour
 
         return bestSpawner;
     }
+
+#if false
+    private void OnGUI()
+    {
+        float difficultyPerMinute = Global.instance.difficultyDatas.difficultyPerMinute.Get(m_time / 60);
+        float difficultyPerDistance = Global.instance.difficultyDatas.difficultyPerMinute.Get(m_maxDistance);
+        float difficultyPerKill = Global.instance.difficultyDatas.difficultyPerMinute.Get(m_nbKill);
+        float difficultyPerSpawner = Global.instance.difficultyDatas.difficultyPerMinute.Get(m_nbSpawnerDestroyed);
+        float difficulty = GetDifficulty();
+        int spawner = Mathf.FloorToInt(Global.instance.difficultyDatas.difficultyToSpawnerNb.Get(m_maxDifficulty));
+
+        float dY = 20;
+        var rect = new Rect(5, 5, 400, dY);
+        GUI.Label(rect, "Difficulty: " + difficulty);
+        rect.y += dY;
+        GUI.Label(rect, "Difficulty per minute: " + difficultyPerMinute);
+        rect.y += dY;
+        GUI.Label(rect, "Difficulty per distance: " + difficultyPerDistance);
+        rect.y += dY;
+        GUI.Label(rect, "Difficulty per kill: " + difficultyPerKill);
+        rect.y += dY;
+        GUI.Label(rect, "Difficulty per spawner: " + difficultyPerSpawner);
+        rect.y += dY;
+        GUI.Label(rect, "Nb spawner: " + spawner);
+    }
+#endif
 }

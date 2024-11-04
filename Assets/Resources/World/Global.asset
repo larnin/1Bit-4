@@ -71,7 +71,7 @@ MonoBehaviour:
       prefab: {fileID: 6645571961945564104, guid: 845fcb3417acb4f4f8c610b63aa90822, type: 3}
       sprite: {fileID: -484218993, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
       spriteWithBorder: {fileID: -1893695053, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
-      size: {x: 2, y: 4, z: 2}
+      size: {x: 2, y: 6, z: 2}
       name: Tower
       description: The core of your factory, you must keep it alive at all cost.
       cost:
@@ -80,7 +80,7 @@ MonoBehaviour:
       prefab: {fileID: 8340085762057836841, guid: afe66380c42f1a9438ae1c04fe2fa676, type: 3}
       sprite: {fileID: 716385322, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
       spriteWithBorder: {fileID: 1286962569, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
-      size: {x: 1, y: 3, z: 1}
+      size: {x: 1, y: 4, z: 1}
       name: Small Pylon
       description: Allows you to connect buildings to each others. Generate a small
         quantity of energy
@@ -125,38 +125,44 @@ MonoBehaviour:
       sprite: {fileID: -2075664385, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
   m_difficultyDatas:
     difficultyPerMinute:
-      baseValue: 0
-      powValue: 0
-      multiplierValue: 0
+      baseValue: 1
+      powValue: 1.1
+      multiplierValue: 1
       addValue: 0
       finalAddValue: 0
     difficultyPerDistance:
-      baseValue: 0
-      powValue: 0
-      multiplierValue: 0
-      addValue: 0
+      baseValue: 0.1
+      powValue: 1.2
+      multiplierValue: 1
+      addValue: -2
       finalAddValue: 0
     difficultyPerKill:
-      baseValue: 0
-      powValue: 0
-      multiplierValue: 0
+      baseValue: 1
+      powValue: 1
+      multiplierValue: 1
       addValue: 0
       finalAddValue: 0
     difficultyPerSpawner:
-      baseValue: 0
-      powValue: 0
-      multiplierValue: 0
+      baseValue: 10
+      powValue: 1.1
+      multiplierValue: 1
       addValue: 0
       finalAddValue: 0
     difficultyToSpawnerNb:
-      baseValue: 0
-      powValue: 0
-      multiplierValue: 0
+      baseValue: 0.1
+      powValue: 1
+      multiplierValue: 1
       addValue: 0
       finalAddValue: 0
     spawnersData:
+      prefab: {fileID: 0}
       delayBetweenWavesMin: 0
       delayBetweenWavesMax: 0
+      distanceFromBuildingsMin: 0
+      distanceFromBuildingsMax: 0
+      delayBaseBetweenEnnemies: 0
+      delayReduceAfterNbEnnemies: 0
+      delaySpeedMultiplayerPerEnnemies: 0
       difficultyToMaxEnnemies:
         baseValue: 0
         powValue: 0
