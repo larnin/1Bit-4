@@ -10,17 +10,22 @@ public class UIElementSimpleText : UIElementBase
     TMP_Text m_text;
     Func<string> m_textFunc;
 
+    private void Awake()
+    {
+        m_text = GetComponentInChildren<TMP_Text>();
+    }
+
     public override float GetHeight()
     {
         return m_text.renderedHeight;
     }
 
-    void SetText(string text)
+    public void SetText(string text)
     {
         m_text.text = text;
     }
 
-    void SetTextFunc(Func<String> textFunc)
+    public void SetTextFunc(Func<String> textFunc)
     {
         m_textFunc = textFunc;
     }

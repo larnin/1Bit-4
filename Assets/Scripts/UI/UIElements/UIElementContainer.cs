@@ -9,6 +9,7 @@ public class UIElementContainer : MonoBehaviour
 {
     List<UIElementBase> m_elements = new List<UIElementBase>();
     RectTransform m_container;
+    RectTransform m_rectTransform;
 
     private void Awake()
     {
@@ -17,6 +18,7 @@ public class UIElementContainer : MonoBehaviour
             m_container = containerTransform.GetComponent<RectTransform>();
         if (m_container == null)
             m_container = GetComponent<RectTransform>();
+        m_rectTransform = GetComponent<RectTransform>();
     }
 
     public void AddElement(UIElementBase element)
@@ -26,7 +28,7 @@ public class UIElementContainer : MonoBehaviour
 
         m_elements.Add(element);
 
-        element.transform.SetParent(m_container, true);
+        element.transform.SetParent(m_container, false);
     }
 
     public void RemoveElement(int index)
@@ -86,14 +88,17 @@ public class UIElementContainer : MonoBehaviour
             if (tr == null)
                 continue;
 
-            tr.anchoredPosition = new Vector2(0, top);
+            tr.anchoredPosition = new Vector2(0, -top);
             tr.anchorMin = new Vector2(0, tr.anchorMin.y);
-            tr.anchorMax = new Vector2(0, tr.anchorMax.y);
+            tr.anchorMax = new Vector2(1, tr.anchorMax.y);
+            tr.sizeDelta = new Vector2(0, height);
 
             top += height;
+            top += Global.instance.UIElementDatas.spacing;
         }
 
-        m_container.anchorMax = new Vector2(m_container.anchorMax.x, top);
+        top -= Global.instance.UIElementDatas.spacing;
+        m_rectTransform.sizeDelta = new Vector2(m_rectTransform.sizeDelta.x, top - m_container.sizeDelta.y);
     }
 }
 

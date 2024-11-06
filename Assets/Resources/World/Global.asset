@@ -170,3 +170,6 @@ MonoBehaviour:
         addValue: 0
         finalAddValue: 0
       ennemies: []
+  m_UIElementDatas:
+    spacing: 1
+    simpleTextPrefab: {fileID: 5313160618128964874, guid: 964242146cd4cc043afb125a1cf639cf, type: 3}

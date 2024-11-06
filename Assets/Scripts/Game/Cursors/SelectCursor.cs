@@ -140,16 +140,20 @@ public class SelectCursor : MonoBehaviour
         if(newTarget != m_hoveredObject)
         {
             m_hoveredDuration = 0;
+            m_hoveredObject = newTarget;
             Event<SetHoveredObjectEvent>.Broadcast(new SetHoveredObjectEvent(null));
         }
 
-        float nextTime = m_hoveredDuration + Time.deltaTime;
-
-        if(nextTime >= m_durationToDisplayHover && m_hoveredDuration < m_durationToDisplayHover)
+        if (m_hoveredObject != null)
         {
-            Event<SetHoveredObjectEvent>.Broadcast(new SetHoveredObjectEvent(m_hoveredObject));
+            float nextTime = m_hoveredDuration + Time.deltaTime;
+
+            if (nextTime >= m_durationToDisplayHover && m_hoveredDuration < m_durationToDisplayHover)
+            {
+                Event<SetHoveredObjectEvent>.Broadcast(new SetHoveredObjectEvent(m_hoveredObject));
+            }
+            m_hoveredDuration = nextTime;
         }
-        m_hoveredDuration = nextTime;
     }
 
     void UpdateSelection()

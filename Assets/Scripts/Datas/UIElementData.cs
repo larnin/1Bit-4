@@ -8,9 +8,10 @@ using UnityEngine;
 [Serializable]
 public class UIElementData
 {
-    public GameObject SimpleTextPrefab;
+    public float spacing = 1;
+    public GameObject simpleTextPrefab;
 
-    public T CreateAndGet<T>(GameObject prefab) where T : UIElementBase
+    public static T CreateAndGet<T>(GameObject prefab) where T : UIElementBase
     {
         var instance = GameObject.Instantiate(prefab);
 
