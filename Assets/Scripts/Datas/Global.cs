@@ -25,6 +25,9 @@ public class Global : ScriptableObject
     [SerializeField] DifficultyData m_difficultyDatas;
     public DifficultyData difficultyDatas { get { return m_difficultyDatas; } }
 
+    [SerializeField] UIElementData m_UIElementDatas;
+    public UIElementData UIElementDatas { get { return m_UIElementDatas; } }
+
     static Global m_instance;
 
     static string s_path = "World";
