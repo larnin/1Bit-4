@@ -11,6 +11,19 @@ public class LifeComponent : MonoBehaviour
 
     float m_life;
 
+    SubscriberList m_subscriberList = new SubscriberList();
+
+    private void Awake()
+    {
+        m_subscriberList.Add(new Event<BuildSelectionDetailLifeEvent>.LocalSubscriber(BuildLife, gameObject));
+        m_subscriberList.Subscribe();
+    }
+
+    private void OnDestroy()
+    {
+        m_subscriberList.Unsubscribe();
+    }
+
     private void Start()
     {
         m_life = m_maxLife;
@@ -56,5 +69,10 @@ public class LifeComponent : MonoBehaviour
             m_life = m_maxLife;
 
         Event<HealEvent>.Broadcast(new HealEvent(e.heal));
+    }
+
+    void BuildLife(BuildSelectionDetailLifeEvent e)
+    {
+
     }
 }

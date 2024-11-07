@@ -32,10 +32,7 @@ public class SelectionDetailDisplay : MonoBehaviour
     {
         if (m_target == e.hoveredObject)
             return;
-
-        if (e.hoveredObject == null)
-            return;
-
+        
         m_target = e.hoveredObject;
         OnTargetChange();
     }
@@ -53,16 +50,11 @@ public class SelectionDetailDisplay : MonoBehaviour
             return;
         }
 
-        var builder = m_target.GetComponent<I_UIElementBuilder>();
-        if(builder == null)
-        {
-            gameObject.SetActive(false);
-            return;
-        }
+        Event<BuildSelectionDetailCommonEvent>.Broadcast(new BuildSelectionDetailCommonEvent(m_container), m_target);
+        Event<BuildSelectionDetailLifeEvent>.Broadcast(new BuildSelectionDetailLifeEvent(m_container), m_target);
+        Event<BuildSelectionDetailStatusEvent>.Broadcast(new BuildSelectionDetailStatusEvent(m_container), m_target);
 
-        gameObject.SetActive(true);
-
-        builder.Build(m_container);
+        gameObject.SetActive(m_container.GetElementNb() > 0);
     }
 
     private void Update()

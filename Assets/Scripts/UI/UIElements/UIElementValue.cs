@@ -4,7 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public interface I_UIElementBuilder
+public class UIElementValue : UIElementBase
 {
-    void Build(UIElementContainer container);
+    public override float GetHeight()
+    {
+        return 20;
+    }
 }

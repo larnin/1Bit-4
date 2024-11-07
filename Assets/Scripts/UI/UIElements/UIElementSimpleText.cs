@@ -20,14 +20,16 @@ public class UIElementSimpleText : UIElementBase
         return m_text.renderedHeight;
     }
 
-    public void SetText(string text)
+    public UIElementSimpleText SetText(string text)
     {
         m_text.text = text;
+        return this;
     }
 
-    public void SetTextFunc(Func<String> textFunc)
+    public UIElementSimpleText SetTextFunc(Func<String> textFunc)
     {
         m_textFunc = textFunc;
+        return this;
     }
 
     private void Update()

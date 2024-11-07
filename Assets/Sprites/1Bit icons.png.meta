@@ -1271,6 +1271,69 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: 1Bit icons_55
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 142
+        width: 18
+        height: 3
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 2, y: 0, z: 2, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69ee435347e27204ab3ad54d9100d00a
+      internalID: -321417887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1Bit icons_56
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 133
+        width: 18
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 2, y: 2, z: 2, w: 2}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc7f57bdefd74b64298c6e96fcfa76f0
+      internalID: -1480266838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1Bit icons_57
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 123
+        width: 18
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 2, y: 2, z: 2, w: 2}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e917cc5b45a71b34ab2806199d6a38d9
+      internalID: 1087792777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -1333,6 +1396,9 @@ TextureImporter:
       1Bit icons_52: -935365774
       1Bit icons_53: 236710958
       1Bit icons_54: -1538724613
+      1Bit icons_55: -321417887
+      1Bit icons_56: -1480266838
+      1Bit icons_57: 1087792777
       1Bit icons_6: -1309265559
       1Bit icons_7: 1009165083
       1Bit icons_8: 628924512

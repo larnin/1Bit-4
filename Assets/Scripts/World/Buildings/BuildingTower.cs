@@ -5,10 +5,23 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class BuildingTower : BuildingBase, I_UIElementBuilder
+public class BuildingTower : BuildingBase
 {
     [SerializeField] float m_powerGeneration = 10;
     [SerializeField] float m_placementRadius = 5;
+
+    SubscriberList m_subscriberList = new SubscriberList();
+
+    private void Awake()
+    {
+        m_subscriberList.Add(new Event<BuildSelectionDetailCommonEvent>.LocalSubscriber(BuildCommon, gameObject));
+        m_subscriberList.Subscribe();   
+    }
+
+    private void OnDestroy()
+    {
+        m_subscriberList.Unsubscribe();
+    }
 
     public override BuildingType GetBuildingType()
     {
@@ -24,15 +37,13 @@ public class BuildingTower : BuildingBase, I_UIElementBuilder
     {
         return m_placementRadius;
     }
-
-    public void Build(UIElementContainer container)
+    
+    void BuildCommon(BuildSelectionDetailCommonEvent e)
     {
-        var titleElt = UIElementData.CreateAndGet<UIElementSimpleText>(Global.instance.UIElementDatas.simpleTextPrefab);
-        titleElt.SetText("Title");
-        container.AddElement(titleElt);
-
-        var descElt = UIElementData.CreateAndGet<UIElementSimpleText>(Global.instance.UIElementDatas.simpleTextPrefab);
-        descElt.SetText("Some longer text that use at least 2 lignes, and maybe more");
-        container.AddElement(descElt);
+        UIElementData.Create<UIElementSimpleText>(e.container).SetText("Title");
+        UIElementData.Create<UIElementLine>(e.container);
+        UIElementData.Create<UIElementLine>(e.container);
+        UIElementData.Create<UIElementSpace>(e.container).SetSpace(20);
+        UIElementData.Create<UIElementSimpleText>(e.container).SetText("Some longer text that use at least 2 lignes, and maybe more");
     }
 }
