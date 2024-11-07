@@ -32,6 +32,9 @@ public class SelectionDetailDisplay : MonoBehaviour
     {
         if (m_target == e.hoveredObject)
             return;
+
+        if (e.hoveredObject == null)
+            return;
         
         m_target = e.hoveredObject;
         OnTargetChange();
