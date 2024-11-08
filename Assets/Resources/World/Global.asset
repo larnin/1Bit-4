@@ -176,3 +176,4 @@ MonoBehaviour:
     spacePrefab: {fileID: 1239381641992906730, guid: 15cf28b29e5618947a21f34e9dae8ddc, type: 3}
     linePrefab: {fileID: 1844484985767626177, guid: 07592b2cfa17a204b894e557f4368dd7, type: 3}
     fillValuePrefab: {fileID: 6744325536455805254, guid: 748e27cfb0b299c4f856d9be37e2bd00, type: 3}
+    spritePrefab: {fileID: 1609686189616329620, guid: 6b8f347ac3c06e348b17f553b4a52ea3, type: 3}

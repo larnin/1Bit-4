@@ -46,7 +46,7 @@ public class BuildingTower : BuildingBase
         UIElementData.Create<UIElementLine>(e.container);
         UIElementData.Create<UIElementFillValue>(e.container).SetValueFunc(() => { 
             value += Time.deltaTime; if (value == 100) value = 0; return value; 
-        }).SetMax(100).SetLabel("Awesome:").SetNbDigits(0);
+        }).SetMax(100).SetLabel("Awesomeness:").SetNbDigits(0).SetValueDisplayType(UIElementFillValueDisplayType.percent);
         UIElementData.Create<UIElementLine>(e.container);
         UIElementData.Create<UIElementSimpleText>(e.container).SetText("Some longer text that use at least 2 lignes, and maybe more");
     }

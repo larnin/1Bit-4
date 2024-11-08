@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
+public enum UIElementFillValueDisplayType
+{
+    classic,
+    percent,
+    valueOnly,
+    hidden,
+}
+
 public class UIElementFillValue : UIElementBase
 {
     TMP_Text m_label;
@@ -15,7 +23,7 @@ public class UIElementFillValue : UIElementBase
     RectTransform m_fillBackTransform;
     RectTransform m_fillTransform;
 
-    bool m_displayMax = true;
+    UIElementFillValueDisplayType m_valueDisplayType = UIElementFillValueDisplayType.classic;
     float m_value = 0;
     float m_max = 1;
     int m_nbDigits = 3;
@@ -57,25 +65,46 @@ public class UIElementFillValue : UIElementBase
         if (m_maxFunc != null)
             m_max = m_maxFunc();
 
-        string format = "#0.";
-        for (int i = 0; i < m_nbDigits; i++)
-            format += '0';
+        if(m_valueDisplayType != UIElementFillValueDisplayType.hidden)
+        {
+            m_valueText.gameObject.SetActive(true);
 
-        string valueText = m_value.ToString(format);
-        if (m_displayMax)
-            valueText += '/' + m_max.ToString(format);
+            m_valueText.text = GetValueText();
 
-        m_valueText.text = valueText;
-
-        float width = m_valueText.renderedWidth + 5;
-        float parentWidth = m_transform.rect.width;
-        m_valueTransform.anchorMin = new Vector2(1 - (width / parentWidth), m_valueTransform.anchorMin.y);
-        m_fillBackTransform.anchorMax = new Vector2(1 - (width / parentWidth), m_fillBackTransform.anchorMax.y);
+            float width = m_valueText.renderedWidth + 5;
+            float parentWidth = m_transform.rect.width;
+            m_valueTransform.anchorMin = new Vector2(1 - (width / parentWidth), m_valueTransform.anchorMin.y);
+            m_fillBackTransform.anchorMax = new Vector2(1 - (width / parentWidth), m_fillBackTransform.anchorMax.y);
+        }
+        else
+        {
+            m_valueText.gameObject.SetActive(false);
+            m_fillBackTransform.anchorMax = new Vector2(1, m_fillBackTransform.anchorMax.y);
+        }
 
         float fillPercent = m_value / m_max;
         fillPercent = Mathf.Clamp01(fillPercent);
 
         m_fillTransform.anchorMax = new Vector2(fillPercent, m_fillTransform.anchorMax.y);
+    }
+
+    string GetValueText()
+    {
+        string format = "#0.";
+        for (int i = 0; i < m_nbDigits; i++)
+            format += '0';
+
+        switch(m_valueDisplayType)
+        {
+            case UIElementFillValueDisplayType.classic:
+                return m_value.ToString(format) + '/' + m_max.ToString(format);
+            case UIElementFillValueDisplayType.percent:
+                return (m_value / m_max * 100).ToString(format) + '%';
+            case UIElementFillValueDisplayType.valueOnly:
+                return m_value.ToString(format);
+            default:
+                return "";
+        }
     }
 
     public override float GetHeight()
@@ -95,9 +124,9 @@ public class UIElementFillValue : UIElementBase
         return this;
     }
 
-    public UIElementFillValue SetDisplayMax(bool display = true)
+    public UIElementFillValue SetValueDisplayType(UIElementFillValueDisplayType displayType)
     {
-        m_displayMax = display;
+        m_valueDisplayType = displayType;
         return this;
     }
 

@@ -13,7 +13,8 @@ public class UIElementData
     [SerializeField] GameObject simpleTextPrefab;
     [SerializeField] GameObject spacePrefab;
     [SerializeField] GameObject linePrefab;
-    [SerializeField] GameObject valuePrefab;
+    [SerializeField] GameObject fillValuePrefab;
+    [SerializeField] GameObject spritePrefab;
 
     T CreateImpl<T>(UIElementContainer container) where T : UIElementBase
     {
@@ -25,8 +26,10 @@ public class UIElementData
             prefab = spacePrefab;
         else if (typeof(T) == typeof(UIElementLine))
             prefab = linePrefab;
-        else if (typeof(T) == typeof(UIElementValue))
-            prefab = valuePrefab;
+        else if (typeof(T) == typeof(UIElementFillValue))
+            prefab = fillValuePrefab;
+        else if (typeof(T) == typeof(UIElementSprite))
+            prefab = spritePrefab;
 
         if (prefab == null)
             return null;
