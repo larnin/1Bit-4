@@ -6,20 +6,13 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum UIElementSpriteAlignment
-{
-    left,
-    center,
-    right
-}
-
 public class UIElementSprite : UIElementBase
 {
     Image m_image;
     RectTransform m_imageTransform;
     Vector2 m_size;
     bool m_nativeSize = true;
-    UIElementSpriteAlignment m_alignment = UIElementSpriteAlignment.center;
+    UIElementAlignment m_alignment = UIElementAlignment.center;
 
     Func<Sprite> m_spriteFunc;
 
@@ -48,40 +41,41 @@ public class UIElementSprite : UIElementBase
             parentWidth = (transform.parent as RectTransform).rect.width;
 
         var rect = new Rect(new Vector2(0, 0), m_size);
-        if(m_alignment == UIElementSpriteAlignment.center)
+        if(m_alignment == UIElementAlignment.center)
             rect.position = new Vector2((parentWidth - m_size.x) / 2, rect.position.y);
-        else if(m_alignment == UIElementSpriteAlignment.right)
+        else if(m_alignment == UIElementAlignment.right)
             rect.position = new Vector2(parentWidth - m_size.x, rect.position.y);
-        
-        //todo apply rect to image transform
+
+        m_imageTransform.anchorMin = new Vector2(rect.x / parentWidth, m_imageTransform.anchorMin.y);
+        m_imageTransform.anchorMax = new Vector2((rect.x + rect.width) / parentWidth, m_imageTransform.anchorMax.y); 
     }
 
-    UIElementSprite SetSprite(Sprite sprite)
+    public UIElementSprite SetSprite(Sprite sprite)
     {
         m_image.sprite = sprite;
         return this;
     }
 
-    UIElementSprite SetSpriteFunc(Func<Sprite> spriteFunc)
+    public UIElementSprite SetSpriteFunc(Func<Sprite> spriteFunc)
     {
         m_spriteFunc = spriteFunc;
         return this;
     }
 
-    UIElementSprite SetSize(Vector2 size)
+    public UIElementSprite SetSize(Vector2 size)
     {
         m_nativeSize = false;
         m_size = size;
         return this;
     }
 
-    UIElementSprite SetNativeSize()
+    public UIElementSprite SetNativeSize()
     {
         m_nativeSize = true;
         return this;
     }
 
-    UIElementSprite SetAlignment(UIElementSpriteAlignment alignment)
+    public UIElementSprite SetAlignment(UIElementAlignment alignment)
     {
         m_alignment = alignment;
         return this;

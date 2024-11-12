@@ -42,12 +42,16 @@ public class BuildingTower : BuildingBase
 
     void BuildCommon(BuildSelectionDetailCommonEvent e)
     {
-        UIElementData.Create<UIElementSimpleText>(e.container).SetText("Title");
+        UIElementData.Create<UIElementSimpleText>(e.container).SetText("Title").SetAlignment(UIElementAlignment.center);
+        UIElementData.Create<UIElementSprite>(e.container).SetSprite(Global.instance.buildingDatas.GetBuilding(BuildingType.Tower).sprite).SetNativeSize().SetAlignment(UIElementAlignment.right);
         UIElementData.Create<UIElementLine>(e.container);
         UIElementData.Create<UIElementFillValue>(e.container).SetValueFunc(() => { 
-            value += Time.deltaTime; if (value == 100) value = 0; return value; 
+            value += Time.deltaTime; if (value >= 100) value = 0; return value; 
         }).SetMax(100).SetLabel("Awesomeness:").SetNbDigits(0).SetValueDisplayType(UIElementFillValueDisplayType.percent);
         UIElementData.Create<UIElementLine>(e.container);
         UIElementData.Create<UIElementSimpleText>(e.container).SetText("Some longer text that use at least 2 lignes, and maybe more");
+        UIElementData.Create<UIElementLine>(e.container);
+        UIElementData.Create<UIElementLabelAndText>(e.container).SetLabel("The Label").SetText("You can use a duck to elevate the sun in a small cave").SetTextAlignment(UIElementAlignment.center);
+        UIElementData.Create<UIElementLine>(e.container);
     }
 }

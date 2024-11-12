@@ -15,6 +15,7 @@ public class UIElementData
     [SerializeField] GameObject linePrefab;
     [SerializeField] GameObject fillValuePrefab;
     [SerializeField] GameObject spritePrefab;
+    [SerializeField] GameObject labelAndTextPrefab;
 
     T CreateImpl<T>(UIElementContainer container) where T : UIElementBase
     {
@@ -30,6 +31,8 @@ public class UIElementData
             prefab = fillValuePrefab;
         else if (typeof(T) == typeof(UIElementSprite))
             prefab = spritePrefab;
+        else if (typeof(T) == typeof(UIElementLabelAndText))
+            prefab = labelAndTextPrefab;
 
         if (prefab == null)
             return null;
