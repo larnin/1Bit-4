@@ -222,5 +222,15 @@ public abstract class BuildingBase : MonoBehaviour
         if (light != null)
             light.enabled = enabled;
     }
+
+    protected void DisplayGenericInfos(UIElementContainer container)
+    {
+        var data = Global.instance.buildingDatas.GetBuilding(GetBuildingType());
+        if (data == null)
+            return;
+
+        UIElementData.Create<UIElementSimpleText>(container).SetText(data.name).SetAlignment(UIElementAlignment.center);
+        UIElementData.Create<UIElementSpace>(container).SetSpace(5);
+    }
 }
 

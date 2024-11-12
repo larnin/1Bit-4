@@ -73,6 +73,7 @@ public class LifeComponent : MonoBehaviour
 
     void BuildLife(BuildSelectionDetailLifeEvent e)
     {
-
+        UIElementData.Create<UIElementLine>(e.container);
+        UIElementData.Create<UIElementFillValue>(e.container).SetLabel("Health").SetMaxFunc(GetMaxLife).SetValueFunc(GetLife).SetValueDisplayType(UIElementFillValueDisplayType.classic).SetNbDigits(0);
     }
 }

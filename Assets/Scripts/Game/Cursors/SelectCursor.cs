@@ -8,6 +8,7 @@ using UnityEngine;
 public class SelectCursor : MonoBehaviour
 {
     [SerializeField] LayerMask m_selectionLayer;
+    [SerializeField] LayerMask m_hoverLayer;
     [SerializeField] float m_durationToDisplayHover = 0.5f;
     [SerializeField] GameObject m_selectionCornerPrefab;
 
@@ -131,7 +132,7 @@ public class SelectCursor : MonoBehaviour
         var ray = camera.camera.ScreenPointToRay(Input.mousePosition);
 
         RaycastHit hit;
-        bool haveHit = Physics.Raycast(ray, out hit, float.MaxValue, m_selectionLayer.value);
+        bool haveHit = Physics.Raycast(ray, out hit, float.MaxValue, m_hoverLayer.value);
 
         GameObject newTarget = null;
         if(haveHit && IsHoverValid(hit.collider.gameObject))

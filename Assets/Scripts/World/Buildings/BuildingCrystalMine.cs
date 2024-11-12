@@ -12,6 +12,7 @@ public class BuildingCrystalMine : BuildingBase
     [SerializeField] float m_generation = 1;
     [SerializeField] int m_mineRadius = 1;
 
+    float m_energyUptake;
     float m_energyEfficiency = 1;
     List<Vector3Int> m_crystals = new List<Vector3Int>();
 
@@ -19,6 +20,7 @@ public class BuildingCrystalMine : BuildingBase
 
     private void Awake()
     {
+        m_subscriberList.Add(new Event<BuildSelectionDetailCommonEvent>.LocalSubscriber(BuildCommon, gameObject));
         m_subscriberList.Add(new Event<IsCrystalUsedEvent>.Subscriber(IsCrystalUsed));
         m_subscriberList.Subscribe();
     }
@@ -40,6 +42,7 @@ public class BuildingCrystalMine : BuildingBase
 
     public override void EnergyUptake(float value) 
     {
+        m_energyUptake = value;
         m_energyEfficiency = value / m_energyConsumption;
         if (m_energyEfficiency > 1)
             m_energyEfficiency = 1;
@@ -148,6 +151,30 @@ public class BuildingCrystalMine : BuildingBase
                 break;
             }
         }
+    }
+
+    string EnergyUptakeStr()
+    {
+        return m_energyUptake.ToString();
+    }
+
+    string CrystalCollectionStr()
+    {
+        return (m_generation * m_crystals.Count * m_energyEfficiency).ToString();
+    }
+
+    float GetEfficiency()
+    {
+        return m_energyEfficiency;
+    }
+
+    void BuildCommon(BuildSelectionDetailCommonEvent e)
+    {
+        DisplayGenericInfos(e.container);
+
+        UIElementData.Create<UIElementLabelAndText>(e.container).SetLabel("Energy Uptake").SetTextFunc(EnergyUptakeStr);
+        UIElementData.Create<UIElementLabelAndText>(e.container).SetLabel("Crystal collection").SetTextFunc(CrystalCollectionStr);
+        UIElementData.Create<UIElementFillValue>(e.container).SetLabel("Efficiency").SetMax(1).SetValueFunc(GetEfficiency).SetValueDisplayType(UIElementFillValueDisplayType.percent).SetNbDigits(0);
     }
 }
 

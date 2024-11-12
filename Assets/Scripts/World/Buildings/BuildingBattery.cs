@@ -13,6 +13,19 @@ public class BuildingBattery : BuildingBase
 
     float m_energy = 0;
 
+    SubscriberList m_subscriberList = new SubscriberList();
+
+    private void Awake()
+    {
+        m_subscriberList.Add(new Event<BuildSelectionDetailCommonEvent>.LocalSubscriber(BuildCommon, gameObject));
+        m_subscriberList.Subscribe();
+    }
+
+    private void OnDestroy()
+    {
+        m_subscriberList.Unsubscribe();
+    }
+
     public override BuildingType GetBuildingType()
     {
         if (m_bigBattery)
@@ -54,5 +67,12 @@ public class BuildingBattery : BuildingBase
         m_energy -= value;
         if (m_energy < 0)
             m_energy = 0;
+    }
+
+    void BuildCommon(BuildSelectionDetailCommonEvent e)
+    {
+        DisplayGenericInfos(e.container);
+
+        UIElementData.Create<UIElementFillValue>(e.container).SetLabel("Energy storage").SetValueFunc(EnergyStorageValue).SetMaxFunc(EnergyStorageMax).SetValueDisplayType(UIElementFillValueDisplayType.classic).SetNbDigits(0);
     }
 }
