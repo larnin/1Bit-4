@@ -135,7 +135,7 @@ public class SelectCursor : MonoBehaviour
         bool haveHit = Physics.Raycast(ray, out hit, float.MaxValue, m_hoverLayer.value);
 
         GameObject newTarget = null;
-        if(haveHit && IsHoverValid(hit.collider.gameObject))
+        if(haveHit)
             newTarget = hit.collider.gameObject;
 
         if(newTarget != m_hoveredObject)
@@ -287,21 +287,6 @@ public class SelectCursor : MonoBehaviour
         rect = rect.Encapsulate(cam.WorldToScreenPoint(new Vector3(boundsMax.x, boundsMax.y, boundsMin.z)));
 
         return rect.Overlaps(selRect);
-    }
-
-    bool IsHoverValid(GameObject obj)
-    {
-        var type = GameSystem.GetEntityType(obj);
-
-        switch(type)
-        {
-            case EntityType.Building:
-            case EntityType.Ennemy:
-            case EntityType.Spawner:
-                return true;
-            default:
-                return false;
-        }
     }
 
     bool IsSelectionValid(GameObject obj)

@@ -20,6 +20,9 @@ public class OneResourceData
 {
     public ResourceType type;
     public Sprite sprite;
+    public string name;
+    [Multiline]
+    public string description;
 }
 
 [Serializable]

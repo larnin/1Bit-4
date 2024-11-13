@@ -88,7 +88,7 @@ MonoBehaviour:
         cost:
         - type: 1
           count: 10
-    - type: 12
+    - type: 13
       prefab: {fileID: 2386629846189063210, guid: 01cb1a9794f4d754393dba54f54deefd, type: 3}
       sprite: {fileID: -1178010555, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
       spriteWithBorder: {fileID: 1298837695, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
@@ -115,14 +115,28 @@ MonoBehaviour:
     m_resources:
     - type: 0
       sprite: {fileID: -925305509, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
+      name: Energy
+      description: Needed to make a building work
     - type: 1
       sprite: {fileID: 529542824, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
+      name: Crystal
+      description: Can be collected by a crystal mine
     - type: 2
       sprite: {fileID: 1128867592, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
+      name: Titanium
+      description: Hard to collect but extremely valuable
     - type: 3
-      sprite: {fileID: -1288272088, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
+      sprite: {fileID: 1926540817, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
+      name: Oil
+      description: Dirty and hightly flammable
     - type: 4
       sprite: {fileID: -2075664385, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
+      name: Enemy part
+      description: Collected when killing ennemies
+    - type: 5
+      sprite: {fileID: -1288272088, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
+      name: Water
+      description: Source of life
   m_difficultyDatas:
     difficultyPerMinute:
       baseValue: 1

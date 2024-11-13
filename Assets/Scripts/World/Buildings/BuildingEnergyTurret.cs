@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class BuildingTurret : BuildingBase
+public class BuildingEnergyTurret : BuildingBase
 {
     [SerializeField] float m_energyStorage = 10;
     [SerializeField] float m_energyUptake = 2;
@@ -25,6 +25,19 @@ public class BuildingTurret : BuildingBase
 
     float m_fireTimer;
     int m_fireIndex;
+
+    SubscriberList m_subscriberList = new SubscriberList();
+
+    private void Awake()
+    {
+        m_subscriberList.Add(new Event<BuildSelectionDetailCommonEvent>.LocalSubscriber(BuildCommon, gameObject));
+        m_subscriberList.Subscribe();
+    }
+
+    private void OnDestroy()
+    {
+        m_subscriberList.Unsubscribe();
+    }
 
     public override void Start()
     {
@@ -150,5 +163,22 @@ public class BuildingTurret : BuildingBase
         }
 
         m_fireIndex++;
+    }
+
+    float GetEnergy()
+    {
+        return m_energy;
+    }
+
+    float GetStorage()
+    {
+        return m_energyStorage;
+    }
+
+    void BuildCommon(BuildSelectionDetailCommonEvent e)
+    {
+        DisplayGenericInfos(e.container);
+
+        UIElementData.Create<UIElementFillValue>(e.container).SetLabel("Power storage").SetValueFunc(GetEnergy).SetMaxFunc(GetStorage).SetNbDigits(1).SetValueDisplayType(UIElementFillValueDisplayType.classic);
     }
 }

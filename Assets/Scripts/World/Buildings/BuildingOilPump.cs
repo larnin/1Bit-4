@@ -11,8 +11,22 @@ public class BuildingOilPump : BuildingBase
     [SerializeField] ResourceType m_generatedResource;
     [SerializeField] float m_generation = 1;
 
+    float m_energyUptake;
     float m_energyEfficiency = 1;
     bool m_onOilSpot = false;
+
+    SubscriberList m_subscriberList = new SubscriberList();
+
+    private void Awake()
+    {
+        m_subscriberList.Add(new Event<BuildSelectionDetailCommonEvent>.LocalSubscriber(BuildCommon, gameObject));
+        m_subscriberList.Subscribe();
+    }
+
+    private void OnDestroy()
+    {
+        m_subscriberList.Unsubscribe();
+    }
 
     public override BuildingType GetBuildingType()
     {
@@ -26,6 +40,7 @@ public class BuildingOilPump : BuildingBase
 
     public override void EnergyUptake(float value)
     {
+        m_energyUptake = value;
         m_energyEfficiency = value / m_energyConsumption;
         if (m_energyEfficiency > 1)
             m_energyEfficiency = 1;
@@ -116,5 +131,35 @@ public class BuildingOilPump : BuildingBase
         var item = GridEx.GetBlock(grid.grid, pos);
 
         return item == BlockType.oil;
+    }
+
+    string EnergyUptakeStr()
+    {
+        return m_energyUptake.ToString();
+    }
+
+    string OilCollectionStr()
+    {
+        return (m_generation * m_energyEfficiency).ToString();
+    }
+
+    float GetEfficiency()
+    {
+        return m_energyEfficiency;
+    }
+
+    void BuildCommon(BuildSelectionDetailCommonEvent e)
+    {
+        DisplayGenericInfos(e.container);
+
+        UIElementData.Create<UIElementLabelAndText>(e.container).SetLabel("Energy Uptake").SetTextFunc(EnergyUptakeStr);
+
+        var r = Global.instance.resourceDatas.GetResource(m_generatedResource);
+        if(r != null)
+        {
+            var label = r.name + " Collection";
+            UIElementData.Create<UIElementLabelAndText>(e.container).SetLabel(label).SetTextFunc(OilCollectionStr);
+        }
+        UIElementData.Create<UIElementFillValue>(e.container).SetLabel("Efficiency").SetMax(1).SetValueFunc(GetEfficiency).SetValueDisplayType(UIElementFillValueDisplayType.percent).SetNbDigits(0);
     }
 }

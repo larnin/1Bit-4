@@ -1796,7 +1796,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_grid: {fileID: 1334327366}
-  m_unlockedBuilding: 010000000c00000009000000
+  m_unlockedBuilding: 010000000d00000009000000
 --- !u!114 &1693670529
 MonoBehaviour:
   m_ObjectHideFlags: 0

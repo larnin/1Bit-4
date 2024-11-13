@@ -15,6 +15,8 @@ public class BuildingTitaniumMine : BuildingBase
     [SerializeField] float m_generatedResourceCycle = 1;
     [SerializeField] int m_mineRadius = 1;
 
+    float m_energyUptake;
+    float m_consumeMultiplier = 0;
     float m_energyEfficiency = 1;
     float m_timer = 0;
     List<Vector3Int> m_titaniums = new List<Vector3Int>();
@@ -23,6 +25,7 @@ public class BuildingTitaniumMine : BuildingBase
 
     private void Awake()
     {
+        m_subscriberList.Add(new Event<BuildSelectionDetailCommonEvent>.LocalSubscriber(BuildCommon, gameObject));
         m_subscriberList.Add(new Event<IsTitaniumUsedEvent>.Subscriber(IsTitaniumUsed));
         m_subscriberList.Subscribe();
     }
@@ -44,6 +47,7 @@ public class BuildingTitaniumMine : BuildingBase
 
     public override void EnergyUptake(float value)
     {
+        m_energyUptake = value;
         m_energyEfficiency = value / m_energyConsumption;
         if (m_energyEfficiency > 1)
             m_energyEfficiency = 1;
@@ -67,7 +71,7 @@ public class BuildingTitaniumMine : BuildingBase
         if (ConnexionSystem.instance != null && !ConnexionSystem.instance.IsConnected(this))
             return;
 
-        float consumeMultiplier = 0;
+        m_consumeMultiplier = 0;
         if (ResourceSystem.instance != null)
         {
             if (ResourceSystem.instance.HaveResource(m_consumedResource))
@@ -77,10 +81,10 @@ public class BuildingTitaniumMine : BuildingBase
                 if(stored > 0 && consumeCount > 0)
                 {
                     if (stored > consumeCount)
-                        consumeMultiplier = 1;
+                        m_consumeMultiplier = 1;
                     else
                     {
-                        consumeMultiplier = stored / consumeCount;
+                        m_consumeMultiplier = stored / consumeCount;
                         consumeCount = stored;
                     }
                 }
@@ -90,9 +94,9 @@ public class BuildingTitaniumMine : BuildingBase
             }
         }
 
-        if (consumeMultiplier > 0)
+        if (m_consumeMultiplier > 0)
         {
-            m_timer += Time.deltaTime * m_energyEfficiency * consumeMultiplier;
+            m_timer += Time.deltaTime * m_energyEfficiency * m_consumeMultiplier;
             if (m_timer >= m_generatedResourceCycle)
             {
                 m_timer -= m_generatedResourceCycle;
@@ -181,5 +185,45 @@ public class BuildingTitaniumMine : BuildingBase
                 break;
             }
         }
+    }
+    string EnergyUptakeStr()
+    {
+        return m_energyUptake.ToString();
+    }
+
+    string ResourceUptakeStr()
+    {
+        return (m_consumedResourceNb * m_consumeMultiplier).ToString();
+    }
+
+    string TitaniumCollectionStr()
+    {
+        return m_generatedResourceNb.ToString();
+    }
+
+    float GetCycleValue()
+    {
+        return m_timer;
+    }
+
+    void BuildCommon(BuildSelectionDetailCommonEvent e)
+    {
+        DisplayGenericInfos(e.container);
+
+        UIElementData.Create<UIElementLabelAndText>(e.container).SetLabel("Energy Uptake").SetTextFunc(EnergyUptakeStr);
+        var r = Global.instance.resourceDatas.GetResource(m_consumedResource);
+        if (r != null)
+        {
+            string label = r.name + " Uptake";
+            UIElementData.Create<UIElementLabelAndText>(e.container).SetLabel(label).SetTextFunc(ResourceUptakeStr);
+        }
+
+        r = Global.instance.resourceDatas.GetResource(m_generatedResource);
+        if(r != null)
+        {
+            string label = r.name + " Collection Each Cycle";
+            UIElementData.Create<UIElementLabelAndText>(e.container).SetLabel(label).SetTextFunc(TitaniumCollectionStr);
+        }
+        UIElementData.Create<UIElementFillValue>(e.container).SetLabel("Cycle").SetMax(m_generatedResourceCycle).SetValueFunc(GetCycleValue).SetValueDisplayType(UIElementFillValueDisplayType.percent).SetNbDigits(0);
     }
 }

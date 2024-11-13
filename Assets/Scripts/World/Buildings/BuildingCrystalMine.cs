@@ -173,7 +173,13 @@ public class BuildingCrystalMine : BuildingBase
         DisplayGenericInfos(e.container);
 
         UIElementData.Create<UIElementLabelAndText>(e.container).SetLabel("Energy Uptake").SetTextFunc(EnergyUptakeStr);
-        UIElementData.Create<UIElementLabelAndText>(e.container).SetLabel("Crystal collection").SetTextFunc(CrystalCollectionStr);
+
+        var r = Global.instance.resourceDatas.GetResource(m_generatedResource);
+        if(r != null)
+        {
+            string label = r.name + " Collection";
+        UIElementData.Create<UIElementLabelAndText>(e.container).SetLabel(label).SetTextFunc(CrystalCollectionStr);
+        }
         UIElementData.Create<UIElementFillValue>(e.container).SetLabel("Efficiency").SetMax(1).SetValueFunc(GetEfficiency).SetValueDisplayType(UIElementFillValueDisplayType.percent).SetNbDigits(0);
     }
 }
