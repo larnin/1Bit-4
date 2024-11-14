@@ -56,7 +56,7 @@ public class ResourcesDisplay : MonoBehaviour
     OneResourceDisplay CreateOneResource()
     {
         var obj = Instantiate(m_resourcePrefab);
-        obj.transform.SetParent(transform, true);
+        obj.transform.SetParent(transform, false);
         var display = obj.GetComponent<OneResourceDisplay>();
         return display;
     }

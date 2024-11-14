@@ -134,4 +134,21 @@ public class GameSystem : MonoBehaviour
 
         return EntityType.None;
     }
+
+    public string GetStatus()
+    {
+        switch (m_state)
+        {
+            case State.GeneratingWorld:
+                return WorldGenerator.GetStateText();
+            case State.PlaceTower:
+                return "Place Tower";
+            case State.RenderingWorld:
+                int generatedChunks = m_grid.GetGeneratedCount();
+                int totalChunks = m_grid.GetTotalCount();
+                return "Rendering world - " + (generatedChunks * 100 / totalChunks).ToString() + "%";
+            default:
+                return "Ready";
+        }
+    }
 }

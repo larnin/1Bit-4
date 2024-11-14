@@ -42,7 +42,10 @@ public class OneResourceDisplay : MonoBehaviour
 
     void UpdateResourceSprite(ResourceType type)
     {
-        var img = transform.Find("ResourceSprite")?.GetComponent<Image>();
+        var tr = transform.Find("ResourceSprite");
+        if (tr == null)
+            return;
+        var img = tr.GetComponent<Image>();
         if (img == null)
             return;
 
@@ -53,7 +56,10 @@ public class OneResourceDisplay : MonoBehaviour
 
     void UpdateResourceStorage(float count, float maxCount)
     {
-        var txt = transform.Find("StockTxt")?.GetComponent<TMP_Text>();
+        var tr = transform.Find("StockTxt");
+        if (tr == null)
+            return;
+        var txt = tr.GetComponent<TMP_Text>();
         if (txt == null)
             return;
         string text = ((int)count).ToString();

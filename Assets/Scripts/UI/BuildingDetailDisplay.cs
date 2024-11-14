@@ -45,7 +45,7 @@ public class BuildingDetailDisplay : MonoBehaviour
                 var c = data.cost.cost[i];
 
                 var obj = Instantiate(m_resourcePrefab);
-                obj.transform.SetParent(costPivot, true);
+                obj.transform.SetParent(costPivot, false);
                 var rectTransform = obj.GetComponent<RectTransform>();
                 if(rectTransform != null)
                     rectTransform.anchoredPosition = new Vector2((i - data.cost.cost.Count / 2.0f) * m_resourceDelta, 0);

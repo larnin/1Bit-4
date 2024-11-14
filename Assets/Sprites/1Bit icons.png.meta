@@ -1213,11 +1213,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 132
-        y: 1
-        width: 32
-        height: 32
+        y: 18
+        width: 15
+        height: 15
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1334,6 +1334,69 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: 1Bit icons_58
+      rect:
+        serializedVersion: 2
+        x: 149
+        y: 18
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca61c3a720b56d34f9bffc9571822f0e
+      internalID: -1618407822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1Bit icons_59
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 1
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70d323b96db7b0b4d836922e8d3d5425
+      internalID: 2045112972
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1Bit icons_60
+      rect:
+        serializedVersion: 2
+        x: 149
+        y: 1
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c348c38647ad3f4cb6fa94b70fedcff
+      internalID: -983942168
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -1399,7 +1462,10 @@ TextureImporter:
       1Bit icons_55: -321417887
       1Bit icons_56: -1480266838
       1Bit icons_57: 1087792777
+      1Bit icons_58: -1618407822
+      1Bit icons_59: 2045112972
       1Bit icons_6: -1309265559
+      1Bit icons_60: -983942168
       1Bit icons_7: 1009165083
       1Bit icons_8: 628924512
       1Bit icons_9: -1647090768

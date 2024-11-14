@@ -86,6 +86,7 @@ public static class WorldGenerator
         m_stateTxt = "Generate Ground";
         SimpleApplyHeight(areasHeight);
 
+        m_stateTxt = "Generate Resources";
         GenerateCrystal();
         GenerateOil();
         GenerateTitanium();
