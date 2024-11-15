@@ -75,4 +75,6 @@ Shader "Unlit/CustomLighted"
             ENDCG
         }
     }
+
+    Fallback "Standard"
 }
