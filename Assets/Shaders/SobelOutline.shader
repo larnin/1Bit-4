@@ -6,6 +6,8 @@ Shader "PostProcessing/SobelOutline"
     TEXTURE2D_SAMPLER2D(_MainTex, sampler_MainTex);
     TEXTURE2D_SAMPLER2D(_CameraDepthTexture, sampler_CameraDepthTexture);
     TEXTURE2D_SAMPLER2D(_CameraGBufferTexture2, sampler_CameraGBufferTexture2);
+    TEXTURE2D_SAMPLER2D(_NormalTex, sampler_NormalTex);
+    TEXTURE2D_SAMPLER2D(_DepthTex, sampler_DepthTex);
 
     float _OutlineThickness;
     float _OutlineDepthMultiplier;
@@ -24,16 +26,16 @@ Shader "PostProcessing/SobelOutline"
         float4 pixelDown = t.Sample(s, uv - offset.zy);
 
         return abs(pixelLeft - pixelCenter) +
-            abs(pixelRight - pixelCenter) +
-            abs(pixelUp - pixelCenter) +
+            //abs(pixelRight - pixelCenter) +
+            //abs(pixelUp - pixelCenter) +
             abs(pixelDown - pixelCenter);
     }
 
     float SobelDepth(float ldc, float ldl, float ldr, float ldu, float ldd)
     {
         return abs(ldl - ldc) +
-            abs(ldr - ldc) +
-            abs(ldu - ldc) +
+            //abs(ldr - ldc) +
+            //abs(ldu - ldc) +
             abs(ldd - ldc);
     }
 
@@ -49,23 +51,14 @@ Shader "PostProcessing/SobelOutline"
     }
 
     float4 FragMain(VaryingsDefault i) : SV_Target
-    {
-        //float3 c = SAMPLE_TEXTURE2D(_CameraGBufferTexture2, sampler_CameraGBufferTexture2, i.texcoord).rgb;
-
-        //return float4(c, 1.0);
-
-        /*float3 offset = float3((1.0 / _ScreenParams.x), (1.0 / _ScreenParams.y), 0.0) * _OutlineThickness;
-        float3 sobelNormalVec = SobelSample(_CameraGBufferTexture2, sampler_CameraGBufferTexture2, i.texcoord.xy, offset).rgb;
-
-        return float4(sobelNormalVec, 1.0);*/
-
+    { 
         float3 offset = float3((1.0 / _ScreenParams.x), (1.0 / _ScreenParams.y), 0.0) * _OutlineThickness;
         float3 sceneColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord).rgb;
 
-        float sobelDepth = SobelSampleDepth(_CameraDepthTexture, sampler_CameraDepthTexture, i.texcoord.xy, offset);
+        float sobelDepth = SobelSampleDepth(_DepthTex, sampler_DepthTex, i.texcoord.xy, offset);
         sobelDepth = pow(saturate(sobelDepth) * _OutlineDepthMultiplier, _OutlineDepthBias);
 
-        float3 sobelNormalVec = SobelSample(_CameraGBufferTexture2, sampler_CameraGBufferTexture2, i.texcoord.xy, offset).rgb;
+        float3 sobelNormalVec = SobelSample(_NormalTex, sampler_NormalTex, i.texcoord.xy, offset).rgb;
         float sobelNormal = sobelNormalVec.x + sobelNormalVec.y + sobelNormalVec.z;
         sobelNormal = pow(sobelNormal * _OutlineNormalMultiplier, _OutlineNormalBias);
 

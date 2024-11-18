@@ -23,6 +23,14 @@ public sealed class SobelOutlineRenderer : PostProcessEffectRenderer<SobelOutlin
     {
         var sheet = context.propertySheets.Get(Shader.Find("PostProcessing/SobelOutline"));
 
+        GetNormalsTextureEvent texture = new GetNormalsTextureEvent();
+        Event<GetNormalsTextureEvent>.Broadcast(texture);
+        if(texture.normals != null)
+            sheet.properties.SetTexture("_NormalTex", texture.normals);
+
+        if (texture.depth != null)
+            sheet.properties.SetTexture("_DepthTex", texture.depth);
+
         sheet.properties.SetFloat("_OutlineThickness", settings.thickness);
         sheet.properties.SetFloat("_OutlineDepthMultiplier", settings.depthMultiplier);
         sheet.properties.SetFloat("_OutlineDepthBias", settings.depthBias);

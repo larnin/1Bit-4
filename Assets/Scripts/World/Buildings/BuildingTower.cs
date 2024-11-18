@@ -38,8 +38,6 @@ public class BuildingTower : BuildingBase
         return m_placementRadius;
     }
 
-    float value = 0;
-
     void BuildCommon(BuildSelectionDetailCommonEvent e)
     {
         DisplayGenericInfos(e.container);

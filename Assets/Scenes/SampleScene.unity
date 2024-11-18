@@ -1156,10 +1156,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed6d5ca866b40674c96cbfe94874189a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_minZoom: 100
-  m_maxZoom: 5
+  m_minSize: 40
+  m_maxSize: 5
+  m_initialSize: 10
   m_stepZoom: 1.1
-  m_arrowsSpeed: 10
+  m_arrowsSpeed: 15
   m_arrowsAccelerationDuration: 0.15
   m_rotationDuration: 0.5
   m_cameraResetPressTime: 1
@@ -1191,6 +1192,7 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
+  - component: {fileID: 963194231}
   - component: {fileID: 963194229}
   - component: {fileID: 963194230}
   m_Layer: 0
@@ -1232,7 +1234,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 250
   field of view: 60
   orthographic: 1
   orthographic size: 8
@@ -1345,6 +1347,20 @@ MonoBehaviour:
   - assemblyQualifiedName: SobelOutline, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   m_AfterStackBundles: []
+--- !u!114 &963194231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59a06a07f12112f4e862b645fcc3db06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_camera: {fileID: 963194227}
+  m_replacementShader: {fileID: 4800000, guid: 9181486b0e541f847ab1c9470e1a3097, type: 3}
 --- !u!1 &1121963324
 GameObject:
   m_ObjectHideFlags: 0
@@ -2117,7 +2133,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
