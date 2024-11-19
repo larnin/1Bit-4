@@ -69,7 +69,7 @@ MonoBehaviour:
     value: 1
   depthMultiplier:
     overrideState: 1
-    value: 2000
+    value: 200
   depthBias:
     overrideState: 1
     value: 10
@@ -78,7 +78,7 @@ MonoBehaviour:
     value: 1
   normalBias:
     overrideState: 1
-    value: 10
+    value: 1
   color:
     overrideState: 1
     value: {r: 0, g: 0, b: 0, a: 1}

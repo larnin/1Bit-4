@@ -1112,6 +1112,14 @@ MonoBehaviour:
   m_lightedMaterials:
   - {fileID: 2100000, guid: 963d52d036299094b986f2c929f03250, type: 2}
   - {fileID: 2100000, guid: 62b1df7190384634fb819dd47b16fcbc, type: 2}
+  m_unlitMaterials:
+  - {fileID: 2100000, guid: c750478f392003e4f96db78cafc4b825, type: 2}
+  - {fileID: 2100000, guid: 4859aa7187332834db6f2d9582b85c42, type: 2}
+  - {fileID: 2100000, guid: cb8a2e6e825818f4c92b0ffacea649b7, type: 2}
+  - {fileID: 2100000, guid: 899b8c153b3e83c44907528d303cf8e2, type: 2}
+  m_lightTop: 1
+  m_lightLeft: 1
+  m_lightFront: 1
 --- !u!4 &750648393
 Transform:
   m_ObjectHideFlags: 0
@@ -1275,15 +1283,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7fb809804949f384cb485094203e1dc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_material: {fileID: 2100000, guid: 37e7a9a7468c8cf468464e1518708d2c, type: 2}
-  m_darkLevel: 0
+  m_darkLevel: 0.1
   m_darkColor: {r: 0, g: 0, b: 0, a: 1}
-  m_lightLevel: 1
+  m_lightLevel: 0.9
   m_lightColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &963194230
 MonoBehaviour:

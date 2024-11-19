@@ -12,9 +12,9 @@ Shader "PostProcessing/SobelOutline"
     float _OutlineThickness;
     float _OutlineDepthMultiplier;
     float _OutlineDepthBias;
+    float _OutlineDepthScale;
     float _OutlineNormalMultiplier;
     float _OutlineNormalBias;
-
     float4 _OutlineColor;
 
     float4 SobelSample(Texture2D t, SamplerState s, float2 uv, float3 offset)
@@ -55,7 +55,7 @@ Shader "PostProcessing/SobelOutline"
         float3 offset = float3((1.0 / _ScreenParams.x), (1.0 / _ScreenParams.y), 0.0) * _OutlineThickness;
         float3 sceneColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord).rgb;
 
-        float sobelDepth = SobelSampleDepth(_DepthTex, sampler_DepthTex, i.texcoord.xy, offset);
+        float sobelDepth = SobelSampleDepth(_DepthTex, sampler_DepthTex, i.texcoord.xy, offset) / _OutlineDepthScale * 100;
         sobelDepth = pow(saturate(sobelDepth) * _OutlineDepthMultiplier, _OutlineDepthBias);
 
         float3 sobelNormalVec = SobelSample(_NormalTex, sampler_NormalTex, i.texcoord.xy, offset).rgb;
@@ -63,6 +63,9 @@ Shader "PostProcessing/SobelOutline"
         sobelNormal = pow(sobelNormal * _OutlineNormalMultiplier, _OutlineNormalBias);
 
         float sobelOutline = saturate(max(sobelDepth, sobelNormal));
+        if (sobelOutline < 0.5)
+            sobelOutline = 0;
+        else sobelOutline = 1;
 
         float3 outlineColor = lerp(sceneColor, _OutlineColor.rgb, _OutlineColor.a);
         float3 color = lerp(sceneColor, outlineColor, sobelOutline);

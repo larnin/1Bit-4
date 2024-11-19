@@ -31,6 +31,10 @@ public sealed class SobelOutlineRenderer : PostProcessEffectRenderer<SobelOutlin
         if (texture.depth != null)
             sheet.properties.SetTexture("_DepthTex", texture.depth);
 
+        GetCameraScaleEvent scale = new GetCameraScaleEvent();
+        Event<GetCameraScaleEvent>.Broadcast(scale);
+
+        sheet.properties.SetFloat("_OutlineDepthScale", scale.scale);
         sheet.properties.SetFloat("_OutlineThickness", settings.thickness);
         sheet.properties.SetFloat("_OutlineDepthMultiplier", settings.depthMultiplier);
         sheet.properties.SetFloat("_OutlineDepthBias", settings.depthBias);

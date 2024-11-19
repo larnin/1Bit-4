@@ -10,3 +10,8 @@ public class GetNormalsTextureEvent
     public Texture normals;
     public Texture depth;
 }
+
+public class GetCameraScaleEvent
+{
+    public float scale = 1;
+}

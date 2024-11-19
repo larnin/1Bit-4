@@ -50,6 +50,7 @@ public class GameCamera : MonoBehaviour
     {
         m_subscriberList.Add(new Event<GenerationFinishedEvent>.Subscriber(OnGenerationEnd));
         m_subscriberList.Add(new Event<GetCameraEvent>.Subscriber(GetCamera));
+        m_subscriberList.Add(new Event<GetCameraScaleEvent>.Subscriber(GetCameraScale));
         m_subscriberList.Subscribe();
     }
 
@@ -251,6 +252,11 @@ public class GameCamera : MonoBehaviour
     void GetCamera(GetCameraEvent e)
     {
         e.camera = m_camera;
+    }
+
+    void GetCameraScale(GetCameraScaleEvent e)
+    {
+        e.scale = m_size;
     }
 
     void UpdateCameraMatrix()
