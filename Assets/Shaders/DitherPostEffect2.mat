@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: DitherPostEffect2
-  m_Shader: {fileID: 4800000, guid: 685457b5a4975d646aab090dd07dbca7, type: 3}
+  m_Shader: {fileID: 4800000, guid: 8ee9398e5fd60514aa6db797e3131959, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4

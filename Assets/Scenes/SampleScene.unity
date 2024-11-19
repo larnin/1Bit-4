@@ -1118,8 +1118,8 @@ MonoBehaviour:
   - {fileID: 2100000, guid: cb8a2e6e825818f4c92b0ffacea649b7, type: 2}
   - {fileID: 2100000, guid: 899b8c153b3e83c44907528d303cf8e2, type: 2}
   m_lightTop: 1
-  m_lightLeft: 1
-  m_lightFront: 1
+  m_lightLeft: 0.7
+  m_lightFront: 0.9
 --- !u!4 &750648393
 Transform:
   m_ObjectHideFlags: 0
@@ -1288,7 +1288,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fb809804949f384cb485094203e1dc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_material: {fileID: 2100000, guid: 37e7a9a7468c8cf468464e1518708d2c, type: 2}
+  m_material: {fileID: 2100000, guid: 26f399b6d5408ed41aae744d3c5974a3, type: 2}
   m_darkLevel: 0.1
   m_darkColor: {r: 0, g: 0, b: 0, a: 1}
   m_lightLevel: 0.9
