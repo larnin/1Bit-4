@@ -12,9 +12,17 @@ public class CustomLightsManager : MonoBehaviour
     const string lightTextureName = "_LightTex";
     const string lightTextureSizeName = "_LightTexSize";
 
+    const string lightTopName = "_LightTop";
+    const string lightLeftName = "_LightLeft";
+    const string lightFrontName = "_LightFront";
+
     [SerializeField] RenderTexture m_renderTexture;
     [SerializeField] Material m_circleMaterial;
     [SerializeField] List<Material> m_lightedMaterials;
+    [SerializeField] List<Material> m_unlitMaterials;
+    [SerializeField] float m_lightTop = 1;
+    [SerializeField] float m_lightLeft = 1;
+    [SerializeField] float m_lightFront = 1;
 
     List<CustomLight> m_lights = new List<CustomLight>();
 
@@ -73,8 +81,14 @@ public class CustomLightsManager : MonoBehaviour
 
         RenderTextureEx.EndRendering(m_renderTexture);
 
-        foreach(var m in m_lightedMaterials)
+        foreach (var m in m_lightedMaterials)
+        {
             UpdateMaterial(m, grid.grid);
+            UpdateLights(m);
+        }
+
+        foreach (var m in m_unlitMaterials)
+            UpdateLights(m);
     }
 
     void UpdateMaterial(Material mat, Grid grid)
@@ -83,5 +97,12 @@ public class CustomLightsManager : MonoBehaviour
 
         var gridSize = GridEx.GetRealSize(grid);
         mat.SetFloat(lightTextureSizeName, gridSize);
+    }
+
+    void UpdateLights(Material mat)
+    {
+        mat.SetFloat(lightTopName, m_lightTop);
+        mat.SetFloat(lightLeftName, m_lightLeft);
+        mat.SetFloat(lightFrontName, m_lightFront);
     }
 }

@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Pylon
-  m_Shader: {fileID: 4800000, guid: ffe2ea0a3a3cf4a43aaf65596b0a6306, type: 3}
+  m_Name: DitherPostEffect2
+  m_Shader: {fileID: 4800000, guid: 8ee9398e5fd60514aa6db797e3131959, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -41,7 +41,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 8752007b296af31419c525cd8e7af20c, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -65,9 +65,6 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _LightFront: 1
-    - _LightLeft: 1
-    - _LightTop: 1
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1

@@ -8,8 +8,9 @@ using DG.Tweening;
 
 public class GameCamera : MonoBehaviour
 {
-    [SerializeField] float m_minZoom = 25;
-    [SerializeField] float m_maxZoom = 1;
+    [SerializeField] float m_minSize = 30;
+    [SerializeField] float m_maxSize = 10;
+    [SerializeField] float m_initialSize = 15;
     [SerializeField] float m_stepZoom = 1.1f;
     [SerializeField] float m_arrowsSpeed = 1;
     [SerializeField] float m_arrowsAccelerationDuration = 0.2f;
@@ -18,10 +19,9 @@ public class GameCamera : MonoBehaviour
     [SerializeField] float m_cameraResetTime = 0.5f;
 
     Camera m_camera;
-    float m_initialZoom;
     Vector3 m_initialPosition;
     float m_initialAngle;
-    float m_zoom;
+    float m_size;
 
     Vector3 m_oldMousePos;
 
@@ -42,8 +42,7 @@ public class GameCamera : MonoBehaviour
 
     float m_resetTime;
     Vector3 m_resetStartPos;
-    float m_resetStartCameraZoom;
-    float m_resetStartZoom;
+    float m_resetStartSize;
 
     SubscriberList m_subscriberList = new SubscriberList();
 
@@ -51,6 +50,7 @@ public class GameCamera : MonoBehaviour
     {
         m_subscriberList.Add(new Event<GenerationFinishedEvent>.Subscriber(OnGenerationEnd));
         m_subscriberList.Add(new Event<GetCameraEvent>.Subscriber(GetCamera));
+        m_subscriberList.Add(new Event<GetCameraScaleEvent>.Subscriber(GetCameraScale));
         m_subscriberList.Subscribe();
     }
 
@@ -63,14 +63,13 @@ public class GameCamera : MonoBehaviour
     {
         m_camera = Camera.main;
         m_initialPosition = transform.position;
-        m_initialZoom = m_camera.orthographicSize;
         m_initialAngle = transform.rotation.eulerAngles.y;
         m_startAngle = m_initialAngle;
         m_endAngle = m_initialAngle;
         m_currentAngle = m_initialAngle;
         m_rotationNormDuration = 0;
         m_resetPressTime = 0;
-        m_zoom = 1;
+        m_size = m_initialSize;
         m_nextRotation = false;
         m_nextRotationPositive = false;
         m_resetTime = 0;
@@ -85,12 +84,11 @@ public class GameCamera : MonoBehaviour
             if (MathF.Sign(scrollY) < 0)
                 multiplier = 1 / multiplier;
 
-            float newSize = m_camera.orthographicSize * multiplier;
-            if (newSize > m_maxZoom && newSize < m_minZoom)
-            {
-                m_camera.orthographicSize = newSize;
-                m_zoom *= multiplier;
-            }
+            m_size = m_size * multiplier;
+            if (m_size < Mathf.Min(m_maxSize, m_minSize))
+                m_size = Mathf.Min(m_maxSize, m_minSize);
+            if (m_size > Mathf.Max(m_maxSize, m_minSize))
+                m_size = MathF.Max(m_maxSize, m_minSize);
         }
 
         if(Input.GetMouseButton(2) && m_resetTime <= 0)
@@ -138,7 +136,8 @@ public class GameCamera : MonoBehaviour
             forward.Normalize();
             Vector3 ortho = new Vector3(forward.z, 0, -forward.x);
 
-            Vector3 offset = (forward * inputDir.y + ortho * inputDir.x) * Time.deltaTime * m_arrowsSpeed * m_zoom;
+            float speed = m_size / m_initialSize;
+            Vector3 offset = (forward * inputDir.y + ortho * inputDir.x) * Time.deltaTime * m_arrowsSpeed * speed;
 
             Vector3 newPos = transform.position + offset;
             transform.position = newPos;
@@ -156,8 +155,7 @@ public class GameCamera : MonoBehaviour
                     m_resetTime = Time.deltaTime / m_cameraResetTime;
 
                     m_resetStartPos = transform.position;
-                    m_resetStartCameraZoom = m_camera.orthographicSize;
-                    m_resetStartZoom = m_zoom;
+                    m_resetStartSize = m_size;
 
                     m_startAngle = Utility.ReduceAngle(m_currentAngle);
                     m_endAngle = m_initialAngle;
@@ -216,14 +214,14 @@ public class GameCamera : MonoBehaviour
             if (m_resetTime > 1)
                 m_resetTime = 1;
 
-            transform.position = m_resetStartPos * (1 - m_resetTime) + m_initialPosition * m_resetTime;
-            m_camera.orthographicSize = m_resetStartCameraZoom * (1 - m_resetTime) + m_initialZoom * m_resetTime;
-            m_zoom = m_resetStartZoom * (1 - m_resetTime) + m_resetTime;
+            m_size = m_resetStartSize * (1 - m_resetTime) + m_initialSize * m_resetTime;
 
             if (m_resetTime >= 1)
                 m_resetTime = 0;
             else m_resetTime += Time.deltaTime / m_cameraResetTime;
         }
+
+        UpdateCameraMatrix();
     }
 
     void OnGenerationEnd(GenerationFinishedEvent e)
@@ -254,5 +252,25 @@ public class GameCamera : MonoBehaviour
     void GetCamera(GetCameraEvent e)
     {
         e.camera = m_camera;
+    }
+
+    void GetCameraScale(GetCameraScaleEvent e)
+    {
+        e.scale = m_size;
+    }
+
+    void UpdateCameraMatrix()
+    {
+        //cheat the system
+        //i need a deferred rendering path to generate the texture for the sobel effect
+        //juste apply an ortho matrix to the perspective camera mode to force the deferred mode
+
+        //float aspect = (float)Screen.width / Screen.height;
+
+        //Matrix4x4 ortho = Matrix4x4.Ortho(-m_size * aspect, m_size * aspect, -m_size, m_size, m_camera.nearClipPlane, m_camera.farClipPlane);
+
+        //m_camera.projectionMatrix = ortho;
+
+        m_camera.orthographicSize = m_size;
     }
 }

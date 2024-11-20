@@ -3,12 +3,13 @@ Shader "Unlit/CustomLighted"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _LightTex("LightTexture", 2D) = "white" {}
         _LightTop("LightTop", float) = 1
         _LightLeft("LightLeft", float) = 0.8
         _LightFront("LightFront", float) = 0.2
 
     }
-        SubShader
+    SubShader
     {
         Tags { "RenderType" = "Opaque" }
         LOD 100
@@ -56,23 +57,25 @@ Shader "Unlit/CustomLighted"
                 return o;
             }
 
-            fixed4 frag(v2f i) : SV_Target
+            float4 frag(v2f i) : SV_Target
             {
                 float2 lightUV = i.initialVertex.xz / _LightTexSize;
                 lightUV.x = clamp(lightUV.x, 0, 1);
                 lightUV.y = clamp(lightUV.y, 0, 1);
 
-                fixed4 light = tex2D(_LightTex, lightUV);
+                float4 light = tex2D(_LightTex, lightUV);
 
-                fixed4 col = tex2D(_MainTex, i.uv);
+                float4 col = tex2D(_MainTex, i.uv);
 
                 float mul = abs(dot(i.normal, float3(0, 1, 0))) * _LightTop * _LightTop;
                 mul += abs(dot(i.normal, float3(1, 0, 0))) * _LightLeft * _LightLeft;
                 mul += abs(dot(i.normal, float3(0, 0, 1))) * _LightFront * _LightFront;
 
-                return col * light * mul;
+                return float4((col * light * mul).rgb, 1.0);
             }
             ENDCG
         }
     }
+
+    Fallback "Standard"
 }
