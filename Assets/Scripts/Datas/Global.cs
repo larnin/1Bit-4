@@ -8,10 +8,35 @@ using UnityEditor;
 #endif
 using UnityEngine;
 
+public enum WorldSize
+{
+    Small,
+    Medium,
+    Large,
+}
+
+[Serializable]
+public class WorldGeneratorSettingByWorld
+{
+    public WorldSize size;
+    public WorldGeneratorSettings settings;
+}
+
 public class Global : ScriptableObject
 {
-    [SerializeField] WorldGeneratorSettings m_generatorSettings;
-    public WorldGeneratorSettings generatorSettings { get { return m_generatorSettings; } }
+    [SerializeField] List<WorldGeneratorSettingByWorld> m_generatorSettings;
+    public List<WorldGeneratorSettingByWorld> generatorSettings { get { return m_generatorSettings; } }
+
+    public WorldGeneratorSettings GetWorldGeneratorSettings(WorldSize size)
+    {
+        foreach(var s in m_generatorSettings)
+        {
+            if (s.size == size)
+                return s.settings;
+        }
+
+        return null;
+    }
 
     [SerializeField] BlockDatas m_blockDatas;
     public BlockDatas blockDatas { get { return m_blockDatas; } }

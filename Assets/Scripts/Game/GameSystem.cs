@@ -48,7 +48,7 @@ public class GameSystem : MonoBehaviour
 
     private void Start()
     {
-        WorldGenerator.Generate(Global.instance.generatorSettings);
+        WorldGenerator.Generate(Global.instance.GetWorldGeneratorSettings(WorldSize.Small));
         m_state = State.GeneratingWorld;
     }
 

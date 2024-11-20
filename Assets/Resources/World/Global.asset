@@ -13,52 +13,54 @@ MonoBehaviour:
   m_Name: Global
   m_EditorClassIdentifier: 
   m_generatorSettings:
-    seed: 0
-    size: 8
-    height: 4
-    minBaseHeight: -20
-    maxBaseHeight: 20
-    plateformSurfaceScale: 0.1
-    MontainsPlacement:
-      baseFrequency: 10
-      baseAmplitude: 2
-      nbLayers: 2
-      layerAmplitudeScale: 0.5
-    montainsMinPlacementHeight: -0.5
-    montainsMaxPlacementHeight: 0.5
-    MontainsHeight:
-      baseFrequency: 16
-      baseAmplitude: -10
-      nbLayers: 3
-      layerAmplitudeScale: 1.5
-    montainsHeightMultiplier: 20
-    montainsHeightPower: 0.5
-    montainsHeightOffset: 10
-    montainsMinPlacementDist: 0.2
-    montainsMaxPacementDist: 0.7
-    montainsPlacementBlendDist: 0.25
-    Plains:
-      baseFrequency: 12
-      baseAmplitude: 8
-      nbLayers: 5
-      layerAmplitudeScale: 0.6
-    waterHeight: -10
-    crystalPatchSizeBase: 5
-    crystalPatchIncrease: 10
-    crystalPatchDensity: 15
-    crystalElevationMaxVariation: 2
-    crystalRetryCount: 2
-    crystalInitialPatchDistance: 10
-    crystalMinDistance: 15
-    oilDensity: 5
-    oilRetryCount: 1
-    oilMinDistance: 20
-    titaniumPatchMin: 4
-    titaniumPatchMax: 10
-    titaniumPatchDensity: 7
-    titaniumElevationMinVariation: 5
-    titaniumRetryCount: 2
-    titaniumMinDistance: 20
+  - size: 0
+    settings:
+      seed: 0
+      size: 8
+      height: 4
+      minBaseHeight: -20
+      maxBaseHeight: 20
+      plateformSurfaceScale: 0.1
+      MontainsPlacement:
+        baseFrequency: 10
+        baseAmplitude: 2
+        nbLayers: 2
+        layerAmplitudeScale: 0.5
+      montainsMinPlacementHeight: -0.5
+      montainsMaxPlacementHeight: 0.5
+      MontainsHeight:
+        baseFrequency: 16
+        baseAmplitude: -10
+        nbLayers: 3
+        layerAmplitudeScale: 1.5
+      montainsHeightMultiplier: 20
+      montainsHeightPower: 0.5
+      montainsHeightOffset: 10
+      montainsMinPlacementDist: 0.2
+      montainsMaxPacementDist: 0.7
+      montainsPlacementBlendDist: 0.25
+      Plains:
+        baseFrequency: 4
+        baseAmplitude: 5
+        nbLayers: 3
+        layerAmplitudeScale: 0.6
+      waterHeight: -10
+      crystalPatchSizeBase: 5
+      crystalPatchIncrease: 10
+      crystalPatchDensity: 15
+      crystalElevationMaxVariation: 2
+      crystalRetryCount: 2
+      crystalInitialPatchDistance: 10
+      crystalMinDistance: 15
+      oilDensity: 5
+      oilRetryCount: 1
+      oilMinDistance: 20
+      titaniumPatchMin: 4
+      titaniumPatchMax: 10
+      titaniumPatchDensity: 7
+      titaniumElevationMinVariation: 5
+      titaniumRetryCount: 2
+      titaniumMinDistance: 20
   m_blockDatas:
     defaultMaterial: {fileID: 2100000, guid: 963d52d036299094b986f2c929f03250, type: 2}
     waterMaterial: {fileID: 2100000, guid: ce8f60df2fcaed342971dd0e90f4368f, type: 2}

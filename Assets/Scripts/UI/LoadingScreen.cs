@@ -56,8 +56,17 @@ public class LoadingScreen : MonoBehaviour
 
         if (GameSystem.instance != null)
         {
-            m_text.gameObject.SetActive(true);
-            m_text.text = GameSystem.instance.GetStatus();
+            if (m_fadeStarted)
+            {
+                m_label.text = GameSystem.instance.GetStatus();
+                m_label.alignment = TextAlignmentOptions.Center;
+                m_text.gameObject.SetActive(false);
+            }
+            else
+            {
+                m_text.gameObject.SetActive(true);
+                m_text.text = GameSystem.instance.GetStatus();
+            }
         }
         else m_text.gameObject.SetActive(false);
 

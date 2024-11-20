@@ -13,12 +13,11 @@ public class RadioButton : Selectable, IPointerClickHandler, IEventSystemHandler
     [SerializeField] Image m_checkedImage;
     [SerializeField] bool m_checked = false;
 
-    public RadioButtonCheckedEvent onCheck { get; set; }
+    [SerializeField]
+    RadioButtonCheckedEvent onCheck;
 
-    public class RadioButtonCheckedEvent : UnityEvent
-    {
-        public RadioButtonCheckedEvent() { }
-    }
+    [Serializable]
+    public class RadioButtonCheckedEvent : UnityEvent { }
 
     protected override void Awake()
     {

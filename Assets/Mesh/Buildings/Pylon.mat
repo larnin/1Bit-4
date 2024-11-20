@@ -65,8 +65,8 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _LightFront: 1
-    - _LightLeft: 1
+    - _LightFront: 0.9
+    - _LightLeft: 0.8
     - _LightTop: 1
     - _Metallic: 0
     - _Mode: 0
