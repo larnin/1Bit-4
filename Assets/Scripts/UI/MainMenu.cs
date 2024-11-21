@@ -12,9 +12,12 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField] TMP_InputField m_seedField;
     [SerializeField] Button m_quitButton;
+    [SerializeField] string m_gameSceneName;
 
     WorldSize m_worldSize = WorldSize.Medium;
     string m_seed = "";
+
+    bool m_selected = false;
 
     private void Start()
     {
@@ -40,19 +43,28 @@ public class MainMenu : MonoBehaviour
 
     public void Play()
     {
+        if (m_selected)
+            return;
+
+        m_selected = true;
         GameInfos.instance.gameParams.worldSize = m_worldSize;
         GameInfos.instance.gameParams.seed = Cast.HashString(m_seed);
 
-        //todo start game
+        SceneSystem.changeScene(m_gameSceneName, false, () => { Event<HideLoadingScreenEvent>.Broadcast(new HideLoadingScreenEvent()); });
     }
 
     public void Options()
     {
+        if (m_selected)
+            return;
 
     }
 
     public void Quit()
     {
+        if (m_selected)
+            return;
+
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else

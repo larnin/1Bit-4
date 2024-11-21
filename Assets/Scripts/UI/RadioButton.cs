@@ -43,6 +43,8 @@ public class RadioButton : Selectable, IPointerClickHandler, IEventSystemHandler
     void OnSelect()
     {
         m_checked = true;
+        if (onCheck != null)
+            onCheck.Invoke();
         UpdateSprite();
         UpdateNeighbors();
     }
