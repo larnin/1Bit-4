@@ -10,9 +10,11 @@ public class SelectionDisplay : MonoBehaviour
 {
     SubscriberList m_subscriberList = new SubscriberList();
     Image m_image;
+    RectTransform m_transform;
 
     private void Awake()
     {
+        m_transform = GetComponent<RectTransform>();
         m_image = GetComponentInChildren<Image>();
         m_image.gameObject.SetActive(false);
 
@@ -29,14 +31,23 @@ public class SelectionDisplay : MonoBehaviour
 
     void DisplaySelection(DisplaySelectionBoxEvent e)
     {
+        GetCameraEvent camera = new GetCameraEvent();
+        Event<GetCameraEvent>.Broadcast(camera);
+        if (camera.camera == null)
+            return;
+
         m_image.gameObject.SetActive(true);
 
-        Vector3 center = (e.pos1 + e.pos2) / 2;
+        Vector2 pos1, pos2;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(m_transform, e.pos1, camera.camera, out pos1);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(m_transform, e.pos2, camera.camera, out pos2);
 
-        m_image.rectTransform.position = center;
-        var scale = m_image.rectTransform.lossyScale;
-        float width = Mathf.Abs(e.pos1.x - e.pos2.x) / scale.x;
-        float height = Mathf.Abs(e.pos1.y - e.pos2.y) / scale.y;
+        Vector3 center = (pos1 + pos2) / 2;
+
+        m_image.rectTransform.localPosition = center;
+        
+        float width = Mathf.Abs(pos1.x - pos2.x);
+        float height = Mathf.Abs(pos1.y - pos2.y);
         m_image.rectTransform.sizeDelta = new Vector2(width, height);
     }
 

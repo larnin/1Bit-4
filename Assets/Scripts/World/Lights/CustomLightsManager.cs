@@ -23,6 +23,7 @@ public class CustomLightsManager : MonoBehaviour
     [SerializeField] float m_lightTop = 1;
     [SerializeField] float m_lightLeft = 1;
     [SerializeField] float m_lightFront = 1;
+    [SerializeField] bool m_discoverEverything = false;
 
     List<CustomLight> m_lights = new List<CustomLight>();
 
@@ -64,21 +65,26 @@ public class CustomLightsManager : MonoBehaviour
 
         RenderTextureEx.BeginOrthoRendering(m_renderTexture);
 
-        GL.Clear(true, true, Color.black);
-
-        foreach (var l in m_lights)
+        if(m_discoverEverything)
+            GL.Clear(true, true, Color.white);
+        else
         {
-            if (l == null)
-                continue;
+            GL.Clear(true, true, Color.black);
 
-            Vector3 pos3 = l.transform.position;
-            Vector2 pos = new Vector2((pos3.x - l.GetRadius()) / gridSize, (pos3.z - l.GetRadius()) / gridSize);
-            Vector2 size = new Vector2(l.GetRadius() * 2 / gridSize, l.GetRadius() * 2 / gridSize);
+            foreach (var l in m_lights)
+            {
+                if (l == null)
+                    continue;
 
-            m_circleMaterial.SetFloat(radiusName, l.GetRadius());
-            RenderTextureEx.DrawQuad(m_renderTexture, m_circleMaterial, new Rect(pos, size));
+                Vector3 pos3 = l.transform.position;
+                Vector2 pos = new Vector2((pos3.x - l.GetRadius()) / gridSize, (pos3.z - l.GetRadius()) / gridSize);
+                Vector2 size = new Vector2(l.GetRadius() * 2 / gridSize, l.GetRadius() * 2 / gridSize);
+
+                m_circleMaterial.SetFloat(radiusName, l.GetRadius());
+                RenderTextureEx.DrawQuad(m_renderTexture, m_circleMaterial, new Rect(pos, size));
+            }
         }
-
+        
         RenderTextureEx.EndRendering(m_renderTexture);
 
         foreach (var m in m_lightedMaterials)

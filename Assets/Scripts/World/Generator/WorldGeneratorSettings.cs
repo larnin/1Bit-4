@@ -8,9 +8,6 @@ using UnityEngine;
 [Serializable]
 public class WorldGeneratorSettings
 {
-    [HideInInspector]
-    public int seed = 0;
-
     public int size = 16;
     public int height = 4;
 

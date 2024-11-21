@@ -40,7 +40,10 @@ public class MainMenu : MonoBehaviour
 
     public void Play()
     {
+        GameInfos.instance.gameParams.worldSize = m_worldSize;
+        GameInfos.instance.gameParams.seed = Cast.HashString(m_seed);
 
+        //todo start game
     }
 
     public void Options()

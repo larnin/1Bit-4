@@ -8,6 +8,7 @@ using UnityEngine;
 public class GetCameraEvent
 {
     public Camera camera;
+    public Camera UICamera;
 }
 
 public class SetHoveredObjectEvent

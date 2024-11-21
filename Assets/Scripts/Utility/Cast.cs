@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,5 +21,12 @@ public static class Cast
         Span<byte> data = stackalloc byte[4];
         BitConverter.TryWriteBytes(data, source);
         return BitConverter.ToUInt64(data);
+    }
+
+    public static int HashString(string str)
+    {
+        MD5 md5Hasher = MD5.Create();
+        var hashed = md5Hasher.ComputeHash(Encoding.UTF8.GetBytes(str));
+        return BitConverter.ToInt32(hashed, 0);
     }
 }

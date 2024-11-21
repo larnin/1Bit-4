@@ -23,10 +23,11 @@ public static class WorldGenerator
     static string m_stateTxt = "";
 
     static WorldGeneratorSettings m_settings = null;
+    static int m_seed = 0;
     static Grid m_grid = null;
 
 
-    public static void Generate(WorldGeneratorSettings settings)
+    public static void Generate(WorldGeneratorSettings settings, int seed)
     {
         lock (m_stateLock)
         {
@@ -39,6 +40,7 @@ public static class WorldGenerator
             m_stateTxt = "Starting";
 
             m_settings = settings;
+            m_seed = seed;
         }
 
         ThreadPool.StartJob(JobWorker, OnEndJob, 1000);
@@ -106,7 +108,7 @@ public static class WorldGenerator
         for (int i = 0; i < m_settings.MontainsPlacement.nbLayers; i++)
         {
             placement[i] = new Perlin(size, m_settings.MontainsPlacement.baseAmplitude * MathF.Pow(m_settings.MontainsPlacement.layerAmplitudeScale, i)
-                , (int)(m_settings.MontainsPlacement.baseFrequency / MathF.Pow(2, i)), m_settings.seed + seedIndex);
+                , (int)(m_settings.MontainsPlacement.baseFrequency / MathF.Pow(2, i)), m_seed + seedIndex);
             seedIndex++;
         }
 
@@ -114,7 +116,7 @@ public static class WorldGenerator
         for (int i = 0; i < m_settings.MontainsHeight.nbLayers; i++)
         {
             montains[i] = new Turbulence(size, m_settings.MontainsHeight.baseAmplitude * MathF.Pow(m_settings.MontainsHeight.layerAmplitudeScale, i)
-                , (int)(m_settings.MontainsHeight.baseFrequency / MathF.Pow(2, i)), m_settings.seed + seedIndex);
+                , (int)(m_settings.MontainsHeight.baseFrequency / MathF.Pow(2, i)), m_seed + seedIndex);
             seedIndex++;
         }
 
@@ -122,7 +124,7 @@ public static class WorldGenerator
         for (int i = 0; i < m_settings.Plains.nbLayers; i++)
         {
             plains[i] = new Perlin(size, m_settings.Plains.baseAmplitude * MathF.Pow(m_settings.Plains.layerAmplitudeScale, i)
-                , (int)(m_settings.Plains.baseFrequency / MathF.Pow(2, i)), m_settings.seed + seedIndex);
+                , (int)(m_settings.Plains.baseFrequency / MathF.Pow(2, i)), m_seed + seedIndex);
             seedIndex++;
         }
 
@@ -254,7 +256,7 @@ public static class WorldGenerator
     {
         int size = GridEx.GetRealSize(m_grid);
 
-        MT19937 rand = new MT19937((uint)m_settings.seed + 1);
+        MT19937 rand = new MT19937((uint)m_seed + 1);
 
         //place initial patch
         var initialPoint = Rand2D.UniformVector2CircleSurfaceDistribution(rand);
@@ -344,7 +346,7 @@ public static class WorldGenerator
 
         float radius = Mathf.Sqrt(maxCount) / 2 + 1;
 
-        var rand = new MT19937((uint)(m_settings.seed + pos.x + pos.y));
+        var rand = new MT19937((uint)(m_seed + pos.x + pos.y));
 
         while(openList.Count > 0 && addedCount < maxCount)
         {
@@ -418,7 +420,7 @@ public static class WorldGenerator
     {
         int size = GridEx.GetRealSize(m_grid);
 
-        MT19937 rand = new MT19937((uint)m_settings.seed + 2);
+        MT19937 rand = new MT19937((uint)m_seed + 2);
 
         // rain drom patchs
         float densitySize = (float)size / m_settings.oilDensity;
@@ -479,7 +481,7 @@ public static class WorldGenerator
     {
         int size = GridEx.GetRealSize(m_grid);
 
-        MT19937 rand = new MT19937((uint)m_settings.seed + 3);
+        MT19937 rand = new MT19937((uint)m_seed + 3);
 
         // rain drom patchs
         float densitySize = (float)size / m_settings.titaniumPatchDensity;
@@ -562,7 +564,7 @@ public static class WorldGenerator
 
         int addedCount = 1;
 
-        var rand = new MT19937((uint)(m_settings.seed + 1 + pos.x + pos.y));
+        var rand = new MT19937((uint)(m_seed + 1 + pos.x + pos.y));
 
         int maxCount = Rand.UniformIntDistribution(m_settings.titaniumPatchMin, m_settings.titaniumPatchMax, rand);
         float radius = Mathf.Sqrt(maxCount) / 2 + 1;

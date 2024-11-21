@@ -17,8 +17,9 @@ public class GameCamera : MonoBehaviour
     [SerializeField] float m_rotationDuration = 0.5f;
     [SerializeField] float m_cameraResetPressTime = 1.0f;
     [SerializeField] float m_cameraResetTime = 0.5f;
+    [SerializeField] Camera m_camera;
+    [SerializeField] Camera m_UICamera;
 
-    Camera m_camera;
     Vector3 m_initialPosition;
     float m_initialAngle;
     float m_size;
@@ -61,7 +62,6 @@ public class GameCamera : MonoBehaviour
 
     private void Start()
     {
-        m_camera = Camera.main;
         m_initialPosition = transform.position;
         m_initialAngle = transform.rotation.eulerAngles.y;
         m_startAngle = m_initialAngle;
@@ -252,6 +252,7 @@ public class GameCamera : MonoBehaviour
     void GetCamera(GetCameraEvent e)
     {
         e.camera = m_camera;
+        e.UICamera = m_UICamera;
     }
 
     void GetCameraScale(GetCameraScaleEvent e)
@@ -261,16 +262,7 @@ public class GameCamera : MonoBehaviour
 
     void UpdateCameraMatrix()
     {
-        //cheat the system
-        //i need a deferred rendering path to generate the texture for the sobel effect
-        //juste apply an ortho matrix to the perspective camera mode to force the deferred mode
-
-        //float aspect = (float)Screen.width / Screen.height;
-
-        //Matrix4x4 ortho = Matrix4x4.Ortho(-m_size * aspect, m_size * aspect, -m_size, m_size, m_camera.nearClipPlane, m_camera.farClipPlane);
-
-        //m_camera.projectionMatrix = ortho;
-
         m_camera.orthographicSize = m_size;
+        m_UICamera.orthographicSize = m_size;
     }
 }
