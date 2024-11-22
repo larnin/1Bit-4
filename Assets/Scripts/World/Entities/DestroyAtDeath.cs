@@ -25,6 +25,9 @@ public class DestroyAtDeath : MonoBehaviour
 
     private void Update()
     {
+        if (GameInfos.instance.paused)
+            return;
+
         if(m_dead)
         {
             float nextTimer = m_deadTimer + Time.deltaTime;

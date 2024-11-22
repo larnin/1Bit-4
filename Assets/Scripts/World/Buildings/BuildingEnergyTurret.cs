@@ -83,6 +83,9 @@ public class BuildingEnergyTurret : BuildingBase
     {
         base.Update();
 
+        if (GameInfos.instance.paused)
+            return;
+
         if (EntityList.instance == null)
             m_target = null;
         else

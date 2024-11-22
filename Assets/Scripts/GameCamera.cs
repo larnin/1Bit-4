@@ -77,6 +77,9 @@ public class GameCamera : MonoBehaviour
 
     private void Update()
     {
+        if (GameInfos.instance.paused)
+            return;
+
         float scrollY = Input.mouseScrollDelta.y;
         if (scrollY != 0 && m_resetTime <= 0)
         {

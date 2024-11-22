@@ -39,6 +39,9 @@ public class BuildingPowerPlant : BuildingBase
     {
         m_efficiency = 0;
 
+        if (GameInfos.instance.paused)
+            return;
+
         if (ConnexionSystem.instance != null && !ConnexionSystem.instance.IsConnected(this))
             return;
 

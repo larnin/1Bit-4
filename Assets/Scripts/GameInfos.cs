@@ -11,6 +11,7 @@ public class GameInfos
 
     public Settings settings = new Settings();
     public GameParams gameParams = new GameParams();
+    public bool paused = false;
 
     public static GameInfos instance
     {

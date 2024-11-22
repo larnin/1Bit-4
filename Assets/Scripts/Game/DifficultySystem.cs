@@ -59,6 +59,9 @@ public class DifficultySystem : MonoBehaviour
 
     private void Update()
     {
+        if (GameInfos.instance.paused)
+            return;
+
         if (m_started)
             m_time += Time.deltaTime;
 

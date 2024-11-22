@@ -22,6 +22,7 @@ public class GameInterface : MonoBehaviour
     [SerializeField] PlaceBuildingCursor m_buildingCursor;
     [SerializeField] SelectCursor m_selectCursor;
     [SerializeField] BuildingDetailDisplay m_detail;
+    [SerializeField] GameObject m_pausePrefab;
 
     RectTransform m_buildingsBackground;
     List<BuildingButton> m_buildingButtons = new List<BuildingButton>();
@@ -67,17 +68,27 @@ public class GameInterface : MonoBehaviour
 
     public void OnClickOptions()
     {
+        m_selectCursor.SetCursorEnabled(false);
+        m_buildingCursor.SetCursorDisabled();
 
+        if (m_pausePrefab)
+            Instantiate(m_pausePrefab);
     }
 
     private void Update()
     {
         UpdateBuildingsButtons();
 
-        if (m_buildingCursor != null && m_selectCursor != null)
+        if (!GameInfos.instance.paused)
         {
-            if (!m_buildingCursor.IsCursorEnabled() && !m_selectCursor.IsCursorEnabled())
-                m_selectCursor.SetCursorEnabled(true);
+            if (m_buildingCursor != null && m_selectCursor != null)
+            {
+                if (!m_buildingCursor.IsCursorEnabled() && !m_selectCursor.IsCursorEnabled())
+                    m_selectCursor.SetCursorEnabled(true);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+                OnClickOptions();
         }
     }
 

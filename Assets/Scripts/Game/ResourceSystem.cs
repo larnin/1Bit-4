@@ -28,18 +28,23 @@ public class ResourceSystem : MonoBehaviour
         public float production;
         public float consumption;
 
+        float time;
+
         List<OneResourceHistory> m_history = new List<OneResourceHistory>();
+
         public void UpdateHistory()
         {
+            time += Time.deltaTime;
+
             var newPoint = new OneResourceHistory();
             newPoint.count = production - consumption;
-            newPoint.time = Time.time;
+            newPoint.time = time;
 
             m_history.Insert(0, newPoint);
 
             for(int i = 0; i < m_history.Count; i++)
             {
-                if(m_history[i].time < Time.time - 1)
+                if(m_history[i].time < time - 1)
                 {
                     m_history.RemoveAt(i);
                     i--;
@@ -85,11 +90,17 @@ public class ResourceSystem : MonoBehaviour
 
     private void Update()
     {
+        if (GameInfos.instance.paused)
+            return;
+
         UpdateEnergy();
     }
 
     private void LateUpdate()
     {
+        if (GameInfos.instance.paused)
+            return;
+
         foreach(var r in m_resources)
         {
             r.UpdateHistory();

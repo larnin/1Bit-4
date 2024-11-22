@@ -22,6 +22,9 @@ public class EnnemyBehaviour : MonoBehaviour
 
     private void Update()
     {
+        if (GameInfos.instance.paused)
+            return;
+
         if (m_weapon == null || m_move == null)
             return;
 

@@ -16,6 +16,9 @@ public class ProjectileSimple : ProjectileBase
 
     private void Update()
     {
+        if (GameInfos.instance.paused)
+            return;
+
         var dir = transform.forward;
 
         var nextPos = transform.position + dir * Time.deltaTime * m_speed;

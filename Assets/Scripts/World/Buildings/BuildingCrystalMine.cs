@@ -60,6 +60,9 @@ public class BuildingCrystalMine : BuildingBase
     {
         base.Update();
 
+        if (GameInfos.instance.paused)
+            return;
+
         if (!IsAdded())
             return;
 

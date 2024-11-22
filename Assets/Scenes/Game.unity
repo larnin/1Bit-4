@@ -2107,6 +2107,7 @@ MonoBehaviour:
   m_buildingCursor: {fileID: 1754772337}
   m_selectCursor: {fileID: 2063130299}
   m_detail: {fileID: 1415438940}
+  m_pausePrefab: {fileID: 3465249205839453648, guid: 0751f46b97d8eb542b06198c407f8feb, type: 3}
 --- !u!1 &1554883010
 GameObject:
   m_ObjectHideFlags: 0

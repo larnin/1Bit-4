@@ -59,6 +59,9 @@ public class BuildingWaterPump : BuildingBase
     {
         base.Update();
 
+        if (GameInfos.instance.paused)
+            return;
+
         if (!IsAdded())
             return;
 

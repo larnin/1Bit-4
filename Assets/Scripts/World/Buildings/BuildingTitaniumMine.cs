@@ -65,6 +65,9 @@ public class BuildingTitaniumMine : BuildingBase
     {
         base.Update();
 
+        if (GameInfos.instance.paused)
+            return;
+
         if (!IsAdded())
             return;
 
