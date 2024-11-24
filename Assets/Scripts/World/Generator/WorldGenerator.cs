@@ -235,7 +235,7 @@ public static class WorldGenerator
                 BlockType type = BlockType.ground;
                 if (testHeight < m_settings.waterHeight)
                 {
-                    testHeight = m_settings.waterHeight;
+                    testHeight = m_settings.waterHeight + 1;
                     type = BlockType.water;
                 }
 
