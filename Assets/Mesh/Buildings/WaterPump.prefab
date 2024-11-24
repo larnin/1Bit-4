@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4766931038948199759
+--- !u!1 &3692538273452692935
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,90 +8,90 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4766931038948199754}
-  - component: {fileID: 4766931038948199755}
-  - component: {fileID: 4766931038948199752}
-  - component: {fileID: 4766931038948199753}
-  - component: {fileID: 4766931038948199758}
+  - component: {fileID: 1161977969527038502}
+  - component: {fileID: 5276887668383543597}
+  - component: {fileID: 2902177218351130972}
+  - component: {fileID: 707250893984543062}
+  - component: {fileID: 8033707718964277924}
   m_Layer: 7
-  m_Name: CrystalMine
+  m_Name: WaterPump
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4766931038948199754
+--- !u!4 &1161977969527038502
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4766931038948199759}
+  m_GameObject: {fileID: 3692538273452692935}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4766931040100820191}
+  - {fileID: 3782116022863553344}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4766931038948199755
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4766931038948199759}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6268f5eccede02847ade80903b136f88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_energyConsumption: 1
-  m_generatedResource: 1
-  m_generation: 1
-  m_mineRadius: 1
---- !u!114 &4766931038948199752
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4766931038948199759}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7566a92e6c74f2489fe792a67f7a91b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_radius: 0.5
---- !u!65 &4766931038948199753
+--- !u!65 &5276887668383543597
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4766931038948199759}
+  m_GameObject: {fileID: 3692538273452692935}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 2, y: 2, z: 2}
   m_Center: {x: 0.5, y: 0.5, z: 0.5}
---- !u!114 &4766931038948199758
+--- !u!114 &2902177218351130972
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4766931038948199759}
+  m_GameObject: {fileID: 3692538273452692935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baf406541146a7c4ab1f17ad344ffe82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_energyConsumption: 1
+  m_generatedResource: 5
+  m_generation: 1
+  m_pumpRadius: 1
+--- !u!114 &707250893984543062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3692538273452692935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7566a92e6c74f2489fe792a67f7a91b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_radius: 0.5
+--- !u!114 &8033707718964277924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3692538273452692935}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea1b57c4fdc500c40aa17e0bc75161ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_maxLife: 20
---- !u!1 &4766931040100820188
+--- !u!1 &4644585105652680625
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,46 +99,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4766931040100820191}
-  - component: {fileID: 4766931040100820185}
-  - component: {fileID: 4766931040100820190}
+  - component: {fileID: 3782116022863553344}
+  - component: {fileID: 2091848573411844911}
+  - component: {fileID: 1442183813982116138}
   m_Layer: 7
-  m_Name: default
+  m_Name: WaterPump
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4766931040100820191
+--- !u!4 &3782116022863553344
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4766931040100820188}
+  m_GameObject: {fileID: 4644585105652680625}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.5, y: -0.5, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4766931038948199754}
+  m_Father: {fileID: 1161977969527038502}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &4766931040100820185
+--- !u!33 &2091848573411844911
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4766931040100820188}
-  m_Mesh: {fileID: -2432090755550338912, guid: 32bcd0ac5d121e84f8556685729906df, type: 3}
---- !u!23 &4766931040100820190
+  m_GameObject: {fileID: 4644585105652680625}
+  m_Mesh: {fileID: -2432090755550338912, guid: 73d09f6f7a0c1804fa9fd30f7a2e748b, type: 3}
+--- !u!23 &1442183813982116138
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4766931040100820188}
+  m_GameObject: {fileID: 4644585105652680625}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1

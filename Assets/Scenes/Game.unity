@@ -1345,6 +1345,8 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 4859aa7187332834db6f2d9582b85c42, type: 2}
   - {fileID: 2100000, guid: cb8a2e6e825818f4c92b0ffacea649b7, type: 2}
   - {fileID: 2100000, guid: 899b8c153b3e83c44907528d303cf8e2, type: 2}
+  - {fileID: 2100000, guid: 524ced02a1a46794eb9b3eaa741097fe, type: 2}
+  - {fileID: 2100000, guid: 0ce6cd3211c88624c9a87b40428c9fc4, type: 2}
   m_lightTop: 1
   m_lightLeft: 0.8
   m_lightFront: 0.9
@@ -2473,7 +2475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_grid: {fileID: 1334327366}
-  m_unlockedBuilding: 010000000d00000009000000
+  m_unlockedBuilding: 010000000d000000090000000c000000
 --- !u!114 &1693670529
 MonoBehaviour:
   m_ObjectHideFlags: 0

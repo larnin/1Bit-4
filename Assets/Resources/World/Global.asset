@@ -15,7 +15,6 @@ MonoBehaviour:
   m_generatorSettings:
   - size: 0
     settings:
-      seed: 0
       size: 8
       height: 4
       minBaseHeight: -20
@@ -103,7 +102,7 @@ MonoBehaviour:
         - type: 1
           count: 150
     - type: 9
-      prefab: {fileID: 8980227278082799627, guid: 4fb2e94b546243641bb634c41abbf7a5, type: 3}
+      prefab: {fileID: 4766931038948199759, guid: 8e67c6f7cee838c4dadbec18f9ed4b86, type: 3}
       sprite: {fileID: 0}
       spriteWithBorder: {fileID: 0}
       size: {x: 2, y: 2, z: 2}
@@ -113,6 +112,18 @@ MonoBehaviour:
         cost:
         - type: 1
           count: 50
+    - type: 12
+      prefab: {fileID: 3692538273452692935, guid: 81f7408822501de4eb06da25a0d5d952, type: 3}
+      sprite: {fileID: 0}
+      spriteWithBorder: {fileID: 0}
+      size: {x: 2, y: 2, z: 2}
+      name: Water Pump
+      description: Must be placed near a water source. Collect water at a small cost
+        of energy
+      cost:
+        cost:
+        - type: 1
+          count: 10
   m_resourcesDatas:
     m_resources:
     - type: 0
