@@ -12,9 +12,15 @@ public class BuildingCrystalMine : BuildingBase
     [SerializeField] float m_generation = 1;
     [SerializeField] int m_mineRadius = 1;
 
+    class MineData
+    {
+        public Vector3Int pos;
+        public GameObject mineObject;
+    }
+
     float m_energyUptake;
     float m_energyEfficiency = 1;
-    List<Vector3Int> m_crystals = new List<Vector3Int>();
+    List<MineData> m_crystals = new List<MineData>();
 
     SubscriberList m_subscriberList = new SubscriberList();
 
@@ -54,6 +60,8 @@ public class BuildingCrystalMine : BuildingBase
     {
         base.Start();
         m_crystals = GetCrystalsAround(GetPos());
+        foreach (var item in m_crystals)
+            CreateMineItem(item);
     }
 
     protected override void Update()
@@ -81,12 +89,13 @@ public class BuildingCrystalMine : BuildingBase
             return false;
 
         var points = GetCrystalsAround(pos);
+        UpdateCursorCrystalsUsed(points);
         return points.Count > 0;
     }
 
-    List<Vector3Int> GetCrystalsAround(Vector3Int pos)
+    List<MineData> GetCrystalsAround(Vector3Int pos)
     {
-        List<Vector3Int> points = new List<Vector3Int>();
+        List<MineData> points = new List<MineData>();
 
         GetGridEvent grid = new GetGridEvent();
         Event<GetGridEvent>.Broadcast(grid);
@@ -134,7 +143,10 @@ public class BuildingCrystalMine : BuildingBase
                 if (crystal.used)
                     continue;
 
-                points.Add(itemPos);
+                MineData data = new MineData();
+                data.pos = itemPos;
+
+                points.Add(data);
             }
         }
 
@@ -146,9 +158,12 @@ public class BuildingCrystalMine : BuildingBase
         if (e.used)
             return;
 
+        if (!IsAdded())
+            return;
+
         foreach(var p in m_crystals)
         {
-            if(p == e.pos)
+            if(p.pos == e.pos)
             {
                 e.used = true;
                 break;
@@ -184,6 +199,39 @@ public class BuildingCrystalMine : BuildingBase
         UIElementData.Create<UIElementLabelAndText>(e.container).SetLabel(label).SetTextFunc(CrystalCollectionStr);
         }
         UIElementData.Create<UIElementFillValue>(e.container).SetLabel("Efficiency").SetMax(1).SetValueFunc(GetEfficiency).SetValueDisplayType(UIElementFillValueDisplayType.percent).SetNbDigits(0);
+    }
+
+    void CreateMineItem(MineData data)
+    {
+        var prefab = Global.instance.buildingDatas.mineItemPrefab;
+        if (prefab == null)
+            return;
+
+        data.mineObject = Instantiate(prefab);
+        data.mineObject.transform.parent = transform;
+        data.mineObject.transform.rotation = Quaternion.identity;
+
+        data.mineObject.transform.position = data.pos;
+    }
+
+    void UpdateCursorCrystalsUsed(List<MineData> datas)
+    {
+        foreach(var d in datas)
+        {
+            var item = m_crystals.Find(x => { return x.pos == d.pos; });
+            if (item != null)
+                d.mineObject = item.mineObject;
+            else CreateMineItem(d);
+        }
+
+        foreach(var item in m_crystals)
+        {
+            var d = datas.Find(x => { return x.pos == item.pos; });
+            if (d == null)
+                Destroy(item.mineObject);
+        }
+
+        m_crystals = datas;
     }
 }
 

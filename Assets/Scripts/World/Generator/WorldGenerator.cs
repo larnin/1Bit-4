@@ -445,8 +445,8 @@ public static class WorldGenerator
                     if (!CanPlaceOilAt(new Vector2Int(x, y)))
                         continue;
 
-                    int height = GridEx.GetHeight(m_grid, new Vector2Int(i, j));
-                    GridEx.SetBlock(m_grid, new Vector3Int(i, height, j), BlockType.oil);
+                    int height = GridEx.GetHeight(m_grid, new Vector2Int(x, y));
+                    GridEx.SetBlock(m_grid, new Vector3Int(x, height, y), BlockType.oil);
                     break;
                 }
             }

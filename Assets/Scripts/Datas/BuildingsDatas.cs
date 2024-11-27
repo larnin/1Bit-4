@@ -68,6 +68,7 @@ public class OneBuildingData
 public class BuildingsDatas
 {
     [SerializeField] List<OneBuildingData> m_buildings;
+    public GameObject mineItemPrefab;
 
     public OneBuildingData GetBuilding(BuildingType type)
     {

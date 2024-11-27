@@ -1340,6 +1340,8 @@ MonoBehaviour:
   m_lightedMaterials:
   - {fileID: 2100000, guid: 963d52d036299094b986f2c929f03250, type: 2}
   - {fileID: 2100000, guid: 62b1df7190384634fb819dd47b16fcbc, type: 2}
+  - {fileID: 2100000, guid: 7cd8a5a11711d6345b1dbcde469c99a6, type: 2}
+  - {fileID: 2100000, guid: 3a2c718f17120fd4c8d9098b32dbeb27, type: 2}
   m_unlitMaterials:
   - {fileID: 2100000, guid: c750478f392003e4f96db78cafc4b825, type: 2}
   - {fileID: 2100000, guid: 4859aa7187332834db6f2d9582b85c42, type: 2}

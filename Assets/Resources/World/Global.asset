@@ -51,8 +51,8 @@ MonoBehaviour:
       crystalRetryCount: 2
       crystalInitialPatchDistance: 10
       crystalMinDistance: 15
-      oilDensity: 5
-      oilRetryCount: 1
+      oilDensity: 10
+      oilRetryCount: 3
       oilMinDistance: 20
       titaniumPatchMin: 4
       titaniumPatchMax: 10
@@ -66,6 +66,10 @@ MonoBehaviour:
     customBlocks:
     - type: 3
       prefab: {fileID: 2083799976012209129, guid: d54fbf1147769194eae1a4915554ee16, type: 3}
+    - type: 5
+      prefab: {fileID: 8456270362634877586, guid: 3c803b095a069cf49a886d3f7760e830, type: 3}
+    - type: 4
+      prefab: {fileID: 3008861276544816395, guid: c6e294c93c8ab094f97647343a50d57d, type: 3}
   m_buildingDatas:
     m_buildings:
     - type: 0
@@ -124,6 +128,7 @@ MonoBehaviour:
         cost:
         - type: 1
           count: 10
+    mineItemPrefab: {fileID: 6943061212826655842, guid: 020dedfdfd13d1c49ac25e185f22167b, type: 3}
   m_resourcesDatas:
     m_resources:
     - type: 0

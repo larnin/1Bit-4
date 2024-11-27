@@ -75,7 +75,7 @@ MonoBehaviour:
     value: 10
   normalMultiplier:
     overrideState: 1
-    value: 1
+    value: 100
   normalBias:
     overrideState: 1
     value: 1

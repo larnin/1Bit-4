@@ -11,7 +11,7 @@ Shader "Unlit/CustomLighted"
     }
     SubShader
     {
-        Tags { "RenderType" = "Opaque" }
+        Tags { "RenderType" = "TransparentCutout" }
         LOD 100
 
         Pass
@@ -71,7 +71,9 @@ Shader "Unlit/CustomLighted"
                 mul += abs(dot(i.normal, float3(1, 0, 0))) * _LightLeft * _LightLeft;
                 mul += abs(dot(i.normal, float3(0, 0, 1))) * _LightFront * _LightFront;
 
-                return float4((col * light * mul).rgb, 1.0);
+				clip(col.a - 0.5);
+
+                return float4((col * light * mul).rgb, col.a);
             }
             ENDCG
         }
