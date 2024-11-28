@@ -46,7 +46,7 @@ MonoBehaviour:
       waterHeight: -10
       crystalPatchSizeBase: 5
       crystalPatchIncrease: 10
-      crystalPatchDensity: 15
+      crystalPatchDensity: 150
       crystalElevationMaxVariation: 2
       crystalRetryCount: 2
       crystalInitialPatchDistance: 10

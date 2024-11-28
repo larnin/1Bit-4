@@ -25,6 +25,7 @@ public static class WorldGenerator
     static WorldGeneratorSettings m_settings = null;
     static int m_seed = 0;
     static Grid m_grid = null;
+    static Matrix<Area> m_heights = null;
 
 
     public static void Generate(WorldGeneratorSettings settings, int seed)
@@ -84,20 +85,35 @@ public static class WorldGenerator
         m_grid = new Grid(m_settings.size, m_settings.height);
 
         m_stateTxt = "Generate Heights";
-        var areasHeight = GenerateMontains();
+        m_heights = GenerateMontains();
         m_stateTxt = "Generate Ground";
-        SimpleApplyHeight(areasHeight);
+        SimpleApplyHeight(m_heights);
 
         m_stateTxt = "Generate Resources";
         GenerateCrystal();
         GenerateOil();
         GenerateTitanium();
+
+        m_heights = null;
     }
 
-    static Matrix<float> GenerateMontains()
+    enum AreaType
+    {
+        Plain,
+        Mountains,
+        Water,
+    }
+
+    struct Area
+    {
+        public float height;
+        public AreaType type;
+    }
+
+    static Matrix<Area> GenerateMontains()
     {
         int size = GridEx.GetRealSize(m_grid);
-        var mat = new Matrix<float>(size, size);
+        var mat = new Matrix<Area>(size, size);
 
         Vector2 center = new Vector2(size / 2.0f, size / 2.0f);
         float maxDist = size / 2.0f;
@@ -133,6 +149,8 @@ public static class WorldGenerator
         {
             for (int j = 0; j < size; j++)
             {
+                AreaType areaType = AreaType.Plain;
+
                 float height = 0;
                 foreach (var p in placement)
                     height += p.Get(i, j);
@@ -143,20 +161,28 @@ public static class WorldGenerator
                 else height = (height - m_settings.montainsMinPlacementHeight) / (m_settings.montainsMaxPlacementHeight - m_settings.montainsMinPlacementHeight);
                 height *= GetMontainPlacement(i, j);
 
-                float montainHeight = 0;
                 if(height > 0)
                 {
+                    float montainHeight = 0;
                     foreach (var m in montains)
                         montainHeight += m.Get(i, j);
                     montainHeight += m_settings.montainsHeightOffset;
                     if (montainHeight < 0)
                         montainHeight = 0;
                     height *= montainHeight;
+
+                    areaType = AreaType.Mountains;
+
                 }
 
                 if (height > maxHeight)
                     maxHeight = height;
-                mat.Set(i, j, height);
+
+                Area a = new Area();
+                a.height = height;
+                a.type = areaType;
+
+                mat.Set(i, j, a);
             }
         }
         
@@ -164,7 +190,8 @@ public static class WorldGenerator
         {
             for (int j = 0; j < size; j++)
             {
-                float currentHeight = mat.Get(i, j);
+                Area a = mat.Get(i, j);
+                float currentHeight = a.height;
                 currentHeight /= maxHeight;
                 currentHeight = Mathf.Pow(currentHeight, m_settings.montainsHeightPower) * m_settings.montainsHeightMultiplier;
 
@@ -173,7 +200,8 @@ public static class WorldGenerator
 
                 currentHeight += GenerateBaseSurface(i, j);
 
-                mat.Set(i, j, currentHeight);
+                a.height = currentHeight;
+                mat.Set(i, j, a);
             }
         }
 
@@ -220,7 +248,7 @@ public static class WorldGenerator
         return 0;
     }
 
-    static void SimpleApplyHeight(Matrix<float> heights)
+    static void SimpleApplyHeight(Matrix<Area> heights)
     {
         int size = GridEx.GetRealSize(m_grid);
         int height = GridEx.GetRealHeight(m_grid);
@@ -231,12 +259,15 @@ public static class WorldGenerator
         {
             for(int k = 0; k < size; k++)
             {
-                float testHeight = heights.Get(i, k);
+                var a = heights.Get(i, k);
+                float testHeight = a.height;
                 BlockType type = BlockType.ground;
                 if (testHeight < m_settings.waterHeight)
                 {
                     testHeight = m_settings.waterHeight + 1;
                     type = BlockType.water;
+                    a.type = AreaType.Water;
+                    heights.Set(i, k, a);
                 }
 
                 int localHeight = (int)testHeight + midHeight;
@@ -296,6 +327,9 @@ public static class WorldGenerator
 
     static bool CanPlaceCrystalAt(Vector2Int pos)
     {
+        if (m_heights.Get(pos.x, pos.y).type != AreaType.Plain)
+            return false;
+
         int height = GridEx.GetHeight(m_grid, pos);
         if (height < 0)
             return false;
@@ -383,6 +417,9 @@ public static class WorldGenerator
             var dir = RotationEx.ToVector3Int((Rotation)i);
 
             Vector3Int testPos = pos + dir;
+
+            if (m_heights.Get(testPos.x, testPos.z).type != AreaType.Plain)
+                continue;
 
             var item = GridEx.GetBlock(m_grid, testPos);
             if(item == BlockType.ground)
