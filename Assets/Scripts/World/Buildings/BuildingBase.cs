@@ -93,7 +93,16 @@ public abstract class BuildingBase : MonoBehaviour
 
     public BoundsInt GetBounds()
     {
-        return new BoundsInt(GetPos(), GetSize());
+        return GetBounds(GetPos());
+    }
+
+    public BoundsInt GetBounds(Vector3Int pos)
+    {
+        var size = GetSize();
+        pos.x -= (size.x - 1) / 2;
+        pos.z -= (size.z - 1) / 2;
+
+        return new BoundsInt(pos, size);
     }
 
     public abstract BuildingType GetBuildingType();
@@ -111,7 +120,7 @@ public abstract class BuildingBase : MonoBehaviour
     {
         var grid = new GetGridEvent();
         Event<GetGridEvent>.Broadcast(grid);
-        var bounds = new BoundsInt(pos, GetSize());
+        var bounds = GetBounds(pos);
         if (grid.grid != null)
         {
             Vector3Int min = bounds.min;

@@ -113,6 +113,8 @@ public class PlaceBuildingCursor : MonoBehaviour
          Vector3 target = hit.point;
         target += hit.normal * 0.5f;
 
+        Debug.Log(target);
+
         Vector3Int targetInt = new Vector3Int(Mathf.RoundToInt(target.x), Mathf.RoundToInt(target.y), Mathf.RoundToInt(target.z));
         m_instance.transform.position = targetInt;
 
@@ -143,14 +145,14 @@ public class PlaceBuildingCursor : MonoBehaviour
         connectable.AddRange(BuildingList.instance.GetAllBuilding(BuildingType.BigPylon));
 
         bool canPlace = false;
-        foreach(var b in connectable)
+        foreach (var b in connectable)
         {
             if (!ConnexionSystem.instance.IsConnected(b))
                 continue;
 
             var targetPos = b.GetGroundCenter();
             var targetRadius = radius + b.PlacementRadius();
-            if(VectorEx.SqrMagnitudeXZ(targetPos - pos) < targetRadius * targetRadius)
+            if (VectorEx.SqrMagnitudeXZ(targetPos - pos) < targetRadius * targetRadius)
             {
                 canPlace = true;
                 break;

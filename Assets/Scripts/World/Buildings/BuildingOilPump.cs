@@ -80,7 +80,7 @@ public class BuildingOilPump : BuildingBase
     {
         var grid = new GetGridEvent();
         Event<GetGridEvent>.Broadcast(grid);
-        var bounds = new BoundsInt(pos, GetSize());
+        var bounds = GetBounds(pos);
         if (grid.grid != null)
         {
             Vector3Int min = bounds.min;

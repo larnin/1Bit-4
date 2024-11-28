@@ -121,13 +121,40 @@ MonoBehaviour:
       sprite: {fileID: 0}
       spriteWithBorder: {fileID: 0}
       size: {x: 2, y: 2, z: 2}
-      name: Water Pump
+      name: Water pump
       description: Must be placed near a water source. Collect water at a small cost
         of energy
       cost:
         cost:
         - type: 1
           count: 10
+    - type: 10
+      prefab: {fileID: 4113768736633810140, guid: ed337a5a723a2d14c9d462c4b3884343, type: 3}
+      sprite: {fileID: 0}
+      spriteWithBorder: {fileID: 0}
+      size: {x: 3, y: 3, z: 3}
+      name: Oil pump
+      description: With this oil, you can burn your ennemies !
+      cost:
+        cost: []
+    - type: 11
+      prefab: {fileID: 4535135477675010955, guid: 45b69403e14f6404fbc2f4f1f069b21d, type: 3}
+      sprite: {fileID: 0}
+      spriteWithBorder: {fileID: 0}
+      size: {x: 1, y: 4, z: 1}
+      name: Titanium mine
+      description: Collect titanium slowly, need oil to lubricate the drill.
+      cost:
+        cost: []
+    - type: 3
+      prefab: {fileID: 4066990896613456509, guid: 37550794bc0290e46a9e5d8eab111a70, type: 3}
+      sprite: {fileID: 0}
+      spriteWithBorder: {fileID: 0}
+      size: {x: 1, y: 1, z: 1}
+      name: Solar panel
+      description: Collect a small amount of energy
+      cost:
+        cost: []
     mineItemPrefab: {fileID: 6943061212826655842, guid: 020dedfdfd13d1c49ac25e185f22167b, type: 3}
   m_resourcesDatas:
     m_resources:
