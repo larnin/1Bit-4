@@ -46,8 +46,7 @@ MonoBehaviour:
       waterHeight: -10
       crystalPatchSizeBase: 5
       crystalPatchIncrease: 10
-      crystalPatchDensity: 150
-      crystalElevationMaxVariation: 2
+      crystalPatchDensity: 15
       crystalRetryCount: 2
       crystalInitialPatchDistance: 10
       crystalMinDistance: 15
@@ -56,9 +55,9 @@ MonoBehaviour:
       oilMinDistance: 20
       titaniumPatchMin: 4
       titaniumPatchMax: 10
-      titaniumPatchDensity: 7
-      titaniumElevationMinVariation: 5
-      titaniumRetryCount: 2
+      titaniumPatchDensity: 15
+      titaniumElevationMinVariation: 2
+      titaniumRetryCount: 4
       titaniumMinDistance: 20
   m_blockDatas:
     defaultMaterial: {fileID: 2100000, guid: 963d52d036299094b986f2c929f03250, type: 2}
@@ -153,6 +152,15 @@ MonoBehaviour:
       size: {x: 1, y: 1, z: 1}
       name: Solar panel
       description: Collect a small amount of energy
+      cost:
+        cost: []
+    - type: 6
+      prefab: {fileID: 3550513972471810787, guid: 4328f2ad333202f419ef6f5c0130b950, type: 3}
+      sprite: {fileID: 0}
+      spriteWithBorder: {fileID: 0}
+      size: {x: 1, y: 1, z: 1}
+      name: Battery
+      description: Store a small amount of energy for later
       cost:
         cost: []
     mineItemPrefab: {fileID: 6943061212826655842, guid: 020dedfdfd13d1c49ac25e185f22167b, type: 3}

@@ -169,10 +169,9 @@ public static class WorldGenerator
                     montainHeight += m_settings.montainsHeightOffset;
                     if (montainHeight < 0)
                         montainHeight = 0;
+                    else areaType = AreaType.Mountains;
+
                     height *= montainHeight;
-
-                    areaType = AreaType.Mountains;
-
                 }
 
                 if (height > maxHeight)
@@ -345,10 +344,6 @@ public static class WorldGenerator
                     continue;
 
                 int localHeight = GridEx.GetHeight(m_grid, localPos);
-                int deltaHeight = Mathf.Abs(height - localHeight);
-                if (deltaHeight > m_settings.crystalElevationMaxVariation)
-                    return false;
-
                 var item = GridEx.GetBlock(m_grid, new Vector3Int(localPos.x, localHeight, localPos.y));
                 if (item != BlockType.ground)
                     return false;
@@ -552,6 +547,9 @@ public static class WorldGenerator
 
     static bool CanPlaceTitaniumAt(Vector2Int pos)
     {
+        if (m_heights.Get(pos.x, pos.y).type != AreaType.Mountains)
+            return false;
+
         int height = GridEx.GetHeight(m_grid, pos);
         if (height < 0)
             return false;
@@ -639,9 +637,9 @@ public static class WorldGenerator
         for (int i = 0; i < 4; i++)
         {
             var dir = RotationEx.ToVector3Int((Rotation)i);
-
+            
             Vector3Int testPos = pos + dir;
-
+            
             int height = GridEx.GetHeight(m_grid, new Vector2Int(testPos.x, testPos.z));
             Vector3Int newPos = new Vector3Int(testPos.x, height, testPos.z);
 
@@ -649,7 +647,32 @@ public static class WorldGenerator
             if (item == BlockType.ground)
             {
                 newPos.y++;
-                points.Add(testPos);
+                points.Add(newPos);
+            }
+        }
+
+        for(int i = -1; i <= 1; i+= 2)
+        {
+            var dir = new Vector3Int(0, 1, 0);
+            Vector3Int testPos = pos + dir;
+
+            var item = GridEx.GetBlock(m_grid, testPos);
+            if (item == BlockType.air)
+            {
+                bool haveGround = false;
+                for (int j = 0; j < 4; j++)
+                {
+                    var dirGround = RotationEx.ToVector3Int((Rotation)j);
+                    Vector3Int testGround = testPos + dirGround;
+                    if(GridEx.GetBlock(m_grid, testGround) == BlockType.ground)
+                    {
+                        haveGround = true;
+                        break;
+                    }
+                }
+
+                if(haveGround)
+                    points.Add(testPos);
             }
         }
 

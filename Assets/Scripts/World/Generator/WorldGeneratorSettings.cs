@@ -33,7 +33,6 @@ public class WorldGeneratorSettings
     public float crystalPatchSizeBase = 5;
     public float crystalPatchIncrease = 10;
     public float crystalPatchDensity = 1;
-    public float crystalElevationMaxVariation = 3;
     public float crystalRetryCount = 2;
     public float crystalInitialPatchDistance = 10;
     public float crystalMinDistance = 15;

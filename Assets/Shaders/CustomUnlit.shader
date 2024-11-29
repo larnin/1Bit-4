@@ -54,9 +54,11 @@ Shader "Unlit/CustomUnlit"
             {
                 fixed4 col = tex2D(_MainTex, i.uv);
 
-                float mul = abs(dot(i.normal, float3(0, 1, 0))) * _LightTop * _LightTop;
-                mul += abs(dot(i.normal, float3(1, 0, 0))) * _LightLeft * _LightLeft;
-                mul += abs(dot(i.normal, float3(0, 0, 1))) * _LightFront * _LightFront;
+				float a = abs(dot(i.normal, float3(0, 1, 0))) * _LightTop;
+				float b = abs(dot(i.normal, float3(1, 0, 0))) * _LightLeft;
+				float c = abs(dot(i.normal, float3(0, 0, 1))) * _LightFront;
+
+                float mul = sqrt(a*a + b*b + c*c);
 
                 return col * mul;
             }
