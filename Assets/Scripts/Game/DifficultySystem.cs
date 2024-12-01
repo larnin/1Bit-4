@@ -112,7 +112,9 @@ public class DifficultySystem : MonoBehaviour
         float difficultyPerKill = Global.instance.difficultyDatas.difficultyPerMinute.Get(m_nbKill);
         float difficultyPerSpawner = Global.instance.difficultyDatas.difficultyPerMinute.Get(m_nbSpawnerDestroyed);
 
-        float difficulty = difficultyPerMinute + difficultyPerDistance + difficultyPerKill + difficultyPerSpawner;
+        float multiplier = Global.instance.difficultyDatas.GetDifficultyMultiplier(GameInfos.instance.gameParams.worldSize);
+
+        float difficulty = (difficultyPerMinute + difficultyPerDistance + difficultyPerKill + difficultyPerSpawner) * multiplier;
         if (difficulty < 0)
             return 0;
         return difficulty;

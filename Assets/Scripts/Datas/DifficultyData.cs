@@ -51,6 +51,13 @@ public class DifficultySpawnerData
 }
 
 [Serializable]
+public class DifficultySizeMultiplier
+{
+    public WorldSize size;
+    public float multiplier;
+}
+
+[Serializable]
 public  class DifficultyData
 {
     public DifficultyCurve difficultyPerMinute;
@@ -61,5 +68,17 @@ public  class DifficultyData
     public DifficultyCurve difficultyToSpawnerNb;
 
     public DifficultySpawnerData spawnersData;
+
+    public List<DifficultySizeMultiplier> difficultyMultipliers;
+    public float GetDifficultyMultiplier(WorldSize size)
+    {
+        foreach(var d in difficultyMultipliers)
+        {
+            if (d.size == size)
+                return d.multiplier;
+        }
+
+        return 1;
+    }
 }
 
