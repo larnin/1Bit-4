@@ -19,8 +19,6 @@ public class DifficultySystem : MonoBehaviour
     float m_maxDifficulty = 0;
     int m_nbSpawnerToSpawn = 0;
 
-    List<EnnemySpawner> m_spawners = new List<EnnemySpawner>();
-
     static DifficultySystem m_instance = null;
     public static DifficultySystem instance { get { return m_instance; } }
 
@@ -171,36 +169,40 @@ public class DifficultySystem : MonoBehaviour
         }
     }
 
-    public void Register(EnnemySpawner spawner)
-    {
-        m_spawners.Add(spawner);
-    }
-
-    public void UnRegister(EnnemySpawner spawner)
-    {
-        m_spawners.Remove(spawner);
-    }
-
     public int GetSpawnerNb()
     {
-        return m_spawners.Count();
+        if (BuildingList.instance == null)
+            return 0;
+
+        return BuildingList.instance.GetAllBuilding(BuildingType.EnnemySpawner).Count;
     }
 
-    public EnnemySpawner GetSpawnerFromIndex(int index)
+    public BuildingEnnemySpawner GetSpawnerFromIndex(int index)
     {
-        if (index < 0 || index >= m_spawners.Count)
+        if (BuildingList.instance == null)
             return null;
-        return m_spawners[index];
+
+        var list = BuildingList.instance.GetAllBuilding(BuildingType.EnnemySpawner);
+
+        if (index < 0 || index >= list.Count)
+            return null;
+
+        return (BuildingEnnemySpawner)list[index];
     }
 
-    public EnnemySpawner GetNearestSpawner(Vector3 pos)
+    public BuildingEnnemySpawner GetNearestSpawner(Vector3 pos)
     {
-        float bestDist = 0;
-        EnnemySpawner bestSpawner = null;
+        if (BuildingList.instance == null)
+            return null;
 
-        foreach (var s in m_spawners)
+        var list = BuildingList.instance.GetAllBuilding(BuildingType.EnnemySpawner);
+
+        float bestDist = 0;
+        BuildingBase bestSpawner = null;
+
+        foreach (var s in list)
         {
-            float dist = (pos - s.transform.position).sqrMagnitude;
+            float dist = (pos - s.GetPos()).sqrMagnitude;
 
             if (dist < bestDist || bestSpawner == null)
             {
@@ -209,7 +211,7 @@ public class DifficultySystem : MonoBehaviour
             }
         }
 
-        return bestSpawner;
+        return (BuildingEnnemySpawner)bestSpawner;
     }
 
 #if false

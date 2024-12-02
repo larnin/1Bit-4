@@ -5,6 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+public enum Team
+{
+    Player,
+    Ennemy,
+    Neutral
+}
+
 [Serializable]
 public class OneResourceCost
 {
@@ -58,6 +65,7 @@ public class OneBuildingData
     public Sprite sprite;
     public Sprite spriteWithBorder;
     public Vector3Int size = Vector3Int.one;
+    public Team team = Team.Player;
     public string name;
     [Multiline]
     public string description;

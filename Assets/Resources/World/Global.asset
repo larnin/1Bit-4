@@ -76,6 +76,7 @@ MonoBehaviour:
       sprite: {fileID: -484218993, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
       spriteWithBorder: {fileID: -1893695053, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
       size: {x: 2, y: 6, z: 2}
+      team: 0
       name: Tower
       description: The core of your factory, you must keep it alive at all cost.
       cost:
@@ -85,6 +86,7 @@ MonoBehaviour:
       sprite: {fileID: 716385322, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
       spriteWithBorder: {fileID: 1286962569, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
       size: {x: 1, y: 4, z: 1}
+      team: 0
       name: Small Pylon
       description: Allows you to connect buildings to each others. Generate a small
         quantity of energy
@@ -97,6 +99,7 @@ MonoBehaviour:
       sprite: {fileID: -1178010555, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
       spriteWithBorder: {fileID: 1298837695, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
       size: {x: 1, y: 2, z: 1}
+      team: 0
       name: Energy turret
       description: Fire small energy beams, deal small damages but only consume a
         small quantity of energy
@@ -109,6 +112,7 @@ MonoBehaviour:
       sprite: {fileID: 0}
       spriteWithBorder: {fileID: 0}
       size: {x: 2, y: 2, z: 2}
+      team: 0
       name: Crystal mine
       description: Must be placed around crystal. Consume some energy to mine crystal
       cost:
@@ -120,6 +124,7 @@ MonoBehaviour:
       sprite: {fileID: 0}
       spriteWithBorder: {fileID: 0}
       size: {x: 2, y: 2, z: 2}
+      team: 0
       name: Water pump
       description: Must be placed near a water source. Collect water at a small cost
         of energy
@@ -132,6 +137,7 @@ MonoBehaviour:
       sprite: {fileID: 0}
       spriteWithBorder: {fileID: 0}
       size: {x: 3, y: 3, z: 3}
+      team: 0
       name: Oil pump
       description: With this oil, you can burn your ennemies !
       cost:
@@ -141,6 +147,7 @@ MonoBehaviour:
       sprite: {fileID: 0}
       spriteWithBorder: {fileID: 0}
       size: {x: 1, y: 4, z: 1}
+      team: 0
       name: Titanium mine
       description: Collect titanium slowly, need oil to lubricate the drill.
       cost:
@@ -150,6 +157,7 @@ MonoBehaviour:
       sprite: {fileID: 0}
       spriteWithBorder: {fileID: 0}
       size: {x: 1, y: 1, z: 1}
+      team: 0
       name: Solar panel
       description: Collect a small amount of energy
       cost:
@@ -159,6 +167,7 @@ MonoBehaviour:
       sprite: {fileID: 0}
       spriteWithBorder: {fileID: 0}
       size: {x: 1, y: 1, z: 1}
+      team: 0
       name: Battery
       description: Store a small amount of energy for later
       cost:
@@ -222,14 +231,14 @@ MonoBehaviour:
       addValue: 0
       finalAddValue: 0
     spawnersData:
-      prefab: {fileID: 0}
-      delayBetweenWavesMin: 0
-      delayBetweenWavesMax: 0
-      distanceFromBuildingsMin: 0
-      distanceFromBuildingsMax: 0
-      delayBaseBetweenEnnemies: 0
-      delayReduceAfterNbEnnemies: 0
-      delaySpeedMultiplayerPerEnnemies: 0
+      prefab: {fileID: 8816298933707241032, guid: 1b2257b9fd5f06b49aa3922ad9f7eb0d, type: 3}
+      delayBetweenWavesMin: 60
+      delayBetweenWavesMax: 90
+      distanceFromBuildingsMin: 20
+      distanceFromBuildingsMax: 30
+      delayBaseBetweenEnnemies: 1
+      delayReduceAfterNbEnnemies: 10
+      delaySpeedMultiplayerPerEnnemies: 0.05
       difficultyToMaxEnnemies:
         baseValue: 0
         powValue: 0
@@ -237,6 +246,7 @@ MonoBehaviour:
         addValue: 0
         finalAddValue: 0
       ennemies: []
+    difficultyMultipliers: []
   m_UIElementDatas:
     spacing: 1
     simpleTextPrefab: {fileID: 5313160618128964874, guid: 964242146cd4cc043afb125a1cf639cf, type: 3}

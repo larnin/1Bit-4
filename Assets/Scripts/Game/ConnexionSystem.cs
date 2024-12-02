@@ -83,6 +83,9 @@ public class ConnexionSystem : MonoBehaviour
                 if (building == current)
                     continue;
 
+                if (building.GetTeam() != Team.Player)
+                    continue;
+
                 Vector3 pos = building.GetPos();
 
                 float dist = VectorEx.SqrMagnitudeXZ(pos - currentPos);

@@ -21,6 +21,7 @@ public enum BuildingType
     TitaniumMine,
     WaterPump,
     Turret1,
+    EnnemySpawner = 100,
 }
 
 public enum EnergyUptakePriority
@@ -106,6 +107,15 @@ public abstract class BuildingBase : MonoBehaviour
     }
 
     public abstract BuildingType GetBuildingType();
+
+    public Team GetTeam()
+    {
+        var building = GetBuildingType();
+        var b = Global.instance.buildingDatas.GetBuilding(building);
+        if (b == null)
+            return Team.Neutral;
+        return b.team;
+    }
 
     public virtual float EnergyGeneration() { return 0; }
     public virtual float EnergyUptakeWanted() { return 0; }

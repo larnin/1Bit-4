@@ -1,13 +1,18 @@
-﻿using System;
+﻿using NRand;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using NRand;
 
-public class EnnemySpawner : MonoBehaviour
+public class BuildingEnnemySpawner : BuildingBase
 {
+    public override BuildingType GetBuildingType()
+    {
+        return BuildingType.EnnemySpawner;
+    }
+
     enum State
     {
         Starting,
@@ -21,9 +26,11 @@ public class EnnemySpawner : MonoBehaviour
     List<int> m_entityIndexs = new List<int>();
     int m_currentIndex = 0;
 
-    private void Update()
+    protected override void Update()
     {
-        switch(m_state)
+        base.Update();
+
+        switch (m_state)
         {
             case State.Starting:
                 StartNextWait();
@@ -52,7 +59,7 @@ public class EnnemySpawner : MonoBehaviour
 
     void StartNextWave()
     {
-        if(DifficultySystem.instance == null)
+        if (DifficultySystem.instance == null)
         {
             StartNextWait();
             return;
@@ -61,7 +68,7 @@ public class EnnemySpawner : MonoBehaviour
         float difficulty = DifficultySystem.instance.GetDifficulty();
 
         List<int> allowedIndexs = new List<int>();
-        for(int i = 0; i < Global.instance.difficultyDatas.spawnersData.ennemies.Count; i++)
+        for (int i = 0; i < Global.instance.difficultyDatas.spawnersData.ennemies.Count; i++)
         {
             var e = Global.instance.difficultyDatas.spawnersData.ennemies[i];
 
@@ -72,7 +79,7 @@ public class EnnemySpawner : MonoBehaviour
                 allowedIndexs.Add(i);
         }
 
-        if(allowedIndexs.Count == 0)
+        if (allowedIndexs.Count == 0)
         {
             StartNextWait();
             return;
@@ -103,7 +110,7 @@ public class EnnemySpawner : MonoBehaviour
 
         m_deltaTime = Global.instance.difficultyDatas.spawnersData.delayBaseBetweenEnnemies;
         int nbMore = m_entityIndexs.Count - Global.instance.difficultyDatas.spawnersData.delayReduceAfterNbEnnemies;
-        if(nbMore > 0)
+        if (nbMore > 0)
         {
             float multiplier = 1 + nbMore * Global.instance.difficultyDatas.spawnersData.delaySpeedMultiplayerPerEnnemies;
             m_deltaTime /= multiplier;
@@ -113,11 +120,11 @@ public class EnnemySpawner : MonoBehaviour
     void ProcessSpawning()
     {
         m_timer += Time.deltaTime;
-        while(m_timer >= m_deltaTime)
+        while (m_timer >= m_deltaTime)
         {
             m_timer -= m_deltaTime;
-            
-            if(m_currentIndex >= m_entityIndexs.Count)
+
+            if (m_currentIndex >= m_entityIndexs.Count)
             {
                 StartNextWait();
                 return;
@@ -155,3 +162,4 @@ public class EnnemySpawner : MonoBehaviour
         obj.transform.position = new Vector3(posInt.x, height + 1, posInt.y);
     }
 }
+
