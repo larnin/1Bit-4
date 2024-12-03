@@ -195,23 +195,9 @@ public class DifficultySystem : MonoBehaviour
         if (BuildingList.instance == null)
             return null;
 
-        var list = BuildingList.instance.GetAllBuilding(BuildingType.EnnemySpawner);
+        var building = BuildingList.instance.GetNearestBuilding(pos, BuildingType.EnnemySpawner);
 
-        float bestDist = 0;
-        BuildingBase bestSpawner = null;
-
-        foreach (var s in list)
-        {
-            float dist = (pos - s.GetPos()).sqrMagnitude;
-
-            if (dist < bestDist || bestSpawner == null)
-            {
-                bestDist = dist;
-                bestSpawner = s;
-            }
-        }
-
-        return (BuildingEnnemySpawner)bestSpawner;
+        return (BuildingEnnemySpawner)building;
     }
 
 #if false

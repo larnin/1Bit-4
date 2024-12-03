@@ -94,95 +94,48 @@ public class BuildingList : MonoBehaviour
         return null;
     }
 
-    public List<BuildingBase> GetAllBuilding(BuildingType type)
+    List<BuildingBase> GetAllBuilding(Func<BuildingBase, bool> condition)
     {
         List<BuildingBase> buildings = new List<BuildingBase>();
 
-        foreach(var building in m_buildings)
+        foreach (var building in m_buildings)
         {
-            if (building.GetBuildingType() == type)
+            if(condition != null && condition(building))
                 buildings.Add(building);
         }
 
         return buildings;
     }
 
-    public BuildingBase GetNearestBuilding(Vector3 pos)
+    public List<BuildingBase> GetAllBuilding(BuildingType type)
     {
-        float bestDistance = 0;
-        BuildingBase bestBuilding = null;
-
-        foreach(var building in m_buildings)
-        {
-            Vector3 buildingPos = building.GetPos();
-            Vector3 buildingSize = building.GetSize() - Vector3Int.one;
-
-            Vector3 dir = buildingPos - pos;
-            if(dir.x > 0)
-            {
-                if (dir.x < buildingSize.x)
-                    dir.x = 0;
-                else dir.x -= buildingSize.x;
-            }
-            if (dir.y > 0)
-            {
-                if (dir.y < buildingSize.y)
-                    dir.y = 0;
-                else dir.y -= buildingSize.y;
-            }
-            if (dir.z > 0)
-            {
-                if (dir.z < buildingSize.z)
-                    dir.z = 0;
-                else dir.z -= buildingSize.z;
-            }
-
-            float dist = dir.sqrMagnitude;
-
-            if(dist < bestDistance || bestBuilding == null)
-            {
-                bestBuilding = building;
-                bestDistance = dist;
-            }
-        }
-
-        return bestBuilding;
+        return GetAllBuilding(x => { return x.GetBuildingType() == type; });
     }
 
-    public BuildingBase GetNearestBuilding(Vector3 pos, BuildingType type)
+    public List<BuildingBase> GetAllBuilding(Team team)
+    {
+        return GetAllBuilding(x => { return x.GetTeam() == team; });
+    }
+
+    public List<BuildingBase> GetAllBuilding(BuildingType type,  Team team)
+    {
+        return GetAllBuilding(x => { return x.GetBuildingType() == type && x.GetTeam() == team; });
+    }
+
+    BuildingBase GetNearestBuilding(Vector3 pos, Func<BuildingBase, bool> condition)
     {
         float bestDistance = 0;
         BuildingBase bestBuilding = null;
 
         foreach (var building in m_buildings)
         {
-            if (building.GetBuildingType() != type)
+            if (condition != null && !condition(building))
                 continue;
 
             Vector3 buildingPos = building.GetPos();
             Vector3 buildingSize = building.GetSize();
 
-            Vector3 dir = buildingPos - pos;
-            if (dir.x > 0)
-            {
-                if (dir.x < buildingSize.x)
-                    dir.x = 0;
-                else dir.x -= buildingSize.x;
-            }
-            if (dir.y > 0)
-            {
-                if (dir.y < buildingSize.y)
-                    dir.y = 0;
-                else dir.y -= buildingSize.y;
-            }
-            if (dir.z > 0)
-            {
-                if (dir.z < buildingSize.z)
-                    dir.z = 0;
-                else dir.z -= buildingSize.z;
-            }
-
-            float dist = dir.sqrMagnitude;
+            float dist = GetSqrDistance(pos, buildingPos, buildingSize);
 
             if (dist < bestDistance || bestBuilding == null)
             {
@@ -194,11 +147,56 @@ public class BuildingList : MonoBehaviour
         return bestBuilding;
     }
 
+    public BuildingBase GetNearestBuilding(Vector3 pos)
+    {
+        return GetNearestBuilding(pos, null);
+    }
+
+    public BuildingBase GetNearestBuilding(Vector3 pos, BuildingType type)
+    {
+        return GetNearestBuilding(pos, x => { return x.GetBuildingType() == type; });
+    }
+
+    public BuildingBase GetNearestBuilding(Vector3 pos, Team team)
+    {
+        return GetNearestBuilding(pos, x => { return x.GetTeam() == team; });
+    }
+
+    public BuildingBase GetNearestBuilding(Vector3 pos, BuildingType type, Team team)
+    {
+        return GetNearestBuilding(pos, x => { return x.GetBuildingType() == type && x.GetTeam() == team; });
+    }
+
     public BuildingBase GetBuildingAt(Vector3Int pos)
     {
         BuildingBase b;
         if (!m_buildingsPos.TryGetValue(Utility.PosToID(pos), out b))
             return null;
         return b;
+    }
+
+    static float GetSqrDistance(Vector3 pos, Vector3 itemPos, Vector3 itemSize)
+    {
+        Vector3 dir = itemPos - pos;
+        if (dir.x > 0)
+        {
+            if (dir.x < itemSize.x)
+                dir.x = 0;
+            else dir.x -= itemSize.x;
+        }
+        if (dir.y > 0)
+        {
+            if (dir.y < itemSize.y)
+                dir.y = 0;
+            else dir.y -= itemSize.y;
+        }
+        if (dir.z > 0)
+        {
+            if (dir.z < itemSize.z)
+                dir.z = 0;
+            else dir.z -= itemSize.z;
+        }
+
+        return  dir.sqrMagnitude;
     }
 }
