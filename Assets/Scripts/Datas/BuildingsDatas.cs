@@ -12,6 +12,18 @@ public enum Team
     Neutral
 }
 
+public static class TeamEx
+{
+    public static Team GetOppositeTeam(Team team)
+    {
+        if (team == Team.Player)
+            return Team.Ennemy;
+        if (team == Team.Ennemy)
+            return Team.Player;
+        return Team.Neutral;
+    }
+}
+
 [Serializable]
 public class OneResourceCost
 {

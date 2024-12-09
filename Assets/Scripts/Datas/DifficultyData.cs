@@ -17,7 +17,10 @@ public class DifficultyCurve
 
     public float Get(float value)
     {
-        return MathF.Pow(value * baseValue + addValue, powValue) * multiplierValue + finalAddValue;
+        float num = value * baseValue + addValue;
+        if (num < 0)
+            return finalAddValue;
+        return MathF.Pow(num, powValue) * multiplierValue + finalAddValue;
     }
 }
 

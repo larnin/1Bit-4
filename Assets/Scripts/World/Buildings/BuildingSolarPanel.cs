@@ -12,14 +12,16 @@ public class BuildingSolarPanel : BuildingBase
 
     SubscriberList m_subscriberList = new SubscriberList();
 
-    private void Awake()
+    public override void Awake()
     {
+        base.Awake();
         m_subscriberList.Add(new Event<BuildSelectionDetailCommonEvent>.LocalSubscriber(BuildCommon, gameObject));
         m_subscriberList.Subscribe();
     }
 
-    private void OnDestroy()
+    public override void OnDestroy()
     {
+        base.OnDestroy();
         m_subscriberList.Unsubscribe();
     }
 

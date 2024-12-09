@@ -9,7 +9,7 @@ public enum EntityType
 {
     None,
     Building,
-    Ennemy,
+    Entity,
     Projectile,
 }
 
@@ -124,8 +124,8 @@ public class GameSystem : MonoBehaviour
     {
         if (obj.GetComponent<BuildingBase>() != null)
             return EntityType.Building;
-        if (obj.GetComponent<EnnemyEntity>() != null)
-            return EntityType.Ennemy;
+        if (obj.GetComponent<GameEntity>() != null)
+            return EntityType.Entity;
         if (obj.GetComponent<ProjectileBase>() != null)
             return EntityType.Projectile;
 

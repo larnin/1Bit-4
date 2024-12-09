@@ -34,6 +34,18 @@ public class LifeComponent : MonoBehaviour
         HitBeforeApplyEvent e = new HitBeforeApplyEvent(dmg, caster);
         Event<HitBeforeApplyEvent>.Broadcast(e, gameObject);
 
+        GetTeamEvent casterTeam = new GetTeamEvent();
+        Event<GetTeamEvent>.Broadcast(casterTeam, caster);
+
+        GetTeamEvent targetTeam = new GetTeamEvent();
+        Event<GetTeamEvent>.Broadcast(targetTeam, gameObject);
+
+        if (targetTeam.team == Team.Neutral)
+            return;
+
+        if (casterTeam.team == targetTeam.team)
+            return;
+
         m_life -= e.dmg;
 
         if (m_life <= 0)

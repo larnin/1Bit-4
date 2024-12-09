@@ -18,12 +18,12 @@ public abstract class EntityWeaponBase : MonoBehaviour
         return BuildingList.instance.GetFirstBuilding(BuildingType.Tower);
     }
 
-    protected BuildingBase GetNearestBuildingAtRange(float range)
+    protected BuildingBase GetNearestBuildingAtRange(float range, Team team)
     {
         if (BuildingList.instance == null)
             return null;
 
-        var building = BuildingList.instance.GetNearestBuilding(transform.position);
+        var building = BuildingList.instance.GetNearestBuilding(transform.position, team);
         if (building == null)
             return null;
 

@@ -106,9 +106,9 @@ public class DifficultySystem : MonoBehaviour
     public float GetDifficulty()
     {
         float difficultyPerMinute = Global.instance.difficultyDatas.difficultyPerMinute.Get(m_time / 60);
-        float difficultyPerDistance = Global.instance.difficultyDatas.difficultyPerMinute.Get(m_maxDistance);
-        float difficultyPerKill = Global.instance.difficultyDatas.difficultyPerMinute.Get(m_nbKill);
-        float difficultyPerSpawner = Global.instance.difficultyDatas.difficultyPerMinute.Get(m_nbSpawnerDestroyed);
+        float difficultyPerDistance = Global.instance.difficultyDatas.difficultyPerDistance.Get(m_maxDistance);
+        float difficultyPerKill = Global.instance.difficultyDatas.difficultyPerKill.Get(m_nbKill);
+        float difficultyPerSpawner = Global.instance.difficultyDatas.difficultyPerSpawner.Get(m_nbSpawnerDestroyed);
 
         float multiplier = Global.instance.difficultyDatas.GetDifficultyMultiplier(GameInfos.instance.gameParams.worldSize);
 
@@ -200,18 +200,19 @@ public class DifficultySystem : MonoBehaviour
         return (BuildingEnnemySpawner)building;
     }
 
-#if false
+#if true
     private void OnGUI()
     {
         float difficultyPerMinute = Global.instance.difficultyDatas.difficultyPerMinute.Get(m_time / 60);
-        float difficultyPerDistance = Global.instance.difficultyDatas.difficultyPerMinute.Get(m_maxDistance);
-        float difficultyPerKill = Global.instance.difficultyDatas.difficultyPerMinute.Get(m_nbKill);
-        float difficultyPerSpawner = Global.instance.difficultyDatas.difficultyPerMinute.Get(m_nbSpawnerDestroyed);
+        float difficultyPerDistance = Global.instance.difficultyDatas.difficultyPerDistance.Get(m_maxDistance);
+        float difficultyPerKill = Global.instance.difficultyDatas.difficultyPerKill.Get(m_nbKill);
+        float difficultyPerSpawner = Global.instance.difficultyDatas.difficultyPerSpawner.Get(m_nbSpawnerDestroyed);
         float difficulty = GetDifficulty();
         int spawner = Mathf.FloorToInt(Global.instance.difficultyDatas.difficultyToSpawnerNb.Get(m_maxDifficulty));
 
         float dY = 20;
         var rect = new Rect(5, 5, 400, dY);
+        GUI.Box(new Rect(0, 0, 250, 125), "");
         GUI.Label(rect, "Difficulty: " + difficulty);
         rect.y += dY;
         GUI.Label(rect, "Difficulty per minute: " + difficultyPerMinute);

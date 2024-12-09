@@ -28,3 +28,8 @@ public class IsTitaniumUsedEvent
         used = false;
     }
 }
+
+public class GetTeamEvent
+{
+    public Team team = Team.Neutral;
+}

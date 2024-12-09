@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class EntityList : MonoBehaviour
 {
-    List<EnnemyEntity> m_entities = new List<EnnemyEntity>();
+    List<GameEntity> m_entities = new List<GameEntity>();
 
     static EntityList m_instance = null;
     public static EntityList instance { get { return m_instance; } }
@@ -23,12 +23,12 @@ public class EntityList : MonoBehaviour
             m_instance = null;
     }
 
-    public void Register(EnnemyEntity entity)
+    public void Register(GameEntity entity)
     {
         m_entities.Add(entity);
     }
 
-    public void UnRegister(EnnemyEntity entity)
+    public void UnRegister(GameEntity entity)
     {
         m_entities.Remove(entity);
     }
@@ -38,23 +38,45 @@ public class EntityList : MonoBehaviour
         return m_entities.Count();
     }
 
-    public EnnemyEntity GetEntityFromIndex(int index)
+    public GameEntity GetEntityFromIndex(int index)
     {
         if (index < 0 || index >= m_entities.Count)
             return null;
         return m_entities[index];
     }
 
-    public EnnemyEntity GetNearestEntity(Vector3 pos)
+    public GameEntity GetNearestEntity(Vector3 pos)
     {
         float bestDist = 0;
-        EnnemyEntity bestEntity = null;
+        GameEntity bestEntity = null;
 
         foreach(var e in m_entities)
         {
             float dist = (pos - e.transform.position).sqrMagnitude;
 
             if(dist < bestDist || bestEntity == null)
+            {
+                bestDist = dist;
+                bestEntity = e;
+            }
+        }
+
+        return bestEntity;
+    }
+
+    public GameEntity GetNearestEntity(Vector3 pos, Team team)
+    {
+        float bestDist = 0;
+        GameEntity bestEntity = null;
+
+        foreach (var e in m_entities)
+        {
+            if (e.GetTeam() != team)
+                continue;
+
+            float dist = (pos - e.transform.position).sqrMagnitude;
+
+            if (dist < bestDist || bestEntity == null)
             {
                 bestDist = dist;
                 bestEntity = e;

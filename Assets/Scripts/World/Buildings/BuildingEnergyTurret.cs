@@ -28,14 +28,16 @@ public class BuildingEnergyTurret : BuildingBase
 
     SubscriberList m_subscriberList = new SubscriberList();
 
-    private void Awake()
+    public override void Awake()
     {
+        base.Awake();
         m_subscriberList.Add(new Event<BuildSelectionDetailCommonEvent>.LocalSubscriber(BuildCommon, gameObject));
         m_subscriberList.Subscribe();
     }
 
-    private void OnDestroy()
+    public override void OnDestroy()
     {
+        base.OnDestroy();
         m_subscriberList.Unsubscribe();
     }
 
@@ -90,7 +92,8 @@ public class BuildingEnergyTurret : BuildingBase
             m_target = null;
         else
         {
-            var target = EntityList.instance.GetNearestEntity(GetGroundCenter());
+            Team targetTeam = TeamEx.GetOppositeTeam(GetTeam());
+            var target = EntityList.instance.GetNearestEntity(GetGroundCenter(), targetTeam);
             if (target != null)
                 m_target = target.gameObject;
             else m_target = null;

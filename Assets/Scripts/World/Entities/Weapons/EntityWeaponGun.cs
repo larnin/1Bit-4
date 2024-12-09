@@ -68,13 +68,17 @@ public class EntityWeaponGun : EntityWeaponBase
 
     void UpdateTarget()
     {
+        GetTeamEvent team = new GetTeamEvent();
+        Event<GetTeamEvent>.Broadcast(team, gameObject);
+        Team targetTeam = TeamEx.GetOppositeTeam(team.team);
+
         if (BuildingList.instance == null)
             return;
 
         if(m_towerTarget == null)
             m_towerTarget = GetTower();
         if(m_target == null)
-            m_target = GetNearestBuildingAtRange(m_fireRange);
+            m_target = GetNearestBuildingAtRange(m_fireRange, targetTeam);
     }
 
     void UpdateTurret()

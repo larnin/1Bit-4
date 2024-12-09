@@ -40,6 +40,14 @@ public abstract class BuildingBase : MonoBehaviour
     bool m_rayPointInit = false;
     Vector3 m_pos;
 
+    SubscriberList m_subscriberList = new SubscriberList();
+
+    public virtual void Awake()
+    {
+        m_subscriberList.Add(new Event<GetTeamEvent>.LocalSubscriber(GetTeam, gameObject));
+        m_subscriberList.Subscribe();
+    }
+
     public void SetAsCursor(bool asCursor)
     {
         m_asCursor = asCursor;
@@ -115,6 +123,11 @@ public abstract class BuildingBase : MonoBehaviour
         if (b == null)
             return Team.Neutral;
         return b.team;
+    }
+
+    void GetTeam(GetTeamEvent e)
+    {
+        e.team = GetTeam();
     }
 
     public virtual float EnergyGeneration() { return 0; }
@@ -198,8 +211,9 @@ public abstract class BuildingBase : MonoBehaviour
         Remove();
     }
 
-    private void OnDestroy()
+    public virtual void OnDestroy()
     {
+        m_subscriberList.Unsubscribe();
         Remove();
     }
 
