@@ -123,6 +123,11 @@ public class DifficultySystem : MonoBehaviour
         if (ConnexionSystem.instance == null)
             return;
 
+        GetGridEvent grid = new GetGridEvent();
+        Event<GetGridEvent>.Broadcast(grid);
+        if (grid.grid == null)
+            return;
+
         int nbBuilding = ConnexionSystem.instance.GetConnectedBuildingNb();
 
         var rand = StaticRandomGenerator<MT19937>.Get();
@@ -154,17 +159,54 @@ public class DifficultySystem : MonoBehaviour
 
             if(distOk)
             {
-                var prefab = Global.instance.difficultyDatas.spawnersData.prefab;
-                if(prefab != null)
+                int height = GridEx.GetHeight(grid.grid, new Vector2Int(posI.x, posI.z));
+
+                bool posOk = true;
+                for(int x = -1; x <= 1; x++)
                 {
-                    var obj = Instantiate(prefab);
-                    obj.transform.parent = transform;
-                    obj.transform.position = posI;
+                    for(int z = -1; z <= 1; z++)
+                    {
+                        if (x == 0 && z == 0)
+                            continue;
+
+                        int tempHeight = GridEx.GetHeight(grid.grid, new Vector2Int(posI.x + x, posI.z + z));
+                        if (tempHeight != height)
+                        {
+                            posOk = false;
+                            break;
+                        }
+                    }
+                    if (!posOk)
+                        break;
                 }
 
-                m_nbSpawnerToSpawn--;
+                if (posOk)
+                {
+                    Vector3 spawnPos = new Vector3(posI.x, height, posI.z);
+                    var testBuilding = BuildingList.instance.GetNearestBuilding(spawnPos);
 
-                return;
+                    if(testBuilding != null)
+                    {
+                        float dist = (testBuilding.GetPos() - spawnPos).sqrMagnitude;
+                        if (dist < Global.instance.difficultyDatas.spawnersData.distanceFromSpawnerMin * Global.instance.difficultyDatas.spawnersData.distanceFromSpawnerMin)
+                            posOk = false;
+                    }
+
+                    if (posOk)
+                    {
+                        var prefab = Global.instance.difficultyDatas.spawnersData.prefab;
+                        if (prefab != null)
+                        {
+                            var obj = Instantiate(prefab);
+                            obj.transform.parent = transform;
+                            obj.transform.position = spawnPos;
+                        }
+
+                        m_nbSpawnerToSpawn--;
+
+                        return;
+                    }
+                }
             }
         }
     }

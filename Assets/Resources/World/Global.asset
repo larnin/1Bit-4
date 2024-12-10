@@ -201,7 +201,7 @@ MonoBehaviour:
       description: Source of life
   m_difficultyDatas:
     difficultyPerMinute:
-      baseValue: 1
+      baseValue: 10
       powValue: 1.1
       multiplierValue: 1
       addValue: 0
@@ -225,7 +225,7 @@ MonoBehaviour:
       addValue: 0
       finalAddValue: 0
     difficultyToSpawnerNb:
-      baseValue: 0.1
+      baseValue: 1
       powValue: 1
       multiplierValue: 1
       addValue: 0
@@ -236,6 +236,7 @@ MonoBehaviour:
       delayBetweenWavesMax: 90
       distanceFromBuildingsMin: 20
       distanceFromBuildingsMax: 30
+      distanceFromSpawnerMin: 10
       delayBaseBetweenEnnemies: 1
       delayReduceAfterNbEnnemies: 10
       delaySpeedMultiplayerPerEnnemies: 0.05

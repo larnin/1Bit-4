@@ -43,6 +43,7 @@ public class DifficultySpawnerData
     public float delayBetweenWavesMax;
     public float distanceFromBuildingsMin;
     public float distanceFromBuildingsMax;
+    public float distanceFromSpawnerMin;
 
     public float delayBaseBetweenEnnemies;
     public int delayReduceAfterNbEnnemies;
