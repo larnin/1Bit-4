@@ -111,4 +111,27 @@ public class CustomLightsManager : MonoBehaviour
         mat.SetFloat(lightLeftName, m_lightLeft);
         mat.SetFloat(lightFrontName, m_lightFront);
     }
+
+    public bool IsPosVisible(Vector3 pos)
+    {
+        return IsPosVisible(new Vector2(pos.x, pos.z));
+    }
+
+    public bool IsPosVisible(Vector2 pos)
+    {
+        foreach (var l in m_lights)
+        {
+            if (l == null)
+                continue;
+
+            Vector3 pos3 = l.transform.position;
+            float size = l.GetRadius();
+            
+            float dist = (new Vector2(pos3.x, pos3.z) - pos).sqrMagnitude;
+            if (dist < size * size)
+                return true;
+        }
+
+        return false;
+    }
 }

@@ -5,16 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using DG.Tweening;
 
 public class BuildingEnnemySpawner : BuildingBase
 {
-    public override BuildingType GetBuildingType()
-    {
-        return BuildingType.EnnemySpawner;
-    }
+    [SerializeField] GameObject m_mesh;
+    [SerializeField] float m_appearOffset;
+    [SerializeField] float m_appearDuration;
+    [SerializeField] Ease m_appearCurve;
 
     enum State
     {
+        Appear,
         Starting,
         Waiting,
         Spawning,
@@ -22,16 +24,42 @@ public class BuildingEnnemySpawner : BuildingBase
 
     float m_timer;
     float m_deltaTime;
-    State m_state = State.Starting;
+    State m_state = State.Appear;
     List<int> m_entityIndexs = new List<int>();
     int m_currentIndex = 0;
+
+    Vector3 m_appearEndPos;
+    Vector3 m_appearStartPos;
+    float m_appearTimer;
+    float m_wantedLight;
+    CustomLight m_light;
+
+    public override void Awake()
+    {
+        m_appearEndPos = m_mesh.transform.localPosition;
+        m_appearStartPos = m_appearEndPos - new Vector3(0, m_appearOffset, 0);
+
+        m_light = GetComponentInChildren<CustomLight>();
+        m_wantedLight = m_light.GetRadius();
+
+        UpdateAppear();
+    }
+
+    public override BuildingType GetBuildingType()
+    {
+        return BuildingType.EnnemySpawner;
+    }
 
     protected override void Update()
     {
         base.Update();
-
+        
         switch (m_state)
         {
+            case State.Appear:
+                if (UpdateAppear())
+                    m_state = State.Starting;
+                break;
             case State.Starting:
                 StartNextWait();
                 break;
@@ -160,6 +188,28 @@ public class BuildingEnnemySpawner : BuildingBase
         var obj = Instantiate(e.prefab);
         obj.transform.parent = transform;
         obj.transform.position = new Vector3(posInt.x, height + 1, posInt.y);
+    }
+
+    bool UpdateAppear()
+    {
+        bool ended = false;
+        m_appearTimer += Time.deltaTime;
+
+        float normTimer = m_appearTimer / m_appearDuration;
+
+        if (normTimer > 1)
+        {
+            ended = true;
+            normTimer = 1;
+        }
+
+        var pos = DOVirtual.EasedValue(m_appearStartPos, m_appearEndPos, normTimer, m_appearCurve);
+        m_mesh.transform.localPosition = pos;
+
+        float light = DOVirtual.EasedValue(0, m_wantedLight, normTimer, m_appearCurve);
+        m_light.SetRadius(light);
+
+        return ended;
     }
 }
 

@@ -138,6 +138,18 @@ public class SelectCursor : MonoBehaviour
         if(haveHit)
             newTarget = hit.collider.gameObject;
 
+        if(CustomLightsManager.instance != null && newTarget != null)
+        {
+            GetTeamEvent team = new GetTeamEvent();
+            Event<GetTeamEvent>.Broadcast(team, newTarget);
+
+            if (team.team != Team.Player)
+            {
+                if (!CustomLightsManager.instance.IsPosVisible(newTarget.transform.position))
+                    newTarget = null;
+            }
+        }
+
         if(newTarget != m_hoveredObject)
         {
             m_hoveredDuration = 0;
