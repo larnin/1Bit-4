@@ -148,4 +148,43 @@ public static class Utility
 
         return ID;
     }
+
+    public static Vector2 IntersectLines(Vector2 A, Vector2 B, Vector2 O, Vector2 P)
+    {
+        Vector2 AB = B - A;
+        Vector2 OP = P - O;
+
+        float det = AB.x * OP.y - AB.y * OP.x;
+        if(Mathf.Abs(det) < Mathf.Epsilon)
+            return new Vector2(float.MinValue, float.MinValue);
+
+        float k = -(A.x * OP.y - O.x * OP.y - OP.x * A.y + OP.x * O.y) / det;
+        float l = -(-AB.x * A.y + AB.x * O.y + AB.y * A.x - AB.y * O.x) / det;
+
+        return l * OP + O;
+    }
+
+    public static string FormateTime(float time, bool forceDisplayMin = false)
+    {
+        int secs = Mathf.RoundToInt(time);
+        int mins = Mathf.FloorToInt(secs / 60);
+        secs -= mins * 60;
+        int hours = Mathf.FloorToInt(mins / 60);
+        mins -= hours * 60;
+
+        string str = "";
+        if (hours > 0)
+            str += hours + ":";
+        if(hours > 0 || mins > 0 || forceDisplayMin)
+        {
+            if (mins <= 9 && (hours > 0 || mins > 0))
+                str += '0';
+            str += mins + ":";
+        }
+        if ((hours > 0 || mins > 0 || forceDisplayMin) && secs <= 9)
+            str += '0';
+        str += secs;
+
+        return str;
+    }
 }

@@ -194,10 +194,10 @@ public class DifficultySystem : MonoBehaviour
 
                     if (posOk)
                     {
-                        var prefab = Global.instance.difficultyDatas.spawnersData.prefab;
-                        if (prefab != null)
+                        var spawner = Global.instance.buildingDatas.GetBuilding(BuildingType.EnnemySpawner);
+                        if (spawner != null)
                         {
-                            var obj = Instantiate(prefab);
+                            var obj = Instantiate(spawner.prefab);
                             obj.transform.parent = transform;
                             obj.transform.position = spawnPos;
                         }

@@ -45,6 +45,7 @@ public abstract class BuildingBase : MonoBehaviour
     public virtual void Awake()
     {
         m_subscriberList.Add(new Event<GetTeamEvent>.LocalSubscriber(GetTeam, gameObject));
+        m_subscriberList.Add(new Event<LifeLossEvent>.LocalSubscriber(OnLifeLoss, gameObject));
         m_subscriberList.Subscribe();
     }
 
@@ -128,6 +129,23 @@ public abstract class BuildingBase : MonoBehaviour
     void GetTeam(GetTeamEvent e)
     {
         e.team = GetTeam();
+    }
+
+    void OnLifeLoss(LifeLossEvent e)
+    {
+        if (DisplayIcons.instance == null)
+            return;
+
+        var building = GetBuildingType();
+        var b = Global.instance.buildingDatas.GetBuilding(building);
+        if (b == null)
+            return;
+        if (b.team != Team.Player)
+            return;
+
+        Vector3 pos = GetGroundCenter();
+
+        DisplayIcons.instance.Register(pos, b.size.y, Global.instance.buildingDatas.lifeLossDisplayDuration, "BuildingDamaged", "", true, true);
     }
 
     public virtual float EnergyGeneration() { return 0; }

@@ -172,6 +172,16 @@ MonoBehaviour:
       description: Store a small amount of energy for later
       cost:
         cost: []
+    - type: 100
+      prefab: {fileID: 8816298933707241032, guid: 1b2257b9fd5f06b49aa3922ad9f7eb0d, type: 3}
+      sprite: {fileID: 0}
+      spriteWithBorder: {fileID: 0}
+      size: {x: 3, y: 5, z: 3}
+      team: 1
+      name: 
+      description: 
+      cost:
+        cost: []
     mineItemPrefab: {fileID: 6943061212826655842, guid: 020dedfdfd13d1c49ac25e185f22167b, type: 3}
   m_resourcesDatas:
     m_resources:
@@ -231,7 +241,6 @@ MonoBehaviour:
       addValue: 0
       finalAddValue: 0
     spawnersData:
-      prefab: {fileID: 8816298933707241032, guid: 1b2257b9fd5f06b49aa3922ad9f7eb0d, type: 3}
       delayBetweenWavesMin: 60
       delayBetweenWavesMax: 90
       distanceFromBuildingsMin: 20

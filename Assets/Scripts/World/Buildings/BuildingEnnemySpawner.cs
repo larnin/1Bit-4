@@ -36,6 +36,8 @@ public class BuildingEnnemySpawner : BuildingBase
 
     public override void Awake()
     {
+        base.Awake();
+
         m_appearEndPos = m_mesh.transform.localPosition;
         m_appearStartPos = m_appearEndPos - new Vector3(0, m_appearOffset, 0);
 
@@ -65,6 +67,7 @@ public class BuildingEnnemySpawner : BuildingBase
                 break;
             case State.Waiting:
                 m_timer -= Time.deltaTime;
+                ProcessWait();
                 if (m_timer < 0)
                     StartNextWave();
                 break;
@@ -145,6 +148,20 @@ public class BuildingEnnemySpawner : BuildingBase
         }
     }
 
+    void ProcessWait()
+    {
+        if(DisplayIcons.instance != null)
+        {
+            string timer = Utility.FormateTime(m_timer, true);
+            bool displayOutScreen = m_timer < Global.instance.difficultyDatas.spawnersData.displayBeforeWave;
+            string iconName = "";
+            if (displayOutScreen)
+                iconName = "Warning";
+
+            DisplayIcons.instance.Register(gameObject, Global.instance.difficultyDatas.spawnersData.displayHeight, iconName, timer, displayOutScreen);
+        }
+    }
+
     void ProcessSpawning()
     {
         m_timer += Time.deltaTime;
@@ -168,6 +185,9 @@ public class BuildingEnnemySpawner : BuildingBase
             StartNextWait();
             return;
         }
+
+        if(DisplayIcons.instance != null)
+            DisplayIcons.instance.Register(gameObject, Global.instance.difficultyDatas.spawnersData.displayHeight, "Spawner", "", true, true);
     }
 
     void SpawnOneEnnemie(int index)

@@ -113,8 +113,6 @@ public class PlaceBuildingCursor : MonoBehaviour
          Vector3 target = hit.point;
         target += hit.normal * 0.5f;
 
-        Debug.Log(target);
-
         Vector3Int targetInt = new Vector3Int(Mathf.RoundToInt(target.x), Mathf.RoundToInt(target.y), Mathf.RoundToInt(target.z));
         m_instance.transform.position = targetInt;
 
