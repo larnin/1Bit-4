@@ -73,8 +73,8 @@ MonoBehaviour:
     m_buildings:
     - type: 0
       prefab: {fileID: 6645571961945564104, guid: 845fcb3417acb4f4f8c610b63aa90822, type: 3}
-      sprite: {fileID: -484218993, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
-      spriteWithBorder: {fileID: -1893695053, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
+      sprite: {fileID: 322178047, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
+      spriteWithBorder: {fileID: -1644204466, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
       size: {x: 2, y: 6, z: 2}
       team: 0
       name: Tower
@@ -83,8 +83,8 @@ MonoBehaviour:
         cost: []
     - type: 1
       prefab: {fileID: 8340085762057836841, guid: afe66380c42f1a9438ae1c04fe2fa676, type: 3}
-      sprite: {fileID: 716385322, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
-      spriteWithBorder: {fileID: 1286962569, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
+      sprite: {fileID: -183983816, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
+      spriteWithBorder: {fileID: 657113506, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
       size: {x: 1, y: 4, z: 1}
       team: 0
       name: Small Pylon
@@ -96,8 +96,8 @@ MonoBehaviour:
           count: 10
     - type: 13
       prefab: {fileID: 2386629846189063210, guid: 01cb1a9794f4d754393dba54f54deefd, type: 3}
-      sprite: {fileID: -1178010555, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
-      spriteWithBorder: {fileID: 1298837695, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
+      sprite: {fileID: 718095043, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
+      spriteWithBorder: {fileID: -295121247, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
       size: {x: 1, y: 2, z: 1}
       team: 0
       name: Energy turret
@@ -109,8 +109,8 @@ MonoBehaviour:
           count: 150
     - type: 9
       prefab: {fileID: 4766931038948199759, guid: 8e67c6f7cee838c4dadbec18f9ed4b86, type: 3}
-      sprite: {fileID: 0}
-      spriteWithBorder: {fileID: 0}
+      sprite: {fileID: 1038982652, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
+      spriteWithBorder: {fileID: -1402187668, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
       size: {x: 2, y: 2, z: 2}
       team: 0
       name: Crystal mine
@@ -121,8 +121,8 @@ MonoBehaviour:
           count: 50
     - type: 12
       prefab: {fileID: 3692538273452692935, guid: 81f7408822501de4eb06da25a0d5d952, type: 3}
-      sprite: {fileID: 0}
-      spriteWithBorder: {fileID: 0}
+      sprite: {fileID: 1487700549, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
+      spriteWithBorder: {fileID: 1051076557, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
       size: {x: 2, y: 2, z: 2}
       team: 0
       name: Water pump
@@ -134,8 +134,8 @@ MonoBehaviour:
           count: 10
     - type: 10
       prefab: {fileID: 4113768736633810140, guid: ed337a5a723a2d14c9d462c4b3884343, type: 3}
-      sprite: {fileID: 0}
-      spriteWithBorder: {fileID: 0}
+      sprite: {fileID: -1517333237, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
+      spriteWithBorder: {fileID: -888542911, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
       size: {x: 3, y: 3, z: 3}
       team: 0
       name: Oil pump
@@ -144,8 +144,8 @@ MonoBehaviour:
         cost: []
     - type: 11
       prefab: {fileID: 4535135477675010955, guid: 45b69403e14f6404fbc2f4f1f069b21d, type: 3}
-      sprite: {fileID: 0}
-      spriteWithBorder: {fileID: 0}
+      sprite: {fileID: 800654631, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
+      spriteWithBorder: {fileID: 954201986, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
       size: {x: 1, y: 4, z: 1}
       team: 0
       name: Titanium mine
@@ -154,8 +154,8 @@ MonoBehaviour:
         cost: []
     - type: 3
       prefab: {fileID: 4066990896613456509, guid: 37550794bc0290e46a9e5d8eab111a70, type: 3}
-      sprite: {fileID: 0}
-      spriteWithBorder: {fileID: 0}
+      sprite: {fileID: -361169173, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
+      spriteWithBorder: {fileID: 1393223772, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
       size: {x: 1, y: 1, z: 1}
       team: 0
       name: Solar panel
@@ -164,8 +164,8 @@ MonoBehaviour:
         cost: []
     - type: 6
       prefab: {fileID: 3550513972471810787, guid: 4328f2ad333202f419ef6f5c0130b950, type: 3}
-      sprite: {fileID: 0}
-      spriteWithBorder: {fileID: 0}
+      sprite: {fileID: -743678667, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
+      spriteWithBorder: {fileID: -1190505154, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
       size: {x: 1, y: 1, z: 1}
       team: 0
       name: Battery
@@ -183,30 +183,31 @@ MonoBehaviour:
       cost:
         cost: []
     mineItemPrefab: {fileID: 6943061212826655842, guid: 020dedfdfd13d1c49ac25e185f22167b, type: 3}
+    lifeLossDisplayDuration: 10
   m_resourcesDatas:
     m_resources:
     - type: 0
-      sprite: {fileID: -925305509, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
+      sprite: {fileID: -783294908, guid: d289d3f5b7bf08a40acae9bd3b9185b0, type: 3}
       name: Energy
       description: Needed to make a building work
     - type: 1
-      sprite: {fileID: 529542824, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
+      sprite: {fileID: 1786662948, guid: d289d3f5b7bf08a40acae9bd3b9185b0, type: 3}
       name: Crystal
       description: Can be collected by a crystal mine
     - type: 2
-      sprite: {fileID: 1128867592, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
+      sprite: {fileID: -1440480786, guid: d289d3f5b7bf08a40acae9bd3b9185b0, type: 3}
       name: Titanium
       description: Hard to collect but extremely valuable
     - type: 3
-      sprite: {fileID: 1926540817, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
+      sprite: {fileID: 96055612, guid: d289d3f5b7bf08a40acae9bd3b9185b0, type: 3}
       name: Oil
       description: Dirty and hightly flammable
     - type: 4
-      sprite: {fileID: -2075664385, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
+      sprite: {fileID: -954301970, guid: d289d3f5b7bf08a40acae9bd3b9185b0, type: 3}
       name: Enemy part
       description: Collected when killing ennemies
     - type: 5
-      sprite: {fileID: -1288272088, guid: 1441aa23933dbe3469bbaeb2dd50976c, type: 3}
+      sprite: {fileID: -1299815544, guid: d289d3f5b7bf08a40acae9bd3b9185b0, type: 3}
       name: Water
       description: Source of life
   m_difficultyDatas:
@@ -241,6 +242,8 @@ MonoBehaviour:
       addValue: 0
       finalAddValue: 0
     spawnersData:
+      displayHeight: 6
+      displayBeforeWave: 10
       delayBetweenWavesMin: 60
       delayBetweenWavesMax: 90
       distanceFromBuildingsMin: 20
