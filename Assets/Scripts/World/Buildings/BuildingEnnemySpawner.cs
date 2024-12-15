@@ -44,6 +44,7 @@ public class BuildingEnnemySpawner : BuildingBase
         m_light = GetComponentInChildren<CustomLight>();
         m_wantedLight = m_light.GetRadius();
 
+        m_mesh.transform.localScale = new Vector3(0.99f, 0.99f, 0.99f);
         UpdateAppear();
     }
 
@@ -221,6 +222,7 @@ public class BuildingEnnemySpawner : BuildingBase
         {
             ended = true;
             normTimer = 1;
+            m_mesh.transform.localScale = Vector3.one;
         }
 
         var pos = DOVirtual.EasedValue(m_appearStartPos, m_appearEndPos, normTimer, m_appearCurve);
