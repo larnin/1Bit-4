@@ -85,14 +85,17 @@ public class BuildingCrystalMine : BuildingBase
             ResourceSystem.instance.AddResource(m_generatedResource, count);
     }
 
-    public override bool CanBePlaced(Vector3Int pos) 
+    public override BuildingPlaceType CanBePlaced(Vector3Int pos) 
     {
-        if (!base.CanBePlaced(pos))
-            return false;
+        var canPlace = base.CanBePlaced(pos);
+        if (canPlace != BuildingPlaceType.Valid)
+            return canPlace;
 
         var points = GetCrystalsAround(pos);
         UpdateCursorCrystalsUsed(points);
-        return points.Count > 0;
+        if (points.Count > 0)
+            return BuildingPlaceType.Valid;
+        return BuildingPlaceType.NeedCrystal;
     }
 
     List<MineData> GetCrystalsAround(Vector3Int pos)

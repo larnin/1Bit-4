@@ -30,6 +30,19 @@ public enum EnergyUptakePriority
     storage,
 }
 
+public enum BuildingPlaceType
+{
+    Valid,
+    Unknow,
+    NoResources,
+    InvalidPlace,
+    TooFar,
+    NeedCrystal,
+    NeedTitanim,
+    NeedOil,
+    NeedWater
+}
+
 public abstract class BuildingBase : MonoBehaviour
 {
     bool m_added = false;
@@ -157,7 +170,7 @@ public abstract class BuildingBase : MonoBehaviour
     public virtual void ConsumeStoredEnergy(float value) { }
     public virtual float PlacementRadius() { return 0; }
 
-    public virtual bool CanBePlaced(Vector3Int pos) 
+    public virtual BuildingPlaceType CanBePlaced(Vector3Int pos) 
     {
         var grid = new GetGridEvent();
         Event<GetGridEvent>.Broadcast(grid);
@@ -173,13 +186,13 @@ public abstract class BuildingBase : MonoBehaviour
                 {
                     var ground = GridEx.GetBlock(grid.grid, new Vector3Int(i, min.y - 1, k));
                     if (ground != BlockType.ground)
-                        return false;
+                        return BuildingPlaceType.InvalidPlace;
 
                     for (int j = min.y; j < max.y; j++)
                     {
                         var block = GridEx.GetBlock(grid.grid, new Vector3Int(i, j, k));
                         if (block != BlockType.air)
-                            return false;
+                            return BuildingPlaceType.InvalidPlace;
                     }
                 }
             }
@@ -193,10 +206,10 @@ public abstract class BuildingBase : MonoBehaviour
             var otherBounds = b.GetBounds();
 
             if (Utility.Intersects(otherBounds, bounds))
-                return false;
+                return BuildingPlaceType.InvalidPlace;
         }
 
-        return true;
+        return BuildingPlaceType.Valid;
 
     }
 

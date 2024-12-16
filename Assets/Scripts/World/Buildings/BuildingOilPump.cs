@@ -78,7 +78,7 @@ public class BuildingOilPump : BuildingBase
         }
     }
 
-    public override bool CanBePlaced(Vector3Int pos)
+    public override BuildingPlaceType CanBePlaced(Vector3Int pos)
     {
         var grid = new GetGridEvent();
         Event<GetGridEvent>.Broadcast(grid);
@@ -96,15 +96,15 @@ public class BuildingOilPump : BuildingBase
                     if(i == pos.x && k == pos.z)
                     {
                         if (ground != BlockType.oil)
-                            return false;
+                            return BuildingPlaceType.NeedOil;
                     } else if (ground != BlockType.ground)
-                        return false;
+                        return BuildingPlaceType.InvalidPlace;
 
                     for (int j = min.y; j < max.y; j++)
                     {
                         var block = GridEx.GetBlock(grid.grid, new Vector3Int(i, j, k));
                         if (block != BlockType.air)
-                            return false;
+                            return BuildingPlaceType.InvalidPlace;
                     }
                 }
             }
@@ -118,10 +118,10 @@ public class BuildingOilPump : BuildingBase
             var otherBounds = b.GetBounds();
 
             if (Utility.Intersects(otherBounds, bounds))
-                return false;
+                return BuildingPlaceType.InvalidPlace;
         }
 
-        return true;
+        return BuildingPlaceType.Valid;
     }
 
     bool HaveOilSpot(Vector3Int pos)

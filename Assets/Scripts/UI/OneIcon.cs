@@ -56,6 +56,8 @@ public class OneIcon : MonoBehaviour
         if (textTransform != null)
             m_text = textTransform.GetComponent<TMP_Text>();
 
+        m_text.raycastTarget = false;
+
         m_current = GetComponent<RectTransform>();
 
         m_status.Add(new IconElementStatus(m_arrow.gameObject));

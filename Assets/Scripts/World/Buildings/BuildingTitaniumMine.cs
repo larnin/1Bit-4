@@ -111,13 +111,16 @@ public class BuildingTitaniumMine : BuildingBase
         }
     }
 
-    public override bool CanBePlaced(Vector3Int pos)
+    public override BuildingPlaceType CanBePlaced(Vector3Int pos)
     {
-        if (!base.CanBePlaced(pos))
-            return false;
+        var canPlace = base.CanBePlaced(pos);
+        if (canPlace != BuildingPlaceType.Valid)
+            return canPlace;
 
         var points = GetTitaniumsAround(pos);
-        return points.Count > 0;
+        if (points.Count > 0)
+            return BuildingPlaceType.Valid;
+        return BuildingPlaceType.NeedTitanim;
     }
 
     List<Vector3Int> GetTitaniumsAround(Vector3Int pos)

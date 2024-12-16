@@ -79,12 +79,15 @@ public class BuildingWaterPump : BuildingBase
         }
     }
 
-    public override bool CanBePlaced(Vector3Int pos)
+    public override BuildingPlaceType CanBePlaced(Vector3Int pos)
     {
-        if (!base.CanBePlaced(pos))
-            return false;
+        var canPlace = base.CanBePlaced(pos);
+        if (canPlace != BuildingPlaceType.Valid)
+            return canPlace;
 
-        return HaveWaterAround(pos);
+        if (HaveWaterAround(pos))
+            return BuildingPlaceType.Valid;
+        return BuildingPlaceType.NeedWater;
     }
 
     bool HaveWaterAround(Vector3Int pos)

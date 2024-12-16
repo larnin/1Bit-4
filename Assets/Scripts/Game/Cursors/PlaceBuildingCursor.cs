@@ -7,13 +7,12 @@ using UnityEngine;
 
 public class PlaceBuildingCursor : MonoBehaviour
 {
-    [SerializeField] GameObject m_crossSprite;
     [SerializeField] LayerMask m_groundLayer;
 
     bool m_enabled = false;
     BuildingType m_type;
     BuildingBase m_instance;
-    bool m_canPlace = false;
+    BuildingPlaceType m_canPlace = BuildingPlaceType.Valid;
     bool m_posValid = false;
 
     private void OnEnable()
@@ -45,7 +44,7 @@ public class PlaceBuildingCursor : MonoBehaviour
         {
             if (m_instance != null)
                 Destroy(m_instance.gameObject);
-            m_crossSprite.SetActive(false);
+            EnableCross(false);
             return;
         }
 
@@ -121,17 +120,20 @@ public class PlaceBuildingCursor : MonoBehaviour
 
     void UpdateCanPlace()
     {
-        m_canPlace = false;
+        m_canPlace = BuildingPlaceType.Unknow;
 
         var buildingData = Global.instance.buildingDatas.GetBuilding(m_type);
         if(buildingData == null)
             return;
 
-        if (!buildingData.cost.HaveMoney())
-            return;
-
         if (BuildingList.instance == null || ConnexionSystem.instance == null)
             return;
+
+        if (!buildingData.cost.HaveMoney())
+        {
+            m_canPlace = BuildingPlaceType.NoResources;
+            return;
+        }
 
         //test at range of an other pylon
         Vector3 pos = m_instance.GetGroundCenter();
@@ -157,7 +159,10 @@ public class PlaceBuildingCursor : MonoBehaviour
             }
         }
         if (!canPlace)
+        {
+            m_canPlace = BuildingPlaceType.TooFar;
             return;
+        }
 
         m_canPlace = m_instance.CanBePlaced(m_instance.GetPos());
     }
@@ -167,36 +172,13 @@ public class PlaceBuildingCursor : MonoBehaviour
         if (m_instance != null)
             m_instance.gameObject.SetActive(m_posValid);
             
-        if(m_canPlace || !m_posValid)
+        if(m_canPlace == BuildingPlaceType.Valid || !m_posValid)
         {
-            m_crossSprite.SetActive(false);
+            EnableCross(false);
             return;
         }
 
-        m_crossSprite.SetActive(true);
-
-        var cam = new GetCameraEvent();
-        Event<GetCameraEvent>.Broadcast(cam);
-        if (cam.camera == null)
-            return;
-
-        m_crossSprite.transform.forward = -cam.camera.transform.forward;
-
-        Vector3 pos = Vector3.zero;
-        if (m_instance != null)
-            pos = m_instance.transform.position;
-
-        var buildingData = Global.instance.buildingDatas.GetBuilding(m_type);
-        if(buildingData != null)
-        {
-            Vector3 size = buildingData.size;
-            size -= Vector3.one;
-            size /= 2;
-            pos += size;
-        }
-
-        pos += 10 * m_crossSprite.transform.forward;
-        m_crossSprite.transform.position = pos;
+        EnableCross(true, GetMessage(m_canPlace));
     }
 
     void OnClick()
@@ -206,7 +188,7 @@ public class PlaceBuildingCursor : MonoBehaviour
 
         if (m_instance == null)
             return;
-        if (!m_posValid || !m_canPlace)
+        if (!m_posValid || m_canPlace != BuildingPlaceType.Valid)
             return;
 
         Vector3Int pos = m_instance.GetPos();
@@ -220,5 +202,55 @@ public class PlaceBuildingCursor : MonoBehaviour
         var obj = Instantiate(buildingData.prefab);
         obj.transform.parent = BuildingList.instance.transform;
         obj.transform.localPosition = pos;
+    }
+
+    void EnableCross(bool enabled, string message = "")
+    {
+        if (DisplayIcons.instance == null || m_instance == null)
+            return;
+
+
+        if (enabled)
+        {
+            float height = 2;
+            var buildingData = Global.instance.buildingDatas.GetBuilding(m_type);
+            if (buildingData != null)
+            {
+                Vector3 size = buildingData.size;
+                size -= Vector3.one;
+                size /= 2;
+                height = size.y;
+            }
+
+            DisplayIcons.instance.Register(m_instance.gameObject, height, "Cross", message);
+        }
+        else DisplayIcons.instance.Unregister(m_instance.gameObject);
+    }
+
+    string GetMessage(BuildingPlaceType type)
+    {
+        switch(type)
+        {
+            case BuildingPlaceType.NoResources:
+                return "No resources";
+            case BuildingPlaceType.InvalidPlace:
+                return "Invalid Place";
+            case BuildingPlaceType.TooFar:
+                return "Too far";
+            case BuildingPlaceType.NeedCrystal:
+                return "Need Crystal";
+            case BuildingPlaceType.NeedOil:
+                return "Need Oil";
+            case BuildingPlaceType.NeedTitanim:
+                return "Need Titanium";
+            case BuildingPlaceType.NeedWater:
+                return "Need Water";
+            case BuildingPlaceType.Unknow:
+            case BuildingPlaceType.Valid:
+            default:
+                break;
+        }
+
+        return "";
     }
 }
