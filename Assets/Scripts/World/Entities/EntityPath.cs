@@ -81,7 +81,7 @@ public class EntityPath
                 return posInt;
             }
 
-            if (posInt == m_points[m_currentPoint])
+            if (posInt.x == m_points[m_currentPoint].x && posInt.z == m_points[m_currentPoint].z)
             {
                 m_currentPoint++;
                 if (m_currentPoint >= m_points.Count)
@@ -276,7 +276,7 @@ public class EntityPath
             return false;
 
         var ground = GridEx.GetBlock(grid, new Vector3Int(pos.x, pos.y - 1, pos.z));
-        if (ground == BlockType.air)
+        if (ground != BlockType.ground && ground != BlockType.water)
             return false;
 
         return true;

@@ -12,7 +12,6 @@ public class EnnemyBehaviour : MonoBehaviour
 
     GameObject m_target;
     BuildingBase m_buildingTarget;
-    bool m_moving = false;
 
     private void Start()
     {
@@ -58,14 +57,12 @@ public class EnnemyBehaviour : MonoBehaviour
             float distance = (realTargetPos - transform.position).sqrMagnitude;
             if(distance < range * range)
             {
-                if (m_moving)
+                if (m_move.IsMoving())
                     m_move.Stop();
             }
-            else if(!m_moving)
+            else if(!m_move.IsMoving())
                 m_move.SetTarget(realTargetPos);
         }
-        else m_moving = false;
-
     }
 }
 
