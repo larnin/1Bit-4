@@ -72,7 +72,7 @@ public class TurretBehaviour : MonoBehaviour
                             var targetPos = m_target;
                             var forward = (targetPos - m_turretPivot.position).normalized;
 
-                            float angle = Mathf.Abs(Quaternion.Angle(m_turretStartRotation, m_turretInitialRotation));
+                            float angle = Mathf.Abs(Quaternion.Angle(m_turretStartRotation, Quaternion.LookRotation(forward)));
                             m_turretTimer = 0;
                             m_turretTimerMax = angle / m_turretRotSpeed / Mathf.Rad2Deg;
 
