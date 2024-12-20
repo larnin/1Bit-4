@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4766931038948199752}
   - component: {fileID: 4766931038948199753}
   - component: {fileID: 4766931038948199758}
+  - component: {fileID: 6374570692926013693}
   m_Layer: 7
   m_Name: CrystalMine
   m_TagString: Untagged
@@ -91,6 +92,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_maxLife: 20
+--- !u!114 &6374570692926013693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4766931038948199759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa95a2f98595e3d44b73120496694a1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_barHeight: 3
+  m_barScale: 1
 --- !u!1 &4766931040100820188
 GameObject:
   m_ObjectHideFlags: 0

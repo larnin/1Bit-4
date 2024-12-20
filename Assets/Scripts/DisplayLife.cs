@@ -5,7 +5,6 @@ public class DisplayLife : MonoBehaviour
 {
     const string lifeParam = "_FillPercent";
 
-    [SerializeField] GameObject m_lifebarPrefab;
     [SerializeField] float m_barHeight = 1;
     [SerializeField] float m_barScale = 1;
 
@@ -35,9 +34,22 @@ public class DisplayLife : MonoBehaviour
         }
         else if(m_lifebarInstance == null)
         {
-            m_lifebarInstance = Instantiate(m_lifebarPrefab);
+            Vector3 pos = new Vector3(0, m_barHeight, 0);
+
+            var type = GameSystem.GetEntityType(gameObject);
+            if(type == EntityType.Building)
+            {
+                var building = GetComponent<BuildingBase>();
+                if(building != null)
+                {
+                    var point = building.GetGroundCenter();
+                    pos += point - transform.position;
+                }
+            }
+
+            m_lifebarInstance = Instantiate(Global.instance.buildingDatas.LifebarPrefab);
             m_lifebarInstance.transform.parent = transform;
-            m_lifebarInstance.transform.localPosition = new Vector3(0, m_barHeight, 0);
+            m_lifebarInstance.transform.localPosition = pos;
             m_lifebarInstance.transform.localScale = new Vector3(m_barScale, m_barScale, m_barScale);
             m_barRenderer = m_lifebarInstance.GetComponentInChildren<Renderer>();
         }
@@ -47,7 +59,11 @@ public class DisplayLife : MonoBehaviour
             GetCameraEvent cam = new GetCameraEvent();
             Event<GetCameraEvent>.Broadcast(cam);
             if (cam.camera != null)
-                m_lifebarInstance.transform.LookAt(cam.camera.transform);
+            {
+                var rot = Quaternion.LookRotation(-cam.camera.transform.forward).eulerAngles;
+
+                m_lifebarInstance.transform.rotation = Quaternion.Euler(0, rot.y, 0);
+            }
 
             var mats = m_barRenderer.materials;
             foreach(var mat in mats)

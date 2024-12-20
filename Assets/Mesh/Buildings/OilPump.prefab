@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 4089609715673390461}
   - component: {fileID: 5355809306436954121}
   - component: {fileID: 3108995353832990689}
+  - component: {fileID: 607831234310609091}
   m_Layer: 7
   m_Name: OilPump
   m_TagString: Untagged
@@ -173,3 +174,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_maxLife: 20
+--- !u!114 &607831234310609091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4113768736633810140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa95a2f98595e3d44b73120496694a1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_barHeight: 3
+  m_barScale: 1

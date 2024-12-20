@@ -127,6 +127,7 @@ GameObject:
   - component: {fileID: 4460641274274085506}
   - component: {fileID: 9043141151901849544}
   - component: {fileID: 9107417369259299291}
+  - component: {fileID: 7190642306445680179}
   m_Layer: 7
   m_Name: Pylon
   m_TagString: Untagged
@@ -206,3 +207,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_maxLife: 10
+--- !u!114 &7190642306445680179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8340085762057836841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa95a2f98595e3d44b73120496694a1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_barHeight: 4
+  m_barScale: 1

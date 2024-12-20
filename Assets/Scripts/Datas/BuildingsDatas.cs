@@ -90,6 +90,7 @@ public class BuildingsDatas
     [SerializeField] List<OneBuildingData> m_buildings;
     public GameObject mineItemPrefab;
     public float lifeLossDisplayDuration = 10;
+    public GameObject LifebarPrefab;
 
     public OneBuildingData GetBuilding(BuildingType type)
     {
