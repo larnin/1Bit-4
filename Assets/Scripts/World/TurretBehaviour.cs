@@ -55,6 +55,9 @@ public class TurretBehaviour : MonoBehaviour
         if (GameInfos.instance.paused)
             return;
 
+        if (Utility.IsFrozen(gameObject))
+            return;
+
         if (m_turretPivot == null)
         {
             m_turretState = TurretState.Target;

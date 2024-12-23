@@ -24,6 +24,9 @@ public class EnnemyBehaviour : MonoBehaviour
         if (GameInfos.instance.paused)
             return;
 
+        if (Utility.IsFrozen(gameObject))
+            return;
+
         if (m_weapon == null || m_move == null)
             return;
 

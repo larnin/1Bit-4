@@ -44,6 +44,9 @@ public class BuildingPowerPlant : BuildingBase
         if (GameInfos.instance.paused)
             return;
 
+        if (Utility.IsFrozen(gameObject))
+            return;
+
         if (ConnexionSystem.instance != null && !ConnexionSystem.instance.IsConnected(this))
             return;
 

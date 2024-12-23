@@ -62,6 +62,12 @@ public class EntityWeaponGun : EntityWeaponBase
 
     private void Update()
     {
+        if (GameInfos.instance.paused)
+            return;
+
+        if (Utility.IsFrozen(gameObject))
+            return;
+
         UpdateTarget();
         UpdateTurret();
     }

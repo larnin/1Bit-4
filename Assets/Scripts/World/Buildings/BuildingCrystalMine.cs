@@ -73,6 +73,9 @@ public class BuildingCrystalMine : BuildingBase
         if (GameInfos.instance.paused)
             return;
 
+        if (Utility.IsFrozen(gameObject))
+            return;
+
         if (!IsAdded())
             return;
 

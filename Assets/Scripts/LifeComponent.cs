@@ -5,6 +5,24 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+public class Hit
+{
+    public float initialDamages;
+    public float damages;
+    public GameObject caster;
+    public DamageType damageType;
+    public float damageEffectPower;
+
+    public Hit(float _damages, GameObject _caster = null, DamageType _type = DamageType.Normal, float _effect = 1)
+    {
+        initialDamages = _damages;
+        damages = _damages;
+        caster = _caster;
+        damageType = _type;
+        damageEffectPower = _effect;
+    }
+}
+
 public class LifeComponent : MonoBehaviour
 {
     [SerializeField] float m_maxLife = 1;
@@ -29,13 +47,14 @@ public class LifeComponent : MonoBehaviour
         m_life = m_maxLife;
     }
 
-    public void Hit(float dmg, GameObject caster)
+    public void Hit(Hit hit)
     {
-        HitBeforeApplyEvent e = new HitBeforeApplyEvent(dmg, caster);
+        HitBeforeApplyEvent e = new HitBeforeApplyEvent(hit);
         Event<HitBeforeApplyEvent>.Broadcast(e, gameObject);
 
         GetTeamEvent casterTeam = new GetTeamEvent();
-        Event<GetTeamEvent>.Broadcast(casterTeam, caster);
+        if(hit.caster != null)
+            Event<GetTeamEvent>.Broadcast(casterTeam, hit.caster);
 
         GetTeamEvent targetTeam = new GetTeamEvent();
         Event<GetTeamEvent>.Broadcast(targetTeam, gameObject);
@@ -46,14 +65,14 @@ public class LifeComponent : MonoBehaviour
         if (casterTeam.team == targetTeam.team)
             return;
 
-        m_life -= e.dmg;
+        m_life -= hit.damages;
 
         if (m_life <= 0)
         {
             m_life = 0;
-            Event<DeathEvent>.Broadcast(new DeathEvent(), gameObject);
+            Event<DeathEvent>.Broadcast(new DeathEvent(hit), gameObject);
         }
-        else Event<LifeLossEvent>.Broadcast(new LifeLossEvent(e.dmg), gameObject);
+        else Event<LifeLossEvent>.Broadcast(new LifeLossEvent(hit), gameObject);
     }
 
     public float GetMaxLife()

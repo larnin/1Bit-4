@@ -9,6 +9,8 @@ public class ProjectileSimple : ProjectileBase
 {
     [SerializeField] float m_speed = 5;
     [SerializeField] float m_maxLife = 5;
+    [SerializeField] DamageType m_damageType = DamageType.Normal;
+    [SerializeField] float m_damageEffect = 1;
     [SerializeField] LayerMask m_hitLayer;
     [SerializeField] GameObject m_hitPrefab;
 
@@ -45,7 +47,7 @@ public class ProjectileSimple : ProjectileBase
         }
 
         var life = hit.collider.gameObject.GetComponent<LifeComponent>();
-        life.Hit(m_damages * m_damagesMultiplier, m_caster);
+        life.Hit(new Hit(m_damages * m_damagesMultiplier, m_caster, m_damageType, m_damageEffect));
 
         Destroy(gameObject);
     }

@@ -7,31 +7,32 @@ using UnityEngine;
 
 public class HitBeforeApplyEvent
 {
-    public float dmg;
-    public float initialDmg;
-    public GameObject caster;
+    public Hit hit;
 
-    public HitBeforeApplyEvent(float _dmg, GameObject _caster)
+    public HitBeforeApplyEvent(Hit _hit)
     {
-        dmg = _dmg;
-        initialDmg = _dmg;
-        caster = _caster;
+        hit = _hit;
     }
 }
 
 public class LifeLossEvent
 {
-    public float dmg;
+    public Hit hit;
 
-    public LifeLossEvent(float _dmg)
+    public LifeLossEvent(Hit _hit)
     {
-        dmg = _dmg;
+        hit = _hit;
     }
 }
 
 public class DeathEvent
 {
+    public Hit hit;
 
+    public DeathEvent(Hit _hit)
+    {
+        hit = _hit;
+    }
 }
 
 public class HealBeforeApplyEvent
@@ -53,4 +54,9 @@ public class HealEvent
     {
         heal = _heal;
     }
+}
+
+public class IsFrozenEvent
+{
+    public bool frozen = false;
 }

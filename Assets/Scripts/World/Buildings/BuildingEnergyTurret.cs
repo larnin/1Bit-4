@@ -88,6 +88,9 @@ public class BuildingEnergyTurret : BuildingBase
         if (GameInfos.instance.paused)
             return;
 
+        if (Utility.IsFrozen(gameObject))
+            return;
+
         if (EntityList.instance == null)
             m_target = null;
         else

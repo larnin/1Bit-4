@@ -53,6 +53,9 @@ public class Global : ScriptableObject
     [SerializeField] UIElementData m_UIElementDatas;
     public UIElementData UIElementDatas { get { return m_UIElementDatas; } }
 
+    [SerializeField] StatusDatas m_statusDatas;
+    public StatusDatas statusDatas { get { return m_statusDatas; } }
+
     static Global m_instance;
 
     static string s_path = "World";

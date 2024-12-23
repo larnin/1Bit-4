@@ -269,3 +269,12 @@ MonoBehaviour:
     fillValuePrefab: {fileID: 6744325536455805254, guid: 748e27cfb0b299c4f856d9be37e2bd00, type: 3}
     spritePrefab: {fileID: 1609686189616329620, guid: 6b8f347ac3c06e348b17f553b4a52ea3, type: 3}
     labelAndTextPrefab: {fileID: 4001936163988476421, guid: 8ecf22a317c8cea42a1f449c175b2197, type: 3}
+  m_statusDatas:
+    burning:
+      effectPrefab: {fileID: 0}
+      icon: Fire
+      powerToDuration: 1
+      powerToDot: 1
+    frozen:
+      powerToDuration: 1
+      icon: Ice

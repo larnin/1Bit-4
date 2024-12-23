@@ -187,4 +187,12 @@ public static class Utility
 
         return str;
     }
+
+    public static bool IsFrozen(GameObject obj)
+    {
+        var frozen = new IsFrozenEvent();
+        Event<IsFrozenEvent>.Broadcast(frozen, obj);
+
+        return frozen.frozen;
+    }
 }

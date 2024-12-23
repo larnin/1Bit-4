@@ -70,6 +70,9 @@ public class BuildingTitaniumMine : BuildingBase
         if (GameInfos.instance.paused)
             return;
 
+        if (Utility.IsFrozen(gameObject))
+            return;
+
         if (!IsAdded())
             return;
 
