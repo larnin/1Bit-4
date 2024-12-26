@@ -16,6 +16,7 @@ public enum EntityPathStatus
 public class EntityPath
 {
     Vector3Int m_current;
+    Team m_ownerTeam;
     Vector3Int m_target;
     EntityPathStatus m_status;
 
@@ -25,6 +26,7 @@ public class EntityPath
 
     Vector3Int m_nextCurrent;
     Vector3Int m_nextTarget;
+    Team m_nextOwnerTeam;
     bool m_nextTargetSet = false;
 
     public EntityPathStatus GetStatus()
@@ -32,24 +34,26 @@ public class EntityPath
         return m_status;
     }
 
-    public void SetTarget(Vector3 current, Vector3 target)
+    public void SetTarget(Vector3 current, Vector3 target, Team ownerTeam)
     {
         SetTarget(new Vector3Int(Mathf.RoundToInt(current.x), Mathf.RoundToInt(current.y), Mathf.RoundToInt(current.z)),
-            new Vector3Int(Mathf.RoundToInt(target.x), Mathf.RoundToInt(target.y), Mathf.RoundToInt(target.z)));
+            new Vector3Int(Mathf.RoundToInt(target.x), Mathf.RoundToInt(target.y), Mathf.RoundToInt(target.z)), ownerTeam);
     }
 
-    public void SetTarget(Vector3Int current, Vector3Int target)
+    public void SetTarget(Vector3Int current, Vector3Int target, Team ownerTeam)
     {
         if (target != m_target)
         {
             if (m_status != EntityPathStatus.Generating)
             {
+                m_ownerTeam = ownerTeam;
                 m_current = current;
                 m_target = target;
                 StartJob();
             }
             else
             {
+                m_nextOwnerTeam = ownerTeam;
                 m_nextCurrent = current;
                 m_nextTarget = target;
                 m_nextTargetSet = true;
@@ -66,6 +70,7 @@ public class EntityPath
         {
             if(m_nextTargetSet && m_status != EntityPathStatus.Generating)
             {
+                m_ownerTeam = m_nextOwnerTeam;
                 m_current = m_nextCurrent;
                 m_target = m_nextTarget;
                 m_nextTargetSet = false;
@@ -161,7 +166,8 @@ public class EntityPath
 
                         Vector3Int target = step.pos + new Vector3Int(i, j, k);
 
-                        if (!IsPosValid(grid.grid, target))
+                        float weight = IsPosValid(grid.grid, target);
+                        if(weight < 0)
                             continue;
                         if (visitedPoint.Get(target.x, target.y, target.z))
                             continue;
@@ -169,7 +175,7 @@ public class EntityPath
                         PathStep newStep = new PathStep();
                         newStep.pos = target;
                         newStep.previousIndex = path.Count - 1;
-                        newStep.weight = step.weight + (new Vector3Int(i, j, k)).magnitude;
+                        newStep.weight = step.weight + (new Vector3Int(i, j, k)).magnitude * weight;
                         newStep.targetWeight = (end - target).magnitude;
 
                         if (target == end)
@@ -266,20 +272,37 @@ public class EntityPath
         return new Vector3Int(pos.x, testY, pos.z);
     }
 
-    bool IsPosValid(Grid grid, Vector3Int pos)
+    float IsPosValid(Grid grid, Vector3Int pos)
     {
-        if (BuildingList.instance != null && BuildingList.instance.GetBuildingAt(pos) != null)
-            return false;
+        float multiplier = 1;
+
+        if (BuildingList.instance != null)
+        {
+            var building = BuildingList.instance.GetBuildingAt(pos);
+            if(building != null)
+            {
+                var team = building.GetTeam();
+
+                if (m_ownerTeam == Team.Ennemy && team == Team.Player)
+                    multiplier = 5;
+                else return -1;
+            }
+        }
 
         var block = GridEx.GetBlock(grid, pos);
         if (block != BlockType.air)
-            return false;
+            return -1;
 
         var ground = GridEx.GetBlock(grid, new Vector3Int(pos.x, pos.y - 1, pos.z));
-        if (ground != BlockType.ground && ground != BlockType.water)
-            return false;
+        if (m_ownerTeam == Team.Ennemy)
+        {
+            if (ground != BlockType.ground && ground != BlockType.water)
+                return -1;
+        }
+        else if (ground != BlockType.ground)
+            return -1;
 
-        return true;
+        return multiplier;
     }
 
     void Insert(List<PathStep> steps, PathStep step)

@@ -18,12 +18,17 @@ public class EntityMove : MonoBehaviour
 
     public void SetTarget(Vector3 target)
     {
-        m_path.SetTarget(transform.position, target);
+        GetTeamEvent team = new GetTeamEvent();
+        Event<GetTeamEvent>.Broadcast(team, gameObject);
+        m_path.SetTarget(transform.position, target, team.team);
     }
 
     public void Stop()
     {
-        m_path.SetTarget(transform.position, transform.position);
+
+        GetTeamEvent team = new GetTeamEvent();
+        Event<GetTeamEvent>.Broadcast(team, gameObject);
+        m_path.SetTarget(transform.position, transform.position, team.team);
     }
 
     public bool IsMoving()

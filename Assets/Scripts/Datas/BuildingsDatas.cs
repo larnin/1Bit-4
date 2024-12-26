@@ -25,6 +25,13 @@ public static class TeamEx
 }
 
 [Serializable]
+public class OneDestructedBuildingData
+{
+    public Vector2Int size;
+    public GameObject prefab;
+}
+
+[Serializable]
 public class OneResourceCost
 {
     public ResourceType type;
@@ -91,6 +98,7 @@ public class BuildingsDatas
     public GameObject mineItemPrefab;
     public float lifeLossDisplayDuration = 10;
     public GameObject LifebarPrefab;
+    [SerializeField] List<OneDestructedBuildingData> m_destructedBuildings;
 
     public OneBuildingData GetBuilding(BuildingType type)
     {
@@ -98,6 +106,17 @@ public class BuildingsDatas
         {
             if (b.type == type)
                 return b;
+        }
+
+        return null;
+    }
+
+    public GameObject GetDestructedBuildingPrefab(Vector2Int size)
+    {
+        foreach(var b in m_destructedBuildings)
+        {
+            if (b.size == size)
+                return b.prefab;
         }
 
         return null;
