@@ -21,6 +21,8 @@ public enum BuildingType
     TitaniumMine,
     WaterPump,
     Turret1,
+    Turret2,
+    Turret3,
     EnnemySpawner = 100,
 }
 
