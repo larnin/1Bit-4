@@ -14,6 +14,9 @@ public class BuildingEnergyTurret : BuildingBase
     [SerializeField] float m_range = 5;
     [SerializeField] GameObject m_projectilePrefab;
     [SerializeField] GameObject m_firePrefab;
+    [SerializeField] float m_recoilDistance = 0.5f;
+    [SerializeField] float m_recoilDuration = 0.5f;
+    [SerializeField] Transform m_recoilTarget;
 
     float m_energy = 0;
 
@@ -25,6 +28,9 @@ public class BuildingEnergyTurret : BuildingBase
 
     float m_fireTimer;
     int m_fireIndex;
+
+    float m_recoilTimer;
+    Vector3 m_recoilInitialPosition;
 
     SubscriberList m_subscriberList = new SubscriberList();
 
@@ -47,6 +53,11 @@ public class BuildingEnergyTurret : BuildingBase
 
         m_turret = GetComponent<TurretBehaviour>(); 
         GetFirePoints(transform);
+
+        m_recoilTimer = -1;
+
+        if (m_recoilTarget != null)
+            m_recoilInitialPosition = m_recoilTarget.localPosition;
     }
 
     void GetFirePoints(Transform transform)
@@ -90,6 +101,11 @@ public class BuildingEnergyTurret : BuildingBase
 
         if (Utility.IsFrozen(gameObject))
             return;
+
+        if (!IsAdded())
+            return;
+
+        ProcessRecoil();
 
         if (EntityList.instance == null)
             m_target = null;
@@ -169,6 +185,8 @@ public class BuildingEnergyTurret : BuildingBase
                     //multipliers & others stuffs
                 }
             }
+
+            StartRecoil();
         }
 
         m_fireIndex++;
@@ -189,5 +207,31 @@ public class BuildingEnergyTurret : BuildingBase
         DisplayGenericInfos(e.container);
 
         UIElementData.Create<UIElementFillValue>(e.container).SetLabel("Power storage").SetValueFunc(GetEnergy).SetMaxFunc(GetStorage).SetNbDigits(1).SetValueDisplayType(UIElementFillValueDisplayType.classic);
+    }
+
+    void StartRecoil()
+    {
+        m_recoilTimer = 0;
+    }
+
+    void ProcessRecoil()
+    {
+        if (m_recoilTimer < 0)
+            return;
+
+        m_recoilTimer += Time.deltaTime;
+
+        float normDuration = 1 - (m_recoilTimer / m_recoilDuration);
+        if (normDuration < 0)
+        {
+            normDuration = 0;
+            m_recoilTimer = -1;
+        }
+
+        float dist = -normDuration * m_recoilDistance;
+        Vector3 pos = m_recoilInitialPosition + new Vector3(0, 0, dist);
+
+        if (m_recoilTarget != null)
+            m_recoilTarget.localPosition = pos;
     }
 }
