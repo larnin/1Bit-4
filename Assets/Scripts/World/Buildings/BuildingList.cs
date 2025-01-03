@@ -147,24 +147,24 @@ public class BuildingList : MonoBehaviour
         return bestBuilding;
     }
 
-    public BuildingBase GetNearestBuilding(Vector3 pos)
+    public BuildingBase GetNearestBuilding(Vector3 pos, AliveType alive = AliveType.NotSet)
     {
-        return GetNearestBuilding(pos, null);
+        return GetNearestBuilding(pos, x => { return Utility.IsAliveFilter(x.gameObject, alive); });
     }
 
-    public BuildingBase GetNearestBuilding(Vector3 pos, BuildingType type)
+    public BuildingBase GetNearestBuilding(Vector3 pos, BuildingType type, AliveType alive = AliveType.NotSet)
     {
-        return GetNearestBuilding(pos, x => { return x.GetBuildingType() == type; });
+        return GetNearestBuilding(pos, x => { return x.GetBuildingType() == type && Utility.IsAliveFilter(x.gameObject, alive); });
     }
 
-    public BuildingBase GetNearestBuilding(Vector3 pos, Team team)
+    public BuildingBase GetNearestBuilding(Vector3 pos, Team team, AliveType alive = AliveType.NotSet)
     {
-        return GetNearestBuilding(pos, x => { return x.GetTeam() == team; });
+        return GetNearestBuilding(pos, x => { return x.GetTeam() == team && Utility.IsAliveFilter(x.gameObject, alive); });
     }
 
-    public BuildingBase GetNearestBuilding(Vector3 pos, BuildingType type, Team team)
+    public BuildingBase GetNearestBuilding(Vector3 pos, BuildingType type, Team team, AliveType alive = AliveType.NotSet)
     {
-        return GetNearestBuilding(pos, x => { return x.GetBuildingType() == type && x.GetTeam() == team; });
+        return GetNearestBuilding(pos, x => { return x.GetBuildingType() == type && x.GetTeam() == team && Utility.IsAliveFilter(x.gameObject, alive); });
     }
 
     public BuildingBase GetBuildingAt(Vector3Int pos)

@@ -8,6 +8,14 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+public enum AliveType
+{
+    Alive,
+    Dead,
+    NoLive,
+    NotSet,
+}
+
 public static class Utility
 {
     public static float Angle(Vector2 a, Vector2 b)
@@ -194,5 +202,26 @@ public static class Utility
         Event<IsFrozenEvent>.Broadcast(frozen, obj);
 
         return frozen.frozen;
+    }
+
+    public static bool IsAliveFilter(GameObject obj, AliveType aliveFilter)
+    {
+        if (aliveFilter == AliveType.NotSet)
+            return true;
+
+        var life = obj.GetComponent<LifeComponent>();
+
+        if (life == null)
+            return aliveFilter == AliveType.NoLive;
+
+        float lifePercent = life.GetLifePercent();
+
+        if (lifePercent > 0 && aliveFilter == AliveType.Alive)
+            return true;
+
+        if (lifePercent <= 0 && aliveFilter == AliveType.Dead)
+            return true;
+
+        return false;
     }
 }

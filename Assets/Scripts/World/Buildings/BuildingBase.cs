@@ -23,6 +23,7 @@ public enum BuildingType
     Turret1,
     Turret2,
     Turret3,
+    DestroyedBuilding = 99,
     EnnemySpawner = 100,
 }
 
@@ -57,8 +58,12 @@ public abstract class BuildingBase : MonoBehaviour
 
     SubscriberList m_subscriberList = new SubscriberList();
 
+    LifeComponent m_lifeComponent;
+
     public virtual void Awake()
     {
+        m_lifeComponent = GetComponent<LifeComponent>();
+
         m_subscriberList.Add(new Event<GetTeamEvent>.LocalSubscriber(GetTeam, gameObject));
         m_subscriberList.Add(new Event<LifeLossEvent>.LocalSubscriber(OnLifeLoss, gameObject));
         m_subscriberList.Subscribe();
@@ -78,7 +83,7 @@ public abstract class BuildingBase : MonoBehaviour
         return m_added && !m_asCursor;
     }
 
-    public Vector3Int GetSize()
+    public virtual Vector3Int GetSize()
     {
         var building = Global.instance.buildingDatas.GetBuilding(GetBuildingType());
         if (building == null)
@@ -250,13 +255,39 @@ public abstract class BuildingBase : MonoBehaviour
         Remove();
     }
 
-    protected virtual void Update()
+    void Update()
     {
         m_pos = transform.position;
 
         if (!m_added && !m_asCursor)
             Add();
+
+        if (GameInfos.instance.paused)
+            return;
+
+        OnUpdateAlways();
+
+        if (Utility.IsFrozen(gameObject))
+            return;
+
+        if (!IsAdded())
+            return;
+
+        if (m_lifeComponent != null && m_lifeComponent.GetLifePercent() <= 0)
+            return;
+        
+        if(GetTeam() == Team.Player)
+        {
+            if (ConnexionSystem.instance != null && !ConnexionSystem.instance.IsConnected(this))
+                return;
+        }
+
+        OnUpdate();
     }
+
+    protected virtual void OnUpdateAlways() { }
+
+    protected virtual void OnUpdate() { }
 
     void Add()
     {

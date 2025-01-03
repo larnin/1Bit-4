@@ -37,19 +37,13 @@ public class BuildingPowerPlant : BuildingBase
         return m_powerGeneration * m_efficiency;
     }
 
-    protected override void Update()
+    protected override void OnUpdateAlways()
     {
         m_efficiency = 0;
+    }
 
-        if (GameInfos.instance.paused)
-            return;
-
-        if (Utility.IsFrozen(gameObject))
-            return;
-
-        if (ConnexionSystem.instance != null && !ConnexionSystem.instance.IsConnected(this))
-            return;
-
+    protected override void OnUpdate()
+    {
         if (ResourceSystem.instance == null)
             return;
 

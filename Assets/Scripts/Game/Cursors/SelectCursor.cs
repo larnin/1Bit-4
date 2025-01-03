@@ -246,6 +246,12 @@ public class SelectCursor : MonoBehaviour
                 for(int i = 0; i < nbBuilding; i++)
                 {
                     var b = BuildingList.instance.GetBuildingFromIndex(i);
+
+                    GetTeamEvent team = new GetTeamEvent();
+                    Event<GetTeamEvent>.Broadcast(team, b.gameObject);
+                    if (team.team != Team.Player)
+                        continue;
+
                     if (IsOnSelection(b.gameObject, camera.camera))
                         newSelection.Add(b.gameObject);
                 }
@@ -304,6 +310,11 @@ public class SelectCursor : MonoBehaviour
     bool IsSelectionValid(GameObject obj)
     {
         var type = GameSystem.GetEntityType(obj);
+
+        GetTeamEvent team = new GetTeamEvent();
+        Event<GetTeamEvent>.Broadcast(team, obj);
+        if (team.team != Team.Player)
+            return false;
 
         switch(type)
         {

@@ -92,19 +92,8 @@ public class BuildingEnergyTurret : BuildingBase
             m_energy = m_energyStorage;
     }
 
-    protected override void Update()
+    protected override void OnUpdate()
     {
-        base.Update();
-
-        if (GameInfos.instance.paused)
-            return;
-
-        if (Utility.IsFrozen(gameObject))
-            return;
-
-        if (!IsAdded())
-            return;
-
         ProcessRecoil();
 
         if (EntityList.instance == null)

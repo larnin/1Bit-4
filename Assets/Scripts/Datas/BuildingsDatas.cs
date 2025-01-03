@@ -29,6 +29,7 @@ public class OneDestructedBuildingData
 {
     public Vector2Int size;
     public GameObject prefab;
+    public GameObject particlePrefab;
 }
 
 [Serializable]
@@ -111,12 +112,12 @@ public class BuildingsDatas
         return null;
     }
 
-    public GameObject GetDestructedBuildingPrefab(Vector2Int size)
+    public OneDestructedBuildingData GetDestructedBuildingDatas(Vector2Int size)
     {
         foreach(var b in m_destructedBuildings)
         {
             if (b.size == size)
-                return b.prefab;
+                return b;
         }
 
         return null;

@@ -66,22 +66,8 @@ public class BuildingCrystalMine : BuildingBase
             CreateMineItem(item);
     }
 
-    protected override void Update()
+    protected override void OnUpdate()
     {
-        base.Update();
-
-        if (GameInfos.instance.paused)
-            return;
-
-        if (Utility.IsFrozen(gameObject))
-            return;
-
-        if (!IsAdded())
-            return;
-
-        if (ConnexionSystem.instance != null && !ConnexionSystem.instance.IsConnected(this))
-            return;
-
         float count = m_crystals.Count * Time.deltaTime * m_energyEfficiency * m_generation;
 
         if (ResourceSystem.instance != null)

@@ -63,22 +63,8 @@ public class BuildingTitaniumMine : BuildingBase
         m_titaniums = GetTitaniumsAround(GetPos());
     }
 
-    protected override void Update()
+    protected override void OnUpdate()
     {
-        base.Update();
-
-        if (GameInfos.instance.paused)
-            return;
-
-        if (Utility.IsFrozen(gameObject))
-            return;
-
-        if (!IsAdded())
-            return;
-
-        if (ConnexionSystem.instance != null && !ConnexionSystem.instance.IsConnected(this))
-            return;
-
         m_consumeMultiplier = 0;
         if (ResourceSystem.instance != null)
         {

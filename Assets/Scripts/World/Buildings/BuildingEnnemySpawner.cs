@@ -53,10 +53,8 @@ public class BuildingEnnemySpawner : BuildingBase
         return BuildingType.EnnemySpawner;
     }
 
-    protected override void Update()
+    protected override void OnUpdateAlways()
     {
-        base.Update();
-        
         switch (m_state)
         {
             case State.Appear:

@@ -57,22 +57,8 @@ public class BuildingWaterPump : BuildingBase
         m_connectedToWater = HaveWaterAround(GetPos());
     }
 
-    protected override void Update()
+    protected override void OnUpdate()
     {
-        base.Update();
-
-        if (GameInfos.instance.paused)
-            return;
-
-        if (Utility.IsFrozen(gameObject))
-            return;
-
-        if (!IsAdded())
-            return;
-
-        if (ConnexionSystem.instance != null && !ConnexionSystem.instance.IsConnected(this))
-            return;
-
         if (m_connectedToWater)
         {
             float count = Time.deltaTime * m_energyEfficiency * m_generation;
