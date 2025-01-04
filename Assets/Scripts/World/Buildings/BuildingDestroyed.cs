@@ -9,6 +9,7 @@ using DG.Tweening;
 public class BuildingDestroyed : BuildingBase
 {
     [SerializeField] float m_displayDuration = 10;
+    [SerializeField] float m_appearDuration = 1;
     [SerializeField] float m_hideDuration = 2;
     [SerializeField] float m_hideDistance = 2;
     [SerializeField] Ease m_hideCurve;
@@ -18,20 +19,20 @@ public class BuildingDestroyed : BuildingBase
     float m_lifeTimer;
 
     Transform m_render;
-    Vector3 m_initialRenderPos;
 
     public override void Awake()
     {
         base.Awake();
 
-        m_render = transform.Find("Mesh");
-        if (m_render != null)
-            m_initialRenderPos = m_render.localPosition;
+        UpdateRenderPosition();
     }
 
     public void SetSize(Vector2Int size)
     {
         m_size = size;
+
+        CreateRender();
+        UpdateRenderPosition();
     }
 
     public override Vector3Int GetSize()
@@ -52,8 +53,7 @@ public class BuildingDestroyed : BuildingBase
     {
         m_lifeTimer += Time.deltaTime;
 
-        if (m_lifeTimer > m_displayDuration)
-            UpdateRenderPosition();
+        UpdateRenderPosition();
 
         if (m_lifeTimer > m_displayDuration + m_hideDuration)
             Destroy(gameObject);
@@ -61,17 +61,41 @@ public class BuildingDestroyed : BuildingBase
 
     void UpdateRenderPosition()
     {
-        float normTime = m_lifeTimer - m_displayDuration;
-        normTime /= m_hideDuration;
+        float normTime = 0;
+
+        if (m_lifeTimer < m_appearDuration)
+            normTime = 1 - (m_lifeTimer / m_appearDuration);
+        else if(m_lifeTimer > m_displayDuration)
+        {
+            normTime = m_lifeTimer - m_displayDuration;
+            normTime /= m_hideDuration;
+        }
 
         normTime = Mathf.Clamp01(normTime);
 
         normTime = DOVirtual.EasedValue(0, 1, normTime, m_hideCurve);
         normTime *= -m_hideDistance;
 
-        Vector3 pos = m_initialRenderPos + new Vector3(0, normTime, 0);
-
         if (m_render != null)
-            m_render.localPosition = pos;
+            m_render.localPosition = new Vector3(0, normTime, 0);
+    }
+
+    void CreateRender()
+    {
+        if (m_render != null)
+        {
+            Destroy(m_render.gameObject);
+            m_render = null;
+        }
+
+        var data = Global.instance.buildingDatas.GetDestructedBuildingDatas(m_size);
+        if (data == null || data.prefab == null)
+            return;
+
+        var obj = Instantiate(data.prefab);
+        m_render = obj.transform;
+        obj.transform.parent = transform;
+        obj.transform.localPosition = Vector3.zero;
+        obj.transform.localRotation = Quaternion.identity;
     }
 }

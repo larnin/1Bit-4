@@ -100,6 +100,8 @@ public class BuildingsDatas
     public float lifeLossDisplayDuration = 10;
     public GameObject LifebarPrefab;
     [SerializeField] List<OneDestructedBuildingData> m_destructedBuildings;
+    public float DestructionAcceleration = 2;
+    public float DestructionSpeed = 4;
 
     public OneBuildingData GetBuilding(BuildingType type)
     {
