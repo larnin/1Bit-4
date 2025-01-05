@@ -9,13 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6080704546816636106}
-  - component: {fileID: 6578978061449579662}
   - component: {fileID: 6253892358918815233}
   - component: {fileID: 888804988172163593}
   - component: {fileID: 8458183946068231810}
   - component: {fileID: 5894115136948800117}
   - component: {fileID: 240010203234488225}
   - component: {fileID: 33626086663986987}
+  - component: {fileID: 8828943435156555476}
   m_Layer: 7
   m_Name: Turret1
   m_TagString: Untagged
@@ -40,28 +40,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6578978061449579662
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2386629846189063210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed6ed296513c0444aab910a283873dfc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_energyStorage: 10
-  m_energyUptake: 2
-  m_energyPerFire: 1
-  m_fireRate: 1
-  m_range: 15
-  m_projectilePrefab: {fileID: 9030378141569406407, guid: 87e9017554cad3b469d1f42ecbc47c60, type: 3}
-  m_firePrefab: {fileID: 1106243580312464698, guid: 02c14e02dbaf37c4499c62b86b836e98, type: 3}
-  m_recoilDistance: 0.3
-  m_recoilDuration: 0.2
-  m_recoilTarget: {fileID: 3717175037673376934}
 --- !u!114 &6253892358918815233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,6 +118,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3949ee7459f3fe240881bceee865857c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8828943435156555476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2386629846189063210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb5a7aedd25e14b419ebd3a0d91b5236, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_fireRate: 1
+  m_range: 15
+  m_firePrefab: {fileID: 1106243580312464698, guid: 02c14e02dbaf37c4499c62b86b836e98, type: 3}
+  m_recoilDistance: 0.3
+  m_recoilDuration: 0.2
+  m_recoilTarget: {fileID: 3717175037673376934}
+  m_energyStorage: 10
+  m_energyUptake: 2
+  m_energyPerFire: 1
+  m_projectilePrefab: {fileID: 9030378141569406407, guid: 87e9017554cad3b469d1f42ecbc47c60, type: 3}
 --- !u!1 &3323621035785933693
 GameObject:
   m_ObjectHideFlags: 0

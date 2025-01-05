@@ -1,24 +1,21 @@
-﻿using System;
+﻿using Sirenix.OdinInspector;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class BuildingEnergyTurret : BuildingBase
+public abstract class BuildingTurretBase : BuildingBase
 {
-    [SerializeField] float m_energyStorage = 10;
-    [SerializeField] float m_energyUptake = 2;
-    [SerializeField] float m_energyPerFire = 1;
+    [HideIf("@(this.IsContinuousWeapon())")]
     [SerializeField] float m_fireRate = 1;
     [SerializeField] float m_range = 5;
-    [SerializeField] GameObject m_projectilePrefab;
+    [HideIf("@(this.IsContinuousWeapon())")]
     [SerializeField] GameObject m_firePrefab;
     [SerializeField] float m_recoilDistance = 0.5f;
     [SerializeField] float m_recoilDuration = 0.5f;
     [SerializeField] Transform m_recoilTarget;
-
-    float m_energy = 0;
 
     TurretBehaviour m_turret;
 
@@ -28,24 +25,10 @@ public class BuildingEnergyTurret : BuildingBase
 
     float m_fireTimer;
     int m_fireIndex;
+    bool m_firing;
 
     float m_recoilTimer;
     Vector3 m_recoilInitialPosition;
-
-    SubscriberList m_subscriberList = new SubscriberList();
-
-    public override void Awake()
-    {
-        base.Awake();
-        m_subscriberList.Add(new Event<BuildSelectionDetailCommonEvent>.LocalSubscriber(BuildCommon, gameObject));
-        m_subscriberList.Subscribe();
-    }
-
-    public override void OnDestroy()
-    {
-        base.OnDestroy();
-        m_subscriberList.Unsubscribe();
-    }
 
     public override void Start()
     {
@@ -71,25 +54,6 @@ public class BuildingEnergyTurret : BuildingBase
 
             GetFirePoints(child);
         }
-    }
-
-    public override BuildingType GetBuildingType()
-    {
-        return BuildingType.Turret1;
-    }
-
-    public override float EnergyUptakeWanted()
-    {
-        if (m_energy < m_energyStorage)
-            return m_energyUptake;
-        return 0;
-    }
-
-    public override void EnergyUptake(float value)
-    {
-        m_energy += value * Time.deltaTime;
-        if (m_energy > m_energyStorage)
-            m_energy = m_energyStorage;
     }
 
     protected override void OnUpdate()
@@ -120,7 +84,14 @@ public class BuildingEnergyTurret : BuildingBase
                 m_turret.SetNoTarget();
             else m_turret.SetTarget(m_target.transform.position);
         }
-        
+
+        if (IsContinuousWeapon())
+            UpdateContinuousTurret();
+        else UpdateBulletTurret();
+    }
+
+    void UpdateBulletTurret()
+    {
         float rateTimer = 1 / m_fireRate;
         m_fireTimer += Time.deltaTime;
         if (m_target != null && (m_turret == null || m_turret.CanFire()))
@@ -137,65 +108,46 @@ public class BuildingEnergyTurret : BuildingBase
 
     void TryFire()
     {
-        if (m_energy < m_energyPerFire)
-            return;
-
-        m_energy -= m_energyPerFire;
-
-        if (m_firePoints.Count == 0)
-            return;
-
         if (m_fireIndex < 0 || m_fireIndex >= m_firePoints.Count)
             m_fireIndex = 0;
 
-        Transform firePos = m_firePoints[m_fireIndex];
+        if (!CanFire())
+            return;
 
-        if (m_firePrefab != null)
+        var firePos = GetCurrentFirepoint();
+
+        if (m_firePrefab != null && firePos != null)
         {
             var obj = Instantiate(m_firePrefab);
             obj.transform.position = firePos.position;
             obj.transform.rotation = firePos.rotation;
         }
 
-        if (m_projectilePrefab != null)
-        {
-            var obj = Instantiate(m_projectilePrefab);
-            obj.transform.position = firePos.position;
-            obj.transform.rotation = firePos.rotation;
-
-            var projectile = obj.GetComponent<ProjectileBase>();
-            if (projectile != null)
-            {
-                var target = m_target;
-                if (target != null)
-                {
-                    projectile.SetTarget(target);
-                    projectile.SetCaster(gameObject);
-                    //multipliers & others stuffs
-                }
-            }
-
-            StartRecoil();
-        }
+        Fire();
+        StartRecoil();
 
         m_fireIndex++;
     }
 
-    float GetEnergy()
+    void UpdateContinuousTurret()
     {
-        return m_energy;
-    }
+        bool nextFiring = true;
 
-    float GetStorage()
-    {
-        return m_energyStorage;
-    }
+        if (m_target == null || m_turret == null || !m_turret.CanFire())
+            nextFiring = false;
 
-    void BuildCommon(BuildSelectionDetailCommonEvent e)
-    {
-        DisplayGenericInfos(e.container);
+        if (nextFiring && !CanFire())
+            nextFiring = false;
 
-        UIElementData.Create<UIElementFillValue>(e.container).SetLabel("Power storage").SetValueFunc(GetEnergy).SetMaxFunc(GetStorage).SetNbDigits(1).SetValueDisplayType(UIElementFillValueDisplayType.classic);
+
+        if(nextFiring != m_firing)
+        {
+            m_firing = nextFiring;
+
+            if (m_firing)
+                StartFire();
+            else EndFire();
+        }
     }
 
     void StartRecoil()
@@ -223,4 +175,23 @@ public class BuildingEnergyTurret : BuildingBase
         if (m_recoilTarget != null)
             m_recoilTarget.localPosition = pos;
     }
+
+    protected Transform GetCurrentFirepoint()
+    {
+        if (m_fireIndex >= m_firePoints.Count)
+            return null;
+
+        return m_firePoints[m_fireIndex];
+    }
+
+    protected GameObject GetTarget()
+    {
+        return m_target;
+    }
+
+    protected abstract bool IsContinuousWeapon();
+    protected abstract bool CanFire();
+    protected virtual void StartFire() { }
+    protected virtual void EndFire() { }
+    protected virtual void Fire() { }
 }
