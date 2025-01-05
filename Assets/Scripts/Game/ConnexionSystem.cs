@@ -86,6 +86,11 @@ public class ConnexionSystem : MonoBehaviour
                 if (building.GetTeam() != Team.Player)
                     continue;
 
+                IsDeadEvent dead = new IsDeadEvent();
+                Event<IsDeadEvent>.Broadcast(dead, building.gameObject);
+                if (dead.isDead)
+                    continue;
+
                 Vector3 pos = building.GetPos();
 
                 float dist = VectorEx.SqrMagnitudeXZ(pos - currentPos);

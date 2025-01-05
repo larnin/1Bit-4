@@ -23,7 +23,6 @@ public enum BuildingType
     Turret1,
     Turret2,
     Turret3,
-    DestroyedBuilding = 99,
     EnnemySpawner = 100,
 }
 
@@ -58,12 +57,8 @@ public abstract class BuildingBase : MonoBehaviour
 
     SubscriberList m_subscriberList = new SubscriberList();
 
-    LifeComponent m_lifeComponent;
-
     public virtual void Awake()
     {
-        m_lifeComponent = GetComponent<LifeComponent>();
-
         m_subscriberList.Add(new Event<GetTeamEvent>.LocalSubscriber(GetTeam, gameObject));
         m_subscriberList.Add(new Event<LifeLossEvent>.LocalSubscriber(OnLifeLoss, gameObject));
         m_subscriberList.Subscribe();
@@ -273,7 +268,9 @@ public abstract class BuildingBase : MonoBehaviour
         if (!IsAdded())
             return;
 
-        if (m_lifeComponent != null && m_lifeComponent.GetLifePercent() <= 0)
+        IsDeadEvent dead = new IsDeadEvent();
+        Event<IsDeadEvent>.Broadcast(dead);
+        if (dead.isDead)
             return;
         
         if(GetTeam() == Team.Player)
@@ -304,7 +301,6 @@ public abstract class BuildingBase : MonoBehaviour
     {
         if (!m_added)
             return;
-
         var manager = BuildingList.instance;
         if (manager != null)
             manager.UnRegister(this);

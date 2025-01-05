@@ -6,24 +6,16 @@ using System.Threading.Tasks;
 using UnityEngine;
 using DG.Tweening;
 
-public class BuildingDestroyed : BuildingBase
+public class RubblesInstance : MonoBehaviour
 {
-    [SerializeField] float m_displayDuration = 10;
-    [SerializeField] float m_appearDuration = 1;
-    [SerializeField] float m_hideDuration = 2;
-    [SerializeField] float m_hideDistance = 2;
-    [SerializeField] Ease m_hideCurve;
-
     Vector2Int m_size = Vector2Int.one;
 
     float m_lifeTimer;
 
     Transform m_render;
 
-    public override void Awake()
+    public void Awake()
     {
-        base.Awake();
-
         UpdateRenderPosition();
     }
 
@@ -35,46 +27,32 @@ public class BuildingDestroyed : BuildingBase
         UpdateRenderPosition();
     }
 
-    public override Vector3Int GetSize()
+    protected void Update()
     {
-        var size = base.GetSize();
-        size.x = m_size.x;
-        size.z = m_size.y;
+        if (GameInfos.instance.paused)
+            return;
 
-        return size;
-    }
-
-    public override BuildingType GetBuildingType()
-    {
-        return BuildingType.DestroyedBuilding;
-    }
-
-    protected override void OnUpdateAlways()
-    {
         m_lifeTimer += Time.deltaTime;
 
         UpdateRenderPosition();
-
-        if (m_lifeTimer > m_displayDuration + m_hideDuration)
-            Destroy(gameObject);
     }
 
     void UpdateRenderPosition()
     {
         float normTime = 0;
 
-        if (m_lifeTimer < m_appearDuration)
-            normTime = 1 - (m_lifeTimer / m_appearDuration);
-        else if(m_lifeTimer > m_displayDuration)
+        if (m_lifeTimer < Global.instance.buildingDatas.destructionDatas.appearDuration)
+            normTime = 1 - (m_lifeTimer / Global.instance.buildingDatas.destructionDatas.appearDuration);
+        else if(m_lifeTimer > Global.instance.buildingDatas.destructionDatas.displayDuration)
         {
-            normTime = m_lifeTimer - m_displayDuration;
-            normTime /= m_hideDuration;
+            normTime = m_lifeTimer - Global.instance.buildingDatas.destructionDatas.displayDuration;
+            normTime /= Global.instance.buildingDatas.destructionDatas.hideDuration;
         }
 
         normTime = Mathf.Clamp01(normTime);
 
-        normTime = DOVirtual.EasedValue(0, 1, normTime, m_hideCurve);
-        normTime *= -m_hideDistance;
+        normTime = DOVirtual.EasedValue(0, 1, normTime, Global.instance.buildingDatas.destructionDatas.hideCurve);
+        normTime *= -Global.instance.buildingDatas.destructionDatas.hideDistance;
 
         if (m_render != null)
             m_render.localPosition = new Vector3(0, normTime, 0);
@@ -97,5 +75,10 @@ public class BuildingDestroyed : BuildingBase
         obj.transform.parent = transform;
         obj.transform.localPosition = Vector3.zero;
         obj.transform.localRotation = Quaternion.identity;
+    }
+
+    public bool HaveEnded()
+    {
+        return m_lifeTimer > Global.instance.buildingDatas.destructionDatas.displayDuration + Global.instance.buildingDatas.destructionDatas.hideDuration;
     }
 }

@@ -34,6 +34,11 @@ public class LifeComponent : MonoBehaviour
     private void Awake()
     {
         m_subscriberList.Add(new Event<BuildSelectionDetailLifeEvent>.LocalSubscriber(BuildLife, gameObject));
+        m_subscriberList.Add(new Event<GetLifeEvent>.LocalSubscriber(GetLife, gameObject));
+        m_subscriberList.Add(new Event<HaveLifeEvent>.LocalSubscriber(HaveLife, gameObject));
+        m_subscriberList.Add(new Event<IsDeadEvent>.LocalSubscriber(IsDead, gameObject));
+        m_subscriberList.Add(new Event<HitEvent>.LocalSubscriber(Hit, gameObject));
+        m_subscriberList.Add(new Event<HealEvent>.LocalSubscriber(Heal, gameObject));
         m_subscriberList.Subscribe();
     }
 
@@ -47,8 +52,11 @@ public class LifeComponent : MonoBehaviour
         m_life = m_maxLife;
     }
 
-    public void Hit(Hit hit)
+    void Hit(Hit hit)
     {
+        if (m_life <= 0)
+            return;
+
         HitBeforeApplyEvent e = new HitBeforeApplyEvent(hit);
         Event<HitBeforeApplyEvent>.Broadcast(e, gameObject);
 
@@ -75,36 +83,61 @@ public class LifeComponent : MonoBehaviour
         else Event<LifeLossEvent>.Broadcast(new LifeLossEvent(hit), gameObject);
     }
 
-    public float GetMaxLife()
+    float GetMaxLife()
     {
         return m_maxLife;
     }
 
-    public float GetLife()
+    float GetLife()
     {
         return m_life;
     }
 
-    public float GetLifePercent()
+    void Heal(float value, bool percent = false)
     {
-        return m_life / m_maxLife;
-    }
+        if (m_life <= 0)
+            return;
 
-    public void Heal(float value)
-    {
+        if (percent)
+            value *= m_maxLife;
+
         HealBeforeApplyEvent e = new HealBeforeApplyEvent(value);
         Event<HealBeforeApplyEvent>.Broadcast(e, gameObject);
 
         m_life += e.heal;
         if (m_life > m_maxLife)
             m_life = m_maxLife;
-
-        Event<HealEvent>.Broadcast(new HealEvent(e.heal));
     }
 
     void BuildLife(BuildSelectionDetailLifeEvent e)
     {
         UIElementData.Create<UIElementLine>(e.container);
         UIElementData.Create<UIElementFillValue>(e.container).SetLabel("Health").SetMaxFunc(GetMaxLife).SetValueFunc(GetLife).SetValueDisplayType(UIElementFillValueDisplayType.classic).SetNbDigits(0);
+    }
+
+    void GetLife(GetLifeEvent e)
+    {
+        e.life = m_life;
+        e.maxLife = m_maxLife;
+    }
+
+    void HaveLife(HaveLifeEvent e)
+    {
+        e.haveLife = true;
+    }
+
+    void IsDead(IsDeadEvent e)
+    {
+        e.isDead = m_life <= 0;
+    }
+
+    void Hit(HitEvent e)
+    {
+        Hit(e.hit);
+    }
+
+    void Heal(HealEvent e)
+    {
+        Heal(e.value, e.percent);
     }
 }

@@ -81,6 +81,14 @@ public class EntityWeaponGun : EntityWeaponBase
         if (BuildingList.instance == null)
             return;
 
+        if(m_target != null)
+        {
+            IsDeadEvent dead = new IsDeadEvent();
+            Event<IsDeadEvent>.Broadcast(dead, m_target.gameObject);
+            if (dead.isDead)
+                m_target = null;
+        }
+
         if(m_towerTarget == null)
             m_towerTarget = GetTower();
         if(m_target == null)

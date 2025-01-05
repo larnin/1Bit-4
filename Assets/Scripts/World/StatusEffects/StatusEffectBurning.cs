@@ -10,12 +10,11 @@ public class StatusEffectBurning : StatusEffectBase
     float m_duration;
     float m_power;
 
-    LifeComponent m_lifeComponent;
     GameObject m_effectVisual;
 
     public StatusEffectBurning(GameObject owner) : base(owner)
     {
-        m_lifeComponent = owner.GetComponent<LifeComponent>();
+
     }
 
     public override bool Ended()
@@ -49,11 +48,8 @@ public class StatusEffectBurning : StatusEffectBase
 
     public override void Update()
     {
-        if(m_lifeComponent != null)
-        {
-            float dmg = Global.instance.statusDatas.burning.powerToDot * m_power * Time.deltaTime;
-            m_lifeComponent.Hit(new Hit(dmg, m_owner, DamageType.Effect));
-        }
+        float dmg = Global.instance.statusDatas.burning.powerToDot * m_power * Time.deltaTime;
+        Event<HitEvent>.Broadcast(new HitEvent(new Hit(dmg, m_owner, DamageType.Effect)), m_owner);
 
         m_duration -= Time.deltaTime;
         if (m_duration <= 0)

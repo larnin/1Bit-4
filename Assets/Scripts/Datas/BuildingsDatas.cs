@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -93,15 +94,26 @@ public class OneBuildingData
 }
 
 [Serializable]
+public class BuildingDestructionData
+{
+    public float displayDuration = 10;
+    public float appearDuration = 1;
+    public float hideDuration = 2;
+    public float hideDistance = 2;
+    public Ease hideCurve;
+    public float DestructionAcceleration = 2;
+    public float DestructionSpeed = 4;
+}
+
+[Serializable]
 public class BuildingsDatas
 {
     [SerializeField] List<OneBuildingData> m_buildings;
     public GameObject mineItemPrefab;
     public float lifeLossDisplayDuration = 10;
-    public GameObject LifebarPrefab;
+    public GameObject lifebarPrefab;
     [SerializeField] List<OneDestructedBuildingData> m_destructedBuildings;
-    public float DestructionAcceleration = 2;
-    public float DestructionSpeed = 4;
+    public BuildingDestructionData destructionDatas;
 
     public OneBuildingData GetBuilding(BuildingType type)
     {

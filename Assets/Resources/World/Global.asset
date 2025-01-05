@@ -182,9 +182,37 @@ MonoBehaviour:
       description: 
       cost:
         cost: []
+    - type: 99
+      prefab: {fileID: 3994589756253080635, guid: ed70ed10208f22b43b7bf6a23c4a6ff9, type: 3}
+      sprite: {fileID: 0}
+      spriteWithBorder: {fileID: 0}
+      size: {x: 1, y: 2, z: 1}
+      team: 0
+      name: 
+      description: 
+      cost:
+        cost: []
     mineItemPrefab: {fileID: 6943061212826655842, guid: 020dedfdfd13d1c49ac25e185f22167b, type: 3}
     lifeLossDisplayDuration: 10
-    LifebarPrefab: {fileID: 403841948413428351, guid: 865e80a7aecab34408fe71ab6fb1fed9, type: 3}
+    lifebarPrefab: {fileID: 403841948413428351, guid: 865e80a7aecab34408fe71ab6fb1fed9, type: 3}
+    m_destructedBuildings:
+    - size: {x: 1, y: 1}
+      prefab: {fileID: 5658924050333696503, guid: c43f738110b57c9468e84b07435ee94c, type: 3}
+      particlePrefab: {fileID: 3284197852309987383, guid: 13393f11add572f41832d1f6700e253a, type: 3}
+    - size: {x: 2, y: 2}
+      prefab: {fileID: 3704292756355815298, guid: 4ee4ea4c98ab6b84784cfb2a11ac679b, type: 3}
+      particlePrefab: {fileID: 3284197852309987383, guid: dfca8c4781edff840a7c60458febb091, type: 3}
+    - size: {x: 3, y: 3}
+      prefab: {fileID: 155945987037527532, guid: 6ff751600cb7e594a82f6c68760be32e, type: 3}
+      particlePrefab: {fileID: 3284197852309987383, guid: 740a7c63dfda01f42b067a6798df1b98, type: 3}
+    destructionDatas:
+      displayDuration: 10
+      appearDuration: 1
+      hideDuration: 2
+      hideDistance: 2
+      hideCurve: 1
+      DestructionAcceleration: 2
+      DestructionSpeed: 4
   m_resourcesDatas:
     m_resources:
     - type: 0

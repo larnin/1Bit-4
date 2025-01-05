@@ -209,12 +209,17 @@ public static class Utility
         if (aliveFilter == AliveType.NotSet)
             return true;
 
-        var life = obj.GetComponent<LifeComponent>();
-
-        if (life == null)
+        HaveLifeEvent haveLife = new HaveLifeEvent();
+        Event<HaveLifeEvent>.Broadcast(haveLife, obj);
+        if (!haveLife.haveLife)
             return aliveFilter == AliveType.NoLive;
+        else if (aliveFilter == AliveType.NoLive)
+            return false;
 
-        float lifePercent = life.GetLifePercent();
+        GetLifeEvent life = new GetLifeEvent();
+        Event<GetLifeEvent>.Broadcast(life, obj);
+
+        float lifePercent = life.lifePercent;
 
         if (lifePercent > 0 && aliveFilter == AliveType.Alive)
             return true;

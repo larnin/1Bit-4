@@ -14,6 +14,13 @@ public class BuildingDeath : MonoBehaviour
     float m_offset = -1;
     float m_speed = 0;
 
+    GameObject m_rubblesObject;
+    RubblesInstance m_rubbleInstance;
+
+    GameObject m_particlesObject;
+    ParticleSystem m_particleSystem;
+    bool m_stoppedParticles = false;
+
     private void Awake()
     {
         m_subscriberList.Add(new Event<DeathEvent>.LocalSubscriber(OnDeath, gameObject));
@@ -33,6 +40,13 @@ public class BuildingDeath : MonoBehaviour
 
         InstantiateParticles();
         InstantiateDestroyedBuilding();
+
+        if (ConnexionSystem.instance != null)
+            ConnexionSystem.instance.OnBuildingChange();
+
+        var cols = GetComponentsInChildren<Collider>();
+        foreach (var col in cols)
+            col.enabled = false;
     }
 
     private void Update()
@@ -46,24 +60,36 @@ public class BuildingDeath : MonoBehaviour
         if (m_building == null)
             return;
 
-        m_speed += Global.instance.buildingDatas.DestructionAcceleration * Time.deltaTime;
-        if (m_speed > Global.instance.buildingDatas.DestructionSpeed)
-            m_speed = Global.instance.buildingDatas.DestructionSpeed;
-
-        float deltaMove = m_speed * Time.deltaTime;
-        m_offset += deltaMove;
-        Vector3 offset = new Vector3(0, -deltaMove, 0);
-
-        foreach(var r in m_renderables)
-        {
-            var pos = r.transform.position + offset;
-            r.transform.position = pos;
-        }
-
         var size = m_building.GetSize().y;
 
-        if (m_offset > size + 2)
+        if (m_offset > size && !m_stoppedParticles)
+            m_particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+
+        if (m_offset < size + 2)
+        {
+            m_speed += Global.instance.buildingDatas.destructionDatas.DestructionAcceleration * Time.deltaTime;
+            if (m_speed > Global.instance.buildingDatas.destructionDatas.DestructionSpeed)
+                m_speed = Global.instance.buildingDatas.destructionDatas.DestructionSpeed;
+
+            float deltaMove = m_speed * Time.deltaTime;
+            m_offset += deltaMove;
+            Vector3 offset = new Vector3(0, -deltaMove, 0);
+
+            foreach (var r in m_renderables)
+            {
+                if (r == null)
+                    continue;
+
+                var pos = r.transform.position + offset;
+                r.transform.position = pos;
+            }
+        }
+        else if (m_rubbleInstance.HaveEnded())
+        {
             Destroy(gameObject);
+            if (m_particlesObject != null)
+                Destroy(m_particlesObject, 5);
+        }
     }
 
     void InstantiateParticles()
@@ -77,27 +103,12 @@ public class BuildingDeath : MonoBehaviour
         if (data == null)
             return;
 
-        var obj = Instantiate(data.particlePrefab);
-
-        obj.transform.position = transform.position;
-
-        var comp = obj.GetComponent<BuildingDeathParticles>();
-
-        if (comp != null)
-        {
-            float durationToMaxSpeed = Global.instance.buildingDatas.DestructionSpeed / Global.instance.buildingDatas.DestructionAcceleration;
-            float distAtMaxSpeed = Global.instance.buildingDatas.DestructionAcceleration * durationToMaxSpeed * durationToMaxSpeed / 2;
-
-            float duration = 0;
-            if (size.y < distAtMaxSpeed)
-                duration = Mathf.Sqrt(2 * size.y / Global.instance.buildingDatas.DestructionAcceleration);
-            else
-            {
-                duration = Mathf.Sqrt(2 * distAtMaxSpeed / Global.instance.buildingDatas.DestructionAcceleration);
-                duration += (size.y - distAtMaxSpeed) / Global.instance.buildingDatas.DestructionSpeed;
-            }
-            comp.SetDuration(duration);
-        }
+        m_particlesObject = Instantiate(data.particlePrefab);
+        m_particlesObject.transform.position = transform.position;
+        m_particlesObject.transform.rotation = transform.rotation;
+        m_particleSystem = m_particlesObject.GetComponentInChildren<ParticleSystem>();
+        if(m_particleSystem != null)
+            m_particleSystem.Play();
     }
 
     void InstantiateDestroyedBuilding()
@@ -107,16 +118,11 @@ public class BuildingDeath : MonoBehaviour
 
         var size = m_building.GetSize();
 
-        var buildingData = Global.instance.buildingDatas.GetBuilding(BuildingType.DestroyedBuilding);
-        if (buildingData == null || buildingData.prefab == null)
-            return;
-
-        var obj = Instantiate(buildingData.prefab);
-        obj.transform.parent = BuildingList.instance.transform;
-        obj.transform.position = transform.position;
-
-        var b = obj.GetComponent<BuildingDestroyed>();
-        if (b != null)
-            b.SetSize(new Vector2Int(size.x, size.z));
+        m_rubblesObject = new GameObject();
+        m_rubblesObject.transform.parent = transform;
+        m_rubblesObject.transform.localPosition = Vector3.zero;
+        m_rubblesObject.transform.localRotation = Quaternion.identity;
+        m_rubbleInstance = m_rubblesObject.AddComponent<RubblesInstance>();
+        m_rubbleInstance.SetSize(new Vector2Int(size.x, size.z));
     }
 }

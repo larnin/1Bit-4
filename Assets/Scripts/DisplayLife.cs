@@ -8,26 +8,26 @@ public class DisplayLife : MonoBehaviour
     [SerializeField] float m_barHeight = 1;
     [SerializeField] float m_barScale = 1;
 
-    LifeComponent m_lifeComponent;
     GameObject m_lifebarInstance;
     Renderer m_barRenderer;
-
-    void Start()
-    {
-        m_lifeComponent = GetComponent<LifeComponent>();
-    }
     
     void Update()
     {
-        if(m_lifeComponent == null)
+        HaveLifeEvent haveLife = new HaveLifeEvent();
+        Event<HaveLifeEvent>.Broadcast(haveLife, gameObject);
+
+        if(!haveLife.haveLife)
         {
             if (m_lifebarInstance != null)
                 Destroy(m_lifebarInstance);
             return;
         }
 
-        float fLife = m_lifeComponent.GetLifePercent();
-        if(fLife >= 1)
+        GetLifeEvent life = new GetLifeEvent();
+        Event<GetLifeEvent>.Broadcast(life, gameObject);
+
+        float fLife = life.lifePercent;
+        if(fLife >= 1 || fLife <= 0)
         {
             if (m_lifebarInstance != null)
                 Destroy(m_lifebarInstance);
@@ -47,11 +47,14 @@ public class DisplayLife : MonoBehaviour
                 }
             }
 
-            m_lifebarInstance = Instantiate(Global.instance.buildingDatas.LifebarPrefab);
-            m_lifebarInstance.transform.parent = transform;
-            m_lifebarInstance.transform.localPosition = pos;
-            m_lifebarInstance.transform.localScale = new Vector3(m_barScale, m_barScale, m_barScale);
-            m_barRenderer = m_lifebarInstance.GetComponentInChildren<Renderer>();
+            if (Global.instance.buildingDatas.lifebarPrefab != null)
+            {
+                m_lifebarInstance = Instantiate(Global.instance.buildingDatas.lifebarPrefab);
+                m_lifebarInstance.transform.parent = transform;
+                m_lifebarInstance.transform.localPosition = pos;
+                m_lifebarInstance.transform.localScale = new Vector3(m_barScale, m_barScale, m_barScale);
+                m_barRenderer = m_lifebarInstance.GetComponentInChildren<Renderer>();
+            }
         }
 
         if(m_lifebarInstance != null)

@@ -46,8 +46,7 @@ public class ProjectileSimple : ProjectileBase
             obj.transform.forward = hit.normal;
         }
 
-        var life = hit.collider.gameObject.GetComponent<LifeComponent>();
-        life.Hit(new Hit(m_damages * m_damagesMultiplier, m_caster, m_damageType, m_damageEffect));
+        Event<HitEvent>.Broadcast(new HitEvent(new Hit(m_damages * m_damagesMultiplier, m_caster, m_damageType, m_damageEffect)), hit.collider.gameObject);
 
         Destroy(gameObject);
     }
