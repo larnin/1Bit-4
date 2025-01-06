@@ -182,14 +182,14 @@ MonoBehaviour:
       description: 
       cost:
         cost: []
-    - type: 99
-      prefab: {fileID: 3994589756253080635, guid: ed70ed10208f22b43b7bf6a23c4a6ff9, type: 3}
-      sprite: {fileID: 0}
-      spriteWithBorder: {fileID: 0}
+    - type: 14
+      prefab: {fileID: 1516517739371016010, guid: ac1f40cc65a5f5c4daf98499c8ae16b5, type: 3}
+      sprite: {fileID: -812074634, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
+      spriteWithBorder: {fileID: -1684228806, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
       size: {x: 1, y: 2, z: 1}
       team: 0
-      name: 
-      description: 
+      name: FlameThrower
+      description: Make your ennemies burn at the cost of some precious oil
       cost:
         cost: []
     mineItemPrefab: {fileID: 6943061212826655842, guid: 020dedfdfd13d1c49ac25e185f22167b, type: 3}

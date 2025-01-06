@@ -13,8 +13,11 @@ public abstract class BuildingTurretBase : BuildingBase
     [SerializeField] float m_range = 5;
     [HideIf("@(this.IsContinuousWeapon())")]
     [SerializeField] GameObject m_firePrefab;
+    [HideIf("@(this.IsContinuousWeapon())")]
     [SerializeField] float m_recoilDistance = 0.5f;
+    [HideIf("@(this.IsContinuousWeapon())")]
     [SerializeField] float m_recoilDuration = 0.5f;
+    [HideIf("@(this.IsContinuousWeapon())")]
     [SerializeField] Transform m_recoilTarget;
 
     TurretBehaviour m_turret;
@@ -30,6 +33,16 @@ public abstract class BuildingTurretBase : BuildingBase
     float m_recoilTimer;
     Vector3 m_recoilInitialPosition;
 
+    SubscriberList m_subscriberList = new SubscriberList();
+
+    public override void Awake()
+    {
+        base.Awake();
+
+        m_subscriberList.Add(new Event<DeathEvent>.LocalSubscriber(OnDeath, gameObject));
+        m_subscriberList.Subscribe();
+    }
+
     public override void Start()
     {
         base.Start();
@@ -41,6 +54,13 @@ public abstract class BuildingTurretBase : BuildingBase
 
         if (m_recoilTarget != null)
             m_recoilInitialPosition = m_recoilTarget.localPosition;
+    }
+
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+
+        m_subscriberList.Unsubscribe();
     }
 
     void GetFirePoints(Transform transform)
@@ -187,6 +207,15 @@ public abstract class BuildingTurretBase : BuildingBase
     protected GameObject GetTarget()
     {
         return m_target;
+    }
+
+    void OnDeath(DeathEvent e)
+    {
+        if (IsContinuousWeapon() && m_firing)
+        {
+            EndFire();
+            m_firing = false;
+        }
     }
 
     protected abstract bool IsContinuousWeapon();
