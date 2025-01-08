@@ -192,6 +192,17 @@ MonoBehaviour:
       description: Make your ennemies burn at the cost of some precious oil
       cost:
         cost: []
+    - type: 15
+      prefab: {fileID: 4599273482230721453, guid: d1367f3acc861624993959a3dc9c1043, type: 3}
+      sprite: {fileID: 1016640725, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
+      spriteWithBorder: {fileID: 1461367537, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
+      size: {x: 2, y: 2, z: 2}
+      team: 0
+      name: Freezer
+      description: Consume the precious titanium to make heavy damages on a large
+        area and freeze ennemies
+      cost:
+        cost: []
     mineItemPrefab: {fileID: 6943061212826655842, guid: 020dedfdfd13d1c49ac25e185f22167b, type: 3}
     lifeLossDisplayDuration: 10
     lifebarPrefab: {fileID: 403841948413428351, guid: 865e80a7aecab34408fe71ab6fb1fed9, type: 3}

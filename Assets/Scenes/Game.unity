@@ -2310,7 +2310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_grid: {fileID: 1334327366}
-  m_unlockedBuilding: 010000000d0000000e000000090000000c0000000a0000000b0000000300000006000000
+  m_unlockedBuilding: 010000000d0000000e0000000f000000090000000c0000000a0000000b0000000300000006000000
 --- !u!114 &1693670529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2328,6 +2328,12 @@ MonoBehaviour:
     count: 100000
   - type: 3
     count: 10000
+  - type: 2
+    count: 100
+  - type: 5
+    count: 10
+  - type: 4
+    count: 1
 --- !u!114 &1693670530
 MonoBehaviour:
   m_ObjectHideFlags: 0

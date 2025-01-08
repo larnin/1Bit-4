@@ -22,6 +22,8 @@ public class BuildingTurretFlameThrower : BuildingTurretBase
 
     bool m_fireEnabled = false;
 
+    SubscriberList m_subscriberList = new SubscriberList();
+
     class BubbleInfos
     {
         //static values
@@ -59,6 +61,15 @@ public class BuildingTurretFlameThrower : BuildingTurretBase
 
         if (m_particles != null)
             m_particles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+
+        m_subscriberList.Add(new Event<BuildSelectionDetailCommonEvent>.LocalSubscriber(BuildCommon, gameObject));
+    }
+
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+
+        m_subscriberList.Unsubscribe();
     }
 
     protected override bool CanFire()
@@ -237,6 +248,13 @@ public class BuildingTurretFlameThrower : BuildingTurretBase
             Color c = b.hit ? Color.blue : Color.red;
             DebugDraw.Sphere(b.pos, b.radius, c);
         }
+    }
+
+    void BuildCommon(BuildSelectionDetailCommonEvent e)
+    {
+        DisplayGenericInfos(e.container);
+
+        
     }
 }
 

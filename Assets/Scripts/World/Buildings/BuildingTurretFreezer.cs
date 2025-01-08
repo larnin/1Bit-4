@@ -5,14 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class BuildingTurretEnergy : BuildingTurretBase
+public class BuildingTurretFreezer : BuildingTurretBase
 {
-    [SerializeField] float m_energyStorage = 10;
-    [SerializeField] float m_energyUptake = 2;
-    [SerializeField] float m_energyPerFire = 1;
+    [SerializeField] ResourceType m_resourceConsumption = ResourceType.Oil;
+    [SerializeField] float m_consumption = 1;
     [SerializeField] GameObject m_projectilePrefab;
-
-    float m_energy = 0;
 
     SubscriberList m_subscriberList = new SubscriberList();
 
@@ -29,41 +26,23 @@ public class BuildingTurretEnergy : BuildingTurretBase
         m_subscriberList.Unsubscribe();
     }
 
-
     public override BuildingType GetBuildingType()
     {
-        return BuildingType.Turret1;
-    }
-
-    public override float EnergyUptakeWanted()
-    {
-        if (m_energy < m_energyStorage)
-            return m_energyUptake;
-        return 0;
-    }
-
-    public override void EnergyUptake(float value)
-    {
-        m_energy += value * Time.deltaTime;
-        if (m_energy > m_energyStorage)
-            m_energy = m_energyStorage;
+        return BuildingType.Turret3;
     }
 
     protected override bool CanFire()
     {
-        if (m_energy < m_energyPerFire)
+        if (ResourceSystem.instance == null)
             return false;
 
-        var firePoint = GetCurrentFirepoint();
-        if (firePoint == null)
+        if (!ResourceSystem.instance.HaveResource(m_resourceConsumption))
+            return false;
+
+        if (ResourceSystem.instance.GetResourceStored(m_resourceConsumption) < m_consumption)
             return false;
 
         return true;
-    }
-
-    protected override bool IsContinuousWeapon()
-    {
-        return false;
     }
 
     protected override void Fire()
@@ -71,7 +50,10 @@ public class BuildingTurretEnergy : BuildingTurretBase
         if (!CanFire())
             return;
 
-        m_energy -= m_energyPerFire;
+        if (ResourceSystem.instance == null)
+            return;
+
+        ResourceSystem.instance.RemoveResource(m_resourceConsumption, m_consumption);
         
         var firePoint = GetCurrentFirepoint();
         if (firePoint == null)
@@ -97,20 +79,16 @@ public class BuildingTurretEnergy : BuildingTurretBase
         }
     }
 
-    float GetEnergy()
+    protected override bool IsContinuousWeapon()
     {
-        return m_energy;
+        return false;
     }
 
-    float GetStorage()
-    {
-        return m_energyStorage;
-    }
 
     void BuildCommon(BuildSelectionDetailCommonEvent e)
     {
         DisplayGenericInfos(e.container);
 
-        UIElementData.Create<UIElementFillValue>(e.container).SetLabel("Power storage").SetValueFunc(GetEnergy).SetMaxFunc(GetStorage).SetNbDigits(1).SetValueDisplayType(UIElementFillValueDisplayType.classic);
+        //UIElementData.Create<UIElementFillValue>(e.container).SetLabel("Power storage").SetValueFunc(GetEnergy).SetMaxFunc(GetStorage).SetNbDigits(1).SetValueDisplayType(UIElementFillValueDisplayType.classic);
     }
 }

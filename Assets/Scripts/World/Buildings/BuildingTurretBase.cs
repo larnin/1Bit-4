@@ -12,13 +12,12 @@ public abstract class BuildingTurretBase : BuildingBase
     [SerializeField] float m_fireRate = 1;
     [SerializeField] float m_range = 5;
     [HideIf("@(this.IsContinuousWeapon())")]
-    [SerializeField] GameObject m_firePrefab;
-    [HideIf("@(this.IsContinuousWeapon())")]
     [SerializeField] float m_recoilDistance = 0.5f;
     [HideIf("@(this.IsContinuousWeapon())")]
     [SerializeField] float m_recoilDuration = 0.5f;
     [HideIf("@(this.IsContinuousWeapon())")]
     [SerializeField] Transform m_recoilTarget;
+    [SerializeField] ParticleSystem m_fireParticles;
 
     TurretBehaviour m_turret;
 
@@ -136,11 +135,9 @@ public abstract class BuildingTurretBase : BuildingBase
 
         var firePos = GetCurrentFirepoint();
 
-        if (m_firePrefab != null && firePos != null)
+        if(m_fireParticles != null)
         {
-            var obj = Instantiate(m_firePrefab);
-            obj.transform.position = firePos.position;
-            obj.transform.rotation = firePos.rotation;
+            m_fireParticles.Play();
         }
 
         Fire();
@@ -165,8 +162,16 @@ public abstract class BuildingTurretBase : BuildingBase
             m_firing = nextFiring;
 
             if (m_firing)
+            {
                 StartFire();
-            else EndFire();
+                if (m_fireParticles != null)
+                    m_fireParticles.Play();
+            }
+            else
+            {
+                EndFire();
+                m_fireParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            }
         }
     }
 
