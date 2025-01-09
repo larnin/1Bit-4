@@ -9,8 +9,6 @@ public class ProjectileSimple : ProjectileBase
 {
     [SerializeField] float m_speed = 5;
     [SerializeField] float m_maxLife = 5;
-    [SerializeField] DamageType m_damageType = DamageType.Normal;
-    [SerializeField] float m_damageEffect = 1;
     [SerializeField] LayerMask m_hitLayer;
     [SerializeField] GameObject m_hitPrefab;
 
