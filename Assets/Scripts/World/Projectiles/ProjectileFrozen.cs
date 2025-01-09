@@ -33,6 +33,7 @@ class ProjectileFrozen : ProjectileBase
     Material m_explosionMaterial;
     Color m_explosionInitialColor;
     const string m_colorName = "_RimColor";
+    List<GameObject> m_hitEntities = new List<GameObject>();
 
     private void Awake()
     {
@@ -109,9 +110,13 @@ class ProjectileFrozen : ProjectileBase
         float radius = DOVirtual.EasedValue(0, m_explosionRadius, m_time / m_explosionDuration, m_explosionCurve);
 
         var cols = Physics.OverlapSphere(transform.position, radius, m_explosionLayer);
-        //todo don't hit the same target 2 times
-        foreach(var col in cols)
+        foreach (var col in cols)
+        {
+            if (m_hitEntities.Contains(col.gameObject))
+                continue;
             Event<HitEvent>.Broadcast(new HitEvent(new Hit(m_damages * m_damagesMultiplier, m_caster, m_damageType, m_damageEffect)), col.gameObject);
+            m_hitEntities.Add(col.gameObject);
+        }
 
         UpdateExplosionRender();
     }
