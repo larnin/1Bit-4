@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6906248875817604446}
   - component: {fileID: 7386897559899403223}
   - component: {fileID: 1932521056731328968}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5184,10 +5184,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_fireRate: 1
   m_range: 15
-  m_firePrefab: {fileID: 0}
   m_recoilDistance: 0.5
   m_recoilDuration: 0.5
   m_recoilTarget: {fileID: 0}
+  m_fireParticles: {fileID: 0}
   m_resourceConsumption: 3
   m_consumption: 1
   m_damages: 1
