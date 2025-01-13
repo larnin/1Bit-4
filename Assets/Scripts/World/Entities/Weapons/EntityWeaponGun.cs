@@ -68,6 +68,9 @@ public class EntityWeaponGun : EntityWeaponBase
         if (Utility.IsFrozen(gameObject))
             return;
 
+        if (Utility.IsDead(gameObject))
+            return;
+
         UpdateTarget();
         UpdateTurret();
     }
@@ -83,9 +86,7 @@ public class EntityWeaponGun : EntityWeaponBase
 
         if(m_target != null)
         {
-            IsDeadEvent dead = new IsDeadEvent();
-            Event<IsDeadEvent>.Broadcast(dead, m_target.gameObject);
-            if (dead.isDead)
+            if (Utility.IsDead(m_target.gameObject))
                 m_target = null;
         }
 

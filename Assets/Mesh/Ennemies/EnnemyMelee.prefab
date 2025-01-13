@@ -16,6 +16,8 @@ GameObject:
   - component: {fileID: 1552962914606458546}
   - component: {fileID: 4873590828060934996}
   - component: {fileID: 1982064669056982052}
+  - component: {fileID: 3468173401642001684}
+  - component: {fileID: 5633195621559333896}
   m_Layer: 8
   m_Name: EnnemyMelee
   m_TagString: Untagged
@@ -142,6 +144,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_barHeight: 1
   m_barScale: 1
+--- !u!114 &3468173401642001684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1892062940909772011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 277bf07d89817834f82147a47ff6e636, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_loots:
+  - type: 4
+    count: 1
+--- !u!114 &5633195621559333896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1892062940909772011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 375aa740fdcb9474a954a2f9bad3d832, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_instantiateAtDeathPrefab: {fileID: 977743639012706551, guid: 15b84d9823a441040bbd2404a8c0fbc5, type: 3}
 --- !u!1 &8666071389132884092
 GameObject:
   m_ObjectHideFlags: 0

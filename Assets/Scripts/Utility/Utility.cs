@@ -204,6 +204,14 @@ public static class Utility
         return frozen.frozen;
     }
 
+    public static bool IsDead(GameObject obj)
+    {
+        IsDeadEvent dead = new IsDeadEvent();
+        Event<IsDeadEvent>.Broadcast(dead, obj);
+
+        return dead.isDead;
+    }
+
     public static bool IsAliveFilter(GameObject obj, AliveType aliveFilter)
     {
         if (aliveFilter == AliveType.NotSet)

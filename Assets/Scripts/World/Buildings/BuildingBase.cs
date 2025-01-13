@@ -268,9 +268,7 @@ public abstract class BuildingBase : MonoBehaviour
         if (!IsAdded())
             return;
 
-        IsDeadEvent dead = new IsDeadEvent();
-        Event<IsDeadEvent>.Broadcast(dead);
-        if (dead.isDead)
+        if (Utility.IsDead(gameObject))
             return;
         
         if(GetTeam() == Team.Player)

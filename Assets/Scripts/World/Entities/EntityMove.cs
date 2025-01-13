@@ -44,6 +44,9 @@ public class EntityMove : MonoBehaviour
         if (Utility.IsFrozen(gameObject))
             return;
 
+        if (Utility.IsDead(gameObject))
+            return;
+
         Vector3 target = m_path.GetNextPoint(transform.position);
 
         if (m_path.GetStatus() != EntityPathStatus.Following)

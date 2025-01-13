@@ -1453,9 +1453,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 984762fd642da654883f01eeb18f6fa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_entityPrefab: {fileID: 6214975584835344987, guid: 9f3319f4511a1084e9c97146fbc2d7f5, type: 3}
-  m_spawnDelay: 1
-  m_maxCount: 1
+  m_entityPrefab: {fileID: 1892062940909772011, guid: dfaa13b752694864ca9489aabb93d253, type: 3}
+  m_spawnDelay: 0.2
+  m_maxCount: 1000
 --- !u!4 &1130784807
 Transform:
   m_ObjectHideFlags: 0
@@ -1638,7 +1638,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 10
+  far clip plane: 250
   field of view: 60
   orthographic: 1
   orthographic size: 5
@@ -2326,14 +2326,6 @@ MonoBehaviour:
   m_initialResources:
   - type: 1
     count: 100000
-  - type: 3
-    count: 10000
-  - type: 2
-    count: 100
-  - type: 5
-    count: 10
-  - type: 4
-    count: 1
 --- !u!114 &1693670530
 MonoBehaviour:
   m_ObjectHideFlags: 0
