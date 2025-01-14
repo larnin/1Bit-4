@@ -22,7 +22,6 @@ public class GameInterface : MonoBehaviour
     [SerializeField] PlaceBuildingCursor m_buildingCursor;
     [SerializeField] SelectCursor m_selectCursor;
     [SerializeField] BuildingDetailDisplay m_detail;
-    [SerializeField] GameObject m_pausePrefab;
 
     RectTransform m_buildingsBackground;
     List<BuildingButton> m_buildingButtons = new List<BuildingButton>();
@@ -68,11 +67,16 @@ public class GameInterface : MonoBehaviour
 
     public void OnClickOptions()
     {
+        if (GameSystem.instance != null && !GameSystem.instance.IsLoaded())
+            return;
+
         m_selectCursor.SetCursorEnabled(false);
         m_buildingCursor.SetCursorDisabled();
 
-        if (m_pausePrefab)
-            Instantiate(m_pausePrefab);
+        if (MenuSystem.instance == null)
+            return;
+
+        MenuSystem.instance.OpenMenu<PauseMenu>("Pause");
     }
 
     private void Update()

@@ -1944,7 +1944,6 @@ MonoBehaviour:
   m_buildingCursor: {fileID: 1754772337}
   m_selectCursor: {fileID: 2063130299}
   m_detail: {fileID: 1415438940}
-  m_pausePrefab: {fileID: 3465249205839453648, guid: 0751f46b97d8eb542b06198c407f8feb, type: 3}
 --- !u!1 &1554883010
 GameObject:
   m_ObjectHideFlags: 0
@@ -2214,6 +2213,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1597227286}
   m_CullTransparentMesh: 1
+--- !u!1 &1605799739
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1605799741}
+  - component: {fileID: 1605799740}
+  m_Layer: 0
+  m_Name: MenuSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1605799740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605799739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9a46e66129d1e94c927d94f50835021, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_menus:
+  - name: Pause
+    menu: {fileID: 3465249205839453648, guid: 0751f46b97d8eb542b06198c407f8feb, type: 3}
+    pauseGame: 1
+--- !u!4 &1605799741
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605799739}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.4582282, y: 2.855843, z: 1.0996819}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1639724358
 GameObject:
   m_ObjectHideFlags: 0

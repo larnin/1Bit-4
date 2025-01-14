@@ -25,16 +25,12 @@ public class PauseMenu : MonoBehaviour
             canvas.renderMode = RenderMode.ScreenSpaceCamera;
             canvas.planeDistance = 1;
         }
-
-        GameInfos.instance.paused = true;
     }
 
     public void OnContinue()
     {
         if (m_selected)
             return;
-
-        GameInfos.instance.paused = false;
 
         Destroy(gameObject);
     }
@@ -43,6 +39,11 @@ public class PauseMenu : MonoBehaviour
     {
         if (m_selected)
             return;
+
+        if (MenuSystem.instance == null)
+            return;
+
+        //todo option menu
 
     }
 
@@ -53,7 +54,7 @@ public class PauseMenu : MonoBehaviour
 
         m_selected = true;
 
-        SceneSystem.changeScene(m_menuName, false, () => { GameInfos.instance.paused = false; });
+        SceneSystem.changeScene(m_menuName);
     }
 
     private void Update()

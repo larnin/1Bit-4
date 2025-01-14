@@ -24,14 +24,15 @@ public class MenuSystem : MonoBehaviour
 
     private void Awake()
     {
-        if (m_instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
         m_instance = this;
-        DontDestroyOnLoad(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        if (m_instance == this)
+            m_instance = null;
+
+        GameInfos.instance.paused = false;
     }
 
     public T OpenMenu<T>(string name, bool overrideOpen = false, bool returnOpen = false) where T : Component
@@ -170,6 +171,23 @@ public class MenuSystem : MonoBehaviour
                 return true;
         }
         return false;
+    }
+
+    private void Update()
+    {
+        bool changed = false;
+        for(int i = 0; i < m_openMenus.Count; i++)
+        {
+            if(m_openMenus[i].menu == null)
+            {
+                changed = true;
+                m_openMenus.RemoveAt(i);
+                i--;
+            }
+        }
+
+        if(changed)
+            GameInfos.instance.paused = IsPaused();
     }
 }
 

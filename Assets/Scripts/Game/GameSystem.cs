@@ -148,4 +148,9 @@ public class GameSystem : MonoBehaviour
                 return "Ready";
         }
     }
+
+    public bool IsLoaded()
+    {
+        return m_state == State.Ended;
+    }
 }
