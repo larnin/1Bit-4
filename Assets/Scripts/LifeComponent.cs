@@ -28,6 +28,7 @@ public class LifeComponent : MonoBehaviour
     [SerializeField] float m_maxLife = 1;
 
     float m_life;
+    float m_maxLifeMultiplier = 1;
 
     SubscriberList m_subscriberList = new SubscriberList();
 
@@ -49,7 +50,9 @@ public class LifeComponent : MonoBehaviour
 
     private void Start()
     {
-        m_life = m_maxLife;
+        UpdateMultiplier();
+
+        m_life = m_maxLife * m_maxLifeMultiplier;
     }
 
     void Hit(Hit hit)
@@ -73,6 +76,8 @@ public class LifeComponent : MonoBehaviour
         if (casterTeam.team == targetTeam.team)
             return;
 
+        UpdateMultiplier();
+
         m_life -= hit.damages;
 
         if (m_life <= 0)
@@ -85,11 +90,14 @@ public class LifeComponent : MonoBehaviour
 
     float GetMaxLife()
     {
-        return m_maxLife;
+        UpdateMultiplier();
+
+        return m_maxLife * m_maxLifeMultiplier;
     }
 
     float GetLife()
     {
+        UpdateMultiplier();
         return m_life;
     }
 
@@ -99,14 +107,16 @@ public class LifeComponent : MonoBehaviour
             return;
 
         if (percent)
-            value *= m_maxLife;
+            value *= m_maxLife * m_maxLifeMultiplier;
 
         HealBeforeApplyEvent e = new HealBeforeApplyEvent(value);
         Event<HealBeforeApplyEvent>.Broadcast(e, gameObject);
 
+        UpdateMultiplier();
+
         m_life += e.heal;
-        if (m_life > m_maxLife)
-            m_life = m_maxLife;
+        if (m_life > m_maxLife * m_maxLifeMultiplier)
+            m_life = m_maxLife * m_maxLifeMultiplier;
     }
 
     void BuildLife(BuildSelectionDetailLifeEvent e)
@@ -117,8 +127,10 @@ public class LifeComponent : MonoBehaviour
 
     void GetLife(GetLifeEvent e)
     {
+        UpdateMultiplier();
+
         e.life = m_life;
-        e.maxLife = m_maxLife;
+        e.maxLife = m_maxLife * m_maxLifeMultiplier;
     }
 
     void HaveLife(HaveLifeEvent e)
@@ -139,5 +151,19 @@ public class LifeComponent : MonoBehaviour
     void Heal(HealEvent e)
     {
         Heal(e.value, e.percent);
+    }
+
+    void UpdateMultiplier()
+    {
+        var stat = new GetStatEvent(StatType.MaxLifeMultiplier);
+        stat.set = 1;
+        Event<GetStatEvent>.Broadcast(stat, gameObject);
+
+        float multiplier = stat.GetValue();
+        if(multiplier != m_maxLifeMultiplier)
+        {
+            m_life = m_life * multiplier / m_maxLifeMultiplier;
+            m_maxLifeMultiplier = multiplier;
+        }
     }
 }
