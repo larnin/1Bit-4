@@ -63,7 +63,7 @@ public class EntityPath
 
     public Vector3Int GetNextPoint(Vector3 pos)
     {
-        DebugDrawPath();
+        //DebugDrawPath();
 
         Vector3Int posInt = new Vector3Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y), Mathf.RoundToInt(pos.z));
         lock (m_pointsLock)
@@ -240,31 +240,29 @@ public class EntityPath
         {
             var bounds = building.GetBounds();
 
+            int distance = 1;
+
             while (true)
             {
                 Rotation toAdd = (Rotation)(Rand.UniformIntDistribution(4, rand));
 
-                int nbOut = 0;
-                int distance = 1;
                 for (int i = 0; i < 4; i++)
                 {
                     var dir = RotationEx.ToVector3Int(RotationEx.Add((Rotation)i, toAdd));
                     Vector3Int newPos = pos + dir * distance;
                     int y = GridEx.GetHeight(grid, new Vector2Int(newPos.x, newPos.z));
                     if (y < 0)
-                    {
-                        nbOut++;
                         continue;
-                    }
+
                     newPos.y = y + 1;
                     if (BuildingList.instance.GetBuildingAt(newPos) == null)
                         return newPos;
                 }
 
-                if(nbOut == 4)
-                {
+                distance++;
+
+                if (distance >= 5)
                     return pos;
-                }
             }
         }
 
