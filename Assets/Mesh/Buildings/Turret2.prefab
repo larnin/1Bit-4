@@ -5068,6 +5068,8 @@ GameObject:
   - component: {fileID: 1516517739371016012}
   - component: {fileID: 3723789904319597733}
   - component: {fileID: 1516517739371016011}
+  - component: {fileID: 4992982856762931583}
+  - component: {fileID: 1812855702786356283}
   m_Layer: 7
   m_Name: Turret2
   m_TagString: Untagged
@@ -5202,3 +5204,28 @@ MonoBehaviour:
   m_coneSphereCount: 10
   m_debugDisplaySpheres: 0
   m_particles: {fileID: 7386897559899403223}
+--- !u!114 &4992982856762931583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516517739371016010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a6c11ee1fb1dda429dd1226b2d17eb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_initialValues: []
+--- !u!114 &1812855702786356283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516517739371016010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df3497fbd8cd62a4b93bc6d8b1f579ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -86,7 +86,7 @@ public class ConnexionSystem : MonoBehaviour
                 if (building.GetTeam() != Team.Player)
                     continue;
 
-                if (Utility.IsDead(gameObject))
+                if (Utility.IsDead(building.gameObject))
                     continue;
 
                 Vector3 pos = building.GetPos();

@@ -145,6 +145,7 @@ class ProjectileFrozen : ProjectileBase
         m_state = State.WaitEnd;
 
         m_projectile.gameObject.SetActive(false);
+        m_explosion.gameObject.SetActive(false);
     }
 
     void UpdateExplosionRender()

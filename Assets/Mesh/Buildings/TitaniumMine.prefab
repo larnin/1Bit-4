@@ -98,6 +98,8 @@ GameObject:
   - component: {fileID: 5865052063278527686}
   - component: {fileID: 5005962220164288834}
   - component: {fileID: -3730714693320177527}
+  - component: {fileID: 8929336501597405621}
+  - component: {fileID: 718926978647081473}
   m_Layer: 7
   m_Name: TitaniumMine
   m_TagString: Untagged
@@ -203,5 +205,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3949ee7459f3fe240881bceee865857c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8929336501597405621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4535135477675010955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a6c11ee1fb1dda429dd1226b2d17eb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_initialValues: []
+--- !u!114 &718926978647081473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4535135477675010955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df3497fbd8cd62a4b93bc6d8b1f579ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

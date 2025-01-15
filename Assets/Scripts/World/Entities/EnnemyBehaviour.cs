@@ -13,10 +13,29 @@ public class EnnemyBehaviour : MonoBehaviour
     GameObject m_target;
     BuildingBase m_buildingTarget;
 
+    SubscriberList m_subscriberList = new SubscriberList();
+
+    float m_difficultyOnSpawn;
+
     private void Start()
     {
         m_weapon = GetComponent<EntityWeaponBase>();
         m_move = GetComponent<EntityMove>();
+
+        if (DifficultySystem.instance != null)
+            m_difficultyOnSpawn = DifficultySystem.instance.GetDifficulty();
+    }
+
+    private void Awake()
+    {
+        m_subscriberList.Add(new Event<GetStatEvent>.LocalSubscriber(GetStat, gameObject));
+        m_subscriberList.Add(new Event<DeathEvent>.LocalSubscriber(OnDeath, gameObject));
+        m_subscriberList.Subscribe();
+    }
+
+    private void OnDestroy()
+    {
+        m_subscriberList.Unsubscribe();
     }
 
     private void Update()
@@ -66,6 +85,27 @@ public class EnnemyBehaviour : MonoBehaviour
             else if(!m_move.IsMoving())
                 m_move.SetTarget(realTargetPos);
         }
+    }
+
+    void GetStat(GetStatEvent e)
+    {
+        if(e.type == StatType.DamagesMultiplier)
+        {
+            float value = Global.instance.difficultyDatas.difficultyToDamageMultiplier.Get(m_difficultyOnSpawn);
+            if (value > 0)
+                e.add += value;
+        }
+        else if(e.type == StatType.MaxLifeMultiplier)
+        {
+            float value = Global.instance.difficultyDatas.difficultyToLifeMultiplier.Get(m_difficultyOnSpawn);
+            if (value > 0)
+                e.add += value;
+        }
+    }
+
+    void OnDeath(DeathEvent e)
+    {
+        Event<OnKillEvent>.Broadcast(new OnKillEvent());
     }
 }
 

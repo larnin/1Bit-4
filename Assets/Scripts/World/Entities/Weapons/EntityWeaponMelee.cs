@@ -104,11 +104,14 @@ public class EntityWeaponMelee : EntityWeaponBase
 
     void Attack()
     {
+        var multiplier = new GetStatEvent(StatType.DamagesMultiplier);
+        Event<GetStatEvent>.Broadcast(multiplier, gameObject);
+
         var pos = transform.position + transform.forward * m_hitOffset;
 
         var cols = Physics.OverlapSphere(pos, m_hitRadius, m_hitLayer.value);
 
-        var hit = new Hit(m_damages, gameObject, m_damageType, m_damageEffect);
+        var hit = new Hit(m_damages * multiplier.GetValue(), gameObject, m_damageType, m_damageEffect);
 
         foreach (var col in cols)
             Event<HitEvent>.Broadcast(new HitEvent(hit), col.gameObject);

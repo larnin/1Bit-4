@@ -8,6 +8,7 @@ using UnityEngine;
 public enum StatType
 {
     MaxLifeMultiplier,
+    DamagesMultiplier,
 }
 
 

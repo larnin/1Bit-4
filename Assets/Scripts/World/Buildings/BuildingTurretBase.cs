@@ -170,7 +170,8 @@ public abstract class BuildingTurretBase : BuildingBase
             else
             {
                 EndFire();
-                m_fireParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+                if (m_fireParticles != null)
+                    m_fireParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
             }
         }
     }

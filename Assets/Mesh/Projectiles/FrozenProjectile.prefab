@@ -5093,7 +5093,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_damages: 1
-  m_damageType: 0
+  m_damageType: 2
   m_damageEffect: 1
   m_speed: 5
   m_maxLife: 5

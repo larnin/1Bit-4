@@ -40,6 +40,8 @@ public abstract class StatusEffectBase
         {
             case StatusType.Burning:
                 return new StatusEffectBurning(owner);
+            case StatusType.Frozen:
+                return new StatusEffectFrozen(owner);
         }
         return null;
     }

@@ -73,6 +73,9 @@ public  class DifficultyData
 
     public DifficultyCurve difficultyToSpawnerNb;
 
+    public DifficultyCurve difficultyToLifeMultiplier;
+    public DifficultyCurve difficultyToDamageMultiplier;
+
     public DifficultySpawnerData spawnersData;
 
     public List<DifficultySizeMultiplier> difficultyMultipliers;

@@ -150,7 +150,10 @@ public class EntityWeaponGun : EntityWeaponBase
                 {
                     projectile.SetTarget(target);
                     projectile.SetCaster(gameObject);
-                    //multipliers & others stuffs
+
+                    var multiplier = new GetStatEvent(StatType.DamagesMultiplier);
+                    Event<GetStatEvent>.Broadcast(multiplier, gameObject);
+                    projectile.SetDamagesMultiplier(multiplier.GetValue());
                 }
             }
         }

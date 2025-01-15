@@ -2373,6 +2373,10 @@ MonoBehaviour:
   m_initialResources:
   - type: 1
     count: 100000
+  - type: 2
+    count: 10000
+  - type: 3
+    count: 10000
 --- !u!114 &1693670530
 MonoBehaviour:
   m_ObjectHideFlags: 0

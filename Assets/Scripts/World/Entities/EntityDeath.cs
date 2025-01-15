@@ -34,7 +34,6 @@ public class EntityDeath : MonoBehaviour
             var obj = Instantiate(m_instantiateAtDeathPrefab);
             obj.transform.position = transform.position;
             obj.transform.rotation = transform.rotation;
-            Debug.Log(transform.rotation.eulerAngles);
         }
     }
 }

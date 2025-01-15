@@ -281,6 +281,18 @@ MonoBehaviour:
       multiplierValue: 1
       addValue: 0
       finalAddValue: 0
+    difficultyToLifeMultiplier:
+      baseValue: 0.1
+      powValue: 1
+      multiplierValue: 1
+      addValue: 0
+      finalAddValue: 0
+    difficultyToDamageMultiplier:
+      baseValue: 0.1
+      powValue: 1
+      multiplierValue: 1
+      addValue: 0
+      finalAddValue: 0
     spawnersData:
       displayHeight: 6
       displayBeforeWave: 10
@@ -317,3 +329,9 @@ MonoBehaviour:
     frozen:
       powerToDuration: 1
       icon: Ice
+  m_statsDatas:
+    m_initialValues:
+    - type: 0
+      initialValue: 1
+    - type: 1
+      initialValue: 1

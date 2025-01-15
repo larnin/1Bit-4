@@ -16,6 +16,8 @@ GameObject:
   - component: {fileID: 240010203234488225}
   - component: {fileID: 33626086663986987}
   - component: {fileID: 8828943435156555476}
+  - component: {fileID: 116782343465566749}
+  - component: {fileID: 4706527088241685180}
   m_Layer: 7
   m_Name: Turret1
   m_TagString: Untagged
@@ -140,6 +142,31 @@ MonoBehaviour:
   m_energyUptake: 2
   m_energyPerFire: 1
   m_projectilePrefab: {fileID: 9030378141569406407, guid: 87e9017554cad3b469d1f42ecbc47c60, type: 3}
+--- !u!114 &116782343465566749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2386629846189063210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a6c11ee1fb1dda429dd1226b2d17eb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_initialValues: []
+--- !u!114 &4706527088241685180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2386629846189063210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df3497fbd8cd62a4b93bc6d8b1f579ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3323621035785933693
 GameObject:
   m_ObjectHideFlags: 0

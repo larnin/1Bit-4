@@ -202,6 +202,9 @@ public class BuildingTurretFlameThrower : BuildingTurretBase
 
         foreach (var b in m_bubbles)
         {
+            if (!b.hit)
+                return;
+
             var hits = Physics.OverlapSphere(b.pos, b.radius, m_hitLayer.value);
 
             foreach (var col in hits)
@@ -223,9 +226,12 @@ public class BuildingTurretFlameThrower : BuildingTurretBase
             }
         }
 
-        var hit = new Hit(m_damages * Time.deltaTime, gameObject, m_damageType, m_damageTypePower);
+        var multiplier = new GetStatEvent(StatType.DamagesMultiplier);
+        Event<GetStatEvent>.Broadcast(multiplier, gameObject);
+
+        var hit = new Hit(m_damages * Time.deltaTime * multiplier.GetValue(), gameObject, m_damageType, m_damageTypePower);
         foreach (var t in targets)
-            Event<HitEvent>.Broadcast(new HitEvent(hit));
+            Event<HitEvent>.Broadcast(new HitEvent(hit), t);
     }
 
     HistoryInfo GetInfosAt(float time)
