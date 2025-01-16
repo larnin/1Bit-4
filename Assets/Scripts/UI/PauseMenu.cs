@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using TMPro;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -25,6 +26,8 @@ public class PauseMenu : MonoBehaviour
             canvas.renderMode = RenderMode.ScreenSpaceCamera;
             canvas.planeDistance = 1;
         }
+
+        SetTip();
     }
 
     public void OnContinue()
@@ -63,6 +66,25 @@ public class PauseMenu : MonoBehaviour
             OnContinue();
 
         m_firstFrame = true;
+    }
+
+    void SetTip()
+    {
+        var tipTr = transform.Find("Tips");
+        if (tipTr == null)
+            return;
+
+        var tipText = tipTr.GetComponentInChildren<TMP_Text>();
+        if (tipText == null)
+            return;
+
+        int nextIndex = Global.instance.tipsDatas.GetRandomTipIndex(GameInfos.instance.lastTip);
+
+        if (nextIndex >= 0)
+            tipText.text = Global.instance.tipsDatas.tips[nextIndex].tip;
+        else tipTr.gameObject.SetActive(false);
+
+        GameInfos.instance.lastTip = nextIndex;
     }
 }
 

@@ -43,6 +43,7 @@ public class GameCamera : MonoBehaviour
 
     float m_resetTime;
     Vector3 m_resetStartPos;
+    Vector3 m_resetEndPos;
     float m_resetStartSize;
 
     SubscriberList m_subscriberList = new SubscriberList();
@@ -115,15 +116,18 @@ public class GameCamera : MonoBehaviour
             transform.position = currentPos;
         }
 
-        bool addRight = Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D);
-        bool addLeft = Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.A);
-        bool addUp = Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.W);
-        bool addDown = Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S);
+        if (m_resetTime <= 0)
+        {
+            bool addRight = Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D);
+            bool addLeft = Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.A);
+            bool addUp = Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.W);
+            bool addDown = Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S);
 
-        m_right += Time.deltaTime / m_arrowsAccelerationDuration * (addRight ? 1 : -1);
-        m_left += Time.deltaTime / m_arrowsAccelerationDuration * (addLeft ? 1 : -1);
-        m_up += Time.deltaTime / m_arrowsAccelerationDuration * (addUp ? 1 : -1);
-        m_down += Time.deltaTime / m_arrowsAccelerationDuration * (addDown ? 1 : -1);
+            m_right += Time.deltaTime / m_arrowsAccelerationDuration * (addRight ? 1 : -1);
+            m_left += Time.deltaTime / m_arrowsAccelerationDuration * (addLeft ? 1 : -1);
+            m_up += Time.deltaTime / m_arrowsAccelerationDuration * (addUp ? 1 : -1);
+            m_down += Time.deltaTime / m_arrowsAccelerationDuration * (addDown ? 1 : -1);
+        }
 
         m_right = Mathf.Clamp01(m_right);
         m_left = Mathf.Clamp01(m_left);
@@ -158,6 +162,15 @@ public class GameCamera : MonoBehaviour
                     m_resetTime = Time.deltaTime / m_cameraResetTime;
 
                     m_resetStartPos = transform.position;
+                    m_resetEndPos = m_resetStartPos;
+
+                    if (BuildingList.instance != null)
+                    {
+                        var tower = BuildingList.instance.GetFirstBuilding(BuildingType.Tower);
+                        if (tower != null)
+                            m_resetEndPos = tower.GetGroundCenter();
+                    }
+
                     m_resetStartSize = m_size;
 
                     m_startAngle = Utility.ReduceAngle(m_currentAngle);
@@ -218,6 +231,7 @@ public class GameCamera : MonoBehaviour
                 m_resetTime = 1;
 
             m_size = m_resetStartSize * (1 - m_resetTime) + m_initialSize * m_resetTime;
+            transform.position = m_resetStartPos * (1 - m_resetTime) + m_resetEndPos * m_resetTime;
 
             if (m_resetTime >= 1)
                 m_resetTime = 0;
