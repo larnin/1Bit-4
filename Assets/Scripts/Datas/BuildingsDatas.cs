@@ -114,6 +114,8 @@ public class BuildingsDatas
     public GameObject lifebarPrefab;
     [SerializeField] List<OneDestructedBuildingData> m_destructedBuildings;
     public BuildingDestructionData destructionDatas;
+    public float regenSpeed;
+    public float regenDelay;
 
     public OneBuildingData GetBuilding(BuildingType type)
     {

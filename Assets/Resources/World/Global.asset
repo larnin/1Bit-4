@@ -224,6 +224,8 @@ MonoBehaviour:
       hideCurve: 1
       DestructionAcceleration: 2
       DestructionSpeed: 4
+    regenSpeed: 2
+    regenDelay: 30
   m_resourcesDatas:
     m_resources:
     - type: 0

@@ -55,6 +55,9 @@ public abstract class BuildingBase : MonoBehaviour
     bool m_rayPointInit = false;
     Vector3 m_pos;
 
+    float m_noHitDuration;
+    bool m_wasFullLife = true;
+
     SubscriberList m_subscriberList = new SubscriberList();
 
     public virtual void Awake()
@@ -148,6 +151,8 @@ public abstract class BuildingBase : MonoBehaviour
 
     void OnLifeLoss(LifeLossEvent e)
     {
+        m_noHitDuration = 0;
+
         if (DisplayIcons.instance == null)
             return;
 
@@ -275,6 +280,18 @@ public abstract class BuildingBase : MonoBehaviour
         {
             if (ConnexionSystem.instance != null && !ConnexionSystem.instance.IsConnected(this))
                 return;
+
+            //regen
+            m_noHitDuration += Time.deltaTime;
+            if(m_noHitDuration >= Global.instance.buildingDatas.regenDelay && !m_wasFullLife)
+            {
+                HealEvent heal = new HealEvent(Global.instance.buildingDatas.regenSpeed * Time.deltaTime, true);
+                Event<HealEvent>.Broadcast(heal, gameObject);
+
+                GetLifeEvent life = new GetLifeEvent();
+                Event<GetLifeEvent>.Broadcast(life, gameObject);
+                m_wasFullLife = life.lifePercent >= 1;
+            }
         }
 
         OnUpdate();
