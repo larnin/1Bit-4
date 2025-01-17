@@ -2246,6 +2246,9 @@ MonoBehaviour:
   - name: Pause
     menu: {fileID: 3465249205839453648, guid: 0751f46b97d8eb542b06198c407f8feb, type: 3}
     pauseGame: 1
+  - name: GameOver
+    menu: {fileID: 7463857494357893067, guid: e4e4528e0ba14ac499fde26e7e4325aa, type: 3}
+    pauseGame: 1
 --- !u!4 &1605799741
 Transform:
   m_ObjectHideFlags: 0
