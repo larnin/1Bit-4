@@ -337,8 +337,11 @@ public class SelectCursor : MonoBehaviour
                 {
                     case EntityType.Building:
                         var b = s.obj.GetComponent<BuildingBase>();
-                        if (b == null || b.GetBuildingType() != BuildingType.Tower)
+                        if (b == null || (b.GetBuildingType() != BuildingType.Tower && b.GetTeam() == Team.Player))
+                        {
                             canDestroy = true;
+                            Event<OnBuildingRemovedEvent>.Broadcast(new OnBuildingRemovedEvent(b.GetBuildingType()));
+                        }
                         break;
                     default:
                         break;

@@ -337,3 +337,25 @@ MonoBehaviour:
       initialValue: 1
     - type: 1
       initialValue: 1
+  m_tipsDatas:
+    tips:
+    - tip: Buldings regenerate automatically after 30 secondes without being damaged.
+      weight: 1
+    - tip: The flamethrower turret makes it's target burn, generating damages overtime.
+      weight: 1
+    - tip: The removed buildings are not refounded.
+      weight: 1
+    - tip: You can destroy the ennemies spawners.
+      weight: 1
+    - tip: Titanium can be found on the escarped places.
+      weight: 1
+    - tip: You must protect the tower at all cost.
+      weight: 1
+    - tip: You can hover a building, a resource or an ennemy to have more informations
+        about it.
+      weight: 1
+    - tip: Don't forget to leave a feedback :)
+      weight: 1
+    - tip: You can rotate the view with R and return to your tower with a long press
+        on this key.
+      weight: 1

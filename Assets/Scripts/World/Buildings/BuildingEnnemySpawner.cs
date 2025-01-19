@@ -34,6 +34,8 @@ public class BuildingEnnemySpawner : BuildingBase
     float m_wantedLight;
     CustomLight m_light;
 
+    SubscriberList m_subscriberList = new SubscriberList();
+
     public override void Awake()
     {
         base.Awake();
@@ -46,6 +48,16 @@ public class BuildingEnnemySpawner : BuildingBase
 
         m_mesh.transform.localScale = new Vector3(0.99f, 0.99f, 0.99f);
         UpdateAppear();
+
+        m_subscriberList.Add(new Event<DeathEvent>.LocalSubscriber(OnDeath, gameObject));
+        m_subscriberList.Subscribe();
+    }
+
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+
+        m_subscriberList.Unsubscribe();
     }
 
     public override BuildingType GetBuildingType()
@@ -230,6 +242,11 @@ public class BuildingEnnemySpawner : BuildingBase
         m_light.SetRadius(light);
 
         return ended;
+    }
+
+    void OnDeath(DeathEvent e)
+    {
+        Event<OnSpawnerDestroyEvent>.Broadcast(new OnSpawnerDestroyEvent());
     }
 }
 

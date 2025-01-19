@@ -202,6 +202,8 @@ public class PlaceBuildingCursor : MonoBehaviour
         var obj = Instantiate(buildingData.prefab);
         obj.transform.parent = BuildingList.instance.transform;
         obj.transform.localPosition = pos;
+
+        Event<OnBuildingBuildEvent>.Broadcast(new OnBuildingBuildEvent(m_type));
     }
 
     void EnableCross(bool enabled, string message = "")

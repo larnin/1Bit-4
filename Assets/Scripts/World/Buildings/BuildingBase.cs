@@ -64,6 +64,7 @@ public abstract class BuildingBase : MonoBehaviour
     {
         m_subscriberList.Add(new Event<GetTeamEvent>.LocalSubscriber(GetTeam, gameObject));
         m_subscriberList.Add(new Event<LifeLossEvent>.LocalSubscriber(OnLifeLoss, gameObject));
+        m_subscriberList.Add(new Event<DeathEvent>.LocalSubscriber(OnDeath, gameObject));
         m_subscriberList.Subscribe();
     }
 
@@ -166,6 +167,12 @@ public abstract class BuildingBase : MonoBehaviour
         Vector3 pos = GetGroundCenter();
 
         DisplayIcons.instance.Register(pos, b.size.y, Global.instance.buildingDatas.lifeLossDisplayDuration, "BuildingDamaged", "", true, true);
+    }
+
+    void OnDeath(DeathEvent e)
+    {
+        if (GetTeam() == Team.Player)
+            Event<OnBuildingDestroyedEvent>.Broadcast(new OnBuildingDestroyedEvent(GetBuildingType()));
     }
 
     public virtual float EnergyGeneration() { return 0; }
