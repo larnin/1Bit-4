@@ -134,7 +134,7 @@ public class ResourceSystem : MonoBehaviour
         float consumptionWanted = 0;
         float storageWanted = 0;
 
-        for(int i = 0; i < nbBuilding; i++)
+        for (int i = 0; i < nbBuilding; i++)
         {
             var b = ConnexionSystem.instance.GetConnectedBuildingFromIndex(i);
             if (b.EnergyPriority() == EnergyUptakePriority.consumption)
@@ -146,31 +146,36 @@ public class ResourceSystem : MonoBehaviour
         float storagePercent = 1;
         if (energy.production < consumptionWanted)
         {
-            consumptionPercent = consumptionWanted / energy.production;
+            consumptionPercent = energy.production / consumptionWanted;
             storagePercent = 0;
         }
         else if (energy.production < consumptionWanted + storageWanted)
             storagePercent = (energy.production - consumptionWanted) / storageWanted;
-        if (consumptionPercent < 1)
+        if(consumptionPercent < 1 && energy.stored > 0)
         {
-            float deltaConsumption = (1 - consumptionPercent) * consumptionWanted;
-            deltaConsumption *= Time.deltaTime;
+            float deltaConsumption = (consumptionWanted - energy.production) * Time.deltaTime;
 
+            float toRemovePercent = 1;
             if (energy.stored < deltaConsumption)
             {
-                float realPercent = deltaConsumption / energy.stored;
-                consumptionPercent += (1 - consumptionPercent) * realPercent;
-                deltaConsumption = energy.stored;
+                float newConsuption = energy.stored / Time.deltaTime + energy.production;
+                consumptionPercent = newConsuption / consumptionWanted;
             }
-            else consumptionPercent = 1;
+            else
+            {
+                consumptionPercent = 1;
+                toRemovePercent = deltaConsumption / energy.stored;
+            }
 
             for (int i = 0; i < nbBuilding; i++)
             {
                 var b = ConnexionSystem.instance.GetConnectedBuildingFromIndex(i);
 
                 float stored = b.EnergyStorageValue();
-                float percentUse = stored / energy.stored;
-                b.ConsumeStoredEnergy(percentUse * deltaConsumption);
+                if (stored == 0)
+                    continue;
+
+                b.ConsumeStoredEnergy(stored * toRemovePercent);
             }
         }
 
