@@ -203,6 +203,16 @@ MonoBehaviour:
         area and freeze ennemies
       cost:
         cost: []
+    - type: 16
+      prefab: {fileID: 8768758939089033255, guid: 30f868e9f83cac04a932db66006ed9b6, type: 3}
+      sprite: {fileID: 203579037, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
+      spriteWithBorder: {fileID: -291332191, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
+      size: {x: 3, y: 2, z: 3}
+      team: 0
+      name: Storage
+      description: Increase resources storage but consume a little bit of energy
+      cost:
+        cost: []
     mineItemPrefab: {fileID: 6943061212826655842, guid: 020dedfdfd13d1c49ac25e185f22167b, type: 3}
     lifeLossDisplayDuration: 10
     lifebarPrefab: {fileID: 403841948413428351, guid: 865e80a7aecab34408fe71ab6fb1fed9, type: 3}
@@ -232,26 +242,38 @@ MonoBehaviour:
       sprite: {fileID: -783294908, guid: d289d3f5b7bf08a40acae9bd3b9185b0, type: 3}
       name: Energy
       description: Needed to make a building work
+      storageBase: 0
+      storageIncrease: 0
     - type: 1
       sprite: {fileID: 1786662948, guid: d289d3f5b7bf08a40acae9bd3b9185b0, type: 3}
       name: Crystal
       description: Can be collected by a crystal mine
+      storageBase: 250
+      storageIncrease: 150
     - type: 2
       sprite: {fileID: -1440480786, guid: d289d3f5b7bf08a40acae9bd3b9185b0, type: 3}
       name: Titanium
       description: Hard to collect but extremely valuable
+      storageBase: 50
+      storageIncrease: 50
     - type: 3
       sprite: {fileID: 96055612, guid: d289d3f5b7bf08a40acae9bd3b9185b0, type: 3}
       name: Oil
       description: Dirty and hightly flammable
+      storageBase: 100
+      storageIncrease: 100
     - type: 4
       sprite: {fileID: -954301970, guid: d289d3f5b7bf08a40acae9bd3b9185b0, type: 3}
       name: Enemy part
       description: Collected when killing ennemies
+      storageBase: -1
+      storageIncrease: 0
     - type: 5
       sprite: {fileID: -1299815544, guid: d289d3f5b7bf08a40acae9bd3b9185b0, type: 3}
       name: Water
       description: Source of life
+      storageBase: 100
+      storageIncrease: 100
   m_difficultyDatas:
     difficultyPerMinute:
       baseValue: 10

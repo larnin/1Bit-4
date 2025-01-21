@@ -1581,7 +1581,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_resourcePrefab: {fileID: 7011769310856051284, guid: a9ff6c0e91b2d554a8244d7282c56d2e, type: 3}
-  m_resourceDelta: 100
+  m_resourceDelta: 120
 --- !u!1 &1290092317
 GameObject:
   m_ObjectHideFlags: 0
@@ -2361,7 +2361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_grid: {fileID: 1334327366}
-  m_unlockedBuilding: 010000000d0000000e0000000f000000090000000c0000000a0000000b0000000300000006000000
+  m_unlockedBuilding: 010000000d0000000e0000000f000000090000000c0000000a0000000b000000030000000600000010000000
 --- !u!114 &1693670529
 MonoBehaviour:
   m_ObjectHideFlags: 0

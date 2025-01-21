@@ -101,6 +101,8 @@ public class ResourceSystem : MonoBehaviour
         if (GameInfos.instance.paused)
             return;
 
+        UpdateStorage();
+
         foreach(var r in m_resources)
         {
             r.UpdateHistory();
@@ -192,6 +194,35 @@ public class ResourceSystem : MonoBehaviour
         energy.consumption = consumptionWanted + storageWanted * storagePercent;
     }
 
+    void UpdateStorage()
+    {
+        if (BuildingList.instance == null || ConnexionSystem.instance == null)
+            return;
+
+        var buildings = BuildingList.instance.GetAllBuilding(BuildingType.Storage, Team.Player);
+        int nbStorage = 0;
+        foreach(var b in buildings)
+        {
+            if (ConnexionSystem.instance.IsConnected(b))
+                nbStorage++;
+        }
+
+        foreach(var r in m_resources)
+        {
+            if (r.type == ResourceType.Energy)
+                continue;
+
+            var data = Global.instance.resourceDatas.GetResource(r.type);
+            if (data == null)
+                continue;
+
+            r.storageMax = data.storageBase + data.storageIncrease * nbStorage;
+
+            if (r.stored > r.storageMax && r.storageMax > 0)
+                r.stored = r.storageMax;
+        }
+    }
+
     ResourceInfo GetResourceOrCreate(ResourceType type)
     {
         foreach (var r in m_resources)
@@ -204,6 +235,8 @@ public class ResourceSystem : MonoBehaviour
         resource.type = type;
         m_resources.Add(resource);
 
+        UpdateStorage();
+
         return resource;
     }
 
@@ -213,8 +246,13 @@ public class ResourceSystem : MonoBehaviour
             return;
 
         var resource = GetResourceOrCreate(type);
-        resource.production += count;
-        resource.stored += count;
+
+        float newCount = resource.stored + count;
+
+        if (newCount > resource.storageMax && resource.storageMax > 0)
+            newCount = resource.storageMax;
+        resource.production = newCount - count;
+        resource.stored = newCount;
     }
 
     public void RemoveResource(ResourceType type, float count, bool keepTrack = true)

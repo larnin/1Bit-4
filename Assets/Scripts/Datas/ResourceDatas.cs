@@ -23,6 +23,8 @@ public class OneResourceData
     public string name;
     [Multiline]
     public string description;
+    public float storageBase;
+    public float storageIncrease;
 }
 
 [Serializable]

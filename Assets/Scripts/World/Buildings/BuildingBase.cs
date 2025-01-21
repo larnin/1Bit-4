@@ -23,6 +23,7 @@ public enum BuildingType
     Turret1,
     Turret2,
     Turret3,
+    Storage,
     EnnemySpawner = 100,
 }
 
