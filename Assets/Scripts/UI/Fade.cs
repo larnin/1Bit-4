@@ -14,8 +14,16 @@ public class Fade : MonoBehaviour
 
     SubscriberList m_subscriberList = new SubscriberList();
 
+    static Fade m_instance = null;
+
     private void Awake()
     {
+        if (m_instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         m_subscriberList.Add(new Event<ShowLoadingScreenEvent>.Subscriber(OnFade));
         m_subscriberList.Add(new Event<HideLoadingScreenEvent>.Subscriber(OnStopFade));
         m_subscriberList.Subscribe();
