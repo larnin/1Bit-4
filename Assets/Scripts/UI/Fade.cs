@@ -6,10 +6,12 @@ using UnityEngine.UI;
 
 public class Fade : MonoBehaviour
 {
+    const string PercentName = "_Percent";
+
+    [SerializeField] Material m_material;
     [SerializeField] float m_transitionDuration = 0.5f;
     [SerializeField] Color m_color = Color.black;
-
-    Image m_render;
+    
     Tweener m_currentTween;
 
     SubscriberList m_subscriberList = new SubscriberList();
@@ -23,12 +25,11 @@ public class Fade : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        m_instance = this;
 
         m_subscriberList.Add(new Event<ShowLoadingScreenEvent>.Subscriber(OnFade));
         m_subscriberList.Add(new Event<HideLoadingScreenEvent>.Subscriber(OnStopFade));
         m_subscriberList.Subscribe();
-
-        m_render = GetComponentInChildren<Image>(true);
 
         DontDestroyOnLoad(gameObject);
     }
@@ -42,23 +43,22 @@ public class Fade : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
-
+    
     void OnFade(ShowLoadingScreenEvent e)
     {
+        UpdateCamera();
+
         if (e.start)
         {
-            Color initialColor = m_color;
-            initialColor.a = 0;
-            m_render.color = initialColor;
             gameObject.SetActive(true);
-            m_currentTween = m_render.DOColor(m_color, m_transitionDuration);
+            m_material.SetFloat(PercentName, 1);
+            m_currentTween = m_material.DOFloat(0, PercentName, m_transitionDuration);
         }
         else
         {
             gameObject.SetActive(true);
-            Color targetColor = m_color;
-            targetColor.a = 0;
-            m_currentTween = m_render.DOColor(targetColor, m_transitionDuration).OnComplete(() => 
+            m_material.SetFloat(PercentName, 0);
+            m_currentTween = m_material.DOFloat(1, PercentName, m_transitionDuration).OnComplete(() => 
             { 
                 if(this != null && gameObject != null)
                     gameObject.SetActive(false); 
@@ -72,5 +72,25 @@ public class Fade : MonoBehaviour
             m_currentTween.Kill(false);
 
         gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        UpdateCamera();
+    }
+
+    void UpdateCamera()
+    {
+        var canvas = GetComponent<Canvas>();
+        if (canvas != null)
+        {
+            if (canvas.worldCamera != null)
+                return;
+
+            GetCameraEvent cameraEvent = new GetCameraEvent();
+            Event<GetCameraEvent>.Broadcast(cameraEvent);
+
+            canvas.worldCamera = cameraEvent.UICamera;
+        }
     }
 }

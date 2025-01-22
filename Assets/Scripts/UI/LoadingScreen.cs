@@ -74,22 +74,11 @@ public class LoadingScreen : MonoBehaviour
         {
             m_fadeTimer += Time.deltaTime;
 
-            float alpha = 1 - (m_fadeTimer / m_fadeDuration);
-
-            Color c = m_image.color;
-            c.a = alpha;
-            m_image.color = c;
-
-            c = m_label.color;
-            c.a = alpha;
-            m_label.color = c;
-
-            c = m_text.color;
-            c.a = alpha;
-            m_text.color = c;
-
             if (m_fadeTimer >= m_fadeDuration)
+            {
+                Event<ShowLoadingScreenEvent>.Broadcast(new ShowLoadingScreenEvent(false));
                 Destroy(gameObject);
+            }
         }
     }
 

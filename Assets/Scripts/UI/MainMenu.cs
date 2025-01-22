@@ -50,7 +50,10 @@ public class MainMenu : MonoBehaviour
         GameInfos.instance.gameParams.worldSize = m_worldSize;
         GameInfos.instance.gameParams.seed = Cast.HashString(m_seed);
 
-        SceneSystem.changeScene(m_gameSceneName, false, () => { Event<HideLoadingScreenEvent>.Broadcast(new HideLoadingScreenEvent()); });
+        var scene = new ChangeSceneParams(m_gameSceneName);
+        scene.skipFadeOut = true;
+
+        SceneSystem.changeScene(scene);
     }
 
     public void Options()

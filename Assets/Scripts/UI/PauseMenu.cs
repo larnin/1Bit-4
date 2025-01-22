@@ -57,7 +57,7 @@ public class PauseMenu : MonoBehaviour
 
         m_selected = true;
 
-        SceneSystem.changeScene(m_menuName);
+        SceneSystem.changeScene(new ChangeSceneParams(m_menuName));
     }
 
     private void Update()
