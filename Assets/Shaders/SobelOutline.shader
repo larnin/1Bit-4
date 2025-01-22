@@ -4,8 +4,6 @@ Shader "PostProcessing/SobelOutline"
 #include "Packages/com.unity.postprocessing/PostProcessing/Shaders/StdLib.hlsl"
 
     TEXTURE2D_SAMPLER2D(_MainTex, sampler_MainTex);
-    TEXTURE2D_SAMPLER2D(_CameraDepthTexture, sampler_CameraDepthTexture);
-    TEXTURE2D_SAMPLER2D(_CameraGBufferTexture2, sampler_CameraGBufferTexture2);
     TEXTURE2D_SAMPLER2D(_NormalTex, sampler_NormalTex);
     TEXTURE2D_SAMPLER2D(_DepthTex, sampler_DepthTex);
 
@@ -51,7 +49,7 @@ Shader "PostProcessing/SobelOutline"
     }
 
     float4 FragMain(VaryingsDefault i) : SV_Target
-    { 
+    {
         float3 offset = float3((1.0 / _ScreenParams.x), (1.0 / _ScreenParams.y), 0.0) * _OutlineThickness;
         float3 sceneColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord).rgb;
 
