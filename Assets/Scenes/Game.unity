@@ -1242,7 +1242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_minSize: 50
   m_maxSize: 5
-  m_initialSize: 10
+  m_initialSize: 12
   m_stepZoom: 1.1
   m_arrowsSpeed: 15
   m_arrowsAccelerationDuration: 0.15

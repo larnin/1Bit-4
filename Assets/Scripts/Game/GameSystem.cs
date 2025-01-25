@@ -108,16 +108,68 @@ public class GameSystem : MonoBehaviour
         var grid = m_grid.GetGrid();
         var size = GridEx.GetRealSize(grid);
 
-        Vector3Int towerPos = new Vector3Int(size / 2, 0, size / 2);
-        towerPos.y = GridEx.GetHeight(grid, new Vector2Int(towerPos.x, towerPos.z)) + 1;
-
+        Vector2Int centerPos = new Vector2Int(size / 2, size / 2);
         var buildingData = Global.instance.buildingDatas.GetBuilding(BuildingType.Tower);
         if (buildingData == null || buildingData.prefab == null)
             return;
 
+        Vector3Int towerPos = SearchValidPos(grid, centerPos, new Vector2Int(buildingData.size.x, buildingData.size.z), 5);
+
         var obj = Instantiate(buildingData.prefab);
         obj.transform.parent = BuildingList.instance.transform;
         obj.transform.localPosition = towerPos;
+    }
+
+    Vector3Int SearchValidPos(Grid grid, Vector2Int center, Vector2Int elementSize, int searchDistance)
+    {
+        List<Vector2Int> points = new List<Vector2Int>();
+
+        for(int i = -searchDistance; i <= searchDistance; i++)
+        {
+            for(int j = -searchDistance; j<= searchDistance; j++)
+            {
+                points.Add(new Vector2Int(i, j) + center);
+            }
+        }
+
+        points.Sort((Vector2Int a, Vector2Int b) => { return (center - a).sqrMagnitude.CompareTo((center - b).sqrMagnitude); });
+
+        foreach(var p in points)
+        {
+            if(IsPosValid(grid, p, elementSize))
+            {
+                var h = GridEx.GetHeight(grid, p);
+                return new Vector3Int(p.x, h, p.y);
+            }
+        }
+
+        var h2 = GridEx.GetHeight(grid, center);
+        return new Vector3Int(center.x, h2, center.y); ;
+    }
+
+    bool IsPosValid(Grid grid, Vector2Int pos, Vector2Int elementSize)
+    {
+        Vector2Int minPos = new Vector2Int((elementSize.x - 1) / 2, (elementSize.y - 1) / 2);
+        Vector2Int maxPos = pos - minPos + elementSize;
+        minPos = pos - minPos;
+
+        int lastHeight = -1;
+
+        for(int i = minPos.x; i < maxPos.x; i++)
+        {
+            for(int j = minPos.y; j < maxPos.y; j++)
+            {
+                int height = GridEx.GetHeight(grid, new Vector2Int(i, j));
+                if (height < 0)
+                    continue;
+                if (lastHeight < 0)
+                    lastHeight = height;
+                if (lastHeight != height)
+                    return false;
+            }
+        }
+
+        return lastHeight >= 0;
     }
 
     public static EntityType GetEntityType(GameObject obj)
