@@ -114,11 +114,14 @@ public abstract class BuildingBase : MonoBehaviour
 
     public Vector3 GetGroundCenter()
     {
-        Vector3 pos = GetPos();
-        Vector3 size = GetSize();
-        size -= Vector3.one;
+        var bounds = GetBounds();
+        Vector3 min = bounds.min;
+        Vector3 max = bounds.max - Vector3Int.one;
 
-        return pos + size / 2;
+        var center = (max + min) / 2;
+        center.y = min.y;
+
+        return center;
     }
 
     public BoundsInt GetBounds()

@@ -11,6 +11,7 @@ class ProjectileFrozen : ProjectileBase
     [SerializeField] float m_speed = 5;
     [SerializeField] float m_maxLife = 5;
     [SerializeField] LayerMask m_hitLayer;
+    [SerializeField] LayerMask m_groundLayer;
     [SerializeField] LayerMask m_explosionLayer;
     [SerializeField] float m_explosionDuration = 1;
     [SerializeField] float m_explosionRadius = 3;
@@ -87,12 +88,13 @@ class ProjectileFrozen : ProjectileBase
         RaycastHit hit;
         var haveHit = Physics.Raycast(ray, out hit, Time.deltaTime * m_speed + 0.01f, m_hitLayer);
         if (haveHit)
-            StartExplosion();
-        else transform.position = nextPos;
+            StartExplosion(hit);
+
+        transform.position = nextPos;
 
         m_time += Time.deltaTime;
         if (m_time > m_maxLife)
-            StartExplosion();
+            StartExplosion(hit);
     }
 
     void UpdateExplosion()
@@ -128,15 +130,35 @@ class ProjectileFrozen : ProjectileBase
             Destroy(gameObject);
     }
 
-    void StartExplosion()
+    void StartExplosion(RaycastHit hit)
     {
-        m_projectile.gameObject.SetActive(false);
-        m_explosion.gameObject.SetActive(true);
+        bool startExplosion = true;
 
-        m_state = State.Explosion;
-        m_time = 0;
+        if (hit.collider != null)
+        {
+            startExplosion = false;
+            if ((m_groundLayer.value & (1 << hit.collider.gameObject.layer)) != 0)
+                startExplosion = true;
+            else
+            {
+                GetTeamEvent team = new GetTeamEvent();
+                Event<GetTeamEvent>.Broadcast(team, hit.collider.gameObject);
 
-        UpdateExplosionRender();
+                if (TeamEx.GetOppositeTeam(team.team) == m_casterTeam)
+                    startExplosion = true;
+            }
+        }
+
+        if (startExplosion)
+        {
+            m_projectile.gameObject.SetActive(false);
+            m_explosion.gameObject.SetActive(true);
+
+            m_state = State.Explosion;
+            m_time = 0;
+
+            UpdateExplosionRender();
+        }
     }
 
     void StartEnd()

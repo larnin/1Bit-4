@@ -170,4 +170,22 @@ public class TurretBehaviour : MonoBehaviour
             }
         }
     }
+
+    public static Vector3 GetTargetCenter(GameObject target)
+    {
+        var targetType = GameSystem.GetEntityType(target);
+        if(targetType == EntityType.Building)
+        {
+            var building = target.GetComponent<BuildingBase>();
+            if(building != null)
+            {
+                var center = building.GetGroundCenter();
+                var size = building.GetSize();
+                center.y += size.y / 2.0f;
+
+                return center;
+            }
+        }
+        return target.transform.position;
+    }
 }

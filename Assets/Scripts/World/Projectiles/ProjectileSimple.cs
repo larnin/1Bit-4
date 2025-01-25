@@ -10,6 +10,7 @@ public class ProjectileSimple : ProjectileBase
     [SerializeField] float m_speed = 5;
     [SerializeField] float m_maxLife = 5;
     [SerializeField] LayerMask m_hitLayer;
+    [SerializeField] LayerMask m_groundLayer;
     [SerializeField] GameObject m_hitPrefab;
 
     float m_time = 0;
@@ -28,7 +29,7 @@ public class ProjectileSimple : ProjectileBase
         var haveHit = Physics.Raycast(ray, out hit, Time.deltaTime * m_speed + 0.01f, m_hitLayer);
         if (haveHit)
             OnHit(hit);
-        else transform.position = nextPos;
+        transform.position = nextPos;
 
         m_time += Time.deltaTime;
         if (m_time > m_maxLife)
@@ -37,15 +38,29 @@ public class ProjectileSimple : ProjectileBase
 
     void OnHit(RaycastHit hit)
     {
-        if(m_hitPrefab != null)
+        bool needDestroy = false;
+        
+        GetTeamEvent team = new GetTeamEvent();
+        Event<GetTeamEvent>.Broadcast(team, hit.collider.gameObject);
+        if (team.team == TeamEx.GetOppositeTeam(m_casterTeam))
         {
-            var obj = Instantiate(m_hitPrefab);
-            obj.transform.position = hit.point;
-            obj.transform.forward = hit.normal;
+            Event<HitEvent>.Broadcast(new HitEvent(new Hit(m_damages * m_damagesMultiplier, m_caster, m_damageType, m_damageEffect)), hit.collider.gameObject);
+
+            needDestroy = true;
         }
+        if ((m_groundLayer.value & (1 << hit.collider.gameObject.layer)) != 0)
+            needDestroy = true;
 
-        Event<HitEvent>.Broadcast(new HitEvent(new Hit(m_damages * m_damagesMultiplier, m_caster, m_damageType, m_damageEffect)), hit.collider.gameObject);
+        if(needDestroy)
+        {
+            if (m_hitPrefab != null)
+            {
+                var obj = Instantiate(m_hitPrefab);
+                obj.transform.position = hit.point;
+                obj.transform.forward = hit.normal;
+            }
 
-        Destroy(gameObject);
+            Destroy(gameObject);
+        }
     }
 }

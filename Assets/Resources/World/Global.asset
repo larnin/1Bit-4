@@ -210,7 +210,7 @@ MonoBehaviour:
       cost:
         cost:
         - type: 1
-          count: 150
+          count: 1
     - type: 9
       prefab: {fileID: 4766931038948199759, guid: 8e67c6f7cee838c4dadbec18f9ed4b86, type: 3}
       sprite: {fileID: 1038982652, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}

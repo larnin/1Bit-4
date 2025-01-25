@@ -208,7 +208,17 @@ public class OneIcon : MonoBehaviour
         if (m_datas.target == null)
             return m_datas.position + new Vector3(0, m_datas.offset, 0);
 
-        return m_datas.target.transform.position + new Vector3(0, m_datas.offset, 0);
+        var pos = m_datas.target.transform.position;
+
+        var targetType = GameSystem.GetEntityType(m_datas.target);
+        if(targetType == EntityType.Building)
+        {
+            var building = m_datas.target.GetComponent<BuildingBase>();
+            if (building != null)
+                pos = building.GetGroundCenter();
+        }
+
+        return pos + new Vector3(0, m_datas.offset, 0);
     }
 
     void SetVisible(bool visible)

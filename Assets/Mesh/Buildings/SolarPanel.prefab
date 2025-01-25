@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa95a2f98595e3d44b73120496694a1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_barHeight: 2
+  m_barHeight: 1
   m_barScale: 1
 --- !u!114 &-6364743523725228167
 MonoBehaviour:

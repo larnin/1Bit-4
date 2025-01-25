@@ -45,13 +45,16 @@ public class EntityList : MonoBehaviour
         return m_entities[index];
     }
 
-    public GameEntity GetNearestEntity(Vector3 pos)
+    public GameEntity GetNearestEntity(Vector3 pos, AliveType alive = AliveType.NotSet)
     {
         float bestDist = 0;
         GameEntity bestEntity = null;
 
         foreach(var e in m_entities)
         {
+            if (!Utility.IsAliveFilter(e.gameObject, alive))
+                continue;
+
             float dist = (pos - e.transform.position).sqrMagnitude;
 
             if(dist < bestDist || bestEntity == null)
@@ -64,7 +67,7 @@ public class EntityList : MonoBehaviour
         return bestEntity;
     }
 
-    public GameEntity GetNearestEntity(Vector3 pos, Team team)
+    public GameEntity GetNearestEntity(Vector3 pos, Team team, AliveType alive = AliveType.NotSet)
     {
         float bestDist = 0;
         GameEntity bestEntity = null;
@@ -72,6 +75,9 @@ public class EntityList : MonoBehaviour
         foreach (var e in m_entities)
         {
             if (e.GetTeam() != team)
+                continue;
+
+            if (!Utility.IsAliveFilter(e.gameObject, alive))
                 continue;
 
             float dist = (pos - e.transform.position).sqrMagnitude;

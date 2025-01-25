@@ -79,15 +79,21 @@ public abstract class BuildingTurretBase : BuildingBase
     {
         ProcessRecoil();
 
-        if (EntityList.instance == null)
+        if (EntityList.instance == null || BuildingList.instance == null)
             m_target = null;
         else
         {
             Team targetTeam = TeamEx.GetOppositeTeam(GetTeam());
-            var target = EntityList.instance.GetNearestEntity(GetGroundCenter(), targetTeam);
-            if (target != null)
-                m_target = target.gameObject;
-            else m_target = null;
+            m_target = null;
+            var entity = EntityList.instance.GetNearestEntity(GetGroundCenter(), targetTeam, AliveType.Alive);
+            if (entity != null)
+                m_target = entity.gameObject;
+            if (m_target == null)
+            {
+                var building = BuildingList.instance.GetNearestBuilding(GetGroundCenter(), targetTeam, AliveType.Alive);
+                if (building != null)
+                    m_target = building.gameObject;
+            }
         }
 
         if(m_target != null)
@@ -101,7 +107,7 @@ public abstract class BuildingTurretBase : BuildingBase
         {
             if (m_target == null)
                 m_turret.SetNoTarget();
-            else m_turret.SetTarget(m_target.transform.position);
+            else m_turret.SetTarget(TurretBehaviour.GetTargetCenter(m_target));
         }
 
         if (IsContinuousWeapon())

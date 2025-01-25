@@ -129,9 +129,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_damages: 1
+  m_damageType: 0
+  m_damageEffect: 1
   m_speed: 5
   m_maxLife: 5
   m_hitLayer:
     serializedVersion: 2
-    m_Bits: 256
-  m_hitPrefab: {fileID: 0}
+    m_Bits: 448
+  m_groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  m_hitPrefab: {fileID: 1106243580312464698, guid: cb1ad541393030f44b831f7fa8a7fee8, type: 3}

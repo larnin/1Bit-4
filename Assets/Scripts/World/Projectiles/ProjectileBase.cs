@@ -12,6 +12,7 @@ public abstract class ProjectileBase : MonoBehaviour
     [SerializeField] protected float m_damageEffect = 1;
 
     protected GameObject m_target;
+    protected Team m_casterTeam;
     protected GameObject m_caster;
     protected float m_damagesMultiplier = 1;
 
@@ -23,6 +24,9 @@ public abstract class ProjectileBase : MonoBehaviour
     public void SetCaster(GameObject caster)
     {
         m_caster = caster;
+        GetTeamEvent team = new GetTeamEvent();
+        Event<GetTeamEvent>.Broadcast(team, caster);
+        m_casterTeam = team.team;
     }
 
     public void SetDamagesMultiplier(float multiplier)

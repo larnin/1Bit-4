@@ -5100,9 +5100,12 @@ MonoBehaviour:
   m_hitLayer:
     serializedVersion: 2
     m_Bits: 448
+  m_groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
   m_explosionLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 384
   m_explosionDuration: 0.4
   m_explosionRadius: 4
   m_explosionCurve: 3

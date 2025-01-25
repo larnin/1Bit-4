@@ -179,13 +179,6 @@ public class EntityWeaponGun : EntityWeaponBase
         if(target == null)
             return transform.position + transform.forward;
 
-        Vector3 pos = target.GetGroundCenter();
-
-        var type = target.GetBuildingType();
-        var data = Global.instance.buildingDatas.GetBuilding(type);
-        if (data != null)
-            pos.y += data.size.y / 2.0f;
-
-        return pos;
+        return TurretBehaviour.GetTargetCenter(target.gameObject);
     }
 }

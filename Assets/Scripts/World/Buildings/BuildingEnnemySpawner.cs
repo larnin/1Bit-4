@@ -67,6 +67,16 @@ public class BuildingEnnemySpawner : BuildingBase
 
     protected override void OnUpdateAlways()
     {
+        if (Utility.IsFrozen(gameObject))
+            return;
+
+        if (Utility.IsDead(gameObject))
+        {
+            if (DisplayIcons.instance != null)
+                DisplayIcons.instance.Unregister(gameObject);
+            return;
+        }
+
         switch (m_state)
         {
             case State.Appear:

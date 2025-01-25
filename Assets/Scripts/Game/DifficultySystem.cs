@@ -182,7 +182,7 @@ public class DifficultySystem : MonoBehaviour
 
                 if (posOk)
                 {
-                    Vector3 spawnPos = new Vector3(posI.x, height, posI.z);
+                    Vector3 spawnPos = new Vector3(posI.x, height + 1, posI.z);
                     var testBuilding = BuildingList.instance.GetNearestBuilding(spawnPos);
 
                     if(testBuilding != null)
