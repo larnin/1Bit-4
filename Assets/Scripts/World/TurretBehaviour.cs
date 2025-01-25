@@ -47,7 +47,15 @@ public class TurretBehaviour : MonoBehaviour
 
     public bool CanFire()
     {
-        return m_turretState == TurretState.Target;
+        if (m_turretState != TurretState.Target)
+            return false;
+
+        var forward = (m_target - m_turretPivot.position).normalized;
+        Quaternion targetAngle = Quaternion.LookRotation(forward, Vector3.up);
+
+        float delta = Mathf.Abs(Quaternion.Angle(m_turretPivot.localRotation, targetAngle));
+
+        return delta < 5;
     }
 
     private void Update()
@@ -106,8 +114,7 @@ public class TurretBehaviour : MonoBehaviour
 
                         float normTime = m_turretTimer / m_turretTimerMax;
 
-                        var targetPos = m_target;
-                        var forward = (targetPos - m_turretPivot.position).normalized;
+                        var forward = (m_target - m_turretPivot.position).normalized;
                         Quaternion targetAngle = Quaternion.LookRotation(forward, Vector3.up);
 
                         m_turretPivot.rotation = Quaternion.Lerp(m_turretStartRotation, targetAngle, normTime);
@@ -130,7 +137,12 @@ public class TurretBehaviour : MonoBehaviour
                         var forward = (targetPos - m_turretPivot.position).normalized;
                         Quaternion targetAngle = Quaternion.LookRotation(forward, Vector3.up);
 
-                        m_turretPivot.rotation = targetAngle;
+                        float delta = Mathf.Abs(Quaternion.Angle(m_turretPivot.localRotation, targetAngle));
+
+                        float maxDelta = Time.deltaTime * m_turretRotSpeed * Mathf.Rad2Deg;
+                        if (delta < maxDelta)
+                            m_turretPivot.rotation = targetAngle;
+                        else m_turretPivot.rotation = Quaternion.Lerp(m_turretPivot.localRotation, targetAngle, maxDelta / delta);
 
                         break;
                     }
