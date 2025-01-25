@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using DG.Tweening;
 using NRand;
 
 public static class WorldGenerator
@@ -82,17 +83,23 @@ public static class WorldGenerator
 
     static void JobWorker()
     {
+        m_stateTxt = "Generate Heights";
+
         m_grid = new Grid(m_settings.size, m_settings.height);
 
-        m_stateTxt = "Generate Heights";
-        m_heights = GenerateMontains();
-        m_stateTxt = "Generate Ground";
+        m_heights = GenerateBaseSurface();
+        CalculateMontainsDistance(m_heights);
+        GenerateMontains(m_heights);
+
+        Smooth(m_heights);
+
+        m_stateTxt = "Apply Heights";
         SimpleApplyHeight(m_heights);
 
         m_stateTxt = "Generate Resources";
         GenerateCrystal();
-        GenerateOil();
         GenerateTitanium();
+        GenerateOil();
 
         m_heights = null;
     }
@@ -108,9 +115,21 @@ public static class WorldGenerator
     {
         public float height;
         public AreaType type;
+        public float montainHeight;
+        public float distanceFromBorder;
+        public float distanceFromCenter;
+
+        public Area(float _height, AreaType _type)
+        {
+            height = _height;
+            type = _type;
+            montainHeight = 0;
+            distanceFromBorder = 0;
+            distanceFromCenter = 0;
+        }
     }
 
-    static Matrix<Area> GenerateMontains()
+    static Matrix<Area> GenerateBaseSurface()
     {
         int size = GridEx.GetRealSize(m_grid);
         var mat = new Matrix<Area>(size, size);
@@ -120,28 +139,198 @@ public static class WorldGenerator
 
         int seedIndex = 0;
 
-        Perlin[] placement = new Perlin[m_settings.MontainsPlacement.nbLayers];
-        for (int i = 0; i < m_settings.MontainsPlacement.nbLayers; i++)
+        Perlin[] perlinDistance = new Perlin[m_settings.baseSurfaceRandomization.nbLayers];
+        for (int i = 0; i < m_settings.baseSurfaceRandomization.nbLayers; i++)
         {
-            placement[i] = new Perlin(size, m_settings.MontainsPlacement.baseAmplitude * MathF.Pow(m_settings.MontainsPlacement.layerAmplitudeScale, i)
-                , (int)(m_settings.MontainsPlacement.baseFrequency / MathF.Pow(2, i)), m_seed + seedIndex);
+            perlinDistance[i] = new Perlin(size, m_settings.baseSurfaceRandomization.baseAmplitude * Mathf.Pow(m_settings.baseSurfaceRandomization.layerAmplitudeScale, i)
+                , (int)(m_settings.baseSurfaceRandomization.baseFrequency * Mathf.Pow(2, i)), m_seed + seedIndex);
             seedIndex++;
         }
 
-        Turbulence[] montains = new Turbulence[m_settings.MontainsHeight.nbLayers];
-        for (int i = 0; i < m_settings.MontainsHeight.nbLayers; i++)
+        Perlin[] perlinPlain = new Perlin[m_settings.plainsHeight.nbLayers];
+        for(int i = 0; i < m_settings.plainsHeight.nbLayers; i++)
         {
-            montains[i] = new Turbulence(size, m_settings.MontainsHeight.baseAmplitude * MathF.Pow(m_settings.MontainsHeight.layerAmplitudeScale, i)
-                , (int)(m_settings.MontainsHeight.baseFrequency / MathF.Pow(2, i)), m_seed + seedIndex);
+            perlinPlain[i] = new Perlin(size, m_settings.plainsHeight.baseAmplitude * Mathf.Pow(m_settings.plainsHeight.layerAmplitudeScale, i)
+                , (int)(m_settings.plainsHeight.baseFrequency * Mathf.Pow(2, i)), m_seed + seedIndex);
+        }
+
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                float distance = (new Vector2(i, j) - center).magnitude;
+                foreach (var p in perlinDistance)
+                    distance += p.Get(i, j);
+
+                distance /= size / 2.0f;
+
+                AreaType area = AreaType.Plain;
+                float plainMultiplier = 1;
+
+                if (distance > m_settings.baseSurfaceNormalizedRadius)
+                {
+                    plainMultiplier = 0;
+                    area = AreaType.Water;
+                }
+                else if(distance > m_settings.baseSurfaceNormalizedTopRadius)
+                { 
+                    float curveDistance = (distance - m_settings.baseSurfaceNormalizedTopRadius) / (m_settings.baseSurfaceNormalizedRadius - m_settings.baseSurfaceNormalizedTopRadius);
+
+                    plainMultiplier = DOVirtual.EasedValue(1, 0, curveDistance, m_settings.baseSurfaceDescreaseCurve);
+                }
+
+                float height = 0;
+
+                if (area != AreaType.Water)
+                {
+                    float plainHeight = 0;
+                    foreach (var p in perlinPlain)
+                        plainHeight += Mathf.Abs(p.Get(i, j));
+
+                    height = plainHeight * plainMultiplier;
+                }
+
+                height +=(m_settings.baseSurfaceHeight * plainMultiplier) + (1 - plainMultiplier) * m_settings.waterHeight;
+
+                mat.Set(i, j, new Area(height, area));
+            }
+        }
+
+        return mat;
+    }
+
+    struct DistancePointInfo
+    {
+        public Vector2Int pos;
+        public float height;
+
+        public DistancePointInfo(Vector2Int _pos, float _height = 0)
+        {
+            pos = _pos;
+            height = _height;
+        }
+    }
+
+    static void CalculateMontainsDistance(Matrix<Area> heights)
+    {
+        int size = GridEx.GetRealSize(m_grid);
+
+        Matrix<bool> visitedAreas = new Matrix<bool>(size, size);
+
+        List<DistancePointInfo> nextPoints = new List<DistancePointInfo>();
+
+        for(int i = 0; i < size; i++)
+        {
+            for(int j = 0; j < size; j++)
+            {
+                var a = heights.Get(i, j);
+                if (a.type == AreaType.Water)
+                    continue;
+
+                for(int x = 0; x < 4; x++)
+                {
+                    var dir = RotationEx.ToVectorInt((Rotation)x);
+                    var newPos = new Vector2Int(i, j) + dir;
+                    if (newPos.x < 0 || newPos.y < 0 || newPos.x >= size || newPos.y >= size)
+                        continue;
+
+                    if(heights.Get(newPos.x, newPos.y).type == AreaType.Water)
+                    {
+                        nextPoints.Add(new DistancePointInfo(new Vector2Int(i, j)));
+                        visitedAreas.Set(i, j, true);
+                    }
+                }
+            }
+        }
+
+        int nbLoop = 0;
+        while (nextPoints.Count > 0)
+        {
+            var p = nextPoints[0];
+            nextPoints.RemoveAt(0);
+
+            var h = heights.Get(p.pos.x, p.pos.y);
+                h.distanceFromBorder = p.height;
+            heights.Set(p.pos.x, p.pos.y, h);
+
+            for (int x = 0; x < 4; x++)
+            {
+                var dir = RotationEx.ToVectorInt((Rotation)x);
+                var newPos = new Vector2Int(p.pos.x, p.pos.y) + dir;
+                if (newPos.x < 0 || newPos.y < 0 || newPos.x >= size || newPos.y >= size)
+                    continue;
+
+                if (heights.Get(newPos.x, newPos.y).type != AreaType.Water && !visitedAreas.Get(newPos.x, newPos.y))
+                {
+                    nextPoints.Add(new DistancePointInfo(newPos, p.height + 1));
+                    visitedAreas.Set(newPos.x, newPos.y, true);
+                }
+            }
+
+            nbLoop++;
+            if (nbLoop > size * size)
+                break;
+        }
+        
+        int seedIndex = 2;
+
+        Perlin[] perlinDistance = new Perlin[m_settings.montainsDistanceRandomization.nbLayers];
+        for (int i = 0; i < m_settings.montainsDistanceRandomization.nbLayers; i++)
+        {
+            perlinDistance[i] = new Perlin(size, m_settings.montainsDistanceRandomization.baseAmplitude * Mathf.Pow(m_settings.montainsDistanceRandomization.layerAmplitudeScale, i)
+                , (int)(m_settings.montainsDistanceRandomization.baseFrequency * Mathf.Pow(2, i)), m_seed + seedIndex);
             seedIndex++;
         }
 
-        Perlin[] plains = new Perlin[m_settings.Plains.nbLayers];
-        for (int i = 0; i < m_settings.Plains.nbLayers; i++)
+        for(int i = 0; i < size; i++)
         {
-            plains[i] = new Perlin(size, m_settings.Plains.baseAmplitude * MathF.Pow(m_settings.Plains.layerAmplitudeScale, i)
-                , (int)(m_settings.Plains.baseFrequency / MathF.Pow(2, i)), m_seed + seedIndex);
+            for(int j = 0; j < size; j++)
+            {
+                var h = heights.Get(i, j);
+                if (h.type == AreaType.Water)
+                    continue;
+
+                float delta = 0;
+                foreach (var p in perlinDistance)
+                    delta += p.Get(i, j);
+
+                float dist = (new Vector2Int(i, j) - new Vector2Int(size, size) / 2).magnitude;
+
+                h.distanceFromBorder = h.distanceFromBorder * (1 + delta);
+                h.distanceFromCenter = dist * (1 + delta);
+
+                heights.Set(i, j, h);
+            }
+        }
+
+    }
+
+    static void GenerateMontains(Matrix<Area> heights)
+    {
+        int size = GridEx.GetRealSize(m_grid);
+
+        int seedIndex = 4;
+
+        Perlin[] perlinMontains = new Perlin[m_settings.montainsHeight.nbLayers];
+        for (int i = 0; i < m_settings.montainsHeight.nbLayers; i++)
+        {
+            perlinMontains[i] = new Perlin(size, m_settings.montainsHeight.baseAmplitude * Mathf.Pow(m_settings.montainsHeight.layerAmplitudeScale, i)
+                , (int)(m_settings.montainsHeight.baseFrequency * Mathf.Pow(2, i)), m_seed + seedIndex);
             seedIndex++;
+        }
+
+        Turbulence baseMontainPerlin = new Turbulence(size, m_settings.montainsHeight.baseAmplitude, m_settings.montainsHeight.baseFrequency, m_seed + seedIndex);
+
+        Perlin[] montainsPerlin = null;
+        if (m_settings.montainsHeight.nbLayers > 1)
+        {
+            montainsPerlin = new Perlin[m_settings.montainsHeight.nbLayers - 1];
+            for (int i = 1; i < m_settings.montainsHeight.nbLayers; i++)
+            {
+                montainsPerlin[i - 1] = new Perlin(size, m_settings.montainsHeight.baseAmplitude * MathF.Pow(m_settings.montainsHeight.layerAmplitudeScale, i)
+                    , (int)(m_settings.montainsHeight.baseFrequency * MathF.Pow(2, i)), m_seed + seedIndex);
+                seedIndex++;
+            }
         }
 
         float maxHeight = 0;
@@ -149,102 +338,103 @@ public static class WorldGenerator
         {
             for (int j = 0; j < size; j++)
             {
-                AreaType areaType = AreaType.Plain;
+                var h = heights.Get(i, j);
+                if (h.type == AreaType.Water)
+                    continue;
 
-                float height = 0;
-                foreach (var p in placement)
+                if (h.distanceFromBorder < m_settings.montainsMinDistanceFromBorder)
+                    continue;
+                if (h.distanceFromCenter < m_settings.montainsMinDistanceFromCenter)
+                    continue;
+
+                float dist = Mathf.Min(h.distanceFromBorder - m_settings.montainsMinDistanceFromBorder, h.distanceFromCenter - m_settings.montainsMinDistanceFromCenter);
+                float multiplier = 1;
+                if (dist < m_settings.montainsBlendDistance)
+                    multiplier = dist / m_settings.montainsBlendDistance;
+
+                float height = baseMontainPerlin.Get(i, j);
+                foreach (var p in montainsPerlin)
                     height += p.Get(i, j);
-                if (height < m_settings.montainsMinPlacementHeight)
-                    height = 0;
-                else if (height > m_settings.montainsMaxPlacementHeight)
-                    height = 1;
-                else height = (height - m_settings.montainsMinPlacementHeight) / (m_settings.montainsMaxPlacementHeight - m_settings.montainsMinPlacementHeight);
-                height *= GetMontainPlacement(i, j);
 
-                if(height > 0)
-                {
-                    float montainHeight = 0;
-                    foreach (var m in montains)
-                        montainHeight += m.Get(i, j);
-                    montainHeight += m_settings.montainsHeightOffset;
-                    if (montainHeight < 0)
-                        montainHeight = 0;
-                    else areaType = AreaType.Mountains;
+                height -= m_settings.montainsHeightOffset;
+                if (height < 0)
+                    continue;
 
-                    height *= montainHeight;
-                }
+                h.type = AreaType.Mountains;
+                h.montainHeight = height * multiplier;
 
-                if (height > maxHeight)
-                    maxHeight = height;
+                maxHeight = Mathf.Max(h.montainHeight, maxHeight);
 
-                Area a = new Area();
-                a.height = height;
-                a.type = areaType;
-
-                mat.Set(i, j, a);
+                heights.Set(i, j, h);
             }
         }
-        
+
         for (int i = 0; i < size; i++)
         {
             for (int j = 0; j < size; j++)
             {
-                Area a = mat.Get(i, j);
-                float currentHeight = a.height;
-                currentHeight /= maxHeight;
-                currentHeight = Mathf.Pow(currentHeight, m_settings.montainsHeightPower) * m_settings.montainsHeightMultiplier;
+                var h = heights.Get(i, j);
+                if (h.type != AreaType.Mountains)
+                    continue;
 
-                foreach (var p in plains)
-                    currentHeight += p.Get(i, j);
+                h.montainHeight /= maxHeight;
+                h.height += Mathf.Pow(h.montainHeight, m_settings.montainsHeightPower) * m_settings.montainsHeightMultiplier;
+                heights.Set(i, j, h);
+            }
+        }
+    }
 
-                currentHeight += GenerateBaseSurface(i, j);
+    static void Smooth(Matrix<Area> heights)
+    {
+        Matrix<Area> newHeights = new Matrix<Area>(heights.width, heights.depth);
 
-                a.height = currentHeight;
-                mat.Set(i, j, a);
+        int size = GridEx.GetRealSize(m_grid);
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                var currentH = heights.Get(i, j);
+                if (currentH.type == AreaType.Water)
+                    continue;
+
+                float totalHeight = currentH.height * 2;
+                int weightCount = 2;
+
+                for (int x = -1; x <= 1; x++)
+                {
+                    for (int y = -1; y <= 1; y++)
+                    {
+                        if (x == 0 && y == 0)
+                            continue;
+
+                        int tempI = i + x;
+                        int tempJ = j + y;
+
+                        if (tempI < 0 || tempJ < 0 || tempI >= size || tempJ >= size)
+                            continue;
+
+                        var h = heights.Get(tempI, tempJ);
+                        if (h.type == AreaType.Water)
+                            continue;
+
+                        totalHeight += h.height;
+                        weightCount++;
+                    }
+                }
+
+                currentH.height = totalHeight / weightCount;
+                newHeights.Set(i, j, currentH);
             }
         }
 
-        return mat;
-    }
-
-    static float GenerateBaseSurface(int x, int y)
-    {
-        int size = GridEx.GetRealSize(m_grid);
-
-        Vector2 center = new Vector2(size / 2.0f, size / 2.0f);
-        float maxDist = size / 2.0f;
-
-        var pos = new Vector2(x, y) - center;
-
-        float height = m_settings.maxBaseHeight;
-        float dist = pos.magnitude / maxDist;
-        if (dist > m_settings.plateformSurfaceScale)
+        for (int i = 0; i < size; i++)
         {
-            float norm = (dist - m_settings.plateformSurfaceScale) / (1 - m_settings.plateformSurfaceScale);
-            return (1 - norm) * m_settings.maxBaseHeight + norm * m_settings.minBaseHeight;
+            for (int j = 0; j < size; j++)
+            {
+                if(heights.Get(i, j).type != AreaType.Water)
+                    heights.Set(i, j, newHeights.Get(i, j));
+            }
         }
-
-        return m_settings.maxBaseHeight;
-    }
-
-    static float GetMontainPlacement(int x, int y)
-    {
-        int size = GridEx.GetRealSize(m_grid);
-
-        Vector2 center = new Vector2(size / 2.0f, size / 2.0f);
-        float maxDist = size / 2.0f;
-
-        var pos = new Vector2(x, y) - center;
-        
-        float dist = pos.magnitude / maxDist;
-        if (dist > m_settings.montainsMinPlacementDist && dist < m_settings.montainsMinPlacementDist + m_settings.montainsPlacementBlendDist)
-            return (dist - m_settings.montainsMinPlacementDist) / m_settings.montainsPlacementBlendDist;
-        if (dist > m_settings.montainsMaxPacementDist - m_settings.montainsPlacementBlendDist && dist < m_settings.montainsMaxPacementDist)
-            return 1 - (dist - (m_settings.montainsMaxPacementDist - m_settings.montainsPlacementBlendDist)) / m_settings.montainsPlacementBlendDist;
-        if (dist >= m_settings.montainsMinPlacementDist + m_settings.montainsPlacementBlendDist && dist <= m_settings.montainsMaxPacementDist - m_settings.montainsPlacementBlendDist)
-            return 1;
-
-        return 0;
     }
 
     static void SimpleApplyHeight(Matrix<Area> heights)
@@ -254,29 +444,23 @@ public static class WorldGenerator
 
         int midHeight = height / 2;
 
-        for(int i = 0; i < size; i++)
+        for (int i = 0; i < size; i++)
         {
-            for(int k = 0; k < size; k++)
+            for (int k = 0; k < size; k++)
             {
-                var a = heights.Get(i, k);
-                float testHeight = a.height;
                 BlockType type = BlockType.ground;
-                if (testHeight < m_settings.waterHeight)
-                {
-                    testHeight = m_settings.waterHeight + 1;
+                var a = heights.Get(i, k);
+                if (a.type == AreaType.Water)
                     type = BlockType.water;
-                    a.type = AreaType.Water;
-                    heights.Set(i, k, a);
-                }
 
-                int localHeight = (int)testHeight + midHeight;
+                int localHeight = Mathf.RoundToInt(a.height) + midHeight;
 
                 if (localHeight < 0)
                     localHeight = 0;
                 if (localHeight >= height)
                     localHeight = height - 1;
 
-                for(int j = localHeight; j >= 0; j--)
+                for (int j = localHeight; j >= 0; j--)
                     GridEx.SetBlock(m_grid, new Vector3Int(i, j, k), type);
             }
         }
@@ -298,7 +482,7 @@ public static class WorldGenerator
         float densitySize = (float)size / m_settings.crystalPatchDensity;
         for (int i = 0; i < m_settings.crystalPatchDensity; i++)
         {
-            for(int j = 0; j < m_settings.crystalPatchDensity; j++)
+            for (int j = 0; j < m_settings.crystalPatchDensity; j++)
             {
                 int minX = Mathf.FloorToInt(i * densitySize);
                 int maxX = Mathf.CeilToInt((i + 1) * densitySize);
@@ -377,10 +561,10 @@ public static class WorldGenerator
 
         var rand = new MT19937((uint)(m_seed + pos.x + pos.y));
 
-        while(openList.Count > 0 && addedCount < maxCount)
+        while (openList.Count > 0 && addedCount < maxCount)
         {
             int currentIndex = 0;
-            if(openList.Count > 1)
+            if (openList.Count > 1)
                 currentIndex = Rand.UniformIntDistribution(0, openList.Count, rand);
 
             var points = GetValidCrystalPosAround(openList[currentIndex], initialPos, radius);
@@ -407,7 +591,7 @@ public static class WorldGenerator
     {
         List<Vector3Int> points = new List<Vector3Int>();
 
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
             var dir = RotationEx.ToVector3Int((Rotation)i);
 
@@ -417,7 +601,7 @@ public static class WorldGenerator
                 continue;
 
             var item = GridEx.GetBlock(m_grid, testPos);
-            if(item == BlockType.ground)
+            if (item == BlockType.ground)
             {
                 testPos.y++;
                 item = GridEx.GetBlock(m_grid, testPos);
@@ -428,7 +612,7 @@ public static class WorldGenerator
 
             testPos.y--;
             item = GridEx.GetBlock(m_grid, testPos);
-            if(item == BlockType.air)
+            if (item == BlockType.air)
             {
                 testPos.y--;
                 item = GridEx.GetBlock(m_grid, testPos);
@@ -491,9 +675,9 @@ public static class WorldGenerator
         if (height < 0)
             return false;
 
-        for(int i = -1; i <= 1; i ++)
+        for (int i = -1; i <= 1; i++)
         {
-            for(int j = -1; j <= 1; j++)
+            for (int j = -1; j <= 1; j++)
             {
                 Vector2Int localPos = new Vector2Int(pos.x + i, pos.y + j);
                 int localHeight = GridEx.GetHeight(m_grid, localPos);
@@ -637,9 +821,9 @@ public static class WorldGenerator
         for (int i = 0; i < 4; i++)
         {
             var dir = RotationEx.ToVector3Int((Rotation)i);
-            
+
             Vector3Int testPos = pos + dir;
-            
+
             int height = GridEx.GetHeight(m_grid, new Vector2Int(testPos.x, testPos.z));
             Vector3Int newPos = new Vector3Int(testPos.x, height, testPos.z);
 
@@ -651,7 +835,7 @@ public static class WorldGenerator
             }
         }
 
-        for(int i = -1; i <= 1; i+= 2)
+        for (int i = -1; i <= 1; i += 2)
         {
             var dir = new Vector3Int(0, 1, 0);
             Vector3Int testPos = pos + dir;
@@ -664,14 +848,14 @@ public static class WorldGenerator
                 {
                     var dirGround = RotationEx.ToVector3Int((Rotation)j);
                     Vector3Int testGround = testPos + dirGround;
-                    if(GridEx.GetBlock(m_grid, testGround) == BlockType.ground)
+                    if (GridEx.GetBlock(m_grid, testGround) == BlockType.ground)
                     {
                         haveGround = true;
                         break;
                     }
                 }
 
-                if(haveGround)
+                if (haveGround)
                     points.Add(testPos);
             }
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,24 +12,22 @@ public class WorldGeneratorSettings
     public int size = 16;
     public int height = 4;
 
-    public float minBaseHeight = -10;
-    public float maxBaseHeight = 10;
-    public float plateformSurfaceScale = 0.1f;
+    public float waterHeight = 0;
 
-    public PerlinSettings MontainsPlacement;
-    public float montainsMinPlacementHeight;
-    public float montainsMaxPlacementHeight;
-    public PerlinSettings MontainsHeight;
+    public float baseSurfaceHeight = 1;
+    public float baseSurfaceNormalizedRadius = 0.7f;
+    public float baseSurfaceNormalizedTopRadius = 0.6f;
+    public Ease baseSurfaceDescreaseCurve = Ease.Linear;
+    public PerlinSettings baseSurfaceRandomization;
+    public PerlinSettings plainsHeight;
+    public float montainsMinDistanceFromCenter = 10;
+    public float montainsMinDistanceFromBorder = 10;
+    public float montainsBlendDistance = 10;
+    public PerlinSettings montainsHeight;
+    public PerlinSettings montainsDistanceRandomization;
+    public float montainsHeightOffset = 10;
     public float montainsHeightMultiplier = 1;
     public float montainsHeightPower = 1;
-    public float montainsHeightOffset = 10;
-    public float montainsMinPlacementDist = 0.2f;
-    public float montainsMaxPacementDist = 0.8f;
-    public float montainsPlacementBlendDist = 0.1f;
-
-    public PerlinSettings Plains;
-
-    public float waterHeight = 0;
 
     public float crystalPatchSizeBase = 5;
     public float crystalPatchIncrease = 10;
