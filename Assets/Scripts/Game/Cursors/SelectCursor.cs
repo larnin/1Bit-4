@@ -192,7 +192,7 @@ public class SelectCursor : MonoBehaviour
                 UpdateSelectedObjects();
             }
 
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonUp(0) || !Application.isFocused)
             {
                 Event<HideSelectionBoxEvent>.Broadcast(new HideSelectionBoxEvent());
                 m_selectionStarted = false;

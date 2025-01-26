@@ -25,6 +25,7 @@ public class GameCamera : MonoBehaviour
     float m_size;
 
     Vector3 m_oldMousePos;
+    bool m_wasFocused = false;
 
     float m_left;
     float m_right;
@@ -79,7 +80,10 @@ public class GameCamera : MonoBehaviour
     private void Update()
     {
         if (GameInfos.instance.paused)
+        {
+            m_oldMousePos = Input.mousePosition;
             return;
+        }
 
         float scrollY = Input.mouseScrollDelta.y;
         if (scrollY != 0 && m_resetTime <= 0)
@@ -95,7 +99,7 @@ public class GameCamera : MonoBehaviour
                 m_size = MathF.Max(m_maxSize, m_minSize);
         }
 
-        if(Input.GetMouseButton(2) && m_resetTime <= 0)
+        if(Input.GetMouseButton(2) && m_resetTime <= 0 && m_wasFocused && Application.isFocused)
         {
             var oldRay = m_camera.ScreenPointToRay(m_oldMousePos);
             var newRay = m_camera.ScreenPointToRay(Input.mousePosition);
@@ -151,6 +155,7 @@ public class GameCamera : MonoBehaviour
         }
 
         m_oldMousePos = Input.mousePosition;
+        m_wasFocused = Application.isFocused;
 
         //if (m_resetPressTime > 0)
         {
