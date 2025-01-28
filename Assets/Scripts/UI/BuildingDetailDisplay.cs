@@ -40,21 +40,39 @@ public class BuildingDetailDisplay : MonoBehaviour
         var costPivot = transform.Find("CostPivot");
         if(costPivot != null)
         {
-            for(int i = 0; i < data.cost.cost.Count; i++)
+            if (data.IsFree())
             {
-                var c = data.cost.cost[i];
-
                 var obj = Instantiate(m_resourcePrefab);
                 obj.transform.SetParent(costPivot, false);
                 var rectTransform = obj.GetComponent<RectTransform>();
-                if(rectTransform != null)
-                    rectTransform.anchoredPosition = new Vector2((i - data.cost.cost.Count / 2.0f) * m_resourceDelta, 0);
+                if (rectTransform != null)
+                    rectTransform.anchoredPosition = new Vector2(-m_resourceDelta / 2, 0);
 
                 var resourceDisplay = obj.GetComponent<OneResourceDisplay>();
                 if (resourceDisplay != null)
                 {
-                    resourceDisplay.SetData(c.type, c.count);
+                    resourceDisplay.SetFree();
                     m_resources.Add(resourceDisplay);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < data.cost.cost.Count; i++)
+                {
+                    var c = data.cost.cost[i];
+
+                    var obj = Instantiate(m_resourcePrefab);
+                    obj.transform.SetParent(costPivot, false);
+                    var rectTransform = obj.GetComponent<RectTransform>();
+                    if (rectTransform != null)
+                        rectTransform.anchoredPosition = new Vector2((i - data.cost.cost.Count / 2.0f) * m_resourceDelta, 0);
+
+                    var resourceDisplay = obj.GetComponent<OneResourceDisplay>();
+                    if (resourceDisplay != null)
+                    {
+                        resourceDisplay.SetData(c.type, c.count);
+                        m_resources.Add(resourceDisplay);
+                    }
                 }
             }
         }

@@ -183,6 +183,7 @@ MonoBehaviour:
       team: 0
       name: Tower
       description: The core of your factory, you must keep it alive at all cost.
+      firstFree: 0
       cost:
         cost: []
     - type: 1
@@ -194,6 +195,7 @@ MonoBehaviour:
       name: Small Pylon
       description: Allows you to connect buildings to each others. Generate a small
         quantity of energy
+      firstFree: 1
       cost:
         cost:
         - type: 1
@@ -207,6 +209,7 @@ MonoBehaviour:
       name: Energy turret
       description: Fire small energy beams, deal small damages but only consume a
         small quantity of energy
+      firstFree: 0
       cost:
         cost:
         - type: 1
@@ -219,6 +222,7 @@ MonoBehaviour:
       team: 0
       name: Crystal mine
       description: Must be placed around crystal. Consume some energy to mine crystal
+      firstFree: 1
       cost:
         cost:
         - type: 1
@@ -232,6 +236,7 @@ MonoBehaviour:
       name: Water pump
       description: Must be placed near a water source. Collect water at a small cost
         of energy
+      firstFree: 0
       cost:
         cost:
         - type: 1
@@ -244,6 +249,7 @@ MonoBehaviour:
       team: 0
       name: Oil pump
       description: With this oil, you can burn your ennemies !
+      firstFree: 0
       cost:
         cost: []
     - type: 11
@@ -254,6 +260,7 @@ MonoBehaviour:
       team: 0
       name: Titanium mine
       description: Collect titanium slowly, need oil to lubricate the drill.
+      firstFree: 0
       cost:
         cost: []
     - type: 3
@@ -264,6 +271,7 @@ MonoBehaviour:
       team: 0
       name: Solar panel
       description: Collect a small amount of energy
+      firstFree: 0
       cost:
         cost: []
     - type: 6
@@ -274,6 +282,7 @@ MonoBehaviour:
       team: 0
       name: Battery
       description: Store a small amount of energy for later
+      firstFree: 0
       cost:
         cost: []
     - type: 100
@@ -284,6 +293,7 @@ MonoBehaviour:
       team: 1
       name: 
       description: 
+      firstFree: 0
       cost:
         cost: []
     - type: 14
@@ -294,6 +304,7 @@ MonoBehaviour:
       team: 0
       name: FlameThrower
       description: Make your ennemies burn at the cost of some precious oil
+      firstFree: 0
       cost:
         cost: []
     - type: 15
@@ -305,6 +316,7 @@ MonoBehaviour:
       name: Freezer
       description: Consume the precious titanium to make heavy damages on a large
         area and freeze ennemies
+      firstFree: 0
       cost:
         cost: []
     - type: 16
@@ -315,6 +327,7 @@ MonoBehaviour:
       team: 0
       name: Storage
       description: Increase resources storage but consume a little bit of energy
+      firstFree: 0
       cost:
         cost: []
     mineItemPrefab: {fileID: 6943061212826655842, guid: 020dedfdfd13d1c49ac25e185f22167b, type: 3}

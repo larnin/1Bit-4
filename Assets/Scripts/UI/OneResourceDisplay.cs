@@ -40,11 +40,27 @@ public class OneResourceDisplay : MonoBehaviour
         SetDelta(delta);
     }
 
+    public void SetFree()
+    {
+        DisableResourceSprite();
+        SetResourceStorageFree();
+        DisableDelta();
+    }
+
+    void DisableResourceSprite()
+    {
+        var tr = transform.Find("ResourceSprite");
+        if (tr == null)
+            return;
+        tr.gameObject.SetActive(false);
+    }
+
     void UpdateResourceSprite(ResourceType type)
     {
         var tr = transform.Find("ResourceSprite");
         if (tr == null)
             return;
+        tr.gameObject.SetActive(true);
         var img = tr.GetComponent<Image>();
         if (img == null)
             return;
@@ -52,6 +68,17 @@ public class OneResourceDisplay : MonoBehaviour
         var resourceData = Global.instance.resourceDatas.GetResource(type);
         if (resourceData != null)
             img.sprite = resourceData.sprite;
+    }
+
+    void SetResourceStorageFree()
+    {
+        var tr = transform.Find("StockTxt");
+        if (tr == null)
+            return;
+        var txt = tr.GetComponent<TMP_Text>();
+        if (txt == null)
+            return;
+        txt.text = "Free";
     }
 
     void UpdateResourceStorage(float count, float maxCount)

@@ -197,7 +197,8 @@ public class PlaceBuildingCursor : MonoBehaviour
         if (buildingData == null || buildingData.prefab == null)
             return;
 
-        buildingData.cost.ConsumeCost();
+        if(!buildingData.IsFree())
+            buildingData.cost.ConsumeCost();
 
         var obj = Instantiate(buildingData.prefab);
         obj.transform.parent = BuildingList.instance.transform;

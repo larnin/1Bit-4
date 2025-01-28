@@ -90,7 +90,23 @@ public class OneBuildingData
     public string name;
     [Multiline]
     public string description;
+    public bool firstFree;
     public ResourceCost cost;
+
+    public bool IsFree()
+    {
+        if (cost.cost.Count == 0)
+            return true;
+
+        if (!firstFree)
+            return false;
+
+        if (BuildingList.instance == null)
+            return true;
+
+        int nb = BuildingList.instance.GetAllBuilding(type).Count;
+        return nb == 0;
+    }
 }
 
 [Serializable]
