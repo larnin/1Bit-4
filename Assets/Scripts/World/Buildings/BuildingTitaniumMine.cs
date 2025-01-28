@@ -15,11 +15,17 @@ public class BuildingTitaniumMine : BuildingBase
     [SerializeField] float m_generatedResourceCycle = 1;
     [SerializeField] int m_mineRadius = 1;
 
+    class MineData
+    {
+        public Vector3Int pos;
+        public GameObject mineObject;
+    }
+
     float m_energyUptake;
     float m_consumeMultiplier = 0;
     float m_energyEfficiency = 1;
     float m_timer = 0;
-    List<Vector3Int> m_titaniums = new List<Vector3Int>();
+    List<MineData> m_titaniums = new List<MineData>();
 
     SubscriberList m_subscriberList = new SubscriberList();
 
@@ -39,7 +45,7 @@ public class BuildingTitaniumMine : BuildingBase
 
     public override BuildingType GetBuildingType()
     {
-        return BuildingType.CrystalMine;
+        return BuildingType.TitaniumMine;
     }
 
     public override float EnergyUptakeWanted()
@@ -61,6 +67,8 @@ public class BuildingTitaniumMine : BuildingBase
     {
         base.Start();
         m_titaniums = GetTitaniumsAround(GetPos());
+        foreach (var item in m_titaniums)
+            CreateMineItem(item);
     }
 
     protected override void OnUpdate()
@@ -100,6 +108,15 @@ public class BuildingTitaniumMine : BuildingBase
         }
     }
 
+    protected override void OnUpdateAlways()
+    {
+        if (!IsAdded())
+        {
+            var points = GetTitaniumsAround(GetPos());
+            UpdateCursorMinesUsed(points);
+        }
+    }
+
     public override BuildingPlaceType CanBePlaced(Vector3Int pos)
     {
         var canPlace = base.CanBePlaced(pos);
@@ -112,9 +129,9 @@ public class BuildingTitaniumMine : BuildingBase
         return BuildingPlaceType.NeedTitanim;
     }
 
-    List<Vector3Int> GetTitaniumsAround(Vector3Int pos)
+    List<MineData> GetTitaniumsAround(Vector3Int pos)
     {
-        List<Vector3Int> points = new List<Vector3Int>();
+        List<MineData> points = new List<MineData>();
 
         GetGridEvent grid = new GetGridEvent();
         Event<GetGridEvent>.Broadcast(grid);
@@ -130,39 +147,41 @@ public class BuildingTitaniumMine : BuildingBase
 
         for (int i = min.x; i <= max.x; i++)
         {
-            for (int j = min.z; j <= max.z; j++)
+            for (int j = min.y; j <= max.y; j++)
             {
-                var offset = new Vector2Int(i - bounds.min.x, j - bounds.min.z);
-                if (offset.x > 0 && offset.x < bounds.size.x)
-                    offset.x = 0;
-                else if (offset.x >= bounds.size.x)
-                    offset.x -= bounds.size.x - 1;
-                if (offset.y > 0 && offset.y < bounds.size.z)
-                    offset.y = 0;
-                else if (offset.y >= bounds.size.z)
-                    offset.y -= bounds.size.z - 1;
+                for (int k = min.z; k <= max.z; k++)
+                {
+                    var offset = new Vector2Int(i - bounds.min.x, k - bounds.min.z);
+                    if (offset.x > 0 && offset.x < bounds.size.x)
+                        offset.x = 0;
+                    else if (offset.x >= bounds.size.x)
+                        offset.x -= bounds.size.x - 1;
+                    if (offset.y > 0 && offset.y < bounds.size.z)
+                        offset.y = 0;
+                    else if (offset.y >= bounds.size.z)
+                        offset.y -= bounds.size.z - 1;
 
-                if (offset.x == 0 && offset.y == 0)
-                    continue;
+                    if (offset.x == 0 && offset.y == 0)
+                        continue;
 
-                if (MathF.Abs(offset.x) + Math.Abs(offset.y) > m_mineRadius)
-                    continue;
+                    if (MathF.Abs(offset.x) + Math.Abs(offset.y) > m_mineRadius)
+                        continue;
 
-                int height = GridEx.GetHeight(grid.grid, new Vector2Int(i, j));
-                if (height < 0 || height < pos.y || height >= bounds.max.y)
-                    continue;
+                    Vector3Int itemPos = new Vector3Int(i, j, k);
+                    var item = GridEx.GetBlock(grid.grid, itemPos);
+                    if (item != BlockType.Titanium)
+                        continue;
 
-                Vector3Int itemPos = new Vector3Int(i, height, j);
-                var item = GridEx.GetBlock(grid.grid, itemPos);
-                if (item != BlockType.Titanium)
-                    continue;
+                    IsTitaniumUsedEvent titanium = new IsTitaniumUsedEvent(itemPos);
+                    Event<IsTitaniumUsedEvent>.Broadcast(titanium);
+                    if (titanium.used)
+                        continue;
 
-                IsTitaniumUsedEvent titanium = new IsTitaniumUsedEvent(itemPos);
-                Event<IsTitaniumUsedEvent>.Broadcast(titanium);
-                if (titanium.used)
-                    continue;
+                    MineData data = new MineData();
+                    data.pos = itemPos;
 
-                points.Add(itemPos);
+                    points.Add(data);
+                }
             }
         }
 
@@ -171,12 +190,15 @@ public class BuildingTitaniumMine : BuildingBase
 
     public void IsTitaniumUsed(IsTitaniumUsedEvent e)
     {
+        if (!IsAdded())
+            return;
+
         if (e.used)
             return;
 
         foreach (var p in m_titaniums)
         {
-            if (p == e.pos)
+            if (p.pos == e.pos)
             {
                 e.used = true;
                 break;
@@ -222,5 +244,42 @@ public class BuildingTitaniumMine : BuildingBase
             UIElementData.Create<UIElementLabelAndText>(e.container).SetLabel(label).SetTextFunc(TitaniumCollectionStr);
         }
         UIElementData.Create<UIElementFillValue>(e.container).SetLabel("Cycle").SetMax(m_generatedResourceCycle).SetValueFunc(GetCycleValue).SetValueDisplayType(UIElementFillValueDisplayType.percent).SetNbDigits(0);
+    }
+
+
+    void CreateMineItem(MineData data)
+    {
+        var prefab = Global.instance.buildingDatas.mineItemPrefab;
+        if (prefab == null)
+            return;
+
+        data.mineObject = Instantiate(prefab);
+        data.mineObject.transform.parent = transform;
+        data.mineObject.transform.rotation = Quaternion.identity;
+
+        data.mineObject.transform.position = data.pos;
+    }
+
+    void UpdateCursorMinesUsed(List<MineData> datas)
+    {
+        foreach (var d in datas)
+        {
+            var item = m_titaniums.Find(x => { return x.pos == d.pos; });
+            if (item != null)
+                d.mineObject = item.mineObject;
+            else CreateMineItem(d);
+        }
+
+        foreach (var item in m_titaniums)
+        {
+            var d = datas.Find(x => { return x.pos == item.pos; });
+            if (d == null)
+                Destroy(item.mineObject);
+        }
+
+        m_titaniums = datas;
+
+        foreach (var d in datas)
+            d.mineObject.transform.position = d.pos;
     }
 }

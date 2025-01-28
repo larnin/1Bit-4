@@ -251,7 +251,7 @@ public class ResourceSystem : MonoBehaviour
 
         if (newCount > resource.storageMax && resource.storageMax > 0)
             newCount = resource.storageMax;
-        resource.production = newCount - count;
+        resource.production += newCount - resource.stored;
         resource.stored = newCount;
     }
 

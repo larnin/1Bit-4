@@ -74,15 +74,22 @@ public class BuildingCrystalMine : BuildingBase
             ResourceSystem.instance.AddResource(m_generatedResource, count);
     }
 
-    public override BuildingPlaceType CanBePlaced(Vector3Int pos) 
+    protected override void OnUpdateAlways()
     {
+        if (!IsAdded())
+        {
+            var points = GetCrystalsAround(GetPos());
+            UpdateCursorCrystalsUsed(points);
+        }
+    }
+
+    public override BuildingPlaceType CanBePlaced(Vector3Int pos) 
+    {        
         var canPlace = base.CanBePlaced(pos);
         if (canPlace != BuildingPlaceType.Valid)
             return canPlace;
 
-        var points = GetCrystalsAround(pos);
-        UpdateCursorCrystalsUsed(points);
-        if (points.Count > 0)
+        if (m_crystals.Count > 0)
             return BuildingPlaceType.Valid;
         return BuildingPlaceType.NeedCrystal;
     }
@@ -226,6 +233,9 @@ public class BuildingCrystalMine : BuildingBase
         }
 
         m_crystals = datas;
+
+        foreach(var d in datas)
+            d.mineObject.transform.position = d.pos;
     }
 }
 
