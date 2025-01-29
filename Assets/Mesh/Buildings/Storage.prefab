@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19d35d1bcc8c67049a3e52b8c79a1c79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_energyUptake: 1
+  m_energyUptake: 2
 --- !u!114 &3094309629973554275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,7 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea1b57c4fdc500c40aa17e0bc75161ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_maxLife: 10
+  m_maxLife: 50
 --- !u!114 &8665835337666584558
 MonoBehaviour:
   m_ObjectHideFlags: 0

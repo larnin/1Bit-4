@@ -131,7 +131,7 @@ MonoBehaviour:
   m_damages: 1
   m_damageType: 0
   m_damageEffect: 1
-  m_speed: 5
+  m_speed: 20
   m_maxLife: 5
   m_hitLayer:
     serializedVersion: 2

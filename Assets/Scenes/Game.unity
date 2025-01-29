@@ -1195,7 +1195,7 @@ MonoBehaviour:
   m_lightTop: 1
   m_lightLeft: 0.65
   m_lightFront: 0.8
-  m_discoverEverything: 1
+  m_discoverEverything: 0
 --- !u!4 &750648393
 Transform:
   m_ObjectHideFlags: 0
@@ -2499,7 +2499,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_grid: {fileID: 1334327366}
-  m_unlockedBuilding: 010000000d0000000e0000000f000000090000000c0000000a0000000b000000030000000600000010000000
+  m_unlockedBuilding: 010000000300000006000000090000000b0000000a000000100000000d0000000e0000000f000000
 --- !u!114 &1693670529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2514,11 +2514,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_initialResources:
   - type: 1
-    count: 100000
-  - type: 2
-    count: 10000
-  - type: 3
-    count: 10000
+    count: 10
 --- !u!114 &1693670530
 MonoBehaviour:
   m_ObjectHideFlags: 0

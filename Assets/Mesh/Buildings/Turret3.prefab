@@ -93,7 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea1b57c4fdc500c40aa17e0bc75161ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_maxLife: 20
+  m_maxLife: 100
 --- !u!114 &4599273482230721454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,7 +139,7 @@ MonoBehaviour:
   m_recoilTarget: {fileID: 4599273482714574944}
   m_fireParticles: {fileID: 5996570877976836119}
   m_resourceConsumption: 2
-  m_consumption: 1
+  m_consumption: 2
   m_projectilePrefab: {fileID: 4663558457059073221, guid: 40944aad284fb12449a32e5dc9a68036, type: 3}
 --- !u!114 &759066009924349017
 MonoBehaviour:

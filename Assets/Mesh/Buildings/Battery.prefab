@@ -65,8 +65,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0e5e0d4276f03140bb5753f81d1d3bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_energyStorage: 10
-  m_energyUptake: 2
+  m_energyStorage: 50
+  m_energyUptake: 5
   m_bigBattery: 0
 --- !u!114 &3550513972471810789
 MonoBehaviour:
@@ -93,7 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea1b57c4fdc500c40aa17e0bc75161ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_maxLife: 20
+  m_maxLife: 50
 --- !u!114 &-136231391428303278
 MonoBehaviour:
   m_ObjectHideFlags: 0

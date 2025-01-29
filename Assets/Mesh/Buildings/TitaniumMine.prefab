@@ -148,12 +148,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b39ce64c651c40f4b85d855634a9f259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_energyConsumption: 1
+  m_energyConsumption: 10
   m_consumedResource: 3
-  m_consumedResourceNb: 1
+  m_consumedResourceNb: 2
   m_generatedResource: 2
-  m_generatedResourceNb: 1
-  m_generatedResourceCycle: 1
+  m_generatedResourceNb: 2
+  m_generatedResourceCycle: 5
   m_mineRadius: 1
 --- !u!114 &7814811805009980506
 MonoBehaviour:
@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea1b57c4fdc500c40aa17e0bc75161ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_maxLife: 20
+  m_maxLife: 50
 --- !u!114 &5005962220164288834
 MonoBehaviour:
   m_ObjectHideFlags: 0
