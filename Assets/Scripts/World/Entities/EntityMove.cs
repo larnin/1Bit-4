@@ -15,12 +15,31 @@ public class EntityMove : MonoBehaviour
 
     float m_speed = 0;
     float m_angle = 0;
+    Vector3 m_lastTarget;
+
+    SubscriberList m_subscriberList = new SubscriberList();
+
+    private void Awake()
+    {
+        m_subscriberList.Add(new Event<BuildingListAddEvent>.Subscriber(OnAdd));
+        m_subscriberList.Add(new Event<BuildingListRemoveEvent>.Subscriber(OnRemove));
+        m_subscriberList.Subscribe();
+
+        m_lastTarget = transform.position;
+    }
+
+    private void OnDestroy()
+    {
+        m_subscriberList.Unsubscribe();
+    }
 
     public void SetTarget(Vector3 target)
     {
         GetTeamEvent team = new GetTeamEvent();
         Event<GetTeamEvent>.Broadcast(team, gameObject);
         m_path.SetTarget(transform.position, target, team.team);
+
+        m_lastTarget = target;
     }
 
     public void Stop()
@@ -114,5 +133,44 @@ public class EntityMove : MonoBehaviour
             return top;
 
         return newPos.y;
+    }
+
+    void OnAdd(BuildingListAddEvent e)
+    {
+        CheckNeedRebuildIfAround(e.building);
+    }
+
+    void OnRemove(BuildingListRemoveEvent e)
+    {
+        CheckNeedRebuildIfAround(e.building);
+    }
+
+    void CheckNeedRebuildIfAround(BuildingBase b)
+    {
+        if (b == null)
+            return;
+
+        var bounds = b.GetBounds();
+        var min = bounds.min - Vector3Int.one;
+        var max = bounds.max;
+
+        var path = m_path.GetPoints();
+
+        bool needRebuild = false;
+        foreach(var p in path)
+        {
+            if(p.x >= min.x && p.y >= min.y && p.z >= min.z && p.x <= max.x && p.y <= max.y && p.z <= max.z)
+            {
+                needRebuild = true;
+                break;
+            }
+        }
+
+        if(needRebuild)
+        {
+            GetTeamEvent team = new GetTeamEvent();
+            Event<GetTeamEvent>.Broadcast(team, gameObject);
+            m_path.SetTarget(transform.position, m_lastTarget, team.team);
+        }
     }
 }

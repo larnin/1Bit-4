@@ -37,3 +37,23 @@ public class OnBuildingDestroyedEvent
         type = _type;
     }
 }
+
+public class BuildingListAddEvent
+{
+    public BuildingBase building;
+
+    public BuildingListAddEvent(BuildingBase _building)
+    {
+        building = _building;
+    }
+}
+
+public class BuildingListRemoveEvent
+{
+    public BuildingBase building;
+
+    public BuildingListRemoveEvent(BuildingBase _building)
+    {
+        building = _building;
+    }
+}

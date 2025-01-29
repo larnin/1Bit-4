@@ -43,8 +43,10 @@ public class BuildingList : MonoBehaviour
             }
         }
 
-        if (ConnexionSystem.instance != null)
+        if (building.GetTeam() == Team.Player && ConnexionSystem.instance != null)
             ConnexionSystem.instance.OnBuildingChange();
+
+        Event<BuildingListAddEvent>.Broadcast(new BuildingListAddEvent(building));
     }
 
     public void UnRegister(BuildingBase building)
@@ -66,8 +68,10 @@ public class BuildingList : MonoBehaviour
             }
         }
 
-        if (ConnexionSystem.instance != null)
+        if (building.GetTeam() == Team.Player && ConnexionSystem.instance != null)
             ConnexionSystem.instance.OnBuildingChange();
+
+        Event<BuildingListRemoveEvent>.Broadcast(new BuildingListRemoveEvent(building));
     }
 
     public int GetBuildingNb()

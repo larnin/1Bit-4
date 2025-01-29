@@ -100,6 +100,18 @@ public class EntityPath
         }
     }
 
+    public List<Vector3Int> GetPoints()
+    {
+        List<Vector3Int> points = new List<Vector3Int>();
+        if (m_currentPoint < 0 || m_currentPoint >= m_points.Count)
+            return points;
+
+        for (int i = m_currentPoint; i < m_points.Count; i++)
+            points.Add(m_points[i]);
+
+        return points;
+    }
+
     void StartJob()
     {
         m_status = EntityPathStatus.Generating;
