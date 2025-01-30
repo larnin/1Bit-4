@@ -43,7 +43,8 @@ public enum BuildingPlaceType
     NeedCrystal,
     NeedTitanim,
     NeedOil,
-    NeedWater
+    NeedWater,
+    TooCloseSolarPannel,
 }
 
 public abstract class BuildingBase : MonoBehaviour
@@ -66,6 +67,7 @@ public abstract class BuildingBase : MonoBehaviour
         m_subscriberList.Add(new Event<GetTeamEvent>.LocalSubscriber(GetTeam, gameObject));
         m_subscriberList.Add(new Event<LifeLossEvent>.LocalSubscriber(OnLifeLoss, gameObject));
         m_subscriberList.Add(new Event<DeathEvent>.LocalSubscriber(OnDeath, gameObject));
+        m_subscriberList.Add(new Event<ConnexionsUpdatedEvent>.Subscriber(OnConnexionUpdated));
         m_subscriberList.Subscribe();
     }
 
@@ -350,6 +352,15 @@ public abstract class BuildingBase : MonoBehaviour
 
         UIElementData.Create<UIElementSimpleText>(container).SetText(data.name).SetAlignment(UIElementAlignment.center);
         UIElementData.Create<UIElementSpace>(container).SetSpace(5);
+    }
+
+    void OnConnexionUpdated(ConnexionsUpdatedEvent e)
+    {
+        if (ConnexionSystem.instance != null)
+        {
+            if (GetTeam() == Team.Player)
+                SetComponentsEnabled(ConnexionSystem.instance.IsConnected(this));
+        }
     }
 }
 

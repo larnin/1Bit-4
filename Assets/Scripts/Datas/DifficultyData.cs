@@ -19,8 +19,8 @@ public class DifficultyCurve
     {
         float num = value * baseValue + addValue;
         if (num < 0)
-            return finalAddValue;
-        return MathF.Pow(num, powValue) * multiplierValue + finalAddValue;
+            return Mathf.Max(finalAddValue, 0);
+        return Mathf.Max(MathF.Pow(num, powValue) * multiplierValue + finalAddValue, 0);
     }
 }
 

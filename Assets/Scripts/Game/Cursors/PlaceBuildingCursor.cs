@@ -129,7 +129,7 @@ public class PlaceBuildingCursor : MonoBehaviour
         if (BuildingList.instance == null || ConnexionSystem.instance == null)
             return;
 
-        if (!buildingData.cost.HaveMoney())
+        if (!buildingData.IsFree() && !buildingData.cost.HaveMoney())
         {
             m_canPlace = BuildingPlaceType.NoResources;
             return;
@@ -248,6 +248,8 @@ public class PlaceBuildingCursor : MonoBehaviour
                 return "Need Titanium";
             case BuildingPlaceType.NeedWater:
                 return "Need Water";
+            case BuildingPlaceType.TooCloseSolarPannel:
+                return "Too close to other Solar Pannel";
             case BuildingPlaceType.Unknow:
             case BuildingPlaceType.Valid:
             default:

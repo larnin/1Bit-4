@@ -242,7 +242,7 @@ public class DifficultySystem : MonoBehaviour
         return (BuildingEnnemySpawner)building;
     }
 
-#if false
+#if true
     private void OnGUI()
     {
         float difficultyPerMinute = Global.instance.difficultyDatas.difficultyPerMinute.Get(m_time / 60);
@@ -252,9 +252,11 @@ public class DifficultySystem : MonoBehaviour
         float difficulty = GetDifficulty();
         int spawner = Mathf.FloorToInt(Global.instance.difficultyDatas.difficultyToSpawnerNb.Get(m_maxDifficulty));
 
+        float x = Screen.width - 250;
+
         float dY = 20;
-        var rect = new Rect(5, 5, 400, dY);
-        GUI.Box(new Rect(0, 0, 250, 125), "");
+        var rect = new Rect(x + 5, 5, 250, dY);
+        GUI.Box(new Rect(x, 0, 250, 125), "");
         GUI.Label(rect, "Difficulty: " + difficulty);
         rect.y += dY;
         GUI.Label(rect, "Difficulty per minute: " + difficultyPerMinute);

@@ -54,12 +54,12 @@ MonoBehaviour:
       crystalRetryCount: 2
       crystalInitialPatchDistance: 10
       crystalMinDistance: 15
-      oilDensity: 8
+      oilDensity: 9
       oilRetryCount: 1
       oilMinDistance: 20
       titaniumPatchMin: 4
-      titaniumPatchMax: 10
-      titaniumPatchDensity: 8
+      titaniumPatchMax: 8
+      titaniumPatchDensity: 7
       titaniumElevationMinVariation: 1
       titaniumRetryCount: 5
       titaniumMinDistance: 20
@@ -104,12 +104,12 @@ MonoBehaviour:
       crystalRetryCount: 2
       crystalInitialPatchDistance: 10
       crystalMinDistance: 18
-      oilDensity: 9
+      oilDensity: 10
       oilRetryCount: 1
       oilMinDistance: 25
       titaniumPatchMin: 4
-      titaniumPatchMax: 10
-      titaniumPatchDensity: 8
+      titaniumPatchMax: 8
+      titaniumPatchDensity: 7
       titaniumElevationMinVariation: 1
       titaniumRetryCount: 5
       titaniumMinDistance: 25
@@ -154,12 +154,12 @@ MonoBehaviour:
       crystalRetryCount: 2
       crystalInitialPatchDistance: 10
       crystalMinDistance: 20
-      oilDensity: 10
+      oilDensity: 11
       oilRetryCount: 1
       oilMinDistance: 25
       titaniumPatchMin: 4
-      titaniumPatchMax: 10
-      titaniumPatchDensity: 9
+      titaniumPatchMax: 8
+      titaniumPatchDensity: 8
       titaniumElevationMinVariation: 1
       titaniumRetryCount: 5
       titaniumMinDistance: 30
@@ -420,8 +420,8 @@ MonoBehaviour:
       baseValue: 0.02
       powValue: 1.2
       multiplierValue: 1
-      addValue: -2
-      finalAddValue: 0
+      addValue: 0
+      finalAddValue: -0.2
     difficultyPerKill:
       baseValue: 0.001
       powValue: 1
@@ -435,7 +435,7 @@ MonoBehaviour:
       addValue: 0
       finalAddValue: 0
     difficultyToSpawnerNb:
-      baseValue: 1
+      baseValue: 0
       powValue: 1
       multiplierValue: 1
       addValue: 0

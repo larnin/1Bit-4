@@ -57,3 +57,8 @@ public class BuildingListRemoveEvent
         building = _building;
     }
 }
+
+public class ConnexionsUpdatedEvent
+{
+
+}

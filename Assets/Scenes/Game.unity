@@ -1004,7 +1004,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 40}
-  m_SizeDelta: {x: 200, y: 200}
+  m_SizeDelta: {x: 250, y: 200}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &618047247
 MonoBehaviour:
@@ -1477,8 +1477,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 984762fd642da654883f01eeb18f6fa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_entityPrefab: {fileID: 1892062940909772011, guid: dfaa13b752694864ca9489aabb93d253, type: 3}
-  m_spawnDelay: 0.2
+  m_entityPrefab: {fileID: 6214975584835344987, guid: 9f3319f4511a1084e9c97146fbc2d7f5, type: 3}
+  m_spawnDelay: 1
   m_maxCount: 1000
 --- !u!4 &1130784807
 Transform:
@@ -2512,9 +2512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87defe5f3e4f74f4789b237323341cd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_initialResources:
-  - type: 1
-    count: 10
+  m_initialResources: []
 --- !u!114 &1693670530
 MonoBehaviour:
   m_ObjectHideFlags: 0

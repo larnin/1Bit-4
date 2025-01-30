@@ -9,6 +9,7 @@ public class BuildingSolarPanel : BuildingBase
 {
     [SerializeField] float m_powerGeneration = 1;
     [SerializeField] bool m_bigPanel = false;
+    [SerializeField] int m_distanceToOtherPannel = 2;
 
     SubscriberList m_subscriberList = new SubscriberList();
 
@@ -45,6 +46,32 @@ public class BuildingSolarPanel : BuildingBase
         float efficiency = generation / m_powerGeneration;
 
         UIElementData.Create<UIElementLabelAndText>(e.container).SetLabel("Power").SetText(generation.ToString());
+    }
+
+    public override BuildingPlaceType CanBePlaced(Vector3Int pos)
+    {
+        var canPlace = base.CanBePlaced(pos);
+        if (canPlace != BuildingPlaceType.Valid)
+            return canPlace;
+
+        if (BuildingList.instance == null)
+            return BuildingPlaceType.Valid;
+
+        var pannels = BuildingList.instance.GetAllBuilding(BuildingType.SolarPanel, Team.Player);
+        pannels.AddRange(BuildingList.instance.GetAllBuilding(BuildingType.BigSolarPanel, Team.Player));
+
+        var currentBounds = GetBounds(pos);
+        var dist = new Vector3Int(m_distanceToOtherPannel, m_distanceToOtherPannel, m_distanceToOtherPannel);
+
+        foreach (var p in pannels)
+        {
+            var bounds = p.GetBounds();
+            bounds = new BoundsInt(bounds.position - dist, bounds.size + dist * 2);
+            if (bounds.Intersects(currentBounds))
+                return BuildingPlaceType.TooCloseSolarPannel;
+        }
+
+        return BuildingPlaceType.Valid;
     }
 }
 

@@ -30,7 +30,7 @@ public class TurretBehaviour : MonoBehaviour
     private void Start()
     {
         m_turretPivot = transform.Find("Pivot");
-        m_turretInitialRotation = m_turretPivot.localRotation;
+        m_turretInitialRotation = m_turretPivot.rotation;
     }
 
     public void SetTarget(Vector3 target)
@@ -53,7 +53,7 @@ public class TurretBehaviour : MonoBehaviour
         var forward = (m_target - m_turretPivot.position).normalized;
         Quaternion targetAngle = Quaternion.LookRotation(forward, Vector3.up);
 
-        float delta = Mathf.Abs(Quaternion.Angle(m_turretPivot.localRotation, targetAngle));
+        float delta = Mathf.Abs(Quaternion.Angle(m_turretPivot.rotation, targetAngle));
 
         return delta < 5;
     }
@@ -96,7 +96,7 @@ public class TurretBehaviour : MonoBehaviour
                     {
                         if (!m_haveTarget)
                         {
-                            m_turretStartRotation = m_turretPivot.localRotation;
+                            m_turretStartRotation = m_turretPivot.rotation;
                             float angle = Mathf.Abs(Quaternion.Angle(m_turretStartRotation, m_turretInitialRotation));
                             m_turretTimer = 0;
                             m_turretTimerMax = angle / m_turretRotSpeed / Mathf.Rad2Deg;
@@ -125,7 +125,7 @@ public class TurretBehaviour : MonoBehaviour
                     {
                         if (!m_haveTarget)
                         {
-                            m_turretStartRotation = m_turretPivot.localRotation;
+                            m_turretStartRotation = m_turretPivot.rotation;
                             float angle = Mathf.Abs(Quaternion.Angle(m_turretStartRotation, m_turretInitialRotation));
                             m_turretTimer = 0;
                             m_turretTimerMax = angle / m_turretRotSpeed / Mathf.Rad2Deg;
@@ -137,12 +137,12 @@ public class TurretBehaviour : MonoBehaviour
                         var forward = (targetPos - m_turretPivot.position).normalized;
                         Quaternion targetAngle = Quaternion.LookRotation(forward, Vector3.up);
 
-                        float delta = Mathf.Abs(Quaternion.Angle(m_turretPivot.localRotation, targetAngle));
+                        float delta = Mathf.Abs(Quaternion.Angle(m_turretPivot.rotation, targetAngle));
 
                         float maxDelta = Time.deltaTime * m_turretRotSpeed * Mathf.Rad2Deg;
                         if (delta < maxDelta)
                             m_turretPivot.rotation = targetAngle;
-                        else m_turretPivot.rotation = Quaternion.Lerp(m_turretPivot.localRotation, targetAngle, maxDelta / delta);
+                        else m_turretPivot.rotation = Quaternion.Lerp(m_turretPivot.rotation, targetAngle, maxDelta / delta);
 
                         break;
                     }
@@ -163,7 +163,7 @@ public class TurretBehaviour : MonoBehaviour
 
                         float normTime = m_turretTimer / m_turretTimerMax;
 
-                        m_turretPivot.localRotation = Quaternion.Lerp(m_turretStartRotation, m_turretInitialRotation, normTime);
+                        m_turretPivot.rotation = Quaternion.Lerp(m_turretStartRotation, m_turretInitialRotation, normTime);
 
                         break;
                     }

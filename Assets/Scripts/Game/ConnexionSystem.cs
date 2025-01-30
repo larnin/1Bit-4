@@ -158,6 +158,8 @@ public class ConnexionSystem : MonoBehaviour
         }
 
         m_connexions = connexions;
+
+        Event<ConnexionsUpdatedEvent>.Broadcast(new ConnexionsUpdatedEvent());
     }
 
     bool ConnexionExist(List<OneConnexion> connexions, BuildingBase building1, BuildingBase building2)
