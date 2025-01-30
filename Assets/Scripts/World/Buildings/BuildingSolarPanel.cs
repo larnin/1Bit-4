@@ -45,7 +45,7 @@ public class BuildingSolarPanel : BuildingBase
         float generation = EnergyGeneration();
         float efficiency = generation / m_powerGeneration;
 
-        UIElementData.Create<UIElementLabelAndText>(e.container).SetLabel("Power").SetText(generation.ToString());
+        UIElementData.Create<UIElementLabelAndText>(e.container).SetLabel("Power").SetText(generation.ToString("#0.##"));
     }
 
     public override BuildingPlaceType CanBePlaced(Vector3Int pos)

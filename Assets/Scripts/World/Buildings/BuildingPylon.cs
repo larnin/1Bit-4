@@ -71,7 +71,7 @@ public class BuildingPylon : BuildingBase
         float generation = EnergyGeneration();
         float efficiency = generation / m_powerGeneration;
 
-        UIElementData.Create<UIElementLabelAndText>(e.container).SetLabel("Power").SetText(generation.ToString());
+        UIElementData.Create<UIElementLabelAndText>(e.container).SetLabel("Power").SetText(generation.ToString("#0.##"));
 
         if(efficiency < 0.99f)
         {

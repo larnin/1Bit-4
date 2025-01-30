@@ -174,12 +174,12 @@ public class BuildingCrystalMine : BuildingBase
 
     string EnergyUptakeStr()
     {
-        return m_energyUptake.ToString();
+        return m_energyUptake.ToString("#0.##");
     }
 
     string CrystalCollectionStr()
     {
-        return (m_generation * m_crystals.Count * m_energyEfficiency).ToString();
+        return (m_generation * m_crystals.Count * m_energyEfficiency).ToString("#0.##");
     }
 
     float GetEfficiency()

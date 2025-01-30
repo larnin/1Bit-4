@@ -76,7 +76,7 @@ public class BuildingPowerPlant : BuildingBase
 
     string EnergyGenerationStr()
     {
-        return (m_powerGeneration * m_efficiency).ToString();
+        return (m_powerGeneration * m_efficiency).ToString("#0.##");
     }
 
     string OneResourceUptake(int index)
@@ -84,7 +84,7 @@ public class BuildingPowerPlant : BuildingBase
         if (index < 0 || index >= m_resourceConsumption.Count)
             return "0";
 
-        return (m_resourceConsumption[index].count * m_efficiency).ToString();
+        return (m_resourceConsumption[index].count * m_efficiency).ToString("#0.##");
     }
     
 

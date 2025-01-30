@@ -131,12 +131,12 @@ public class BuildingWaterPump : BuildingBase
 
     string EnergyUptakeStr()
     {
-        return m_energyUptake.ToString();
+        return m_energyUptake.ToString("#0.##");
     }
 
     string CollectionStr()
     {
-        return (m_generation * m_energyEfficiency).ToString();
+        return (m_generation * m_energyEfficiency).ToString("#0.##");
     }
 
     float GetEfficiency()

@@ -92,7 +92,7 @@ public class BuildingTitaniumMine : BuildingBase
                 }
 
                 if (consumeCount > 0)
-                    ResourceSystem.instance.RemoveResource(m_consumedResource, m_consumedResourceNb);
+                    ResourceSystem.instance.RemoveResource(m_consumedResource, consumeCount);
             }
         }
 
@@ -207,17 +207,17 @@ public class BuildingTitaniumMine : BuildingBase
     }
     string EnergyUptakeStr()
     {
-        return m_energyUptake.ToString();
+        return m_energyUptake.ToString("#0.##");
     }
 
     string ResourceUptakeStr()
     {
-        return (m_consumedResourceNb * m_consumeMultiplier).ToString();
+        return (m_consumedResourceNb * m_consumeMultiplier).ToString("#0.##");
     }
 
     string TitaniumCollectionStr()
     {
-        return m_generatedResourceNb.ToString();
+        return m_generatedResourceNb.ToString("#0.##");
     }
 
     float GetCycleValue()

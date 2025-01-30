@@ -45,7 +45,7 @@ public class BuildingTower : BuildingBase
     {
         DisplayGenericInfos(e.container);
 
-        UIElementData.Create<UIElementLabelAndText>(e.container).SetLabel("Power").SetText(m_powerGeneration.ToString());
+        UIElementData.Create<UIElementLabelAndText>(e.container).SetLabel("Power").SetText(m_powerGeneration.ToString("#0.##"));
     }
 
     void OnDeath(DeathEvent e)

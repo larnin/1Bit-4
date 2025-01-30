@@ -102,7 +102,7 @@ public class UIElementLabelAndText : UIElementBase
 
         m_displayedTextMultiline = m_forceTextMultiline;
         float textsWidth = m_text.renderedWidth + m_label.renderedWidth + 5;
-        if (textsWidth > width)
+        if (textsWidth > width || m_label.textInfo.lineCount > 1)
             m_displayedTextMultiline = true;
 
         if(m_displayedTextMultiline)
