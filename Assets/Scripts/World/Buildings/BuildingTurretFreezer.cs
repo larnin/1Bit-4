@@ -91,7 +91,5 @@ public class BuildingTurretFreezer : BuildingTurretBase
     void BuildCommon(BuildSelectionDetailCommonEvent e)
     {
         DisplayGenericInfos(e.container);
-
-        //UIElementData.Create<UIElementFillValue>(e.container).SetLabel("Power storage").SetValueFunc(GetEnergy).SetMaxFunc(GetStorage).SetNbDigits(1).SetValueDisplayType(UIElementFillValueDisplayType.classic);
     }
 }

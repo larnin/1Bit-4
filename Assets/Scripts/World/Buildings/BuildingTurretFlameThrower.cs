@@ -63,6 +63,7 @@ public class BuildingTurretFlameThrower : BuildingTurretBase
             m_particles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
 
         m_subscriberList.Add(new Event<BuildSelectionDetailCommonEvent>.LocalSubscriber(BuildCommon, gameObject));
+        m_subscriberList.Subscribe();
     }
 
     public override void OnDestroy()
@@ -259,8 +260,6 @@ public class BuildingTurretFlameThrower : BuildingTurretBase
     void BuildCommon(BuildSelectionDetailCommonEvent e)
     {
         DisplayGenericInfos(e.container);
-
-        
     }
 }
 

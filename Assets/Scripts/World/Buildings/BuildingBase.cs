@@ -105,10 +105,17 @@ public abstract class BuildingBase : MonoBehaviour
         {
             var point = transform.Find("RayPoint");
             if(point != null)
-            {
                 m_localRayPoint = point.localPosition;
-                m_rayPointInit = true;
+            else
+            {
+                var center = GetGroundCenter();
+                var size = GetSize();
+                if (size.y < 2)
+                    center.y += size.y / 2.0f;
+                else center.y++;
+                m_localRayPoint = center - transform.position;
             }
+            m_rayPointInit = true;
         }
 
         return transform.position + m_localRayPoint;

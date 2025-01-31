@@ -197,6 +197,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0918a118919ae454088da10a41197bb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_name: Distance ennemy
+  m_description: Have low fire rate but is terribly accruate
   m_team: 1
 --- !u!114 &3136065468102887465
 MonoBehaviour:

@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class GameEntity : MonoBehaviour
 {
+    [SerializeField] string m_name;
+    [SerializeField] string m_description;
     [SerializeField] Team m_team = Team.Neutral;
 
     bool m_added = false;
@@ -16,6 +18,7 @@ public class GameEntity : MonoBehaviour
     private void Awake()
     {
         m_subscriberList.Add(new Event<GetTeamEvent>.LocalSubscriber(GetTeam, gameObject));
+        m_subscriberList.Add(new Event<BuildSelectionDetailCommonEvent>.LocalSubscriber(BuildCommon, gameObject));
         m_subscriberList.Subscribe();
     }
 
@@ -71,5 +74,12 @@ public class GameEntity : MonoBehaviour
     void GetTeam(GetTeamEvent e)
     {
         e.team = GetTeam();
+    }
+
+    void BuildCommon(BuildSelectionDetailCommonEvent e)
+    {
+        UIElementData.Create<UIElementSimpleText>(e.container).SetText(m_name).SetAlignment(UIElementAlignment.center);
+        UIElementData.Create<UIElementSpace>(e.container).SetSpace(5);
+        UIElementData.Create<UIElementSimpleText>(e.container).SetText(m_description);
     }
 }

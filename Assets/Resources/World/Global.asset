@@ -301,8 +301,8 @@ MonoBehaviour:
       spriteWithBorder: {fileID: 0}
       size: {x: 3, y: 5, z: 3}
       team: 1
-      name: 
-      description: 
+      name: Spawner
+      description: Create waves of ennemies
       firstFree: 0
       cost:
         cost: []
@@ -435,7 +435,7 @@ MonoBehaviour:
       addValue: 0
       finalAddValue: 0
     difficultyToSpawnerNb:
-      baseValue: 0
+      baseValue: 1
       powValue: 1
       multiplierValue: 1
       addValue: 0

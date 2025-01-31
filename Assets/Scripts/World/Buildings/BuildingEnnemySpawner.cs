@@ -50,6 +50,7 @@ public class BuildingEnnemySpawner : BuildingBase
         UpdateAppear();
 
         m_subscriberList.Add(new Event<DeathEvent>.LocalSubscriber(OnDeath, gameObject));
+        m_subscriberList.Add(new Event<BuildSelectionDetailCommonEvent>.LocalSubscriber(BuildCommon, gameObject));
         m_subscriberList.Subscribe();
     }
 
@@ -257,6 +258,29 @@ public class BuildingEnnemySpawner : BuildingBase
     void OnDeath(DeathEvent e)
     {
         Event<OnSpawnerDestroyEvent>.Broadcast(new OnSpawnerDestroyEvent());
+    }
+
+    string GetNextWaveTimer()
+    {
+        switch (m_state)
+        {
+            case State.Appear:
+            case State.Starting:
+                return "Waiting";
+            case State.Waiting:
+                return Utility.FormateTime(m_timer, true);
+            case State.Spawning:
+                return "Spawning";
+        }
+
+        return "";
+    }
+
+    void BuildCommon(BuildSelectionDetailCommonEvent e)
+    {
+        DisplayGenericInfos(e.container);
+
+        UIElementData.Create<UIElementLabelAndText>(e.container).SetLabel("Time before next wave").SetTextFunc(GetNextWaveTimer);
     }
 }
 
