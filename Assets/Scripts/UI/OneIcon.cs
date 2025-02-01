@@ -16,6 +16,13 @@ public class OneIcon : MonoBehaviour
         Text,
     }
 
+    enum OnScreenType
+    {
+        OutOfScreen,
+        OutOfBorder,
+        InBorder
+    }
+
     class IconElementStatus
     {
         public GameObject obj;
@@ -88,9 +95,9 @@ public class OneIcon : MonoBehaviour
         var worldPos = GetTargetPosition();
         Vector2 screenPos = camera.UICamera.WorldToScreenPoint(worldPos);
 
-        bool onScreen = IsOnScreen(screenPos);
+        var onScreen = IsOnScreen(screenPos);
 
-        if(!onScreen && !m_datas.displayIfOutOfScreen)
+        if(onScreen == OnScreenType.OutOfScreen && !m_datas.displayIfOutOfScreen)
         {
             SetVisible(false);
             return;
@@ -124,7 +131,7 @@ public class OneIcon : MonoBehaviour
             m_text.text = m_datas.text;
         }
 
-        if (!onScreen)
+        if(onScreen != OnScreenType.InBorder && m_datas.displayIfOutOfScreen)
             screenPos = ProjectOnBorder(screenPos);
 
         Vector2 transformPoint;
@@ -132,7 +139,7 @@ public class OneIcon : MonoBehaviour
 
         m_current.anchoredPosition = transformPoint;
 
-        if (onScreen)
+        if (onScreen == OnScreenType.InBorder || !m_datas.displayIfOutOfScreen)
             SetVisible(IconElementType.Arrow, false);
         else
         {
@@ -143,18 +150,27 @@ public class OneIcon : MonoBehaviour
         }
     }
 
-    bool IsOnScreen(Vector2 pos)
+    OnScreenType IsOnScreen(Vector2 pos)
     {
-        if (pos.x < m_screenBorder)
-            return false;
-        if (pos.y < m_screenBorder)
-            return false;
-        if (pos.x > Screen.width - m_screenBorder)
-            return false;
-        if (pos.y > Screen.height - m_screenBorder)
-            return false;
+        if (pos.x < 0)
+            return OnScreenType.OutOfScreen;
+        if (pos.y < 0)
+            return OnScreenType.OutOfScreen;
+        if (pos.x > Screen.width)
+            return OnScreenType.OutOfScreen;
+        if (pos.y > Screen.height)
+            return OnScreenType.OutOfScreen;
 
-        return true;
+        if (pos.x < m_screenBorder)
+            return OnScreenType.OutOfBorder;
+        if (pos.y < m_screenBorder)
+            return OnScreenType.OutOfBorder;
+        if (pos.x > Screen.width - m_screenBorder)
+            return OnScreenType.OutOfBorder;
+        if (pos.y > Screen.height - m_screenBorder)
+            return OnScreenType.OutOfBorder;
+
+        return OnScreenType.InBorder;
     }
 
     Vector2 ProjectOnBorder(Vector2 pos)

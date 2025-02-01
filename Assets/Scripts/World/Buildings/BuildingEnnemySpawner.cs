@@ -13,12 +13,21 @@ public class BuildingEnnemySpawner : BuildingBase
     [SerializeField] float m_appearOffset;
     [SerializeField] float m_appearDuration;
     [SerializeField] Ease m_appearCurve;
+    [SerializeField] float m_minSpawningIconDisplayTime;
+    [SerializeField] float m_appearIconDisplayTime;
 
     enum State
     {
         Appear,
         Starting,
         Waiting,
+        Spawning,
+    }
+
+    enum IconType
+    {
+        None,
+        Appear,
         Spawning,
     }
 
@@ -33,6 +42,9 @@ public class BuildingEnnemySpawner : BuildingBase
     float m_appearTimer;
     float m_wantedLight;
     CustomLight m_light;
+
+    float m_iconDisplayDuration;
+    IconType m_iconDisplayType = IconType.None;
 
     SubscriberList m_subscriberList = new SubscriberList();
 
@@ -52,6 +64,9 @@ public class BuildingEnnemySpawner : BuildingBase
         m_subscriberList.Add(new Event<DeathEvent>.LocalSubscriber(OnDeath, gameObject));
         m_subscriberList.Add(new Event<BuildSelectionDetailCommonEvent>.LocalSubscriber(BuildCommon, gameObject));
         m_subscriberList.Subscribe();
+
+        m_iconDisplayType = IconType.Appear;
+        m_iconDisplayDuration = m_appearIconDisplayTime;
     }
 
     public override void OnDestroy()
@@ -96,6 +111,34 @@ public class BuildingEnnemySpawner : BuildingBase
             case State.Spawning:
                 ProcessSpawning();
                 break;
+        }
+
+        if (DisplayIcons.instance != null)
+        {
+            if(m_iconDisplayType != IconType.None)
+            {
+                m_iconDisplayDuration -= Mathf.Min(Time.deltaTime, 0.1f);
+
+                string iconName = "";
+
+                switch(m_iconDisplayType)
+                {
+                    case IconType.Appear:
+                        iconName = "Spawner";
+                        break;
+                    case IconType.Spawning:
+                        iconName = "Spawning";
+                        break;
+                }
+
+                DisplayIcons.instance.Register(gameObject, Global.instance.difficultyDatas.spawnersData.displayHeight, iconName, "", true, true);
+
+                if(m_iconDisplayDuration < 0)
+                {
+                    DisplayIcons.instance.Unregister(gameObject);
+                    m_iconDisplayType = IconType.None;
+                }
+            }
         }
     }
 
@@ -172,7 +215,7 @@ public class BuildingEnnemySpawner : BuildingBase
 
     void ProcessWait()
     {
-        if(DisplayIcons.instance != null)
+        if(DisplayIcons.instance != null && m_iconDisplayType == IconType.None)
         {
             string timer = Utility.FormateTime(m_timer, true);
             bool displayOutScreen = m_timer < Global.instance.difficultyDatas.spawnersData.displayBeforeWave;
@@ -208,8 +251,12 @@ public class BuildingEnnemySpawner : BuildingBase
             return;
         }
 
-        if(DisplayIcons.instance != null)
-            DisplayIcons.instance.Register(gameObject, Global.instance.difficultyDatas.spawnersData.displayHeight, "Spawner", "", true, true);
+        if (m_iconDisplayType != IconType.Spawning)
+        {
+            m_iconDisplayType = IconType.Spawning;
+            m_iconDisplayDuration = m_minSpawningIconDisplayTime;
+        }
+        else m_iconDisplayDuration = Mathf.Max(m_iconDisplayDuration, 0.1f);
     }
 
     void SpawnOneEnnemie(int index)

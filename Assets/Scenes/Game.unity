@@ -1851,7 +1851,7 @@ MonoBehaviour:
     icon: {fileID: 467122717, guid: d289d3f5b7bf08a40acae9bd3b9185b0, type: 3}
   - name: Warning
     icon: {fileID: -447355721, guid: d289d3f5b7bf08a40acae9bd3b9185b0, type: 3}
-  - name: Spawner
+  - name: Spawning
     icon: {fileID: 148184819, guid: d289d3f5b7bf08a40acae9bd3b9185b0, type: 3}
   - name: Cross
     icon: {fileID: -1242802862, guid: d289d3f5b7bf08a40acae9bd3b9185b0, type: 3}
@@ -1859,6 +1859,8 @@ MonoBehaviour:
     icon: {fileID: 1077454589, guid: d289d3f5b7bf08a40acae9bd3b9185b0, type: 3}
   - name: Ice
     icon: {fileID: 1192460834, guid: d289d3f5b7bf08a40acae9bd3b9185b0, type: 3}
+  - name: Spawner
+    icon: {fileID: 821337818, guid: d289d3f5b7bf08a40acae9bd3b9185b0, type: 3}
   m_iconPrefab: {fileID: 4469649107619043410, guid: da27a0a5ab22ee54998f1a0d3b93de27, type: 3}
 --- !u!1 &1493643047
 GameObject:
