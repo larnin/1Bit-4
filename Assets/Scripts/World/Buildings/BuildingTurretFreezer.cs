@@ -42,6 +42,13 @@ public class BuildingTurretFreezer : BuildingTurretBase
         if (ResourceSystem.instance.GetResourceStored(m_resourceConsumption) < m_consumption)
             return false;
 
+        var firePoint = GetCurrentFirepoint();
+        if (firePoint == null)
+            return false;
+
+        if (!IsTargetVisible(firePoint.position))
+            return false;
+
         return true;
     }
 

@@ -58,6 +58,9 @@ public class BuildingTurretEnergy : BuildingTurretBase
         if (firePoint == null)
             return false;
 
+        if (!IsTargetVisible(firePoint.position))
+            return false;
+
         return true;
     }
 

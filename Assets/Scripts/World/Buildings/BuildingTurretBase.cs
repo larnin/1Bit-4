@@ -85,14 +85,23 @@ public abstract class BuildingTurretBase : BuildingBase
         {
             Team targetTeam = TeamEx.GetOppositeTeam(GetTeam());
             m_target = null;
-            var entity = EntityList.instance.GetNearestEntity(GetGroundCenter(), targetTeam, AliveType.Alive);
-            if (entity != null)
+
+            var groundCenter = GetGroundCenter();
+
+            var entity = EntityList.instance.GetNearestEntity(groundCenter, targetTeam, AliveType.Alive);
+            var building = BuildingList.instance.GetNearestBuilding(groundCenter, targetTeam, AliveType.Alive);
+
+            if (entity == null)
+                m_target = building.gameObject;
+            else if (building == null)
                 m_target = entity.gameObject;
-            if (m_target == null)
+            else
             {
-                var building = BuildingList.instance.GetNearestBuilding(GetGroundCenter(), targetTeam, AliveType.Alive);
-                if (building != null)
+                float distEntity = (entity.transform.position - groundCenter).sqrMagnitude;
+                float distBuilding = (building.GetGroundCenter() - groundCenter).sqrMagnitude;
+                if (distBuilding < distEntity)
                     m_target = building.gameObject;
+                else m_target = entity.gameObject;
             }
         }
 
@@ -228,6 +237,35 @@ public abstract class BuildingTurretBase : BuildingBase
             EndFire();
             m_firing = false;
         }
+    }
+
+    public bool IsTargetVisible(Vector3 firePos)
+    {
+        if (m_target == null)
+            return false;
+
+        Vector3 targetPos = TurretBehaviour.GetTargetCenter(m_target);
+
+        var dir = targetPos - firePos;
+        var dist = dir.magnitude;
+        dir /= dist;
+
+        var hits = Physics.RaycastAll(firePos, dir, dist);
+
+        foreach(var h in hits)
+        {
+            if (h.collider.gameObject == gameObject)
+                continue;
+            if (h.collider.gameObject == m_target)
+                continue;
+
+            var type = GameSystem.GetEntityType(h.collider.gameObject);
+
+            if (type == EntityType.None)
+                return false;
+        }
+
+        return true;
     }
 
     protected abstract bool IsContinuousWeapon();
