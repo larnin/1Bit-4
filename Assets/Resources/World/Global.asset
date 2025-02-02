@@ -430,25 +430,25 @@ MonoBehaviour:
       finalAddValue: 0
     difficultyPerSpawner:
       baseValue: 0.8
-      powValue: 1.1
+      powValue: 1.2
       multiplierValue: 1
       addValue: 0
       finalAddValue: 0
     difficultyToSpawnerNb:
       baseValue: 1
-      powValue: 0.9
+      powValue: 1
       multiplierValue: 1
       addValue: 0
       finalAddValue: 0
     difficultyToLifeMultiplier:
-      baseValue: 0.2
-      powValue: 1
+      baseValue: 0.25
+      powValue: 1.1
       multiplierValue: 1
       addValue: 0
       finalAddValue: 0
     difficultyToDamageMultiplier:
-      baseValue: 0.1
-      powValue: 1
+      baseValue: 0.15
+      powValue: 1.2
       multiplierValue: 1
       addValue: 0
       finalAddValue: 0
@@ -465,7 +465,7 @@ MonoBehaviour:
       delaySpeedMultiplayerPerEnnemies: 0.05
       difficultyToMaxEnnemies:
         baseValue: 3
-        powValue: 0.5
+        powValue: 0.6
         multiplierValue: 1
         addValue: 0
         finalAddValue: 2

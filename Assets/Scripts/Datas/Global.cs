@@ -62,6 +62,9 @@ public class Global : ScriptableObject
     [SerializeField] TipsDatas m_tipsDatas;
     public TipsDatas tipsDatas { get { return m_tipsDatas; } }
 
+    [SerializeField] SoundsDatas m_soundsDatas;
+    public SoundsDatas soundsDatas { get { return m_soundsDatas; } }
+
     static Global m_instance;
 
     static string s_path = "World";
