@@ -151,7 +151,7 @@ public class PlaceBuildingCursor : MonoBehaviour
                 continue;
 
             var targetPos = b.GetGroundCenter();
-            var targetRadius = radius + b.PlacementRadius();
+            var targetRadius = radius + b.PlacementRadius() - 0.01f;
             if (VectorEx.SqrMagnitudeXZ(targetPos - pos) < targetRadius * targetRadius)
             {
                 canPlace = true;

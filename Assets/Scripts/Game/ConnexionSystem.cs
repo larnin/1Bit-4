@@ -89,7 +89,7 @@ public class ConnexionSystem : MonoBehaviour
                 if (Utility.IsDead(building.gameObject))
                     continue;
 
-                Vector3 pos = building.GetPos();
+                Vector3 pos = building.GetGroundCenter();
 
                 float dist = VectorEx.SqrMagnitudeXZ(pos - currentPos);
 
