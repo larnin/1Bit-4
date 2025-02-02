@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_fireRate: 1
-  m_range: 15
+  m_range: 22
   m_recoilDistance: 0.5
   m_recoilDuration: 0.4
   m_recoilTarget: {fileID: 4599273482714574944}

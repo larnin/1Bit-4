@@ -192,6 +192,8 @@ public class BuildingEnnemySpawner : BuildingBase
 
         var rand = StaticRandomGenerator<MT19937>.Get();
 
+        int maxEnnemies = Mathf.CeilToInt(Global.instance.difficultyDatas.spawnersData.difficultyToMaxEnnemies.Get(difficulty));
+
         while (difficulty > 0)
         {
             var tabIndex = Rand.DiscreteDistribution(weights, rand);
@@ -200,6 +202,9 @@ public class BuildingEnnemySpawner : BuildingBase
 
             var e = Global.instance.difficultyDatas.spawnersData.ennemies[index];
             difficulty -= Rand.UniformFloatDistribution(e.difficultyCostMin, e.difficultyCostMax, rand);
+
+            if (m_entityIndexs.Count >= maxEnnemies)
+                break;
         }
 
         m_entityIndexs.Shuffle(rand);

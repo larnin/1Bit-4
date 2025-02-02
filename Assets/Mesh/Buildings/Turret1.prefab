@@ -138,9 +138,9 @@ MonoBehaviour:
   m_recoilDuration: 0.2
   m_recoilTarget: {fileID: 3717175037673376934}
   m_fireParticles: {fileID: 4523324907174517030}
-  m_energyStorage: 20
-  m_energyUptake: 5
-  m_energyPerFire: 2
+  m_energyStorage: 25
+  m_energyUptake: 10
+  m_energyPerFire: 2.5
   m_projectilePrefab: {fileID: 9030378141569406407, guid: 87e9017554cad3b469d1f42ecbc47c60, type: 3}
 --- !u!114 &116782343465566749
 MonoBehaviour:

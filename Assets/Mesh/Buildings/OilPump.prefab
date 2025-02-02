@@ -150,7 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_energyConsumption: 8
   m_generatedResource: 3
-  m_generation: 1
+  m_generation: 2
 --- !u!114 &5355809306436954121
 MonoBehaviour:
   m_ObjectHideFlags: 0

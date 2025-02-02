@@ -48,13 +48,13 @@ MonoBehaviour:
       montainsHeightOffset: 0
       montainsHeightMultiplier: 30
       montainsHeightPower: 2
-      crystalPatchSizeBase: 3
-      crystalPatchIncrease: 10
+      crystalPatchSizeBase: 4
+      crystalPatchIncrease: 8
       crystalPatchDensity: 10
       crystalRetryCount: 2
       crystalInitialPatchDistance: 10
       crystalMinDistance: 15
-      oilDensity: 9
+      oilDensity: 10
       oilRetryCount: 1
       oilMinDistance: 20
       titaniumPatchMin: 4
@@ -98,13 +98,13 @@ MonoBehaviour:
       montainsHeightOffset: 0
       montainsHeightMultiplier: 35
       montainsHeightPower: 2
-      crystalPatchSizeBase: 3
-      crystalPatchIncrease: 10
+      crystalPatchSizeBase: 4
+      crystalPatchIncrease: 8
       crystalPatchDensity: 12
       crystalRetryCount: 2
       crystalInitialPatchDistance: 10
       crystalMinDistance: 18
-      oilDensity: 10
+      oilDensity: 11
       oilRetryCount: 1
       oilMinDistance: 25
       titaniumPatchMin: 4
@@ -148,13 +148,13 @@ MonoBehaviour:
       montainsHeightOffset: 0.2
       montainsHeightMultiplier: 40
       montainsHeightPower: 2
-      crystalPatchSizeBase: 3
-      crystalPatchIncrease: 10
+      crystalPatchSizeBase: 4
+      crystalPatchIncrease: 8
       crystalPatchDensity: 15
       crystalRetryCount: 2
       crystalInitialPatchDistance: 10
       crystalMinDistance: 20
-      oilDensity: 11
+      oilDensity: 12
       oilRetryCount: 1
       oilMinDistance: 25
       titaniumPatchMin: 4
@@ -199,7 +199,7 @@ MonoBehaviour:
       cost:
         cost:
         - type: 1
-          count: 5
+          count: 10
     - type: 13
       prefab: {fileID: 2386629846189063210, guid: 01cb1a9794f4d754393dba54f54deefd, type: 3}
       sprite: {fileID: 718095043, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
@@ -213,7 +213,7 @@ MonoBehaviour:
       cost:
         cost:
         - type: 1
-          count: 20
+          count: 50
     - type: 9
       prefab: {fileID: 4766931038948199759, guid: 8e67c6f7cee838c4dadbec18f9ed4b86, type: 3}
       sprite: {fileID: 1038982652, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
@@ -226,7 +226,7 @@ MonoBehaviour:
       cost:
         cost:
         - type: 1
-          count: 10
+          count: 20
     - type: 12
       prefab: {fileID: 3692538273452692935, guid: 81f7408822501de4eb06da25a0d5d952, type: 3}
       sprite: {fileID: 1487700549, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
@@ -251,7 +251,7 @@ MonoBehaviour:
       cost:
         cost:
         - type: 1
-          count: 50
+          count: 100
     - type: 11
       prefab: {fileID: 4535135477675010955, guid: 45b69403e14f6404fbc2f4f1f069b21d, type: 3}
       sprite: {fileID: 800654631, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
@@ -264,7 +264,7 @@ MonoBehaviour:
       cost:
         cost:
         - type: 1
-          count: 50
+          count: 150
         - type: 3
           count: 20
     - type: 3
@@ -279,7 +279,7 @@ MonoBehaviour:
       cost:
         cost:
         - type: 1
-          count: 10
+          count: 100
     - type: 6
       prefab: {fileID: 3550513972471810787, guid: 4328f2ad333202f419ef6f5c0130b950, type: 3}
       sprite: {fileID: -743678667, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
@@ -292,7 +292,7 @@ MonoBehaviour:
       cost:
         cost:
         - type: 1
-          count: 20
+          count: 100
         - type: 2
           count: 5
     - type: 100
@@ -318,7 +318,7 @@ MonoBehaviour:
       cost:
         cost:
         - type: 1
-          count: 100
+          count: 250
     - type: 15
       prefab: {fileID: 4599273482230721453, guid: d1367f3acc861624993959a3dc9c1043, type: 3}
       sprite: {fileID: 1016640725, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
@@ -347,7 +347,7 @@ MonoBehaviour:
       cost:
         cost:
         - type: 1
-          count: 100
+          count: 150
     mineItemPrefab: {fileID: 6943061212826655842, guid: 020dedfdfd13d1c49ac25e185f22167b, type: 3}
     lifeLossDisplayDuration: 10
     lifebarPrefab: {fileID: 403841948413428351, guid: 865e80a7aecab34408fe71ab6fb1fed9, type: 3}
@@ -411,7 +411,7 @@ MonoBehaviour:
       storageIncrease: 100
   m_difficultyDatas:
     difficultyPerMinute:
-      baseValue: 0.5
+      baseValue: 0.3
       powValue: 1.1
       multiplierValue: 1
       addValue: 0
@@ -423,20 +423,20 @@ MonoBehaviour:
       addValue: 0
       finalAddValue: -0.2
     difficultyPerKill:
-      baseValue: 0.001
+      baseValue: 0.002
       powValue: 1
       multiplierValue: 1
       addValue: 0
       finalAddValue: 0
     difficultyPerSpawner:
-      baseValue: 1
+      baseValue: 0.8
       powValue: 1.1
       multiplierValue: 1
       addValue: 0
       finalAddValue: 0
     difficultyToSpawnerNb:
       baseValue: 1
-      powValue: 1
+      powValue: 0.9
       multiplierValue: 1
       addValue: 0
       finalAddValue: 0
@@ -457,15 +457,15 @@ MonoBehaviour:
       displayBeforeWave: 10
       delayBetweenWavesMin: 60
       delayBetweenWavesMax: 90
-      distanceFromBuildingsMin: 20
-      distanceFromBuildingsMax: 30
+      distanceFromBuildingsMin: 25
+      distanceFromBuildingsMax: 50
       distanceFromSpawnerMin: 10
       delayBaseBetweenEnnemies: 1
       delayReduceAfterNbEnnemies: 10
       delaySpeedMultiplayerPerEnnemies: 0.05
       difficultyToMaxEnnemies:
-        baseValue: 2
-        powValue: 0.25
+        baseValue: 3
+        powValue: 0.5
         multiplierValue: 1
         addValue: 0
         finalAddValue: 2
@@ -473,14 +473,14 @@ MonoBehaviour:
       - prefab: {fileID: 1892062940909772011, guid: dfaa13b752694864ca9489aabb93d253, type: 3}
         difficultyMin: 0
         difficultyMax: -1
-        difficultyCostMin: 1.5
-        difficultyCostMax: 2
-        weight: 0.8
+        difficultyCostMin: 0.1
+        difficultyCostMax: 0.1
+        weight: 1.5
       - prefab: {fileID: 6214975584835344987, guid: 9f3319f4511a1084e9c97146fbc2d7f5, type: 3}
         difficultyMin: 0
         difficultyMax: -1
-        difficultyCostMin: 1
-        difficultyCostMax: 1.5
+        difficultyCostMin: 0.1
+        difficultyCostMax: 0.1
         weight: 1
     difficultyMultipliers: []
   m_UIElementDatas:
@@ -495,7 +495,7 @@ MonoBehaviour:
     burning:
       effectPrefab: {fileID: 0}
       icon: Fire
-      powerToDuration: 1
+      powerToDuration: 2
       powerToDot: 1
     frozen:
       powerToDuration: 1
@@ -518,7 +518,7 @@ MonoBehaviour:
       weight: 1
     - tip: Titanium can be found on the escarped places.
       weight: 1
-    - tip: You must protect the tower at all cost.
+    - tip: You must protect the tower at all cost !
       weight: 1
     - tip: You can hover a building, a resource or an ennemy to have more informations
         about it.
@@ -527,4 +527,6 @@ MonoBehaviour:
       weight: 1
     - tip: You can rotate the view with R and return to your tower with a long press
         on this key.
+      weight: 1
+    - tip: Frozen ennemies fake more damages
       weight: 1

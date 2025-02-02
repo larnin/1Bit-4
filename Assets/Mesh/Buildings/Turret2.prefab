@@ -5192,10 +5192,10 @@ MonoBehaviour:
   m_fireParticles: {fileID: 0}
   m_resourceConsumption: 3
   m_consumption: 2
-  m_damages: 1
+  m_damages: 4
   m_hitLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 384
   m_damageType: 3
   m_damageTypePower: 1
   m_coneAngle: 25

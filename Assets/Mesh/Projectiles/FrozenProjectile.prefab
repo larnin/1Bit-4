@@ -5092,9 +5092,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 981ee9cd629ef3640a3a6330dbb5e9da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_damages: 1
+  m_damages: 6
   m_damageType: 2
-  m_damageEffect: 1
+  m_damageEffect: 2
   m_speed: 5
   m_maxLife: 5
   m_hitLayer:
@@ -5106,7 +5106,7 @@ MonoBehaviour:
   m_explosionLayer:
     serializedVersion: 2
     m_Bits: 384
-  m_explosionDuration: 0.4
-  m_explosionRadius: 4
+  m_explosionDuration: 0.5
+  m_explosionRadius: 6
   m_explosionCurve: 3
   m_explosionFadeEndPercent: 0.8

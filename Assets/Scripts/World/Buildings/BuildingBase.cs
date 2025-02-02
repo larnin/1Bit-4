@@ -166,6 +166,7 @@ public abstract class BuildingBase : MonoBehaviour
     void OnLifeLoss(LifeLossEvent e)
     {
         m_noHitDuration = 0;
+        m_wasFullLife = false;
 
         if (DisplayIcons.instance == null)
             return;
