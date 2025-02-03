@@ -530,3 +530,48 @@ MonoBehaviour:
       weight: 1
     - tip: Frozen ennemies fake more damages
       weight: 1
+  m_soundsDatas:
+    m_sounds:
+    - name: Clic
+      clips:
+      - {fileID: 8300000, guid: 443d50b7760734748b59be6e15b2feac, type: 3}
+    - name: Hover
+      clips:
+      - {fileID: 8300000, guid: d44bdb0729989b548937c9b17a5de535, type: 3}
+    - name: Play
+      clips:
+      - {fileID: 8300000, guid: 6657c00782646724998034515d852336, type: 3}
+    - name: Pause
+      clips:
+      - {fileID: 8300000, guid: 09419600c76a66040bde60c67885eb87, type: 3}
+    - name: BuildingButtonClick
+      clips: []
+    - name: BuildingPlace
+      clips:
+      - {fileID: 8300000, guid: f3c8c542262e53742930ecbbf0a5a0c9, type: 3}
+      - {fileID: 8300000, guid: f316cd9da6ec2d74b953b76ffedae939, type: 3}
+      - {fileID: 8300000, guid: 34821a56c601c3e4c91d0e10ee99a805, type: 3}
+      - {fileID: 8300000, guid: 57231f83b4434b845a7cfd10efc46cd6, type: 3}
+      - {fileID: 8300000, guid: 84a9442824a306c4282b37fcfe40f9e3, type: 3}
+    - name: BuildingRemove
+      clips:
+      - {fileID: 8300000, guid: 7321264686439a4439b371eb5efd012c, type: 3}
+    - name: TurretEnergyFire
+      clips:
+      - {fileID: 8300000, guid: 57b10aa9ae9f28a4aade20fce34441a7, type: 3}
+    - name: TurretFlamethrowerFire
+      clips:
+      - {fileID: 8300000, guid: ac4710f617114094aad70ce341ebbe3b, type: 3}
+    - name: TurretIceFire
+      clips:
+      - {fileID: 8300000, guid: 56a4a803795a39b4eb42733eadaba860, type: 3}
+    - name: IceExplosion
+      clips:
+      - {fileID: 8300000, guid: c714ec4e0742296469b925d1cffb094e, type: 3}
+    - name: EnnemyFire
+      clips:
+      - {fileID: 8300000, guid: cc87d7bd1a480904892deb890df811b9, type: 3}
+    - name: BuildingAlarm
+      clips:
+      - {fileID: 8300000, guid: 0bfa658f16b6fd5408b6a2b0cfe1d44f, type: 3}
+    m_musics: []

@@ -33,9 +33,27 @@ public class SoundSystem : MonoBehaviour
     int m_musicLastSourceIndex = -1;
     float m_musicTransitionTime = -1;
 
+    static SoundSystem m_instance = null;
+    public static SoundSystem instance { get { return m_instance; } }
+
     private void Awake()
     {
+        if(m_instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        m_instance = this;
+        DontDestroyOnLoad(gameObject);
+
         CreateSources();
+    }
+
+    private void OnDestroy()
+    {
+        if (m_instance == this)
+            m_instance = null;
     }
 
     void CreateSources()

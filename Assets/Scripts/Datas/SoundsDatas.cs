@@ -6,22 +6,25 @@ using System.Threading.Tasks;
 using UnityEngine;
 using NRand;
 
+[Serializable]
 public class OneSoundData
 {
     public string name;
     public List<AudioClip> clips;
 }
 
+[Serializable]
 public class OneMusicData
 {
     public string name;
     public AudioClip clip;
 }
 
+[Serializable]
 public class SoundsDatas
 {
-    List<OneSoundData> m_sounds;
-    List<OneMusicData> m_musics;
+    [SerializeField] List<OneSoundData> m_sounds;
+    [SerializeField] List<OneMusicData> m_musics;
 
     public AudioClip GetRandomSound(string name)
     {
