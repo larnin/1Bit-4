@@ -139,12 +139,12 @@ public class GameSystem : MonoBehaviour
             if(IsPosValid(grid, p, elementSize))
             {
                 var h = GridEx.GetHeight(grid, p);
-                return new Vector3Int(p.x, h, p.y);
+                return new Vector3Int(p.x, h + 1, p.y);
             }
         }
 
         var h2 = GridEx.GetHeight(grid, center);
-        return new Vector3Int(center.x, h2, center.y); ;
+        return new Vector3Int(center.x, h2 + 1, center.y); ;
     }
 
     bool IsPosValid(Grid grid, Vector2Int pos, Vector2Int elementSize)

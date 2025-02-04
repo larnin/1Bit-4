@@ -11,6 +11,8 @@ public class BuildingTurretEnergy : BuildingTurretBase
     [SerializeField] float m_energyUptake = 2;
     [SerializeField] float m_energyPerFire = 1;
     [SerializeField] GameObject m_projectilePrefab;
+    [SerializeField] string m_fireSound;
+    [SerializeField] float m_fireSoundVolume = 1;
 
     float m_energy = 0;
 
@@ -99,6 +101,11 @@ public class BuildingTurretEnergy : BuildingTurretBase
                     Event<GetStatEvent>.Broadcast(multiplier, gameObject);
                     projectile.SetDamagesMultiplier(multiplier.GetValue());
                 }
+            }
+
+            if(SoundSystem.instance != null)
+            {
+                SoundSystem.instance.PlaySound(m_fireSound, firePoint.position, m_fireSoundVolume);
             }
         }
     }

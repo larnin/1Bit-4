@@ -58,6 +58,7 @@ public abstract class BuildingBase : MonoBehaviour
     Vector3 m_pos;
 
     float m_noHitDuration;
+    float m_alarmTimer = 0;
     bool m_wasFullLife = true;
 
     SubscriberList m_subscriberList = new SubscriberList();
@@ -181,6 +182,13 @@ public abstract class BuildingBase : MonoBehaviour
         Vector3 pos = GetGroundCenter();
 
         DisplayIcons.instance.Register(pos, b.size.y, Global.instance.buildingDatas.lifeLossDisplayDuration, "BuildingDamaged", "", true, true);
+
+        if(m_alarmTimer <= 0)
+        {
+            m_alarmTimer = Global.instance.buildingDatas.alarmRestartDelay;
+            if (SoundSystem.instance != null)
+                SoundSystem.instance.PlaySoundUI(Global.instance.buildingDatas.alarmSound, Global.instance.buildingDatas.alarmVolume);
+        }
     }
 
     void OnDeath(DeathEvent e)
@@ -313,6 +321,7 @@ public abstract class BuildingBase : MonoBehaviour
                 Event<GetLifeEvent>.Broadcast(life, gameObject);
                 m_wasFullLife = life.lifePercent >= 1;
             }
+            m_alarmTimer -= Time.deltaTime;
         }
 
         OnUpdate();

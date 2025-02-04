@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 2923365841671612576}
   - component: {fileID: 460214780083863273}
   - component: {fileID: 5797256076003119849}
+  - component: {fileID: 5171527965698109833}
   m_Layer: 5
   m_Name: BuildingButton
   m_TagString: Untagged
@@ -210,3 +211,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5171527965698109833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083073236871086188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c489c92f8c16fea4a8cf113b4545ae12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_hoverSound: Hover
+  m_hoverSoundVolume: 0.5
+  m_clickSound: BuildingButtonClick
+  m_clickSoundVolume: 0.6

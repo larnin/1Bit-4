@@ -9,6 +9,8 @@ using TMPro;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] string m_menuName;
+    [SerializeField] string m_pauseSound;
+    [SerializeField] float m_pauseVolume = 1;
 
     bool m_selected = false;
     bool m_firstFrame = false;
@@ -28,6 +30,9 @@ public class PauseMenu : MonoBehaviour
         }
 
         SetTip();
+
+        if (SoundSystem.instance != null)
+            SoundSystem.instance.PlaySoundUI(m_pauseSound, m_pauseVolume);
     }
 
     public void OnContinue()

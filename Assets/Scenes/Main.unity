@@ -826,7 +826,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_hoverSound: Hover
-  m_hoverSoundVolume: 0.3
+  m_hoverSoundVolume: 0.5
   m_clickSound: Clic
   m_clickSoundVolume: 1
 --- !u!1 &251724026
@@ -1458,7 +1458,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_hoverSound: Hover
-  m_hoverSoundVolume: 0.3
+  m_hoverSoundVolume: 0.5
   m_clickSound: Play
   m_clickSoundVolume: 1
 --- !u!1 &639209267
@@ -1573,7 +1573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_hoverSound: Hover
-  m_hoverSoundVolume: 0.3
+  m_hoverSoundVolume: 0.5
   m_clickSound: Clic
   m_clickSoundVolume: 1
 --- !u!1 &693844317
@@ -2042,7 +2042,7 @@ MonoBehaviour:
   m_hoverSound: 
   m_hoverSoundVolume: 1
   m_clickSound: Hover
-  m_clickSoundVolume: 1
+  m_clickSoundVolume: 0.5
 --- !u!1 &1000897862
 GameObject:
   m_ObjectHideFlags: 0
@@ -2267,7 +2267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_hoverSound: Hover
-  m_hoverSoundVolume: 0.3
+  m_hoverSoundVolume: 0.5
   m_clickSound: Clic
   m_clickSoundVolume: 1
 --- !u!1 &1228289079
@@ -2463,7 +2463,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Logo.png
+  m_text: 1Bit Tower
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f0ea6d6c73c6788449e4f41ae11a98ec, type: 2}
   m_sharedMaterial: {fileID: -4097934539044746349, guid: f0ea6d6c73c6788449e4f41ae11a98ec, type: 2}
@@ -3158,7 +3158,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_hoverSound: Hover
-  m_hoverSoundVolume: 0.3
+  m_hoverSoundVolume: 0.5
   m_clickSound: Clic
   m_clickSoundVolume: 1
 --- !u!1 &1839578464
@@ -3695,7 +3695,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_hoverSound: Hover
-  m_hoverSoundVolume: 0.3
+  m_hoverSoundVolume: 0.5
   m_clickSound: Clic
   m_clickSoundVolume: 1
 --- !u!1 &1967011034
@@ -3925,7 +3925,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_hoverSound: Hover
-  m_hoverSoundVolume: 0.3
+  m_hoverSoundVolume: 0.5
   m_clickSound: Clic
   m_clickSoundVolume: 1
 --- !u!1 &2031203138

@@ -8,6 +8,7 @@ using UnityEngine;
 public class SoundSystem : MonoBehaviour
 {
     [SerializeField] GameObject m_soundPrefab;
+    [SerializeField] GameObject m_uiSoundPrefab;
     [SerializeField] GameObject m_musicPrefab;
     [SerializeField] int m_soundTrackNb = 10;
     [SerializeField] int m_maxSoundsOfSameType = 2;
@@ -18,12 +19,15 @@ public class SoundSystem : MonoBehaviour
         public string name;
         public int ID;
         public bool isLoop;
+        public bool isUI;
         public float startTime;
         public float volume;
         public AudioSource source;
     }
 
+
     List<AudioSource> m_freeSoundSource = new List<AudioSource>();
+    List<AudioSource> m_freeUiSoundSource = new List<AudioSource>();
     List<PlayingSound> m_playingSounds = new List<PlayingSound>();
     int m_nextID = 0;
 
@@ -78,7 +82,27 @@ public class SoundSystem : MonoBehaviour
             }
         }
 
-        if(m_musicPrefab != null)
+        if (m_uiSoundPrefab != null)
+        {
+            for (int i = 0; i < m_soundTrackNb; i++)
+            {
+                var obj = Instantiate(m_uiSoundPrefab);
+                obj.transform.parent = transform;
+                obj.transform.localPosition = Vector3.zero;
+
+                var source = obj.GetComponent<AudioSource>();
+                if (source == null)
+                {
+                    Destroy(obj);
+                    break;
+                }
+
+                source.playOnAwake = false;
+                m_freeUiSoundSource.Add(source);
+            }
+        }
+
+        if (m_musicPrefab != null)
         {
             for(int i = 0; i < 2; i++)
             {
@@ -162,7 +186,10 @@ public class SoundSystem : MonoBehaviour
 
     int PlaySoundInternal(string name, bool fromUI, Vector3 pos, float volume, bool loop, bool spatialize)
     {
-        if (m_freeSoundSource.Count == 0)
+        if (m_freeSoundSource.Count == 0 && !fromUI)
+            return -1;
+
+        if (m_freeUiSoundSource.Count == 0 && fromUI)
             return -1;
 
         var clip = Global.instance.soundsDatas.GetRandomSound(name);
@@ -179,8 +206,17 @@ public class SoundSystem : MonoBehaviour
         s.name = name;
         s.startTime = Time.time;
         s.volume = volume;
-        s.source = m_freeSoundSource[m_freeSoundSource.Count - 1];
-        m_freeSoundSource.RemoveAt(m_freeSoundSource.Count - 1);
+        s.isUI = fromUI;
+        if (fromUI)
+        {
+            s.source = m_freeUiSoundSource[m_freeUiSoundSource.Count - 1];
+            m_freeUiSoundSource.RemoveAt(m_freeUiSoundSource.Count - 1);
+        }
+        else
+        {
+            s.source = m_freeSoundSource[m_freeSoundSource.Count - 1];
+            m_freeSoundSource.RemoveAt(m_freeSoundSource.Count - 1);
+        }
         s.source.clip = clip;
         s.source.loop = loop;
         if (fromUI)
@@ -266,7 +302,9 @@ public class SoundSystem : MonoBehaviour
 
         var s = m_playingSounds[index];
 
-        m_freeSoundSource.Add(s.source);
+        if (s.isUI)
+            m_freeUiSoundSource.Add(s.source);
+        else m_freeSoundSource.Add(s.source);
         s.source.Stop();
         s.source.clip = null;
         s.source.transform.localPosition = Vector3.zero;

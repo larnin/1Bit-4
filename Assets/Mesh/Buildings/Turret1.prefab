@@ -142,6 +142,8 @@ MonoBehaviour:
   m_energyUptake: 10
   m_energyPerFire: 2.5
   m_projectilePrefab: {fileID: 9030378141569406407, guid: 87e9017554cad3b469d1f42ecbc47c60, type: 3}
+  m_fireSound: TurretEnergyFire
+  m_fireSoundVolume: 0.5
 --- !u!114 &116782343465566749
 MonoBehaviour:
   m_ObjectHideFlags: 0

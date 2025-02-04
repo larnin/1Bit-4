@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_soundPrefab: {fileID: 5835576248062424045, guid: 932735f7d87296a43a7fee39dc9892f7, type: 3}
+  m_uiSoundPrefab: {fileID: 5835576248062424045, guid: c301a4fc3526e18408f27d24e91bf847, type: 3}
   m_musicPrefab: {fileID: 3960748168255780782, guid: 32426eda381c8f74c86669f845c14961, type: 3}
   m_soundTrackNb: 20
   m_maxSoundsOfSameType: 4

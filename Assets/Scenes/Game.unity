@@ -1278,6 +1278,7 @@ GameObject:
   m_Component:
   - component: {fileID: 772823054}
   - component: {fileID: 772823053}
+  - component: {fileID: 772823055}
   m_Layer: 0
   m_Name: CameraPivot
   m_TagString: Untagged
@@ -1325,6 +1326,14 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &772823055
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772823052}
+  m_Enabled: 1
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1335,7 +1344,6 @@ GameObject:
   m_Component:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
-  - component: {fileID: 963194226}
   - component: {fileID: 963194231}
   - component: {fileID: 963194229}
   - component: {fileID: 963194230}
@@ -1346,14 +1354,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &963194226
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
 --- !u!20 &963194227
 Camera:
   m_ObjectHideFlags: 0
@@ -2288,6 +2288,7 @@ GameObject:
   - component: {fileID: 1597227290}
   - component: {fileID: 1597227289}
   - component: {fileID: 1597227288}
+  - component: {fileID: 1597227291}
   m_Layer: 5
   m_Name: OptionsButton
   m_TagString: Untagged
@@ -2410,6 +2411,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1597227286}
   m_CullTransparentMesh: 1
+--- !u!114 &1597227291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1597227286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c489c92f8c16fea4a8cf113b4545ae12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_hoverSound: Hover
+  m_hoverSoundVolume: 0.5
+  m_clickSound: Clic
+  m_clickSoundVolume: 1
 --- !u!1 &1605799739
 GameObject:
   m_ObjectHideFlags: 0

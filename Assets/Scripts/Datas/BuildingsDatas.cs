@@ -132,6 +132,9 @@ public class BuildingsDatas
     public BuildingDestructionData destructionDatas;
     public float regenSpeed;
     public float regenDelay;
+    public string alarmSound;
+    public float alarmVolume = 1;
+    public float alarmRestartDelay = 30;
 
     public OneBuildingData GetBuilding(BuildingType type)
     {

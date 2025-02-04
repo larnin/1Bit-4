@@ -371,6 +371,9 @@ MonoBehaviour:
       DestructionSpeed: 4
     regenSpeed: 2
     regenDelay: 30
+    alarmSound: BuildingAlarm
+    alarmVolume: 1
+    alarmRestartDelay: 30
   m_resourcesDatas:
     m_resources:
     - type: 0
@@ -545,7 +548,8 @@ MonoBehaviour:
       clips:
       - {fileID: 8300000, guid: 09419600c76a66040bde60c67885eb87, type: 3}
     - name: BuildingButtonClick
-      clips: []
+      clips:
+      - {fileID: 8300000, guid: fb1d9a1804dac4044b60224ce6f46e48, type: 3}
     - name: BuildingPlace
       clips:
       - {fileID: 8300000, guid: f3c8c542262e53742930ecbbf0a5a0c9, type: 3}
