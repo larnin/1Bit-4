@@ -128,6 +128,8 @@ public class DifficultySystem : MonoBehaviour
         if (grid.grid == null)
             return;
 
+        int size = GridEx.GetRealSize(grid.grid);
+
         int nbBuilding = ConnexionSystem.instance.GetConnectedBuildingNb();
 
         var rand = StaticRandomGenerator<MT19937>.Get();
@@ -144,6 +146,9 @@ public class DifficultySystem : MonoBehaviour
             var pos = building.GetGroundCenter() + new Vector3(offset.x, 0, offset.y);
             var posI = new Vector3Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y), Mathf.RoundToInt(pos.z));
 
+            if (posI.x < 1 || posI.z < 1 || posI.x >= size - 1 || posI.z >= size - 1)
+                continue;
+
             bool distOk = true;
             for(int j = 0; j < nbBuilding; j++)
             {
@@ -157,56 +162,58 @@ public class DifficultySystem : MonoBehaviour
                 }
             }
 
-            if(distOk)
+            if (!distOk)
+                continue;
+
+            int height = GridEx.GetHeight(grid.grid, new Vector2Int(posI.x, posI.z));
+            if (height < 0)
+                continue;
+
+            bool posOk = true;
+            for(int x = -1; x <= 1; x++)
             {
-                int height = GridEx.GetHeight(grid.grid, new Vector2Int(posI.x, posI.z));
-
-                bool posOk = true;
-                for(int x = -1; x <= 1; x++)
+                for(int z = -1; z <= 1; z++)
                 {
-                    for(int z = -1; z <= 1; z++)
-                    {
-                        if (x == 0 && z == 0)
-                            continue;
+                    if (x == 0 && z == 0)
+                        continue;
 
-                        int tempHeight = GridEx.GetHeight(grid.grid, new Vector2Int(posI.x + x, posI.z + z));
-                        if (tempHeight != height)
-                        {
-                            posOk = false;
-                            break;
-                        }
-                    }
-                    if (!posOk)
+                    int tempHeight = GridEx.GetHeight(grid.grid, new Vector2Int(posI.x + x, posI.z + z));
+                    if (tempHeight != height)
+                    {
+                        posOk = false;
                         break;
+                    }
                 }
+                if (!posOk)
+                    break;
+            }
 
-                if (posOk)
+            if (!posOk)
+                continue;
+
+            Vector3 spawnPos = new Vector3(posI.x, height + 1, posI.z);
+            var testBuilding = BuildingList.instance.GetNearestBuilding(spawnPos);
+
+            if(testBuilding != null)
+            {
+                float dist = (testBuilding.GetPos() - spawnPos).sqrMagnitude;
+                if (dist < Global.instance.difficultyDatas.spawnersData.distanceFromSpawnerMin * Global.instance.difficultyDatas.spawnersData.distanceFromSpawnerMin)
+                    posOk = false;
+            }
+
+            if (posOk)
+            {
+                var spawner = Global.instance.buildingDatas.GetBuilding(BuildingType.EnnemySpawner);
+                if (spawner != null)
                 {
-                    Vector3 spawnPos = new Vector3(posI.x, height + 1, posI.z);
-                    var testBuilding = BuildingList.instance.GetNearestBuilding(spawnPos);
-
-                    if(testBuilding != null)
-                    {
-                        float dist = (testBuilding.GetPos() - spawnPos).sqrMagnitude;
-                        if (dist < Global.instance.difficultyDatas.spawnersData.distanceFromSpawnerMin * Global.instance.difficultyDatas.spawnersData.distanceFromSpawnerMin)
-                            posOk = false;
-                    }
-
-                    if (posOk)
-                    {
-                        var spawner = Global.instance.buildingDatas.GetBuilding(BuildingType.EnnemySpawner);
-                        if (spawner != null)
-                        {
-                            var obj = Instantiate(spawner.prefab);
-                            obj.transform.parent = transform;
-                            obj.transform.position = spawnPos;
-                        }
-
-                        m_nbSpawnerToSpawn--;
-
-                        return;
-                    }
+                    var obj = Instantiate(spawner.prefab);
+                    obj.transform.parent = transform;
+                    obj.transform.position = spawnPos;
                 }
+
+                m_nbSpawnerToSpawn--;
+
+                return;
             }
         }
     }

@@ -91,7 +91,9 @@ public abstract class BuildingTurretBase : BuildingBase
             var entity = EntityList.instance.GetNearestEntity(groundCenter, targetTeam, AliveType.Alive);
             var building = BuildingList.instance.GetNearestBuilding(groundCenter, targetTeam, AliveType.Alive);
 
-            if (entity == null)
+            if (entity == null && building == null)
+                m_target = null;
+            else if (entity == null)
                 m_target = building.gameObject;
             else if (building == null)
                 m_target = entity.gameObject;

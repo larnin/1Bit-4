@@ -280,7 +280,8 @@ public class BuildingEnnemySpawner : BuildingBase
         int height = GridEx.GetHeight(grid.grid, posInt);
 
         var obj = Instantiate(e.prefab);
-        obj.transform.parent = transform;
+        if(EntityList.instance != null)
+            obj.transform.parent = EntityList.instance.transform;
         obj.transform.position = new Vector3(posInt.x, height + 1, posInt.y);
     }
 
