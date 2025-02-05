@@ -579,3 +579,4 @@ MonoBehaviour:
       clips:
       - {fileID: 8300000, guid: 0bfa658f16b6fd5408b6a2b0cfe1d44f, type: 3}
     m_musics: []
+    audioMixer: {fileID: 24100000, guid: f5ae65949bc74f748b94c3afecb74b27, type: 2}

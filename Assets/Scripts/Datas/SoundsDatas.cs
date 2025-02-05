@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using NRand;
+using UnityEngine.Audio;
 
 [Serializable]
 public class OneSoundData
@@ -25,6 +26,7 @@ public class SoundsDatas
 {
     [SerializeField] List<OneSoundData> m_sounds;
     [SerializeField] List<OneMusicData> m_musics;
+    public AudioMixer audioMixer;
 
     public AudioClip GetRandomSound(string name)
     {
