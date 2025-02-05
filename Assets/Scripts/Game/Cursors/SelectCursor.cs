@@ -11,6 +11,8 @@ public class SelectCursor : MonoBehaviour
     [SerializeField] LayerMask m_hoverLayer;
     [SerializeField] float m_durationToDisplayHover = 0.5f;
     [SerializeField] GameObject m_selectionCornerPrefab;
+    [SerializeField] string m_removeBuildingSound;
+    [SerializeField] float m_removeBuildingSoundVolume = 1;
 
     bool m_enabled = false;
 
@@ -355,6 +357,11 @@ public class SelectCursor : MonoBehaviour
         }
 
         m_selectedObjects.Clear();
+
+        if(SoundSystem.instance != null)
+        {
+            SoundSystem.instance.PlaySoundUI(m_removeBuildingSound, m_removeBuildingSoundVolume);
+        }
     }
 }
 

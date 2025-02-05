@@ -217,6 +217,8 @@ MonoBehaviour:
   m_rangeStopMove: 8
   m_fireRange: 12
   m_fireRate: 1
+  m_fireSound: EnnemyFire
+  m_fireSoundVolume: 0.5
 --- !u!114 &5849769382220962307
 MonoBehaviour:
   m_ObjectHideFlags: 0

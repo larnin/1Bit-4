@@ -10,6 +10,8 @@ public class BuildingTurretFreezer : BuildingTurretBase
     [SerializeField] ResourceType m_resourceConsumption = ResourceType.Oil;
     [SerializeField] float m_consumption = 1;
     [SerializeField] GameObject m_projectilePrefab;
+    [SerializeField] string m_fireSound;
+    [SerializeField] float m_fireSoundVolume = 1;
 
     SubscriberList m_subscriberList = new SubscriberList();
 
@@ -86,6 +88,11 @@ public class BuildingTurretFreezer : BuildingTurretBase
                     projectile.SetDamagesMultiplier(multiplier.GetValue());
                 }
             }
+        }
+
+        if (SoundSystem.instance != null)
+        {
+            SoundSystem.instance.PlaySound(m_fireSound, firePoint.position, m_fireSoundVolume);
         }
     }
 

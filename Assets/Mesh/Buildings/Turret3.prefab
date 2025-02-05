@@ -141,6 +141,8 @@ MonoBehaviour:
   m_resourceConsumption: 2
   m_consumption: 2
   m_projectilePrefab: {fileID: 4663558457059073221, guid: 40944aad284fb12449a32e5dc9a68036, type: 3}
+  m_fireSound: TurretIceFire
+  m_fireSoundVolume: 0.5
 --- !u!114 &759066009924349017
 MonoBehaviour:
   m_ObjectHideFlags: 0

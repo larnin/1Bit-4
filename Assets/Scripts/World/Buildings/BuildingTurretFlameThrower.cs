@@ -19,8 +19,11 @@ public class BuildingTurretFlameThrower : BuildingTurretBase
     [SerializeField] float m_coneSphereCount = 4;
     [SerializeField] bool m_debugDisplaySpheres;
     [SerializeField] ParticleSystem m_particles;
+    [SerializeField] string m_fireSound;
+    [SerializeField] float m_fireSoundVolume = 1;
 
     bool m_fireEnabled = false;
+    int m_fireSoundID = -1;
 
     SubscriberList m_subscriberList = new SubscriberList();
 
@@ -71,6 +74,9 @@ public class BuildingTurretFlameThrower : BuildingTurretBase
         base.OnDestroy();
 
         m_subscriberList.Unsubscribe();
+
+        if (m_fireSoundID >= 0 && SoundSystem.instance != null)
+            SoundSystem.instance.StopSound(m_fireSoundID);
     }
 
     protected override bool CanFire()
@@ -96,6 +102,13 @@ public class BuildingTurretFlameThrower : BuildingTurretBase
 
         if (m_particles != null)
             m_particles.Play(true);
+
+        if(SoundSystem.instance != null)
+        {
+            var firePoint = GetCurrentFirepoint();
+            if (firePoint != null)
+                m_fireSoundID =  SoundSystem.instance.PlaySound(m_fireSound, firePoint.position, m_fireSoundVolume, true);
+        }
     }
 
     protected override void EndFire()
@@ -104,6 +117,12 @@ public class BuildingTurretFlameThrower : BuildingTurretBase
 
         if (m_particles != null)
             m_particles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+
+        if (SoundSystem.instance != null)
+        {
+            SoundSystem.instance.StopSound(m_fireSoundID);
+            m_fireSoundID = -1;
+        }    
     }
 
     protected override void OnUpdate()

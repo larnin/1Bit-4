@@ -5204,6 +5204,8 @@ MonoBehaviour:
   m_coneSphereCount: 10
   m_debugDisplaySpheres: 0
   m_particles: {fileID: 7386897559899403223}
+  m_fireSound: TurretFlamethrowerFire
+  m_fireSoundVolume: 0.5
 --- !u!114 &4992982856762931583
 MonoBehaviour:
   m_ObjectHideFlags: 0

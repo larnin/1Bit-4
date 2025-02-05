@@ -12,6 +12,8 @@ public class EntityWeaponGun : EntityWeaponBase
     [SerializeField] float m_rangeStopMove;
     [SerializeField] float m_fireRange;
     [SerializeField] float m_fireRate;
+    [SerializeField] string m_fireSound;
+    [SerializeField] float m_fireSoundVolume = 1;
 
     List<Transform> m_firePoints = new List<Transform>();
 
@@ -157,6 +159,9 @@ public class EntityWeaponGun : EntityWeaponBase
                 }
             }
         }
+
+        if (SoundSystem.instance != null)
+            SoundSystem.instance.PlaySound(m_fireSound, firePos.position, m_fireSoundVolume);
 
         m_fireIndex++;
     }

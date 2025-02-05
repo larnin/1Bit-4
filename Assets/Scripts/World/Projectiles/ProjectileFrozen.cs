@@ -17,6 +17,8 @@ class ProjectileFrozen : ProjectileBase
     [SerializeField] float m_explosionRadius = 3;
     [SerializeField] Ease m_explosionCurve = Ease.Linear;
     [SerializeField] float m_explosionFadeEndPercent = 0.8f;
+    [SerializeField] string m_explosionSound;
+    [SerializeField] float m_explosionSoundVolume = 1;
 
     enum State
     {
@@ -158,6 +160,11 @@ class ProjectileFrozen : ProjectileBase
             m_time = 0;
 
             UpdateExplosionRender();
+
+            if(SoundSystem.instance != null)
+            {
+                SoundSystem.instance.PlaySound(m_explosionSound, transform.position, m_explosionSoundVolume);
+            }
         }
     }
 

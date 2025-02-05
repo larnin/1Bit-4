@@ -5110,3 +5110,5 @@ MonoBehaviour:
   m_explosionRadius: 6
   m_explosionCurve: 3
   m_explosionFadeEndPercent: 0.8
+  m_explosionSound: IceExplosion
+  m_explosionSoundVolume: 0.5

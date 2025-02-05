@@ -8,6 +8,8 @@ using UnityEngine;
 public class PlaceBuildingCursor : MonoBehaviour
 {
     [SerializeField] LayerMask m_groundLayer;
+    [SerializeField] string m_placeBuildingSound;
+    [SerializeField] float m_placeBuildingSoundVolume = 1;
 
     bool m_enabled = false;
     BuildingType m_type;
@@ -205,6 +207,9 @@ public class PlaceBuildingCursor : MonoBehaviour
         obj.transform.localPosition = pos;
 
         Event<OnBuildingBuildEvent>.Broadcast(new OnBuildingBuildEvent(m_type));
+
+        if (SoundSystem.instance != null)
+            SoundSystem.instance.PlaySound(m_placeBuildingSound, obj.transform.position, m_placeBuildingSoundVolume);
     }
 
     void EnableCross(bool enabled, string message = "")

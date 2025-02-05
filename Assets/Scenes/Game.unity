@@ -2645,6 +2645,8 @@ MonoBehaviour:
   m_groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  m_placeBuildingSound: BuildingPlace
+  m_placeBuildingSoundVolume: 0.5
 --- !u!4 &1754772338
 Transform:
   m_ObjectHideFlags: 0
@@ -2935,6 +2937,8 @@ MonoBehaviour:
     m_Bits: 448
   m_durationToDisplayHover: 0.2
   m_selectionCornerPrefab: {fileID: 4940205596572418002, guid: de1d391323796b64db758b6ad2ccabca, type: 3}
+  m_removeBuildingSound: BuildingRemove
+  m_removeBuildingSoundVolume: 0.5
 --- !u!4 &2063130300
 Transform:
   m_ObjectHideFlags: 0
