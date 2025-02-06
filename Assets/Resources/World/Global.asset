@@ -415,10 +415,10 @@ MonoBehaviour:
   m_difficultyDatas:
     difficultyPerMinute:
       baseValue: 0.3
-      powValue: 1.1
+      powValue: 1.2
       multiplierValue: 1
       addValue: 0
-      finalAddValue: 0
+      finalAddValue: -0.3
     difficultyPerDistance:
       baseValue: 0.02
       powValue: 1.2
@@ -426,38 +426,39 @@ MonoBehaviour:
       addValue: 0
       finalAddValue: -0.2
     difficultyPerKill:
-      baseValue: 0.002
+      baseValue: 0.005
       powValue: 1
       multiplierValue: 1
       addValue: 0
-      finalAddValue: 0
+      finalAddValue: -0.1
     difficultyPerSpawner:
       baseValue: 0.8
       powValue: 1.2
       multiplierValue: 1
       addValue: 0
-      finalAddValue: 0
+      finalAddValue: -0.5
     difficultyToSpawnerNb:
-      baseValue: 1
+      baseValue: 0.8
       powValue: 1
       multiplierValue: 1
       addValue: 0
       finalAddValue: 0
     difficultyToLifeMultiplier:
       baseValue: 0.25
-      powValue: 1.1
+      powValue: 1.2
       multiplierValue: 1
       addValue: 0
       finalAddValue: 0
     difficultyToDamageMultiplier:
-      baseValue: 0.15
-      powValue: 1.2
+      baseValue: 0.18
+      powValue: 1.3
       multiplierValue: 1
       addValue: 0
       finalAddValue: 0
     spawnersData:
       displayHeight: 6
       displayBeforeWave: 10
+      firstDelayAdd: 30
       delayBetweenWavesMin: 60
       delayBetweenWavesMax: 90
       distanceFromBuildingsMin: 25

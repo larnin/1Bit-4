@@ -148,6 +148,8 @@ public class BuildingEnnemySpawner : BuildingBase
         float max = Global.instance.difficultyDatas.spawnersData.delayBetweenWavesMax;
 
         float time = Rand.UniformFloatDistribution(min, max, StaticRandomGenerator<MT19937>.Get());
+        if (m_state == State.Starting)
+            time += Global.instance.difficultyDatas.spawnersData.firstDelayAdd;
 
         m_timer = time;
         m_state = State.Waiting;

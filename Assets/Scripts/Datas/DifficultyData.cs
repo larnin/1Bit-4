@@ -41,6 +41,7 @@ public class DifficultySpawnerData
     public float displayHeight = 6;
     public float displayBeforeWave = 10;
 
+    public float firstDelayAdd;
     public float delayBetweenWavesMin;
     public float delayBetweenWavesMax;
     public float distanceFromBuildingsMin;

@@ -51,7 +51,7 @@ public class GameOverMenu : MonoBehaviour
     {
         if (DifficultySystem.instance != null)
         {
-            int score = Mathf.RoundToInt(DifficultySystem.instance.GetDifficulty() * 10);
+            int score = Mathf.RoundToInt(DifficultySystem.instance.GetDifficulty() * DifficultySystem.instance.GetDifficulty() * 10);
 
             if (m_scoreValue != null)
                 m_scoreValue.text = score.ToString();

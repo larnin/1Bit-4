@@ -146,6 +146,12 @@ public class BuildingTurretFlameThrower : BuildingTurretBase
     {
         base.OnUpdateAlways();
 
+        if(m_fireEnabled)
+        {
+            if (ConnexionSystem.instance != null && !ConnexionSystem.instance.IsConnected(this))
+                EndFire();
+        }
+
         var firePoint = GetCurrentFirepoint();
         if(firePoint != null)
         {

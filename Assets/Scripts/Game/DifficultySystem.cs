@@ -249,7 +249,7 @@ public class DifficultySystem : MonoBehaviour
         return (BuildingEnnemySpawner)building;
     }
 
-#if true
+#if false
     private void OnGUI()
     {
         float difficultyPerMinute = Global.instance.difficultyDatas.difficultyPerMinute.Get(m_time / 60);
