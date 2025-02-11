@@ -22,6 +22,8 @@ public class MainMenu : MonoBehaviour
     private void Start()
     {
         RandomSeed();
+
+        HideQuitButton();
     }
 
     public void SetWorldSize(int sizeType)

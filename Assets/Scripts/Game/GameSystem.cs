@@ -28,6 +28,7 @@ public class GameSystem : MonoBehaviour
     [SerializeField] List<BuildingType> m_unlockedBuilding;
 
     State m_state = State.Starting;
+    float m_delay;
 
     static GameSystem m_instance = null;
     public static GameSystem instance { get { return m_instance; } }
@@ -45,12 +46,6 @@ public class GameSystem : MonoBehaviour
             m_unlockedBuilding.Remove(type);
     }
 
-    private void Start()
-    {
-        WorldGenerator.Generate(Global.instance.GetWorldGeneratorSettings(GameInfos.instance.gameParams.worldSize), GameInfos.instance.gameParams.seed);
-        m_state = State.GeneratingWorld;
-    }
-
     private void Awake()
     {
         m_instance = this;
@@ -66,6 +61,16 @@ public class GameSystem : MonoBehaviour
     {
         switch(m_state)
         {
+            case State.Starting:
+                {
+                    m_delay += Time.deltaTime;
+                    if(m_delay >= 1)
+                    {
+                        WorldGenerator.Generate(Global.instance.GetWorldGeneratorSettings(GameInfos.instance.gameParams.worldSize), GameInfos.instance.gameParams.seed);
+                        m_state = State.GeneratingWorld;
+                    }
+                    break;
+                }
             case State.GeneratingWorld:
                 {
                     if(WorldGenerator.GetState() == WorldGenerator.GenerationState.Finished)
@@ -188,6 +193,8 @@ public class GameSystem : MonoBehaviour
     {
         switch (m_state)
         {
+            case State.Starting:
+                return "";
             case State.GeneratingWorld:
                 return WorldGenerator.GetStateText();
             case State.PlaceTower:

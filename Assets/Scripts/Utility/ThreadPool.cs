@@ -1,10 +1,17 @@
-﻿using System;
+﻿
+#if !UNITY_STANDALONE_WIN && !UNITY_EDITOR
+#define GAME_MONOTHREAD
+#endif
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+
+
 
 public static class ThreadPool
 {
@@ -93,6 +100,10 @@ public static class ThreadPool
 
     public static void StartJob(Action job, Action endCallback, int priority = 1, System.Object obj = null)
     {
+#if GAME_MONOTHREAD
+    Job j = new Job(obj, job, endCallback, priority);
+    DoJob(j);
+#else
         if (!m_started)
             InitThreads();
 
@@ -117,5 +128,6 @@ public static class ThreadPool
                 }
             }
         }
+#endif
     }
 }
