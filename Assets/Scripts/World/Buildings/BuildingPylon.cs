@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.Profiling;
 using UnityEngine;
 
 public class BuildingPylon : BuildingBase
 {
+    static readonly ProfilerMarker ms_profilerMarker = new ProfilerMarker(ProfilerCategory.Scripts, "BuildingPylon.EnergyGeneration");
+
     [SerializeField] float m_powerGeneration = 1;
     [SerializeField] float m_generationRadius = 4;
     [SerializeField] float m_placementRadius = 5;
@@ -36,27 +39,30 @@ public class BuildingPylon : BuildingBase
 
     public override float EnergyGeneration()
     {
-        if (ConnexionSystem.instance == null)
-            return m_powerGeneration;
-
-        float maxDistance = m_generationRadius * m_generationRadius;
-        var pos = GetGroundCenter();
-        var connected = ConnexionSystem.instance.GetConnectedBuilding(this);
-        foreach(var c in connected)
+        using (ms_profilerMarker.Auto())
         {
-            if (c.GetBuildingType() != BuildingType.Pylon)
-                continue;
-            var otherPos = c.GetGroundCenter();
-            float dist = (pos - otherPos).sqrMagnitude;
+            if (ConnexionSystem.instance == null)
+                return m_powerGeneration;
 
-            if (dist > maxDistance)
-                continue;
-            maxDistance = dist;
+            float maxDistance = m_generationRadius * m_generationRadius;
+            var pos = GetGroundCenter();
+            var connected = ConnexionSystem.instance.GetConnectedBuilding(this);
+            foreach (var c in connected)
+            {
+                if (c.GetBuildingType() != BuildingType.Pylon)
+                    continue;
+                var otherPos = c.GetGroundCenter();
+                float dist = (pos - otherPos).sqrMagnitude;
+
+                if (dist > maxDistance)
+                    continue;
+                maxDistance = dist;
+            }
+
+            float powerMultiplier = maxDistance / m_generationRadius / m_generationRadius;
+
+            return m_powerGeneration * powerMultiplier;
         }
-
-        float powerMultiplier = maxDistance / m_generationRadius / m_generationRadius;
-
-        return m_powerGeneration * powerMultiplier;
     }
 
     public override float PlacementRadius()

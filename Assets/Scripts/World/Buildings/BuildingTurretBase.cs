@@ -4,10 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.Profiling;
 using UnityEngine;
 
 public abstract class BuildingTurretBase : BuildingBase
 {
+    static readonly ProfilerMarker ms_profilerMarker = new ProfilerMarker(ProfilerCategory.Scripts, "BuildingTurretBase.OnUpdate");
+
     [HideIf("@(this.IsContinuousWeapon())")]
     [SerializeField] float m_fireRate = 1;
     [SerializeField] float m_range = 5;
@@ -77,53 +80,56 @@ public abstract class BuildingTurretBase : BuildingBase
 
     protected override void OnUpdate()
     {
-        ProcessRecoil();
-
-        if (EntityList.instance == null || BuildingList.instance == null)
-            m_target = null;
-        else
+        using (ms_profilerMarker.Auto())
         {
-            Team targetTeam = TeamEx.GetOppositeTeam(GetTeam());
-            m_target = null;
+            ProcessRecoil();
 
-            var groundCenter = GetGroundCenter();
-
-            var entity = EntityList.instance.GetNearestEntity(groundCenter, targetTeam, AliveType.Alive);
-            var building = BuildingList.instance.GetNearestBuilding(groundCenter, targetTeam, AliveType.Alive);
-
-            if (entity == null && building == null)
+            if (EntityList.instance == null || BuildingList.instance == null)
                 m_target = null;
-            else if (entity == null)
-                m_target = building.gameObject;
-            else if (building == null)
-                m_target = entity.gameObject;
             else
             {
-                float distEntity = (entity.transform.position - groundCenter).sqrMagnitude;
-                float distBuilding = (building.GetGroundCenter() - groundCenter).sqrMagnitude;
-                if (distBuilding < distEntity)
-                    m_target = building.gameObject;
-                else m_target = entity.gameObject;
-            }
-        }
-
-        if(m_target != null)
-        {
-            float dist = (GetGroundCenter() - m_target.transform.position).sqrMagnitude;
-            if (dist > m_range * m_range)
+                Team targetTeam = TeamEx.GetOppositeTeam(GetTeam());
                 m_target = null;
-        }
 
-        if(m_turret != null)
-        {
-            if (m_target == null)
-                m_turret.SetNoTarget();
-            else m_turret.SetTarget(TurretBehaviour.GetTargetCenter(m_target));
-        }
+                var groundCenter = GetGroundCenter();
 
-        if (IsContinuousWeapon())
-            UpdateContinuousTurret();
-        else UpdateBulletTurret();
+                var entity = EntityList.instance.GetNearestEntity(groundCenter, targetTeam, AliveType.Alive);
+                var building = BuildingList.instance.GetNearestBuilding(groundCenter, targetTeam, AliveType.Alive);
+
+                if (entity == null && building == null)
+                    m_target = null;
+                else if (entity == null)
+                    m_target = building.gameObject;
+                else if (building == null)
+                    m_target = entity.gameObject;
+                else
+                {
+                    float distEntity = (entity.transform.position - groundCenter).sqrMagnitude;
+                    float distBuilding = (building.GetGroundCenter() - groundCenter).sqrMagnitude;
+                    if (distBuilding < distEntity)
+                        m_target = building.gameObject;
+                    else m_target = entity.gameObject;
+                }
+            }
+
+            if (m_target != null)
+            {
+                float dist = (GetGroundCenter() - m_target.transform.position).sqrMagnitude;
+                if (dist > m_range * m_range)
+                    m_target = null;
+            }
+
+            if (m_turret != null)
+            {
+                if (m_target == null)
+                    m_turret.SetNoTarget();
+                else m_turret.SetTarget(TurretBehaviour.GetTargetCenter(m_target));
+            }
+
+            if (IsContinuousWeapon())
+                UpdateContinuousTurret();
+            else UpdateBulletTurret();
+        }
     }
 
     void UpdateBulletTurret()
