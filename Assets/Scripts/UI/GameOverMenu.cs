@@ -18,6 +18,8 @@ public class GameOverMenu : MonoBehaviour
     [SerializeField] TMP_Text m_spawnersValue;
     [SerializeField] TMP_Text m_buildingsConstructedValue;
     [SerializeField] TMP_Text m_buildingsLostValue;
+    [SerializeField] string m_gameOverSound;
+    [SerializeField] float m_gameOverVolume = 1;
 
     bool m_selected = false;
 
@@ -45,6 +47,9 @@ public class GameOverMenu : MonoBehaviour
         }
 
         DrawScores();
+
+        if (SoundSystem.instance != null)
+            SoundSystem.instance.PlaySoundUI(m_gameOverSound, m_gameOverVolume);
     }
 
     void DrawScores()
