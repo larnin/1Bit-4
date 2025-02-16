@@ -32,11 +32,16 @@ public class Settings
     [SerializeField] float m_musicVolume = 1;
     [SerializeField] float m_soundVolume = 1;
 
+    [SerializeField] string m_colorName;
+    [SerializeField] bool m_colorFlip = false;
+
     public Settings()
     {
+
+        if (Global.instance.colorsDatas.colors.Count > 0)
+            m_colorName = Global.instance.colorsDatas.colors[0].name;
+
         //todo load settings
-
-
     }
 
     public void SetMusicVolume(float value)
@@ -76,6 +81,30 @@ public class Settings
         value = Mathf.Sqrt(value);
         value = (value * 80) - 80;
         return value;
+    }
+
+    public void SetColorName(string name)
+    {
+        m_colorName = name;
+
+        Event<SettingsColorChangedEvent>.Broadcast(new SettingsColorChangedEvent());
+    }
+
+    public void SetColorFlip(bool flip)
+    {
+        m_colorFlip = flip;
+
+        Event<SettingsColorChangedEvent>.Broadcast(new SettingsColorChangedEvent());
+    }
+
+    public string GetColorName()
+    {
+        return m_colorName;
+    }
+
+    public bool GetColorFlip()
+    {
+        return m_colorFlip;
     }
 }
 

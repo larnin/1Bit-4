@@ -42,4 +42,10 @@ public class BlackAndWhitePostEffect : MonoBehaviour
         m_material.SetFloat(lightLevelName, m_lightLevel);
         m_material.SetColor(lightColorName, m_lightColor);
     }
+
+    public void SetColors(Color lightColor, Color darkColor)
+    {
+        m_darkColor = darkColor;
+        m_lightColor = lightColor;
+    }
 }
