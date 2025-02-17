@@ -51,8 +51,7 @@ public class PauseMenu : MonoBehaviour
         if (MenuSystem.instance == null)
             return;
 
-        //todo option menu
-
+        MenuSystem.instance.OpenMenu<OptionsMenu>("Options");
     }
 
     public void OnQuit()

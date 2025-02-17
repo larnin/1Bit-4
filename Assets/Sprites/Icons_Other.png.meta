@@ -251,7 +251,7 @@ TextureImporter:
         width: 3
         height: 3
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -272,7 +272,7 @@ TextureImporter:
         width: 4
         height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -280,6 +280,132 @@ TextureImporter:
       bones: []
       spriteID: d77361a35a4934c4883a34dc0b256bfc
       internalID: -1819370428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons_Other_8
+      rect:
+        serializedVersion: 2
+        x: 29
+        y: 229
+        width: 14
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9b41d9ab0429db4284a74eebbcb5fb3
+      internalID: -719018604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons_Other_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 218
+        width: 16
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 3, y: 3, z: 3, w: 3}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bafcdafdc00bef541b8f1f22a07bb11a
+      internalID: -320350092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons_Other_10
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 214
+        width: 8
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 3, y: 5, z: 3, w: 5}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c5eeb3af1058b94d9ec3fbae7b2a80c
+      internalID: 1001593504
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons_Other_11
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 209
+        width: 16
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 3, y: 3, z: 3, w: 3}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dbfb920f7196fdb4dac79a4242c23fc5
+      internalID: 1250530299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons_Other_12
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 214
+        width: 8
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 3, y: 5, z: 3, w: 5}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ff5bd05c30f0084aa5196b7c41d56aa
+      internalID: -205994291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons_Other_13
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 214
+        width: 8
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 3, y: 5, z: 3, w: 5}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2253579a675e92649a9741f142b43a24
+      internalID: -1662470187
       vertices: []
       indices: 
       edges: []
@@ -297,12 +423,18 @@ TextureImporter:
     nameFileIdTable:
       Icons_Other_0: 327503602
       Icons_Other_1: -338571672
+      Icons_Other_10: 1001593504
+      Icons_Other_11: 1250530299
+      Icons_Other_12: -205994291
+      Icons_Other_13: -1662470187
       Icons_Other_2: -145538938
       Icons_Other_3: -1070398611
       Icons_Other_4: 685141666
       Icons_Other_5: 2082153759
       Icons_Other_6: 1803468352
       Icons_Other_7: -1819370428
+      Icons_Other_8: -719018604
+      Icons_Other_9: -320350092
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

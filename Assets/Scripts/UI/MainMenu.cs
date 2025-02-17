@@ -63,6 +63,7 @@ public class MainMenu : MonoBehaviour
         if (m_selected)
             return;
 
+        MenuSystem.instance.OpenMenu<OptionsMenu>("Options");
     }
 
     public void Quit()
