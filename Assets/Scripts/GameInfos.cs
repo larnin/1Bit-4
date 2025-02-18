@@ -111,12 +111,14 @@ public class Settings
 public class GameParams
 {
     public int seed;
+    public string seedStr;
     public WorldSize worldSize;
 
     public GameParams()
     {
         worldSize = WorldSize.Small;
-        seed = (int)StaticRandomGenerator<MT19937>.Get().Next();
+        seedStr = StaticRandomGenerator<MT19937>.Get().Next().ToString();
+        seed = Cast.HashString(seedStr);
     }
 }
 

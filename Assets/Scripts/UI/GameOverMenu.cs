@@ -18,6 +18,8 @@ public class GameOverMenu : MonoBehaviour
     [SerializeField] TMP_Text m_spawnersValue;
     [SerializeField] TMP_Text m_buildingsConstructedValue;
     [SerializeField] TMP_Text m_buildingsLostValue;
+    [SerializeField] TMP_Text m_seedText;
+    [SerializeField] string m_gameSceneName;
     [SerializeField] string m_gameOverSound;
     [SerializeField] float m_gameOverVolume = 1;
 
@@ -31,6 +33,19 @@ public class GameOverMenu : MonoBehaviour
         m_selected = true;
 
         SceneSystem.changeScene(new ChangeSceneParams(m_menuName));
+    }
+
+    public void OnRestart()
+    {
+        if (m_selected)
+            return;
+
+        m_selected = true;
+
+        var scene = new ChangeSceneParams(m_gameSceneName);
+        scene.skipFadeOut = true;
+
+        SceneSystem.changeScene(scene);
     }
 
     private void Awake()
@@ -78,5 +93,8 @@ public class GameOverMenu : MonoBehaviour
             if (m_buildingsLostValue != null)
                 m_buildingsLostValue.text = stats.buildingsLost.ToString();
         }
+
+        if (m_seedText != null)
+            m_seedText.text = GameInfos.instance.gameParams.seedStr;
     }
 }

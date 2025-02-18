@@ -50,6 +50,7 @@ public class MainMenu : MonoBehaviour
 
         m_selected = true;
         GameInfos.instance.gameParams.worldSize = m_worldSize;
+        GameInfos.instance.gameParams.seedStr = m_seed;
         GameInfos.instance.gameParams.seed = Cast.HashString(m_seed);
 
         var scene = new ChangeSceneParams(m_gameSceneName);
