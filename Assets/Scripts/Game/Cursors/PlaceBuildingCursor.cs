@@ -16,6 +16,8 @@ public class PlaceBuildingCursor : MonoBehaviour
     BuildingBase m_instance;
     BuildingPlaceType m_canPlace = BuildingPlaceType.Valid;
     bool m_posValid = false;
+    Vector3 m_mousePos;
+    Vector3Int m_cursorPos;
 
     private void OnEnable()
     {
@@ -111,11 +113,11 @@ public class PlaceBuildingCursor : MonoBehaviour
         if(!haveHit)
             return;
 
-         Vector3 target = hit.point;
-        target += hit.normal * 0.5f;
+        m_mousePos = hit.point;
+        m_mousePos += hit.normal * 0.5f;
 
-        Vector3Int targetInt = new Vector3Int(Mathf.RoundToInt(target.x), Mathf.RoundToInt(target.y), Mathf.RoundToInt(target.z));
-        m_instance.transform.position = targetInt;
+        m_cursorPos = new Vector3Int(Mathf.RoundToInt(m_mousePos.x), Mathf.RoundToInt(m_mousePos.y), Mathf.RoundToInt(m_mousePos.z));
+        m_instance.transform.position = m_cursorPos;
 
         m_posValid = true;
     }
@@ -166,7 +168,55 @@ public class PlaceBuildingCursor : MonoBehaviour
             return;
         }
 
-        m_canPlace = m_instance.CanBePlaced(m_instance.GetPos());
+        var validPos = GetNearestValidPos(m_cursorPos);
+        m_instance.transform.position = validPos;
+        m_cursorPos = validPos;
+        m_canPlace = m_instance.CanBePlaced(validPos);
+    }
+
+    Vector3Int GetNearestValidPos(Vector3Int pos)
+    {
+        if (m_instance.CanBePlaced(pos) == BuildingPlaceType.Valid)
+            return pos;
+
+        for(int i = 1; i < 4; i++)
+        {
+            var newPos = pos - new Vector3Int(0, i, 0);
+            if (m_instance.CanBePlaced(newPos) == BuildingPlaceType.Valid)
+                return newPos;
+        }
+
+
+        List<Vector3Int> testPos = new List<Vector3Int>();
+        for(int i = -2; i <= 2; i++)
+        {
+            for(int j = -1; j <= 1; j++)
+            {
+                for(int k = -2; k <= 2; k++)
+                {
+                    if (i == 0 && k == 0 && j <= 0)
+                        continue; //already checked
+
+                    testPos.Add(pos + new Vector3Int(i, j, k));
+                }
+            }
+        }
+
+        testPos.Sort((a, b) =>
+        {
+            float distA = (a - m_mousePos).sqrMagnitude;
+            float distB = (b - m_mousePos).sqrMagnitude;
+
+            return distA.CompareTo(distB);
+        });
+
+        foreach(var p in testPos)
+        {
+            if (m_instance.CanBePlaced(p) == BuildingPlaceType.Valid)
+                return p;
+        }
+
+        return pos;
     }
 
     void UpdateCross()
@@ -193,8 +243,6 @@ public class PlaceBuildingCursor : MonoBehaviour
         if (!m_posValid || m_canPlace != BuildingPlaceType.Valid)
             return;
 
-        Vector3Int pos = m_instance.GetPos();
-
         var buildingData = Global.instance.buildingDatas.GetBuilding(m_type);
         if (buildingData == null || buildingData.prefab == null)
             return;
@@ -204,7 +252,7 @@ public class PlaceBuildingCursor : MonoBehaviour
 
         var obj = Instantiate(buildingData.prefab);
         obj.transform.parent = BuildingList.instance.transform;
-        obj.transform.localPosition = pos;
+        obj.transform.localPosition = m_cursorPos;
 
         Event<OnBuildingBuildEvent>.Broadcast(new OnBuildingBuildEvent(m_type));
 
