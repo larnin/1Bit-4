@@ -7,8 +7,17 @@ using UnityEngine;
 
 public class BuildingList : MonoBehaviour
 {
+    class BuildingChunk
+    {
+        public List<BuildingBase> buildings = new List<BuildingBase>();
+        public Vector3Int pos;
+    }
+
     List<BuildingBase> m_buildings = new List<BuildingBase>();
     Dictionary<ulong, BuildingBase> m_buildingsPos = new Dictionary<ulong, BuildingBase>();
+    Dictionary<ulong, BuildingChunk> m_chunks = new Dictionary<ulong, BuildingChunk>();
+
+    SubscriberList m_subscriberList = new SubscriberList();
 
     static BuildingList m_instance = null;
     public static BuildingList instance { get { return m_instance; } }
@@ -16,12 +25,17 @@ public class BuildingList : MonoBehaviour
     private void Awake()
     {
         m_instance = this;
+
+        m_subscriberList.Add(new Event<GenerationFinishedEvent>.Subscriber(OnGenerationEnd));
+        m_subscriberList.Subscribe();
     }
 
     private void OnDestroy()
     {
         if (m_instance == this)
             m_instance = null;
+
+        m_subscriberList.Unsubscribe();
     }
 
     public void Register(BuildingBase building)
@@ -202,5 +216,47 @@ public class BuildingList : MonoBehaviour
         }
 
         return  dir.sqrMagnitude;
+    }
+
+    void OnGenerationEnd(GenerationFinishedEvent e)
+    {
+        InitializeBuildingChunks();
+    }
+
+    void InitializeBuildingChunks()
+    {
+        GetGridEvent e = new GetGridEvent();
+        Event<GetGridEvent>.Broadcast(e);
+
+        int size = e.grid.Size();
+        int height = e.grid.Height();
+
+        for(int i = 0; i < size; i++)
+        {
+            for(int j = 0; j < size; j++)
+            {
+                for(int k = 0; k < size; k++)
+                {
+                    var chunk = new BuildingChunk();
+                    chunk.pos = new Vector3Int(i, j, k);
+                    m_chunks.Add(Utility.PosToID(chunk.pos), chunk);
+                }
+            }
+        }
+    }
+
+    BuildingChunk GetChunk(Vector3Int pos)
+    {
+        var ID = Utility.PosToID(pos);
+        BuildingChunk chunk = null;
+        m_chunks.TryGetValue(ID, out chunk);
+
+        return chunk;
+    }
+
+    BuildingChunk GetChunkAt(Vector3Int pos)
+    {
+        var chunkPos = Grid.PosToChunkIndex(pos);
+        return GetChunk(chunkPos);
     }
 }

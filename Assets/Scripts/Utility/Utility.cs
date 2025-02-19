@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.Profiling;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -211,6 +212,8 @@ public static class Utility
 
         return dead.isDead;
     }
+
+    static readonly ProfilerMarker ms_aliveProfilerMarker = new ProfilerMarker(ProfilerCategory.Scripts, "Utility.IsAliveFilter");
 
     public static bool IsAliveFilter(GameObject obj, AliveType aliveFilter)
     {
