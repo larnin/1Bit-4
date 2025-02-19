@@ -239,15 +239,13 @@ public static class Utility
         if (aliveFilter == AliveType.NotSet)
             return true;
 
-        HaveLifeEvent haveLife = new HaveLifeEvent();
-        Event<HaveLifeEvent>.Broadcast(haveLife, obj);
-        if (!haveLife.haveLife)
+        GetLifeEvent life = new GetLifeEvent();
+        Event<GetLifeEvent>.Broadcast(life, obj);
+
+        if (!life.haveLife)
             return aliveFilter == AliveType.NoLive;
         else if (aliveFilter == AliveType.NoLive)
             return false;
-
-        GetLifeEvent life = new GetLifeEvent();
-        Event<GetLifeEvent>.Broadcast(life, obj);
 
         float lifePercent = life.lifePercent;
 

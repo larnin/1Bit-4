@@ -13,18 +13,14 @@ public class DisplayLife : MonoBehaviour
     
     void Update()
     {
-        HaveLifeEvent haveLife = new HaveLifeEvent();
-        Event<HaveLifeEvent>.Broadcast(haveLife, gameObject);
-
-        if(!haveLife.haveLife)
+        GetLifeEvent life = new GetLifeEvent();
+        Event<GetLifeEvent>.Broadcast(life, gameObject);
+        if(!life.haveLife)
         {
             if (m_lifebarInstance != null)
                 Destroy(m_lifebarInstance);
             return;
         }
-
-        GetLifeEvent life = new GetLifeEvent();
-        Event<GetLifeEvent>.Broadcast(life, gameObject);
 
         float fLife = life.lifePercent;
         if(fLife >= 1 || fLife <= 0)

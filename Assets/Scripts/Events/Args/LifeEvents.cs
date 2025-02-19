@@ -8,14 +8,10 @@ using UnityEngine;
 
 public class GetLifeEvent
 {
+    public bool haveLife = false;
     public float life;
     public float maxLife = 1;
     public float lifePercent { get { return life / maxLife; } }
-}
-
-public class HaveLifeEvent
-{
-    public bool haveLife = false;
 }
 
 public class IsDeadEvent

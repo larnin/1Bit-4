@@ -36,7 +36,6 @@ public class LifeComponent : MonoBehaviour
     {
         m_subscriberList.Add(new Event<BuildSelectionDetailLifeEvent>.LocalSubscriber(BuildLife, gameObject));
         m_subscriberList.Add(new Event<GetLifeEvent>.LocalSubscriber(GetLife, gameObject));
-        m_subscriberList.Add(new Event<HaveLifeEvent>.LocalSubscriber(HaveLife, gameObject));
         m_subscriberList.Add(new Event<IsDeadEvent>.LocalSubscriber(IsDead, gameObject));
         m_subscriberList.Add(new Event<HitEvent>.LocalSubscriber(Hit, gameObject));
         m_subscriberList.Add(new Event<HealEvent>.LocalSubscriber(Heal, gameObject));
@@ -129,14 +128,11 @@ public class LifeComponent : MonoBehaviour
     {
         UpdateMultiplier();
 
+        e.haveLife = true;
         e.life = m_life;
         e.maxLife = m_maxLife * m_maxLifeMultiplier;
     }
 
-    void HaveLife(HaveLifeEvent e)
-    {
-        e.haveLife = true;
-    }
 
     void IsDead(IsDeadEvent e)
     {
