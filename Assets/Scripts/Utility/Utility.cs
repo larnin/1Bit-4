@@ -158,6 +158,25 @@ public static class Utility
         return ID;
     }
 
+    public static ulong PosToID(Vector2Int pos)
+    {
+        const int powLimit = 30;
+        const int absLimit = 1 << powLimit;
+
+        for (int i = 0; i < 2; i++)
+        {
+            if (Mathf.Abs(pos[i]) > absLimit - 1)
+                pos[i] = (absLimit - 1) * ((pos[i] > 0) ? 1 : -1);
+            pos[i] += absLimit - 1;
+        }
+
+        ulong ID = (ulong)pos.x;
+        ID <<= powLimit;
+        ID += (ulong)pos.y;
+
+        return ID;
+    }
+
     public static Vector2 IntersectLines(Vector2 A, Vector2 B, Vector2 O, Vector2 P)
     {
         Vector2 AB = B - A;

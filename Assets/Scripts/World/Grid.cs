@@ -47,6 +47,17 @@ public class Grid
         return index;
     }
 
+    public static Vector2Int PosToChunkIndex(Vector2Int pos)
+    {
+        Vector2Int index = pos / ChunkSize;
+        if (pos.x < 0)
+            index.x--;
+        if (pos.y < 0)
+            index.y--;
+
+        return index;
+    }
+
     public static Vector3Int PosToPosInChunk(Vector3Int pos)
     {
         var index = PosToChunkIndex(pos);
