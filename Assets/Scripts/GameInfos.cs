@@ -35,6 +35,8 @@ public class Settings
     [SerializeField] string m_colorName;
     [SerializeField] bool m_colorFlip = false;
 
+    [SerializeField] bool m_inverseZoom = false;
+
     public Settings()
     {
 
@@ -105,6 +107,16 @@ public class Settings
     public bool GetColorFlip()
     {
         return m_colorFlip;
+    }
+
+    public void SetInverseZoom(bool zoom)
+    {
+        m_inverseZoom = zoom;
+    }
+
+    public bool IsInverseZoom()
+    {
+        return m_inverseZoom;
     }
 }
 

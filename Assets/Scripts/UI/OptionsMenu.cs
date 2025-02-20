@@ -13,6 +13,7 @@ public class OptionsMenu : MonoBehaviour
     [SerializeField] Slider m_soundSlider;
     [SerializeField] TMP_Dropdown m_colorDropdown;
     [SerializeField] Toggle m_colorFlipToggle;
+    [SerializeField] Toggle m_zoomToggle;
 
     private void Awake()
     {
@@ -38,6 +39,11 @@ public class OptionsMenu : MonoBehaviour
         if(m_colorFlipToggle != null)
         {
             m_colorFlipToggle.isOn = GameInfos.instance.settings.GetColorFlip();
+        }
+
+        if(m_zoomToggle != null)
+        {
+            m_zoomToggle.isOn = GameInfos.instance.settings.IsInverseZoom();
         }
     }
 
@@ -65,6 +71,11 @@ public class OptionsMenu : MonoBehaviour
     public void OnColorFlipChange(bool flipped)
     {
         GameInfos.instance.settings.SetColorFlip(flipped);
+    }
+
+    public void OnZoomDirectionChange(bool direction)
+    {
+        GameInfos.instance.settings.SetInverseZoom(direction);
     }
 
     public void CloseMenu()
