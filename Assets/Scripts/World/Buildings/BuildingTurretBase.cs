@@ -10,6 +10,7 @@ using UnityEngine;
 public abstract class BuildingTurretBase : BuildingBase
 {
     static readonly ProfilerMarker ms_profilerMarker = new ProfilerMarker(ProfilerCategory.Scripts, "BuildingTurretBase.OnUpdate");
+    const float updateTargetDelay = 0.1f;
 
     [HideIf("@(this.IsContinuousWeapon())")]
     [SerializeField] float m_fireRate = 1;
@@ -25,6 +26,7 @@ public abstract class BuildingTurretBase : BuildingBase
     TurretBehaviour m_turret;
 
     GameObject m_target;
+    float m_updateTargetTimer = 0;
 
     List<Transform> m_firePoints = new List<Transform>();
 
@@ -88,27 +90,33 @@ public abstract class BuildingTurretBase : BuildingBase
                 m_target = null;
             else
             {
-                Team targetTeam = TeamEx.GetOppositeTeam(GetTeam());
-                m_target = null;
-
-                var groundCenter = GetGroundCenter();
-
-                var entity = EntityList.instance.GetNearestEntity(groundCenter, targetTeam, AliveType.Alive);
-                var building = BuildingList.instance.GetNearestBuilding(groundCenter, targetTeam, AliveType.Alive);
-
-                if (entity == null && building == null)
-                    m_target = null;
-                else if (entity == null)
-                    m_target = building.gameObject;
-                else if (building == null)
-                    m_target = entity.gameObject;
-                else
+                m_updateTargetTimer -= Time.deltaTime;
+                if (m_target == null || m_updateTargetTimer <= 0)
                 {
-                    float distEntity = (entity.transform.position - groundCenter).sqrMagnitude;
-                    float distBuilding = (building.GetGroundCenter() - groundCenter).sqrMagnitude;
-                    if (distBuilding < distEntity)
+                    m_updateTargetTimer = updateTargetDelay;
+
+                    Team targetTeam = TeamEx.GetOppositeTeam(GetTeam());
+                    m_target = null;
+
+                    var groundCenter = GetGroundCenter();
+
+                    var entity = EntityList.instance.GetNearestEntity(groundCenter, targetTeam, AliveType.Alive);
+                    var building = BuildingList.instance.GetNearestBuilding(groundCenter, targetTeam, AliveType.Alive);
+
+                    if (entity == null && building == null)
+                        m_target = null;
+                    else if (entity == null)
                         m_target = building.gameObject;
-                    else m_target = entity.gameObject;
+                    else if (building == null)
+                        m_target = entity.gameObject;
+                    else
+                    {
+                        float distEntity = (entity.transform.position - groundCenter).sqrMagnitude;
+                        float distBuilding = (building.GetGroundCenter() - groundCenter).sqrMagnitude;
+                        if (distBuilding < distEntity)
+                            m_target = building.gameObject;
+                        else m_target = entity.gameObject;
+                    }
                 }
             }
 

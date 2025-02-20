@@ -10,7 +10,32 @@ public abstract class EntityWeaponBase : MonoBehaviour
 {
     static readonly ProfilerMarker ms_profilerMarker = new ProfilerMarker(ProfilerCategory.Scripts, "EntityWeaponBase.GetNearestBuildingAtRange");
 
-    public abstract GameObject GetTarget();
+    const float updateTargetDelay = 0.2f;
+
+    BuildingBase m_towerTarget;
+    BuildingBase m_target;
+    float m_updateTargetTimer = 0;
+
+    public GameObject GetTarget()
+    {
+        if (m_target == null)
+        {
+            if (m_towerTarget == null)
+                return null;
+            return m_towerTarget.gameObject;
+        }
+        return m_target.gameObject;
+    }
+
+    public Vector3 GetTargetPos()
+    {
+        var target = GetTarget();
+        if (target == null)
+            return transform.position + transform.forward;
+
+        return TurretBehaviour.GetTargetCenter(target.gameObject);
+    }
+
     public abstract float GetMoveDistance();
 
     protected BuildingBase GetTower()
@@ -36,6 +61,33 @@ public abstract class EntityWeaponBase : MonoBehaviour
             if (dist <= range * range)
                 return building;
             return null;
+        }
+    }
+
+    protected void UpdateTarget(float range)
+    {
+        m_updateTargetTimer -= Time.deltaTime;
+        if (m_updateTargetTimer <= 0 || m_target == null)
+        {
+            m_updateTargetTimer = updateTargetDelay;
+
+            GetTeamEvent team = new GetTeamEvent();
+            Event<GetTeamEvent>.Broadcast(team, gameObject);
+            Team targetTeam = TeamEx.GetOppositeTeam(team.team);
+
+            if (BuildingList.instance == null)
+                return;
+
+            if (m_target != null)
+            {
+                if (Utility.IsDead(m_target.gameObject))
+                    m_target = null;
+            }
+
+            if (m_towerTarget == null)
+                m_towerTarget = GetTower();
+            if (m_target == null)
+                m_target = GetNearestBuildingAtRange(range, targetTeam);
         }
     }
 }

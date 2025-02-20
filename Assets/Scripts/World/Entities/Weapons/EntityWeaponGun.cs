@@ -20,9 +20,6 @@ public class EntityWeaponGun : EntityWeaponBase
     float m_fireTimer;
     int m_fireIndex;
 
-    BuildingBase m_towerTarget;
-    BuildingBase m_target;
-
     TurretBehaviour m_turret;
 
     private void Start()
@@ -51,17 +48,6 @@ public class EntityWeaponGun : EntityWeaponBase
         return m_rangeStopMove;
     }
 
-    public override GameObject GetTarget()
-    {
-        if (m_target == null)
-        {
-            if (m_towerTarget == null)
-                return null;
-            return m_towerTarget.gameObject;
-        }
-        return m_target.gameObject;
-    }
-
     private void Update()
     {
         if (GameInfos.instance.paused)
@@ -73,29 +59,8 @@ public class EntityWeaponGun : EntityWeaponBase
         if (Utility.IsDead(gameObject))
             return;
 
-        UpdateTarget();
+        UpdateTarget(m_fireRange);
         UpdateTurret();
-    }
-
-    void UpdateTarget()
-    {
-        GetTeamEvent team = new GetTeamEvent();
-        Event<GetTeamEvent>.Broadcast(team, gameObject);
-        Team targetTeam = TeamEx.GetOppositeTeam(team.team);
-
-        if (BuildingList.instance == null)
-            return;
-
-        if(m_target != null)
-        {
-            if (Utility.IsDead(m_target.gameObject))
-                m_target = null;
-        }
-
-        if(m_towerTarget == null)
-            m_towerTarget = GetTower();
-        if(m_target == null)
-            m_target = GetNearestBuildingAtRange(m_fireRange, targetTeam);
     }
 
     void UpdateTurret()
@@ -168,22 +133,13 @@ public class EntityWeaponGun : EntityWeaponBase
 
     bool IsTargetAtRange()
     {
-        var target = m_target == null ? m_towerTarget : m_target;
+        var target = GetTarget();
         if (target == null)
             return false;
 
-        Vector3 pos = target.GetGroundCenter();
+        Vector3 pos = GetTargetPos();
         float dist = VectorEx.SqrMagnitudeXZ(pos - transform.position);
 
         return dist < m_fireRange * m_fireRange;
-    }
-
-    Vector3 GetTargetPos()
-    {
-        var target = m_target == null ? m_towerTarget : m_target;
-        if(target == null)
-            return transform.position + transform.forward;
-
-        return TurretBehaviour.GetTargetCenter(target.gameObject);
     }
 }

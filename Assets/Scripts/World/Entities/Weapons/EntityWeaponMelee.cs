@@ -17,27 +17,13 @@ public class EntityWeaponMelee : EntityWeaponBase
     [SerializeField] float m_damageEffect = 1;
     [SerializeField] LayerMask m_hitLayer;
 
-    BuildingBase m_towerTarget;
-    BuildingBase m_target;
-
     float m_hitTimer;
 
     public override float GetMoveDistance()
     {
         return m_rangeAttack;
     }
-
-    public override GameObject GetTarget()
-    {
-        if (m_target == null)
-        {
-            if (m_towerTarget == null)
-                return null;
-            return m_towerTarget.gameObject;
-        }
-        return m_target.gameObject;
-    }
-
+    
     private void Update()
     {
         if (GameInfos.instance.paused)
@@ -49,45 +35,38 @@ public class EntityWeaponMelee : EntityWeaponBase
         if (Utility.IsDead(gameObject))
             return;
 
-        UpdateTarget();
+        UpdateTarget(m_detectRange);
         UpdateHit();
-    }
-
-    void UpdateTarget()
-    {
-        GetTeamEvent team = new GetTeamEvent();
-        Event<GetTeamEvent>.Broadcast(team, gameObject);
-        Team targetTeam = TeamEx.GetOppositeTeam(team.team);
-
-        if (BuildingList.instance == null)
-            return;
-
-        if (m_target != null)
-        {
-            if (Utility.IsDead(m_target.gameObject))
-                m_target = null;
-        }
-
-        if (m_towerTarget == null)
-            m_towerTarget = GetTower();
-        if (m_target == null)
-            m_target = GetNearestBuildingAtRange(m_detectRange, targetTeam);
     }
 
     void UpdateHit()
     {
-        var target = m_target == null ? m_towerTarget : m_target;
+        var target = GetTarget();
         if (target == null)
         {
             m_hitTimer = 0;
             return;
         }
+        
+        Vector3Int size = Vector3Int.one;
+        var pos = transform.position;
 
-        var pos = target.GetGroundCenter();
+        var targetType = GameSystem.GetEntityType(target);
+        if (targetType == EntityType.Building)
+        {
+            var building = target.GetComponent<BuildingBase>();
+            if (building != null)
+            {
+                var center = building.GetGroundCenter();
+                size = building.GetSize();
+                center.y += size.y / 2.0f;
+
+                pos = center;
+            }
+        }
 
         var dist = (pos - transform.position).MagnitudeXZ();
-
-        var size = target.GetSize();
+        
         dist -= Mathf.Max(size.x, size.z);
 
         if (dist <= m_rangeAttack)
