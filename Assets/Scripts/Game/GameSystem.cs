@@ -29,6 +29,7 @@ public class GameSystem : MonoBehaviour
 
     State m_state = State.Starting;
     float m_delay;
+    float m_alarmTimer = 0;
 
     static GameSystem m_instance = null;
     public static GameSystem instance { get { return m_instance; } }
@@ -59,7 +60,9 @@ public class GameSystem : MonoBehaviour
 
     private void Update()
     {
-        switch(m_state)
+        m_alarmTimer -= Time.deltaTime;
+
+        switch (m_state)
         {
             case State.Starting:
                 {
@@ -211,5 +214,16 @@ public class GameSystem : MonoBehaviour
     public bool IsLoaded()
     {
         return m_state == State.Ended;
+    }
+
+    public void StartAlarm()
+    {
+        if (m_alarmTimer > 0)
+            return;
+
+        m_alarmTimer = Global.instance.buildingDatas.alarmGlobalRestartDelay;
+
+        if (SoundSystem.instance != null)
+            SoundSystem.instance.PlaySoundUI(Global.instance.buildingDatas.alarmSound, Global.instance.buildingDatas.alarmVolume);
     }
 }

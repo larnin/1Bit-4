@@ -108,23 +108,16 @@ public class BuildingTitaniumMine : BuildingBase
         }
     }
 
-    protected override void OnUpdateAlways()
-    {
-        if (!IsAdded())
-        {
-            var points = GetTitaniumsAround(GetPos());
-            UpdateCursorMinesUsed(points);
-        }
-    }
-
     public override BuildingPlaceType CanBePlaced(Vector3Int pos)
     {
+        var points = GetTitaniumsAround(pos);
+        UpdateCursorMinesUsed(points);
+
         var canPlace = base.CanBePlaced(pos);
         if (canPlace != BuildingPlaceType.Valid)
             return canPlace;
-
-        var points = GetTitaniumsAround(pos);
-        if (points.Count > 0)
+        
+        if (m_titaniums.Count > 0)
             return BuildingPlaceType.Valid;
         return BuildingPlaceType.NeedTitanim;
     }

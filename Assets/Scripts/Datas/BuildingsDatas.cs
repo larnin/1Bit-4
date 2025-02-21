@@ -135,6 +135,7 @@ public class BuildingsDatas
     public string alarmSound;
     public float alarmVolume = 1;
     public float alarmRestartDelay = 30;
+    public float alarmGlobalRestartDelay = 10;
 
     public OneBuildingData GetBuilding(BuildingType type)
     {

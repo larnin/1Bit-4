@@ -133,6 +133,13 @@ public class PlaceBuildingCursor : MonoBehaviour
         if (BuildingList.instance == null || ConnexionSystem.instance == null)
             return;
 
+       
+        var validPos = GetNearestValidPos(m_cursorPos);
+        m_instance.transform.position = validPos;
+        m_cursorPos = validPos;
+        if (m_canPlace == BuildingPlaceType.Unknow)
+            m_canPlace = m_instance.CanBePlaced(validPos);
+
         if (!buildingData.IsFree() && !buildingData.cost.HaveMoney())
         {
             m_canPlace = BuildingPlaceType.NoResources;
@@ -167,11 +174,6 @@ public class PlaceBuildingCursor : MonoBehaviour
             m_canPlace = BuildingPlaceType.TooFar;
             return;
         }
-
-        var validPos = GetNearestValidPos(m_cursorPos);
-        m_instance.transform.position = validPos;
-        m_cursorPos = validPos;
-        m_canPlace = m_instance.CanBePlaced(validPos);
     }
 
     Vector3Int GetNearestValidPos(Vector3Int pos)
@@ -185,7 +187,6 @@ public class PlaceBuildingCursor : MonoBehaviour
             if (m_instance.CanBePlaced(newPos) == BuildingPlaceType.Valid)
                 return newPos;
         }
-
 
         List<Vector3Int> testPos = new List<Vector3Int>();
         for(int i = -2; i <= 2; i++)
@@ -215,7 +216,7 @@ public class PlaceBuildingCursor : MonoBehaviour
             if (m_instance.CanBePlaced(p) == BuildingPlaceType.Valid)
                 return p;
         }
-
+        
         return pos;
     }
 

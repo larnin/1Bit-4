@@ -19,6 +19,7 @@ public class GameOverMenu : MonoBehaviour
     [SerializeField] TMP_Text m_buildingsConstructedValue;
     [SerializeField] TMP_Text m_buildingsLostValue;
     [SerializeField] TMP_Text m_seedText;
+    [SerializeField] TMP_Text m_mapText;
     [SerializeField] string m_gameSceneName;
     [SerializeField] string m_gameOverSound;
     [SerializeField] float m_gameOverVolume = 1;
@@ -96,5 +97,8 @@ public class GameOverMenu : MonoBehaviour
 
         if (m_seedText != null)
             m_seedText.text = GameInfos.instance.gameParams.seedStr;
+
+        if (m_mapText != null)
+            m_mapText.text = GameInfos.instance.gameParams.worldSize.ToString();
     }
 }

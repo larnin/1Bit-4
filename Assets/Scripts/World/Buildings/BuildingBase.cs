@@ -186,8 +186,8 @@ public abstract class BuildingBase : MonoBehaviour
         if(m_alarmTimer <= 0)
         {
             m_alarmTimer = Global.instance.buildingDatas.alarmRestartDelay;
-            if (SoundSystem.instance != null)
-                SoundSystem.instance.PlaySoundUI(Global.instance.buildingDatas.alarmSound, Global.instance.buildingDatas.alarmVolume);
+            if (GameSystem.instance != null)
+                GameSystem.instance.StartAlarm();
         }
     }
 
