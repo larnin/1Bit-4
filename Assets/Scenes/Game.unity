@@ -2569,6 +2569,9 @@ MonoBehaviour:
   m_placeBuildingSound: BuildingPlace
   m_placeBuildingSoundVolume: 1
   m_decal: {fileID: 126479660}
+  m_connexionColor: {r: 1, g: 1, b: 1, a: 1}
+  m_connexionWidth: 0.1
+  m_connexionMaterial: {fileID: 2100000, guid: bbb27cd610357af41967f3b17af5fb61, type: 2}
 --- !u!4 &1754772338
 Transform:
   m_ObjectHideFlags: 0

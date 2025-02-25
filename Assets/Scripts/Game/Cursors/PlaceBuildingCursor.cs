@@ -11,6 +11,9 @@ public class PlaceBuildingCursor : MonoBehaviour
     [SerializeField] string m_placeBuildingSound;
     [SerializeField] float m_placeBuildingSoundVolume = 1;
     [SerializeField] PlaceBuildingCursorDecal m_decal;
+    [SerializeField] Color m_connexionColor = Color.black;
+    [SerializeField] float m_connexionWidth = 0.1f;
+    [SerializeField] Material m_connexionMaterial;
 
     bool m_enabled = false;
     BuildingType m_type;
@@ -21,6 +24,8 @@ public class PlaceBuildingCursor : MonoBehaviour
     Vector3Int m_cursorPos;
 
     SubscriberList m_subscriberList = new SubscriberList();
+
+    List<LineRenderer> m_connexions = new List<LineRenderer>();
 
     private void Awake()
     {
@@ -55,6 +60,8 @@ public class PlaceBuildingCursor : MonoBehaviour
 
         if (m_decal != null)
             m_decal.gameObject.SetActive(false);
+
+        RemoveAllConnexions();
     }
 
     public bool IsCursorEnabled()
@@ -103,6 +110,7 @@ public class PlaceBuildingCursor : MonoBehaviour
         UpdatePos();
         UpdateCanPlace();
         UpdateCross();
+        UpdateConnexions();
 
         if (Input.GetMouseButtonDown(0))
             OnClick();
@@ -349,5 +357,89 @@ public class PlaceBuildingCursor : MonoBehaviour
 
         if(m_decal != null)
             m_decal.gameObject.SetActive(e.enabled);
+    }
+
+    void UpdateConnexions()
+    {
+        if(ConnexionSystem.instance == null)
+        {
+            RemoveAllConnexions();
+            return;
+        }
+
+        if(m_canPlace != BuildingPlaceType.Valid)
+        {
+            RemoveAllConnexions();
+            return;
+        }
+
+        int nbConnexions = ConnexionSystem.instance.GetConnectedBuildingNb();
+        bool isCurrentNode = BuildingTypeEx.IsNode(m_type);
+
+        int connexionIndex = 0;
+
+        Vector3 pos = m_instance.GetGroundCenter();
+        float radius = m_instance.PlacementRadius();
+
+        for (int i = 0; i < nbConnexions; i++)
+        {
+            var b = ConnexionSystem.instance.GetConnectedBuildingFromIndex(i);
+            if (!isCurrentNode && !BuildingTypeEx.IsNode(b.GetBuildingType()))
+                continue;
+
+            var targetPos = b.GetGroundCenter();
+            var targetRadius = Global.instance.buildingDatas.GetRealPlaceRadius(radius, b.PlacementRadius()) - 0.01f;
+
+            if (VectorEx.SqrMagnitudeXZ(targetPos - pos) < targetRadius * targetRadius)
+            {
+                if(connexionIndex >= m_connexions.Count)
+                    m_connexions.Add(CreateConnexion(m_instance, b));
+                else
+                {
+                    var c = m_connexions[connexionIndex];
+                    c.SetPosition(0, m_instance.GetRayPoint());
+                    c.SetPosition(1, b.GetRayPoint());
+                }
+
+                connexionIndex++;
+            }
+        }
+
+        while(connexionIndex < m_connexions.Count)
+        {
+            Destroy(m_connexions[connexionIndex].gameObject);
+            m_connexions.RemoveAt(connexionIndex);
+        }
+    }
+
+    LineRenderer CreateConnexion(BuildingBase building1, BuildingBase building2)
+    {
+        var obj = new GameObject("Connexion");
+        obj.transform.parent = transform;
+
+        var line = obj.AddComponent<LineRenderer>();
+        line.startWidth = m_connexionWidth;
+        line.endWidth = m_connexionWidth;
+        line.startColor = m_connexionColor;
+        line.endColor = m_connexionColor;
+
+        Vector3 pos1 = building1.GetRayPoint();
+        Vector3 pos2 = building2.GetRayPoint();
+
+        line.positionCount = 2;
+        Vector3[] points = new Vector3[2] { pos1, pos2 };
+        line.SetPositions(points);
+        line.material = m_connexionMaterial;
+        obj.transform.position = pos1;
+
+        return line;
+    }
+
+    void RemoveAllConnexions()
+    {
+        foreach(var c in m_connexions)
+            Destroy(c.gameObject);
+
+        m_connexions.Clear();
     }
 }

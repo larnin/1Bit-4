@@ -105,6 +105,12 @@ public abstract class BuildingBase : MonoBehaviour
 
     public Vector3Int GetPos()
     {
+        var pos = transform.position;
+        return new Vector3Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y), Mathf.RoundToInt(pos.z));
+    }
+
+    public Vector3Int GetPosThread()
+    {
         return new Vector3Int(Mathf.RoundToInt(m_pos.x), Mathf.RoundToInt(m_pos.y), Mathf.RoundToInt(m_pos.z));
     }
 
@@ -132,7 +138,16 @@ public abstract class BuildingBase : MonoBehaviour
 
     public Vector3 GetGroundCenter()
     {
-        var bounds = GetBounds();
+        return GetGroundCenter(GetBounds());
+    }
+
+    public Vector3 GetGroundCenterThread()
+    {
+        return GetGroundCenter(GetBoundsThread());
+    }
+
+    Vector3 GetGroundCenter(BoundsInt bounds)
+    {
         Vector3 min = bounds.min;
         Vector3 max = bounds.max - Vector3Int.one;
 
@@ -145,6 +160,11 @@ public abstract class BuildingBase : MonoBehaviour
     public BoundsInt GetBounds()
     {
         return GetBounds(GetPos());
+    }
+
+    public BoundsInt GetBoundsThread()
+    {
+        return GetBounds(GetPosThread());
     }
 
     public BoundsInt GetBounds(Vector3Int pos)

@@ -250,7 +250,7 @@ public class EntityPath
         var building = BuildingList.instance.GetBuildingAt(pos);
         if(building != null)
         {
-            var bounds = building.GetBounds();
+            var bounds = building.GetBoundsThread();
 
             int distance = 1;
 
