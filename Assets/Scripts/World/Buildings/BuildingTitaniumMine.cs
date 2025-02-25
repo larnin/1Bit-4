@@ -66,6 +66,15 @@ public class BuildingTitaniumMine : BuildingBase
     public override void Start()
     {
         base.Start();
+        if (m_titaniums.Count != 0)
+        {
+            foreach (var c in m_titaniums)
+            {
+                if (c.mineObject != null)
+                    Destroy(c.mineObject);
+            }
+            m_titaniums.Clear();
+        }
         m_titaniums = GetTitaniumsAround(GetPos());
         foreach (var item in m_titaniums)
             CreateMineItem(item);

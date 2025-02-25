@@ -61,6 +61,15 @@ public class BuildingCrystalMine : BuildingBase
     public override void Start()
     {
         base.Start();
+        if(m_crystals.Count != 0)
+        {
+            foreach(var c in m_crystals)
+            {
+                if (c.mineObject != null)
+                    Destroy(c.mineObject);
+            }
+            m_crystals.Clear();
+        }
         m_crystals = GetCrystalsAround(GetPos());
         foreach (var item in m_crystals)
             CreateMineItem(item);

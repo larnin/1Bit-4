@@ -46,7 +46,7 @@ Shader "Unlit/CustomUnlit"
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-                o.normal = v.normal;
+                o.normal = UnityObjectToWorldNormal(v.normal);
                 return o;
             }
 

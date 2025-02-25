@@ -591,6 +591,9 @@ MonoBehaviour:
     - name: Default
       lightColor: {r: 1, g: 1, b: 1, a: 0}
       darkColor: {r: 0, g: 0, b: 0, a: 0}
+    - name: Sepia
+      lightColor: {r: 0.7607843, g: 0.70980394, b: 0.54901963, a: 0}
+      darkColor: {r: 0.23529412, g: 0.17254902, b: 0.08627451, a: 0}
     - name: Obra Dinn
       lightColor: {r: 0.92156863, g: 0.8980392, b: 0.80784315, a: 0}
       darkColor: {r: 0.18039216, g: 0.1882353, b: 0.21568628, a: 0}
