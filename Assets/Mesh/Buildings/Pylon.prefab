@@ -169,7 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_powerGeneration: 1
   m_generationRadius: 4
-  m_placementRadius: 5
+  m_placementRadius: 6
   m_bigPylon: 0
 --- !u!114 &4460641274274085506
 MonoBehaviour:

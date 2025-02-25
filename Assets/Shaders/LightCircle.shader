@@ -6,10 +6,9 @@ Shader "Unlit/LightCircle"
     }
     SubShader
     {
-        Tags {"Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent"}
+        //Tags {"Queue" = "Transparent" "RenderType" = "Transparent"}
         ZWrite Off
         Blend SrcAlpha OneMinusSrcAlpha
-        //Cull front
         LOD 100
 
         Pass

@@ -42,6 +42,8 @@ public class NormalTextureGenerationEffect : MonoBehaviour
             m_depthTexture = new RenderTexture(Screen.width, Screen.height, 24, RenderTextureFormat.Depth);
         }
 
+        Event<SetDecalsEnabledEvent>.Broadcast(new SetDecalsEnabledEvent(false));
+
         RenderTexture.active = m_renderTexture;
         GL.Clear(true, true, Color.gray);
         RenderTexture.active = null;
@@ -53,6 +55,8 @@ public class NormalTextureGenerationEffect : MonoBehaviour
             m_camera.RenderWithShader(m_replacementShader, "RenderType");
             m_camera.targetTexture = rt;
         }
+
+        Event<SetDecalsEnabledEvent>.Broadcast(new SetDecalsEnabledEvent(true));
     }
 
     void GetTexture(GetNormalsTextureEvent e)

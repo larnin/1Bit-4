@@ -10,6 +10,7 @@ public class PlaceBuildingCursor : MonoBehaviour
     [SerializeField] LayerMask m_groundLayer;
     [SerializeField] string m_placeBuildingSound;
     [SerializeField] float m_placeBuildingSoundVolume = 1;
+    [SerializeField] PlaceBuildingCursorDecal m_decal;
 
     bool m_enabled = false;
     BuildingType m_type;
@@ -19,9 +20,25 @@ public class PlaceBuildingCursor : MonoBehaviour
     Vector3 m_mousePos;
     Vector3Int m_cursorPos;
 
+    SubscriberList m_subscriberList = new SubscriberList();
+
+    private void Awake()
+    {
+        m_subscriberList.Add(new Event<SetDecalsEnabledEvent>.Subscriber(OnEnableDecals));
+        m_subscriberList.Subscribe();
+    }
+
+    private void OnDestroy()
+    {
+        m_subscriberList.Unsubscribe();
+    }
+
     private void OnEnable()
     {
         UpdateBuilding();
+
+        if(m_decal != null)
+            m_decal.gameObject.SetActive(true);
     }
 
     public void SetBuildingType(BuildingType type)
@@ -35,6 +52,9 @@ public class PlaceBuildingCursor : MonoBehaviour
     {
         m_enabled = false;
         UpdateBuilding();
+
+        if (m_decal != null)
+            m_decal.gameObject.SetActive(false);
     }
 
     public bool IsCursorEnabled()
@@ -88,6 +108,9 @@ public class PlaceBuildingCursor : MonoBehaviour
             OnClick();
         else if (Input.GetMouseButtonDown(1))
             SetCursorDisabled();
+
+        if (m_decal != null)
+            m_decal.UpdateVisual();
     }
 
     void UpdatePos()
@@ -119,6 +142,9 @@ public class PlaceBuildingCursor : MonoBehaviour
         m_cursorPos = new Vector3Int(Mathf.RoundToInt(m_mousePos.x), Mathf.RoundToInt(m_mousePos.y), Mathf.RoundToInt(m_mousePos.z));
         m_instance.transform.position = m_cursorPos;
 
+        if (m_decal != null)
+            m_decal.SetTarget(m_cursorPos, m_instance.GetBuildingType(), m_instance.PlacementRadius());
+
         m_posValid = true;
     }
 
@@ -139,6 +165,9 @@ public class PlaceBuildingCursor : MonoBehaviour
         m_cursorPos = validPos;
         if (m_canPlace == BuildingPlaceType.Unknow)
             m_canPlace = m_instance.CanBePlaced(validPos);
+
+        if (m_decal != null)
+            m_decal.SetTarget(m_cursorPos, m_instance.GetBuildingType(), m_instance.PlacementRadius());
 
         if (!buildingData.IsFree() && !buildingData.cost.HaveMoney())
         {
@@ -162,7 +191,7 @@ public class PlaceBuildingCursor : MonoBehaviour
                 continue;
 
             var targetPos = b.GetGroundCenter();
-            var targetRadius = radius + b.PlacementRadius() - 0.01f;
+            var targetRadius = Global.instance.buildingDatas.GetRealPlaceRadius(radius, b.PlacementRadius()) - 0.01f;
             if (VectorEx.SqrMagnitudeXZ(targetPos - pos) < targetRadius * targetRadius)
             {
                 canPlace = true;
@@ -311,5 +340,14 @@ public class PlaceBuildingCursor : MonoBehaviour
         }
 
         return "";
+    }
+
+    void OnEnableDecals(SetDecalsEnabledEvent e)
+    {
+        if (!m_enabled)
+            return;
+
+        if(m_decal != null)
+            m_decal.gameObject.SetActive(e.enabled);
     }
 }

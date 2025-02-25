@@ -181,7 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_powerGeneration: 10
-  m_placementRadius: 5
+  m_placementRadius: 8
 --- !u!65 &915030668676742545
 BoxCollider:
   m_ObjectHideFlags: 0

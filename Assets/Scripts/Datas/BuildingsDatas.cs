@@ -136,6 +136,7 @@ public class BuildingsDatas
     public float alarmVolume = 1;
     public float alarmRestartDelay = 30;
     public float alarmGlobalRestartDelay = 10;
+    public float multiplePlaceReduction = 2;
 
     public OneBuildingData GetBuilding(BuildingType type)
     {
@@ -157,5 +158,17 @@ public class BuildingsDatas
         }
 
         return null;
+    }
+
+    public float GetRealPlaceRadius(float left, float right)
+    {
+        if (left <= 0 || right <= 0)
+            return left + right;
+
+        float total = left + right - multiplePlaceReduction;
+        if (total < left || total < right)
+            return Mathf.Max(left, right);
+
+        return total;
     }
 }

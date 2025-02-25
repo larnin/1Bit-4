@@ -108,7 +108,7 @@ public class ConnexionSystem : MonoBehaviour
 
                     float dist = VectorEx.SqrMagnitudeXZ(pos - currentPos);
 
-                    float radius = currentRadius + building.PlacementRadius();
+                    float radius = Global.instance.buildingDatas.GetRealPlaceRadius(currentRadius, building.PlacementRadius());
 
                     if (dist <= radius * radius)
                     {
@@ -132,7 +132,7 @@ public class ConnexionSystem : MonoBehaviour
 
                         var type = building.GetBuildingType();
 
-                        if (type == BuildingType.Tower || type == BuildingType.Pylon || type == BuildingType.BigPylon)
+                        if (BuildingTypeEx.IsNode(type))
                             openList.Add(newBuilding);
                     }
                 }

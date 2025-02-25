@@ -15,3 +15,13 @@ public class GetCameraScaleEvent
 {
     public float scale = 1;
 }
+
+public class SetDecalsEnabledEvent
+{
+    public bool enabled = false;
+
+    public SetDecalsEnabledEvent(bool _enabled)
+    {
+        enabled = _enabled;
+    }
+}

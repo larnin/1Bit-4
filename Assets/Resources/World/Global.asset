@@ -374,6 +374,8 @@ MonoBehaviour:
     alarmSound: BuildingAlarm
     alarmVolume: 1
     alarmRestartDelay: 30
+    alarmGlobalRestartDelay: 10
+    multiplePlaceReduction: 4
   m_resourcesDatas:
     m_resources:
     - type: 0

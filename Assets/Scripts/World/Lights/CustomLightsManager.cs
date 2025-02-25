@@ -8,6 +8,7 @@ using UnityEngine;
 public class CustomLightsManager : MonoBehaviour
 {
     const string radiusName = "_Size";
+    const string borderName = "_Border";
 
     const string lightTextureName = "_LightTex";
     const string lightTextureSizeName = "_LightTexSize";
@@ -20,6 +21,7 @@ public class CustomLightsManager : MonoBehaviour
     [SerializeField] Material m_circleMaterial;
     [SerializeField] List<Material> m_lightedMaterials;
     [SerializeField] List<Material> m_unlitMaterials;
+    [SerializeField] float m_borderSize = 1;
     [SerializeField] float m_lightTop = 1;
     [SerializeField] float m_lightLeft = 1;
     [SerializeField] float m_lightFront = 1;
@@ -70,6 +72,8 @@ public class CustomLightsManager : MonoBehaviour
         else
         {
             GL.Clear(true, true, Color.black);
+
+            m_circleMaterial.SetFloat(borderName, m_borderSize);
 
             foreach (var l in m_lights)
             {

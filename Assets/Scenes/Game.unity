@@ -334,6 +334,74 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 59480900}
   m_CullTransparentMesh: 1
+--- !u!1 &126479657
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 126479659}
+  - component: {fileID: 126479658}
+  - component: {fileID: 126479660}
+  m_Layer: 0
+  m_Name: PlaceDecal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!119 &126479658
+Projector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 126479657}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_NearClipPlane: 0.1
+  m_FarClipPlane: 100
+  m_FieldOfView: 60
+  m_AspectRatio: 1
+  m_Orthographic: 1
+  m_OrthographicSize: 10
+  m_Material: {fileID: 2100000, guid: 31659c0d5e6c6904db63efaf98664350, type: 2}
+  m_IgnoreLayers:
+    serializedVersion: 2
+    m_Bits: 896
+--- !u!4 &126479659
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 126479657}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 119.7, y: 55, z: 131.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &126479660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 126479657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a6772a97f834d14e93152ff308b03d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_size: 25
+  m_pixelPerUnit: 16
+  m_circleMaterial: {fileID: 2100000, guid: 28b58a05c2815574e85f5015f639a4ee, type: 2}
+  m_borderThickness: 5
 --- !u!1 &150972042
 GameObject:
   m_ObjectHideFlags: 0
@@ -1249,6 +1317,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 524ced02a1a46794eb9b3eaa741097fe, type: 2}
   - {fileID: 2100000, guid: 0ce6cd3211c88624c9a87b40428c9fc4, type: 2}
   - {fileID: 2100000, guid: 1df791a19bd883849ac8ab5d31db60b8, type: 2}
+  m_borderSize: 1
   m_lightTop: 1
   m_lightLeft: 0.65
   m_lightFront: 0.8
@@ -2499,6 +2568,7 @@ MonoBehaviour:
     m_Bits: 64
   m_placeBuildingSound: BuildingPlace
   m_placeBuildingSoundVolume: 1
+  m_decal: {fileID: 126479660}
 --- !u!4 &1754772338
 Transform:
   m_ObjectHideFlags: 0

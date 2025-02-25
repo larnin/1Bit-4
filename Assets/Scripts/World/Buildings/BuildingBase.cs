@@ -27,6 +27,14 @@ public enum BuildingType
     EnnemySpawner = 100,
 }
 
+public static class BuildingTypeEx
+{
+    public static bool IsNode(BuildingType type)
+    {
+        return type == BuildingType.Tower || type == BuildingType.Pylon || type == BuildingType.BigPylon;
+    }
+}
+
 public enum EnergyUptakePriority
 {
     consumption,
