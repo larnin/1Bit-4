@@ -37,6 +37,8 @@ public class Settings
 
     [SerializeField] bool m_inverseZoom = false;
 
+    [SerializeField] bool m_displayMap = true;
+
     public Settings()
     {
 
@@ -117,6 +119,18 @@ public class Settings
     public bool IsInverseZoom()
     {
         return m_inverseZoom;
+    }
+
+    public void SetDisplayMap(bool display)
+    {
+        m_displayMap = display;
+
+        Event<SettingDisplayMapChangedEvent>.Broadcast(new SettingDisplayMapChangedEvent());
+    }
+
+    public bool GetDisplayMap()
+    {
+        return m_displayMap;
     }
 }
 
