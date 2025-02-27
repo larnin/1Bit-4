@@ -125,7 +125,7 @@ public class Settings
     {
         m_displayMap = display;
 
-        Event<SettingDisplayMapChangedEvent>.Broadcast(new SettingDisplayMapChangedEvent());
+        Event<SettingsDisplayMapChangedEvent>.Broadcast(new SettingsDisplayMapChangedEvent());
     }
 
     public bool GetDisplayMap()

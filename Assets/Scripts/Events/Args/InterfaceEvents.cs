@@ -11,6 +11,11 @@ public class GetCameraEvent
     public Camera UICamera;
 }
 
+public class GetCameraRotationEvent
+{
+    public float rotation = 0;
+}
+
 public class SetHoveredObjectEvent
 {
     public GameObject hoveredObject;

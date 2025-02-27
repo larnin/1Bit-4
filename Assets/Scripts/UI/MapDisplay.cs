@@ -10,6 +10,7 @@ public class MapDisplay : MonoBehaviour
 {
     [SerializeField] Image m_renderImage;
     [SerializeField] Material m_mapMaterial;
+    [SerializeField] float m_rotationOffset;
 
     SubscriberList m_subscriberList = new SubscriberList();
 
@@ -18,13 +19,25 @@ public class MapDisplay : MonoBehaviour
     private void Awake()
     {
         m_subscriberList.Add(new Event<GenerationFinishedEvent>.Subscriber(OnLoadEnd));
+        m_subscriberList.Add(new Event<SettingsDisplayMapChangedEvent>.Subscriber(OnSettingsChange));
 
         m_subscriberList.Subscribe();
+
+        SetVisibility(GameInfos.instance.settings.GetDisplayMap());
     }
 
     private void OnDestroy()
     {
         m_subscriberList.Unsubscribe();
+    }
+
+    private void LateUpdate()
+    {
+        GetCameraRotationEvent e = new GetCameraRotationEvent();
+        e.rotation = transform.localRotation.eulerAngles.z - m_rotationOffset;
+
+        Event<GetCameraRotationEvent>.Broadcast(e);
+        transform.localRotation = Quaternion.Euler(0, 0, e.rotation + m_rotationOffset);
     }
 
     void OnLoadEnd(GenerationFinishedEvent e)
@@ -67,5 +80,15 @@ public class MapDisplay : MonoBehaviour
 
             m_renderImage.material = m_mapMaterial;
         }
+    }
+
+    void OnSettingsChange(SettingsDisplayMapChangedEvent e)
+    {
+        SetVisibility(GameInfos.instance.settings.GetDisplayMap());
+    }
+
+    void SetVisibility(bool visible)
+    {
+        gameObject.SetActive(visible);
     }
 }

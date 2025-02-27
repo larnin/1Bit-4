@@ -6,4 +6,4 @@ using System.Threading.Tasks;
 
 public class SettingsColorChangedEvent { }
 
-public class SettingDisplayMapChangedEvent { }
+public class SettingsDisplayMapChangedEvent { }
