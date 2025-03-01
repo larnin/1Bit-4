@@ -377,7 +377,7 @@ TextureImporter:
         width: 8
         height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 3, y: 5, z: 3, w: 5}
       outline: []
       physicsShape: []
@@ -398,7 +398,7 @@ TextureImporter:
         width: 8
         height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 3, y: 5, z: 3, w: 5}
       outline: []
       physicsShape: []
@@ -406,6 +406,27 @@ TextureImporter:
       bones: []
       spriteID: 2253579a675e92649a9741f142b43a24
       internalID: -1662470187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons_Other_14
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 243
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ea196a6cd90d8b4fb8e91024e5f88f5
+      internalID: -1758663345
       vertices: []
       indices: 
       edges: []
@@ -427,6 +448,7 @@ TextureImporter:
       Icons_Other_11: 1250530299
       Icons_Other_12: -205994291
       Icons_Other_13: -1662470187
+      Icons_Other_14: -1758663345
       Icons_Other_2: -145538938
       Icons_Other_3: -1070398611
       Icons_Other_4: 685141666

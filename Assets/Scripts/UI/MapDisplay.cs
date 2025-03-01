@@ -8,19 +8,32 @@ using UnityEngine.UI;
 
 public class MapDisplay : MonoBehaviour
 {
+    class BuildingSprite
+    {
+        public BuildingBase building;
+        public Image sprite;
+    }
+
     [SerializeField] Image m_renderImage;
     [SerializeField] Material m_mapMaterial;
     [SerializeField] float m_rotationOffset;
     [SerializeField] RectTransform m_cameraRect;
+    [SerializeField] Sprite m_buildingSprite;
+    [SerializeField] float m_buildingSpriteSize;
+    [SerializeField] RectTransform m_buildingSpritesContainer;
 
     SubscriberList m_subscriberList = new SubscriberList();
 
     Texture2D m_mapTexture;
 
+    List<BuildingSprite> m_buildings = new List<BuildingSprite>();
+
     private void Awake()
     {
         m_subscriberList.Add(new Event<GenerationFinishedEvent>.Subscriber(OnLoadEnd));
         m_subscriberList.Add(new Event<SettingsDisplayMapChangedEvent>.Subscriber(OnSettingsChange));
+        m_subscriberList.Add(new Event<BuildingListAddEvent>.Subscriber(OnAddBuilding));
+        m_subscriberList.Add(new Event<BuildingListRemoveEvent>.Subscriber(OnRemoveBuilding));
 
         m_subscriberList.Subscribe();
 
@@ -187,5 +200,48 @@ public class MapDisplay : MonoBehaviour
 
         m_cameraRect.offsetMin = Vector2.zero;
         m_cameraRect.offsetMax = Vector2.zero;
+    }
+
+    void OnAddBuilding(BuildingListAddEvent e)
+    {
+        if (m_buildingSprite == null)
+            return;
+
+        GetGridEvent grid = new GetGridEvent();
+        Event<GetGridEvent>.Broadcast(grid);
+        if (grid.grid == null)
+            return;
+
+        var gridSize = GridEx.GetRealSize(grid.grid);
+
+        var instance = new BuildingSprite();
+        instance.building = e.building;
+
+        GameObject obj = new GameObject("Building", typeof(RectTransform));
+        instance.sprite = obj.AddComponent<Image>();
+        instance.sprite.sprite = m_buildingSprite;
+
+        var pos = e.building.GetGroundCenter() / gridSize;
+        var size = m_buildingSpriteSize / gridSize / 2;
+
+        var tr = instance.sprite.rectTransform;
+        tr.SetParent(m_buildingSpritesContainer, false);
+
+        tr.anchorMin = new Vector2(pos.x - size, pos.z - size);
+        tr.anchorMax = new Vector2(pos.x + size, pos.z + size);
+
+        tr.offsetMin = Vector2.zero;
+        tr.offsetMax = Vector2.zero;
+    }
+
+    void OnRemoveBuilding(BuildingListRemoveEvent e)
+    {
+        var instance = m_buildings.Find(x => { return x.building == e.building; });
+        if (instance == null)
+            return;
+
+        Destroy(instance.sprite.gameObject);
+
+        m_buildings.Remove(instance);
     }
 }
