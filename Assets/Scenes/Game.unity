@@ -2131,7 +2131,7 @@ MonoBehaviour:
   m_rotationOffset: 45
   m_cameraRect: {fileID: 701342105}
   m_buildingSprite: {fileID: -1758663345, guid: c1af73e5237a8d44181f6333e6cdbb06, type: 3}
-  m_buildingSpriteSize: 5
+  m_buildingSpriteSize: 10
   m_buildingSpritesContainer: {fileID: 211624672}
 --- !u!114 &1394209206
 MonoBehaviour:

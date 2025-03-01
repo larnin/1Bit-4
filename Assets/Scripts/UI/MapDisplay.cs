@@ -222,7 +222,7 @@ public class MapDisplay : MonoBehaviour
         instance.sprite.sprite = m_buildingSprite;
 
         var pos = e.building.GetGroundCenter() / gridSize;
-        var size = m_buildingSpriteSize / gridSize / 2;
+        var size = m_buildingSpriteSize / 1000;
 
         var tr = instance.sprite.rectTransform;
         tr.SetParent(m_buildingSpritesContainer, false);
@@ -232,6 +232,8 @@ public class MapDisplay : MonoBehaviour
 
         tr.offsetMin = Vector2.zero;
         tr.offsetMax = Vector2.zero;
+
+        m_buildings.Add(instance);
     }
 
     void OnRemoveBuilding(BuildingListRemoveEvent e)

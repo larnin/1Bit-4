@@ -4,6 +4,14 @@ Shader "Unlit/MapShader"
     {
         _MainTex ("Texture", 2D) = "white" {}
         _ShadowTex("Shadows", 2D) = "white" {}
+
+        //needed for a shader on ui
+        _StencilComp("Stencil Comparison", Float) = 8
+        _Stencil("Stencil ID", Float) = 0
+        _StencilOp("Stencil Operation", Float) = 0
+        _StencilWriteMask("Stencil Write Mask", Float) = 255
+        _StencilReadMask("Stencil Read Mask", Float) = 255
+        _ColorMask("Color Mask", Float) = 15
     }
     SubShader
     {
