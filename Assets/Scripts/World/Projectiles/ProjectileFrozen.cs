@@ -113,7 +113,7 @@ class ProjectileFrozen : ProjectileBase
 
         float radius = DOVirtual.EasedValue(0, m_explosionRadius, m_time / m_explosionDuration, m_explosionCurve);
 
-        var cols = Physics.OverlapSphere(transform.position, radius, m_explosionLayer);
+        var cols = Physics.OverlapSphere(transform.position, radius / 2, m_explosionLayer);
         foreach (var col in cols)
         {
             if (m_hitEntities.Contains(col.gameObject))
