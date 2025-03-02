@@ -348,6 +348,24 @@ MonoBehaviour:
         cost:
         - type: 1
           count: 150
+    - type: 5
+      prefab: {fileID: 4528157726223185936, guid: a03e4ada02fb4604686882e32186830d, type: 3}
+      sprite: {fileID: -280417797, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
+      spriteWithBorder: {fileID: 1514101954, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
+      size: {x: 3, y: 3, z: 3}
+      team: 0
+      name: Power Plant
+      description: 'Generate a lot of energy but consume oil and water
+
+        Explode
+        when destroyed'
+      firstFree: 0
+      cost:
+        cost:
+        - type: 1
+          count: 300
+        - type: 2
+          count: 50
     mineItemPrefab: {fileID: 6943061212826655842, guid: 020dedfdfd13d1c49ac25e185f22167b, type: 3}
     lifeLossDisplayDuration: 10
     lifebarPrefab: {fileID: 403841948413428351, guid: 865e80a7aecab34408fe71ab6fb1fed9, type: 3}
