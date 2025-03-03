@@ -60,7 +60,7 @@ public class BuildingList : MonoBehaviour
         AddInChunks(building);
 
         if (building.GetTeam() == Team.Player && ConnexionSystem.instance != null)
-            ConnexionSystem.instance.OnBuildingChange();
+            ConnexionSystem.instance.OnBuildingAdd(building);
 
         Event<BuildingListAddEvent>.Broadcast(new BuildingListAddEvent(building));
     }
@@ -87,7 +87,7 @@ public class BuildingList : MonoBehaviour
         RemoveFromChunks(building);
 
         if (building.GetTeam() == Team.Player && ConnexionSystem.instance != null)
-            ConnexionSystem.instance.OnBuildingChange();
+            ConnexionSystem.instance.OnBuildingRemove(building);
 
         Event<BuildingListRemoveEvent>.Broadcast(new BuildingListRemoveEvent(building));
     }

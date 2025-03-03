@@ -8,10 +8,6 @@ using UnityEngine;
 
 public class ConnexionSystem : MonoBehaviour
 {
-    static readonly ProfilerMarker ms_profilerMarkerCreateConnections = new ProfilerMarker(ProfilerCategory.Scripts, "ConnexionSystem.UpdateState");
-    static readonly ProfilerMarker ms_profilerMarkerConnectedBuildings = new ProfilerMarker(ProfilerCategory.Scripts, "ConnexionSystem.GetConnectedBuilding");
-    static readonly ProfilerMarker ms_profilerMarkerIsConnected = new ProfilerMarker(ProfilerCategory.Scripts, "ConnexionSystem.IsConnected");
-
     [SerializeField] Color m_connexionColor = Color.black;
     [SerializeField] float m_connexionWidth = 0.1f;
     [SerializeField] Material m_connexionMaterial;
@@ -27,14 +23,16 @@ public class ConnexionSystem : MonoBehaviour
     {
         public BuildingBase building;
         public List<BuildingBase> connectedBuildings = new List<BuildingBase>();
+        public bool connectedToTower = false;
     }
 
     static ConnexionSystem m_instance = null;
     public static ConnexionSystem instance { get { return m_instance; } }
 
     List<BuildingInfo> m_connectedBuildings = new List<BuildingInfo>();
+    List<BuildingInfo> m_allBuildings = new List<BuildingInfo>();
     List<OneConnexion> m_connexions = new List<OneConnexion>();
-    bool m_needUpdate = false;
+    Dictionary<BuildingBase, BuildingInfo> m_connexionFinder = new Dictionary<BuildingBase, BuildingInfo>();
 
     private void Awake()
     {
@@ -47,153 +45,175 @@ public class ConnexionSystem : MonoBehaviour
             m_instance = null;
     }
 
-    private void Update()
+    public void OnBuildingAdd(BuildingBase b)
     {
-        if(m_needUpdate)
+        BuildingInfo newBuilding = new BuildingInfo();
+        newBuilding.building = b;
+
+        if (b.GetBuildingType() == BuildingType.Tower)
+            newBuilding.connectedToTower = true;
+
+        foreach(var building in m_allBuildings)
         {
-            m_needUpdate = false;
-            UpdateState();
+            if(AreConnectable(b, building.building))
+            {
+                if (building.connectedToTower)
+                {
+                    if(!newBuilding.connectedToTower)
+                    {
+                        foreach(var connectedBuilding in newBuilding.connectedBuildings)
+                            CreateConnection(b, connectedBuilding);
+                    }
+                    newBuilding.connectedToTower = true;
+                }
+
+                if (newBuilding.connectedToTower)
+                    CreateConnection(b, building.building);
+
+                newBuilding.connectedBuildings.Add(building.building);
+                building.connectedBuildings.Add(b);
+            }
+        }
+
+        m_allBuildings.Add(newBuilding);
+        if (newBuilding.connectedToTower)
+            m_connectedBuildings.Add(newBuilding);
+        m_connexionFinder.Add(b, newBuilding);
+
+        AddConnectedToTowerState(newBuilding);
+
+        Event<ConnexionsUpdatedEvent>.Broadcast(new ConnexionsUpdatedEvent());
+    }
+
+    public void OnBuildingRemove(BuildingBase b)
+    {
+        BuildingInfo node;
+        if (!m_connexionFinder.TryGetValue(b, out node))
+            return;
+
+        m_allBuildings.Remove(node);
+        m_connectedBuildings.Remove(node);
+        m_connexionFinder.Remove(b);
+
+        List<BuildingInfo> testNodes = new List<BuildingInfo>();
+
+        foreach(var otherBuilding in node.connectedBuildings)
+        {
+            var c = m_connexions.Find(x => { return IsConnexion(x, b, otherBuilding); });
+            if(c != null)
+            {
+                Destroy(c.connexion);
+                m_connexions.Remove(c);
+            }
+
+            BuildingInfo otherNode;
+            if (!m_connexionFinder.TryGetValue(otherBuilding, out otherNode))
+                continue;
+
+            otherNode.connectedBuildings.Remove(b);
+
+            testNodes.Add(otherNode);
+        }
+
+        foreach(var otherNode in testNodes)
+        {
+            if (!IsConnectedToTower(otherNode.building))
+                RemoveConnectedToTowerState(otherNode);
+        }
+
+        Event<ConnexionsUpdatedEvent>.Broadcast(new ConnexionsUpdatedEvent());
+    }
+
+    void AddConnectedToTowerState(BuildingInfo b)
+    {
+        if (!b.connectedToTower)
+            return;
+
+        foreach(var c in b.connectedBuildings)
+        {
+            BuildingInfo info;
+            if (!m_connexionFinder.TryGetValue(c, out info))
+                continue;
+            
+            if(!info.connectedToTower)
+            {
+                info.connectedToTower = true;
+                m_connectedBuildings.Add(info);
+
+                if(!m_connexions.Exists(x => { return IsConnexion(x, b.building, c); }))
+                    CreateConnection(b.building, c);
+
+                AddConnectedToTowerState(info);
+            }
         }
     }
 
-    public void OnBuildingChange()
+    void RemoveConnectedToTowerState(BuildingInfo b)
     {
-        m_needUpdate = true;
-    }
+        b.connectedToTower = false;
+        m_connectedBuildings.Remove(b);
 
-    void UpdateState()
-    {
-        using (ms_profilerMarkerCreateConnections.Auto())
+        foreach(var otherBuilding in b.connectedBuildings)
         {
-            m_connectedBuildings.Clear();
-            List<OneConnexion> connexions = new List<OneConnexion>();
-
-            if (BuildingList.instance == null)
-                return;
-
-            List<BuildingInfo> openList = new List<BuildingInfo>();
-
-            var tower = BuildingList.instance.GetFirstBuilding(BuildingType.Tower);
-            if (tower == null)
-                return;
-
-            BuildingInfo info = new BuildingInfo();
-            info.building = tower;
-            m_connectedBuildings.Add(info);
-            openList.Add(info);
-
-            int nbBuilding = BuildingList.instance.GetBuildingNb();
-
-            while (openList.Count > 0)
+            var c = m_connexions.Find(x => { return IsConnexion(x, b.building, otherBuilding);});
+            if (c != null)
             {
-                var current = openList[0];
-                openList.RemoveAt(0);
-
-                Vector3 currentPos = current.building.GetGroundCenter();
-                float currentRadius = current.building.PlacementRadius();
-
-                for (int i = 0; i < nbBuilding; i++)
-                {
-                    var building = BuildingList.instance.GetBuildingFromIndex(i);
-                    if (building == current.building)
-                        continue;
-
-                    if (building.GetTeam() != Team.Player)
-                        continue;
-
-                    if (Utility.IsDead(building.gameObject))
-                        continue;
-
-                    Vector3 pos = building.GetGroundCenter();
-
-                    float dist = VectorEx.SqrMagnitudeXZ(pos - currentPos);
-
-                    float radius = Global.instance.buildingDatas.GetRealPlaceRadius(currentRadius, building.PlacementRadius());
-
-                    if (dist <= radius * radius)
-                    {
-                        if (!ConnexionExist(connexions, current.building, building))
-                        {
-                            var connexion = new OneConnexion();
-                            connexion.building1 = current.building;
-                            connexion.building2 = building;
-                            current.connectedBuildings.Add(building);
-
-                            connexions.Add(connexion);
-                        }
-
-                        if (m_connectedBuildings.Exists(x => { return x.building == building; }))
-                            continue;
-
-                        BuildingInfo newBuilding = new BuildingInfo();
-                        newBuilding.building = building;
-                        newBuilding.connectedBuildings.Add(current.building);
-                        m_connectedBuildings.Add(newBuilding);
-
-                        var type = building.GetBuildingType();
-
-                        if (BuildingTypeEx.IsNode(type))
-                            openList.Add(newBuilding);
-                    }
-                }
+                Destroy(c.connexion);
+                m_connexions.Remove(c);
             }
 
-            foreach (var c in connexions)
-            {
-                bool found = false;
-                foreach (var old in m_connexions)
-                {
-                    if ((old.building1 == c.building1 && old.building2 == c.building2)
-                        || (old.building1 == c.building2 && old.building2 == c.building1))
-                    {
-                        found = true;
-                        c.connexion = old.connexion;
-                        break;
-                    }
-                }
-                if (found)
-                    continue;
+            BuildingInfo otherNode;
+            if (!m_connexionFinder.TryGetValue(otherBuilding, out otherNode))
+                continue;
 
-                c.connexion = CreateLine(c.building1, c.building2);
-            }
-
-            foreach (var old in m_connexions)
-            {
-                bool found = false;
-                foreach (var c in connexions)
-                {
-                    if ((old.building1 == c.building1 && old.building2 == c.building2)
-                        || (old.building1 == c.building2 && old.building2 == c.building1))
-                    {
-                        found = true;
-                        c.connexion = old.connexion;
-                        break;
-                    }
-                }
-                if (found)
-                    continue;
-
-                Destroy(old.connexion);
-            }
-
-            m_connexions = connexions;
-
-            Event<ConnexionsUpdatedEvent>.Broadcast(new ConnexionsUpdatedEvent());
+            if (otherNode.connectedToTower)
+                RemoveConnectedToTowerState(otherNode);
         }
     }
 
-    bool ConnexionExist(List<OneConnexion> connexions, BuildingBase building1, BuildingBase building2)
+    bool IsConnectedToTower(BuildingBase b)
     {
-        foreach (var c in connexions)
+        if (b.GetBuildingType() == BuildingType.Tower)
+            return true;
+
+        HashSet<BuildingBase> visitedBuilding = new HashSet<BuildingBase>();
+        visitedBuilding.Add(b);
+
+        List<BuildingBase> openNodes = new List<BuildingBase>();
+        openNodes.Add(b);
+
+        while(openNodes.Count > 0)
         {
-            if ((building1 == c.building1 && building2 == c.building2)
-                   || (building1 == c.building2 && building2 == c.building1))
+            var building = openNodes[openNodes.Count - 1];
+            openNodes.RemoveAt(openNodes.Count - 1);
+
+            BuildingInfo node;
+            if (!m_connexionFinder.TryGetValue(building, out node))
+                continue;
+
+            foreach(var c in node.connectedBuildings)
             {
-                return true;
+                if (c.GetBuildingType() == BuildingType.Tower)
+                    return true;
+
+                if (visitedBuilding.Contains(c))
+                    continue;
+
+                visitedBuilding.Add(c);
+                openNodes.Add(c);
             }
         }
 
         return false;
+    }
+
+    void CreateConnection(BuildingBase b1, BuildingBase b2)
+    {
+        OneConnexion connexion = new OneConnexion();
+        connexion.building1 = b1;
+        connexion.building2 = b2;
+        connexion.connexion = CreateLine(b1, b2);
+        m_connexions.Add(connexion);
     }
 
     GameObject CreateLine(BuildingBase building1, BuildingBase building2)
@@ -234,22 +254,43 @@ public class ConnexionSystem : MonoBehaviour
 
     public bool IsConnected(BuildingBase building)
     {
-        using (ms_profilerMarkerIsConnected.Auto())
-        {
-            return m_connectedBuildings.Exists(x => { return x.building == building; });
-        }
+        BuildingInfo node;
+        if (!m_connexionFinder.TryGetValue(building, out node))
+            return false;
+        return node.connectedToTower;
     }
 
     public List<BuildingBase> GetConnectedBuilding(BuildingBase building)
     {
-        using (ms_profilerMarkerConnectedBuildings.Auto())
-        {
-            var info = m_connectedBuildings.Find(x => { return x.building == building; });
-            if (info != null)
-                return info.connectedBuildings;
-
+        if (!m_connexionFinder.ContainsKey(building))
             return new List<BuildingBase>();
-        }
-            
+
+        var info = m_connexionFinder[building];
+        return info.connectedBuildings;
+    }
+
+    bool AreConnectable(BuildingBase b1, BuildingBase b2)
+    {
+        var b1Node = BuildingTypeEx.IsNode(b1.GetBuildingType());
+        var b2Node = BuildingTypeEx.IsNode(b2.GetBuildingType());
+
+        if (!b1Node && !b2Node)
+            return false;
+
+        float maxDist = Global.instance.buildingDatas.GetRealPlaceRadius(b1.PlacementRadius(), b2.PlacementRadius());
+        float sqrDist = (b1.GetGroundCenter() - b2.GetGroundCenter()).SqrMagnitudeXZ();
+
+        return sqrDist < maxDist * maxDist;
+    }
+
+    bool IsConnexion(OneConnexion c, BuildingBase b1, BuildingBase b2)
+    {
+        if (c.building1 == b1 && c.building2 == b2)
+            return true;
+
+        if (c.building1 == b2 && c.building2 == b1)
+            return true;
+
+        return false;
     }
 }

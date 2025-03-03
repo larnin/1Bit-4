@@ -42,7 +42,7 @@ public class BuildingDeath : MonoBehaviour
         InstantiateDestroyedBuilding();
 
         if (ConnexionSystem.instance != null)
-            ConnexionSystem.instance.OnBuildingChange();
+            ConnexionSystem.instance.OnBuildingRemove(GetComponent<BuildingBase>());
 
         var cols = GetComponentsInChildren<Collider>();
         foreach (var col in cols)

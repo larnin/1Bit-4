@@ -8,10 +8,6 @@ using UnityEngine;
 
 public class BuildingPylon : BuildingBase
 {
-    static readonly ProfilerMarker ms_profilerMarker = new ProfilerMarker(ProfilerCategory.Scripts, "BuildingPylon.EnergyGeneration");
-
-    [SerializeField] float m_powerGeneration = 1;
-    [SerializeField] float m_generationRadius = 4;
     [SerializeField] float m_placementRadius = 5;
     [SerializeField] bool m_bigPylon = false;
 
@@ -37,34 +33,6 @@ public class BuildingPylon : BuildingBase
         return BuildingType.Pylon;
     }
 
-    public override float EnergyGeneration()
-    {
-        using (ms_profilerMarker.Auto())
-        {
-            if (ConnexionSystem.instance == null)
-                return m_powerGeneration;
-
-            float maxDistance = m_generationRadius * m_generationRadius;
-            var pos = GetGroundCenter();
-            var connected = ConnexionSystem.instance.GetConnectedBuilding(this);
-            foreach (var c in connected)
-            {
-                if (c.GetBuildingType() != BuildingType.Pylon)
-                    continue;
-                var otherPos = c.GetGroundCenter();
-                float dist = (pos - otherPos).sqrMagnitude;
-
-                if (dist > maxDistance)
-                    continue;
-                maxDistance = dist;
-            }
-
-            float powerMultiplier = maxDistance / m_generationRadius / m_generationRadius;
-
-            return m_powerGeneration * powerMultiplier;
-        }
-    }
-
     public override float PlacementRadius()
     {
         return m_placementRadius;
@@ -73,16 +41,5 @@ public class BuildingPylon : BuildingBase
     void BuildCommon(BuildSelectionDetailCommonEvent e)
     {
         DisplayGenericInfos(e.container);
-
-        float generation = EnergyGeneration();
-        float efficiency = generation / m_powerGeneration;
-
-        UIElementData.Create<UIElementLabelAndText>(e.container).SetLabel("Power").SetText(generation.ToString("#0.##"));
-
-        if(efficiency < 0.99f)
-        {
-            UIElementData.Create<UIElementSimpleText>(e.container).SetText("Pylons Too close to each other");
-            UIElementData.Create<UIElementLabelAndText>(e.container).SetLabel("Efficiency").SetText(((int)(efficiency * 100)).ToString() + "%");
-        }
     }
 }
