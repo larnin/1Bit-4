@@ -167,8 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81415bc3e68d543499c1059349fca975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_powerGeneration: 1
-  m_generationRadius: 4
+  m_meshComponent: {fileID: 830894263450348497}
   m_placementRadius: 6
   m_bigPylon: 0
 --- !u!114 &4460641274274085506

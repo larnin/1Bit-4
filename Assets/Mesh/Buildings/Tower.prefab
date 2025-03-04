@@ -180,6 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 161252e411d948b49a0b9c7eade3bf03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_meshComponent: {fileID: 981647863647172320}
   m_powerGeneration: 10
   m_placementRadius: 9
 --- !u!65 &915030668676742545

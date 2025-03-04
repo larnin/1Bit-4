@@ -148,6 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b39ce64c651c40f4b85d855634a9f259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_meshComponent: {fileID: 6349232944677591864}
   m_energyConsumption: 10
   m_consumedResource: 3
   m_consumedResourceNb: 2

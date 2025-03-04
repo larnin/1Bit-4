@@ -73,5 +73,11 @@ public class BuildingSolarPanel : BuildingBase
 
         return BuildingPlaceType.Valid;
     }
+
+    public override void UpdateRotation()
+    {
+        if (GetRotation() != Rotation.rot_0)
+            SetRotation(Rotation.rot_0);
+    }
 }
 

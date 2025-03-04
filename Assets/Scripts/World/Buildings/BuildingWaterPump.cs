@@ -10,11 +10,11 @@ public class BuildingWaterPump : BuildingBase
     [SerializeField] float m_energyConsumption = 1;
     [SerializeField] ResourceType m_generatedResource;
     [SerializeField] float m_generation = 1;
-    [SerializeField] int m_pumpRadius = 1;
 
     float m_energyUptake;
     float m_energyEfficiency = 1;
     bool m_connectedToWater = false;
+    Rotation m_waterDirection;
 
     SubscriberList m_subscriberList = new SubscriberList();
 
@@ -88,43 +88,44 @@ public class BuildingWaterPump : BuildingBase
 
         var bounds = new BoundsInt(pos, GetSize());
 
-        var min = bounds.min;
-        var max = bounds.max - Vector3Int.one;
-        min -= new Vector3Int(m_pumpRadius, 0, m_pumpRadius);
-        max += new Vector3Int(m_pumpRadius, 0, m_pumpRadius);
+        var size = bounds.size;
 
-        for (int i = min.x; i <= max.x; i++)
+        for(int i = 0; i < 4; i++)
         {
-            for (int j = min.z; j <= max.z; j++)
+            var rot = (Rotation)i;
+            var dir = RotationEx.ToVectorInt(rot);
+            var ortoDir = RotationEx.ToVectorInt(RotationEx.Add(rot, Rotation.rot_90));
+
+            int dist = Mathf.Abs(ortoDir.x * size.x) + Mathf.Abs(ortoDir.y * size.z);
+
+            Vector3Int initialPos = bounds.min - new Vector3Int(0, 1, 0);
+            if (rot == Rotation.rot_0 || rot == Rotation.rot_90)
+                initialPos.x += size.x - 1;
+            if (rot == Rotation.rot_90 || rot == Rotation.rot_180)
+                initialPos.z += size.z - 1;
+            initialPos += new Vector3Int(dir.x, 0, dir.y);
+
+            bool allWater = true;
+
+            for(int j = 0; j < dist; j++)
             {
-                var offset = new Vector2Int(i - bounds.min.x, j - bounds.min.z);
-                if (offset.x > 0 && offset.x < bounds.size.x)
-                    offset.x = 0;
-                else if (offset.x >= bounds.size.x)
-                    offset.x -= bounds.size.x - 1;
-                if (offset.y > 0 && offset.y < bounds.size.z)
-                    offset.y = 0;
-                else if (offset.y >= bounds.size.z)
-                    offset.y -= bounds.size.z - 1;
+                var currentPos = initialPos + new Vector3Int(ortoDir.x, 0, ortoDir.y) * j;
+                if (GridEx.GetBlock(grid.grid, currentPos) != BlockType.water)
+                {
+                    allWater = false;
+                    break;
+                }
+            }
 
-                if (offset.x == 0 && offset.y == 0)
-                    continue;
-
-                if (MathF.Abs(offset.x) + Math.Abs(offset.y) > m_pumpRadius)
-                    continue;
-
-                int height = GridEx.GetHeight(grid.grid, new Vector2Int(i, j));
-                if (height < 0 || Mathf.Abs(pos.y - height) > 1)
-                    continue;
-
-                Vector3Int itemPos = new Vector3Int(i, height, j);
-                var item = GridEx.GetBlock(grid.grid, itemPos);
-                if (item != BlockType.water)
-                    continue;
-                
+            if (allWater)
+            {
+                m_connectedToWater = true;
+                m_waterDirection = rot;
                 return true;
             }
         }
+
+        m_connectedToWater = false;
 
         return false;
     }
@@ -157,5 +158,10 @@ public class BuildingWaterPump : BuildingBase
             UIElementData.Create<UIElementLabelAndText>(e.container).SetLabel(label).SetTextFunc(CollectionStr);
         }
         UIElementData.Create<UIElementFillValue>(e.container).SetLabel("Efficiency").SetMax(1).SetValueFunc(GetEfficiency).SetValueDisplayType(UIElementFillValueDisplayType.percent).SetNbDigits(0);
+    }
+
+    public override void UpdateRotation()
+    {
+        SetRotation(RotationEx.Sub(m_waterDirection, Rotation.rot_90));
     }
 }

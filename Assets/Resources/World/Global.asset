@@ -231,7 +231,7 @@ MonoBehaviour:
       prefab: {fileID: 3692538273452692935, guid: 81f7408822501de4eb06da25a0d5d952, type: 3}
       sprite: {fileID: 1487700549, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
       spriteWithBorder: {fileID: 1051076557, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
-      size: {x: 2, y: 2, z: 2}
+      size: {x: 2, y: 4, z: 2}
       team: 0
       name: Water pump
       description: Must be placed near a water source. Collect water at a small cost

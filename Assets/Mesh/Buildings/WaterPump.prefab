@@ -65,6 +65,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baf406541146a7c4ab1f17ad344ffe82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_meshComponent: {fileID: 3782116022863553344}
   m_energyConsumption: 1
   m_generatedResource: 5
   m_generation: 1

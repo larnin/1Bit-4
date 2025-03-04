@@ -5184,6 +5184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4b078dcd9c1eea42bdeba8287c2b41b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_meshComponent: {fileID: 1516517738725020380}
   m_fireRate: 1
   m_range: 15
   m_recoilDistance: 0.5

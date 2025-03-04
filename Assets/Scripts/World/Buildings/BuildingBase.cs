@@ -57,6 +57,8 @@ public enum BuildingPlaceType
 
 public abstract class BuildingBase : MonoBehaviour
 {
+    [SerializeField] Transform m_meshComponent;
+
     bool m_added = false;
     bool m_startCalled = false;
     bool m_asCursor = false;
@@ -68,6 +70,8 @@ public abstract class BuildingBase : MonoBehaviour
     float m_noHitDuration;
     float m_alarmTimer = 0;
     bool m_wasFullLife = true;
+
+    Rotation m_rotation = Rotation.rot_0;
 
     SubscriberList m_subscriberList = new SubscriberList();
 
@@ -87,6 +91,9 @@ public abstract class BuildingBase : MonoBehaviour
             Remove();
         else if (!m_asCursor && !m_added)
             Add();
+
+        if (asCursor)
+            SetRotation(RotationEx.RandomRotation());
     }
 
     public bool IsAdded()
@@ -406,6 +413,24 @@ public abstract class BuildingBase : MonoBehaviour
             if (GetTeam() == Team.Player)
                 SetComponentsEnabled(ConnexionSystem.instance.IsConnected(this));
         }
+    }
+
+    public void SetRotation(Rotation rot)
+    {
+        if (m_meshComponent != null)
+            m_meshComponent.localRotation = RotationEx.ToQuaternion(rot);
+
+        m_rotation = rot;
+    }
+
+    public Rotation GetRotation()
+    {
+        return m_rotation;
+    }
+
+    public virtual void UpdateRotation()
+    {
+
     }
 }
 

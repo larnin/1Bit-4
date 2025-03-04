@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14a740c5befdbe24dadb4f5ece213855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_meshComponent: {fileID: 4590827196458818719}
   m_powerGeneration: 1
   m_bigPanel: 0
   m_distanceToOtherPannel: 2

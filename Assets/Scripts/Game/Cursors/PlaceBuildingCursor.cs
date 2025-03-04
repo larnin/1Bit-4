@@ -112,6 +112,9 @@ public class PlaceBuildingCursor : MonoBehaviour
         UpdateCross();
         UpdateConnexions();
 
+        if (m_instance != null)
+            m_instance.UpdateRotation();
+
         if (Input.GetMouseButtonDown(0))
             OnClick();
         else if (Input.GetMouseButtonDown(1))
@@ -167,12 +170,12 @@ public class PlaceBuildingCursor : MonoBehaviour
         if (BuildingList.instance == null || ConnexionSystem.instance == null)
             return;
 
-       
+
         var validPos = GetNearestValidPos(m_cursorPos);
         m_instance.transform.position = validPos;
         m_cursorPos = validPos;
         if (m_canPlace == BuildingPlaceType.Unknow)
-            m_canPlace = m_instance.CanBePlaced(validPos);
+            m_canPlace = m_instance.CanBePlaced(m_cursorPos);
 
         if (m_decal != null)
             m_decal.SetTarget(m_cursorPos, m_instance.GetBuildingType(), m_instance.PlacementRadius());
@@ -291,6 +294,12 @@ public class PlaceBuildingCursor : MonoBehaviour
         var obj = Instantiate(buildingData.prefab);
         obj.transform.parent = BuildingList.instance.transform;
         obj.transform.localPosition = m_cursorPos;
+        var building = obj.GetComponent<BuildingBase>();
+        if (building != null)
+            building.SetRotation(m_instance.GetRotation());
+
+        m_instance.SetRotation(RotationEx.RandomRotation());
+        m_instance.UpdateRotation();
 
         Event<OnBuildingBuildEvent>.Broadcast(new OnBuildingBuildEvent(m_type));
 
