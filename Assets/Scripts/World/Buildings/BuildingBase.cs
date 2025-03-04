@@ -389,7 +389,7 @@ public abstract class BuildingBase : MonoBehaviour
         SetComponentsEnabled(m_added);
     }
 
-    void SetComponentsEnabled(bool enabled)
+    protected virtual void SetComponentsEnabled(bool enabled)
     {
         var light = GetComponent<CustomLight>();
         if (light != null)
@@ -428,9 +428,6 @@ public abstract class BuildingBase : MonoBehaviour
         return m_rotation;
     }
 
-    public virtual void UpdateRotation()
-    {
-
-    }
+    public virtual void UpdateRotation() { }
 }
 

@@ -156,4 +156,17 @@ public class BuildingOilPump : BuildingBase
         }
         UIElementData.Create<UIElementFillValue>(e.container).SetLabel("Efficiency").SetMax(1).SetValueFunc(GetEfficiency).SetValueDisplayType(UIElementFillValueDisplayType.percent).SetNbDigits(0);
     }
+
+    protected override void SetComponentsEnabled(bool enabled)
+    {
+        base.SetComponentsEnabled(enabled);
+
+        var particles = GetComponentsInChildren<ParticleSystem>();
+        foreach(var p in particles)
+        {
+            if (enabled)
+                p.Play();
+            else p.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        }
+    }
 }
