@@ -97,6 +97,7 @@ public class TurretBehaviour : MonoBehaviour
                         if (!m_haveTarget)
                         {
                             m_turretStartRotation = m_turretPivot.rotation;
+                            MakeInitialRotationFromCurrent();
                             float angle = Mathf.Abs(Quaternion.Angle(m_turretStartRotation, m_turretInitialRotation));
                             m_turretTimer = 0;
                             m_turretTimerMax = angle / m_turretRotSpeed / Mathf.Rad2Deg;
@@ -126,6 +127,7 @@ public class TurretBehaviour : MonoBehaviour
                         if (!m_haveTarget)
                         {
                             m_turretStartRotation = m_turretPivot.rotation;
+                            MakeInitialRotationFromCurrent();
                             float angle = Mathf.Abs(Quaternion.Angle(m_turretStartRotation, m_turretInitialRotation));
                             m_turretTimer = 0;
                             m_turretTimerMax = angle / m_turretRotSpeed / Mathf.Rad2Deg;
@@ -187,5 +189,13 @@ public class TurretBehaviour : MonoBehaviour
             }
         }
         return target.transform.position;
+    }
+
+    void MakeInitialRotationFromCurrent()
+    {
+        var current = m_turretPivot.forward;
+        current.y = 0;
+
+        m_turretInitialRotation = Quaternion.LookRotation(current, Vector3.up);
     }
 }
