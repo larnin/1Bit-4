@@ -13,6 +13,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] TMP_InputField m_seedField;
     [SerializeField] Button m_quitButton;
     [SerializeField] string m_gameSceneName;
+    [SerializeField] GameObject m_gargantuanWarning;
 
     WorldSize m_worldSize = WorldSize.Medium;
     string m_seed = "";
@@ -24,11 +25,17 @@ public class MainMenu : MonoBehaviour
         RandomSeed();
 
         HideQuitButton();
+
+        if (m_gargantuanWarning != null)
+            m_gargantuanWarning.SetActive(false);
     }
 
     public void SetWorldSize(int sizeType)
     {
         m_worldSize = (WorldSize)sizeType;
+
+        if (m_gargantuanWarning != null)
+            m_gargantuanWarning.SetActive(m_worldSize == WorldSize.Gargantuan);
     }
 
     public void UpdateSeed()

@@ -13,6 +13,8 @@ public enum WorldSize
     Small,
     Medium,
     Large,
+    Micro,
+    Gargantuan,
 }
 
 [Serializable]

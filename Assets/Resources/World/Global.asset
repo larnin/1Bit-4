@@ -65,7 +65,7 @@ MonoBehaviour:
       titaniumMinDistance: 20
       titaniumMinHeight: 1
       titaniumMaxHeight: 2
-      titaniumHeightNeighbour: 0.25
+      titaniumHeightNeighbour: 0.3
   - size: 1
     settings:
       size: 12
@@ -118,7 +118,7 @@ MonoBehaviour:
       titaniumMinDistance: 25
       titaniumMinHeight: 1
       titaniumMaxHeight: 2
-      titaniumHeightNeighbour: 0.25
+      titaniumHeightNeighbour: 0.3
   - size: 2
     settings:
       size: 16
@@ -171,7 +171,113 @@ MonoBehaviour:
       titaniumMinDistance: 30
       titaniumMinHeight: 1
       titaniumMaxHeight: 2
-      titaniumHeightNeighbour: 0.25
+      titaniumHeightNeighbour: 0.3
+  - size: 3
+    settings:
+      size: 4
+      height: 2
+      waterHeight: -18
+      baseSurfaceHeight: -18
+      baseSurfaceNormalizedRadius: 0.4
+      baseSurfaceNormalizedTopRadius: 0.3
+      baseSurfaceDescreaseCurve: 4
+      baseSurfaceRandomization:
+        baseFrequency: 2
+        baseAmplitude: 65
+        nbLayers: 6
+        layerAmplitudeScale: 0.5
+      plainsHeight:
+        baseFrequency: 2
+        baseAmplitude: 4
+        nbLayers: 4
+        layerAmplitudeScale: 0.4
+      montainsMinDistanceFromCenter: 15
+      montainsMinDistanceFromBorder: 8
+      montainsBlendDistance: 8
+      montainsHeight:
+        baseFrequency: 7
+        baseAmplitude: 10
+        nbLayers: 5
+        layerAmplitudeScale: 0.5
+      montainsDistanceRandomization:
+        baseFrequency: 18
+        baseAmplitude: 0.9
+        nbLayers: 1
+        layerAmplitudeScale: 0.5
+      montainsHeightOffset: 0
+      montainsHeightMultiplier: 30
+      montainsHeightPower: 2
+      crystalPatchSizeBase: 4
+      crystalPatchIncrease: 8
+      crystalPatchDensity: 8
+      crystalRetryCount: 2
+      crystalInitialPatchDistance: 8
+      crystalMinDistance: 12
+      oilDensity: 5
+      oilRetryCount: 5
+      oilMinDistance: 15
+      titaniumPatchMin: 8
+      titaniumPatchMax: 12
+      titaniumPatchDensity: 5
+      titaniumElevationMinVariation: 1
+      titaniumRetryCount: 8
+      titaniumMinDistance: 18
+      titaniumMinHeight: 1
+      titaniumMaxHeight: 2
+      titaniumHeightNeighbour: 0.3
+  - size: 4
+    settings:
+      size: 32
+      height: 2
+      waterHeight: -18
+      baseSurfaceHeight: -17
+      baseSurfaceNormalizedRadius: 0.65
+      baseSurfaceNormalizedTopRadius: 0.5
+      baseSurfaceDescreaseCurve: 4
+      baseSurfaceRandomization:
+        baseFrequency: 2
+        baseAmplitude: 250
+        nbLayers: 7
+        layerAmplitudeScale: 0.5
+      plainsHeight:
+        baseFrequency: 6
+        baseAmplitude: 10
+        nbLayers: 6
+        layerAmplitudeScale: 0.4
+      montainsMinDistanceFromCenter: 40
+      montainsMinDistanceFromBorder: 25
+      montainsBlendDistance: 10
+      montainsHeight:
+        baseFrequency: 12
+        baseAmplitude: 19
+        nbLayers: 6
+        layerAmplitudeScale: 0.5
+      montainsDistanceRandomization:
+        baseFrequency: 30
+        baseAmplitude: 0.9
+        nbLayers: 1
+        layerAmplitudeScale: 0.5
+      montainsHeightOffset: 0.2
+      montainsHeightMultiplier: 45
+      montainsHeightPower: 2
+      crystalPatchSizeBase: 4
+      crystalPatchIncrease: 12
+      crystalPatchDensity: 20
+      crystalRetryCount: 2
+      crystalInitialPatchDistance: 10
+      crystalMinDistance: 25
+      oilDensity: 15
+      oilRetryCount: 1
+      oilMinDistance: 25
+      titaniumPatchMin: 8
+      titaniumPatchMax: 15
+      titaniumPatchDensity: 10
+      titaniumElevationMinVariation: 1
+      titaniumRetryCount: 5
+      titaniumMinDistance: 30
+      titaniumMinHeight: 1
+      titaniumMaxHeight: 2
+      titaniumHeightNeighbour: 0.3
   m_blockDatas:
     defaultMaterial: {fileID: 2100000, guid: 963d52d036299094b986f2c929f03250, type: 2}
     waterMaterial: {fileID: 2100000, guid: ce8f60df2fcaed342971dd0e90f4368f, type: 2}
