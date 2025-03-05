@@ -50,13 +50,13 @@ public class BuildingTitaniumMine : BuildingBase
 
     public override float EnergyUptakeWanted()
     {
-        return m_energyConsumption;
+        return m_energyConsumption * m_titaniums.Count;
     }
 
     public override void EnergyUptake(float value)
     {
         m_energyUptake = value;
-        m_energyEfficiency = value / m_energyConsumption;
+        m_energyEfficiency = value / EnergyUptakeWanted();
         if (m_energyEfficiency > 1)
             m_energyEfficiency = 1;
 
@@ -87,7 +87,7 @@ public class BuildingTitaniumMine : BuildingBase
         {
             if (ResourceSystem.instance.HaveResource(m_consumedResource))
             {
-                float consumeCount = m_consumedResourceNb * Time.deltaTime;
+                float consumeCount = m_consumedResourceNb * Time.deltaTime * m_titaniums.Count * m_energyEfficiency;
                 float stored = ResourceSystem.instance.GetResourceStored(m_consumedResource);
                 if(stored > 0 && consumeCount > 0)
                 {

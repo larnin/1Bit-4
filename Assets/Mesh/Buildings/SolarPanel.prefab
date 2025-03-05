@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_meshComponent: {fileID: 4590827196458818719}
-  m_powerGeneration: 1
+  m_powerGeneration: 2
   m_bigPanel: 0
   m_distanceToOtherPannel: 2
 --- !u!114 &2045027283719146914

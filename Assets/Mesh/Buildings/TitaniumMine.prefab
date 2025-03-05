@@ -149,12 +149,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_meshComponent: {fileID: 6349232944677591864}
-  m_energyConsumption: 10
+  m_energyConsumption: 4
   m_consumedResource: 3
-  m_consumedResourceNb: 2
+  m_consumedResourceNb: 1
   m_generatedResource: 2
   m_generatedResourceNb: 2
-  m_generatedResourceCycle: 5
+  m_generatedResourceCycle: 10
   m_mineRadius: 1
 --- !u!114 &7814811805009980506
 MonoBehaviour:

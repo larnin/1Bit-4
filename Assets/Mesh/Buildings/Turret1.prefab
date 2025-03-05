@@ -140,7 +140,7 @@ MonoBehaviour:
   m_recoilTarget: {fileID: 3717175037673376934}
   m_fireParticles: {fileID: 4523324907174517030}
   m_energyStorage: 25
-  m_energyUptake: 10
+  m_energyUptake: 8
   m_energyPerFire: 2.5
   m_projectilePrefab: {fileID: 9030378141569406407, guid: 87e9017554cad3b469d1f42ecbc47c60, type: 3}
   m_fireSound: TurretEnergyFire

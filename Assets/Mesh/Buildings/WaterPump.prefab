@@ -66,10 +66,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_meshComponent: {fileID: 3782116022863553344}
-  m_energyConsumption: 1
+  m_energyConsumption: 2
   m_generatedResource: 5
-  m_generation: 1
-  m_pumpRadius: 1
+  m_generation: 2
 --- !u!114 &707250893984543062
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -45,13 +45,13 @@ public class BuildingCrystalMine : BuildingBase
 
     public override float EnergyUptakeWanted() 
     { 
-        return m_energyConsumption; 
+        return m_energyConsumption * m_crystals.Count; 
     }
 
     public override void EnergyUptake(float value) 
     {
         m_energyUptake = value;
-        m_energyEfficiency = value / m_energyConsumption;
+        m_energyEfficiency = value / EnergyUptakeWanted();
         if (m_energyEfficiency > 1)
             m_energyEfficiency = 1;
 

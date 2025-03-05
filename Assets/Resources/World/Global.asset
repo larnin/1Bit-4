@@ -279,7 +279,7 @@ MonoBehaviour:
       cost:
         cost:
         - type: 1
-          count: 100
+          count: 25
     - type: 6
       prefab: {fileID: 3550513972471810787, guid: 4328f2ad333202f419ef6f5c0130b950, type: 3}
       sprite: {fileID: -743678667, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
@@ -553,6 +553,9 @@ MonoBehaviour:
         on this key.
       weight: 1
     - tip: Frozen ennemies fake more damages
+      weight: 1
+    - tip: When damaged, the power plant can explose and cause a lot of damage to
+        nearby buildings
       weight: 1
   m_soundsDatas:
     m_sounds:
