@@ -781,14 +781,14 @@ public static class WorldGenerator
         List<Vector3Int> openList = new List<Vector3Int>();
         openList.Add(initialPos);
 
-        int addedCount = 1;
+        List<Vector3Int> titaniums = new List<Vector3Int>();
 
         var rand = new MT19937((uint)(m_seed + 1 + pos.x + pos.y));
 
         int maxCount = Rand.UniformIntDistribution(m_settings.titaniumPatchMin, m_settings.titaniumPatchMax, rand);
         float radius = Mathf.Sqrt(maxCount) / 2 + 1;
 
-        while (openList.Count > 0 && addedCount < maxCount)
+        while (openList.Count > 0 && titaniums.Count < maxCount)
         {
             int currentIndex = 0;
             if (openList.Count > 1)
@@ -807,10 +807,29 @@ public static class WorldGenerator
 
             GridEx.SetBlock(m_grid, points[pointIndex], BlockType.Titanium);
             openList.Add(points[pointIndex]);
-            addedCount++;
+            titaniums.Add(points[pointIndex]);
 
             if (points.Count == 1)
                 openList.RemoveAt(currentIndex);
+        }
+
+        foreach(var t in titaniums)
+        {
+            int nbNeightbourgs = 0;
+            foreach(var otherT in titaniums)
+            {
+                int dist = Mathf.Abs(t.x - otherT.x) + Mathf.Abs(t.y - otherT.y);
+                if (dist == 1)
+                    nbNeightbourgs++;
+            }
+
+            if (nbNeightbourgs > 0)
+                nbNeightbourgs--;
+
+            int h = Mathf.RoundToInt(Rand.UniformFloatDistribution(m_settings.titaniumMinHeight, m_settings.titaniumMaxHeight, rand) + m_settings.titaniumHeightNeighbour);
+
+            for(int i = 1; i < h; i++)
+                GridEx.SetBlock(m_grid, t + new Vector3Int(0, i, 0), BlockType.Titanium);
         }
     }
 
@@ -832,31 +851,6 @@ public static class WorldGenerator
             {
                 newPos.y++;
                 points.Add(newPos);
-            }
-        }
-
-        for (int i = -1; i <= 1; i += 2)
-        {
-            var dir = new Vector3Int(0, 1, 0);
-            Vector3Int testPos = pos + dir;
-
-            var item = GridEx.GetBlock(m_grid, testPos);
-            if (item == BlockType.air)
-            {
-                bool haveGround = false;
-                for (int j = 0; j < 4; j++)
-                {
-                    var dirGround = RotationEx.ToVector3Int((Rotation)j);
-                    Vector3Int testGround = testPos + dirGround;
-                    if (GridEx.GetBlock(m_grid, testGround) == BlockType.ground)
-                    {
-                        haveGround = true;
-                        break;
-                    }
-                }
-
-                if (haveGround)
-                    points.Add(testPos);
             }
         }
 

@@ -46,6 +46,9 @@ public class WorldGeneratorSettings
     public float titaniumElevationMinVariation = 5;
     public float titaniumRetryCount = 2;
     public float titaniumMinDistance = 20;
+    public float titaniumMinHeight = 1;
+    public float titaniumMaxHeight = 2;
+    public float titaniumHeightNeighbour = 0.25f;
 }
 
 [Serializable]

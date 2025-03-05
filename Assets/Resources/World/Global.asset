@@ -57,12 +57,15 @@ MonoBehaviour:
       oilDensity: 10
       oilRetryCount: 1
       oilMinDistance: 20
-      titaniumPatchMin: 4
-      titaniumPatchMax: 8
+      titaniumPatchMin: 8
+      titaniumPatchMax: 12
       titaniumPatchDensity: 7
       titaniumElevationMinVariation: 1
       titaniumRetryCount: 5
       titaniumMinDistance: 20
+      titaniumMinHeight: 1
+      titaniumMaxHeight: 2
+      titaniumHeightNeighbour: 0.25
   - size: 1
     settings:
       size: 12
@@ -107,12 +110,15 @@ MonoBehaviour:
       oilDensity: 11
       oilRetryCount: 1
       oilMinDistance: 25
-      titaniumPatchMin: 4
-      titaniumPatchMax: 8
+      titaniumPatchMin: 8
+      titaniumPatchMax: 12
       titaniumPatchDensity: 7
       titaniumElevationMinVariation: 1
       titaniumRetryCount: 5
       titaniumMinDistance: 25
+      titaniumMinHeight: 1
+      titaniumMaxHeight: 2
+      titaniumHeightNeighbour: 0.25
   - size: 2
     settings:
       size: 16
@@ -157,12 +163,15 @@ MonoBehaviour:
       oilDensity: 12
       oilRetryCount: 1
       oilMinDistance: 25
-      titaniumPatchMin: 4
-      titaniumPatchMax: 8
+      titaniumPatchMin: 8
+      titaniumPatchMax: 12
       titaniumPatchDensity: 8
       titaniumElevationMinVariation: 1
       titaniumRetryCount: 5
       titaniumMinDistance: 30
+      titaniumMinHeight: 1
+      titaniumMaxHeight: 2
+      titaniumHeightNeighbour: 0.25
   m_blockDatas:
     defaultMaterial: {fileID: 2100000, guid: 963d52d036299094b986f2c929f03250, type: 2}
     waterMaterial: {fileID: 2100000, guid: ce8f60df2fcaed342971dd0e90f4368f, type: 2}
@@ -199,7 +208,7 @@ MonoBehaviour:
       cost:
         cost:
         - type: 1
-          count: 10
+          count: 15
     - type: 13
       prefab: {fileID: 2386629846189063210, guid: 01cb1a9794f4d754393dba54f54deefd, type: 3}
       sprite: {fileID: 718095043, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
@@ -238,7 +247,11 @@ MonoBehaviour:
         of energy
       firstFree: 0
       cost:
-        cost: []
+        cost:
+        - type: 1
+          count: 250
+        - type: 2
+          count: 20
     - type: 10
       prefab: {fileID: 4113768736633810140, guid: ed337a5a723a2d14c9d462c4b3884343, type: 3}
       sprite: {fileID: -1517333237, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
@@ -264,7 +277,7 @@ MonoBehaviour:
       cost:
         cost:
         - type: 1
-          count: 150
+          count: 200
         - type: 3
           count: 20
     - type: 3
@@ -279,7 +292,7 @@ MonoBehaviour:
       cost:
         cost:
         - type: 1
-          count: 25
+          count: 50
     - type: 6
       prefab: {fileID: 3550513972471810787, guid: 4328f2ad333202f419ef6f5c0130b950, type: 3}
       sprite: {fileID: -743678667, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
@@ -292,9 +305,9 @@ MonoBehaviour:
       cost:
         cost:
         - type: 1
-          count: 100
+          count: 150
         - type: 2
-          count: 5
+          count: 10
     - type: 100
       prefab: {fileID: 8816298933707241032, guid: 1b2257b9fd5f06b49aa3922ad9f7eb0d, type: 3}
       sprite: {fileID: 0}
@@ -347,7 +360,7 @@ MonoBehaviour:
       cost:
         cost:
         - type: 1
-          count: 150
+          count: 200
     - type: 5
       prefab: {fileID: 4528157726223185936, guid: a03e4ada02fb4604686882e32186830d, type: 3}
       sprite: {fileID: -280417797, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
@@ -363,7 +376,7 @@ MonoBehaviour:
       cost:
         cost:
         - type: 1
-          count: 400
+          count: 450
         - type: 2
           count: 50
     mineItemPrefab: {fileID: 6943061212826655842, guid: 020dedfdfd13d1c49ac25e185f22167b, type: 3}
@@ -406,20 +419,20 @@ MonoBehaviour:
       sprite: {fileID: 1786662948, guid: d289d3f5b7bf08a40acae9bd3b9185b0, type: 3}
       name: Crystal
       description: Can be collected by a crystal mine
-      storageBase: 150
-      storageIncrease: 150
+      storageBase: 200
+      storageIncrease: 100
     - type: 2
       sprite: {fileID: -1440480786, guid: d289d3f5b7bf08a40acae9bd3b9185b0, type: 3}
       name: Titanium
       description: Hard to collect but extremely valuable
       storageBase: 50
-      storageIncrease: 50
+      storageIncrease: 25
     - type: 3
       sprite: {fileID: 96055612, guid: d289d3f5b7bf08a40acae9bd3b9185b0, type: 3}
       name: Oil
       description: Dirty and hightly flammable
       storageBase: 100
-      storageIncrease: 100
+      storageIncrease: 50
     - type: 4
       sprite: {fileID: -954301970, guid: d289d3f5b7bf08a40acae9bd3b9185b0, type: 3}
       name: Enemy part
@@ -431,7 +444,7 @@ MonoBehaviour:
       name: Water
       description: Source of life
       storageBase: 100
-      storageIncrease: 100
+      storageIncrease: 50
   m_difficultyDatas:
     difficultyPerMinute:
       baseValue: 0.3
@@ -478,9 +491,9 @@ MonoBehaviour:
     spawnersData:
       displayHeight: 6
       displayBeforeWave: 10
-      firstDelayAdd: 30
-      delayBetweenWavesMin: 60
-      delayBetweenWavesMax: 90
+      firstDelayAdd: 90
+      delayBetweenWavesMin: 45
+      delayBetweenWavesMax: 60
       distanceFromBuildingsMin: 25
       distanceFromBuildingsMax: 50
       distanceFromSpawnerMin: 10
