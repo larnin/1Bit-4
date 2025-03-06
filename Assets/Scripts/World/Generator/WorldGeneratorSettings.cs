@@ -29,6 +29,16 @@ public class WorldGeneratorSettings
     public float montainsHeightMultiplier = 1;
     public float montainsHeightPower = 1;
 
+    public int lakeDensity = 0;
+    public int lakeRetryCount = 2;
+    public float lakeMinDistance = 30;
+    public float lakeMinDistanceBetweenLakes = 20;
+    public float lakeMinSize = 5;
+    public float lakeMaxSize = 10;
+    public float lakeDecreaseDistance = 5;
+    public Ease lakeDescreaseCurve = Ease.Linear;
+    public PerlinSettings lakeSurfaceRandomization;
+
     public float crystalPatchSizeBase = 5;
     public float crystalPatchIncrease = 10;
     public float crystalPatchDensity = 1;

@@ -83,11 +83,16 @@ public static class WorldGenerator
 
     static void JobWorker()
     {
-        m_stateTxt = "Generate Heights";
+        m_stateTxt = "Generate Surface";
 
         m_grid = new Grid(m_settings.size, m_settings.height);
 
         m_heights = GenerateBaseSurface();
+
+        m_stateTxt = "Generate Lakes";
+        GenerateLakes(m_heights);
+
+        m_stateTxt = "Generate Mountains";
         CalculateMontainsDistance(m_heights);
         GenerateMontains(m_heights);
 
@@ -197,6 +202,157 @@ public static class WorldGenerator
         }
 
         return mat;
+    }
+
+    struct LakeData
+    {
+        public Vector2Int pos;
+        public float size;
+        public float minHeight;
+    }
+
+    static void GenerateLakes(Matrix<Area> heights)
+    {
+        if (m_settings.lakeDensity == 0)
+            return;
+
+        int size = GridEx.GetRealSize(m_grid);
+
+        MT19937 rand = new MT19937((uint)m_seed + 4);
+
+        List<LakeData> lakes = new List<LakeData>();
+
+        float densitySize = (float)size / m_settings.lakeDensity;
+        for (int i = 0; i < m_settings.lakeDensity; i++)
+        {
+            for (int j = 0; j < m_settings.lakeDensity; j++)
+            {
+                int minX = Mathf.FloorToInt(i * densitySize);
+                int maxX = Mathf.CeilToInt((i + 1) * densitySize);
+                int minY = Mathf.FloorToInt(j * densitySize);
+                int maxY = Mathf.CeilToInt((j + 1) * densitySize);
+
+                for (int k = 0; k < m_settings.lakeRetryCount + 1; k++)
+                {
+                    int x = Rand.UniformIntDistribution(minX, maxX, rand);
+                    int y = Rand.UniformIntDistribution(minY, maxY, rand);
+
+                    float d = new Vector2Int(x - size / 2, y - size / 2).sqrMagnitude;
+                    if (d < m_settings.lakeMinDistance * m_settings.lakeMinDistance)
+                        continue;
+
+                    bool nearOtherLake = false;
+                    foreach(var l in lakes)
+                    {
+                        float dist = (new Vector2Int(x, y) - l.pos).sqrMagnitude;
+                        if(dist <= m_settings.lakeMinDistanceBetweenLakes * m_settings.lakeMinDistanceBetweenLakes)
+                        {
+                            nearOtherLake = true;
+                            break;
+                        }
+                    }
+                    if (nearOtherLake)
+                        continue;
+
+                    float radius = Rand.UniformFloatDistribution(m_settings.lakeMinSize, m_settings.lakeMaxSize, rand);
+
+                    float minHeight;
+                    if (!CanPlaceLakeAt(new Vector2Int(x, y), radius, heights, out minHeight))
+                        continue;
+
+                    LakeData lake = new LakeData();
+                    lake.pos = new Vector2Int(x, y);
+                    lake.size = radius;
+                    lake.minHeight = minHeight;
+                    lakes.Add(lake);
+
+                    break;
+                }
+            }
+        }
+
+        PlaceLakes(lakes, heights);
+    }
+
+    static bool CanPlaceLakeAt(Vector2Int pos, float radius, Matrix<Area> heights, out float minHeight)
+    {
+        int size = GridEx.GetRealSize(m_grid);
+
+        int radiusInt = Mathf.CeilToInt(radius);
+
+        minHeight = 10000;
+
+        for(int x = -radiusInt; x <= radiusInt; x++)
+        {
+            for(int y = -radiusInt; y <= radiusInt; y++)
+            {
+                var p = pos + new Vector2Int(x, y);
+                if (p.x < 0 || p.y < 0 || p.x >= size || p.y > size)
+                    return false;
+
+                var r = new Vector2Int(x, y).sqrMagnitude;
+                if (r > radius * radius)
+                    continue;
+
+                if (heights.Get(p.x, p.y).type != AreaType.Plain)
+                    return false;
+
+                minHeight = Mathf.Min(heights.Get(p.x, p.y).height, minHeight - 2);
+            }
+        }
+
+        return true;
+    }
+
+    static void PlaceLakes(List<LakeData> lakes, Matrix<Area> heights)
+    {
+        int size = GridEx.GetRealSize(m_grid);
+
+        Perlin[] perlinDistance = new Perlin[m_settings.lakeSurfaceRandomization.nbLayers];
+        for (int i = 0; i < m_settings.lakeSurfaceRandomization.nbLayers; i++)
+        {
+            perlinDistance[i] = new Perlin(size, m_settings.lakeSurfaceRandomization.baseAmplitude * Mathf.Pow(m_settings.lakeSurfaceRandomization.layerAmplitudeScale, i)
+                , (int)(m_settings.lakeSurfaceRandomization.baseFrequency * Mathf.Pow(2, i)), m_seed + 5);
+        }
+
+        Vector2 center = new Vector2(size / 2.0f, size / 2.0f);
+
+        for (int i = 0; i < size; i++)
+        {
+            for(int j = 0; j < size; j++)
+            {
+                float distance = 0;
+                foreach (var p in perlinDistance)
+                    distance += p.Get(i, j);
+
+                var a = heights.Get(i, j);
+
+                foreach (var l in lakes)
+                {
+                    float localDistance = distance * l.size;
+                    localDistance += (new Vector2(i, j) - l.pos).magnitude;
+
+                    float minHeight = Mathf.Max(m_settings.waterHeight, l.minHeight);
+
+                    if (localDistance < l.size)
+                    {
+                        a.type = AreaType.Water;
+                        a.height = minHeight;
+                    }
+                    else if(localDistance < l.size + m_settings.lakeDecreaseDistance && a.type == AreaType.Plain)
+                    {
+                        localDistance -= l.size;
+                        localDistance /= m_settings.lakeDecreaseDistance;
+
+                        localDistance = DOVirtual.EasedValue(0, 1, localDistance, m_settings.lakeDescreaseCurve);
+
+                        a.height = minHeight * (1 - localDistance) + a.height * localDistance;
+                    }
+                }
+
+                heights.Set(i, j, a);
+            }
+        }
     }
 
     struct DistancePointInfo

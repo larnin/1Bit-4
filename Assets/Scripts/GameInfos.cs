@@ -142,7 +142,7 @@ public class GameParams
 
     public GameParams()
     {
-        worldSize = WorldSize.Gargantuan;
+        worldSize = WorldSize.Small;
         seedStr = StaticRandomGenerator<MT19937>.Get().Next().ToString();
         seed = Cast.HashString(seedStr);
     }

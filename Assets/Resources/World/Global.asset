@@ -48,6 +48,19 @@ MonoBehaviour:
       montainsHeightOffset: 0
       montainsHeightMultiplier: 30
       montainsHeightPower: 2
+      lakeDensity: 0
+      lakeRetryCount: 2
+      lakeMinDistance: 30
+      lakeMinDistanceBetweenLakes: 20
+      lakeMinSize: 5
+      lakeMaxSize: 10
+      lakeDecreaseDistance: 5
+      lakeDescreaseCurve: 1
+      lakeSurfaceRandomization:
+        baseFrequency: 1
+        baseAmplitude: 1
+        nbLayers: 1
+        layerAmplitudeScale: 0.5
       crystalPatchSizeBase: 4
       crystalPatchIncrease: 8
       crystalPatchDensity: 10
@@ -101,6 +114,19 @@ MonoBehaviour:
       montainsHeightOffset: 0
       montainsHeightMultiplier: 35
       montainsHeightPower: 2
+      lakeDensity: 0
+      lakeRetryCount: 2
+      lakeMinDistance: 30
+      lakeMinDistanceBetweenLakes: 20
+      lakeMinSize: 5
+      lakeMaxSize: 10
+      lakeDecreaseDistance: 5
+      lakeDescreaseCurve: 1
+      lakeSurfaceRandomization:
+        baseFrequency: 1
+        baseAmplitude: 1
+        nbLayers: 1
+        layerAmplitudeScale: 0.5
       crystalPatchSizeBase: 4
       crystalPatchIncrease: 8
       crystalPatchDensity: 12
@@ -154,6 +180,19 @@ MonoBehaviour:
       montainsHeightOffset: 0.2
       montainsHeightMultiplier: 40
       montainsHeightPower: 2
+      lakeDensity: 3
+      lakeRetryCount: 6
+      lakeMinDistance: 30
+      lakeMinDistanceBetweenLakes: 20
+      lakeMinSize: 5
+      lakeMaxSize: 10
+      lakeDecreaseDistance: 15
+      lakeDescreaseCurve: 4
+      lakeSurfaceRandomization:
+        baseFrequency: 5
+        baseAmplitude: 8
+        nbLayers: 6
+        layerAmplitudeScale: 0.5
       crystalPatchSizeBase: 4
       crystalPatchIncrease: 8
       crystalPatchDensity: 15
@@ -207,6 +246,19 @@ MonoBehaviour:
       montainsHeightOffset: 0
       montainsHeightMultiplier: 30
       montainsHeightPower: 2
+      lakeDensity: 0
+      lakeRetryCount: 2
+      lakeMinDistance: 30
+      lakeMinDistanceBetweenLakes: 20
+      lakeMinSize: 5
+      lakeMaxSize: 10
+      lakeDecreaseDistance: 5
+      lakeDescreaseCurve: 1
+      lakeSurfaceRandomization:
+        baseFrequency: 1
+        baseAmplitude: 1
+        nbLayers: 1
+        layerAmplitudeScale: 0.5
       crystalPatchSizeBase: 4
       crystalPatchIncrease: 8
       crystalPatchDensity: 8
@@ -260,6 +312,19 @@ MonoBehaviour:
       montainsHeightOffset: 0.2
       montainsHeightMultiplier: 45
       montainsHeightPower: 2
+      lakeDensity: 5
+      lakeRetryCount: 4
+      lakeMinDistance: 40
+      lakeMinDistanceBetweenLakes: 20
+      lakeMinSize: 5
+      lakeMaxSize: 12
+      lakeDecreaseDistance: 15
+      lakeDescreaseCurve: 4
+      lakeSurfaceRandomization:
+        baseFrequency: 6
+        baseAmplitude: 10
+        nbLayers: 6
+        layerAmplitudeScale: 0.5
       crystalPatchSizeBase: 4
       crystalPatchIncrease: 12
       crystalPatchDensity: 20
@@ -590,7 +655,7 @@ MonoBehaviour:
       finalAddValue: 0
     difficultyToDamageMultiplier:
       baseValue: 0.2
-      powValue: 1.35
+      powValue: 1.2
       multiplierValue: 1
       addValue: 0
       finalAddValue: 0
@@ -625,7 +690,9 @@ MonoBehaviour:
         difficultyCostMin: 0.1
         difficultyCostMax: 0.1
         weight: 1
-    difficultyMultipliers: []
+    difficultyMultipliers:
+    - size: 4
+      multiplier: 0.8
   m_UIElementDatas:
     spacing: 1
     simpleTextPrefab: {fileID: 5313160618128964874, guid: 964242146cd4cc043afb125a1cf639cf, type: 3}
