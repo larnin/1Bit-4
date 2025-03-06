@@ -4973,7 +4973,7 @@ MonoBehaviour:
   m_meshComponent: {fileID: 4113768735600542028}
   m_energyConsumption: 8
   m_generatedResource: 3
-  m_generation: 2
+  m_generation: 3
 --- !u!114 &5355809306436954121
 MonoBehaviour:
   m_ObjectHideFlags: 0

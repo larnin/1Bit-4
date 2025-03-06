@@ -154,7 +154,7 @@ MonoBehaviour:
   m_consumedResourceNb: 1
   m_generatedResource: 2
   m_generatedResourceNb: 2
-  m_generatedResourceCycle: 10
+  m_generatedResourceCycle: 8
   m_mineRadius: 1
 --- !u!114 &7814811805009980506
 MonoBehaviour:

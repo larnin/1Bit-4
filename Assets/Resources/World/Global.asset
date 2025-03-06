@@ -406,7 +406,7 @@ MonoBehaviour:
       cost:
         cost:
         - type: 1
-          count: 20
+          count: 25
     - type: 12
       prefab: {fileID: 3692538273452692935, guid: 81f7408822501de4eb06da25a0d5d952, type: 3}
       sprite: {fileID: 1487700549, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
@@ -435,7 +435,7 @@ MonoBehaviour:
       cost:
         cost:
         - type: 1
-          count: 100
+          count: 150
     - type: 11
       prefab: {fileID: 4535135477675010955, guid: 45b69403e14f6404fbc2f4f1f069b21d, type: 3}
       sprite: {fileID: 800654631, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
