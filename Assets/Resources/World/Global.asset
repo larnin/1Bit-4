@@ -327,16 +327,16 @@ MonoBehaviour:
         layerAmplitudeScale: 0.5
       crystalPatchSizeBase: 4
       crystalPatchIncrease: 12
-      crystalPatchDensity: 20
+      crystalPatchDensity: 24
       crystalRetryCount: 2
       crystalInitialPatchDistance: 10
       crystalMinDistance: 25
-      oilDensity: 15
+      oilDensity: 17
       oilRetryCount: 1
       oilMinDistance: 25
       titaniumPatchMin: 8
       titaniumPatchMax: 15
-      titaniumPatchDensity: 10
+      titaniumPatchDensity: 14
       titaniumElevationMinVariation: 1
       titaniumRetryCount: 5
       titaniumMinDistance: 30

@@ -4971,7 +4971,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_meshComponent: {fileID: 4113768735600542028}
-  m_energyConsumption: 8
+  m_energyConsumption: 6
   m_generatedResource: 3
   m_generation: 3
 --- !u!114 &5355809306436954121
