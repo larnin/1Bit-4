@@ -15,6 +15,7 @@ public class BuildingEnnemySpawner : BuildingBase
     [SerializeField] Ease m_appearCurve;
     [SerializeField] float m_minSpawningIconDisplayTime;
     [SerializeField] float m_appearIconDisplayTime;
+    [SerializeField] float m_timerDecreaseOnHit = 0.25f;
 
     enum State
     {
@@ -63,6 +64,7 @@ public class BuildingEnnemySpawner : BuildingBase
 
         m_subscriberList.Add(new Event<DeathEvent>.LocalSubscriber(OnDeath, gameObject));
         m_subscriberList.Add(new Event<BuildSelectionDetailCommonEvent>.LocalSubscriber(BuildCommon, gameObject));
+        m_subscriberList.Add(new Event<LifeLossEvent>.LocalSubscriber(OnHit, gameObject));
         m_subscriberList.Subscribe();
 
         m_iconDisplayType = IconType.Appear;
@@ -313,6 +315,12 @@ public class BuildingEnnemySpawner : BuildingBase
     void OnDeath(DeathEvent e)
     {
         Event<OnSpawnerDestroyEvent>.Broadcast(new OnSpawnerDestroyEvent());
+    }
+
+    void OnHit(LifeLossEvent e)
+    {
+        if (m_state == State.Waiting)
+            m_timer -= m_timerDecreaseOnHit;
     }
 
     string GetNextWaveTimer()

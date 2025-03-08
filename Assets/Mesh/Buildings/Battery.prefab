@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3550513972471810776}
   - component: {fileID: 3550513972471810791}
   - component: {fileID: 3550513972471810790}
-  - component: {fileID: 3550513972471810789}
   - component: {fileID: 3550513972471810788}
   - component: {fileID: -136231391428303278}
   - component: {fileID: 7207067488782808197}
@@ -69,19 +68,6 @@ MonoBehaviour:
   m_energyStorage: 50
   m_energyUptake: 5
   m_bigBattery: 0
---- !u!114 &3550513972471810789
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3550513972471810787}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7566a92e6c74f2489fe792a67f7a91b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_radius: 0.5
 --- !u!114 &3550513972471810788
 MonoBehaviour:
   m_ObjectHideFlags: 0

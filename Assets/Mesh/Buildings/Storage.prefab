@@ -94,7 +94,6 @@ GameObject:
   - component: {fileID: 1896134570620998143}
   - component: {fileID: 8768946221803586817}
   - component: {fileID: 4126950437178545121}
-  - component: {fileID: 3094309629973554275}
   - component: {fileID: 3101809115538919515}
   - component: {fileID: 8665835337666584558}
   - component: {fileID: 4501461517587410276}
@@ -150,19 +149,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_meshComponent: {fileID: 5531564776618888341}
   m_energyUptake: 2
---- !u!114 &3094309629973554275
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8768758939089033255}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7566a92e6c74f2489fe792a67f7a91b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_radius: 0.5
 --- !u!114 &3101809115538919515
 MonoBehaviour:
   m_ObjectHideFlags: 0
