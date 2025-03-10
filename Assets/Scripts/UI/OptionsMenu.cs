@@ -14,6 +14,9 @@ public class OptionsMenu : MonoBehaviour
     [SerializeField] TMP_Dropdown m_colorDropdown;
     [SerializeField] Toggle m_colorFlipToggle;
     [SerializeField] Toggle m_zoomToggle;
+    [SerializeField] Toggle m_fullScreenToggle;
+
+    bool m_init = false;
 
     private void Awake()
     {
@@ -45,20 +48,36 @@ public class OptionsMenu : MonoBehaviour
         {
             m_zoomToggle.isOn = GameInfos.instance.settings.IsInverseZoom();
         }
+
+        if(m_fullScreenToggle != null)
+        {
+            m_fullScreenToggle.isOn = GameInfos.instance.settings.GetFullScreen();
+        }
+
+        m_init = true;
     }
 
     public void OnMusicChanged(float value)
     {
+        if (!m_init)
+            return;
+
         GameInfos.instance.settings.SetMusicVolume(value);
     }
 
     public void OnSoundChanged(float value)
     {
+        if (!m_init)
+            return;
+
         GameInfos.instance.settings.SetSoundVolume(value);
     }
 
     public void OnColorChange(int colorIndex)
     {
+        if (!m_init)
+            return;
+
         if (Global.instance.colorsDatas.colors.Count == 0)
             return;
 
@@ -70,12 +89,26 @@ public class OptionsMenu : MonoBehaviour
 
     public void OnColorFlipChange(bool flipped)
     {
+        if (!m_init)
+            return;
+
         GameInfos.instance.settings.SetColorFlip(flipped);
     }
 
     public void OnZoomDirectionChange(bool direction)
     {
+        if (!m_init)
+            return;
+
         GameInfos.instance.settings.SetInverseZoom(direction);
+    }
+
+    public void OnFullScreenChange(bool fullScreen)
+    {
+        if (!m_init)
+            return;
+
+        GameInfos.instance.settings.SetFullScreen(fullScreen);
     }
 
     public void CloseMenu()

@@ -1967,6 +1967,7 @@ MonoBehaviour:
   m_quitButton: {fileID: 1030013846}
   m_gameSceneName: Game
   m_gargantuanWarning: {fileID: 2072134742}
+  m_gargantuanButton: {fileID: 1856009330}
 --- !u!114 &854007428
 MonoBehaviour:
   m_ObjectHideFlags: 0

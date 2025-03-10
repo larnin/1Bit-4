@@ -39,13 +39,22 @@ public class Settings
 
     [SerializeField] bool m_displayMap = true;
 
+    [SerializeField] bool m_fullScreen = true;
+
     public Settings()
     {
 
         if (Global.instance.colorsDatas.colors.Count > 0)
             m_colorName = Global.instance.colorsDatas.colors[0].name;
 
+        m_fullScreen = Screen.fullScreen;
+
         //todo load settings
+    }
+
+    public void Save()
+    {
+
     }
 
     public void SetMusicVolume(float value)
@@ -131,6 +140,30 @@ public class Settings
     public bool GetDisplayMap()
     {
         return m_displayMap;
+    }
+
+    public void SetFullScreen(bool fullScreen)
+    {
+        m_fullScreen = fullScreen;
+
+        if(m_fullScreen)
+        {
+            var res = Screen.currentResolution;
+            Screen.SetResolution(res.width, res.height, true);
+        }
+        else
+        {
+            Screen.fullScreen = false;
+
+            var res = Screen.currentResolution;
+
+            Screen.SetResolution(res.width / 2, res.height / 2, false);
+        }
+    }
+
+    public bool GetFullScreen()
+    {
+        return m_fullScreen;
     }
 }
 

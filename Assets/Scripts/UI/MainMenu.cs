@@ -14,6 +14,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] Button m_quitButton;
     [SerializeField] string m_gameSceneName;
     [SerializeField] GameObject m_gargantuanWarning;
+    [SerializeField] GameObject m_gargantuanButton;
 
     WorldSize m_worldSize = WorldSize.Medium;
     string m_seed = "";
@@ -24,18 +25,20 @@ public class MainMenu : MonoBehaviour
     {
         RandomSeed();
 
-        HideQuitButton();
-
         if (m_gargantuanWarning != null)
             m_gargantuanWarning.SetActive(false);
+
+        HideQuitButton();
     }
 
     public void SetWorldSize(int sizeType)
     {
         m_worldSize = (WorldSize)sizeType;
 
+        #if UNITY_STANDALONE_WIN || UNITY_EDITOR
         if (m_gargantuanWarning != null)
             m_gargantuanWarning.SetActive(m_worldSize == WorldSize.Gargantuan);
+        #endif
     }
 
     public void UpdateSeed()
@@ -90,6 +93,19 @@ public class MainMenu : MonoBehaviour
     {
 #if !UNITY_STANDALONE_WIN && !UNITY_EDITOR
         m_quitButton.gameObject.SetActive(false);
+
+        if(m_gargantuanButton != null)
+            m_gargantuanButton.gameObject.SetActive(false);
+        if(m_gargantuanWarning != null)
+        {
+            var text = m_gargantuanWarning.GetComponent<TMP_Text>();
+            if(text != null)
+            {
+                text.text = "Gargantian size is not available in the web version";
+            }
+            m_gargantuanWarning.SetActive(true);
+        }
+
 #endif
     }
 }
