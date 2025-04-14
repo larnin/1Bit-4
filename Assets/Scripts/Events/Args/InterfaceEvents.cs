@@ -11,6 +11,18 @@ public class GetCameraEvent
     public Camera UICamera;
 }
 
+public class CameraMoveEvent
+{
+    public Camera camera;
+    public Camera UICamera;
+
+    public CameraMoveEvent(Camera _camera, Camera _UICamera)
+    {
+        camera = _camera;
+        UICamera = _UICamera;
+    }
+}
+
 public class GetCameraRotationEvent
 {
     public float rotation = 0;

@@ -21,6 +21,11 @@ public class ChunkRenderer
         m_chunkIndex = index;
     }
 
+    public Vector3Int GetChunkIndex()
+    {
+        return m_chunkIndex;
+    }
+
     public void Start()
     {
         if (m_grid == null)

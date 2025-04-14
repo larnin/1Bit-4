@@ -122,6 +122,8 @@ public class GameCamera : MonoBehaviour
             Vector3 currentPos = transform.position;
             currentPos -= delta;
             transform.position = currentPos;
+
+            Event<CameraMoveEvent>.Broadcast(new CameraMoveEvent(m_camera, m_UICamera));
         }
 
         if (m_resetTime <= 0)
@@ -156,6 +158,8 @@ public class GameCamera : MonoBehaviour
 
             Vector3 newPos = transform.position + offset;
             transform.position = newPos;
+
+            Event<CameraMoveEvent>.Broadcast(new CameraMoveEvent(m_camera, m_UICamera));
         }
 
         m_oldMousePos = Input.mousePosition;
@@ -242,6 +246,8 @@ public class GameCamera : MonoBehaviour
             m_size = m_resetStartSize * (1 - m_resetTime) + m_initialSize * m_resetTime;
             transform.position = m_resetStartPos * (1 - m_resetTime) + m_resetEndPos * m_resetTime;
 
+            Event<CameraMoveEvent>.Broadcast(new CameraMoveEvent(m_camera, m_UICamera));
+
             if (m_resetTime >= 1)
                 m_resetTime = 0;
             else m_resetTime += Time.deltaTime / m_cameraResetTime;
@@ -259,6 +265,8 @@ public class GameCamera : MonoBehaviour
             {
                 var center = tower.GetGroundCenter();
                 transform.position = center;
+
+                Event<CameraMoveEvent>.Broadcast(new CameraMoveEvent(m_camera, m_UICamera));
                 return;
             }
         }
@@ -273,6 +281,8 @@ public class GameCamera : MonoBehaviour
 
         Vector3 pos = new Vector3(size, height, size) / 2;
         transform.position = pos;
+
+        Event<CameraMoveEvent>.Broadcast(new CameraMoveEvent(m_camera, m_UICamera));
     }
 
     void GetCamera(GetCameraEvent e)

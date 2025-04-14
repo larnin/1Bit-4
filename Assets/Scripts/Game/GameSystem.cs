@@ -79,7 +79,9 @@ public class GameSystem : MonoBehaviour
                     if(WorldGenerator.GetState() == WorldGenerator.GenerationState.Finished)
                     {
                         var grid = WorldGenerator.GetGrid();
-                        m_grid.SetGrid(grid);
+                        if(m_grid != null)
+                            m_grid.SetGrid(grid);
+                        Event<SetGridEvent>.Broadcast(new SetGridEvent(grid));
                         m_state = State.PlaceTower;
                     }
                     break;

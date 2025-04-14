@@ -132,5 +132,26 @@ public static class GridEx
     {
         return grid.Height() * Grid.ChunkSize;
     }
+
+    public static Vector3Int GetRealPosFromLoop(Grid grid, Vector3Int pos)
+    {
+        int size = GetRealSize(grid);
+
+        return new Vector3Int(LoopPos(pos.x, size), pos.y, LoopPos(pos.z, size));
+    }
+
+    public static Vector3Int GetPosFromLoop(Grid grid, Vector3Int pos)
+    {
+        int size = grid.Size();
+
+        return new Vector3Int(LoopPos(pos.x, size), pos.y, LoopPos(pos.z, size));
+    }
+
+    static int LoopPos(int pos, int size)
+    {
+        if (pos >= 0)
+            return pos % size;
+        return -(((-pos + 1) % size) - 1);
+    }
 }
 

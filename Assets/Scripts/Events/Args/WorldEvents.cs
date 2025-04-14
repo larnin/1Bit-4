@@ -7,4 +7,14 @@ public class GetGridEvent
     public Grid grid;
 }
 
+public class SetGridEvent
+{
+    public Grid grid;
+
+    public SetGridEvent(Grid _grid)
+    {
+        grid = _grid;
+    }
+}
+
 public class GenerationFinishedEvent { }
