@@ -65,6 +65,7 @@ public class GridLoopBehaviour : MonoBehaviour
         m_subscriberList.Add(new Event<GetGridEvent>.Subscriber(GetGrid));
         m_subscriberList.Add(new Event<SetGridEvent>.Subscriber(SetGrid));
         m_subscriberList.Add(new Event<CameraMoveEvent>.Subscriber(OnCameraMove));
+        m_subscriberList.Add(new Event<GetGridGenerationStatusEvent>.Subscriber(GetGenerationStatus));
         m_subscriberList.Subscribe();
     }
 
@@ -86,6 +87,9 @@ public class GridLoopBehaviour : MonoBehaviour
     void SetGrid(SetGridEvent e)
     {
         m_grid = e.grid;
+
+        m_meshs = new Matrix<GridMesh>(m_grid.Size(), m_grid.Height(), m_grid.Size());
+
         CreateMeshs();
     }
 
@@ -95,6 +99,13 @@ public class GridLoopBehaviour : MonoBehaviour
             return;
 
         UpdateGrid(e.camera);
+    }
+
+    void GetGenerationStatus(GetGridGenerationStatusEvent e)
+    {
+        e.totalChunks = m_grid.Size() * m_grid.Size() * m_grid.Height();
+        e.generatedChunks = e.totalChunks - m_renderJobs.Count;
+
     }
 
     void CreateMeshs()
@@ -248,6 +259,7 @@ public class GridLoopBehaviour : MonoBehaviour
             m.filter.mesh = mesh.m_renderMesh[i];
             m.renderer.sharedMaterial = mesh.m_materials[i];
             m.obj.transform.localPosition = chunkPos;
+            m.obj.SetActive(true);
             r.m_meshs.Add(m);
         }
 
@@ -256,6 +268,7 @@ public class GridLoopBehaviour : MonoBehaviour
             var c = GetOrCreateCollider();
             c.collider.sharedMesh = mesh.m_colliders[i];
             c.obj.transform.localPosition = chunkPos;
+            c.obj.SetActive(true);
             r.m_colliders.Add(c);
         }
 
@@ -276,6 +289,7 @@ public class GridLoopBehaviour : MonoBehaviour
                         continue;
 
                     b.obj.transform.localPosition = chunkPos + new Vector3(i, j, k);
+                    b.obj.SetActive(true);
                     r.m_blocks.Add(b);
                 }
             }
@@ -349,9 +363,9 @@ public class GridLoopBehaviour : MonoBehaviour
             return null;
 
         ChunkPoolCustomBlock block = new ChunkPoolCustomBlock();
+        block.obj = Instantiate(blockData.prefab);
         block.obj.name = b.ToString() + " " + m_globalBlockIndex;
         m_globalBlockIndex++;
-        block.obj = Instantiate(blockData.prefab);
         block.obj.transform.parent = transform;
         block.obj.transform.localPosition = Vector3.zero;
         block.obj.transform.localRotation = Quaternion.identity;
@@ -369,6 +383,11 @@ public class GridLoopBehaviour : MonoBehaviour
 
         var min = Grid.PosToChunkIndex(new Vector3Int(Mathf.RoundToInt(boxMin.x), Mathf.RoundToInt(boxMin.y), Mathf.RoundToInt(boxMin.z)));
         var max = Grid.PosToChunkIndex(new Vector3Int(Mathf.RoundToInt(boxMax.x), Mathf.RoundToInt(boxMax.y), Mathf.RoundToInt(boxMax.z)));
+
+        if (min.y < 0)
+            min.y = 0;
+        if (max.y >= m_grid.Height())
+            max.y = m_grid.Height() - 1;
 
         //Ordering: [0] = Left, [1] = Right, [2] = Down, [3] = Up, [4] = Near, [5] = Far
         var planes = GeometryUtility.CalculateFrustumPlanes(c);
@@ -423,6 +442,8 @@ public class GridLoopBehaviour : MonoBehaviour
 
     bool IsChunkOnFrustrum(Vector4[] planes, Vector3Int box)
     {
+        //https://iquilezles.org/articles/frustumcorrect/
+
         var min = new Vector3(box.x, box.y, box.z) * Grid.ChunkSize - new Vector3(0.5f, 0.5f, 0.5f);
         var max = new Vector3(box.x + 1, box.y + 1, box.z + 1) * Grid.ChunkSize - new Vector3(0.5f, 0.5f, 0.5f);
 

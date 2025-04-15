@@ -101,6 +101,8 @@ public class GameCamera : MonoBehaviour
                 m_size = Mathf.Min(m_maxSize, m_minSize);
             if (m_size > Mathf.Max(m_maxSize, m_minSize))
                 m_size = MathF.Max(m_maxSize, m_minSize);
+
+            Event<CameraMoveEvent>.Broadcast(new CameraMoveEvent(m_camera, m_UICamera));
         }
 
         if(Input.GetMouseButton(2) && m_resetTime <= 0 && m_wasFocused && Application.isFocused)

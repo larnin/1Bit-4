@@ -17,10 +17,12 @@ MonoBehaviour:
     settings:
       size: 8
       height: 2
+      loopX: 1
+      loopY: 1
       waterHeight: -18
       baseSurfaceHeight: -17
-      baseSurfaceNormalizedRadius: 0.65
-      baseSurfaceNormalizedTopRadius: 0.5
+      baseSurfaceNormalizedRadius: 0.1
+      baseSurfaceNormalizedTopRadius: 0.05
       baseSurfaceDescreaseCurve: 4
       baseSurfaceRandomization:
         baseFrequency: 2
@@ -83,6 +85,8 @@ MonoBehaviour:
     settings:
       size: 12
       height: 2
+      loopX: 0
+      loopY: 0
       waterHeight: -18
       baseSurfaceHeight: -17
       baseSurfaceNormalizedRadius: 0.65
@@ -149,6 +153,8 @@ MonoBehaviour:
     settings:
       size: 16
       height: 2
+      loopX: 0
+      loopY: 0
       waterHeight: -18
       baseSurfaceHeight: -17
       baseSurfaceNormalizedRadius: 0.65
@@ -215,6 +221,8 @@ MonoBehaviour:
     settings:
       size: 4
       height: 2
+      loopX: 0
+      loopY: 0
       waterHeight: -18
       baseSurfaceHeight: -18
       baseSurfaceNormalizedRadius: 0.4
@@ -281,6 +289,8 @@ MonoBehaviour:
     settings:
       size: 32
       height: 2
+      loopX: 0
+      loopY: 0
       waterHeight: -18
       baseSurfaceHeight: -17
       baseSurfaceNormalizedRadius: 0.65

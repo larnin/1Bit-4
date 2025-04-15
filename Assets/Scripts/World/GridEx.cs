@@ -151,7 +151,7 @@ public static class GridEx
     {
         if (pos >= 0)
             return pos % size;
-        return -(((-pos + 1) % size) - 1);
+        return size - ((-pos - 1) % size) - 1;
     }
 }
 

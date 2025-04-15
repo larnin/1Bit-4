@@ -85,7 +85,7 @@ public static class WorldGenerator
     {
         m_stateTxt = "Generate Surface";
 
-        m_grid = new Grid(m_settings.size, m_settings.height);
+        m_grid = new Grid(m_settings.size, m_settings.height, m_settings.loopX, m_settings.loopY);
 
         m_heights = GenerateBaseSurface();
 
@@ -163,7 +163,14 @@ public static class WorldGenerator
         {
             for (int j = 0; j < size; j++)
             {
-                float distance = (new Vector2(i, j) - center).magnitude;
+                float distance = 0;
+                if (!m_grid.LoopX() && !m_grid.LoopY())
+                    distance = (new Vector2(i, j) - center).magnitude;
+                else if (!m_grid.LoopX())
+                    distance = Mathf.Abs(j - center.y);
+                else if (!m_grid.LoopY())
+                    distance = Mathf.Abs(i - center.x);
+
                 foreach (var p in perlinDistance)
                     distance += p.Get(i, j);
 
@@ -752,6 +759,7 @@ public static class WorldGenerator
             var dir = RotationEx.ToVector3Int((Rotation)i);
 
             Vector3Int testPos = pos + dir;
+            testPos = GridEx.GetRealPosFromLoop(m_grid, testPos);
 
             if (m_heights.Get(testPos.x, testPos.z).type != AreaType.Plain)
                 continue;
@@ -998,6 +1006,7 @@ public static class WorldGenerator
             var dir = RotationEx.ToVector3Int((Rotation)i);
 
             Vector3Int testPos = pos + dir;
+            testPos = GridEx.GetRealPosFromLoop(m_grid, testPos);
 
             int height = GridEx.GetHeight(m_grid, new Vector2Int(testPos.x, testPos.z));
             Vector3Int newPos = new Vector3Int(testPos.x, height, testPos.z);

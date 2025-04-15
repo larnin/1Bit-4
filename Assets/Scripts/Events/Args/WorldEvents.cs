@@ -17,4 +17,10 @@ public class SetGridEvent
     }
 }
 
+public class GetGridGenerationStatusEvent
+{
+    public int generatedChunks = 0;
+    public int totalChunks = 1;
+}
+
 public class GenerationFinishedEvent { }

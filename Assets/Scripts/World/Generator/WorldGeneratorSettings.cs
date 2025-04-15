@@ -12,6 +12,9 @@ public class WorldGeneratorSettings
     public int size = 16;
     public int height = 4;
 
+    public bool loopX = false;
+    public bool loopY = false;
+
     public float waterHeight = 0;
 
     public float baseSurfaceHeight = 1;

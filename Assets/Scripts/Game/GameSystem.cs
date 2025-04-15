@@ -94,8 +94,20 @@ public class GameSystem : MonoBehaviour
                 }
             case State.RenderingWorld:
                 {
-                    int generatedChunks = m_grid.GetGeneratedCount();
-                    int totalChunks = m_grid.GetTotalCount();
+                    int generatedChunks = 0; 
+                    int totalChunks = 0; 
+                    if(m_grid != null)
+                    {
+                        generatedChunks = m_grid.GetGeneratedCount();
+                        totalChunks = m_grid.GetTotalCount();
+                    }
+                    else
+                    {
+                        GetGridGenerationStatusEvent e = new GetGridGenerationStatusEvent();
+                        Event<GetGridGenerationStatusEvent>.Broadcast(e);
+                        generatedChunks = e.generatedChunks;
+                        totalChunks = e.totalChunks;
+                    }
 
                     if (generatedChunks == totalChunks)
                     {
@@ -115,15 +127,19 @@ public class GameSystem : MonoBehaviour
         if (BuildingList.instance == null)
             return;
 
-        var grid = m_grid.GetGrid();
-        var size = GridEx.GetRealSize(grid);
+        var grid = new GetGridEvent();
+        Event<GetGridEvent>.Broadcast(grid);
+        if (grid.grid == null)
+            return;
+
+        var size = GridEx.GetRealSize(grid.grid);
 
         Vector2Int centerPos = new Vector2Int(size / 2, size / 2);
         var buildingData = Global.instance.buildingDatas.GetBuilding(BuildingType.Tower);
         if (buildingData == null || buildingData.prefab == null)
             return;
 
-        Vector3Int towerPos = SearchValidPos(grid, centerPos, new Vector2Int(buildingData.size.x, buildingData.size.z), 5);
+        Vector3Int towerPos = SearchValidPos(grid.grid, centerPos, new Vector2Int(buildingData.size.x, buildingData.size.z), 5);
 
         var obj = Instantiate(buildingData.prefab);
         obj.transform.parent = BuildingList.instance.transform;
@@ -205,8 +221,20 @@ public class GameSystem : MonoBehaviour
             case State.PlaceTower:
                 return "Place Tower";
             case State.RenderingWorld:
-                int generatedChunks = m_grid.GetGeneratedCount();
-                int totalChunks = m_grid.GetTotalCount();
+                int generatedChunks = 0;
+                int totalChunks = 0;
+                if (m_grid != null)
+                {
+                    generatedChunks = m_grid.GetGeneratedCount();
+                    totalChunks = m_grid.GetTotalCount();
+                }
+                else
+                {
+                    GetGridGenerationStatusEvent e = new GetGridGenerationStatusEvent();
+                    Event<GetGridGenerationStatusEvent>.Broadcast(e);
+                    generatedChunks = e.generatedChunks;
+                    totalChunks = e.totalChunks;
+                }
                 return "Rendering world - " + (generatedChunks * 100 / totalChunks).ToString() + "%";
             default:
                 return "Ready";
