@@ -423,7 +423,7 @@ public class GridLoopBehaviour : MonoBehaviour
                     if (!m_grid.LoopX() && (i < 0 || i >= m_grid.Size()))
                         continue;
 
-                    if (!m_grid.LoopY() && (k < 0 || k >= m_grid.Size()))
+                    if (!m_grid.LoopZ() && (k < 0 || k >= m_grid.Size()))
                         continue;
 
                     var ID = Utility.PosToID(new Vector3Int(i, j, k));

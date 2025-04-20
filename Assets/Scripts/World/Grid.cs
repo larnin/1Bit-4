@@ -13,14 +13,14 @@ public class Grid
     int m_size;
     int m_height;
     bool m_loopX;
-    bool m_loopY;
+    bool m_loopZ;
 
-    public Grid(int size, int height, bool loopX = false, bool loopY = false)
+    public Grid(int size, int height, bool loopX = false, bool loopZ = false)
     {
         m_size = size;
         m_height = height;
         m_loopX = loopX;
-        m_loopY = loopY;
+        m_loopZ = loopZ;
 
         m_chunks = new Matrix<Matrix<BlockType>>(size, height, size);
 
@@ -88,9 +88,9 @@ public class Grid
         return m_loopX;
     }
 
-    public bool LoopY()
+    public bool LoopZ()
     {
-        return m_loopY;
+        return m_loopZ;
     }
 
     public Matrix<BlockType> Get(Vector3Int index)

@@ -18,7 +18,7 @@ MonoBehaviour:
       size: 8
       height: 2
       loopX: 1
-      loopY: 1
+      loopZ: 1
       waterHeight: -18
       baseSurfaceHeight: -17
       baseSurfaceNormalizedRadius: 0.1
@@ -26,7 +26,7 @@ MonoBehaviour:
       baseSurfaceDescreaseCurve: 4
       baseSurfaceRandomization:
         baseFrequency: 2
-        baseAmplitude: 70
+        baseAmplitude: 60
         nbLayers: 6
         layerAmplitudeScale: 0.5
       plainsHeight:
@@ -86,7 +86,7 @@ MonoBehaviour:
       size: 12
       height: 2
       loopX: 0
-      loopY: 0
+      loopZ: 0
       waterHeight: -18
       baseSurfaceHeight: -17
       baseSurfaceNormalizedRadius: 0.65
@@ -154,7 +154,7 @@ MonoBehaviour:
       size: 16
       height: 2
       loopX: 0
-      loopY: 0
+      loopZ: 0
       waterHeight: -18
       baseSurfaceHeight: -17
       baseSurfaceNormalizedRadius: 0.65
@@ -222,7 +222,7 @@ MonoBehaviour:
       size: 4
       height: 2
       loopX: 0
-      loopY: 0
+      loopZ: 0
       waterHeight: -18
       baseSurfaceHeight: -18
       baseSurfaceNormalizedRadius: 0.4
@@ -290,7 +290,7 @@ MonoBehaviour:
       size: 32
       height: 2
       loopX: 0
-      loopY: 0
+      loopZ: 0
       waterHeight: -18
       baseSurfaceHeight: -17
       baseSurfaceNormalizedRadius: 0.65
@@ -363,6 +363,7 @@ MonoBehaviour:
       prefab: {fileID: 8456270362634877586, guid: 3c803b095a069cf49a886d3f7760e830, type: 3}
     - type: 4
       prefab: {fileID: 3008861276544816395, guid: c6e294c93c8ab094f97647343a50d57d, type: 3}
+    renderMoreHeight: 0
   m_buildingDatas:
     m_buildings:
     - type: 0

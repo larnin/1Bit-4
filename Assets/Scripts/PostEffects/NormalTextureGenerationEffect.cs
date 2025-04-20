@@ -45,7 +45,9 @@ public class NormalTextureGenerationEffect : MonoBehaviour
         Event<SetDecalsEnabledEvent>.Broadcast(new SetDecalsEnabledEvent(false));
 
         RenderTexture.active = m_renderTexture;
-        GL.Clear(true, true, Color.gray);
+        GL.Clear(false, true, Color.gray);
+        RenderTexture.active = m_depthTexture;
+        GL.Clear(true, false, Color.black, 1);
         RenderTexture.active = null;
 
         if (m_camera != null && m_replacementShader != null)

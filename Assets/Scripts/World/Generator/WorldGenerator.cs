@@ -85,7 +85,7 @@ public static class WorldGenerator
     {
         m_stateTxt = "Generate Surface";
 
-        m_grid = new Grid(m_settings.size, m_settings.height, m_settings.loopX, m_settings.loopY);
+        m_grid = new Grid(m_settings.size, m_settings.height, m_settings.loopX, m_settings.loopZ);
 
         m_heights = GenerateBaseSurface();
 
@@ -164,12 +164,12 @@ public static class WorldGenerator
             for (int j = 0; j < size; j++)
             {
                 float distance = 0;
-                if (!m_grid.LoopX() && !m_grid.LoopY())
+                if (!m_grid.LoopX() && !m_grid.LoopZ())
                     distance = (new Vector2(i, j) - center).magnitude;
                 else if (!m_grid.LoopX())
-                    distance = Mathf.Abs(j - center.y);
-                else if (!m_grid.LoopY())
                     distance = Mathf.Abs(i - center.x);
+                else if (!m_grid.LoopZ())
+                    distance = Mathf.Abs(j - center.y);
 
                 foreach (var p in perlinDistance)
                     distance += p.Get(i, j);

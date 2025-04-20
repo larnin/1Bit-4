@@ -31,6 +31,8 @@ public class BlockDatas
 
     public List<CustomBlock> customBlocks;
 
+    public int renderMoreHeight;
+
     public bool IsCustomBlock(BlockType type)
     {
         foreach (var b in customBlocks)

@@ -17,8 +17,8 @@ public class GameCamera : MonoBehaviour
     [SerializeField] float m_rotationDuration = 0.5f;
     [SerializeField] float m_cameraResetPressTime = 1.0f;
     [SerializeField] float m_cameraResetTime = 0.5f;
-    [SerializeField] Camera m_camera;
     [SerializeField] Camera m_UICamera;
+    [SerializeField] Camera m_clearCamera;
 
     Vector3 m_initialPosition;
     float m_initialAngle;
@@ -47,6 +47,8 @@ public class GameCamera : MonoBehaviour
     Vector3 m_resetEndPos;
     float m_resetStartSize;
 
+    Grid m_grid;
+
     SubscriberList m_subscriberList = new SubscriberList();
 
     private void Awake()
@@ -55,6 +57,7 @@ public class GameCamera : MonoBehaviour
         m_subscriberList.Add(new Event<GetCameraEvent>.Subscriber(GetCamera));
         m_subscriberList.Add(new Event<GetCameraScaleEvent>.Subscriber(GetCameraScale));
         m_subscriberList.Add(new Event<GetCameraRotationEvent>.Subscriber(GetCameraRotation));
+        m_subscriberList.Add(new Event<SetGridEvent>.Subscriber(SetGrid));
         m_subscriberList.Subscribe();
     }
 
@@ -102,13 +105,13 @@ public class GameCamera : MonoBehaviour
             if (m_size > Mathf.Max(m_maxSize, m_minSize))
                 m_size = MathF.Max(m_maxSize, m_minSize);
 
-            Event<CameraMoveEvent>.Broadcast(new CameraMoveEvent(m_camera, m_UICamera));
+            Event<CameraMoveEvent>.Broadcast(new CameraMoveEvent(m_clearCamera, m_UICamera));
         }
 
         if(Input.GetMouseButton(2) && m_resetTime <= 0 && m_wasFocused && Application.isFocused)
         {
-            var oldRay = m_camera.ScreenPointToRay(m_oldMousePos);
-            var newRay = m_camera.ScreenPointToRay(Input.mousePosition);
+            var oldRay = m_clearCamera.ScreenPointToRay(m_oldMousePos);
+            var newRay = m_clearCamera.ScreenPointToRay(Input.mousePosition);
 
             Plane p = new Plane(Vector3.up, Vector3.zero);
 
@@ -123,9 +126,9 @@ public class GameCamera : MonoBehaviour
 
             Vector3 currentPos = transform.position;
             currentPos -= delta;
-            transform.position = currentPos;
+            MoveCamera(currentPos);
 
-            Event<CameraMoveEvent>.Broadcast(new CameraMoveEvent(m_camera, m_UICamera));
+            Event<CameraMoveEvent>.Broadcast(new CameraMoveEvent(m_clearCamera, m_UICamera));
         }
 
         if (m_resetTime <= 0)
@@ -150,7 +153,7 @@ public class GameCamera : MonoBehaviour
 
         if(inputDir != Vector2.zero && m_resetTime <= 0)
         {
-            var forward = m_camera.transform.forward;
+            var forward = m_clearCamera.transform.forward;
             forward.y = 0;
             forward.Normalize();
             Vector3 ortho = new Vector3(forward.z, 0, -forward.x);
@@ -159,9 +162,9 @@ public class GameCamera : MonoBehaviour
             Vector3 offset = (forward * inputDir.y + ortho * inputDir.x) * Time.deltaTime * m_arrowsSpeed * speed;
 
             Vector3 newPos = transform.position + offset;
-            transform.position = newPos;
+            MoveCamera(newPos);
 
-            Event<CameraMoveEvent>.Broadcast(new CameraMoveEvent(m_camera, m_UICamera));
+            Event<CameraMoveEvent>.Broadcast(new CameraMoveEvent(m_clearCamera, m_UICamera));
         }
 
         m_oldMousePos = Input.mousePosition;
@@ -229,6 +232,8 @@ public class GameCamera : MonoBehaviour
             else m_currentAngle = DOVirtual.EasedValue(m_startAngle, m_endAngle, m_rotationNormDuration, Ease.InOutQuad);
 
             transform.rotation = Quaternion.Euler(0, m_currentAngle, 0);
+
+            Event<CameraMoveEvent>.Broadcast(new CameraMoveEvent(m_clearCamera, m_UICamera));
         }
         else if (m_nextRotation)
         {
@@ -246,9 +251,9 @@ public class GameCamera : MonoBehaviour
                 m_resetTime = 1;
 
             m_size = m_resetStartSize * (1 - m_resetTime) + m_initialSize * m_resetTime;
-            transform.position = m_resetStartPos * (1 - m_resetTime) + m_resetEndPos * m_resetTime;
+            MoveCamera(m_resetStartPos * (1 - m_resetTime) + m_resetEndPos * m_resetTime);
 
-            Event<CameraMoveEvent>.Broadcast(new CameraMoveEvent(m_camera, m_UICamera));
+            Event<CameraMoveEvent>.Broadcast(new CameraMoveEvent(m_clearCamera, m_UICamera));
 
             if (m_resetTime >= 1)
                 m_resetTime = 0;
@@ -256,6 +261,11 @@ public class GameCamera : MonoBehaviour
         }
 
         UpdateCameraMatrix();
+    }
+
+    void SetGrid(SetGridEvent e)
+    {
+        m_grid = e.grid;
     }
 
     void OnGenerationEnd(GenerationFinishedEvent e)
@@ -266,30 +276,28 @@ public class GameCamera : MonoBehaviour
             if(tower != null)
             {
                 var center = tower.GetGroundCenter();
-                transform.position = center;
+                MoveCamera(center);
 
-                Event<CameraMoveEvent>.Broadcast(new CameraMoveEvent(m_camera, m_UICamera));
+                Event<CameraMoveEvent>.Broadcast(new CameraMoveEvent(m_clearCamera, m_UICamera));
                 return;
             }
         }
 
-        var grid = new GetGridEvent();
-        Event<GetGridEvent>.Broadcast(grid);
-        if (grid.grid == null)
+        if (m_grid == null)
             return;
 
-        var size = GridEx.GetRealSize(grid.grid);
-        var height = GridEx.GetRealHeight(grid.grid);
+        var size = GridEx.GetRealSize(m_grid);
+        var height = GridEx.GetRealHeight(m_grid);
 
         Vector3 pos = new Vector3(size, height, size) / 2;
-        transform.position = pos;
+        MoveCamera(pos);
 
-        Event<CameraMoveEvent>.Broadcast(new CameraMoveEvent(m_camera, m_UICamera));
+        Event<CameraMoveEvent>.Broadcast(new CameraMoveEvent(m_clearCamera, m_UICamera));
     }
 
     void GetCamera(GetCameraEvent e)
     {
-        e.camera = m_camera;
+        e.camera = m_clearCamera;
         e.UICamera = m_UICamera;
     }
 
@@ -305,7 +313,52 @@ public class GameCamera : MonoBehaviour
 
     void UpdateCameraMatrix()
     {
-        m_camera.orthographicSize = m_size;
+        bool changeSize = false;
+        if (m_clearCamera.orthographicSize != m_size)
+            changeSize = true;
+
         m_UICamera.orthographicSize = m_size;
+        m_clearCamera.orthographicSize = m_size;
+
+        if(changeSize)
+            Event<CameraZoomEvent>.Broadcast(new CameraZoomEvent(m_size));
+    }
+
+    void MoveCamera(Vector3 newPos)
+    {
+        if (m_grid == null)
+        {
+            transform.position = newPos;
+            return;
+        }
+
+        float size = GridEx.GetRealSize(m_grid);
+
+        if(newPos.x < 0 || newPos.x > size)
+        {
+            if (m_grid.LoopX())
+                newPos.x = PosLoop(newPos.x, size);
+            else if (newPos.x < 0)
+                newPos.x = 0;
+            else newPos.x = size;
+        }
+
+        if(newPos.z < 0 || newPos.z > size)
+        {
+            if (m_grid.LoopZ())
+                newPos.z = PosLoop(newPos.z, size);
+            else if (newPos.z < 0)
+                newPos.z = 0;
+            else newPos.z = size;
+        }
+
+        transform.position = newPos;
+    }
+
+    static float PosLoop(float pos, float size)
+    {
+        if (pos >= 0)
+            return pos % size;
+        return size - ((-pos - 1) % size) - 1;
     }
 }

@@ -13,7 +13,7 @@ public class WorldGeneratorSettings
     public int height = 4;
 
     public bool loopX = false;
-    public bool loopY = false;
+    public bool loopZ = false;
 
     public float waterHeight = 0;
 
