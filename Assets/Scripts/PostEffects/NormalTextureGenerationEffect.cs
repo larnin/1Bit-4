@@ -7,7 +7,6 @@ using UnityEngine;
 
 public class NormalTextureGenerationEffect : MonoBehaviour
 {
-    [SerializeField] Camera m_camera;
     [SerializeField] Shader m_replacementShader;
 
     RenderTexture m_renderTexture;
@@ -50,12 +49,18 @@ public class NormalTextureGenerationEffect : MonoBehaviour
         GL.Clear(true, false, Color.black, 1);
         RenderTexture.active = null;
 
-        if (m_camera != null && m_replacementShader != null)
+        GetAllMainCameraEvent cameras = new GetAllMainCameraEvent();
+        Event<GetAllMainCameraEvent>.Broadcast(cameras);
+
+        if (m_replacementShader != null)
         {
-            var rt = m_camera.targetTexture;
-            m_camera.SetTargetBuffers(m_renderTexture.colorBuffer, m_depthTexture.depthBuffer);
-            m_camera.RenderWithShader(m_replacementShader, "RenderType");
-            m_camera.targetTexture = rt;
+            foreach (var c in cameras.cameras)
+            {
+                var rt = c.targetTexture;
+                c.SetTargetBuffers(m_renderTexture.colorBuffer, m_depthTexture.depthBuffer);
+                c.RenderWithShader(m_replacementShader, "RenderType");
+                c.targetTexture = rt;
+            }
         }
 
         Event<SetDecalsEnabledEvent>.Broadcast(new SetDecalsEnabledEvent(true));

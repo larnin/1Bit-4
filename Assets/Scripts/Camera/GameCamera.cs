@@ -19,6 +19,7 @@ public class GameCamera : MonoBehaviour
     [SerializeField] float m_cameraResetTime = 0.5f;
     [SerializeField] Camera m_UICamera;
     [SerializeField] Camera m_clearCamera;
+    [SerializeField] Camera m_lastCamera;
 
     Vector3 m_initialPosition;
     float m_initialAngle;
@@ -319,6 +320,7 @@ public class GameCamera : MonoBehaviour
 
         m_UICamera.orthographicSize = m_size;
         m_clearCamera.orthographicSize = m_size;
+        m_lastCamera.orthographicSize = m_size;
 
         if(changeSize)
             Event<CameraZoomEvent>.Broadcast(new CameraZoomEvent(m_size));

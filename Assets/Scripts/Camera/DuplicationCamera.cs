@@ -29,6 +29,7 @@ public class DuplicationCamera : MonoBehaviour
         m_subscriberList.Add(new Event<CameraMoveEvent>.Subscriber(OnCameraMove));
         m_subscriberList.Add(new Event<CameraZoomEvent>.Subscriber(OnCameraZoom));
         m_subscriberList.Add(new Event<SetGridEvent>.Subscriber(SetGrid));
+        m_subscriberList.Add(new Event<GetAllMainCameraEvent>.Subscriber(GetAllCameras));
 
         m_subscriberList.Subscribe();
     }
@@ -210,5 +211,15 @@ public class DuplicationCamera : MonoBehaviour
             instance.FxCamera = fxCameraObj.GetComponent<Camera>();
 
         return instance;
+    }
+
+    void GetAllCameras(GetAllMainCameraEvent e)
+    {
+        e.cameras = new List<Camera>();
+
+        foreach(var c in m_duplicatedCameras)
+        {
+            e.cameras.Add(c.camera);
+        }
     }
 }

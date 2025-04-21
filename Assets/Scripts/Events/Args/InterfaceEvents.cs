@@ -11,6 +11,11 @@ public class GetCameraEvent
     public Camera UICamera;
 }
 
+public class GetAllMainCameraEvent
+{
+    public List<Camera> cameras;
+}
+
 public class CameraMoveEvent
 {
     public Camera camera;
