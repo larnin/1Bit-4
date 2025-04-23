@@ -54,12 +54,21 @@ public class DuplicationCamera : MonoBehaviour
         UpdateCameras();
     }
 
+    private void Update()
+    {
+        UpdateCameras();
+    }
+
     void UpdateCameras()
     {
         if (m_grid == null)
             return;
 
-        var rect = GetFrustrumRect(m_mainCamera);
+        int height = GridEx.GetRealHeight(m_grid) + Global.instance.blockDatas.renderMoreHeight;
+
+        var rect = GetFrustrumRect(m_mainCamera, height);
+
+        DebugDraw.Rectangle(new Vector3(rect.position.x, 0, rect.position.y), rect.size, Color.red);
 
         int size = GridEx.GetRealSize(m_grid);
 
@@ -78,8 +87,6 @@ public class DuplicationCamera : MonoBehaviour
             planeVects[i] = new Vector4(normal.x, normal.y, normal.z, planes[i].distance);
         }
 
-        int height = GridEx.GetRealHeight(m_grid) + Global.instance.blockDatas.renderMoreHeight;
-
         int nbCamera = 0;
         for(int i = min.x; i <= max.x; i++)
         {
@@ -87,8 +94,10 @@ public class DuplicationCamera : MonoBehaviour
             {
                 Vector3Int box = new Vector3Int(i, 0, j);
 
-                //if (IsChunkOnFrustrum(planeVects, box, size, height))
+                Color color = Color.green;
+                if (IsChunkOnFrustrum(planeVects, box, size, height))
                 {
+                    color = Color.cyan;
                     CameraInstance c = null;
 
                     if (nbCamera >= m_duplicatedCameras.Count)
@@ -102,6 +111,10 @@ public class DuplicationCamera : MonoBehaviour
 
                     nbCamera++;
                 }
+
+                var minBox = new Vector3(box.x * size, box.y * height, box.z * size) + Vector3.one;
+                var maxBox = new Vector3((box.x + 1) * size, (box.y + 1) * height, (box.z + 1) * size) - Vector3.one;
+                DebugDraw.Rectangle(minBox, new Vector2((maxBox - minBox).x, (maxBox - minBox).z), color);
             }
         }
 
@@ -124,7 +137,7 @@ public class DuplicationCamera : MonoBehaviour
         }
     }
 
-    Rect GetFrustrumRect(Camera c)
+    Rect GetFrustrumRect(Camera c, int height)
     {
         float screenWidth = Screen.width - 1;
         float screenHeight = Screen.height - 1;
@@ -136,8 +149,6 @@ public class DuplicationCamera : MonoBehaviour
 
         Rect b = new Rect();
         bool boundsSet = false;
-
-        int height = GridEx.GetRealHeight(m_grid) + Global.instance.blockDatas.renderMoreHeight;
 
         var planes = new Plane[] { new Plane(Vector3.up, new Vector3(0, -0.5f, 0)), new Plane(Vector3.up, new Vector3(0, height - 0.5f, 0)) };
 
@@ -174,7 +185,7 @@ public class DuplicationCamera : MonoBehaviour
     {
         //https://iquilezles.org/articles/frustumcorrect/
 
-        var min = new Vector3(box.x * size, box.y = height, box.z * size);
+        var min = new Vector3(box.x * size, box.y * height, box.z * size);
         var max = new Vector3((box.x + 1) * size, (box.y + 1) * height, (box.z + 1) * size);
 
         for (int i = 0; i < 4; i++)
