@@ -100,7 +100,7 @@ namespace Noise
 
             outX1 = Mathf.FloorToInt(x);
             outX2 = outX1 + 1;
-            if (outX2 > frequency)
+            if (outX2 >= frequency)
                 outX2 = 0;
         }
     }

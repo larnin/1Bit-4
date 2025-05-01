@@ -15,7 +15,7 @@ MonoBehaviour:
   m_generatorSettings:
   - size: 0
     settings:
-      size: 8
+      size: 4
       height: 2
       loopX: 1
       loopZ: 1
@@ -30,9 +30,9 @@ MonoBehaviour:
         nbLayers: 6
         layerAmplitudeScale: 0.5
       plainsHeight:
-        baseFrequency: 3
-        baseAmplitude: 8
-        nbLayers: 4
+        baseFrequency: 2
+        baseAmplitude: 30
+        nbLayers: 1
         layerAmplitudeScale: 0.4
       montainsMinDistanceFromCenter: 20
       montainsMinDistanceFromBorder: 10

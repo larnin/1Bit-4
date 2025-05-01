@@ -68,7 +68,7 @@ public class DuplicationCamera : MonoBehaviour
 
         var rect = GetFrustrumRect(m_mainCamera, height);
 
-        DebugDraw.Rectangle(new Vector3(rect.position.x, 0, rect.position.y), rect.size, Color.red);
+        //DebugDraw.Rectangle(new Vector3(rect.position.x, 0, rect.position.y), rect.size, Color.red);
 
         int size = GridEx.GetRealSize(m_grid);
 
@@ -77,6 +77,18 @@ public class DuplicationCamera : MonoBehaviour
 
         var min = new Vector2Int(PosToSizeIndex(Mathf.RoundToInt(rectMin.x), size), PosToSizeIndex(Mathf.RoundToInt(rectMin.y), size));
         var max = new Vector2Int(PosToSizeIndex(Mathf.RoundToInt(rectMax.x), size), PosToSizeIndex(Mathf.RoundToInt(rectMax.y), size));
+
+        if(!m_grid.LoopX())
+        {
+            min.x = 0;
+            max.x = 0;
+        }
+
+        if(!m_grid.LoopZ())
+        {
+            min.y = 0;
+            max.y = 0;
+        }
 
         //Ordering: [0] = Left, [1] = Right, [2] = Down, [3] = Up, [4] = Near, [5] = Far
         var planes = GeometryUtility.CalculateFrustumPlanes(m_mainCamera);
@@ -112,9 +124,9 @@ public class DuplicationCamera : MonoBehaviour
                     nbCamera++;
                 }
 
-                var minBox = new Vector3(box.x * size, box.y * height, box.z * size) + Vector3.one;
-                var maxBox = new Vector3((box.x + 1) * size, (box.y + 1) * height, (box.z + 1) * size) - Vector3.one;
-                DebugDraw.Rectangle(minBox, new Vector2((maxBox - minBox).x, (maxBox - minBox).z), color);
+                //var minBox = new Vector3(box.x * size, box.y * height, box.z * size) + Vector3.one;
+                //var maxBox = new Vector3((box.x + 1) * size, (box.y + 1) * height, (box.z + 1) * size) - Vector3.one;
+                //DebugDraw.Rectangle(minBox, new Vector2((maxBox - minBox).x, (maxBox - minBox).z), color);
             }
         }
 

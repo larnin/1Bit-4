@@ -157,6 +157,7 @@ public static class WorldGenerator
         {
             perlinPlain[i] = new Perlin(size, m_settings.plainsHeight.baseAmplitude * Mathf.Pow(m_settings.plainsHeight.layerAmplitudeScale, i)
                 , (int)(m_settings.plainsHeight.baseFrequency * Mathf.Pow(2, i)), m_seed + seedIndex);
+            seedIndex++;
         }
 
         for (int i = 0; i < size; i++)
@@ -184,8 +185,8 @@ public static class WorldGenerator
                     plainMultiplier = 0;
                     area = AreaType.Water;
                 }
-                else if(distance > m_settings.baseSurfaceNormalizedTopRadius)
-                { 
+                else if (distance > m_settings.baseSurfaceNormalizedTopRadius)
+                {
                     float curveDistance = (distance - m_settings.baseSurfaceNormalizedTopRadius) / (m_settings.baseSurfaceNormalizedRadius - m_settings.baseSurfaceNormalizedTopRadius);
 
                     plainMultiplier = DOVirtual.EasedValue(1, 0, curveDistance, m_settings.baseSurfaceDescreaseCurve);

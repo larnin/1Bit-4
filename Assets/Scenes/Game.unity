@@ -1663,7 +1663,7 @@ MonoBehaviour:
   m_lightTop: 1
   m_lightLeft: 0.65
   m_lightFront: 0.8
-  m_discoverEverything: 0
+  m_discoverEverything: 1
 --- !u!4 &750648393
 Transform:
   m_ObjectHideFlags: 0
