@@ -86,6 +86,25 @@ public class CustomLightsManager : MonoBehaviour
 
                 m_circleMaterial.SetFloat(radiusName, l.GetRadius());
                 RenderTextureEx.DrawQuad(m_renderTexture, m_circleMaterial, new Rect(pos, size));
+
+                int x = grid.grid.LoopX() ? 1 : 0;
+                int y = grid.grid.LoopZ() ? 1 : 0;
+
+                for(int i = -x; i <= x; i++)
+                {
+                    for(int j = -y; j <= y; j++)
+                    {
+                        if (i == 0 && j == 0)
+                            continue;
+
+                        Vector2 newPos = pos + new Vector2(i, j);
+
+                        if (newPos.x > 1 && newPos.y > 1 && newPos.x + size.x < 0 && newPos.y + size.y < 0)
+                            continue;
+
+                        RenderTextureEx.DrawQuad(m_renderTexture, m_circleMaterial, new Rect(newPos, size));
+                    }
+                }
             }
         }
         

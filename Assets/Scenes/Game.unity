@@ -1663,7 +1663,7 @@ MonoBehaviour:
   m_lightTop: 1
   m_lightLeft: 0.65
   m_lightFront: 0.8
-  m_discoverEverything: 1
+  m_discoverEverything: 0
 --- !u!4 &750648393
 Transform:
   m_ObjectHideFlags: 0
@@ -3156,7 +3156,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87defe5f3e4f74f4789b237323341cd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_initialResources: []
+  m_initialResources:
+  - type: 1
+    count: 1000
 --- !u!114 &1693670530
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -34,15 +34,23 @@ public class ConnexionSystem : MonoBehaviour
     List<OneConnexion> m_connexions = new List<OneConnexion>();
     Dictionary<BuildingBase, BuildingInfo> m_connexionFinder = new Dictionary<BuildingBase, BuildingInfo>();
 
+    SubscriberList m_subscriberList = new SubscriberList();
+    Grid m_grid;
+
     private void Awake()
     {
         m_instance = this;
+
+        m_subscriberList.Add(new Event<SetGridEvent>.Subscriber(SetGrid));
+        m_subscriberList.Subscribe();
     }
 
     private void OnDestroy()
     {
         if (m_instance == this)
             m_instance = null;
+
+        m_subscriberList.Unsubscribe();
     }
 
     public void OnBuildingAdd(BuildingBase b)
@@ -229,6 +237,8 @@ public class ConnexionSystem : MonoBehaviour
 
         Vector3 pos1 = building1.GetRayPoint();
         Vector3 pos2 = building2.GetRayPoint();
+        if (m_grid != null)
+            pos2 = GridEx.GetNearestPoint(m_grid, pos2, pos1);
 
         line.positionCount = 2;
         Vector3[] points = new Vector3[2] { pos1, pos2 };
@@ -278,8 +288,13 @@ public class ConnexionSystem : MonoBehaviour
             return false;
 
         float maxDist = Global.instance.buildingDatas.GetRealPlaceRadius(b1.PlacementRadius(), b2.PlacementRadius());
-        float sqrDist = (b1.GetGroundCenter() - b2.GetGroundCenter()).SqrMagnitudeXZ();
+        if (m_grid != null)
+        {
+            float dist = GridEx.GetDistance(m_grid, b1.GetGroundCenter(), b2.GetGroundCenter());
+            return dist < maxDist;
+        }
 
+        float sqrDist = (b1.GetGroundCenter() - b2.GetGroundCenter()).SqrMagnitudeXZ();
         return sqrDist < maxDist * maxDist;
     }
 
@@ -292,5 +307,10 @@ public class ConnexionSystem : MonoBehaviour
             return true;
 
         return false;
+    }
+
+    void SetGrid(SetGridEvent e)
+    {
+        m_grid = e.grid;
     }
 }

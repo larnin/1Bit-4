@@ -153,5 +153,91 @@ public static class GridEx
             return pos % size;
         return size - ((-pos - 1) % size) - 1;
     }
+
+    static float LoopPos(float pos, float size)
+    {
+        if (pos >= 0)
+            return pos % size;
+        return size - ((-pos - 1) % size) - 1;
+    }
+
+    public static float GetDistance(Grid grid, Vector3Int pos1, Vector3Int pos2)
+    {
+        return GetDistance(grid, new Vector3(pos1.x, pos1.y, pos1.z), new Vector3(pos2.x, pos2.y, pos2.z));
+    }
+
+    public static float GetDistance(Grid grid, Vector3 pos1, Vector3 pos2)
+    {
+        int size = GetRealSize(grid);
+        var nearPos2 = new Vector3(NearLoopPoint(pos2.x, pos1.x, size, grid.LoopX()), pos2.y, NearLoopPoint(pos2.z, pos1.z, size, grid.LoopZ()));
+
+        return (pos1 - nearPos2).magnitude;
+    }
+
+    public static float GetDistance(Grid grid, Vector2Int pos1, Vector2Int pos2)
+    {
+        return GetDistance(grid, new Vector2(pos1.x, pos1.y), new Vector2(pos2.x, pos2.y));
+    }
+
+    public static float GetDistance(Grid grid, Vector2 pos1, Vector2 pos2)
+    {
+        int size = GetRealSize(grid);
+        var nearPos2 = new Vector2(NearLoopPoint(pos2.x, pos1.x, size, grid.LoopX()), NearLoopPoint(pos2.y, pos1.y, size, grid.LoopZ()));
+
+        return (pos1 - nearPos2).magnitude;
+    }
+
+    public static Vector3Int GetNearestPoint(Grid grid, Vector3Int pos, Vector3Int target)
+    {
+
+        int size = GetRealSize(grid);
+        return new Vector3Int(NearLoopPoint(pos.x, target.x, size, grid.LoopX()), pos.y, NearLoopPoint(pos.z, target.z, size, grid.LoopZ()));
+    }
+
+    public static Vector3 GetNearestPoint(Grid grid, Vector3 pos, Vector3 target)
+    {
+        int size = GetRealSize(grid);
+        return  new Vector3(NearLoopPoint(pos.x, target.x, size, grid.LoopX()), pos.y, NearLoopPoint(pos.z, target.z, size, grid.LoopZ()));
+    }
+
+    public static Vector2Int GetNearestPoint(Grid grid, Vector2Int pos, Vector2Int target)
+    {
+        int size = GetRealSize(grid);
+        return new Vector2Int(NearLoopPoint(pos.x, target.x, size, grid.LoopX()), NearLoopPoint(pos.y, target.y, size, grid.LoopZ()));
+    }
+
+    public static Vector2 GetNearestPoint(Grid grid, Vector2 pos, Vector2 target)
+    {
+        int size = GetRealSize(grid);
+        return new Vector2(NearLoopPoint(pos.x, target.x, size, grid.LoopX()), NearLoopPoint(pos.y, target.y, size, grid.LoopZ()));
+    }
+
+    static int NearLoopPoint(int pos, int target, int size, bool loop)
+    {
+        if (!loop)
+            return pos;
+
+        pos -= target;
+        pos = LoopPos(pos, size);
+        if (pos < size / 2)
+            pos -= size;
+        pos += target;
+
+        return pos;
+    }
+
+    static float NearLoopPoint(float pos, float target, float size, bool loop)
+    {
+        if (!loop)
+            return pos;
+
+        pos -= target;
+        pos = LoopPos(pos, size);
+        if (pos < size / 2)
+            pos -= size;
+        pos += target;
+
+        return pos;
+    }
 }
 

@@ -15,7 +15,7 @@ MonoBehaviour:
   m_generatorSettings:
   - size: 0
     settings:
-      size: 4
+      size: 2
       height: 2
       loopX: 1
       loopZ: 1
@@ -26,12 +26,12 @@ MonoBehaviour:
       baseSurfaceDescreaseCurve: 4
       baseSurfaceRandomization:
         baseFrequency: 2
-        baseAmplitude: 60
+        baseAmplitude: 10
         nbLayers: 6
         layerAmplitudeScale: 0.5
       plainsHeight:
         baseFrequency: 2
-        baseAmplitude: 30
+        baseAmplitude: 15
         nbLayers: 1
         layerAmplitudeScale: 0.4
       montainsMinDistanceFromCenter: 20
@@ -65,16 +65,16 @@ MonoBehaviour:
         layerAmplitudeScale: 0.5
       crystalPatchSizeBase: 4
       crystalPatchIncrease: 8
-      crystalPatchDensity: 10
+      crystalPatchDensity: 2
       crystalRetryCount: 2
       crystalInitialPatchDistance: 10
       crystalMinDistance: 15
-      oilDensity: 10
+      oilDensity: 2
       oilRetryCount: 1
       oilMinDistance: 20
       titaniumPatchMin: 8
       titaniumPatchMax: 12
-      titaniumPatchDensity: 7
+      titaniumPatchDensity: 2
       titaniumElevationMinVariation: 1
       titaniumRetryCount: 5
       titaniumMinDistance: 20
