@@ -106,7 +106,7 @@ public class BuildingOilPump : BuildingBase
             var b = BuildingList.instance.GetBuildingFromIndex(i);
             var otherBounds = b.GetBounds();
 
-            if (Utility.Intersects(otherBounds, bounds))
+            if (GridEx.IntersectLoop(grid.grid, otherBounds, bounds))
                 return BuildingPlaceType.InvalidPlace;
         }
 

@@ -141,14 +141,10 @@ public class PlaceBuildingCursor : MonoBehaviour
             return;
 
         var ray = cam.camera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
 
-        bool haveHit = Physics.Raycast(ray, out hit, float.MaxValue, m_groundLayer.value);
+        bool haveHit = LoopCursorRatcast(ray, out m_mousePos);
         if(!haveHit)
             return;
-
-        m_mousePos = hit.point;
-        m_mousePos += hit.normal * 0.5f;
 
         m_cursorPos = new Vector3Int(Mathf.RoundToInt(m_mousePos.x), Mathf.RoundToInt(m_mousePos.y), Mathf.RoundToInt(m_mousePos.z));
         m_instance.transform.position = m_cursorPos;
@@ -157,6 +153,62 @@ public class PlaceBuildingCursor : MonoBehaviour
             m_decal.SetTarget(m_cursorPos, m_instance.GetBuildingType(), m_instance.PlacementRadius());
 
         m_posValid = true;
+    }
+
+    bool LoopCursorRatcast(Ray ray, out Vector3 pos)
+    {
+        pos = Vector3.zero;
+
+        bool haveHit = false;
+        Vector3 bestPos = Vector3.zero;
+        float bestDistance = float.MaxValue;
+
+        var grid = new GetGridEvent();
+        Event<GetGridEvent>.Broadcast(grid);
+
+        RaycastHit hit;
+
+        if (grid == null)
+        {
+            haveHit = Physics.Raycast(ray, out hit, float.MaxValue, m_groundLayer.value);
+            if (!haveHit)
+                return false;
+
+            pos = hit.point;
+            pos += hit.normal * 0.5f;
+
+            return true;
+        }
+
+        int x = grid.grid.LoopX() ? 1 : 0;
+        int y = grid.grid.LoopZ() ? 1 : 0;
+
+        int size = GridEx.GetRealSize(grid.grid);
+
+        for(int i = -x; i <= x; i++)
+        {
+            for(int j = -y; j <= y; j++)
+            {
+                var tempRay = new Ray(ray.origin + new Vector3(i * size, 0, j * size), ray.direction);
+                bool tempHit = Physics.Raycast(tempRay, out hit, float.MaxValue, m_groundLayer.value);
+                if (!tempHit)
+                    continue;
+
+                haveHit = tempHit;
+
+                if(hit.distance < bestDistance)
+                {
+                    bestDistance = hit.distance;
+                    bestPos = hit.point;
+                    bestPos += hit.normal * 0.5f;
+                }
+            }
+        }
+
+        if (haveHit)
+            pos = bestPos;
+
+        return haveHit;
     }
 
     void UpdateCanPlace()
@@ -195,18 +247,24 @@ public class PlaceBuildingCursor : MonoBehaviour
         connectable.AddRange(BuildingList.instance.GetAllBuilding(BuildingType.Pylon));
         connectable.AddRange(BuildingList.instance.GetAllBuilding(BuildingType.BigPylon));
 
-        bool canPlace = false;
-        foreach (var b in connectable)
-        {
-            if (!ConnexionSystem.instance.IsConnected(b))
-                continue;
+        var grid = new GetGridEvent();
+        Event<GetGridEvent>.Broadcast(grid);
 
-            var targetPos = b.GetGroundCenter();
-            var targetRadius = Global.instance.buildingDatas.GetRealPlaceRadius(radius, b.PlacementRadius()) - 0.01f;
-            if (VectorEx.SqrMagnitudeXZ(targetPos - pos) < targetRadius * targetRadius)
+        bool canPlace = false;
+        if (grid.grid != null)
+        {
+            foreach (var b in connectable)
             {
-                canPlace = true;
-                break;
+                if (!ConnexionSystem.instance.IsConnected(b))
+                    continue;
+
+                var targetPos = b.GetGroundCenter();
+                var targetRadius = Global.instance.buildingDatas.GetRealPlaceRadius(radius, b.PlacementRadius()) - 0.01f;
+                if(GridEx.GetDistance(grid.grid, pos, targetPos) < targetRadius)
+                {
+                    canPlace = true;
+                    break;
+                }
             }
         }
         if (!canPlace)
@@ -390,27 +448,33 @@ public class PlaceBuildingCursor : MonoBehaviour
         Vector3 pos = m_instance.GetGroundCenter();
         float radius = m_instance.PlacementRadius();
 
-        for (int i = 0; i < nbConnexions; i++)
+        var grid = new GetGridEvent();
+        Event<GetGridEvent>.Broadcast(grid);
+
+        if (grid.grid != null)
         {
-            var b = ConnexionSystem.instance.GetConnectedBuildingFromIndex(i);
-            if (!isCurrentNode && !BuildingTypeEx.IsNode(b.GetBuildingType()))
-                continue;
-
-            var targetPos = b.GetGroundCenter();
-            var targetRadius = Global.instance.buildingDatas.GetRealPlaceRadius(radius, b.PlacementRadius()) - 0.01f;
-
-            if (VectorEx.SqrMagnitudeXZ(targetPos - pos) < targetRadius * targetRadius)
+            for (int i = 0; i < nbConnexions; i++)
             {
-                if(connexionIndex >= m_connexions.Count)
-                    m_connexions.Add(CreateConnexion(m_instance, b));
-                else
-                {
-                    var c = m_connexions[connexionIndex];
-                    c.SetPosition(0, m_instance.GetRayPoint());
-                    c.SetPosition(1, b.GetRayPoint());
-                }
+                var b = ConnexionSystem.instance.GetConnectedBuildingFromIndex(i);
+                if (!isCurrentNode && !BuildingTypeEx.IsNode(b.GetBuildingType()))
+                    continue;
 
-                connexionIndex++;
+                var targetPos = b.GetGroundCenter();
+                var targetRadius = Global.instance.buildingDatas.GetRealPlaceRadius(radius, b.PlacementRadius()) - 0.01f;
+
+                if (VectorEx.SqrMagnitudeXZ(targetPos - pos) < targetRadius * targetRadius)
+                {
+                    if (connexionIndex >= m_connexions.Count)
+                        m_connexions.Add(CreateConnexion(m_instance, b));
+                    else
+                    {
+                        var c = m_connexions[connexionIndex];
+                        c.SetPosition(0, m_instance.GetRayPoint());
+                        c.SetPosition(1, GridEx.GetNearestPoint(grid.grid, b.GetRayPoint(), m_instance.GetRayPoint()));
+                    }
+
+                    connexionIndex++;
+                }
             }
         }
 

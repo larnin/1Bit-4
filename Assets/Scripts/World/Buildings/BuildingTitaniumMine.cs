@@ -169,7 +169,9 @@ public class BuildingTitaniumMine : BuildingBase
                     if (MathF.Abs(offset.x) + Math.Abs(offset.y) > m_mineRadius)
                         continue;
 
-                    Vector3Int itemPos = new Vector3Int(i, j, k);
+                    var realPos = GridEx.GetRealPosFromLoop(grid.grid, new Vector3Int(i, 0, j));
+
+                    Vector3Int itemPos = new Vector3Int(realPos.x, j, realPos.z);
                     var item = GridEx.GetBlock(grid.grid, itemPos);
                     if (item != BlockType.Titanium)
                         continue;

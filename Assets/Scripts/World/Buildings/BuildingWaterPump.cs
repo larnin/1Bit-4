@@ -110,6 +110,7 @@ public class BuildingWaterPump : BuildingBase
             for(int j = 0; j < dist; j++)
             {
                 var currentPos = initialPos + new Vector3Int(ortoDir.x, 0, ortoDir.y) * j;
+                currentPos = GridEx.GetRealPosFromLoop(grid.grid, currentPos);
                 if (GridEx.GetBlock(grid.grid, currentPos) != BlockType.water)
                 {
                     allWater = false;

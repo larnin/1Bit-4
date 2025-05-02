@@ -233,11 +233,32 @@ public static class GridEx
 
         pos -= target;
         pos = LoopPos(pos, size);
-        if (pos < size / 2)
+        if (pos > size / 2)
             pos -= size;
         pos += target;
 
         return pos;
+    }
+
+    public static bool IntersectLoop(Grid grid, BoundsInt a, BoundsInt b)
+    {
+        int x = grid.LoopX() ? 1 : 0;
+        int y = grid.LoopZ() ? 1 : 0;
+
+        var size = GetRealSize(grid);
+
+        for(int i = -x; i <= x; i++)
+        {
+            for(int j = -y; j <= y; j++)
+            {
+                var tempB = new BoundsInt(b.position + new Vector3Int(i * size, 0, j * size), b.size);
+
+                if (Utility.Intersects(a, tempB))
+                    return true;
+            }
+        }
+
+        return false;
     }
 }
 
