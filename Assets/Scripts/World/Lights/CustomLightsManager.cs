@@ -142,17 +142,32 @@ public class CustomLightsManager : MonoBehaviour
 
     public bool IsPosVisible(Vector2 pos)
     {
-        foreach (var l in m_lights)
-        {
-            if (l == null)
-                continue;
+        var grid = new GetGridEvent();
+        Event<GetGridEvent>.Broadcast(grid);
+        if (grid.grid == null)
+            return false;
 
-            Vector3 pos3 = l.transform.position;
-            float size = l.GetRadius();
-            
-            float dist = (new Vector2(pos3.x, pos3.z) - pos).sqrMagnitude;
-            if (dist < size * size)
-                return true;
+        var gridSize = GridEx.GetRealSize(grid.grid);
+        int x = grid.grid.LoopX() ? 1 : 0;
+        int y = grid.grid.LoopZ() ? 1 : 0;
+
+        for(int i = -x; i <= x; i++)
+        {
+            for(int j = -y; j <= y; j++)
+            {
+                foreach (var l in m_lights)
+                {
+                    if (l == null)
+                        continue;
+
+                    Vector3 pos3 = l.transform.position;
+                    float size = l.GetRadius();
+
+                    float dist = (new Vector2(pos3.x + gridSize * i, pos3.z + gridSize * j) - pos).sqrMagnitude;
+                    if (dist < size * size)
+                        return true;
+                }
+            }
         }
 
         return false;

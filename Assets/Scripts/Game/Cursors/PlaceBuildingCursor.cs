@@ -180,28 +180,28 @@ public class PlaceBuildingCursor : MonoBehaviour
             return true;
         }
 
+        var dups = new GetCameraDuplicationEvent();
+        Event<GetCameraDuplicationEvent>.Broadcast(dups);
+
         int x = grid.grid.LoopX() ? 1 : 0;
         int y = grid.grid.LoopZ() ? 1 : 0;
 
         int size = GridEx.GetRealSize(grid.grid);
 
-        for(int i = -x; i <= x; i++)
+        foreach(var d in dups.duplications)
         {
-            for(int j = -y; j <= y; j++)
+            var tempRay = new Ray(ray.origin - new Vector3(d.x * size, 0, d.y * size), ray.direction);
+            bool tempHit = Physics.Raycast(tempRay, out hit, float.MaxValue, m_groundLayer.value);
+            if (!tempHit)
+                continue;
+
+            haveHit = tempHit;
+
+            if(hit.distance < bestDistance)
             {
-                var tempRay = new Ray(ray.origin + new Vector3(i * size, 0, j * size), ray.direction);
-                bool tempHit = Physics.Raycast(tempRay, out hit, float.MaxValue, m_groundLayer.value);
-                if (!tempHit)
-                    continue;
-
-                haveHit = tempHit;
-
-                if(hit.distance < bestDistance)
-                {
-                    bestDistance = hit.distance;
-                    bestPos = hit.point;
-                    bestPos += hit.normal * 0.5f;
-                }
+                bestDistance = hit.distance;
+                bestPos = hit.point;
+                bestPos += hit.normal * 0.5f;
             }
         }
 

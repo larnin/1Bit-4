@@ -30,6 +30,7 @@ public class DuplicationCamera : MonoBehaviour
         m_subscriberList.Add(new Event<CameraZoomEvent>.Subscriber(OnCameraZoom));
         m_subscriberList.Add(new Event<SetGridEvent>.Subscriber(SetGrid));
         m_subscriberList.Add(new Event<GetAllMainCameraEvent>.Subscriber(GetAllCameras));
+        m_subscriberList.Add(new Event<GetCameraDuplicationEvent>.Subscriber(GetDuplications));
 
         m_subscriberList.Subscribe();
     }
@@ -52,6 +53,16 @@ public class DuplicationCamera : MonoBehaviour
     void OnCameraZoom(CameraZoomEvent e)
     {
         UpdateCameras();
+    }
+
+    void GetDuplications(GetCameraDuplicationEvent e)
+    {
+        e.duplications.Clear();
+
+        foreach(var c in m_duplicatedCameras)
+        {
+            e.duplications.Add(c.offset);
+        }
     }
 
     private void Update()

@@ -133,12 +133,7 @@ public class SelectCursor : MonoBehaviour
 
         var ray = camera.camera.ScreenPointToRay(Input.mousePosition);
 
-        RaycastHit hit;
-        bool haveHit = Physics.Raycast(ray, out hit, float.MaxValue, m_hoverLayer.value);
-
-        GameObject newTarget = null;
-        if(haveHit)
-            newTarget = hit.collider.gameObject;
+        GameObject newTarget = LoopHoverRatcast(ray);
 
         if(CustomLightsManager.instance != null && newTarget != null)
         {
@@ -169,6 +164,49 @@ public class SelectCursor : MonoBehaviour
             }
             m_hoveredDuration = nextTime;
         }
+    }
+
+    GameObject LoopHoverRatcast(Ray ray)
+    {
+        bool haveHit = false;
+        GameObject bestTarget = null;
+        float bestDistance = float.MaxValue;
+
+        var grid = new GetGridEvent();
+        Event<GetGridEvent>.Broadcast(grid);
+
+        RaycastHit hit;
+
+        if (grid.grid == null)
+        {
+            haveHit = Physics.Raycast(ray, out hit, float.MaxValue, m_hoverLayer.value);
+            if (!haveHit)
+                return null;
+            return hit.collider.gameObject;
+        }
+
+        var dups = new GetCameraDuplicationEvent();
+        Event<GetCameraDuplicationEvent>.Broadcast(dups);
+
+        int size = GridEx.GetRealSize(grid.grid);
+
+        foreach (var d in dups.duplications)
+        {
+            var tempRay = new Ray(ray.origin - new Vector3(d.x * size, 0, d.y * size), ray.direction);
+            bool tempHit = Physics.Raycast(tempRay, out hit, float.MaxValue, m_hoverLayer.value);
+            if (!tempHit)
+                continue;
+
+            haveHit = tempHit;
+
+            if (hit.distance < bestDistance)
+            {
+                bestDistance = hit.distance;
+                bestTarget = hit.collider.gameObject;
+            }
+        }
+
+        return bestTarget;
     }
 
     void UpdateSelection()
@@ -230,12 +268,10 @@ public class SelectCursor : MonoBehaviour
             var pos = (m_selectionStart + m_selectionEnd) / 2;
 
             var ray = camera.camera.ScreenPointToRay(pos);
-            RaycastHit hit;
-            bool haveHit = Physics.Raycast(ray, out hit, 1000, m_selectionLayer.value);
+            GameObject newTarget = LoopHoverRatcast(ray);
 
-            GameObject newTarget = null;
-            if (haveHit && IsSelectionValid(hit.collider.gameObject))
-                newTarget = hit.collider.gameObject;
+            if (newTarget != null && !IsSelectionValid(newTarget))
+                newTarget = null;
 
             if(newTarget != null)
                 newSelection.Add(newTarget);
@@ -244,18 +280,29 @@ public class SelectCursor : MonoBehaviour
         {
             if(BuildingList.instance != null)
             {
-                int nbBuilding = BuildingList.instance.GetBuildingNb();
-                for(int i = 0; i < nbBuilding; i++)
+                var dups = new GetCameraDuplicationEvent();
+                Event<GetCameraDuplicationEvent>.Broadcast(dups);
+
+                var grid = new GetGridEvent();
+                Event<GetGridEvent>.Broadcast(grid);
+
+                if (grid.grid != null)
                 {
-                    var b = BuildingList.instance.GetBuildingFromIndex(i);
+                    float size = GridEx.GetRealSize(grid.grid);
 
-                    GetTeamEvent team = new GetTeamEvent();
-                    Event<GetTeamEvent>.Broadcast(team, b.gameObject);
-                    if (team.team != Team.Player)
-                        continue;
+                    int nbBuilding = BuildingList.instance.GetBuildingNb();
+                    for (int i = 0; i < nbBuilding; i++)
+                    {
+                        var b = BuildingList.instance.GetBuildingFromIndex(i);
 
-                    if (IsOnSelection(b.gameObject, camera.camera))
-                        newSelection.Add(b.gameObject);
+                        GetTeamEvent team = new GetTeamEvent();
+                        Event<GetTeamEvent>.Broadcast(team, b.gameObject);
+                        if (team.team != Team.Player)
+                            continue;
+
+                        if (IsOnSelection(b.gameObject, camera.camera, dups.duplications, size))
+                            newSelection.Add(b.gameObject);
+                    }
                 }
             }
         }
@@ -282,7 +329,7 @@ public class SelectCursor : MonoBehaviour
         }
     }
 
-    bool IsOnSelection(GameObject obj, Camera cam)
+    bool IsOnSelection(GameObject obj, Camera cam, List<Vector2Int> dups, float size)
     {
         var collider = obj.GetComponent<Collider>();
         if (collider == null)
@@ -293,20 +340,26 @@ public class SelectCursor : MonoBehaviour
         var selRect = new Rect(selMin, selMax - selMin);
 
         var bounds = collider.bounds;
-        var boundsMin = bounds.min;
-        var boundsMax = bounds.max;
+        foreach (var d in dups)
+        {
+            var boundsMin = bounds.min + new Vector3(d.x, 0, d.y) * size;
+            var boundsMax = bounds.max + new Vector3(d.x, 0, d.y) * size;
 
-        var pos1 = cam.WorldToScreenPoint(boundsMin);
-        var rect = new Rect(pos1, Vector2.zero);
-        rect = rect.Encapsulate(cam.WorldToScreenPoint(boundsMax));
-        rect = rect.Encapsulate(cam.WorldToScreenPoint(new Vector3(boundsMin.x, boundsMin.y, boundsMax.z)));
-        rect = rect.Encapsulate(cam.WorldToScreenPoint(new Vector3(boundsMax.x, boundsMin.y, boundsMax.z)));
-        rect = rect.Encapsulate(cam.WorldToScreenPoint(new Vector3(boundsMin.x, boundsMax.y, boundsMax.z)));
-        rect = rect.Encapsulate(cam.WorldToScreenPoint(new Vector3(boundsMin.x, boundsMax.y, boundsMin.z)));
-        rect = rect.Encapsulate(cam.WorldToScreenPoint(new Vector3(boundsMax.x, boundsMin.y, boundsMin.z)));
-        rect = rect.Encapsulate(cam.WorldToScreenPoint(new Vector3(boundsMax.x, boundsMax.y, boundsMin.z)));
+            var pos1 = cam.WorldToScreenPoint(boundsMin);
+            var rect = new Rect(pos1, Vector2.zero);
+            rect = rect.Encapsulate(cam.WorldToScreenPoint(boundsMax));
+            rect = rect.Encapsulate(cam.WorldToScreenPoint(new Vector3(boundsMin.x, boundsMin.y, boundsMax.z)));
+            rect = rect.Encapsulate(cam.WorldToScreenPoint(new Vector3(boundsMax.x, boundsMin.y, boundsMax.z)));
+            rect = rect.Encapsulate(cam.WorldToScreenPoint(new Vector3(boundsMin.x, boundsMax.y, boundsMax.z)));
+            rect = rect.Encapsulate(cam.WorldToScreenPoint(new Vector3(boundsMin.x, boundsMax.y, boundsMin.z)));
+            rect = rect.Encapsulate(cam.WorldToScreenPoint(new Vector3(boundsMax.x, boundsMin.y, boundsMin.z)));
+            rect = rect.Encapsulate(cam.WorldToScreenPoint(new Vector3(boundsMax.x, boundsMax.y, boundsMin.z)));
 
-        return rect.Overlaps(selRect);
+            if (rect.Overlaps(selRect))
+                return true;
+        }
+
+        return false;
     }
 
     bool IsSelectionValid(GameObject obj)

@@ -43,6 +43,11 @@ public class GetCameraRotationEvent
     public float rotation = 0;
 }
 
+public class GetCameraDuplicationEvent
+{
+    public List<Vector2Int> duplications = new List<Vector2Int>();
+}
+
 public class SetHoveredObjectEvent
 {
     public GameObject hoveredObject;

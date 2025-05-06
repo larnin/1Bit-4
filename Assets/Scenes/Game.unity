@@ -343,7 +343,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 126479659}
-  - component: {fileID: 126479658}
   - component: {fileID: 126479660}
   m_Layer: 0
   m_Name: PlaceDecal
@@ -352,25 +351,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!119 &126479658
-Projector:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 126479657}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_NearClipPlane: 0.1
-  m_FarClipPlane: 100
-  m_FieldOfView: 60
-  m_AspectRatio: 1
-  m_Orthographic: 1
-  m_OrthographicSize: 10
-  m_Material: {fileID: 2100000, guid: 31659c0d5e6c6904db63efaf98664350, type: 2}
-  m_IgnoreLayers:
-    serializedVersion: 2
-    m_Bits: 896
 --- !u!4 &126479659
 Transform:
   m_ObjectHideFlags: 0
@@ -402,6 +382,7 @@ MonoBehaviour:
   m_pixelPerUnit: 16
   m_circleMaterial: {fileID: 2100000, guid: 28b58a05c2815574e85f5015f639a4ee, type: 2}
   m_borderThickness: 5
+  m_duplicationDecalPrefab: {fileID: 1802933442441664619, guid: bac91f74f5b271d46890afdcf034ac23, type: 3}
 --- !u!1 &150972042
 GameObject:
   m_ObjectHideFlags: 0
