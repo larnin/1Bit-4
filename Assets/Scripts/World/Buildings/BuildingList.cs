@@ -146,15 +146,25 @@ public class BuildingList : MonoBehaviour
 
     BuildingBase GetNearestBuilding(Vector3 pos, Func<BuildingBase, bool> condition)
     {
-        if (m_buildings.Count < 32)
+        //todo optimize this function with world loop
+
+        //if (m_buildings.Count < 32)
             return GetNearestBuildingNaive(pos, condition);
-        return GetNearestBuildingOptimised(pos, condition);
+        //return GetNearestBuildingOptimised(pos, condition);
     }
 
     BuildingBase GetNearestBuildingNaive(Vector3 pos, Func<BuildingBase, bool> condition)
     {
         float bestDistance = 0;
         BuildingBase bestBuilding = null;
+
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        if (grid.grid == null)
+            return null;
+
+        int x = grid.grid.LoopX() ? 1 : 0;
+        int y = grid.grid.LoopZ() ? 1 : 0;
+        var size = GridEx.GetRealSize(grid.grid);
 
         foreach (var building in m_buildings)
         {
@@ -164,12 +174,20 @@ public class BuildingList : MonoBehaviour
             Vector3 buildingPos = building.GetPos();
             Vector3 buildingSize = building.GetSize();
 
-            float dist = GetSqrDistance(pos, buildingPos, buildingSize);
-
-            if (dist < bestDistance || bestBuilding == null)
+            for(int i = -x; i <= x; i++)
             {
-                bestBuilding = building;
-                bestDistance = dist;
+                for(int j = -y; j <= y; j++)
+                {
+                    Vector3 loopPos = buildingPos + new Vector3(i, 0, j) * size;
+
+                    float dist = GetSqrDistance(pos, loopPos, buildingSize);
+
+                    if (dist < bestDistance || bestBuilding == null)
+                    {
+                        bestBuilding = building;
+                        bestDistance = dist;
+                    }
+                }
             }
         }
 
@@ -178,6 +196,8 @@ public class BuildingList : MonoBehaviour
 
     BuildingBase GetNearestBuildingOptimised(Vector3 pos, Func<BuildingBase, bool> condition)
     {
+        //todo make this work with loop map
+
         var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
         if (grid.grid == null)
             return null;
