@@ -49,8 +49,7 @@ public class NormalTextureGenerationEffect : MonoBehaviour
         GL.Clear(true, false, Color.black, 1);
         RenderTexture.active = null;
 
-        GetAllMainCameraEvent cameras = new GetAllMainCameraEvent();
-        Event<GetAllMainCameraEvent>.Broadcast(cameras);
+        var cameras = Event<GetAllMainCameraEvent>.Broadcast(new GetAllMainCameraEvent());
 
         if (m_replacementShader != null)
         {

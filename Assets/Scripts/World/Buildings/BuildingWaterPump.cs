@@ -81,8 +81,7 @@ public class BuildingWaterPump : BuildingBase
 
     bool HaveWaterAround(Vector3Int pos)
     {
-        GetGridEvent grid = new GetGridEvent();
-        Event<GetGridEvent>.Broadcast(grid);
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
         if (grid.grid == null)
             return false;
 

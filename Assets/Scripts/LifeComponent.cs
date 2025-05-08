@@ -59,15 +59,13 @@ public class LifeComponent : MonoBehaviour
         if (m_life <= 0)
             return;
 
-        HitBeforeApplyEvent e = new HitBeforeApplyEvent(hit);
-        Event<HitBeforeApplyEvent>.Broadcast(e, gameObject);
+        Event<HitBeforeApplyEvent>.Broadcast(new HitBeforeApplyEvent(hit), gameObject);
 
-        GetTeamEvent casterTeam = new GetTeamEvent();
+        var casterTeam = new GetTeamEvent();
         if(hit.caster != null)
             Event<GetTeamEvent>.Broadcast(casterTeam, hit.caster);
 
-        GetTeamEvent targetTeam = new GetTeamEvent();
-        Event<GetTeamEvent>.Broadcast(targetTeam, gameObject);
+        var targetTeam = Event<GetTeamEvent>.Broadcast(new GetTeamEvent(), gameObject);
 
         if (targetTeam.team == Team.Neutral)
             return;
@@ -108,12 +106,11 @@ public class LifeComponent : MonoBehaviour
         if (percent)
             value *= m_maxLife * m_maxLifeMultiplier;
 
-        HealBeforeApplyEvent e = new HealBeforeApplyEvent(value);
-        Event<HealBeforeApplyEvent>.Broadcast(e, gameObject);
+        var heal = Event<HealBeforeApplyEvent>.Broadcast(new HealBeforeApplyEvent(value), gameObject);
 
         UpdateMultiplier();
 
-        m_life += e.heal;
+        m_life += heal.heal;
         if (m_life > m_maxLife * m_maxLifeMultiplier)
             m_life = m_maxLife * m_maxLifeMultiplier;
     }

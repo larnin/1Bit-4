@@ -73,8 +73,7 @@ public class MenuSystem : MonoBehaviour
             return default(T);
         }
 
-        GetCameraEvent camera = new GetCameraEvent();
-        Event<GetCameraEvent>.Broadcast(camera);
+        var camera = Event<GetCameraEvent>.Broadcast(new GetCameraEvent());
 
         var menu = Instantiate(prefab, transform);
 

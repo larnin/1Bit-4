@@ -31,8 +31,7 @@ public class SelectionDisplay : MonoBehaviour
 
     void DisplaySelection(DisplaySelectionBoxEvent e)
     {
-        GetCameraEvent camera = new GetCameraEvent();
-        Event<GetCameraEvent>.Broadcast(camera);
+        var camera = Event<GetCameraEvent>.Broadcast(new GetCameraEvent());
         if (camera.camera == null)
             return;
 

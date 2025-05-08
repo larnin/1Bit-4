@@ -35,8 +35,7 @@ public class EntityMove : MonoBehaviour
 
     public void SetTarget(Vector3 target)
     {
-        GetTeamEvent team = new GetTeamEvent();
-        Event<GetTeamEvent>.Broadcast(team, gameObject);
+        var team = Event<GetTeamEvent>.Broadcast(new GetTeamEvent(), gameObject);
         m_path.SetTarget(transform.position, target, team.team);
 
         m_lastTarget = target;
@@ -44,9 +43,7 @@ public class EntityMove : MonoBehaviour
 
     public void Stop()
     {
-
-        GetTeamEvent team = new GetTeamEvent();
-        Event<GetTeamEvent>.Broadcast(team, gameObject);
+        var team = Event<GetTeamEvent>.Broadcast(new GetTeamEvent(), gameObject);
         m_path.SetTarget(transform.position, transform.position, team.team);
     }
 
@@ -107,8 +104,7 @@ public class EntityMove : MonoBehaviour
 
     float GetHeight(Vector3 newPos)
     {
-        var grid = new GetGridEvent();
-        Event<GetGridEvent>.Broadcast(grid);
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
         if (grid.grid == null)
             return newPos.y;
 
@@ -168,8 +164,7 @@ public class EntityMove : MonoBehaviour
 
         if(needRebuild)
         {
-            GetTeamEvent team = new GetTeamEvent();
-            Event<GetTeamEvent>.Broadcast(team, gameObject);
+            var team = Event<GetTeamEvent>.Broadcast(new GetTeamEvent(), gameObject);
             m_path.SetTarget(transform.position, m_lastTarget, team.team);
         }
     }

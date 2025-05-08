@@ -101,8 +101,7 @@ public class BuildingCrystalMine : BuildingBase
     {
         List<MineData> points = new List<MineData>();
 
-        GetGridEvent grid = new GetGridEvent();
-        Event<GetGridEvent>.Broadcast(grid);
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
         if (grid.grid == null)
             return points;
 
@@ -144,8 +143,7 @@ public class BuildingCrystalMine : BuildingBase
                 if (item != BlockType.crystal)
                     continue;
 
-                IsCrystalUsedEvent crystal = new IsCrystalUsedEvent(itemPos);
-                Event<IsCrystalUsedEvent>.Broadcast(crystal);
+                var crystal = Event<IsCrystalUsedEvent>.Broadcast(new IsCrystalUsedEvent(itemPos));
                 if (crystal.used)
                     continue;
 

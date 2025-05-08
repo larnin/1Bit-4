@@ -65,8 +65,7 @@ public class DifficultySystem : MonoBehaviour
 
         if (ConnexionSystem.instance != null)
         {
-            GetGridEvent grid = new GetGridEvent();
-            Event<GetGridEvent>.Broadcast(grid);
+            var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
             if (grid.grid != null)
             {
                 int size = GridEx.GetRealSize(grid.grid);
@@ -123,8 +122,7 @@ public class DifficultySystem : MonoBehaviour
         if (ConnexionSystem.instance == null)
             return;
 
-        GetGridEvent grid = new GetGridEvent();
-        Event<GetGridEvent>.Broadcast(grid);
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
         if (grid.grid == null)
             return;
 

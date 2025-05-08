@@ -36,12 +36,14 @@ class Event<T>
         m_event -= func;
 	}
 
-	public static void Broadcast(T data)
+	public static T Broadcast(T data)
 	{
 		if (m_event != null)
 		{
             m_event(data);
 		}
+
+        return data;
 	}
 
     //------------------------------------------------------
@@ -82,10 +84,10 @@ class Event<T>
             m_events[obj] -= func;
     }
 
-    public static void Broadcast(T data, GameObject obj, bool propagateToChild = false)
+    public static T Broadcast(T data, GameObject obj, bool propagateToChild = false)
     {
         if (obj == null)
-            return;
+            return data;
 
         Action<T> func;
         if (m_events.TryGetValue(obj, out func) && func != null)
@@ -97,5 +99,7 @@ class Event<T>
             for(int i = 0; i < t.childCount; i++)
                 Broadcast(data, t.GetChild(i).gameObject, true);
         }
+
+        return data;
     }
 }

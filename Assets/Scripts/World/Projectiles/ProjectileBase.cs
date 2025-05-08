@@ -24,9 +24,7 @@ public abstract class ProjectileBase : MonoBehaviour
     public void SetCaster(GameObject caster)
     {
         m_caster = caster;
-        GetTeamEvent team = new GetTeamEvent();
-        Event<GetTeamEvent>.Broadcast(team, caster);
-        m_casterTeam = team.team;
+        m_casterTeam = Event<GetTeamEvent>.Broadcast(new GetTeamEvent(), caster).team;
     }
 
     public void SetDamagesMultiplier(float multiplier)

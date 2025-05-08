@@ -126,8 +126,7 @@ public class SelectCursor : MonoBehaviour
 
     void UpdateHovered()
     {
-        var camera = new GetCameraEvent();
-        Event<GetCameraEvent>.Broadcast(camera);
+        var camera = Event<GetCameraEvent>.Broadcast(new GetCameraEvent());
         if (camera.camera == null)
             return;
 
@@ -137,8 +136,7 @@ public class SelectCursor : MonoBehaviour
 
         if(CustomLightsManager.instance != null && newTarget != null)
         {
-            GetTeamEvent team = new GetTeamEvent();
-            Event<GetTeamEvent>.Broadcast(team, newTarget);
+            var team = Event<GetTeamEvent>.Broadcast(new GetTeamEvent(), newTarget);
 
             if (team.team != Team.Player)
             {
@@ -172,8 +170,7 @@ public class SelectCursor : MonoBehaviour
         GameObject bestTarget = null;
         float bestDistance = float.MaxValue;
 
-        var grid = new GetGridEvent();
-        Event<GetGridEvent>.Broadcast(grid);
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
 
         RaycastHit hit;
 
@@ -185,8 +182,7 @@ public class SelectCursor : MonoBehaviour
             return hit.collider.gameObject;
         }
 
-        var dups = new GetCameraDuplicationEvent();
-        Event<GetCameraDuplicationEvent>.Broadcast(dups);
+        var dups = Event<GetCameraDuplicationEvent>.Broadcast(new GetCameraDuplicationEvent());
 
         int size = GridEx.GetRealSize(grid.grid);
 
@@ -213,8 +209,7 @@ public class SelectCursor : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0))
         {
-            IsMouseOverUIEvent overUI = new IsMouseOverUIEvent();
-            Event<IsMouseOverUIEvent>.Broadcast(overUI);
+            IsMouseOverUIEvent overUI = Event<IsMouseOverUIEvent>.Broadcast(new IsMouseOverUIEvent());
             if (!overUI.overUI)
             {
                 m_selectionStart = Input.mousePosition;
@@ -257,8 +252,7 @@ public class SelectCursor : MonoBehaviour
     {
         List<GameObject> newSelection = new List<GameObject>();
 
-        var camera = new GetCameraEvent();
-        Event<GetCameraEvent>.Broadcast(camera);
+        var camera = Event<GetCameraEvent>.Broadcast(new GetCameraEvent());
         if (camera.camera == null)
             return;
 
@@ -280,11 +274,9 @@ public class SelectCursor : MonoBehaviour
         {
             if(BuildingList.instance != null)
             {
-                var dups = new GetCameraDuplicationEvent();
-                Event<GetCameraDuplicationEvent>.Broadcast(dups);
+                var dups = Event<GetCameraDuplicationEvent>.Broadcast(new GetCameraDuplicationEvent());
 
-                var grid = new GetGridEvent();
-                Event<GetGridEvent>.Broadcast(grid);
+                var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
 
                 if (grid.grid != null)
                 {
@@ -295,8 +287,7 @@ public class SelectCursor : MonoBehaviour
                     {
                         var b = BuildingList.instance.GetBuildingFromIndex(i);
 
-                        GetTeamEvent team = new GetTeamEvent();
-                        Event<GetTeamEvent>.Broadcast(team, b.gameObject);
+                        var team = Event<GetTeamEvent>.Broadcast(new GetTeamEvent(), b.gameObject);
                         if (team.team != Team.Player)
                             continue;
 
@@ -366,8 +357,7 @@ public class SelectCursor : MonoBehaviour
     {
         var type = GameSystem.GetEntityType(obj);
 
-        GetTeamEvent team = new GetTeamEvent();
-        Event<GetTeamEvent>.Broadcast(team, obj);
+        var team = Event<GetTeamEvent>.Broadcast(new GetTeamEvent(), obj);
         if (team.team != Team.Player)
             return false;
 

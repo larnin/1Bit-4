@@ -13,8 +13,7 @@ public class DisplayLife : MonoBehaviour
     
     void Update()
     {
-        GetLifeEvent life = new GetLifeEvent();
-        Event<GetLifeEvent>.Broadcast(life, gameObject);
+        var life = Event<GetLifeEvent>.Broadcast(new GetLifeEvent(), gameObject);
         if(!life.haveLife)
         {
             if (m_lifebarInstance != null)
@@ -55,8 +54,7 @@ public class DisplayLife : MonoBehaviour
 
         if(m_lifebarInstance != null)
         {
-            GetCameraEvent cam = new GetCameraEvent();
-            Event<GetCameraEvent>.Broadcast(cam);
+            var cam = Event<GetCameraEvent>.Broadcast(new GetCameraEvent());
             if (cam.camera != null)
             {
                 var rot = Quaternion.LookRotation(-cam.camera.transform.forward).eulerAngles;

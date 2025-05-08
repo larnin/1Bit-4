@@ -270,8 +270,7 @@ public class BuildingEnnemySpawner : BuildingBase
 
     void SpawnOneEnnemie(int index)
     {
-        GetGridEvent grid = new GetGridEvent();
-        Event<GetGridEvent>.Broadcast(grid);
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
 
         var e = Global.instance.difficultyDatas.spawnersData.ennemies[index];
 

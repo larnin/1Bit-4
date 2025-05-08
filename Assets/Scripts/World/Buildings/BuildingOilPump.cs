@@ -69,8 +69,7 @@ public class BuildingOilPump : BuildingBase
 
     public override BuildingPlaceType CanBePlaced(Vector3Int pos)
     {
-        var grid = new GetGridEvent();
-        Event<GetGridEvent>.Broadcast(grid);
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
         var bounds = GetBounds(pos);
         if (grid.grid != null)
         {
@@ -115,8 +114,7 @@ public class BuildingOilPump : BuildingBase
 
     bool HaveOilSpot(Vector3Int pos)
     {
-        GetGridEvent grid = new GetGridEvent();
-        Event<GetGridEvent>.Broadcast(grid);
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
         if (grid.grid == null)
             return false;
 

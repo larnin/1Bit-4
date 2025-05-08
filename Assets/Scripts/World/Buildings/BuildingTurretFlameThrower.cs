@@ -218,9 +218,7 @@ public class BuildingTurretFlameThrower : BuildingTurretBase
     {
         List<GameObject> targets = new List<GameObject>();
 
-        GetTeamEvent currentTeam = new GetTeamEvent();
-        Event<GetTeamEvent>.Broadcast(currentTeam, gameObject);
-
+        var currentTeam = Event<GetTeamEvent>.Broadcast(new GetTeamEvent(), gameObject);
         if (currentTeam.team == Team.Neutral)
             return;
 
@@ -238,13 +236,11 @@ public class BuildingTurretFlameThrower : BuildingTurretBase
                 if (targets.Contains(col.gameObject))
                     continue;
 
-                GetTeamEvent team = new GetTeamEvent();
-                Event<GetTeamEvent>.Broadcast(team, col.gameObject);
+                var team = Event<GetTeamEvent>.Broadcast(new GetTeamEvent(), col.gameObject);
                 if (team.team != opposite)
                     continue;
 
-                GetLifeEvent life = new GetLifeEvent();
-                Event<GetLifeEvent>.Broadcast(life, col.gameObject);
+                var life = Event<GetLifeEvent>.Broadcast(new GetLifeEvent(), col.gameObject);
                 if (life.life <= 0)
                     continue;
 
@@ -252,8 +248,7 @@ public class BuildingTurretFlameThrower : BuildingTurretBase
             }
         }
 
-        var multiplier = new GetStatEvent(StatType.DamagesMultiplier);
-        Event<GetStatEvent>.Broadcast(multiplier, gameObject);
+        var multiplier = Event<GetStatEvent>.Broadcast(new GetStatEvent(StatType.DamagesMultiplier), gameObject);
 
         var hit = new Hit(m_damages * Time.deltaTime * multiplier.GetValue(), gameObject, m_damageType, m_damageTypePower);
         foreach (var t in targets)

@@ -63,8 +63,7 @@ public class BuildingSolarPanel : BuildingBase
         var currentBounds = GetBounds(pos);
         var dist = new Vector3Int(m_distanceToOtherPannel, m_distanceToOtherPannel, m_distanceToOtherPannel);
 
-        var grid = new GetGridEvent();
-        Event<GetGridEvent>.Broadcast(grid);
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
 
         if (grid.grid != null)
         {

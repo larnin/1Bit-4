@@ -178,12 +178,11 @@ public class BuildingList : MonoBehaviour
 
     BuildingBase GetNearestBuildingOptimised(Vector3 pos, Func<BuildingBase, bool> condition)
     {
-        GetGridEvent e = new GetGridEvent();
-        Event<GetGridEvent>.Broadcast(e);
-        if (e.grid == null)
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        if (grid.grid == null)
             return null;
 
-        int size = e.grid.Size();
+        int size = grid.grid.Size();
 
         Vector2Int posInt = new Vector2Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.z));
 
@@ -375,10 +374,9 @@ public class BuildingList : MonoBehaviour
 
     void InitializeBuildingChunks()
     {
-        GetGridEvent e = new GetGridEvent();
-        Event<GetGridEvent>.Broadcast(e);
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
 
-        int size = e.grid.Size();
+        int size = grid.grid.Size();
 
         for(int i = 0; i < size; i++)
         {

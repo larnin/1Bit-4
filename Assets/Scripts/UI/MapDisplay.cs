@@ -63,9 +63,7 @@ public class MapDisplay : MonoBehaviour
 
     void OnLoadEnd(GenerationFinishedEvent e)
     {
-        var grid = new GetGridEvent();
-        Event<GetGridEvent>.Broadcast(grid);
-        
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
         if (grid.grid == null)
             return;
 
@@ -125,8 +123,7 @@ public class MapDisplay : MonoBehaviour
 
         var plane = new Plane(Vector3.up, new Vector3(0, h, 0));
 
-        var camera = new GetCameraEvent();
-        Event<GetCameraEvent>.Broadcast(camera);
+        var camera = Event<GetCameraEvent>.Broadcast(new GetCameraEvent());
 
         pos1 = Vector2.zero;
         pos2 = Vector2.zero;
@@ -186,8 +183,7 @@ public class MapDisplay : MonoBehaviour
 
         m_cameraRect.localRotation = Quaternion.Euler(0, 0, angle);
 
-        GetGridEvent grid = new GetGridEvent();
-        Event<GetGridEvent>.Broadcast(grid);
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
         if (grid.grid == null)
             return;
 
@@ -207,8 +203,7 @@ public class MapDisplay : MonoBehaviour
         if (m_buildingSprite == null)
             return;
 
-        GetGridEvent grid = new GetGridEvent();
-        Event<GetGridEvent>.Broadcast(grid);
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
         if (grid.grid == null)
             return;
 

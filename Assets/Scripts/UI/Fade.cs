@@ -87,10 +87,9 @@ public class Fade : MonoBehaviour
             if (canvas.worldCamera != null)
                 return;
 
-            GetCameraEvent cameraEvent = new GetCameraEvent();
-            Event<GetCameraEvent>.Broadcast(cameraEvent);
+            var cam = Event<GetCameraEvent>.Broadcast(new GetCameraEvent());
 
-            canvas.worldCamera = cameraEvent.UICamera;
+            canvas.worldCamera = cam.UICamera;
         }
     }
 }

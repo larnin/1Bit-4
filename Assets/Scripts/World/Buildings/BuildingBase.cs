@@ -243,8 +243,7 @@ public abstract class BuildingBase : MonoBehaviour
 
     public virtual BuildingPlaceType CanBePlaced(Vector3Int pos) 
     {
-        var grid = new GetGridEvent();
-        Event<GetGridEvent>.Broadcast(grid);
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
         var bounds = GetBounds(pos);
         if (grid.grid != null)
         {
@@ -349,11 +348,9 @@ public abstract class BuildingBase : MonoBehaviour
             m_noHitDuration += Time.deltaTime;
             if(m_noHitDuration >= Global.instance.buildingDatas.regenDelay && !m_wasFullLife)
             {
-                HealEvent heal = new HealEvent(Global.instance.buildingDatas.regenSpeed * Time.deltaTime, true);
-                Event<HealEvent>.Broadcast(heal, gameObject);
+                Event<HealEvent>.Broadcast(new HealEvent(Global.instance.buildingDatas.regenSpeed * Time.deltaTime, true), gameObject);
 
-                GetLifeEvent life = new GetLifeEvent();
-                Event<GetLifeEvent>.Broadcast(life, gameObject);
+                var life = Event<GetLifeEvent>.Broadcast(new GetLifeEvent(), gameObject);
                 m_wasFullLife = life.lifePercent >= 1;
             }
             m_alarmTimer -= Time.deltaTime;

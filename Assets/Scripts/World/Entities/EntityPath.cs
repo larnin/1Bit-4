@@ -135,8 +135,7 @@ public class EntityPath
             return;
         }
 
-        GetGridEvent grid = new GetGridEvent();
-        Event<GetGridEvent>.Broadcast(grid);
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
         if(grid.grid == null)
         {
             SetEmptyPath(m_target);

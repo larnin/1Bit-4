@@ -83,8 +83,7 @@ public class EntityWeaponMelee : EntityWeaponBase
 
     void Attack()
     {
-        var multiplier = new GetStatEvent(StatType.DamagesMultiplier);
-        Event<GetStatEvent>.Broadcast(multiplier, gameObject);
+        var multiplier = Event<GetStatEvent>.Broadcast(new GetStatEvent(StatType.DamagesMultiplier), gameObject);
 
         var pos = transform.position + transform.forward * m_hitOffset;
 

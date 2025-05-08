@@ -58,8 +58,7 @@ public class CustomLightsManager : MonoBehaviour
         if (m_renderTexture == null)
             return;
 
-        var grid = new GetGridEvent();
-        Event<GetGridEvent>.Broadcast(grid);
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
         if (grid.grid == null)
             return;
 
@@ -142,8 +141,7 @@ public class CustomLightsManager : MonoBehaviour
 
     public bool IsPosVisible(Vector2 pos)
     {
-        var grid = new GetGridEvent();
-        Event<GetGridEvent>.Broadcast(grid);
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
         if (grid.grid == null)
             return false;
 

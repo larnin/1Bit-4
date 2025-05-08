@@ -103,8 +103,7 @@ public class GameSystem : MonoBehaviour
                     }
                     else
                     {
-                        GetGridGenerationStatusEvent e = new GetGridGenerationStatusEvent();
-                        Event<GetGridGenerationStatusEvent>.Broadcast(e);
+                        var e = Event<GetGridGenerationStatusEvent>.Broadcast(new GetGridGenerationStatusEvent());
                         generatedChunks = e.generatedChunks;
                         totalChunks = e.totalChunks;
                     }
@@ -127,8 +126,7 @@ public class GameSystem : MonoBehaviour
         if (BuildingList.instance == null)
             return;
 
-        var grid = new GetGridEvent();
-        Event<GetGridEvent>.Broadcast(grid);
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
         if (grid.grid == null)
             return;
 
@@ -230,8 +228,7 @@ public class GameSystem : MonoBehaviour
                 }
                 else
                 {
-                    GetGridGenerationStatusEvent e = new GetGridGenerationStatusEvent();
-                    Event<GetGridGenerationStatusEvent>.Broadcast(e);
+                    var e = Event<GetGridGenerationStatusEvent>.Broadcast(new GetGridGenerationStatusEvent());
                     generatedChunks = e.generatedChunks;
                     totalChunks = e.totalChunks;
                 }

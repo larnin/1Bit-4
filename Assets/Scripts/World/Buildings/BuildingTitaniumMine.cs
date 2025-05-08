@@ -135,8 +135,7 @@ public class BuildingTitaniumMine : BuildingBase
     {
         List<MineData> points = new List<MineData>();
 
-        GetGridEvent grid = new GetGridEvent();
-        Event<GetGridEvent>.Broadcast(grid);
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
         if (grid.grid == null)
             return points;
 
@@ -176,8 +175,7 @@ public class BuildingTitaniumMine : BuildingBase
                     if (item != BlockType.Titanium)
                         continue;
 
-                    IsTitaniumUsedEvent titanium = new IsTitaniumUsedEvent(itemPos);
-                    Event<IsTitaniumUsedEvent>.Broadcast(titanium);
+                    var titanium = Event<IsTitaniumUsedEvent>.Broadcast(new IsTitaniumUsedEvent(itemPos));
                     if (titanium.used)
                         continue;
 

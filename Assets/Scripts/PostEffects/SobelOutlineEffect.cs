@@ -31,16 +31,14 @@ public class SobelOutlineEffect : MonoBehaviour
 
     private void Update()
     {
-        GetNormalsTextureEvent texture = new GetNormalsTextureEvent();
-        Event<GetNormalsTextureEvent>.Broadcast(texture);
+        var texture = Event<GetNormalsTextureEvent>.Broadcast(new GetNormalsTextureEvent());
         if (texture.normals != null)
             m_material.SetTexture("_NormalTex", texture.normals);
 
         if (texture.depth != null)
             m_material.SetTexture("_DepthTex", texture.depth);
 
-        GetCameraScaleEvent scale = new GetCameraScaleEvent();
-        Event<GetCameraScaleEvent>.Broadcast(scale);
+        var scale = Event<GetCameraScaleEvent>.Broadcast(new GetCameraScaleEvent());
 
         m_material.SetFloat("_OutlineDepthScale", scale.scale);
         m_material.SetFloat("_OutlineThickness", m_thickness);

@@ -129,14 +129,12 @@ public class PlaceBuildingCursor : MonoBehaviour
         if (m_instance == null)
             return;
 
-        var cam = new GetCameraEvent();
-        Event<GetCameraEvent>.Broadcast(cam);
+        var cam = Event<GetCameraEvent>.Broadcast(new GetCameraEvent());
         if (cam.camera == null)
             return;
 
         m_posValid = false;
-        IsMouseOverUIEvent overUI = new IsMouseOverUIEvent();
-        Event<IsMouseOverUIEvent>.Broadcast(overUI);
+        var overUI = Event<IsMouseOverUIEvent>.Broadcast(new IsMouseOverUIEvent());
         if (overUI.overUI)
             return;
 
@@ -163,8 +161,7 @@ public class PlaceBuildingCursor : MonoBehaviour
         Vector3 bestPos = Vector3.zero;
         float bestDistance = float.MaxValue;
 
-        var grid = new GetGridEvent();
-        Event<GetGridEvent>.Broadcast(grid);
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
 
         RaycastHit hit;
 
@@ -180,8 +177,7 @@ public class PlaceBuildingCursor : MonoBehaviour
             return true;
         }
 
-        var dups = new GetCameraDuplicationEvent();
-        Event<GetCameraDuplicationEvent>.Broadcast(dups);
+        var dups = Event<GetCameraDuplicationEvent>.Broadcast(new GetCameraDuplicationEvent());
 
         int x = grid.grid.LoopX() ? 1 : 0;
         int y = grid.grid.LoopZ() ? 1 : 0;
@@ -247,8 +243,7 @@ public class PlaceBuildingCursor : MonoBehaviour
         connectable.AddRange(BuildingList.instance.GetAllBuilding(BuildingType.Pylon));
         connectable.AddRange(BuildingList.instance.GetAllBuilding(BuildingType.BigPylon));
 
-        var grid = new GetGridEvent();
-        Event<GetGridEvent>.Broadcast(grid);
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
 
         bool canPlace = false;
         if (grid.grid != null)
@@ -448,8 +443,7 @@ public class PlaceBuildingCursor : MonoBehaviour
         Vector3 pos = m_instance.GetGroundCenter();
         float radius = m_instance.PlacementRadius();
 
-        var grid = new GetGridEvent();
-        Event<GetGridEvent>.Broadcast(grid);
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
 
         if (grid.grid != null)
         {

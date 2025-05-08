@@ -143,8 +143,7 @@ class ProjectileFrozen : ProjectileBase
                 startExplosion = true;
             else
             {
-                GetTeamEvent team = new GetTeamEvent();
-                Event<GetTeamEvent>.Broadcast(team, hit.collider.gameObject);
+                var team = Event<GetTeamEvent>.Broadcast(new GetTeamEvent(), hit.collider.gameObject);
 
                 if (TeamEx.GetOppositeTeam(team.team) == m_casterTeam)
                     startExplosion = true;

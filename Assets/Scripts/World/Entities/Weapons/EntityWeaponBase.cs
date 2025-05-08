@@ -71,8 +71,7 @@ public abstract class EntityWeaponBase : MonoBehaviour
         {
             m_updateTargetTimer = updateTargetDelay;
 
-            GetTeamEvent team = new GetTeamEvent();
-            Event<GetTeamEvent>.Broadcast(team, gameObject);
+            var team = Event<GetTeamEvent>.Broadcast(new GetTeamEvent(), gameObject);
             Team targetTeam = TeamEx.GetOppositeTeam(team.team);
 
             if (BuildingList.instance == null)

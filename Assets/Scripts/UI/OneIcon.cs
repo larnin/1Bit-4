@@ -83,8 +83,7 @@ public class OneIcon : MonoBehaviour
                 m_parent = parent.GetComponent<RectTransform>();
         }
 
-        GetCameraEvent camera = new GetCameraEvent();
-        Event<GetCameraEvent>.Broadcast(camera);
+        var camera = Event<GetCameraEvent>.Broadcast(new GetCameraEvent());
         
         if(camera.UICamera == null || m_parent == null)
         {

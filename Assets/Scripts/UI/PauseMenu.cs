@@ -19,8 +19,7 @@ public class PauseMenu : MonoBehaviour
     {
         var canvas = GetComponent<Canvas>();
 
-        GetCameraEvent camera = new GetCameraEvent();
-        Event<GetCameraEvent>.Broadcast(camera);
+        var camera = Event<GetCameraEvent>.Broadcast(new GetCameraEvent());
 
         if(camera.UICamera != null && canvas != null)
         {

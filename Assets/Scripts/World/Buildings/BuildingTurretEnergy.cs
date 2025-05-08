@@ -97,8 +97,7 @@ public class BuildingTurretEnergy : BuildingTurretBase
                     projectile.SetTarget(target);
                     projectile.SetCaster(gameObject);
 
-                    var multiplier = new GetStatEvent(StatType.DamagesMultiplier);
-                    Event<GetStatEvent>.Broadcast(multiplier, gameObject);
+                    var multiplier = Event<GetStatEvent>.Broadcast(new GetStatEvent(StatType.DamagesMultiplier), gameObject);
                     projectile.SetDamagesMultiplier(multiplier.GetValue());
                 }
             }

@@ -218,18 +218,12 @@ public static class Utility
 
     public static bool IsFrozen(GameObject obj)
     {
-        var frozen = new IsFrozenEvent();
-        Event<IsFrozenEvent>.Broadcast(frozen, obj);
-
-        return frozen.frozen;
+        return Event<IsFrozenEvent>.Broadcast(new IsFrozenEvent(), obj).frozen;
     }
 
     public static bool IsDead(GameObject obj)
     {
-        IsDeadEvent dead = new IsDeadEvent();
-        Event<IsDeadEvent>.Broadcast(dead, obj);
-
-        return dead.isDead;
+        return Event<IsDeadEvent>.Broadcast(new IsDeadEvent(), obj).isDead;
     }
 
     static readonly ProfilerMarker ms_aliveProfilerMarker = new ProfilerMarker(ProfilerCategory.Scripts, "Utility.IsAliveFilter");
@@ -239,8 +233,7 @@ public static class Utility
         if (aliveFilter == AliveType.NotSet)
             return true;
 
-        GetLifeEvent life = new GetLifeEvent();
-        Event<GetLifeEvent>.Broadcast(life, obj);
+        var life = Event<GetLifeEvent>.Broadcast(new GetLifeEvent(), obj);
 
         if (!life.haveLife)
             return aliveFilter == AliveType.NoLive;

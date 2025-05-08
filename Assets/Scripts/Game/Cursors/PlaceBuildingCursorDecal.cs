@@ -53,8 +53,7 @@ public class PlaceBuildingCursorDecal : MonoBehaviour
         m_buildingType = type;
         m_placementRadius = placementRadius;
 
-        var grid = new GetGridEvent();
-        Event<GetGridEvent>.Broadcast(grid);
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
         if (grid.grid == null || m_duplicationDecalPrefab == null)
             return;
 
@@ -104,8 +103,7 @@ public class PlaceBuildingCursorDecal : MonoBehaviour
         GL.Clear(true, true, Color.black);
         RenderTexture.active = null;
 
-        var grid = new GetGridEvent();
-        Event<GetGridEvent>.Broadcast(grid);
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
 
         if(ConnexionSystem.instance != null && m_circleMaterial != null && grid.grid != null)
         {
