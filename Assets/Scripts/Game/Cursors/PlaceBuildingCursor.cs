@@ -362,7 +362,7 @@ public class PlaceBuildingCursor : MonoBehaviour
 
     void EnableCross(bool enabled, string message = "")
     {
-        if (DisplayIcons.instance == null || m_instance == null)
+        if (DisplayIconsV2.instance == null || m_instance == null)
             return;
 
 
@@ -378,9 +378,9 @@ public class PlaceBuildingCursor : MonoBehaviour
                 height = size.y;
             }
 
-            DisplayIcons.instance.Register(m_instance.gameObject, height, "Cross", message);
+            DisplayIconsV2.instance.Register(m_instance.gameObject, height, "Cross", message);
         }
-        else DisplayIcons.instance.Unregister(m_instance.gameObject);
+        else DisplayIconsV2.instance.Unregister(m_instance.gameObject);
     }
 
     string GetMessage(BuildingPlaceType type)

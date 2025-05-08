@@ -85,7 +85,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4469649107619043411}
-  - component: {fileID: 4469649107619043408}
+  - component: {fileID: 2856394950500929036}
   m_Layer: 5
   m_Name: WorldIcon
   m_TagString: Untagged
@@ -116,7 +116,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &4469649107619043408
+--- !u!114 &2856394950500929036
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,10 +125,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4469649107619043410}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e10a5f5e2ad15134b808cf940f463cd9, type: 3}
+  m_Script: {fileID: 11500000, guid: 8db4312eb2747de499325a7493962a47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_screenBorder: 50
 --- !u!1 &4469649108031677275
 GameObject:
   m_ObjectHideFlags: 0

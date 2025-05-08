@@ -71,10 +71,10 @@ public class StatusEffectBurning : StatusEffectBase
         }
 
         var icon = Global.instance.statusDatas.burning.icon;
-        if(icon != null && icon != "" && DisplayIcons.instance != null)
+        if(icon != null && icon != "" && DisplayIconsV2.instance != null)
         {
             var pos = m_owner.transform.position;
-            DisplayIcons.instance.Register(pos, 1, 1, icon);
+            DisplayIconsV2.instance.Register(pos, 1, 1, icon);
         }
     }
 

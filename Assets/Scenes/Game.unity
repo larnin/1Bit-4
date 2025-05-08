@@ -2546,7 +2546,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1441637338}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f03469d1979270a48acce1d8cd5f8c41, type: 3}
+  m_Script: {fileID: 11500000, guid: 3f6e2b47a60d9cb4ab89c6058e22af4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_icons:
@@ -2565,6 +2565,7 @@ MonoBehaviour:
   - name: Spawner
     icon: {fileID: 821337818, guid: d289d3f5b7bf08a40acae9bd3b9185b0, type: 3}
   m_iconPrefab: {fileID: 4469649107619043410, guid: da27a0a5ab22ee54998f1a0d3b93de27, type: 3}
+  m_screenBorder: 50
 --- !u!1 &1493643047
 GameObject:
   m_ObjectHideFlags: 0

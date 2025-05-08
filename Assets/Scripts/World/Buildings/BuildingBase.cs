@@ -204,7 +204,7 @@ public abstract class BuildingBase : MonoBehaviour
         m_noHitDuration = 0;
         m_wasFullLife = false;
 
-        if (DisplayIcons.instance == null)
+        if (DisplayIconsV2.instance == null)
             return;
 
         var building = GetBuildingType();
@@ -216,7 +216,7 @@ public abstract class BuildingBase : MonoBehaviour
 
         Vector3 pos = GetGroundCenter();
 
-        DisplayIcons.instance.Register(pos, b.size.y, Global.instance.buildingDatas.lifeLossDisplayDuration, "BuildingDamaged", "", true, true);
+        DisplayIconsV2.instance.Register(pos, b.size.y, Global.instance.buildingDatas.lifeLossDisplayDuration, "BuildingDamaged", "", true, true);
 
         if(m_alarmTimer <= 0)
         {

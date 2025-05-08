@@ -90,8 +90,8 @@ public class BuildingEnnemySpawner : BuildingBase
 
         if (Utility.IsDead(gameObject))
         {
-            if (DisplayIcons.instance != null)
-                DisplayIcons.instance.Unregister(gameObject);
+            if (DisplayIconsV2.instance != null)
+                DisplayIconsV2.instance.Unregister(gameObject);
             return;
         }
 
@@ -115,7 +115,7 @@ public class BuildingEnnemySpawner : BuildingBase
                 break;
         }
 
-        if (DisplayIcons.instance != null)
+        if (DisplayIconsV2.instance != null)
         {
             if(m_iconDisplayType != IconType.None)
             {
@@ -133,11 +133,11 @@ public class BuildingEnnemySpawner : BuildingBase
                         break;
                 }
 
-                DisplayIcons.instance.Register(gameObject, Global.instance.difficultyDatas.spawnersData.displayHeight, iconName, "", true, true);
+                DisplayIconsV2.instance.Register(gameObject, Global.instance.difficultyDatas.spawnersData.displayHeight, iconName, "", true, true);
 
                 if(m_iconDisplayDuration < 0)
                 {
-                    DisplayIcons.instance.Unregister(gameObject);
+                    DisplayIconsV2.instance.Unregister(gameObject);
                     m_iconDisplayType = IconType.None;
                 }
             }
@@ -224,7 +224,7 @@ public class BuildingEnnemySpawner : BuildingBase
 
     void ProcessWait()
     {
-        if(DisplayIcons.instance != null && m_iconDisplayType == IconType.None)
+        if(DisplayIconsV2.instance != null && m_iconDisplayType == IconType.None)
         {
             string timer = Utility.FormateTime(m_timer, true);
             bool displayOutScreen = m_timer < Global.instance.difficultyDatas.spawnersData.displayBeforeWave;
@@ -232,7 +232,7 @@ public class BuildingEnnemySpawner : BuildingBase
             if (displayOutScreen)
                 iconName = "Warning";
 
-            DisplayIcons.instance.Register(gameObject, Global.instance.difficultyDatas.spawnersData.displayHeight, iconName, timer, displayOutScreen);
+            DisplayIconsV2.instance.Register(gameObject, Global.instance.difficultyDatas.spawnersData.displayHeight, iconName, timer, displayOutScreen);
         }
     }
 
