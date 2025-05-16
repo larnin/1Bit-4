@@ -81,17 +81,20 @@ public class BuildingOilPump : BuildingBase
                 for (int k = min.z; k < max.z; k++)
                 {
                     var ground = GridEx.GetBlock(grid.grid, new Vector3Int(i, min.y - 1, k));
-                    if(i == pos.x && k == pos.z)
+                    if (i == pos.x && k == pos.z)
                     {
-                        if (ground != BlockType.oil)
+                        if (ground.type != BlockType.oil)
                             return BuildingPlaceType.NeedOil;
-                    } else if (ground != BlockType.ground)
+                    }
+                    else if (ground.type != BlockType.ground)
+                        return BuildingPlaceType.InvalidPlace;
+                    else if (BlockEx.GetShapeFromData(ground.data) != BlockShape.Full)
                         return BuildingPlaceType.InvalidPlace;
 
                     for (int j = min.y; j < max.y; j++)
                     {
                         var block = GridEx.GetBlock(grid.grid, new Vector3Int(i, j, k));
-                        if (block != BlockType.air)
+                        if (block.type != BlockType.air)
                             return BuildingPlaceType.InvalidPlace;
                     }
                 }
@@ -122,7 +125,7 @@ public class BuildingOilPump : BuildingBase
         pos.y = height;
         var item = GridEx.GetBlock(grid.grid, pos);
 
-        return item == BlockType.oil;
+        return item.type == BlockType.oil;
     }
 
     string EnergyUptakeStr()

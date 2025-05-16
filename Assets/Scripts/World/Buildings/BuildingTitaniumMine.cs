@@ -172,7 +172,7 @@ public class BuildingTitaniumMine : BuildingBase
 
                     Vector3Int itemPos = new Vector3Int(realPos.x, j, realPos.z);
                     var item = GridEx.GetBlock(grid.grid, itemPos);
-                    if (item != BlockType.Titanium)
+                    if (item.type != BlockType.Titanium)
                         continue;
 
                     var titanium = Event<IsTitaniumUsedEvent>.Broadcast(new IsTitaniumUsedEvent(itemPos));

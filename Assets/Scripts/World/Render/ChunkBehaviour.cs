@@ -110,7 +110,7 @@ public class ChunkBehaviour : MonoBehaviour
             {
                 for(int k = 0; k < Grid.ChunkSize; k++)
                 {
-                    var b = Global.instance.blockDatas.GetCustomBlock(chunk.Get(i, j, k));
+                    var b = Global.instance.blockDatas.GetCustomBlock(chunk.Get(i, j, k).type);
                     if (b == null)
                         continue;
 

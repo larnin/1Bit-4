@@ -625,7 +625,7 @@ public static class WorldGenerator
                     localHeight = height - 1;
 
                 for (int j = localHeight; j >= 0; j--)
-                    GridEx.SetBlock(m_grid, new Vector3Int(i, j, k), type);
+                    GridEx.SetBlock(m_grid, new Vector3Int(i, j, k), new Block(type));
             }
         }
     }
@@ -693,7 +693,7 @@ public static class WorldGenerator
 
                 int localHeight = GridEx.GetHeight(m_grid, localPos);
                 var item = GridEx.GetBlock(m_grid, new Vector3Int(localPos.x, localHeight, localPos.y));
-                if (item != BlockType.ground)
+                if (item.type != BlockType.ground || BlockEx.GetShapeFromData(item.data) != BlockShape.Full)
                     return false;
             }
         }
@@ -711,7 +711,7 @@ public static class WorldGenerator
         height++;
 
         Vector3Int initialPos = new Vector3Int(pos.x, height, pos.y);
-        GridEx.SetBlock(m_grid, initialPos, BlockType.crystal);
+        GridEx.SetBlock(m_grid, initialPos, new Block(BlockType.crystal));
 
         List<Vector3Int> openList = new List<Vector3Int>();
         openList.Add(initialPos);
@@ -742,7 +742,7 @@ public static class WorldGenerator
             if (points.Count > 1)
                 pointIndex = Rand.UniformIntDistribution(0, points.Count, rand);
 
-            GridEx.SetBlock(m_grid, points[pointIndex], BlockType.crystal);
+            GridEx.SetBlock(m_grid, points[pointIndex], new Block(BlockType.crystal));
             openList.Add(points[pointIndex]);
             addedCount++;
 
@@ -766,24 +766,24 @@ public static class WorldGenerator
                 continue;
 
             var item = GridEx.GetBlock(m_grid, testPos);
-            if (item == BlockType.ground)
+            if (item.type == BlockType.ground && BlockEx.GetShapeFromData(item.data) == BlockShape.Full)
             {
                 testPos.y++;
                 item = GridEx.GetBlock(m_grid, testPos);
             }
 
-            if (item != BlockType.air)
+            if (item.type != BlockType.air)
                 continue;
 
             testPos.y--;
             item = GridEx.GetBlock(m_grid, testPos);
-            if (item == BlockType.air)
+            if (item.type == BlockType.air)
             {
                 testPos.y--;
                 item = GridEx.GetBlock(m_grid, testPos);
             }
 
-            if (item != BlockType.ground)
+            if (item.type != BlockType.ground)
                 continue;
 
             float dist = (testPos - initialPos).sqrMagnitude;
@@ -827,7 +827,7 @@ public static class WorldGenerator
                         continue;
 
                     int height = GridEx.GetHeight(m_grid, new Vector2Int(x, y));
-                    GridEx.SetBlock(m_grid, new Vector3Int(x, height, y), BlockType.oil);
+                    GridEx.SetBlock(m_grid, new Vector3Int(x, height, y), new Block(BlockType.oil));
                     break;
                 }
             }
@@ -850,7 +850,7 @@ public static class WorldGenerator
                     return false;
 
                 var item = GridEx.GetBlock(m_grid, new Vector3Int(localPos.x, localHeight, localPos.y));
-                if (item != BlockType.ground)
+                if (item.type != BlockType.ground || BlockEx.GetShapeFromData(item.data) != BlockShape.Full)
                     return false;
             }
         }
@@ -918,7 +918,7 @@ public static class WorldGenerator
 
                 int localHeight = GridEx.GetHeight(m_grid, localPos);
                 var item = GridEx.GetBlock(m_grid, new Vector3Int(localPos.x, localHeight, localPos.y));
-                if (item != BlockType.ground)
+                if (item.type != BlockType.ground || BlockEx.GetShapeFromData(item.data) != BlockShape.Full)
                     return false;
 
                 if (minHeight < 0 || minHeight > localHeight)
@@ -941,7 +941,7 @@ public static class WorldGenerator
         height++;
 
         Vector3Int initialPos = new Vector3Int(pos.x, height, pos.y);
-        GridEx.SetBlock(m_grid, initialPos, BlockType.Titanium);
+        GridEx.SetBlock(m_grid, initialPos, new Block(BlockType.Titanium));
 
         List<Vector3Int> openList = new List<Vector3Int>();
         openList.Add(initialPos);
@@ -970,7 +970,7 @@ public static class WorldGenerator
             if (points.Count > 1)
                 pointIndex = Rand.UniformIntDistribution(0, points.Count, rand);
 
-            GridEx.SetBlock(m_grid, points[pointIndex], BlockType.Titanium);
+            GridEx.SetBlock(m_grid, points[pointIndex], new Block(BlockType.Titanium));
             openList.Add(points[pointIndex]);
             titaniums.Add(points[pointIndex]);
 
@@ -994,7 +994,7 @@ public static class WorldGenerator
             int h = Mathf.RoundToInt(Rand.UniformFloatDistribution(m_settings.titaniumMinHeight, m_settings.titaniumMaxHeight, rand) + m_settings.titaniumHeightNeighbour);
 
             for(int i = 1; i < h; i++)
-                GridEx.SetBlock(m_grid, t + new Vector3Int(0, i, 0), BlockType.Titanium);
+                GridEx.SetBlock(m_grid, t + new Vector3Int(0, i, 0), new Block(BlockType.Titanium));
         }
     }
 
@@ -1013,7 +1013,7 @@ public static class WorldGenerator
             Vector3Int newPos = new Vector3Int(testPos.x, height, testPos.z);
 
             var item = GridEx.GetBlock(m_grid, newPos);
-            if (item == BlockType.ground)
+            if (item.type == BlockType.ground && BlockEx.GetShapeFromData(item.data) == BlockShape.Full)
             {
                 newPos.y++;
                 points.Add(newPos);

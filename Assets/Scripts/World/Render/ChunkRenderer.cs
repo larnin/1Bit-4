@@ -96,12 +96,12 @@ public class ChunkRenderer
     {
         m_meshParams = new MeshParams<WorldVertexDefinition, ColliderVertexDefinition>();
 
-        var mat = new Matrix<BlockType>(Grid.ChunkSize + 2, Grid.ChunkSize + 2, Grid.ChunkSize + 2);
+        var mat = new Matrix<Block>(Grid.ChunkSize + 2, Grid.ChunkSize + 2, Grid.ChunkSize + 2);
         var initialPos = Grid.PosInChunkToPos(m_chunkIndex, new Vector3Int(-1, -1, -1));
 
         GridEx.GetLocalMatrix(m_grid, initialPos, mat);
 
-        NearMatrix3<BlockType> localMat = new NearMatrix3<BlockType>();
+        NearMatrix3<Block> localMat = new NearMatrix3<Block>();
 
         for (int i = 0; i < Grid.ChunkSize; i++)
         {
@@ -135,34 +135,33 @@ public class ChunkRenderer
         m_ended = true;
     }
 
-    void DrawBlock(Vector3Int pos, NearMatrix3<BlockType> mat)
+    void DrawBlock(Vector3Int pos, NearMatrix3<Block> mat)
     {
-        var type = mat.Get(0, 0, 0);
-        if (!CanRender(type))
+        if (!CanRender(mat.Get(0, 0, 0).type))
             return;
 
-        if (!CanRender(mat.Get(0, 1, 0)))
+        if (!CanRender(mat.Get(0, 1, 0).type))
             DrawFace(pos, BlockFace.Top, mat);
 
-        if (!CanRender(mat.Get(0, -1, 0)))
+        if (!CanRender(mat.Get(0, -1, 0).type))
             DrawFace(pos, BlockFace.Bottom, mat);
 
-        if (!CanRender(mat.Get(0, 0, 1)))
+        if (!CanRender(mat.Get(0, 0, 1).type))
             DrawFace(pos, BlockFace.Front, mat);
 
-        if (!CanRender(mat.Get(0, 0, -1)))
+        if (!CanRender(mat.Get(0, 0, -1).type))
             DrawFace(pos, BlockFace.Back, mat);
 
-        if (!CanRender(mat.Get(1, 0, 0)))
+        if (!CanRender(mat.Get(1, 0, 0).type))
             DrawFace(pos, BlockFace.Right, mat);
 
-        if (!CanRender(mat.Get(-1, 0, 0)))
+        if (!CanRender(mat.Get(-1, 0, 0).type))
             DrawFace(pos, BlockFace.Left, mat);
     }
 
-    void DrawFace(Vector3Int pos, BlockFace face, NearMatrix3<BlockType> mat)
+    void DrawFace(Vector3Int pos, BlockFace face, NearMatrix3<Block> mat)
     {
-        var type = mat.Get(0, 0, 0);
+        var type = mat.Get(0, 0, 0).type;
         var material = type == BlockType.water ? Global.instance.blockDatas.waterMaterial : Global.instance.blockDatas.defaultMaterial;
 
         var data = m_meshParams.Allocate(4, 6, material);

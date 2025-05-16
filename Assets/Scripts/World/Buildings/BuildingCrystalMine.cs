@@ -140,7 +140,7 @@ public class BuildingCrystalMine : BuildingBase
 
                 Vector3Int itemPos = new Vector3Int(realPos.x, height, realPos.z);
                 var item = GridEx.GetBlock(grid.grid, itemPos);
-                if (item != BlockType.crystal)
+                if (item.type != BlockType.crystal)
                     continue;
 
                 var crystal = Event<IsCrystalUsedEvent>.Broadcast(new IsCrystalUsedEvent(itemPos));

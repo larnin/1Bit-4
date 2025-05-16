@@ -20,7 +20,7 @@ public static class GridEx
 
             for(int j = Grid.ChunkSize - 1; j >= 0; j--)
             {
-                if(chunk.Get(posInChunk.x, j, posInChunk.z) != BlockType.air)
+                if(chunk.Get(posInChunk.x, j, posInChunk.z).type != BlockType.air)
                 {
                     Vector3Int outPos = Grid.PosInChunkToPos(new Vector3Int(chunkIndex.x, i, chunkIndex.z), new Vector3Int(posInChunk.x, j, posInChunk.z));
                     return outPos.y;
@@ -31,18 +31,23 @@ public static class GridEx
         return -1;
     }
 
-    public static BlockType GetBlock(Grid grid, Vector3Int pos)
+    public static BlockType GetBlockType(Grid grid, Vector3Int pos)
+    {
+        return GetBlock(grid, pos).type;
+    }
+
+    public static Block GetBlock(Grid grid, Vector3Int pos)
     {
         Vector3Int chunkIndex = Grid.PosToChunkIndex(pos);
         Vector3Int posInChunk = Grid.PosToPosInChunk(pos);
 
         var chunk = grid.Get(chunkIndex);
         if (chunk == null)
-            return BlockType.air;
+            return new Block();
         return chunk.Get(posInChunk.x, posInChunk.y, posInChunk.z);
     }
 
-    public static void SetBlock(Grid grid, Vector3Int pos, BlockType block)
+    public static void SetBlock(Grid grid, Vector3Int pos, Block block)
     {
         Vector3Int chunkIndex = Grid.PosToChunkIndex(pos);
         Vector3Int posInChunk = Grid.PosToPosInChunk(pos);
@@ -53,7 +58,7 @@ public static class GridEx
         chunk.Set(posInChunk.x, posInChunk.y, posInChunk.z, block);
     }
 
-    public static void GetNearMatrix(Grid grid, Vector3Int pos, NearMatrix3<BlockType> mat)
+    public static void GetNearMatrix(Grid grid, Vector3Int pos, NearMatrix3<Block> mat)
     {
         for(int i = -1; i <= 1; i++)
         {
@@ -69,7 +74,7 @@ public static class GridEx
         }
     }
 
-    public static void GetLocalMatrix(Grid grid, Vector3Int pos, Matrix<BlockType> mat)
+    public static void GetLocalMatrix(Grid grid, Vector3Int pos, Matrix<Block> mat)
     {
         Vector3Int maxPos = pos + mat.size - new Vector3Int(1, 1, 1);
 
@@ -112,7 +117,7 @@ public static class GridEx
                                 var realPos = Grid.PosInChunkToPos(new Vector3Int(i, j, k), new Vector3Int(x, y, z)) - pos;
 
                                 if (chunk == null)
-                                    mat.Set(realPos.x, realPos.y, realPos.z, BlockType.air);
+                                    mat.Set(realPos.x, realPos.y, realPos.z, new Block());
                                 else mat.Set(realPos.x, realPos.y, realPos.z, chunk.Get(x, y, z));
                             }
                         }

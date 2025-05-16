@@ -255,13 +255,15 @@ public abstract class BuildingBase : MonoBehaviour
                 for (int k = min.z; k < max.z; k++)
                 {
                     var ground = GridEx.GetBlock(grid.grid, GridEx.GetRealPosFromLoop(grid.grid, new Vector3Int(i, min.y - 1, k)));
-                    if (ground != BlockType.ground)
+                    if (ground.type != BlockType.ground)
+                        return BuildingPlaceType.InvalidPlace;
+                    if (BlockEx.GetShapeFromData(ground.data) != BlockShape.Full)
                         return BuildingPlaceType.InvalidPlace;
 
                     for (int j = min.y; j < max.y; j++)
                     {
                         var block = GridEx.GetBlock(grid.grid, GridEx.GetRealPosFromLoop(grid.grid, new Vector3Int(i, j, k)));
-                        if (block != BlockType.air)
+                        if (block.type != BlockType.air)
                             return BuildingPlaceType.InvalidPlace;
                     }
                 }

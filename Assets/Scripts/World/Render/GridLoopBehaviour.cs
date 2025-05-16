@@ -281,10 +281,10 @@ public class GridLoopBehaviour : MonoBehaviour
                 for (int k = 0; k < Grid.ChunkSize; k++)
                 {
                     var block = chunk.Get(i, j, k);
-                    if (!Global.instance.blockDatas.IsCustomBlock(block))
+                    if (!Global.instance.blockDatas.IsCustomBlock(block.type))
                         continue;
 
-                    var b = GetOrCreateBlock(block);
+                    var b = GetOrCreateBlock(block.type);
                     if (b == null)
                         continue;
 

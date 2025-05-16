@@ -299,16 +299,16 @@ public class EntityPath
         }
 
         var block = GridEx.GetBlock(grid, pos);
-        if (block != BlockType.air)
+        if (block.type != BlockType.air)
             return -1;
 
         var ground = GridEx.GetBlock(grid, new Vector3Int(pos.x, pos.y - 1, pos.z));
         if (m_ownerTeam == Team.Ennemy)
         {
-            if (ground != BlockType.ground && ground != BlockType.water)
+            if (ground.type != BlockType.ground && ground.type != BlockType.water)
                 return -1;
         }
-        else if (ground != BlockType.ground)
+        else if (ground.type != BlockType.ground)
             return -1;
 
         return multiplier;

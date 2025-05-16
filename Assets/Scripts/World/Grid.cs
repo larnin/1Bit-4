@@ -9,7 +9,7 @@ public class Grid
 {
     public const int ChunkSize = 32;
 
-    Matrix<Matrix<BlockType>> m_chunks;
+    Matrix<Matrix<Block>> m_chunks;
     int m_size;
     int m_height;
     bool m_loopX;
@@ -22,7 +22,7 @@ public class Grid
         m_loopX = loopX;
         m_loopZ = loopZ;
 
-        m_chunks = new Matrix<Matrix<BlockType>>(size, height, size);
+        m_chunks = new Matrix<Matrix<Block>>(size, height, size);
 
         for(int i = 0; i < m_size; i++)
         {
@@ -30,8 +30,8 @@ public class Grid
             {
                 for(int k = 0; k < m_size; k++)
                 {
-                    var chunk = new Matrix<BlockType>(ChunkSize, ChunkSize, ChunkSize);
-                    chunk.SetAll(BlockType.air);
+                    var chunk = new Matrix<Block>(ChunkSize, ChunkSize, ChunkSize);
+                    chunk.SetAll(new Block(BlockType.air));
                     m_chunks.Set(i, j, k, chunk);
                 }
             }
@@ -93,7 +93,7 @@ public class Grid
         return m_loopZ;
     }
 
-    public Matrix<BlockType> Get(Vector3Int index)
+    public Matrix<Block> Get(Vector3Int index)
     {
         if (index.x < 0 || index.x >= m_size || index.y < 0 || index.y >= m_height || index.z < 0 || index.z >= m_size)
             return null;

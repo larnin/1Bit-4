@@ -84,7 +84,7 @@ public class MapDisplay : MonoBehaviour
                 else
                 {
                     var b = GridEx.GetBlock(grid.grid, new Vector3Int(x, height, z));
-                    if (b == BlockType.water)
+                    if (b.type == BlockType.water)
                         m_mapTexture.SetPixel(x, z, waterColor);
                     else m_mapTexture.SetPixel(x, z, landColor);
                 }
