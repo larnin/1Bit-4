@@ -101,7 +101,7 @@ public abstract class BuildingTurretBase : BuildingBase
                     var groundCenter = GetGroundCenter();
 
                     var entity = EntityList.instance.GetNearestEntity(groundCenter, targetTeam, AliveType.Alive);
-                    var building = BuildingList.instance.GetNearestBuilding(groundCenter, targetTeam, AliveType.Alive);
+                    var building = BuildingList.instance.GetNearestBuildingInRadius(groundCenter, m_range, targetTeam, AliveType.Alive);
 
                     if (entity == null && building == null)
                         m_target = null;

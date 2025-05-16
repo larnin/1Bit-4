@@ -146,15 +146,6 @@ public class BuildingList : MonoBehaviour
 
     BuildingBase GetNearestBuilding(Vector3 pos, Func<BuildingBase, bool> condition)
     {
-        //todo optimize this function with world loop
-
-        //if (m_buildings.Count < 32)
-            return GetNearestBuildingNaive(pos, condition);
-        //return GetNearestBuildingOptimised(pos, condition);
-    }
-
-    BuildingBase GetNearestBuildingNaive(Vector3 pos, Func<BuildingBase, bool> condition)
-    {
         float bestDistance = 0;
         BuildingBase bestBuilding = null;
 
@@ -174,9 +165,9 @@ public class BuildingList : MonoBehaviour
             Vector3 buildingPos = building.GetPos();
             Vector3 buildingSize = building.GetSize();
 
-            for(int i = -x; i <= x; i++)
+            for (int i = -x; i <= x; i++)
             {
-                for(int j = -y; j <= y; j++)
+                for (int j = -y; j <= y; j++)
                 {
                     Vector3 loopPos = buildingPos + new Vector3(i, 0, j) * size;
 
@@ -194,119 +185,62 @@ public class BuildingList : MonoBehaviour
         return bestBuilding;
     }
 
-    BuildingBase GetNearestBuildingOptimised(Vector3 pos, Func<BuildingBase, bool> condition)
+    BuildingBase GetNearestBuildingInRadius(Vector3 pos, float radius, Func<BuildingBase, bool> condition)
     {
-        //todo make this work with loop map
-
         var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
         if (grid.grid == null)
             return null;
 
-        int size = grid.grid.Size();
+        Vector2Int posMin = new Vector2Int(Mathf.FloorToInt(pos.x - radius), Mathf.FloorToInt(pos.z - radius));
+        Vector2Int posMax = new Vector2Int(Mathf.CeilToInt(pos.x + radius), Mathf.CeilToInt(pos.z + radius));
 
-        Vector2Int posInt = new Vector2Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.z));
+        Vector2Int chunkMin = Grid.PosToChunkIndex(posMin);
+        Vector2Int chunkMax = Grid.PosToChunkIndex(posMax);
 
-        //first find the first nearest building by browsing the map with a snail patern
-        int index = 0;
-        Vector2Int currentCase = Grid.PosToChunkIndex(posInt);
-        Rotation direction = Rotation.rot_0;
-        int stepNb = 1;
-        int remainingStep = 1;
-        bool firstPhase = true;
-
-        BuildingBase nearestBuilding = null;
-        HashSet<ulong> visitedChunks = new HashSet<ulong>(m_chunks.Count);
-
-        while(index < m_chunks.Count)
+        var size = grid.grid.Size();
+        
+        if(!grid.grid.LoopX())
         {
-            if(currentCase.x >= 0 && currentCase.y >= 0 && currentCase.x < size && currentCase.y < size)
-            {
-                visitedChunks.Add(Utility.PosToID(currentCase));
-                nearestBuilding = GetNearestBuilding(GetChunk(currentCase), pos, condition);
-                if (nearestBuilding != null)
-                    break;
-                index++;
-            }
-
-            currentCase += RotationEx.ToVectorInt(direction);
-            remainingStep--;
-
-            if(remainingStep <= 0)
-            {
-                //snail browse
-                direction = RotationEx.Add(direction, Rotation.rot_90);
-                if (!firstPhase)
-                    stepNb++;
-                remainingStep = stepNb;
-                firstPhase = !firstPhase;
-            }
+            if (posMin.x < 0)
+                posMin.x = 0;
+            if (posMax.x >= size)
+                posMax.x = size - 1;
+        }
+        if(!grid.grid.LoopZ())
+        {
+            if (posMin.y < 0)
+                posMin.y = 0;
+            if (posMax.y >= size)
+                posMax.y = size - 1;
         }
 
-        if (nearestBuilding == null)
-            return nearestBuilding;
+        BuildingBase best = null;
+        float bestDistance = radius;
 
-        //next get all the chunk in the radius of the nearest element
-        float dist = (nearestBuilding.GetPos() - pos).MagnitudeXZ();
-        float sqrDist = dist * dist;
-
-        List<BuildingChunk> toCheckChunks = new List<BuildingChunk>(m_chunks.Count);
-        int radiusChunk = Mathf.CeilToInt(dist / Grid.ChunkSize);
-
-        currentCase = Grid.PosToChunkIndex(posInt);
-        int minX = Mathf.Max(0, currentCase.x - radiusChunk);
-        int maxX = Mathf.Min(size - 1, currentCase.x + radiusChunk);
-        int minY = Mathf.Max(0, currentCase.y - radiusChunk);
-        int maxY = Mathf.Min(size - 1, currentCase.y + radiusChunk);
-
-        for(int i = minX; i <= maxX; i++)
+        for (int i = posMin.x; i <= posMax.x; i++)
         {
-            for(int j = minY; j <= maxY; j++)
+            for(int j = posMin.y; j <= posMax.y; j++)
             {
-                if (visitedChunks.Contains(Utility.PosToID(new Vector2Int(i, j))))
+                Vector2Int chunkPos = GridEx.GetPosFromLoop(grid.grid, new Vector2Int(i, j));
+
+                var b = GetNearestBuilding(GetChunk(chunkPos), pos, condition);
+                if (b == null)
                     continue;
 
-                var chunk = GetChunk(new Vector2Int(i, j));
-                int minChunkX = i * Grid.ChunkSize;
-                int maxChunkX = minChunkX + Grid.ChunkSize - 1;
-                int minChunkY = j * Grid.ChunkSize;
-                int maxChunkY = minChunkY + Grid.ChunkSize - 1;
+                Vector3 buildingPos = b.GetPos();
+                Vector3 buildingSize = b.GetSize();
 
-                Vector2Int chunkPoint = new Vector2Int(minChunkX, minChunkY);
-                if(posInt.x > chunkPoint.x)
-                {
-                    if (posInt.x < maxChunkX)
-                        chunkPoint.x = posInt.x;
-                    else chunkPoint.x = maxChunkX;
-                }
-                if(posInt.y > chunkPoint.y)
-                {
-                    if (posInt.y < maxChunkY)
-                        chunkPoint.y = posInt.y;
-                    else chunkPoint.y = maxChunkY;
-                }
+                float dist = GetSqrDistance(pos, buildingPos, buildingSize);
 
-                float chunkPointDist = (chunkPoint - posInt).sqrMagnitude;
-                if (chunkPointDist < sqrDist)
-                    toCheckChunks.Add(chunk);
+                if(dist < bestDistance)
+                {
+                    bestDistance = dist;
+                    best = b;
+                }
             }
         }
 
-        //finally, check if a target is better on this radius
-        foreach(var c in toCheckChunks)
-        {
-            var b = GetNearestBuilding(c, pos, condition);
-            if (b == null)
-                continue;
-
-            float newBuildingDist = (nearestBuilding.GetPos() - pos).sqrMagnitude;
-            if(newBuildingDist < sqrDist)
-            {
-                sqrDist = newBuildingDist;
-                nearestBuilding = b;
-            }
-        }
-
-        return nearestBuilding;
+        return best;
     }
 
     static BuildingBase GetNearestBuilding(BuildingChunk chunk, Vector3 pos, Func<BuildingBase, bool> condition)
@@ -352,6 +286,26 @@ public class BuildingList : MonoBehaviour
     public BuildingBase GetNearestBuilding(Vector3 pos, BuildingType type, Team team, AliveType alive = AliveType.NotSet)
     {
         return GetNearestBuilding(pos, x => { return x.GetBuildingType() == type && x.GetTeam() == team && Utility.IsAliveFilter(x.gameObject, alive); });
+    }
+
+    public BuildingBase GetNearestBuildingInRadius(Vector3 pos, float radius, AliveType alive = AliveType.NotSet)
+    {
+        return GetNearestBuildingInRadius(pos, radius, x => { return Utility.IsAliveFilter(x.gameObject, alive); });
+    }
+
+    public BuildingBase GetNearestBuildingInRadius(Vector3 pos, float radius, BuildingType type, AliveType alive = AliveType.NotSet)
+    {
+        return GetNearestBuildingInRadius(pos, radius, x => { return x.GetBuildingType() == type && Utility.IsAliveFilter(x.gameObject, alive); });
+    }
+
+    public BuildingBase GetNearestBuildingInRadius(Vector3 pos, float radius, Team team, AliveType alive = AliveType.NotSet)
+    {
+        return GetNearestBuildingInRadius(pos, radius, x => { return x.GetTeam() == team && Utility.IsAliveFilter(x.gameObject, alive); });
+    }
+
+    public BuildingBase GetNearestBuildingInRadius(Vector3 pos, float radius, BuildingType type, Team team, AliveType alive = AliveType.NotSet)
+    {
+        return GetNearestBuildingInRadius(pos, radius, x => { return x.GetBuildingType() == type && x.GetTeam() == team && Utility.IsAliveFilter(x.gameObject, alive); });
     }
 
     public BuildingBase GetBuildingAt(Vector3Int pos)

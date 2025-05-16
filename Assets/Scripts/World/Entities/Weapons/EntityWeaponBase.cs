@@ -53,7 +53,7 @@ public abstract class EntityWeaponBase : MonoBehaviour
             if (BuildingList.instance == null)
                 return null;
 
-            var building = BuildingList.instance.GetNearestBuilding(transform.position, team, AliveType.Alive);
+            var building = BuildingList.instance.GetNearestBuildingInRadius(transform.position, range, team, AliveType.Alive);
             if (building == null)
                 return null;
 

@@ -190,14 +190,9 @@ public class DifficultySystem : MonoBehaviour
                 continue;
 
             Vector3 spawnPos = new Vector3(posI.x, height + 1, posI.z);
-            var testBuilding = BuildingList.instance.GetNearestBuilding(spawnPos);
+            var testBuilding = BuildingList.instance.GetNearestBuildingInRadius(spawnPos, Global.instance.difficultyDatas.spawnersData.distanceFromSpawnerMin);
 
-            if(testBuilding != null)
-            {
-                float dist = (testBuilding.GetPos() - spawnPos).sqrMagnitude;
-                if (dist < Global.instance.difficultyDatas.spawnersData.distanceFromSpawnerMin * Global.instance.difficultyDatas.spawnersData.distanceFromSpawnerMin)
-                    posOk = false;
-            }
+            posOk = testBuilding != null;
 
             if (posOk)
             {
