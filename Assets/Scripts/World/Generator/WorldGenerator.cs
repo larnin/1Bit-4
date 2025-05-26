@@ -96,10 +96,13 @@ public static class WorldGenerator
         CalculateMontainsDistance(m_heights);
         GenerateMontains(m_heights);
 
+        m_stateTxt = "Smoothing";
         Smooth(m_heights);
+        EnsureTerrainValidForComplexeBlocks(m_heights);
 
         m_stateTxt = "Apply Heights";
         SimpleApplyHeight(m_heights);
+        MakeCustomGroundBlocks();
 
         m_stateTxt = "Generate Resources";
         GenerateCrystal();
@@ -568,14 +571,23 @@ public static class WorldGenerator
                 {
                     for (int y = -1; y <= 1; y++)
                     {
-                        if (x == 0 && y == 0)
-                            continue;
-
                         int tempI = i + x;
                         int tempJ = j + y;
 
-                        if (tempI < 0 || tempJ < 0 || tempI >= size || tempJ >= size)
+                        if((tempI < 0 || tempI >= size) && !m_settings.loopX)
                             continue;
+
+                        if ((tempJ < 0 || tempJ >= size) && !m_settings.loopZ)
+                            continue;
+
+                        if (tempI < 0)
+                            tempI += size;
+                        if (tempI >= size)
+                            tempI -= size;
+                        if (tempJ < 0)
+                            tempJ += size;
+                        if (tempJ >= size)
+                            tempJ -= size;
 
                         var h = heights.Get(tempI, tempJ);
                         if (h.type == AreaType.Water)
@@ -599,6 +611,123 @@ public static class WorldGenerator
                     heights.Set(i, j, newHeights.Get(i, j));
             }
         }
+    }
+
+    static void EnsureTerrainValidForComplexeBlocks(Matrix<Area> heights)
+    {
+        int size = GridEx.GetRealSize(m_grid);
+
+        for (int i = 0; i < size; i++)
+        {
+            for(int j = 0; j < size; j++)
+            {
+                var current = heights.Get(i, j);
+
+                if (current.type == AreaType.Water)
+                    continue;
+
+                if (HaveNeighboor(heights, i, j))
+                    continue;
+
+                var testPos = new Vector2Int[] { new Vector2Int(0, 0), new Vector2Int(-1, 0), new Vector2Int(0, -1), new Vector2Int(-1, -1) };
+                int bestIndex = -1;
+                float bestHeight = float.MinValue;
+
+                for(int k = 0; k < testPos.Length; k++)
+                {
+                    if(!m_settings.loopX && (i == 0 || i == size - 1))
+                            continue;
+
+                    if (!m_settings.loopZ && (j == 0 || j == size - 1))
+                        continue;
+
+                    float minHeight = float.MaxValue;
+
+                    for(int l = 0; l < testPos.Length; l++)
+                    {
+                        var pos = new Vector2Int(i, j) + testPos[k] - testPos[l];
+
+                        if (pos.x < 0)
+                            pos.x += size;
+                        if (pos.x >= size)
+                            pos.x -= size;
+                        if (pos.y < 0)
+                            pos.y += size;
+                        if (pos.y >= size)
+                            pos.y -= size;
+
+                        float h = heights.Get(pos.x, pos.y).height;
+                        if (h < minHeight)
+                            minHeight = h;
+                    }
+
+                    if (minHeight > bestHeight)
+                    {
+                        bestHeight = minHeight;
+                        bestIndex = k;
+                    }
+                }
+
+                for(int k = 0; k < testPos.Length; k++)
+                {
+                    var pos = new Vector2Int(i, j) - testPos[k] + testPos[bestIndex];
+
+                    if (pos.x < 0)
+                        pos.x += size;
+                    if (pos.x >= size)
+                        pos.x -= size;
+                    if (pos.y < 0)
+                        pos.y += size;
+                    if (pos.y >= size)
+                        pos.y -= size;
+
+                    var h = heights.Get(pos.x, pos.y);
+                    if (h.height < current.height)
+                        h.height = current.height;
+                    if (h.type == AreaType.Water)
+                        h.type = AreaType.Plain;
+
+                    heights.Set(pos.x, pos.y, h);
+                }
+            }
+        }
+    }
+
+    static bool HaveNeighboor(Matrix<Area> heights, int x, int y)
+    {
+        int size = GridEx.GetRealSize(m_grid);
+
+        int currentHeight = Mathf.RoundToInt(heights.Get(x, y).height);
+
+        int xMin = x - 1;
+        int xMax = x + 1;
+        int yMin = y - 1;
+        int yMax = y + 1;
+
+        if (xMin < 0)
+            xMin += size;
+        if (xMax >= size)
+            xMax -= size;
+        if (yMin < 0)
+            yMin += size;
+        if (yMax >= size)
+            yMax -= size;
+
+        bool xMinOk = false;
+        bool xMaxOk = false;
+        bool yMinOk = false;
+        bool yMaxOK = false;
+
+        if (m_settings.loopX || xMin < x)
+            xMinOk = Mathf.RoundToInt(heights.Get(xMin, y).height) >= currentHeight;
+        if (m_settings.loopX || xMax > x)
+            xMaxOk = Mathf.RoundToInt(heights.Get(xMax, y).height) >= currentHeight;
+        if (m_settings.loopZ || yMin < y)
+            yMinOk = Mathf.RoundToInt(heights.Get(x, yMin).height) >= currentHeight;
+        if (m_settings.loopZ || yMax > y)
+            yMaxOK = Mathf.RoundToInt(heights.Get(x, yMax).height) >= currentHeight;
+
+        return (xMinOk || xMaxOk) && (yMinOk || yMaxOK);
     }
 
     static void SimpleApplyHeight(Matrix<Area> heights)
@@ -626,6 +755,61 @@ public static class WorldGenerator
 
                 for (int j = localHeight; j >= 0; j--)
                     GridEx.SetBlock(m_grid, new Vector3Int(i, j, k), new Block(type));
+            }
+        }
+    }
+
+    static void MakeCustomGroundBlocks()
+    {
+        int size = GridEx.GetRealSize(m_grid);
+        int height = GridEx.GetRealHeight(m_grid);
+
+        NearMatrix3<Block> mat = new NearMatrix3<Block>();
+
+        for (int i = 0; i < size; i++)
+        {
+            for(int j = 0; j < height; j++)
+            {
+                for(int k = 0; k < size; k++)
+                {
+                    var current = GridEx.GetBlock(m_grid, new Vector3Int(i, j, k));
+                    if (!BlockEx.IsComplexeBlock(current.type))
+                        continue;
+
+                    for (int x = -1; x <= 1; x++)
+                    {
+                        for(int y = -1; y <= 1; y++)
+                        {
+                            for (int z = -1; z <= 1; z++)
+                            {
+                                var pos = new Vector3Int(i + x, j + y, k + z);
+
+                                if (pos.z < 0 || pos.z >= height)
+                                    mat.Set(new Block(), x, y, z);
+                                else
+                                {
+                                    if(((pos.x < 0 || pos.x >= size) && !m_settings.loopX) || ((pos.z < 0 || pos.z >= size) && !m_settings.loopZ))
+                                        mat.Set(new Block(), x, y, z);
+                                    else
+                                    {
+                                        if (pos.x < 0)
+                                            pos.x += size;
+                                        if (pos.x >= size)
+                                            pos.x -= size;
+                                        if (pos.z < 0)
+                                            pos.z += size;
+                                        if (pos.z >= size)
+                                            pos.z -= size;
+
+                                        mat.Set(GridEx.GetBlock(m_grid, pos), x, y, z);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    GridEx.SetBlock(m_grid, new Vector3Int(i, j, k), BlockEx.MakeBlock(mat));
+                }
             }
         }
     }

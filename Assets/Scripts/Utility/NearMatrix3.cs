@@ -8,6 +8,15 @@ public class NearMatrix3<T>
 {
     T[] m_data = new T[27];
 
+    public NearMatrix3() { }
+
+    public NearMatrix3(T[] data)
+    {
+        int maxSize = Math.Min(data.Length, m_data.Length);
+        for (int i = 0; i < maxSize; i++)
+            m_data[i] = data[i];
+    }
+
     public void Set(T value, int x, int y, int z)
     {
         if (x < -1 || x > 1)
@@ -40,7 +49,7 @@ public class NearMatrix3<T>
 
     int PosToIndex(int x, int y, int z)
     {
-        return x + 1 + (y + 1) * 3 + (z + 1) * 9;
+        return x + 1 + (z + 1) * 3 + (y + 1) * 9;
     }
 
     public NearMatrix<T> GetLayerMatrix(int y)
@@ -58,5 +67,10 @@ public class NearMatrix3<T>
         }
 
         return mat;
+    }
+
+    public NearMatrix3<T> Copy()
+    {
+        return new NearMatrix3<T>(m_data);
     }
 }

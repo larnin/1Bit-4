@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-enum BlockFace
+public enum BlockFace
 {
     Top,
     Bottom,
