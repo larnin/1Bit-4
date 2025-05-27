@@ -111,7 +111,7 @@ public static class BlockEx
         int nbRot = Enum.GetValues(typeof(BlockRotation)).Length;
         int nbTypes = d.Count;
 
-        for (int i = 1; i < 4; i++)
+        for (int i = 1; i < nbRot; i++)
         {
             var rot = (BlockRotation)i;
 

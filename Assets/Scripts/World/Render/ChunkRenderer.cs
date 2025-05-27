@@ -545,8 +545,6 @@ public class ChunkRenderer
         var rot = BlockEx.GetRotationFromData(block.data);
         var shape = BlockEx.GetShapeFromData(block.data);
 
-        return shape == BlockShape.Full;
-
         face = ApplyRotationToFace(face, rot);
 
         return fullFaces[shape][(int)face];
@@ -599,22 +597,22 @@ public class ChunkRenderer
                 return Quaternion.Euler(0, 270, 0);
 
             case BlockRotation.rot_vert_0:
-                return Quaternion.Euler(90, 0, 0);
+                return Quaternion.Euler(0, 0, 0);
             case BlockRotation.rot_vert_90:
-                return Quaternion.Euler(90, 90, 0);
+                return Quaternion.Euler(90, 0, 0);
             case BlockRotation.rot_vert_180:
-                return Quaternion.Euler(90, 180, 0);
+                return Quaternion.Euler(180, 0, 0);
             case BlockRotation.rot_vert_270:
-                return Quaternion.Euler(90, 270, 0);
+                return Quaternion.Euler(270, 0, 0);
 
             case BlockRotation.rot_flip_0:
-                return Quaternion.Euler(0, 0, 90);
+                return Quaternion.Euler(0, 0, 0);
             case BlockRotation.rot_flip_90:
-                return Quaternion.Euler(0, 90, 90);
+                return Quaternion.Euler(0, 0, 90);
             case BlockRotation.rot_flip_180:
-                return Quaternion.Euler(0, 180, 90);
+                return Quaternion.Euler(0, 0, 180);
             case BlockRotation.rot_flip_270:
-                return Quaternion.Euler(0, 270, 90);
+                return Quaternion.Euler(0, 0, 270);
         }
 
         return Quaternion.identity;
