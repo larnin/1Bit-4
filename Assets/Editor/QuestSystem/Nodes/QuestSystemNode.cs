@@ -7,14 +7,6 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public enum QuestSystemNodeType
-{
-    Start,
-    Objective,
-    Complete,
-    Fail,
-}
-
 public class QuestSystemNode : Node
 {
     public static Color errorBorderColor = new Color(1, 0, 0);

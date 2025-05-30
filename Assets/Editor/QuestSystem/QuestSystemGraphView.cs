@@ -52,7 +52,6 @@ public class QuestSystemGraphView : GraphView
 
     void OnElementsDeleted()
     {
-        //todo
         deleteSelection = (operationName, askUser) =>
         {
             Type edgeType = typeof(Edge);
@@ -165,15 +164,14 @@ public class QuestSystemGraphView : GraphView
     {
         Type nodeType = null;
 
-        //todo
         if (dialogueType == QuestSystemNodeType.Start)
             nodeType = typeof(QuestSystemNodeStart);
-        //else if (dialogueType == BSMNodeType.Condition)
-        //    nodeType = typeof(BSMNodeCondition);
-        //else if (dialogueType == BSMNodeType.Label)
-        //    nodeType = typeof(BSMNodeLabel);
-        //else if (dialogueType == BSMNodeType.Goto)
-        //    nodeType = typeof(BSMNodeGoto);
+        else if (dialogueType == QuestSystemNodeType.Complete)
+            nodeType = typeof(QuestSystemNodeComplete);
+        else if (dialogueType == QuestSystemNodeType.Fail)
+            nodeType = typeof(QuestSystemNodeFail);
+        else if (dialogueType == QuestSystemNodeType.Objective)
+            nodeType = typeof(QuestSystemNodeObjective);
 
         if (nodeType == null)
             return null;
@@ -213,26 +211,11 @@ public class QuestSystemGraphView : GraphView
 
         ports.ForEach(port =>
         {
-            //todo
-            //if (startPort.node is BSMNodeLabel)
-            //{
-            //    var nodeLabel = startPort.node as BSMNodeLabel;
+            if (startPort.node is QuestSystemNodeStart && (port.node is QuestSystemNodeFail || port.node is QuestSystemNodeComplete))
+                return;
 
-            //    if (nodeLabel.nodeType == BSMNodeLabelType.AnyState && !(port.node is BSMNodeCondition))
-            //        return;
-
-            //    if (nodeLabel.nodeType != BSMNodeLabelType.AnyState && !(port.node is BSMNodeState))
-            //        return;
-            //}
-
-            //if (startPort.node is BSMNodeGoto && port.node is BSMNodeLabel)
-            //    return;
-
-            //if (startPort.node is BSMNodeState && port.node is BSMNodeState)
-            //    return;
-
-            //if (startPort.node is BSMNodeCondition && port.node is BSMNodeCondition)
-            //    return;
+            if (port.node is QuestSystemNodeStart && (startPort.node is QuestSystemNodeFail || startPort.node is QuestSystemNodeComplete))
+                return;
 
             if (startPort == port)
                 return;

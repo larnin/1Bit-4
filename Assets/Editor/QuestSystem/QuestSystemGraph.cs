@@ -10,6 +10,7 @@ using UnityEngine.UIElements;
 public class QuestSystemGraph : EditorWindow
 {
     QuestSystemGraphView m_graphView;
+    QuestSystemErrorWindow m_errorWindow;
 
     Label m_nameLabel;
 
@@ -79,30 +80,27 @@ public class QuestSystemGraph : EditorWindow
         menuWindow.Add(QuestSystemEditorUtility.CreateButton("Save", SaveChanges));
         menuWindow.Add(QuestSystemEditorUtility.CreateButton("Save As", SaveAs));
 
-        //todo
-        //if (m_errorWindow == null)
-        //    m_errorWindow = new BSMErrorWindow();
+        if (m_errorWindow == null)
+            m_errorWindow = new QuestSystemErrorWindow();
 
-        //VisualElement errorElement = new VisualElement();
-        //m_errorWindow.SetParent(errorElement);
-        //errorElement.style.flexGrow = 2;
+        VisualElement errorElement = new VisualElement();
+        m_errorWindow.SetParent(errorElement);
+        errorElement.style.flexGrow = 2;
 
-        //baseWindow.Add(errorElement);
+        baseWindow.Add(errorElement);
         rootVisualElement.Add(baseWindow);
     }
 
     public void AddError(string error, string source)
     {
-        //todo
-        //if (m_errorWindow != null)
-        //    m_errorWindow.AddError(error, source);
+        if (m_errorWindow != null)
+            m_errorWindow.AddError(error, source);
     }
 
     public void ClearErrors(string source = null)
     {
-        //todo
-        //if (m_errorWindow != null)
-        //    m_errorWindow.ClearErrors(source);
+        if (m_errorWindow != null)
+            m_errorWindow.ClearErrors(source);
     }
 
     void Save(string path)

@@ -279,15 +279,13 @@ public static class QuestSystemEditorUtility
         //todo
         if (node is QuestSystemNodeStart)
             return QuestSystemNodeType.Start;
-        //else if (node is BSMNodeLabel)
-        //    return BSMNodeType.Label;
-        //else if (node is BSMNodeState)
-        //    return BSMNodeType.State;
-        //else if (node is BSMNodeGoto)
-        //    return BSMNodeType.Goto;
-        //else Debug.LogError("Unknow node type " + node.ToString());
-
-        //return BSMNodeType.Label;
+        else if (node is QuestSystemNodeComplete)
+            return QuestSystemNodeType.Complete;
+        else if (node is QuestSystemNodeFail)
+            return QuestSystemNodeType.Fail;
+        else if (node is QuestSystemNodeObjective)
+            return QuestSystemNodeType.Objective;
+        else Debug.LogError("Unknow node type " + node.ToString());
 
         return QuestSystemNodeType.Start;
     }
