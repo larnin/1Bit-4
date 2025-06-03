@@ -25,5 +25,5 @@ public class QuestSaveData
 
 public class QuestScriptableObject : SerializedScriptableObject
 {
-    [SerializeField] public QuestSaveNode data;
+    [SerializeField] public QuestSaveData data;
 }

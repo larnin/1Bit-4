@@ -26,6 +26,8 @@ public class QuestSystemGraphView : GraphView
         OnGraphViewChanged();
 
         AddStartNode();
+
+        schedule.Execute(UpdateSelection).Every(100);
     }
 
     public QuestSystemGraph GetWindow()
@@ -107,6 +109,21 @@ public class QuestSystemGraphView : GraphView
         };
     }
 
+    void UpdateSelection()
+    {
+        List<QuestSystemNode> nodes = new List<QuestSystemNode>();
+
+        foreach(var s in selection)
+        {
+            var n = s as QuestSystemNode;
+
+            if (n != null)
+                nodes.Add(n);
+        }
+
+        m_editorWindow.SetCurrentNodes(nodes);
+    }
+
     public void AddNode(QuestSystemNode node, bool checkError = true)
     {
         m_nodes.Add(node);
@@ -125,6 +142,7 @@ public class QuestSystemGraphView : GraphView
     {
         var node = CreateNode("Start", QuestSystemNodeType.Start, new Vector2(10, 10), false, false);
         node.Draw();
+        m_startNode = node as QuestSystemNodeStart;
         AddNode(m_startNode);
         AddElement(node);
     }
@@ -187,6 +205,9 @@ public class QuestSystemGraphView : GraphView
 
         if (addList)
             AddNode(node);
+
+
+        node.RefreshExpandedState();
 
         return node;
     }

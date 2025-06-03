@@ -108,4 +108,9 @@ public class QuestSystemNode : Node
     {
         m_error = error;
     }
+
+    public virtual VisualElement GetDetailElement()
+    {
+        return null;
+    }
 }

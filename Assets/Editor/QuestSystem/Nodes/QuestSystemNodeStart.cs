@@ -62,4 +62,9 @@ public class QuestSystemNodeStart : QuestSystemNode
         mainContainer.style.borderTopLeftRadius = smallRadius;
         mainContainer.style.borderTopRightRadius = largeRadius;
     }
+
+    public override VisualElement GetDetailElement()
+    {
+        return QuestSystemEditorUtility.CreateLabel("This is here everything start.");
+    }
 }

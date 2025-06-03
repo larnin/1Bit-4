@@ -70,4 +70,9 @@ public class QuestSystemNodeFail : QuestSystemNode
         mainContainer.style.borderTopLeftRadius = largeRadius;
         mainContainer.style.borderTopRightRadius = smallRadius;
     }
+
+    public override VisualElement GetDetailElement()
+    {
+        return QuestSystemEditorUtility.CreateLabel("Cancel the player progression. He will need to retry this level.");
+    }
 }

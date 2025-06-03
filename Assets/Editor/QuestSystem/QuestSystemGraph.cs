@@ -11,6 +11,7 @@ public class QuestSystemGraph : EditorWindow
 {
     QuestSystemGraphView m_graphView;
     QuestSystemErrorWindow m_errorWindow;
+    QuestSystemDetailWindow m_detailWindow;
 
     Label m_nameLabel;
 
@@ -56,8 +57,13 @@ public class QuestSystemGraph : EditorWindow
         UpdateLabel();
 
         horizontal.Add(element);
-        //todo
-        //AddSideMenus(horizontal);
+
+        VisualElement sideMenu = new VisualElement();
+        sideMenu.style.width = 250;
+
+        m_detailWindow = new QuestSystemDetailWindow();
+        m_detailWindow.SetParent(sideMenu);
+        horizontal.Add(sideMenu);
 
         rootVisualElement.Add(horizontal);
     }
@@ -101,6 +107,12 @@ public class QuestSystemGraph : EditorWindow
     {
         if (m_errorWindow != null)
             m_errorWindow.ClearErrors(source);
+    }
+
+    public void SetCurrentNodes(List<QuestSystemNode> nodes)
+    {
+        if (m_detailWindow != null)
+            m_detailWindow.SetNodes(nodes);
     }
 
     void Save(string path)

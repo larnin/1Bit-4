@@ -70,4 +70,9 @@ public class QuestSystemNodeComplete : QuestSystemNode
         mainContainer.style.borderTopLeftRadius = largeRadius;
         mainContainer.style.borderTopRightRadius = smallRadius;
     }
+
+    public override VisualElement GetDetailElement()
+    {
+        return QuestSystemEditorUtility.CreateLabel("Triggers the completion of the current map");
+    }
 }
