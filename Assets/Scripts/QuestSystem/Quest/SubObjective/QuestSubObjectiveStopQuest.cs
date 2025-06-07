@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 public class QuestSubObjectiveStopQuest : QuestSubObjectiveBase
 {
     string m_questName;
+    public string questName { get { return m_questName; } set { m_questName = value; } }
 
     public override bool IsCompleted()
     {

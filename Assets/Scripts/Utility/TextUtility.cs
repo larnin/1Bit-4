@@ -1,4 +1,6 @@
-﻿public static class TextUtility
+﻿using System;
+
+public static class TextUtility
 {
     public static bool IsWhitespace(this char character)
     {
@@ -87,5 +89,22 @@
         }
 
         return new string(textCharacters, 0, currentWhitespacelessTextLength);
+    }
+
+    public static bool ProcessFilter(string text, string filter)
+    {
+        if (filter.Length <= 0)
+            return true;
+
+        bool startWithMinus = filter[0] == '-';
+        if (startWithMinus && filter.Length <= 1)
+            return true;
+
+        if (!startWithMinus)
+            return text.Contains(filter, StringComparison.CurrentCultureIgnoreCase);
+
+        string subFilter = filter.Substring(1);
+
+        return !text.Contains(subFilter, StringComparison.CurrentCultureIgnoreCase);
     }
 }

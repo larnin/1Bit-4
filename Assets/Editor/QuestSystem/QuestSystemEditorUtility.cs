@@ -290,6 +290,11 @@ public static class QuestSystemEditorUtility
         return QuestSystemNodeType.Start;
     }
 
+    public static void SetContainerStyle(VisualElement element, float margin, Color borderColor, float borderWidth, float borderRadius)
+    {
+        SetContainerStyle(element, margin, borderColor, borderWidth, borderRadius, new Color(0, 0, 0, 0));
+    }
+
     public static void SetContainerStyle(VisualElement element, float margin, Color borderColor, float borderWidth, float borderRadius, Color backgroundColor)
     {
         element.style.marginTop = margin;

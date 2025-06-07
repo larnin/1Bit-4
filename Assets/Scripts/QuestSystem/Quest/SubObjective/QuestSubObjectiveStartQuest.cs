@@ -7,7 +7,8 @@ using UnityEngine;
 
 public class QuestSubObjectiveStartQuest : QuestSubObjectiveBase
 {
-    ScriptableObject m_quest;
+    QuestScriptableObject m_quest;
+    public QuestScriptableObject quest { get { return m_quest; } set { m_quest = value; } }
 
     public override bool IsCompleted()
     {
@@ -20,11 +21,10 @@ public class QuestSubObjectiveStartQuest : QuestSubObjectiveBase
         if (questSystem == null)
             return;
 
-        var quest = m_quest as QuestScriptableObject;
-        if (quest == null)
+        if (m_quest == null)
             return;
 
-        questSystem.StartQuest(quest.data);
+        questSystem.StartQuest(m_quest.data);
     }
 
     public override void Update(float deltaTime) { }

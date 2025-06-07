@@ -82,4 +82,15 @@ public class QuestObjective
     {
         m_subObjectives.RemoveAt(index);
     }
+
+    public void InsertSubObjectiveAt(QuestSubObjectiveBase objective, int index)
+    {
+        if (index < 0)
+            return;
+
+        if (index >= m_subObjectives.Count)
+            return;
+
+        m_subObjectives.Insert(index, objective);
+    }
 }

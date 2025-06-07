@@ -23,4 +23,21 @@ public abstract class QuestSubObjectiveBase
     {
         return m_system;
     }
+
+
+    public static string GetName(QuestSubObjectiveBase subObjective)
+    {
+        return GetName(subObjective.GetType());
+    }
+
+    public static string GetName(Type type)
+    {
+        const string startString = "QuestSubObjective";
+
+        string name = type.Name;
+        if (name.StartsWith(startString))
+            name = name.Substring(startString.Length);
+
+        return name;
+    }
 }
