@@ -31,6 +31,8 @@ public abstract class QuestSubObjectiveViewBase
             return new QuestSubObjectiveViewStopQuest(node, subObjective as QuestSubObjectiveStopQuest);
         if (subObjective is QuestSubObjectiveStartQuest)
             return new QuestSubObjectiveViewStartQuest(node, subObjective as QuestSubObjectiveStartQuest);
+        if (subObjective is QuestSubObjectiveGroup)
+            return new QuestSubObjectiveViewGroup(node, subObjective as QuestSubObjectiveGroup);
 
         return new QuestSubObjectiveViewNotImplemented(node, subObjective);
     }
