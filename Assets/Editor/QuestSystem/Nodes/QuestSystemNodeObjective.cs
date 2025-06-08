@@ -63,6 +63,11 @@ public class QuestSystemNodeObjective : QuestSystemNode
         m_objective = objective;
     }
 
+    public QuestObjective GetObjective()
+    {
+        return m_objective;
+    }
+
     void DrawObjectivesContainer()
     {
         if (m_subObjectiveContainer == null)

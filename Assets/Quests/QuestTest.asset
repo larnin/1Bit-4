@@ -1,0 +1,572 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 386e1e95cc1accb43bfa305858dbdf62, type: 3}
+  m_Name: QuestTest
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: data
+      Entry: 7
+      Data: 0|QuestSaveData, Assembly-CSharp
+    - Name: nodes
+      Entry: 7
+      Data: 1|System.Collections.Generic.List`1[[QuestSaveNode, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 7
+    - Name: 
+      Entry: 7
+      Data: 2|QuestSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: 218e6f52-9b35-4ef6-8539-35747712a8e3
+    - Name: name
+      Entry: 1
+      Data: Start
+    - Name: nodeType
+      Entry: 3
+      Data: 0
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 12
+    - Name: 
+      Entry: 4
+      Data: 167
+    - Name: 
+      Entry: 4
+      Data: 89
+    - Name: 
+      Entry: 4
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 6
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 3|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 4|QuestSaveConnection, Assembly-CSharp
+    - Name: currentPortName
+      Entry: 1
+      Data: Out
+    - Name: nextPortName
+      Entry: 1
+      Data: In
+    - Name: nextNodeName
+      Entry: 1
+      Data: f5b69607-92d3-49c9-925a-ac780a83a1f3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|QuestSaveConnection, Assembly-CSharp
+    - Name: currentPortName
+      Entry: 1
+      Data: Out
+    - Name: nextPortName
+      Entry: 1
+      Data: In
+    - Name: nextNodeName
+      Entry: 1
+      Data: 275f3158-30d2-4c9b-95b9-7b642deb5822
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|QuestSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: f5b69607-92d3-49c9-925a-ac780a83a1f3
+    - Name: name
+      Entry: 1
+      Data: Destroy
+    - Name: nodeType
+      Entry: 3
+      Data: 1
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 195
+    - Name: 
+      Entry: 4
+      Data: 128
+    - Name: 
+      Entry: 4
+      Data: 138
+    - Name: 
+      Entry: 4
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 7
+      Data: 7|QuestObjective, Assembly-CSharp
+    - Name: m_multipleInputOperator
+      Entry: 3
+      Data: 1
+    - Name: m_subObjectives
+      Entry: 7
+      Data: 8|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 9|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 10|QuestSaveConnection, Assembly-CSharp
+    - Name: currentPortName
+      Entry: 1
+      Data: Out
+    - Name: nextPortName
+      Entry: 1
+      Data: In
+    - Name: nextNodeName
+      Entry: 1
+      Data: 78d96dff-ea06-411b-8523-0d4b465c647d
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 11|QuestSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: 78d96dff-ea06-411b-8523-0d4b465c647d
+    - Name: name
+      Entry: 1
+      Data: StayAlive
+    - Name: nodeType
+      Entry: 3
+      Data: 1
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 437
+    - Name: 
+      Entry: 4
+      Data: 167
+    - Name: 
+      Entry: 4
+      Data: 138
+    - Name: 
+      Entry: 4
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 7
+      Data: 12|QuestObjective, Assembly-CSharp
+    - Name: m_multipleInputOperator
+      Entry: 3
+      Data: 1
+    - Name: m_subObjectives
+      Entry: 7
+      Data: 13|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 14|QuestSubObjectiveTimer, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 15|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 16|QuestSaveConnection, Assembly-CSharp
+    - Name: currentPortName
+      Entry: 1
+      Data: Out
+    - Name: nextPortName
+      Entry: 1
+      Data: In
+    - Name: nextNodeName
+      Entry: 1
+      Data: 1bf0fba2-346c-40e2-8de9-519edcb7ddc1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 17|QuestSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: 3d0b3d75-52f3-4769-9d62-d226b67bc781
+    - Name: name
+      Entry: 1
+      Data: Fail_3d0b3d75-52f3-4769-9d62-d226b67bc781
+    - Name: nodeType
+      Entry: 3
+      Data: 3
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 762
+    - Name: 
+      Entry: 4
+      Data: 377
+    - Name: 
+      Entry: 4
+      Data: 81
+    - Name: 
+      Entry: 4
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 6
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 18|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 19|QuestSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: 1bf0fba2-346c-40e2-8de9-519edcb7ddc1
+    - Name: name
+      Entry: 1
+      Data: Complete_1bf0fba2-346c-40e2-8de9-519edcb7ddc1
+    - Name: nodeType
+      Entry: 3
+      Data: 2
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 678
+    - Name: 
+      Entry: 4
+      Data: 146
+    - Name: 
+      Entry: 4
+      Data: 114
+    - Name: 
+      Entry: 4
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 6
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 20|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 21|QuestSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: 275f3158-30d2-4c9b-95b9-7b642deb5822
+    - Name: name
+      Entry: 1
+      Data: Protect
+    - Name: nodeType
+      Entry: 3
+      Data: 1
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 195
+    - Name: 
+      Entry: 4
+      Data: 244
+    - Name: 
+      Entry: 4
+      Data: 138
+    - Name: 
+      Entry: 4
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 7
+      Data: 22|QuestObjective, Assembly-CSharp
+    - Name: m_multipleInputOperator
+      Entry: 3
+      Data: 1
+    - Name: m_subObjectives
+      Entry: 7
+      Data: 23|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 24|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 25|QuestSaveConnection, Assembly-CSharp
+    - Name: currentPortName
+      Entry: 1
+      Data: Out
+    - Name: nextPortName
+      Entry: 1
+      Data: In
+    - Name: nextNodeName
+      Entry: 1
+      Data: 78d96dff-ea06-411b-8523-0d4b465c647d
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 26|QuestSaveConnection, Assembly-CSharp
+    - Name: currentPortName
+      Entry: 1
+      Data: Out
+    - Name: nextPortName
+      Entry: 1
+      Data: In
+    - Name: nextNodeName
+      Entry: 1
+      Data: 4bc17e17-6be6-471d-8520-7354bd6d41b0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 27|QuestSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: 4bc17e17-6be6-471d-8520-7354bd6d41b0
+    - Name: name
+      Entry: 1
+      Data: Death
+    - Name: nodeType
+      Entry: 3
+      Data: 1
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 527
+    - Name: 
+      Entry: 4
+      Data: 321
+    - Name: 
+      Entry: 4
+      Data: 138
+    - Name: 
+      Entry: 4
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 7
+      Data: 28|QuestObjective, Assembly-CSharp
+    - Name: m_multipleInputOperator
+      Entry: 3
+      Data: 1
+    - Name: m_subObjectives
+      Entry: 7
+      Data: 29|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 30|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 31|QuestSaveConnection, Assembly-CSharp
+    - Name: currentPortName
+      Entry: 1
+      Data: Out
+    - Name: nextPortName
+      Entry: 1
+      Data: In
+    - Name: nextNodeName
+      Entry: 1
+      Data: 3d0b3d75-52f3-4769-9d62-d226b67bc781
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 

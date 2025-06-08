@@ -307,117 +307,99 @@ public class QuestSystemGraphView : GraphView
         m_startNode = null;
     }
 
-    //todo
-    //public void Load(BSMSaveData data)
-    //{
-    //    Clean();
+    public void Load(QuestSaveData data)
+    {
+        Clean();
 
-    //    List<BSMNode> nodes = new List<BSMNode>();
+        List<QuestSystemNode> nodes = new List<QuestSystemNode>();
 
-    //    foreach (var dataNode in data.nodes)
-    //    {
-    //        var node = LoadNode(dataNode);
-    //        nodes.Add(node);
-    //    }
+        foreach(var dataNode in data.nodes)
+        {
+            var node = LoadNode(dataNode);
+            nodes.Add(node);
+        }
 
-    //    foreach (var node in nodes)
-    //    {
-    //        node.Draw();
-    //        AddElement(node);
-    //        AddNode(node, false);
-    //    }
+        foreach(var node in nodes)
+        {
+            node.Draw();
+            AddElement(node);
+            AddNode(node, false);
+            node.RefreshExpandedState();
+        }
 
-    //    if (m_startNode == null)
-    //        AddStartNode();
+        if (m_startNode == null)
+            AddStartNode();
 
-    //    if (m_anyStateNode == null)
-    //        AddAnyStateNode();
+        CreateConnections(nodes, data.nodes);
 
-    //    CreateConnexions(nodes, data.nodes);
+        ProcessErrors();
+    }
+    
+    QuestSystemNode LoadNode(QuestSaveNode data)
+    {
+        QuestSystemNode node = null;
 
-    //    ProcessErrors();
-    //}
+        if(data.nodeType == QuestSystemNodeType.Start)
+        {
+            var nodeStart = new QuestSystemNodeStart();
+            InitializeNode(nodeStart, data);
+            m_startNode = nodeStart;
+            node = nodeStart;
+        }
+        else if(data.nodeType == QuestSystemNodeType.Objective)
+        {
+            var nodeObjective = new QuestSystemNodeObjective();
+            InitializeNode(nodeObjective, data);
+            nodeObjective.SetObjective(data.data as QuestObjective);
+            node = nodeObjective;
+        }
+        else if(data.nodeType == QuestSystemNodeType.Complete)
+        {
+            node = new QuestSystemNodeComplete();
+            InitializeNode(node, data);
+        }
+        else if(data.nodeType == QuestSystemNodeType.Fail)
+        {
+            node = new QuestSystemNodeFail();
+            InitializeNode(node, data);
+        }
 
-    //todo
-    //BSMNode LoadNode(BSMSaveNode data)
-    //{
-    //    BSMNode node = null;
+        return node;
+    }
 
-    //    if (data.nodeType == BSMNodeType.Label)
-    //    {
-    //        var nodeLabel = new BSMNodeLabel();
-    //        InitializeNode(nodeLabel, data);
-    //        node = nodeLabel;
-    //        if (data.name == "Start")
-    //        {
-    //            m_startNode = nodeLabel;
-    //            m_startNode.nodeType = BSMNodeLabelType.Start;
-    //        }
-    //        else if (data.name == "Any State")
-    //        {
-    //            m_anyStateNode = nodeLabel;
-    //            m_anyStateNode.nodeType = BSMNodeLabelType.AnyState;
-    //        }
-    //    }
-    //    else if (data.nodeType == BSMNodeType.Goto)
-    //    {
-    //        var nodeGoto = new BSMNodeGoto();
-    //        InitializeNode(nodeGoto, data);
-    //        nodeGoto.SetLabelID(data.data as string);
-    //        node = nodeGoto;
-    //    }
-    //    else if (data.nodeType == BSMNodeType.Condition)
-    //    {
-    //        var nodeConditon = new BSMNodeCondition();
-    //        InitializeNode(nodeConditon, data);
-    //        nodeConditon.SetCondition(data.data as BSMConditionBase);
-    //        node = nodeConditon;
-    //    }
-    //    else if (data.nodeType == BSMNodeType.State)
-    //    {
-    //        var nodeState = new BSMNodeState();
-    //        InitializeNode(nodeState, data);
-    //        nodeState.SetState(data.data as BSMStateBase);
-    //        node = nodeState;
-    //    }
+    void InitializeNode(QuestSystemNode node, QuestSaveNode data)
+    {
+        node.ID = data.ID;
+        node.NodeName = data.name;
+        node.SetPosition(data.position);
+        node.Initialize(data.name, this, data.position.position, false);
+    }
 
-    //    return node;
-    //}
+    void CreateConnections(List<QuestSystemNode> nodes, List<QuestSaveNode> datas)
+    {
+        List<Edge> edges = new List<Edge>();
+        
+        foreach(var data in datas)
+        {
+            var node = GetFromID(nodes, data.ID);
+            if (node == null)
+                continue;
 
-    //todo
-    //void InitializeNode(BSMNode node, BSMSaveNode data)
-    //{
-    //    node.ID = data.ID;
-    //    node.NodeName = data.name;
-    //    node.SetPosition(data.position);
-    //    node.Initialize(data.name, this, data.position.position, false);
-    //}
+            foreach(var connexion in data.outNodes)
+            {
+                var outNode = GetFromID(nodes, connexion.nextNodeName);
+                if (outNode == null)
+                    continue;
 
-    //todo
-    //void CreateConnexions(List<BSMNode> nodes, List<BSMSaveNode> datas)
-    //{
-    //    List<Edge> edges = new List<Edge>();
+                var edge = QuestSystemEditorUtility.ConnectNodes(node, connexion.currentPortName, outNode, connexion.nextPortName);
+                if (edge != null)
+                    edges.Add(edge);
+            }
+        }
 
-    //    foreach (var data in datas)
-    //    {
-    //        var node = GetFromID(nodes, data.ID);
-    //        if (node == null)
-    //            continue;
-    //        foreach (var connexion in data.outNodes)
-    //        {
-    //            var outNode = GetFromID(nodes, connexion);
-    //            if (outNode == null)
-    //                continue;
-
-    //            var edge = BSMEditorUtility.ConnectNodes(node, outNode);
-    //            if (edge != null)
-    //                edges.Add(edge);
-    //        }
-    //    }
-
-    //    foreach (var edge in edges)
-    //        AddElement(edge);
-    //}
+        foreach (var edge in edges)
+            AddElement(edge);
+    }
 
     static QuestSystemNode GetFromID(List<QuestSystemNode> nodes, string id)
     {
@@ -430,63 +412,52 @@ public class QuestSystemGraphView : GraphView
         return null;
     }
 
-    //todo
-    //public void Save(BSMSaveData data)
-    //{
-    //    foreach (var node in m_nodes)
-    //        data.nodes.Add(SaveNode(node));
-    //}
+    public void Save(QuestSaveData data)
+    {
+        foreach (var node in m_nodes)
+            data.nodes.Add(SaveNode(node));
+    }
 
-    //todo
-    //BSMSaveNode SaveNode(BSMNode node)
-    //{
-    //    BSMSaveNode data = new BSMSaveNode();
+    QuestSaveNode SaveNode(QuestSystemNode node)
+    {
+        QuestSaveNode data = new QuestSaveNode();
 
-    //    data.ID = node.ID;
-    //    data.name = node.NodeName;
-    //    data.position = node.GetPosition();
+        data.ID = node.ID;
+        data.name = node.NodeName;
+        data.position = node.GetPosition();
 
-    //    foreach (Port port in node.outputContainer.Children())
-    //    {
-    //        if (port == null)
-    //            continue;
+        foreach(Port port in node.outputContainer.Children())
+        {
+            if (port == null)
+                continue;
 
-    //        foreach (var connexion in port.connections)
-    //        {
-    //            if (connexion.input == null)
-    //                continue;
-    //            if (connexion.input.node == null)
-    //                continue;
+            foreach(var connexion in port.connections)
+            {
+                if (connexion.input == null || connexion.input.node == null)
+                    continue;
 
-    //            var nextNode = connexion.input.node as BSMNode;
-    //            if (nextNode == null)
-    //                continue;
-    //            data.outNodes.Add(nextNode.ID);
-    //        }
-    //    }
+                var nextNode = connexion.input.node as QuestSystemNode;
+                if (nextNode == null)
+                    continue;
 
-    //    data.nodeType = BSMEditorUtility.GetType(node);
+                var saveConnection = new QuestSaveConnection();
+                saveConnection.currentPortName = port.portName;
+                saveConnection.nextPortName = connexion.input.portName;
+                saveConnection.nextNodeName = nextNode.ID;
+                data.outNodes.Add(saveConnection);
+            }
+        }
 
-    //    if (data.nodeType == BSMNodeType.Condition)
-    //    {
-    //        var nodeCondition = node as BSMNodeCondition;
-    //        if (nodeCondition != null)
-    //            data.data = nodeCondition.GetCondition();
-    //    }
-    //    else if (data.nodeType == BSMNodeType.State)
-    //    {
-    //        var nodeState = node as BSMNodeState;
-    //        if (nodeState != null)
-    //            data.data = nodeState.GetState();
-    //    }
-    //    else if (data.nodeType == BSMNodeType.Goto)
-    //    {
-    //        var nodeGoto = node as BSMNodeGoto;
-    //        if (nodeGoto != null)
-    //            data.data = nodeGoto.GetLabelID();
-    //    }
+        data.nodeType = QuestSystemEditorUtility.GetType(node);
 
-    //    return data;
-    //}
+        if(data.nodeType == QuestSystemNodeType.Objective)
+        {
+            var nodeObjective = node as QuestSystemNodeObjective;
+            if (nodeObjective != null)
+                data.data = nodeObjective.GetObjective();
+        }
+
+        return data;
+    }
 }
 

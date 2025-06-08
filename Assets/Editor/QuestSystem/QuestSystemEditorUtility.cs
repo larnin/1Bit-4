@@ -42,30 +42,39 @@ public static class QuestSystemEditorUtility
         return port;
     }
 
-    public static Edge ConnectNodes(QuestSystemNode first, QuestSystemNode second)
+    public static Edge ConnectNodes(QuestSystemNode fromNode, string fromPortName, QuestSystemNode toNode, string toPortName)
     {
-        if (first.outputContainer == null)
+        if (fromNode.outputContainer == null)
             return null;
         Port outPort = null;
-        foreach (Port port in first.outputContainer.Children())
+        foreach (Port port in fromNode.outputContainer.Children())
         {
             if (port == null)
                 continue;
-            outPort = port;
-            break;
+            if (port.portName == fromPortName)
+            {
+                outPort = port;
+                break;
+            }
         }
         if (outPort == null)
             return null;
-        if (second.inputContainer == null)
+        if (toNode.inputContainer == null)
             return null;
         Port inPort = null;
-        foreach (Port port in second.inputContainer.Children())
+        foreach (Port port in toNode.inputContainer.Children())
         {
             if (port == null)
                 continue;
-            inPort = port;
-            break;
+            if (port.portName == toPortName)
+            {
+                inPort = port;
+                break;
+            }
         }
+
+        if (inPort == null)
+            return null;
 
         return outPort.ConnectTo(inPort);
     }
@@ -276,7 +285,6 @@ public static class QuestSystemEditorUtility
 
     public static QuestSystemNodeType GetType(QuestSystemNode node)
     {
-        //todo
         if (node is QuestSystemNodeStart)
             return QuestSystemNodeType.Start;
         else if (node is QuestSystemNodeComplete)

@@ -6,6 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+public class QuestSaveConnection
+{
+    public string currentPortName;
+    public string nextPortName;
+    public string nextNodeName;
+}
+
 public class QuestSaveNode
 {
     public string ID;
@@ -15,7 +22,7 @@ public class QuestSaveNode
 
     public object data;
 
-    public List<string> outNodes = new List<string>();
+    public List<QuestSaveConnection> outNodes = new List<QuestSaveConnection>();
 }
 
 public class QuestSaveData

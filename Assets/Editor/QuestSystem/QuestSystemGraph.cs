@@ -117,40 +117,36 @@ public class QuestSystemGraph : EditorWindow
 
     void Save(string path)
     {
-        //todo
-        //BSMSaveData saveData = new BSMSaveData();
+        QuestSaveData saveData = new QuestSaveData();
 
-        //m_graphView.Save(saveData);
-        //m_attributesWindow.Save(saveData);
+        m_graphView.Save(saveData);
 
-        //var obj = AssetDatabase.LoadAssetAtPath<BSMScriptableObject>(path);
-        //if (obj == null)
-        //{
-        //    obj = ScriptableObject.CreateInstance<BSMScriptableObject>();
-        //    obj.data = saveData;
-        //    AssetDatabase.CreateAsset(obj, path);
-        //    EditorUtility.SetDirty(obj);
-        //    AssetDatabase.SaveAssets();
-        //}
-        //else
-        //{
-        //    obj.data = saveData;
-        //    EditorUtility.SetDirty(obj);
-        //    AssetDatabase.SaveAssets();
-        //}
+        var obj = AssetDatabase.LoadAssetAtPath<QuestScriptableObject>(path);
+        if(obj == null)
+        {
+            obj = ScriptableObject.CreateInstance<QuestScriptableObject>();
+            obj.data = saveData;
+            AssetDatabase.CreateAsset(obj, path);
+            EditorUtility.SetDirty(obj);
+            AssetDatabase.SaveAssets();
+        }
+        else
+        {
+            obj.data = saveData;
+            EditorUtility.SetDirty(obj);
+            AssetDatabase.SaveAssets();
+        }
     }
 
     void Load(string path)
     {
-        //todo
-        //BSMSaveData saveData = new BSMSaveData();
+        QuestSaveData saveData = new QuestSaveData();
 
-        //var obj = AssetDatabase.LoadAssetAtPath<BSMScriptableObject>(path);
-        //if (obj != null)
-        //    saveData = obj.data;
+        var obj = AssetDatabase.LoadAssetAtPath<QuestScriptableObject>(path);
+        if (obj != null)
+            saveData = obj.data;
 
-        //m_attributesWindow.Load(saveData);
-        //m_graphView.Load(saveData);
+        m_graphView.Load(saveData);
     }
 
     public override void SaveChanges()
@@ -200,15 +196,13 @@ public class QuestSystemGraph : EditorWindow
 
     public void NewFile()
     {
-        //todo
-        //var saveData = new BSMSaveData();
+        var saveData = new QuestSaveData();
 
-        //m_attributesWindow.Load(saveData);
-        //m_graphView.Load(saveData);
+        m_graphView.Load(saveData);
 
-        //m_savePath = "";
+        m_savePath = "";
 
-        //UpdateLabel();
+        UpdateLabel();
     }
 
     void UpdateLabel()
