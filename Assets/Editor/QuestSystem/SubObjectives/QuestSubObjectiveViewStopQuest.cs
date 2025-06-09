@@ -14,7 +14,7 @@ public class QuestSubObjectiveViewStopQuest : QuestSubObjectiveViewBase
         m_subObjective = subObjective;
     }
 
-    public override VisualElement GetElement()
+    protected override VisualElement GetElementInternal()
     {
         return QuestSystemEditorUtility.CreateTextField(m_subObjective.questName, "QuestName", OnQuestChange);
     }

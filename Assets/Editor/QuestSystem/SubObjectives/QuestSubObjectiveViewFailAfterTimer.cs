@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine.UIElements;
 
-public class QuestSubObjectiveViewTimer : QuestSubObjectiveViewBase
+public class QuestSubObjectiveViewFailAfterTimer : QuestSubObjectiveViewBase
 {
-    new QuestSubObjectiveTimer m_subObjective;
+    new QuestSubObjectiveFailAfterTimer m_subObjective;
 
-    public QuestSubObjectiveViewTimer(QuestSystemNodeObjective node, QuestSubObjectiveTimer subObjective) : base(node, subObjective)
+    public QuestSubObjectiveViewFailAfterTimer(QuestSystemNodeObjective node, QuestSubObjectiveFailAfterTimer subObjective) : base(node, subObjective)
     {
         m_subObjective = subObjective;
     }
@@ -24,4 +24,3 @@ public class QuestSubObjectiveViewTimer : QuestSubObjectiveViewBase
         m_subObjective.duration = newDuration.newValue;
     }
 }
-

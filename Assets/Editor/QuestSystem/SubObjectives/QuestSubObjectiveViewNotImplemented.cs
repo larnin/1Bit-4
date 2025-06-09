@@ -12,7 +12,7 @@ public class QuestSubObjectiveViewNotImplemented : QuestSubObjectiveViewBase
 
     }
 
-    public override VisualElement GetElement()
+    protected override VisualElement GetElementInternal()
     {
         var label = QuestSystemEditorUtility.CreateLabel("<color=#FF0000>Not implemented !</color>");
         return label;

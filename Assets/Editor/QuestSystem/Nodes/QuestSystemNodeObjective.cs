@@ -61,6 +61,7 @@ public class QuestSystemNodeObjective : QuestSystemNode
     public void SetObjective(QuestObjective objective)
     {
         m_objective = objective;
+        OnOutputChange();
     }
 
     public QuestObjective GetObjective()
@@ -143,6 +144,7 @@ public class QuestSystemNodeObjective : QuestSystemNode
             return;
 
         m_objective.AddSubObjective(objective);
+        OnOutputChange();
 
         DrawObjectivesContainer();
     }
@@ -150,6 +152,8 @@ public class QuestSystemNodeObjective : QuestSystemNode
     void DeleteSubObjective(QuestSubObjectiveBase objective)
     {
         m_objective.RemoveSubObjective(objective);
+        OnOutputChange();
+
         DrawObjectivesContainer();
     }
 
@@ -168,6 +172,7 @@ public class QuestSystemNodeObjective : QuestSystemNode
         if (offset > 0)
             newIndex--;
         m_objective.InsertSubObjectiveAt(objective, index);
+        OnOutputChange();
 
         DrawObjectivesContainer();
     }
@@ -183,5 +188,64 @@ public class QuestSystemNodeObjective : QuestSystemNode
         }
 
         return -1;
+    }
+
+    public void OnOutputChange()
+    {
+        List<string> outPorts = new List<string>();
+
+        int nbSubObjective = m_objective.GetSubObjectiveCount();
+        for(int i = 0; i < nbSubObjective; i++)
+        {
+            var subObjective = m_objective.GetSubObjective(i);
+            AddFailPort(subObjective, outPorts);
+        }
+
+        List<string> currentPorts = new List<string>();
+        int nbPort = outputContainer.childCount;
+        for(int i = 0; i < nbPort; i++)
+        {
+            var port = outputContainer[i] as Port;
+            if (port == null || port.portName == "Out")
+                continue;
+
+            if (outPorts.Contains(port.portName))
+            {
+                currentPorts.Add(port.portName);
+                continue;
+            }
+
+            List<Edge> edgeToRemove = new List<Edge>();
+            foreach(var c in port.connections)
+                edgeToRemove.Add(c);
+
+            m_graphView.DeleteElements(edgeToRemove);
+
+            outputContainer.RemoveAt(i);
+            i--;
+            nbPort--;
+        }
+
+        foreach(var port in outPorts)
+        {
+            if (currentPorts.Contains(port))
+                continue;
+
+            Port outputPort = this.CreatePort(port, Orientation.Horizontal, Direction.Output, Port.Capacity.Multi);
+            outputContainer.Add(outputPort);
+        }
+    }
+
+    void AddFailPort(QuestSubObjectiveBase subObjective, List<string> outPorts)
+    {
+        if (subObjective.CanFail() & subObjective.failNodeName.Length != 0)
+        {
+            if (!outPorts.Contains(subObjective.failNodeName))
+                outPorts.Add(subObjective.failNodeName);
+        }
+
+        int subObjectiveNb = subObjective.GetSubObjectiveCount();
+        for(int i = 0; i < subObjectiveNb; i++)
+            AddFailPort(subObjective.GetSubObjective(i), outPorts);
     }
 }

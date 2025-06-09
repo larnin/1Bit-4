@@ -20,7 +20,7 @@ public class QuestSubObjectiveViewGroup : QuestSubObjectiveViewBase
         m_subObjective = subObjective;
     }
 
-    public override VisualElement GetElement()
+    protected override VisualElement GetElementInternal()
     {
         VisualElement block = new VisualElement();
 
@@ -128,11 +128,13 @@ public class QuestSubObjectiveViewGroup : QuestSubObjectiveViewBase
         m_subObjective.AddSubObjective(objective);
 
         DrawObjectivesContainer();
+        m_node.OnOutputChange();
     }
 
     void DeleteSubObjective(QuestSubObjectiveBase objective)
     {
         m_subObjective.RemoveSubObjective(objective);
         DrawObjectivesContainer();
+        m_node.OnOutputChange();
     }
 }

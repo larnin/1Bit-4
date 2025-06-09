@@ -15,7 +15,7 @@ public class QuestSubObjectiveViewIsQuestCompleted : QuestSubObjectiveViewBase
         m_subObjective = subObjective;
     }
 
-    public override VisualElement GetElement()
+    protected override VisualElement GetElementInternal()
     {
         var element = new VisualElement();
         element.Add(QuestSystemEditorUtility.CreateTextField(m_subObjective.questName, "Quest Name", OnQuestChange));

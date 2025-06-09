@@ -19,12 +19,12 @@ public class QuestSubObjectiveGroup : QuestSubObjectiveBase
 
     List<QuestSubObjectiveBase> m_subObjectives = new List<QuestSubObjectiveBase>();
 
-    public int GetSubObjectiveCount()
+    public override int GetSubObjectiveCount()
     {
         return m_subObjectives.Count;
     }
 
-    public QuestSubObjectiveBase GetSubObjective(int index)
+    public override QuestSubObjectiveBase GetSubObjective(int index)
     {
         if (index < 0 || index >= m_subObjectives.Count)
             return null;

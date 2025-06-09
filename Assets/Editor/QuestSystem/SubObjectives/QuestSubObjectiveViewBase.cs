@@ -33,9 +33,30 @@ public abstract class QuestSubObjectiveViewBase
             return new QuestSubObjectiveViewStartQuest(node, subObjective as QuestSubObjectiveStartQuest);
         if (subObjective is QuestSubObjectiveGroup)
             return new QuestSubObjectiveViewGroup(node, subObjective as QuestSubObjectiveGroup);
+        if (subObjective is QuestSubObjectiveFailAfterTimer)
+            return new QuestSubObjectiveViewFailAfterTimer(node, subObjective as QuestSubObjectiveFailAfterTimer);
 
         return new QuestSubObjectiveViewNotImplemented(node, subObjective);
     }
 
-    public abstract VisualElement GetElement();
+    public VisualElement GetElement()
+    {
+        VisualElement element = GetElementInternal();
+        if(!m_subObjective.CanFail())
+            return element;
+
+        VisualElement container = new VisualElement();
+        container.Add(element);
+        container.Add(QuestSystemEditorUtility.CreateTextField(m_subObjective.failNodeName, "Fail Output", OnFailNodeChange));
+
+        return container;
+    }
+
+    protected abstract VisualElement GetElementInternal();
+
+    void OnFailNodeChange(ChangeEvent<string> newName)
+    {
+        m_subObjective.failNodeName = newName.newValue;
+        m_node.OnOutputChange();
+    }
 }
