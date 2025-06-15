@@ -29,9 +29,9 @@ public class QuestSubObjectiveIsQuestCompleted : QuestSubObjectiveBase
             return false;
 
         if (m_objectiveName.Length == 0)
-            return questSystem.IsQuestActive(m_questName);
+            return questSystem.GetQuestStatus(m_questName) == m_completionType;
 
-        return questSystem.IsQuestObjectiveActive(m_questName, m_objectiveName);
+        return questSystem.GetQuestObjectiveStatus(m_questName, m_objectiveName) == m_completionType;
     }
 
     public override void Start() { }

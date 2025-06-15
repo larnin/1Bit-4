@@ -18,8 +18,6 @@ public class QuestObjective
 
     [SerializeField] List<QuestSubObjectiveBase> m_subObjectives = new List<QuestSubObjectiveBase>();
 
-    protected QuestSystem m_system;
-
     public bool IsCompleted()
     {
         foreach(var sub in m_subObjectives)
@@ -29,6 +27,33 @@ public class QuestObjective
         }
 
         return true;
+    }
+
+    public bool IsFail()
+    {
+        foreach(var sub in m_subObjectives)
+        {
+            if (!sub.CanFail() || sub.failNodeName.Length == 0)
+                continue;
+
+            if (sub.IsFail())
+                return true;
+        }
+
+        return false;
+    }
+
+    public string GetFailNode()
+    {
+        foreach (var sub in m_subObjectives)
+        {
+            if (!sub.CanFail() || sub.failNodeName.Length == 0)
+                continue;
+
+            return sub.failNodeName;
+        }
+
+        return "";
     }
 
     public void Start()
