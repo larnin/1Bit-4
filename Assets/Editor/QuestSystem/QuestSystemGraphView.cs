@@ -253,9 +253,181 @@ public class QuestSystemGraphView : GraphView
         return compatiblePorts;
     }
 
+    class QuestSystemLoopNodeTest
+    {
+        public QuestSystemNode node;
+        public List<KeyValuePair<QuestSystemNode, bool>> parentNodes = new List<KeyValuePair<QuestSystemNode, bool>>();
+
+        public QuestSystemLoopNodeTest(QuestSystemNode _node) { node = _node; }
+    }
+
     public void ProcessErrors()
     {
-        //todo
+        ClearErrors();
+
+        foreach (var node in m_nodes)
+        {
+            node.UpdateStyle(false);
+
+            foreach (var edge in QuestSystemEditorUtility.GetAllOutEdge(node))
+                SetEdgeStyle(edge, false);
+        }
+
+        for (int i = 0; i < m_nodes.Count; i++)
+        {
+            int namesError = 1;
+
+            var node = m_nodes[i];
+            for (int j = i + 1; j < m_nodes.Count; j++)
+            {
+                var node2 = m_nodes[j];
+
+                if (node.NodeName == node2.NodeName)
+                {
+                    if (namesError == 1)
+                        node.UpdateStyle(true);
+                    node2.UpdateStyle(true);
+
+                    namesError++;
+                }
+            }
+
+            if (namesError > 1)
+                AddError(namesError + " Nodes are named " + node.NodeName + ", names must be unique");
+
+            foreach (var edge in QuestSystemEditorUtility.GetAllOutEdge(node))
+            {
+                SetEdgeStyle(edge, false);
+
+                if (edge.input == null)
+                    continue;
+                if (edge.input.node == null)
+                    continue;
+
+                var nextNode = edge.input.node as QuestSystemNode;
+                if (node == null)
+                    continue;
+
+                var inType = QuestSystemEditorUtility.GetType(node);
+                var outType = QuestSystemEditorUtility.GetType(nextNode);
+
+                if(inType == QuestSystemNodeType.Start && (outType == QuestSystemNodeType.Complete || outType == QuestSystemNodeType.Fail))
+                {
+                    AddError("Start node must be connected to a objective node");
+                    SetEdgeStyle(edge, true);
+                }
+            }
+        }
+
+        //detect unwanted loops
+        List<QuestSystemLoopNodeTest> loopNodesInfo = new List<QuestSystemLoopNodeTest>();
+        foreach(var node in m_nodes)
+            loopNodesInfo.Add(new QuestSystemLoopNodeTest(node));
+
+        foreach (var node in m_nodes)
+        {
+            var edges = QuestSystemEditorUtility.GetAllOutEdge(node);
+            foreach(var e in edges)
+            {
+                if (e.input == null)
+                    continue;
+                if (e.input.node == null)
+                    continue;
+
+                var nextNode = e.input.node as QuestSystemNode;
+                if (nextNode == null)
+                    continue;
+
+                var loopNode = loopNodesInfo.Find(x => { return x.node == nextNode; });
+                if (loopNode != null)
+                    loopNode.parentNodes.Add(new KeyValuePair<QuestSystemNode, bool>(node, false));
+            }
+        }
+
+        List<QuestSystemLoopNodeTest> openNodes = new List<QuestSystemLoopNodeTest>();
+        openNodes.Add(new QuestSystemLoopNodeTest(m_startNode));
+
+        while(openNodes.Count > 0)
+        {
+            QuestSystemLoopNodeTest current = null;
+            foreach(var n in openNodes)
+            {
+                bool ok = true;
+                foreach(var p in n.parentNodes)
+                {
+                    if(!p.Value)
+                    {
+                        ok = false;
+                        break;
+                    }
+                }
+                if(ok)
+                {
+                    current = n;
+                    break;
+                }    
+            }
+
+            if (current == null)
+                break;
+
+            openNodes.Remove(current);
+
+            var edges = QuestSystemEditorUtility.GetAllOutEdge(current.node);
+            foreach(var e in edges)
+            {
+                if (e.input == null)
+                    continue;
+                if (e.input.node == null)
+                    continue;
+
+                var nextNode = e.input.node as QuestSystemNode;
+                if (nextNode == null)
+                    continue;
+
+                var loopNode = loopNodesInfo.Find(x => { return x.node == nextNode; });
+                if (loopNode != null)
+                {
+                    bool alreadyFull = true;
+                    foreach(var parentNode in loopNode.parentNodes)
+                    {
+                        if(!parentNode.Value)
+                        {
+                            alreadyFull = false;
+                            break;
+                        }
+                    }
+
+                    if (alreadyFull)
+                        continue;
+
+                    for(int i = 0; i < loopNode.parentNodes.Count; i++)
+                    {
+                        if(loopNode.parentNodes[i].Key == current.node)
+                        {
+                            loopNode.parentNodes[i] = new KeyValuePair<QuestSystemNode, bool>(current.node, true);
+
+                            if (!openNodes.Exists(x => { return x.node == loopNode.node; }))
+                                openNodes.Add(loopNode);
+                        }    
+                    }
+                }
+            }
+        }
+
+        foreach(var n in openNodes)
+        {
+            foreach(var parent in n.parentNodes)
+            {
+                if(!parent.Value)
+                {
+                    AddError("Loops have been detected between nodes " + n.node.NodeName + " and " + parent.Key.NodeName);
+
+                    n.node.UpdateStyle(true);
+                    parent.Key.UpdateStyle(true);
+                }
+            }
+        }
     }
 
     void SetEdgeStyle(Edge edge, bool error)

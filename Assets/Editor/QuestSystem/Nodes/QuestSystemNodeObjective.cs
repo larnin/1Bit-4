@@ -248,4 +248,36 @@ public class QuestSystemNodeObjective : QuestSystemNode
         for(int i = 0; i < subObjectiveNb; i++)
             AddFailPort(subObjective.GetSubObjective(i), outPorts);
     }
+
+    public override void UpdateStyle(bool error)
+    {
+        base.UpdateStyle(error);
+
+        if (error)
+        {
+            mainContainer.style.backgroundColor = errorBackgroundColor;
+            mainContainer.style.borderBottomColor = errorBorderColor;
+            mainContainer.style.borderLeftColor = errorBorderColor;
+            mainContainer.style.borderRightColor = errorBorderColor;
+            mainContainer.style.borderTopColor = errorBorderColor;
+        }
+        else
+        {
+            Color backgroundColor = new Color(0.2f, 0.2f, 0.2f);
+            Color borderColor = new Color(0.6f, 0.6f, 0.6f);
+
+            mainContainer.style.backgroundColor = backgroundColor;
+            mainContainer.style.borderBottomColor = borderColor;
+            mainContainer.style.borderLeftColor = borderColor;
+            mainContainer.style.borderRightColor = borderColor;
+            mainContainer.style.borderTopColor = borderColor;
+        }
+
+        float radius = 10;
+
+        mainContainer.style.borderBottomLeftRadius = radius;
+        mainContainer.style.borderBottomRightRadius = radius;
+        mainContainer.style.borderTopLeftRadius = radius;
+        mainContainer.style.borderTopRightRadius = radius;
+    }
 }
