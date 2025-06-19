@@ -1730,15 +1730,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c560a317a23d29a4f8451b2085f8bd3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_minSize: 50
-  m_maxSize: 5
-  m_initialSize: 12
-  m_stepZoom: 1.1
-  m_arrowsSpeed: 15
-  m_arrowsAccelerationDuration: 0.15
-  m_rotationDuration: 0.5
-  m_cameraResetPressTime: 1
-  m_cameraResetTime: 1
+  m_isoCamParams:
+    minSize: 50
+    maxSize: 5
+    initialSize: 12
+    stepZoom: 1.1
+    arrowSpeed: 15
+    arrowAccelerationDuration: 0.15
+    rotationDuration: 0.5
+    cameraResetPressTime: 1
+    cameraResetTime: 1
+  m_freeCamParams:
+    fov: 0
   m_UICamera: {fileID: 1290092319}
   m_clearCamera: {fileID: 428243214}
   m_lastCamera: {fileID: 963194231}
@@ -1755,6 +1758,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_cameraPrefab: {fileID: 1389323157614544848, guid: 7c6fde55a3cd88b45ae5dcf1cc46243c, type: 3}
+  m_additionnalCameraPrefab: {fileID: 0}
   m_mainCamera: {fileID: 428243214}
 --- !u!1001 &932603917
 PrefabInstance:

@@ -8,6 +8,7 @@ using UnityEngine;
 public class DuplicationCamera : MonoBehaviour
 {
     [SerializeField] GameObject m_cameraPrefab;
+    [SerializeField] GameObject m_additionnalCameraPrefab;
     [SerializeField] Camera m_mainCamera;
 
     class CameraInstance
@@ -15,6 +16,7 @@ public class DuplicationCamera : MonoBehaviour
         public GameObject obj;
         public Camera camera;
         public Camera FxCamera;
+        public Camera AdditionnalCamera;
         public Vector2Int offset;
     }
 
@@ -147,16 +149,34 @@ public class DuplicationCamera : MonoBehaviour
             m_duplicatedCameras.RemoveAt(nbCamera);
         }
 
+        bool ortho = m_mainCamera.orthographic;
+        float fov = m_mainCamera.fieldOfView;
         float camSize = m_mainCamera.orthographicSize;
         foreach (var c in m_duplicatedCameras)
         {
-            c.camera.orthographicSize = camSize;
-            c.FxCamera.orthographicSize = camSize;
-
             c.obj.transform.localPosition = Vector3.zero;
             c.obj.transform.localRotation = Quaternion.identity;
+
             c.camera.transform.rotation = m_mainCamera.transform.rotation;
             c.camera.transform.position = m_mainCamera.transform.position - new Vector3(c.offset.x, 0, c.offset.y) * size;
+            c.camera.orthographic = ortho;
+            c.camera.orthographicSize = camSize;
+            c.camera.fieldOfView = fov;
+
+            c.FxCamera.transform.rotation = c.camera.transform.rotation;
+            c.FxCamera.transform.position = c.camera.transform.position;
+            c.FxCamera.orthographic = ortho;
+            c.FxCamera.orthographicSize = camSize;
+            c.FxCamera.fieldOfView = fov;
+
+            if(c.AdditionnalCamera != null)
+            { 
+                c.AdditionnalCamera.transform.rotation = c.camera.transform.rotation;
+                c.AdditionnalCamera.transform.position = c.camera.transform.position;
+                c.AdditionnalCamera.orthographic = ortho;
+                c.AdditionnalCamera.orthographicSize = camSize;
+                c.AdditionnalCamera.fieldOfView = fov;
+            }
         }
     }
 
@@ -235,6 +255,15 @@ public class DuplicationCamera : MonoBehaviour
         var instance = new CameraInstance();
         instance.obj = Instantiate(m_cameraPrefab);
         instance.obj.transform.parent = transform;
+
+        if(m_additionnalCameraPrefab != null)
+        {
+            var additionnalObj = Instantiate(m_additionnalCameraPrefab);
+            additionnalObj.transform.parent = instance.obj.transform;
+            additionnalObj.transform.localPosition = Vector3.zero;
+            additionnalObj.transform.localRotation = Quaternion.identity;
+            instance.AdditionnalCamera = additionnalObj.GetComponentInChildren<Camera>();
+        }
 
         var cameraObj = instance.obj.transform.Find("Camera");
         if (cameraObj != null)

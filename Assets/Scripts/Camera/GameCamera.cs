@@ -8,20 +8,32 @@ using DG.Tweening;
 
 public class GameCamera : MonoBehaviour
 {
-    [SerializeField] float m_minSize = 30;
-    [SerializeField] float m_maxSize = 10;
-    [SerializeField] float m_initialSize = 15;
-    [SerializeField] float m_stepZoom = 1.1f;
-    [SerializeField] float m_arrowsSpeed = 1;
-    [SerializeField] float m_arrowsAccelerationDuration = 0.2f;
-    [SerializeField] float m_rotationDuration = 0.5f;
-    [SerializeField] float m_cameraResetPressTime = 1.0f;
-    [SerializeField] float m_cameraResetTime = 0.5f;
+    [Serializable]
+    class IsoCameraParams
+    {
+        public float minSize = 30;
+        public float maxSize = 10;
+        public float initialSize = 15;
+        public float stepZoom = 1.1f;
+        public float arrowSpeed = 1;
+        public float arrowAccelerationDuration = 0.2f;
+        public float rotationDuration = 0.5f;
+        public float cameraResetPressTime = 1.0f;
+        public float cameraResetTime = 0.5f;
+    }
+
+    [Serializable]
+    class FreeCameraParams
+    {
+        public float fov;
+    }
+
+    [SerializeField] IsoCameraParams m_isoCamParams = new IsoCameraParams();
+    [SerializeField] FreeCameraParams m_freeCamParams = new FreeCameraParams();
     [SerializeField] Camera m_UICamera;
     [SerializeField] Camera m_clearCamera;
     [SerializeField] Camera m_lastCamera;
 
-    Vector3 m_initialPosition;
     float m_initialAngle;
     float m_size;
 
@@ -69,14 +81,13 @@ public class GameCamera : MonoBehaviour
 
     private void Start()
     {
-        m_initialPosition = transform.position;
         m_initialAngle = transform.rotation.eulerAngles.y;
         m_startAngle = m_initialAngle;
         m_endAngle = m_initialAngle;
         m_currentAngle = m_initialAngle;
         m_rotationNormDuration = 0;
         m_resetPressTime = 0;
-        m_size = m_initialSize;
+        m_size = m_isoCamParams.initialSize;
         m_nextRotation = false;
         m_nextRotationPositive = false;
         m_resetTime = 0;
@@ -96,15 +107,15 @@ public class GameCamera : MonoBehaviour
 
         if (scrollY != 0 && m_resetTime <= 0)
         {
-            float multiplier = MathF.Pow(m_stepZoom, MathF.Abs(scrollY));
+            float multiplier = MathF.Pow(m_isoCamParams.stepZoom, MathF.Abs(scrollY));
             if (MathF.Sign(scrollY) < 0)
                 multiplier = 1 / multiplier;
 
             m_size = m_size * multiplier;
-            if (m_size < Mathf.Min(m_maxSize, m_minSize))
-                m_size = Mathf.Min(m_maxSize, m_minSize);
-            if (m_size > Mathf.Max(m_maxSize, m_minSize))
-                m_size = MathF.Max(m_maxSize, m_minSize);
+            if (m_size < Mathf.Min(m_isoCamParams.maxSize, m_isoCamParams.minSize))
+                m_size = Mathf.Min(m_isoCamParams.maxSize, m_isoCamParams.minSize);
+            if (m_size > Mathf.Max(m_isoCamParams.maxSize, m_isoCamParams.minSize))
+                m_size = MathF.Max(m_isoCamParams.maxSize, m_isoCamParams.minSize);
 
             Event<CameraMoveEvent>.Broadcast(new CameraMoveEvent(m_clearCamera, m_UICamera));
         }
@@ -139,10 +150,10 @@ public class GameCamera : MonoBehaviour
             bool addUp = Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.W);
             bool addDown = Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S);
 
-            m_right += Time.deltaTime / m_arrowsAccelerationDuration * (addRight ? 1 : -1);
-            m_left += Time.deltaTime / m_arrowsAccelerationDuration * (addLeft ? 1 : -1);
-            m_up += Time.deltaTime / m_arrowsAccelerationDuration * (addUp ? 1 : -1);
-            m_down += Time.deltaTime / m_arrowsAccelerationDuration * (addDown ? 1 : -1);
+            m_right += Time.deltaTime / m_isoCamParams.arrowAccelerationDuration * (addRight ? 1 : -1);
+            m_left += Time.deltaTime / m_isoCamParams.arrowAccelerationDuration * (addLeft ? 1 : -1);
+            m_up += Time.deltaTime / m_isoCamParams.arrowAccelerationDuration * (addUp ? 1 : -1);
+            m_down += Time.deltaTime / m_isoCamParams.arrowAccelerationDuration * (addDown ? 1 : -1);
         }
 
         m_right = Mathf.Clamp01(m_right);
@@ -159,8 +170,8 @@ public class GameCamera : MonoBehaviour
             forward.Normalize();
             Vector3 ortho = new Vector3(forward.z, 0, -forward.x);
 
-            float speed = m_size / m_initialSize;
-            Vector3 offset = (forward * inputDir.y + ortho * inputDir.x) * Time.deltaTime * m_arrowsSpeed * speed;
+            float speed = m_size / m_isoCamParams.initialSize;
+            Vector3 offset = (forward * inputDir.y + ortho * inputDir.x) * Time.deltaTime * m_isoCamParams.arrowSpeed * speed;
 
             Vector3 newPos = transform.position + offset;
             MoveCamera(newPos);
@@ -176,9 +187,9 @@ public class GameCamera : MonoBehaviour
             if (Input.GetKey(KeyCode.R) && m_resetTime <= 0)
             {
                 float newResetTime = m_resetPressTime + Time.deltaTime;
-                if (m_resetPressTime < m_cameraResetPressTime && newResetTime >= m_cameraResetPressTime)
+                if (m_resetPressTime < m_isoCamParams.cameraResetPressTime && newResetTime >= m_isoCamParams.cameraResetPressTime)
                 {
-                    m_resetTime = Time.deltaTime / m_cameraResetTime;
+                    m_resetTime = Time.deltaTime / m_isoCamParams.cameraResetTime;
 
                     m_resetStartPos = transform.position;
                     m_resetEndPos = m_resetStartPos;
@@ -200,7 +211,7 @@ public class GameCamera : MonoBehaviour
             }
             if (Input.GetKeyUp(KeyCode.R))
             {
-                if (m_resetPressTime < m_cameraResetPressTime && m_resetTime <= 0)
+                if (m_resetPressTime < m_isoCamParams.cameraResetPressTime && m_resetTime <= 0)
                 {
                     float rotDir = 1;
                     if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
@@ -224,7 +235,7 @@ public class GameCamera : MonoBehaviour
 
         if (m_currentAngle != m_endAngle)
         {
-            m_rotationNormDuration += Time.deltaTime / m_rotationDuration;
+            m_rotationNormDuration += Time.deltaTime / m_isoCamParams.rotationDuration;
             if(m_rotationNormDuration >= 1)
             {
                 m_rotationNormDuration = 1;
@@ -251,14 +262,14 @@ public class GameCamera : MonoBehaviour
             if (m_resetTime > 1)
                 m_resetTime = 1;
 
-            m_size = m_resetStartSize * (1 - m_resetTime) + m_initialSize * m_resetTime;
+            m_size = m_resetStartSize * (1 - m_resetTime) + m_isoCamParams.initialSize * m_resetTime;
             MoveCamera(m_resetStartPos * (1 - m_resetTime) + m_resetEndPos * m_resetTime);
 
             Event<CameraMoveEvent>.Broadcast(new CameraMoveEvent(m_clearCamera, m_UICamera));
 
             if (m_resetTime >= 1)
                 m_resetTime = 0;
-            else m_resetTime += Time.deltaTime / m_cameraResetTime;
+            else m_resetTime += Time.deltaTime / m_isoCamParams.cameraResetTime;
         }
 
         UpdateCameraMatrix();
