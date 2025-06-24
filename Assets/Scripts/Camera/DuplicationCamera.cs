@@ -29,7 +29,6 @@ public class DuplicationCamera : MonoBehaviour
     private void Awake()
     {
         m_subscriberList.Add(new Event<CameraMoveEvent>.Subscriber(OnCameraMove));
-        m_subscriberList.Add(new Event<CameraZoomEvent>.Subscriber(OnCameraZoom));
         m_subscriberList.Add(new Event<SetGridEvent>.Subscriber(SetGrid));
         m_subscriberList.Add(new Event<GetAllMainCameraEvent>.Subscriber(GetAllCameras));
         m_subscriberList.Add(new Event<GetCameraDuplicationEvent>.Subscriber(GetDuplications));
@@ -48,11 +47,6 @@ public class DuplicationCamera : MonoBehaviour
     }
 
     void OnCameraMove(CameraMoveEvent e)
-    {
-        UpdateCameras();
-    }
-
-    void OnCameraZoom(CameraZoomEvent e)
     {
         UpdateCameras();
     }

@@ -28,16 +28,6 @@ public class CameraMoveEvent
     }
 }
 
-public class CameraZoomEvent
-{
-    public float newZoom = 1;
-
-    public CameraZoomEvent(float zoom)
-    {
-        newZoom = zoom;
-    }
-}
-
 public class GetCameraRotationEvent
 {
     public float rotation = 0;
