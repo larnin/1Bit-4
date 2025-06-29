@@ -97,6 +97,11 @@ public class DuplicationCamera : MonoBehaviour
             max.y = 0;
         }
 
+        min.x = Mathf.Max(min.x, -5);
+        min.y = Mathf.Max(min.y, -5);
+        max.x = Mathf.Clamp(max.x, min.x, 5);
+        max.y = Mathf.Clamp(max.y, min.y, 5);
+
         //Ordering: [0] = Left, [1] = Right, [2] = Down, [3] = Up, [4] = Near, [5] = Far
         var planes = GeometryUtility.CalculateFrustumPlanes(m_mainCamera);
         Vector4[] planeVects = new Vector4[4];

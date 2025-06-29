@@ -84,6 +84,8 @@ public class ControlCameraIso : ControlCameraBase
 
     public override void Enable()
     {
+        base.Enable();
+
         MoveCamera(m_position);
 
         var camera = m_gameCamera.GetMainCamera();
@@ -95,6 +97,8 @@ public class ControlCameraIso : ControlCameraBase
 
     public override void Disable()
     {
+        base.Disable();
+
         if (m_resetTime != 0 || m_nextRotation)
         {
             m_resetTime = 0;
@@ -311,37 +315,23 @@ public class ControlCameraIso : ControlCameraBase
         if (m_grid == null)
         {
             m_position = newPos;
-            m_gameCamera.transform.position = newPos;
+            if(m_isEnabled)
+                m_gameCamera.transform.position = newPos;
             return;
         }
 
-        float size = GridEx.GetRealSize(m_grid);
-
-        if (newPos.x < 0 || newPos.x > size)
-        {
-            if (m_grid.LoopX())
-                newPos.x = GameCamera.PosLoop(newPos.x, size);
-            else if (newPos.x < 0)
-                newPos.x = 0;
-            else newPos.x = size;
-        }
-
-        if (newPos.z < 0 || newPos.z > size)
-        {
-            if (m_grid.LoopZ())
-                newPos.z = GameCamera.PosLoop(newPos.z, size);
-            else if (newPos.z < 0)
-                newPos.z = 0;
-            else newPos.z = size;
-        }
+        newPos = GridEx.ClampPos(m_grid, newPos);
 
         m_position = newPos;
-        m_gameCamera.transform.position = newPos;
+        if(m_isEnabled)
+            m_gameCamera.transform.position = newPos;
     }
 
     public override void MoveTo(Vector3 pos)
     {
         MoveCamera(pos);
+
+        m_gameCamera.OnMove();
     }
 
     public float GetSize()

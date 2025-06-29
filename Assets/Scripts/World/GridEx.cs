@@ -272,5 +272,30 @@ public static class GridEx
 
         return false;
     }
+
+    public static Vector3 ClampPos(Grid grid, Vector3 pos)
+    {
+        float size = GridEx.GetRealSize(grid);
+
+        if (pos.x < 0 || pos.x > size)
+        {
+            if (grid.LoopX())
+                pos.x = GameCamera.PosLoop(pos.x, size);
+            else if (pos.x < 0)
+                pos.x = 0;
+            else pos.x = size;
+        }
+
+        if (pos.z < 0 || pos.z > size)
+        {
+            if (grid.LoopZ())
+                pos.z = GameCamera.PosLoop(pos.z, size);
+            else if (pos.z < 0)
+                pos.z = 0;
+            else pos.z = size;
+        }
+
+        return pos;
+    }
 }
 

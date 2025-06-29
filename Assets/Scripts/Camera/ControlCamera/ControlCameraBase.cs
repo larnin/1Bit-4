@@ -12,11 +12,20 @@ public abstract class ControlCameraBase
         m_gameCamera = camera;
     }
 
-    public abstract void Enable();
-    public abstract void Disable();
+    public virtual void Enable()
+    {
+        m_isEnabled = true;
+    }
+
+    public virtual void Disable()
+    {
+        m_isEnabled = false;
+    }
+
     public abstract void Update();
 
     public abstract void MoveTo(Vector3 pos);
 
     protected GameCamera m_gameCamera;
+    protected bool m_isEnabled;
 }

@@ -1741,10 +1741,14 @@ MonoBehaviour:
     cameraResetPressTime: 1
     cameraResetTime: 1
   m_freeCamParams:
-    fov: 0
+    fov: 90
+    placeDistance: 20
+    arrowSpeed: 10
+    arrowAccelerationDuration: 0.2
   m_UICamera: {fileID: 1290092319}
   m_clearCamera: {fileID: 428243214}
   m_lastCamera: {fileID: 963194231}
+  m_allowFreeCamera: 1
 --- !u!114 &772823058
 MonoBehaviour:
   m_ObjectHideFlags: 0
