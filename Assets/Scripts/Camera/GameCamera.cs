@@ -59,6 +59,9 @@ public class GameCamera : MonoBehaviour
 
     void CopyCameraInfos(Camera source, Camera target)
     {
+        if (target == null)
+            return;
+
         target.fieldOfView = source.fieldOfView;
         target.orthographicSize = source.orthographicSize;
         target.orthographic = source.orthographic;

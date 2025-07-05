@@ -13,6 +13,8 @@ public class FreeCameraParams
 
     public float arrowSpeed = 1;
     public float arrowAccelerationDuration = 0.2f;
+
+    public float rotationSpeed = 1;
 }
 
 public class ControlCameraFree : ControlCameraBase
@@ -25,6 +27,9 @@ public class ControlCameraFree : ControlCameraBase
     Vector3 m_seeDir;
 
     Vector3 m_initialSeeDir;
+
+    Vector3 m_oldMousePos;
+    bool m_wasFocused = false;
 
     float m_forward;
     float m_backward;
@@ -73,7 +78,7 @@ public class ControlCameraFree : ControlCameraBase
 
         if (GameInfos.instance.paused)
         {
-            //m_oldMousePos = Input.mousePosition;
+            m_oldMousePos = Input.mousePosition;
             return;
         }
 
@@ -112,6 +117,30 @@ public class ControlCameraFree : ControlCameraBase
 
             m_gameCamera.OnMove();
         }
+
+        if (Input.GetMouseButton(2) && m_wasFocused && Application.isFocused)
+        {
+            Vector3 offset = Input.mousePosition - m_oldMousePos;
+
+            float angleXZ = Mathf.Atan2(m_seeDir.z, m_seeDir.x);
+
+            float horizontalMagnitude = new Vector2(m_seeDir.x, m_seeDir.z).magnitude;
+            float angleY = Mathf.Atan2(m_seeDir.y, horizontalMagnitude);
+
+            angleXZ -= offset.x * Time.deltaTime * m_params.rotationSpeed;
+            angleY += offset.y * Time.deltaTime * m_params.rotationSpeed;
+            angleY = Mathf.Clamp(angleY, -Mathf.PI / 2.01f, Mathf.PI / 2.01f);
+
+            m_seeDir.y = Mathf.Sin(angleY);
+            float xz = Mathf.Cos(angleY);
+            m_seeDir.x = Mathf.Cos(angleXZ) * xz;
+            m_seeDir.z = Mathf.Sin(angleXZ) * xz;
+
+            camera.transform.forward = m_seeDir;
+        }
+
+        m_oldMousePos = Input.mousePosition;
+        m_wasFocused = Application.isFocused;
     }
 
     void MoveCamera(Vector3 newPos)

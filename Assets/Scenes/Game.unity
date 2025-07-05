@@ -1745,6 +1745,7 @@ MonoBehaviour:
     placeDistance: 20
     arrowSpeed: 10
     arrowAccelerationDuration: 0.2
+    rotationSpeed: 0.5
   m_UICamera: {fileID: 1290092319}
   m_clearCamera: {fileID: 428243214}
   m_lastCamera: {fileID: 963194231}
