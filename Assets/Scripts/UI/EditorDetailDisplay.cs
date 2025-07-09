@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public enum ToolCategoryType
+public enum EditorToolCategoryType
 {
     None,
     System,
@@ -14,17 +14,28 @@ public enum ToolCategoryType
     Generation,
 }
 
+public enum EditorSystemButtonType
+{
+    New,
+    Load,
+    Save,
+    SaveAs,
+    Undo,
+    Redo,
+    Exit,
+}
+
 public class EditorDetailDisplay : MonoBehaviour
 {
     UIElementContainer m_container;
 
     SubscriberList m_subscriberList = new SubscriberList();
 
-    ToolCategoryType m_currentCategory = ToolCategoryType.None;
+    EditorToolCategoryType m_currentCategory = EditorToolCategoryType.None;
 
     private void Awake()
     {
-        m_subscriberList.Add(new Event<ToggleToolCategoryEvent>.Subscriber(ToogleToolCategory));
+        m_subscriberList.Add(new Event<ToggleEditorToolCategoryEvent>.Subscriber(ToogleToolCategory));
         m_subscriberList.Subscribe();
 
         m_container = GetComponent<UIElementContainer>();
@@ -40,24 +51,24 @@ public class EditorDetailDisplay : MonoBehaviour
         m_subscriberList.Unsubscribe();
     }
 
-    void ToogleToolCategory(ToggleToolCategoryEvent e)
+    void ToogleToolCategory(ToggleEditorToolCategoryEvent e)
     {
         if (m_currentCategory == e.category)
-            m_currentCategory = ToolCategoryType.None;
+            m_currentCategory = EditorToolCategoryType.None;
         else m_currentCategory = e.category;
 
         switch(m_currentCategory)
         {
-            case ToolCategoryType.System:
+            case EditorToolCategoryType.System:
                 DrawSystem();
                 break;
-            case ToolCategoryType.Entities:
+            case EditorToolCategoryType.Entities:
                 DrawEntities();
                 break;
-            case ToolCategoryType.Terraformation:
+            case EditorToolCategoryType.Terraformation:
                 DrawTerraformation();
                 break;
-            case ToolCategoryType.Generation:
+            case EditorToolCategoryType.Generation:
                 DrawGeneration();
                 break;
             default:
@@ -66,29 +77,51 @@ public class EditorDetailDisplay : MonoBehaviour
         }
     }
 
+    void DrawHeader()
+    {
+        m_container.RemoveAndDestroyAll();
+        gameObject.SetActive(true);
+
+        UIElementData.Create<UIElementSimpleText>(m_container).SetText(m_currentCategory.ToString()).SetAlignment(UIElementAlignment.center);
+        UIElementData.Create<UIElementSpace>(m_container).SetSpace(5);
+    }
+
     void DrawSystem()
     {
+        DrawHeader();
 
+        foreach (EditorSystemButtonType button in Enum.GetValues(typeof(EditorSystemButtonType)))
+        {
+            var temp = button;
+            UIElementData.Create<UIElementButton>(m_container).SetText(button.ToString()).SetClickFunc(() => { OnSystemButtonClick(temp); });
+        }
+    }
+
+    void OnSystemButtonClick(EditorSystemButtonType button)
+    {
+        Event<EditorSystemButtonClickedEvent>.Broadcast(new EditorSystemButtonClickedEvent(button));
     }
 
     void DrawEntities()
     {
-
+        DrawHeader();
     }
 
     void DrawTerraformation()
     {
-
+        DrawHeader();
     }
 
     void DrawGeneration()
     {
-
+        DrawHeader();
     }
 
     void Clean()
     {
+        m_container.RemoveAndDestroyAll();
 
+        gameObject.SetActive(false);
     }
 }
 

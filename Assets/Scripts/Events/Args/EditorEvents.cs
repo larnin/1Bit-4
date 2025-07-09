@@ -4,12 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-class ToggleToolCategoryEvent
+class ToggleEditorToolCategoryEvent
 {
-    public ToolCategoryType category;
+    public EditorToolCategoryType category;
 
-    public ToggleToolCategoryEvent(ToolCategoryType _category)
+    public ToggleEditorToolCategoryEvent(EditorToolCategoryType _category)
     {
         category = _category;
+    }
+}
+
+class EditorSystemButtonClickedEvent
+{
+    public EditorSystemButtonType button;
+
+    public EditorSystemButtonClickedEvent(EditorSystemButtonType _button)
+    {
+        button = _button;
     }
 }

@@ -11,6 +11,8 @@ public class UIElementContainer : MonoBehaviour
     RectTransform m_container;
     RectTransform m_rectTransform;
 
+    float m_height = 0;
+
     private void Awake()
     {
         var containerTransform = transform.Find("Container");
@@ -99,6 +101,13 @@ public class UIElementContainer : MonoBehaviour
 
         top -= Global.instance.UIElementDatas.spacing;
         m_rectTransform.sizeDelta = new Vector2(m_rectTransform.sizeDelta.x, top - m_container.sizeDelta.y);
+
+        m_height = top;
+    }
+
+    public float GetHeight()
+    {
+        return m_height;
     }
 }
 

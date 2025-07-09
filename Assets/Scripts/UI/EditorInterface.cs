@@ -45,21 +45,21 @@ public class EditorInterface : MonoBehaviour
 
     public void OnSystemClick()
     {
-        Event<ToggleToolCategoryEvent>.Broadcast(new ToggleToolCategoryEvent(ToolCategoryType.System));
+        Event<ToggleEditorToolCategoryEvent>.Broadcast(new ToggleEditorToolCategoryEvent(EditorToolCategoryType.System));
     }
 
     public void OnEntitiesClick()
     {
-        Event<ToggleToolCategoryEvent>.Broadcast(new ToggleToolCategoryEvent(ToolCategoryType.Entities));
+        Event<ToggleEditorToolCategoryEvent>.Broadcast(new ToggleEditorToolCategoryEvent(EditorToolCategoryType.Entities));
     }
 
     public void OnTerraformationClick()
     {
-        Event<ToggleToolCategoryEvent>.Broadcast(new ToggleToolCategoryEvent(ToolCategoryType.Terraformation));
+        Event<ToggleEditorToolCategoryEvent>.Broadcast(new ToggleEditorToolCategoryEvent(EditorToolCategoryType.Terraformation));
     }
 
     public void OnGenerationClick()
     {
-        Event<ToggleToolCategoryEvent>.Broadcast(new ToggleToolCategoryEvent(ToolCategoryType.Generation));
+        Event<ToggleEditorToolCategoryEvent>.Broadcast(new ToggleEditorToolCategoryEvent(EditorToolCategoryType.Generation));
     }
 }

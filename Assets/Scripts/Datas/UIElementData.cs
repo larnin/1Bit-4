@@ -16,6 +16,11 @@ public class UIElementData
     [SerializeField] GameObject fillValuePrefab;
     [SerializeField] GameObject spritePrefab;
     [SerializeField] GameObject labelAndTextPrefab;
+    [SerializeField] GameObject buttonPrefab;
+    [SerializeField] GameObject textInputPrefab;
+    [SerializeField] GameObject intInputPrefab;
+    [SerializeField] GameObject floatInputPrefab;
+    [SerializeField] GameObject foldablePrefab;
 
     T CreateImpl<T>(UIElementContainer container) where T : UIElementBase
     {
@@ -33,6 +38,16 @@ public class UIElementData
             prefab = spritePrefab;
         else if (typeof(T) == typeof(UIElementLabelAndText))
             prefab = labelAndTextPrefab;
+        else if (typeof(T) == typeof(UIElementButton))
+            prefab = buttonPrefab;
+        else if (typeof(T) == typeof(UIElementTextInput))
+            prefab = textInputPrefab;
+        else if (typeof(T) == typeof(UIElementIntInput))
+            prefab = intInputPrefab;
+        else if (typeof(T) == typeof(UIElementFloatInput))
+            prefab = floatInputPrefab;
+        else if (typeof(T) == typeof(UIElementFoldable))
+            prefab = foldablePrefab;
 
         if (prefab == null)
             return null;
