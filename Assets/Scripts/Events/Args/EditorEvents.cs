@@ -23,3 +23,23 @@ class EditorSystemButtonClickedEvent
         button = _button;
     }
 }
+
+class EditorBuildingButtonClickedEvent
+{
+    public BuildingType type;
+
+    public EditorBuildingButtonClickedEvent(BuildingType _type)
+    {
+        type = _type;
+    }
+}
+
+class EditorResourceButtonClickedEvent
+{
+    public BlockType type;
+
+    public EditorResourceButtonClickedEvent(BlockType _type)
+    {
+        type = _type;
+    }
+}

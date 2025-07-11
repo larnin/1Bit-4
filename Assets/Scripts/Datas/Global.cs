@@ -55,6 +55,9 @@ public class Global : ScriptableObject
     [SerializeField] UIElementData m_UIElementDatas;
     public UIElementData UIElementDatas { get { return m_UIElementDatas; } }
 
+    [SerializeField] EditorDatas m_editorDatas;
+    public EditorDatas editorDatas { get { return m_editorDatas; } }
+
     [SerializeField] StatusDatas m_statusDatas;
     public StatusDatas statusDatas { get { return m_statusDatas; } }
 

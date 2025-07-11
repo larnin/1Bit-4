@@ -25,6 +25,12 @@ public enum EditorSystemButtonType
     Exit,
 }
 
+class WorldData
+{
+    public int size = 4;
+    public int height = 2;
+}
+
 public class EditorDetailDisplay : MonoBehaviour
 {
     UIElementContainer m_container;
@@ -32,6 +38,8 @@ public class EditorDetailDisplay : MonoBehaviour
     SubscriberList m_subscriberList = new SubscriberList();
 
     EditorToolCategoryType m_currentCategory = EditorToolCategoryType.None;
+
+    WorldData m_worldData = new WorldData();
 
     private void Awake()
     {
@@ -105,11 +113,63 @@ public class EditorDetailDisplay : MonoBehaviour
     void DrawEntities()
     {
         DrawHeader();
+
+        var foldBuildings = UIElementData.Create<UIElementFoldable>(m_container).SetHeaderText("Buildings");
+        foreach(BuildingType type in Enum.GetValues(typeof(BuildingType)))
+        {
+            if (Global.instance.buildingDatas.GetBuilding(type) == null)
+                continue;
+
+            var temp = type;
+            UIElementData.Create<UIElementButton>(foldBuildings.GetContainer()).SetText(type.ToString()).SetClickFunc(() => { OnBuildingClick(temp); });
+        }
+
+        var foldEntities = UIElementData.Create<UIElementFoldable>(m_container).SetHeaderText("Entities");
+        //todo entities
+
+        var foldResources = UIElementData.Create<UIElementFoldable>(m_container).SetHeaderText("Resources");
+        foreach(BlockType type in Enum.GetValues(typeof(BlockType)))
+        {
+            if (!Global.instance.blockDatas.IsCustomBlock(type))
+                continue;
+
+            var temp = type;
+            UIElementData.Create<UIElementButton>(foldResources.GetContainer()).SetText(type.ToString()).SetClickFunc(() => { OnResourceClick(temp); });
+        }
+
+        var foldQuest = UIElementData.Create<UIElementFoldable>(m_container).SetHeaderText("Quest");
+        //todo quest elements
+    }
+
+    void OnBuildingClick(BuildingType type)
+    {
+        Event<EditorBuildingButtonClickedEvent>.Broadcast(new EditorBuildingButtonClickedEvent(type));
+    }
+
+    void OnResourceClick(BlockType type)
+    {
+        Event<EditorResourceButtonClickedEvent>.Broadcast(new EditorResourceButtonClickedEvent(type));
     }
 
     void DrawTerraformation()
     {
         DrawHeader();
+
+        UIElementData.Create<UIElementSimpleText>(m_container).SetText("Grid size");
+        UIElementData.Create<UIElementIntInput>(m_container).SetLabel("\tWidth").SetValue(m_worldData.size).SetValueChangeFunc(SetWorldSize);
+        UIElementData.Create<UIElementIntInput>(m_container).SetLabel("\tHeight").SetValue(m_worldData.height).SetValueChangeFunc(SetWorldHeight);
+
+        var foldTools = UIElementData.Create<UIElementFoldable>(m_container).SetHeaderText("Tools");
+    }
+
+    void SetWorldSize(int value)
+    {
+        m_worldData.size = value;
+    }
+
+    void SetWorldHeight(int value)
+    {
+        m_worldData.height = value;
     }
 
     void DrawGeneration()
