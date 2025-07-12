@@ -105,7 +105,7 @@ public class UIElementFloatInput : UIElementBase
 
     public override float GetHeight()
     {
-        return m_inputField.textComponent.renderedHeight;
+        return m_label.renderedHeight;
     }
 
     public UIElementFloatInput SetValue(int value)

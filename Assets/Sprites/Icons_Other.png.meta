@@ -419,7 +419,7 @@ TextureImporter:
         width: 4
         height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -427,6 +427,90 @@ TextureImporter:
       bones: []
       spriteID: 4ea196a6cd90d8b4fb8e91024e5f88f5
       internalID: -1758663345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons_Other_15
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 244
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b448d19ef035cd468240e3ad1fcff27
+      internalID: 738176213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons_Other_16
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 231
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68107dfa3ad118040a7ba3fdded04d2c
+      internalID: -1717608712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons_Other_17
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 246
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5de285f8bf0e7524f89619d6ed039adc
+      internalID: -177951977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons_Other_18
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 235
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be7131b586d4f60409150180f3ea6d85
+      internalID: -1008798864
       vertices: []
       indices: 
       edges: []
@@ -449,6 +533,10 @@ TextureImporter:
       Icons_Other_12: -205994291
       Icons_Other_13: -1662470187
       Icons_Other_14: -1758663345
+      Icons_Other_15: 738176213
+      Icons_Other_16: -1717608712
+      Icons_Other_17: -177951977
+      Icons_Other_18: -1008798864
       Icons_Other_2: -145538938
       Icons_Other_3: -1070398611
       Icons_Other_4: 685141666

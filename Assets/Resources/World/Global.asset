@@ -712,6 +712,12 @@ MonoBehaviour:
     fillValuePrefab: {fileID: 6744325536455805254, guid: 748e27cfb0b299c4f856d9be37e2bd00, type: 3}
     spritePrefab: {fileID: 1609686189616329620, guid: 6b8f347ac3c06e348b17f553b4a52ea3, type: 3}
     labelAndTextPrefab: {fileID: 4001936163988476421, guid: 8ecf22a317c8cea42a1f449c175b2197, type: 3}
+    buttonPrefab: {fileID: 3659335888465588188, guid: aee74f51762635a4fa3f6c585be97be2, type: 3}
+    textInputPrefab: {fileID: 3692938957172088386, guid: 2e8cbbfe926bf6c4492b8f7dac4cb0a9, type: 3}
+    intInputPrefab: {fileID: 5070588065511262924, guid: 85d38b12623c44647baed5f381b2acfd, type: 3}
+    floatInputPrefab: {fileID: 8110753482784335463, guid: c5127395190ce844a87647c6a34f044d, type: 3}
+    foldablePrefab: {fileID: 3816729058983134895, guid: cf20fdc7703d83d4ba417e1350f1a2d5, type: 3}
+    togglePrefab: {fileID: 681455461261020552, guid: 9548ca192bcd4b04380da3a6fd582f7b, type: 3}
   m_statusDatas:
     burning:
       effectPrefab: {fileID: 0}
