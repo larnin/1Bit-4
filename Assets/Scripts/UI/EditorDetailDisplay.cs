@@ -156,8 +156,8 @@ public class EditorDetailDisplay : MonoBehaviour
         DrawHeader();
 
         UIElementData.Create<UIElementSimpleText>(m_container).SetText("Grid size");
-        UIElementData.Create<UIElementIntInput>(m_container).SetLabel("\tWidth").SetValue(m_worldData.size).SetValueChangeFunc(SetWorldSize);
-        UIElementData.Create<UIElementIntInput>(m_container).SetLabel("\tHeight").SetValue(m_worldData.height).SetValueChangeFunc(SetWorldHeight);
+        UIElementData.Create<UIElementIntInput>(m_container).SetLabel("- Width").SetValue(m_worldData.size).SetValueChangeFunc(SetWorldSize);
+        UIElementData.Create<UIElementIntInput>(m_container).SetLabel("- Height").SetValue(m_worldData.height).SetValueChangeFunc(SetWorldHeight);
 
         var foldTools = UIElementData.Create<UIElementFoldable>(m_container).SetHeaderText("Tools");
     }

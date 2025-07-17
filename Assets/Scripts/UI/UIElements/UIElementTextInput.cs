@@ -5,13 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
 
 public class UIElementTextInput : UIElementBase
 {
     TMP_Text m_label;
     TMP_InputField m_inputField;
+    RectTransform m_rect;
     Action<string> m_textChangeFunc;
-    Func<string> m_textFunc;
+    Func<string> m_textFunc; 
 
     private void Awake()
     {
@@ -35,7 +37,7 @@ public class UIElementTextInput : UIElementBase
 
     public override float GetHeight()
     {
-        return m_label.renderedHeight;
+        return m_rect.rect.height;
     }
 
     public UIElementTextInput SetText(string text)
@@ -63,6 +65,13 @@ public class UIElementTextInput : UIElementBase
         return this;
     }
 
+    public UIElementTextInput SetLabel(string label)
+    {
+        m_label.text = label;
+
+        return this;
+    }
+
     private void Update()
     {
         if (m_textFunc != null)
@@ -74,11 +83,22 @@ public class UIElementTextInput : UIElementBase
                 OnTextChange(newText);
             }
         }
-    }
 
-    public UIElementTextInput SetLabel(string label)
-    {
-        m_label.text = label;
-        return this;
+        var inputTransform = m_inputField.GetComponent<RectTransform>();
+        var labelSize = m_label.renderedWidth;
+        if (labelSize < 0)
+            labelSize = 0;
+
+        var anchor = inputTransform.anchoredPosition;
+        var size = inputTransform.sizeDelta;
+
+        float right = -anchor.x - size.x / 2;
+        float left = labelSize + 2;
+
+        anchor.x = (left - right) / 2;
+        size.x = -left - right;
+
+        inputTransform.anchoredPosition = anchor;
+        inputTransform.sizeDelta = size;
     }
 }

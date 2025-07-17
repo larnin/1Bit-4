@@ -15,12 +15,15 @@ public class UIElementFloatInput : UIElementBase
     float m_lastValidValue = 0;
     Button m_moreButton;
     Button m_lessButton;
+    RectTransform m_rect;
 
     float m_minValue = float.MinValue;
     float m_maxValue = float.MaxValue;
 
     private void Awake()
     {
+        m_rect = GetComponent<RectTransform>();
+
         var labelTr = transform.Find("Label");
         if (labelTr != null)
             m_label = labelTr.GetComponent<TMP_Text>();
@@ -44,6 +47,8 @@ public class UIElementFloatInput : UIElementBase
             m_moreButton.onClick.AddListener(OnMoreClick);
         if (m_lessButton != null)
             m_lessButton.onClick.AddListener(OnLessClick);
+
+        m_inputField.text = m_lastValidValue.ToString();
     }
 
     char OnInputValidation(string input, int charIndex, char addedChar)
@@ -105,11 +110,12 @@ public class UIElementFloatInput : UIElementBase
 
     public override float GetHeight()
     {
-        return m_label.renderedHeight;
+        return m_rect.rect.height;
     }
 
     public UIElementFloatInput SetValue(int value)
     {
+        m_lastValidValue = 0;
         ValueOffset(value);
 
         return this;
@@ -144,6 +150,27 @@ public class UIElementFloatInput : UIElementBase
     public UIElementFloatInput SetLabel(string label)
     {
         m_label.text = label;
+
         return this;
+    }
+
+    private void Update()
+    {
+        var inputTransform = m_inputField.GetComponent<RectTransform>();
+        var labelSize = m_label.renderedWidth;
+        if (labelSize < 0)
+            labelSize = 0;
+
+        var anchor = inputTransform.anchoredPosition;
+        var size = inputTransform.sizeDelta;
+
+        float right = -anchor.x - size.x / 2;
+        float left = labelSize + 2;
+
+        anchor.x = (left - right) / 2;
+        size.x = -left - right;
+
+        inputTransform.anchoredPosition = anchor;
+        inputTransform.sizeDelta = size;
     }
 }
