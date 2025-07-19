@@ -85,4 +85,9 @@ public class UIElementFoldable : UIElementBase
         m_container.gameObject.SetActive(!m_folded);
         m_headerImage.sprite = m_folded ? m_foldedSprite : m_openedSprite;
     }
+
+    private void Update()
+    {
+
+    }
 }

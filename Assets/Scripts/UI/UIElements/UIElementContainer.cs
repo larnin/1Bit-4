@@ -77,6 +77,8 @@ public class UIElementContainer : MonoBehaviour
 
     private void Update()
     {
+        return;
+
         float top = 0;
 
         foreach(var e in m_elements)
