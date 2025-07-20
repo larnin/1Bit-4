@@ -44,14 +44,6 @@ public class UIElementFoldable : UIElementBase
         UpdateContainerDisplay();
     }
 
-    public override float GetHeight()
-    {
-        float height = GetHeaderHeight();
-        if (!m_folded)
-            height += m_container.GetHeight();
-        return height;
-    }
-
     public UIElementContainer GetContainer()
     {
         return m_container;

@@ -23,11 +23,6 @@ public class UIElementSprite : UIElementBase
             m_imageTransform = m_image.GetComponent<RectTransform>();
     }
 
-    public override float GetHeight()
-    {
-        return m_size.y;
-    }
-
     private void Update()
     {
         if (m_spriteFunc != null)

@@ -16,11 +16,6 @@ public class UIElementSimpleText : UIElementBase
         m_text = GetComponentInChildren<TMP_Text>();
     }
 
-    public override float GetHeight()
-    {
-        return m_text.renderedHeight;
-    }
-
     public UIElementSimpleText SetText(string text)
     {
         m_text.text = text;

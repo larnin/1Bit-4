@@ -24,11 +24,6 @@ public class UIElementButton : UIElementBase
         m_button.onClick.AddListener(OnButtonClick);
     }
 
-    public override float GetHeight()
-    {
-        return m_transform.rect.height;
-    }
-
     void OnButtonClick()
     {
         if (m_clickFunc != null)

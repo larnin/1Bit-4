@@ -14,5 +14,5 @@ public enum UIElementAlignment
 
 public abstract class UIElementBase : MonoBehaviour
 {
-    public abstract float GetHeight();
+
 }

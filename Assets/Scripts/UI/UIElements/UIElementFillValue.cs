@@ -107,11 +107,6 @@ public class UIElementFillValue : UIElementBase
         }
     }
 
-    public override float GetHeight()
-    {
-        return m_label.renderedHeight + m_valueText.renderedHeight;
-    }
-
     public UIElementFillValue SetLabel(string label)
     {
         m_label.text = label;

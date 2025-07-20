@@ -4,22 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIElementContainer : MonoBehaviour
 {
+    [SerializeField] float m_contentMoreSize = 0;
+
     List<UIElementBase> m_elements = new List<UIElementBase>();
     RectTransform m_container;
     RectTransform m_rectTransform;
-
-    float m_height = 0;
+    VerticalLayoutGroup m_group;
 
     private void Awake()
     {
-        var containerTransform = transform.Find("Container");
-        if (containerTransform != null)
-            m_container = containerTransform.GetComponent<RectTransform>();
-        if (m_container == null)
-            m_container = GetComponent<RectTransform>();
+        m_group = GetComponentInChildren<VerticalLayoutGroup>();
+        m_container = m_group.GetComponent<RectTransform>();
         m_rectTransform = GetComponent<RectTransform>();
     }
 
@@ -77,39 +76,21 @@ public class UIElementContainer : MonoBehaviour
 
     private void Update()
     {
-        return;
+        m_container.sizeDelta = new Vector2(m_container.sizeDelta.x, m_group.preferredHeight);
 
-        float top = 0;
+        var canvas = m_rectTransform.GetComponentInParent<Canvas>();
+        var canvasTransform = canvas.GetComponent<RectTransform>();
+        float maxHeight = canvasTransform.rect.height - m_rectTransform.anchoredPosition.y;
 
-        foreach(var e in m_elements)
-        {
-            if (e == null)
-                continue;
-
-            float height = e.GetHeight();
-
-            var tr = e.GetComponent<RectTransform>();
-            if (tr == null)
-                continue;
-
-            tr.anchoredPosition = new Vector2(0, -top);
-            tr.anchorMin = new Vector2(0, tr.anchorMin.y);
-            tr.anchorMax = new Vector2(1, tr.anchorMax.y);
-            tr.sizeDelta = new Vector2(0, height);
-
-            top += height;
-            top += Global.instance.UIElementDatas.spacing;
-        }
-
-        top -= Global.instance.UIElementDatas.spacing;
-        m_rectTransform.sizeDelta = new Vector2(m_rectTransform.sizeDelta.x, top - m_container.sizeDelta.y);
-
-        m_height = top;
+        float height = m_group.preferredHeight + m_contentMoreSize;
+        if (height > maxHeight)
+            height = maxHeight;
+        m_rectTransform.sizeDelta = new Vector2(m_rectTransform.sizeDelta.x, height);
     }
 
     public float GetHeight()
     {
-        return m_height;
+        return m_group.preferredHeight;
     }
 }
 

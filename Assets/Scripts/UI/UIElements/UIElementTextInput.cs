@@ -35,11 +35,6 @@ public class UIElementTextInput : UIElementBase
             m_textChangeFunc(text);
     }
 
-    public override float GetHeight()
-    {
-        return m_rect.rect.height;
-    }
-
     public UIElementTextInput SetText(string text)
     {
         bool textChange = text != m_inputField.text;

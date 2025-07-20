@@ -41,13 +41,6 @@ public class UIElementLabelAndText : UIElementBase
         m_transform = transform as RectTransform;
     }
 
-    public override float GetHeight()
-    {
-        if (m_displayedTextMultiline)
-            return m_label.renderedHeight + m_text.renderedHeight;
-        return m_text.renderedHeight;
-    }
-
     public UIElementLabelAndText SetLabel(string label)
     {
         m_label.text = label;

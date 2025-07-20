@@ -32,11 +32,6 @@ public class UIElementToggle : UIElementBase
             m_toggleChangeFunc(value);
     }
 
-    public override float GetHeight()
-    {
-        return m_label.renderedHeight;
-    }
-
     public UIElementToggle SetValue(bool toggled)
     {
         if(m_inputField.isOn != toggled)

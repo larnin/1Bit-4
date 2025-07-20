@@ -107,11 +107,6 @@ public class UIElementIntInput : UIElementBase
         OnTextChange(m_inputField.text);
     }
 
-    public override float GetHeight()
-    {
-        return m_rect.rect.height;
-    }
-
     public UIElementIntInput SetValue(int value)
     {
         m_lastValidValue = 0;

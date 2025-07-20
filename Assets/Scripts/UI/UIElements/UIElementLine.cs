@@ -13,15 +13,4 @@ public class UIElementLine : UIElementBase
     {
         m_image = GetComponentInChildren<Image>();
     }
-
-    public override float GetHeight()
-    {
-        if (m_image == null)
-            return 0;
-
-        if (m_image.sprite != null)
-            return m_image.sprite.rect.height;
-
-        return m_image.preferredHeight;
-    }
 }

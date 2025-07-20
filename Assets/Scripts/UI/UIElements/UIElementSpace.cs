@@ -15,10 +15,6 @@ public class UIElementSpace : UIElementBase
         m_elemnt = GetComponent<LayoutElement>();
     }
 
-    public override float GetHeight()
-    {
-        return m_space;
-    }
     public UIElementSpace SetSpace(float space)
     {
         m_space = space;
