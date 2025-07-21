@@ -7,10 +7,5 @@ using UnityEngine.UI;
 
 public class UIElementLine : UIElementBase
 {
-    Image m_image;
 
-    private void Awake()
-    {
-        m_image = GetComponentInChildren<Image>();
-    }
 }

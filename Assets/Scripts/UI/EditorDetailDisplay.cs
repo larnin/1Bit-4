@@ -33,6 +33,8 @@ class WorldData
 
 public class EditorDetailDisplay : MonoBehaviour
 {
+    [SerializeField] Sprite m_testSprite;
+
     UIElementContainer m_container;
 
     SubscriberList m_subscriberList = new SubscriberList();
@@ -175,6 +177,14 @@ public class EditorDetailDisplay : MonoBehaviour
     void DrawGeneration()
     {
         DrawHeader();
+
+        UIElementData.Create<UIElementLabelAndText>(m_container).SetLabel("Label").SetText("Text a little longer");
+        UIElementData.Create<UIElementLine>(m_container);
+        UIElementData.Create<UIElementFloatInput>(m_container).SetLabel("Float").SetValue(14.37f);
+        UIElementData.Create<UIElementTextInput>(m_container).SetLabel("Text").SetText("Nothing !");
+        UIElementData.Create<UIElementSprite>(m_container).SetSprite(m_testSprite).SetPreserveAspect(true).SetAlignment(UIElementAlignment.left).SetScale(2);
+        UIElementData.Create<UIElementToggle>(m_container).SetLabel("Toggle");
+        UIElementData.Create<UIElementFillValue>(m_container).SetLabel("Fill").SetMax(10).SetValue(7);
     }
 
     void Clean()

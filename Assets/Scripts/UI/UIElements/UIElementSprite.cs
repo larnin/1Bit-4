@@ -9,45 +9,35 @@ using UnityEngine.UI;
 public class UIElementSprite : UIElementBase
 {
     Image m_image;
-    RectTransform m_imageTransform;
-    Vector2 m_size;
-    bool m_nativeSize = true;
-    UIElementAlignment m_alignment = UIElementAlignment.center;
+    Transform m_left;
+    Transform m_right;
+    LayoutElement m_element;
+    float m_scale = 1;
 
     Func<Sprite> m_spriteFunc;
 
     private void Awake()
     {
         m_image = GetComponentInChildren<Image>();
-        if (m_image != null)
-            m_imageTransform = m_image.GetComponent<RectTransform>();
+        if(m_image != null)
+            m_element = m_image.GetComponent<LayoutElement>();
+        m_left = transform.Find("Left");
+        m_right = transform.Find("Right");
     }
 
     private void Update()
     {
         if (m_spriteFunc != null)
+        {
             m_image.sprite = m_spriteFunc();
-
-        if(m_nativeSize && m_image.sprite != null)
-            m_size = m_image.sprite.rect.size;
-
-        float parentWidth = m_size.x;
-        if(transform.parent != null)
-            parentWidth = (transform.parent as RectTransform).rect.width;
-
-        var rect = new Rect(new Vector2(0, 0), m_size);
-        if(m_alignment == UIElementAlignment.center)
-            rect.position = new Vector2((parentWidth - m_size.x) / 2, rect.position.y);
-        else if(m_alignment == UIElementAlignment.right)
-            rect.position = new Vector2(parentWidth - m_size.x, rect.position.y);
-
-        m_imageTransform.anchorMin = new Vector2(rect.x / parentWidth, m_imageTransform.anchorMin.y);
-        m_imageTransform.anchorMax = new Vector2((rect.x + rect.width) / parentWidth, m_imageTransform.anchorMax.y); 
+            UpdateSize();
+        }
     }
 
     public UIElementSprite SetSprite(Sprite sprite)
     {
         m_image.sprite = sprite;
+        UpdateSize();
         return this;
     }
 
@@ -57,22 +47,33 @@ public class UIElementSprite : UIElementBase
         return this;
     }
 
-    public UIElementSprite SetSize(Vector2 size)
+    public UIElementSprite SetPreserveAspect(bool preserve)
     {
-        m_nativeSize = false;
-        m_size = size;
+        m_image.preserveAspect = preserve;
         return this;
     }
 
-    public UIElementSprite SetNativeSize()
+    public void SetScale(float scale)
     {
-        m_nativeSize = true;
-        return this;
+        m_scale = scale;
+        UpdateSize();
     }
 
     public UIElementSprite SetAlignment(UIElementAlignment alignment)
     {
-        m_alignment = alignment;
+        m_left.gameObject.SetActive(alignment != UIElementAlignment.left);
+        m_right.gameObject.SetActive(alignment != UIElementAlignment.right);
         return this;
+    }
+
+    void UpdateSize()
+    {
+        if (m_image.sprite == null || m_element == null)
+            return;
+
+        var size = m_image.sprite.rect.size;
+
+        m_element.minWidth = size.x * m_scale;
+        m_element.minHeight = size.y * m_scale;
     }
 }

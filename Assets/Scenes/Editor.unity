@@ -1804,7 +1804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35689fa67fb42ab44bcd7e8bbb016eb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_contentMoreSize: 3
+  m_contentMoreSize: 6
 --- !u!114 &1442314021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1855,6 +1855,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eca1f996ed4b2a84a874f5c31320a16d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_testSprite: {fileID: -1440480786, guid: d289d3f5b7bf08a40acae9bd3b9185b0, type: 3}
 --- !u!114 &1442314024
 MonoBehaviour:
   m_ObjectHideFlags: 0

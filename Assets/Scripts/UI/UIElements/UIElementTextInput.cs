@@ -11,7 +11,6 @@ public class UIElementTextInput : UIElementBase
 {
     TMP_Text m_label;
     TMP_InputField m_inputField;
-    RectTransform m_rect;
     Action<string> m_textChangeFunc;
     Func<string> m_textFunc; 
 
@@ -78,22 +77,5 @@ public class UIElementTextInput : UIElementBase
                 OnTextChange(newText);
             }
         }
-
-        var inputTransform = m_inputField.GetComponent<RectTransform>();
-        var labelSize = m_label.renderedWidth;
-        if (labelSize < 0)
-            labelSize = 0;
-
-        var anchor = inputTransform.anchoredPosition;
-        var size = inputTransform.sizeDelta;
-
-        float right = -anchor.x - size.x / 2;
-        float left = labelSize + 2;
-
-        anchor.x = (left - right) / 2;
-        size.x = -left - right;
-
-        inputTransform.anchoredPosition = anchor;
-        inputTransform.sizeDelta = size;
     }
 }
