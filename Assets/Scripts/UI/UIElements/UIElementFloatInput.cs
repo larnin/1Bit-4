@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,8 @@ public class UIElementFloatInput : UIElementBase
 
     float m_minValue = float.MinValue;
     float m_maxValue = float.MaxValue;
+
+    IFormatProvider m_format = new CultureInfo("en-US");
 
     private void Awake()
     {
@@ -45,7 +48,7 @@ public class UIElementFloatInput : UIElementBase
         if (m_lessButton != null)
             m_lessButton.onClick.AddListener(OnLessClick);
 
-        m_inputField.text = m_lastValidValue.ToString();
+        m_inputField.text = m_lastValidValue.ToString(m_format);
     }
 
     char OnInputValidation(string input, int charIndex, char addedChar)
@@ -55,9 +58,9 @@ public class UIElementFloatInput : UIElementBase
             if (charIndex != 0)
                 return '\0';
         }
-        else if(addedChar == '.' || addedChar == ',')
+        else if(addedChar == '.')
         {
-            if (input.IndexOf('.') > 0 || input.IndexOf(',') > 0)
+            if (input.IndexOf('.') > 0)
                 return '\0';
         }
         else if (addedChar < '0' || addedChar > '9')
@@ -70,9 +73,9 @@ public class UIElementFloatInput : UIElementBase
     {
         float newValue = 0;
 
-        if (!float.TryParse(text, out newValue))
+        if (!float.TryParse(text, NumberStyles.Float, m_format, out newValue))
         {
-            m_inputField.text = m_lastValidValue.ToString();
+            m_inputField.text = m_lastValidValue.ToString(m_format);
             return;
         }
 
@@ -101,7 +104,7 @@ public class UIElementFloatInput : UIElementBase
         if (newValue != m_lastValidValue)
             m_lastValidValue = newValue;
 
-        m_inputField.text = m_lastValidValue.ToString();
+        m_inputField.text = m_lastValidValue.ToString(m_format);
         OnTextChange(m_inputField.text);
     }
 
@@ -132,7 +135,7 @@ public class UIElementFloatInput : UIElementBase
         if (m_lastValidValue != newValue)
         {
             m_lastValidValue = newValue;
-            m_inputField.text = m_lastValidValue.ToString();
+            m_inputField.text = m_lastValidValue.ToString(m_format);
             OnTextChange(m_inputField.text);
         }
 

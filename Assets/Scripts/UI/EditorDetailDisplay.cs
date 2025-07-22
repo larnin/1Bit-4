@@ -180,11 +180,15 @@ public class EditorDetailDisplay : MonoBehaviour
 
         UIElementData.Create<UIElementLabelAndText>(m_container).SetLabel("Label").SetText("Text a little longer");
         UIElementData.Create<UIElementLine>(m_container);
+        UIElementData.Create<UIElementButton>(m_container).SetText("Press Me !");
+        UIElementData.Create<UIElementIntInput>(m_container).SetLabel("Int").SetValue(1256);
         UIElementData.Create<UIElementFloatInput>(m_container).SetLabel("Float").SetValue(14.37f);
         UIElementData.Create<UIElementTextInput>(m_container).SetLabel("Text").SetText("Nothing !");
-        UIElementData.Create<UIElementSprite>(m_container).SetSprite(m_testSprite).SetPreserveAspect(true).SetAlignment(UIElementAlignment.left).SetScale(2);
-        UIElementData.Create<UIElementToggle>(m_container).SetLabel("Toggle");
-        UIElementData.Create<UIElementFillValue>(m_container).SetLabel("Fill").SetMax(10).SetValue(7);
+
+        var container = UIElementData.Create<UIElementFoldable>(m_container).SetHeaderText("Foldable").GetContainer();
+        UIElementData.Create<UIElementSprite>(container).SetSprite(m_testSprite).SetPreserveAspect(true).SetAlignment(UIElementAlignment.left).SetScale(2);
+        UIElementData.Create<UIElementToggle>(container).SetLabel("Toggle");
+        UIElementData.Create<UIElementFillValue>(container).SetLabel("Fill").SetMax(10).SetValue(7.2f).SetNbDigits(1);
     }
 
     void Clean()
