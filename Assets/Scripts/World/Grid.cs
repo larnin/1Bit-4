@@ -88,9 +88,19 @@ public class Grid
         return m_loopX;
     }
 
+    public void SetLoopX(bool loop)
+    {
+        m_loopX = loop;
+    }
+
     public bool LoopZ()
     {
         return m_loopZ;
+    }
+
+    public void SetLoopZ(bool loop)
+    {
+        m_loopZ = loop;
     }
 
     public Matrix<Block> Get(Vector3Int index)

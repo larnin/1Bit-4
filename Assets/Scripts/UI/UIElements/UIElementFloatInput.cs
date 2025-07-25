@@ -79,6 +79,9 @@ public class UIElementFloatInput : UIElementBase
             return;
         }
 
+        newValue = Mathf.Clamp(newValue, m_minValue, m_maxValue);
+        m_inputField.text = newValue.ToString();
+
         if (m_lastValidValue == newValue)
             return;
 
@@ -102,9 +105,15 @@ public class UIElementFloatInput : UIElementBase
     {
         float newValue = Mathf.Clamp(m_lastValidValue + offset, m_minValue, m_maxValue);
         if (newValue != m_lastValidValue)
+        {
             m_lastValidValue = newValue;
 
-        m_inputField.text = m_lastValidValue.ToString(m_format);
+
+            if (m_valueChangeFunc != null)
+                m_valueChangeFunc(newValue);
+        }
+
+            m_inputField.text = m_lastValidValue.ToString(m_format);
         OnTextChange(m_inputField.text);
     }
 

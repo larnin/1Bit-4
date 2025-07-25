@@ -24,3 +24,13 @@ public class GetGridGenerationStatusEvent
 }
 
 public class GenerationFinishedEvent { }
+
+public class SetChunkDirtyEvent
+{
+    public Vector3Int chunk;
+
+    public SetChunkDirtyEvent(Vector3Int _chunk)
+    {
+        chunk = _chunk;
+    }
+}

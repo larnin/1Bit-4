@@ -15,6 +15,7 @@ public class GridBehaviour : MonoBehaviour
     private void Awake()
     {
         m_subscriberList.Add(new Event<GetGridEvent>.Subscriber(GetGrid));
+        m_subscriberList.Add(new Event<SetChunkDirtyEvent>.Subscriber(SetChunkDirty));
         m_subscriberList.Subscribe();
     }
 
@@ -34,9 +35,33 @@ public class GridBehaviour : MonoBehaviour
         return m_grid;
     }
 
-    public void GetGrid(GetGridEvent e)
+    void GetGrid(GetGridEvent e)
     {
         e.grid = m_grid;
+    }
+
+    void SetChunkDirty(SetChunkDirtyEvent e)
+    {
+        int size = m_grid.Size();
+        int height = m_grid.Height();
+
+
+        for (int i = -1; i <= 1; i++)
+        {
+            for(int j = -1; j <= 1; j++)
+            {
+                for(int k = -1; k <= 1; k++)
+                {
+                    Vector3Int chunk = e.chunk + new Vector3Int(i, j, k);
+
+                    if (i < 0 || j < 0 || k < 0 || i >= size || j >= height || k >= size)
+                        continue;
+
+                    var behaviour = m_chunks.Get(chunk.x, chunk.y, chunk.z);
+                    behaviour.SetChunk(m_grid, chunk);
+                }
+            }
+        }
     }
 
     void CreateChunks()
@@ -98,5 +123,80 @@ public class GridBehaviour : MonoBehaviour
     public int GetTotalCount()
     {
         return m_chunks.width * m_chunks.height * m_chunks.depth;
+    }
+
+    public void ResizeGrid(int size, int height, Action<Matrix<Block>, Vector3Int> populateNewChunkCallback = null)
+    {
+        Grid newGrid = new Grid(size, height, m_grid.LoopX(), m_grid.LoopZ());
+
+        Matrix<ChunkBehaviour> newChunks = new Matrix<ChunkBehaviour>(size, height, size);
+
+        int sizeMin = Mathf.Min(size, m_grid.Size());
+        int heightMin = Mathf.Min(height, m_grid.Height());
+
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                for (int k = 0; k < size; k++)
+                {
+                    var pos = new Vector3Int(i, j, k);
+
+                    if (i < sizeMin && j < heightMin && k < sizeMin)
+                    {
+                        var oldChunk = m_grid.Get(pos);
+                        var newChunk = newGrid.Get(pos);
+
+                        for (int x = 0; x < Grid.ChunkSize; x++)
+                        {
+                            for (int y = 0; y < Grid.ChunkSize; y++)
+                            {
+                                for (int z = 0; z < Grid.ChunkSize; z++)
+                                {
+                                    newChunk.Set(x, y, z, oldChunk.Get(x, y, z));
+                                }
+                            }
+                        }
+                    }
+                    else if (populateNewChunkCallback != null)
+                    {
+                        var newChunk = newGrid.Get(pos);
+                        populateNewChunkCallback(newChunk, pos);
+                    }
+                }
+            }
+        }
+
+        int sizeMax = Mathf.Max(size, m_grid.Size());
+        int heightMax = Mathf.Max(height, m_grid.Height());
+
+        m_grid = newGrid;
+        var oldChunks = m_chunks;
+        m_chunks = newChunks;
+
+        for (int i = 0; i < sizeMax; i++)
+        {
+            for (int j = 0; j < heightMax; j++)
+            {
+                for (int k = 0; k < sizeMax; k++)
+                {
+                    var pos = new Vector3Int(i, j, k);
+
+                    if (i < sizeMin && j < heightMin && k < sizeMin)
+                    {
+                        var chunk = oldChunks.Get(i, j, k);
+                        chunk.SetChunk(m_grid, pos);
+                        m_chunks.Set(i, j, k, chunk);
+                    }
+                    else if (i < size && j < size && k < size)
+                        CreateOneChunk(pos);
+                    else
+                    {
+                        var chunk = oldChunks.Get(i, j, k);
+                        Destroy(chunk.gameObject);
+                    }
+                }
+            }
+        }
     }
 }

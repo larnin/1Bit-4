@@ -25,12 +25,6 @@ public enum EditorSystemButtonType
     Exit,
 }
 
-class WorldData
-{
-    public int size = 4;
-    public int height = 2;
-}
-
 public class EditorDetailDisplay : MonoBehaviour
 {
     [SerializeField] Sprite m_testSprite;
@@ -40,8 +34,6 @@ public class EditorDetailDisplay : MonoBehaviour
     SubscriberList m_subscriberList = new SubscriberList();
 
     EditorToolCategoryType m_currentCategory = EditorToolCategoryType.None;
-
-    WorldData m_worldData = new WorldData();
 
     private void Awake()
     {
@@ -158,20 +150,71 @@ public class EditorDetailDisplay : MonoBehaviour
         DrawHeader();
 
         UIElementData.Create<UIElementSimpleText>(m_container).SetText("Grid size");
-        UIElementData.Create<UIElementIntInput>(m_container).SetLabel("- Width").SetValue(m_worldData.size).SetValueChangeFunc(SetWorldSize);
-        UIElementData.Create<UIElementIntInput>(m_container).SetLabel("- Height").SetValue(m_worldData.height).SetValueChangeFunc(SetWorldHeight);
+        UIElementData.Create<UIElementIntInput>(m_container).SetLabel("- Width").SetValue(GetWorldSize()).SetValueChangeFunc(SetWorldSize).SetBounds(1, 100);
+        UIElementData.Create<UIElementIntInput>(m_container).SetLabel("- Height").SetValue(GetWorldHeight()).SetValueChangeFunc(SetWorldHeight).SetBounds(1, 100);
+        UIElementData.Create<UIElementToggle>(m_container).SetLabel("- Loop X").SetValue(GetWorldLoopX()).SetValueChangeFunc(SetWorldLoopX);
+        UIElementData.Create<UIElementToggle>(m_container).SetLabel("- Loop Z").SetValue(GetWorldLoopZ()).SetValueChangeFunc(SetWorldLoopZ);
 
         var foldTools = UIElementData.Create<UIElementFoldable>(m_container).SetHeaderText("Tools");
     }
 
+    int GetWorldSize()
+    {
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        if (grid.grid != null)
+            return grid.grid.Size();
+        return 0;
+    }
+
+    int GetWorldHeight()
+    {
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        if (grid.grid != null)
+            return grid.grid.Height();
+        return 0;
+    }
+
     void SetWorldSize(int value)
     {
-        m_worldData.size = value;
+        if (EditorGridBehaviour.instance != null)
+            EditorGridBehaviour.instance.SetGridSize(value, GetWorldHeight());
     }
 
     void SetWorldHeight(int value)
     {
-        m_worldData.height = value;
+
+        if (EditorGridBehaviour.instance != null)
+            EditorGridBehaviour.instance.SetGridSize(GetWorldSize(), value);
+    }
+
+    bool GetWorldLoopX()
+    {
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        if (grid.grid != null)
+            return grid.grid.LoopX();
+        return false;
+    }
+
+    bool GetWorldLoopZ()
+    {
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        if (grid.grid != null)
+            return grid.grid.LoopZ();
+        return false;
+    }
+
+    void SetWorldLoopX(bool loop)
+    {
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        if (grid.grid != null)
+            grid.grid.SetLoopX(loop);
+    }
+
+    void SetWorldLoopZ(bool loop)
+    {
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        if (grid.grid != null)
+            grid.grid.SetLoopZ(loop);
     }
 
     void DrawGeneration()

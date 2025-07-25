@@ -53,4 +53,10 @@ public class UIElementToggle : UIElementBase
         m_label.text = label;
         return this;
     }
+
+    public UIElementToggle SetValueChangeFunc(Action<bool> toggleChangeFunc)
+    {
+        m_toggleChangeFunc = toggleChangeFunc;
+        return this;
+    }
 }
