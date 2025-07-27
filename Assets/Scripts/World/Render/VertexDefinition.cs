@@ -22,6 +22,12 @@ public struct ColliderVertexDefinition
     public Vector3 normal;
 }
 
+public struct WireframeVertexDefinition
+{
+    public Vector3 pos;
+    public Color32 color;
+}
+
 public static class MeshEx
 {
     static public void SetWorldMeshParams(Mesh mesh, int vertexNb, int indexNb)
@@ -46,6 +52,20 @@ public static class MeshEx
         {
             new VertexAttributeDescriptor(VertexAttribute.Position, VertexAttributeFormat.Float32, 3),
             new VertexAttributeDescriptor(VertexAttribute.Normal, VertexAttributeFormat.Float32, 3)
+        };
+
+        mesh.SetVertexBufferParams(vertexNb, layout);
+
+        mesh.SetIndexBufferParams(indexNb, IndexFormat.UInt16);
+    }
+
+    static public void SetWireframeMeshParams(Mesh mesh, int vertexNb, int indexNb)
+    {
+        var layout = new[]
+        {
+            new VertexAttributeDescriptor(VertexAttribute.Position, VertexAttributeFormat.Float32, 3),
+            new VertexAttributeDescriptor(VertexAttribute.Normal, VertexAttributeFormat.Float32, 3),
+            new VertexAttributeDescriptor(VertexAttribute.Color, VertexAttributeFormat.UInt8, 4)
         };
 
         mesh.SetVertexBufferParams(vertexNb, layout);

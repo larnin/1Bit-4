@@ -25,6 +25,14 @@ public enum EditorSystemButtonType
     Exit,
 }
 
+public enum EditorSimpleToolType
+{
+    SimpleBlock,
+    Cuboid,
+    Sphere,
+    Smooth,
+}
+
 public class EditorDetailDisplay : MonoBehaviour
 {
     [SerializeField] Sprite m_testSprite;
@@ -155,7 +163,11 @@ public class EditorDetailDisplay : MonoBehaviour
         UIElementData.Create<UIElementToggle>(m_container).SetLabel("- Loop X").SetValue(GetWorldLoopX()).SetValueChangeFunc(SetWorldLoopX);
         UIElementData.Create<UIElementToggle>(m_container).SetLabel("- Loop Z").SetValue(GetWorldLoopZ()).SetValueChangeFunc(SetWorldLoopZ);
 
-        var foldTools = UIElementData.Create<UIElementFoldable>(m_container).SetHeaderText("Tools");
+        var ToolsContainer = UIElementData.Create<UIElementFoldable>(m_container).SetHeaderText("Tools").GetContainer();
+        UIElementData.Create<UIElementButton>(ToolsContainer).SetText("Simple Block").SetClickFunc(() => { EnableSimpleTool(EditorSimpleToolType.SimpleBlock); });
+        UIElementData.Create<UIElementButton>(ToolsContainer).SetText("Cuboid").SetClickFunc(() => { EnableSimpleTool(EditorSimpleToolType.Cuboid); });
+        UIElementData.Create<UIElementButton>(ToolsContainer).SetText("Sphere").SetClickFunc(() => { EnableSimpleTool(EditorSimpleToolType.Sphere); });
+        UIElementData.Create<UIElementButton>(ToolsContainer).SetText("Smooth").SetClickFunc(() => { EnableSimpleTool(EditorSimpleToolType.Smooth); });
     }
 
     int GetWorldSize()
@@ -215,6 +227,29 @@ public class EditorDetailDisplay : MonoBehaviour
         var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
         if (grid.grid != null)
             grid.grid.SetLoopZ(loop);
+    }
+
+    void EnableSimpleTool(EditorSimpleToolType type)
+    {
+        EditorToolBase tool = null;
+        switch(type)
+        {
+            case EditorSimpleToolType.SimpleBlock:
+                tool = new EditorToolSimpleBlock();
+                break;
+            default:
+                throw new NotImplementedException("Implement theses fucking tools");
+                break;
+        }
+
+        if (tool == null)
+            return;
+
+        var holder = EditorToolHolder.instance;
+        if (holder == null)
+            return;
+
+        holder.SetCurrentTool(tool);
     }
 
     void DrawGeneration()
