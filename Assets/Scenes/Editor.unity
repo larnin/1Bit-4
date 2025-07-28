@@ -532,6 +532,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CameraPivot
       objectReference: {fileID: 0}
+    - target: {fileID: 7536025332006887157, guid: 09f2e21b8e2c4cc4492befb83369cf72, type: 3}
+      propertyPath: m_additionnalCameraPrefab
+      value: 
+      objectReference: {fileID: 8768015364053376207, guid: c32ff84614c1c1542852fce7b977cf11, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09f2e21b8e2c4cc4492befb83369cf72, type: 3}
 --- !u!20 &145441925 stripped
@@ -2196,6 +2200,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_initialGridSize: 4
   m_initialGridHeight: 2
+  m_gridSizeMaterial: {fileID: 2100000, guid: 17c0fdac509495744b61ab83e0ce2414, type: 2}
+  m_gridSizeColor: {r: 0, g: 0.6666665, b: 1, a: 0}
 --- !u!1001 &1754761474
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -188,7 +188,7 @@ public class GridBehaviour : MonoBehaviour
                         chunk.SetChunk(m_grid, pos);
                         m_chunks.Set(i, j, k, chunk);
                     }
-                    else if (i < size && j < size && k < size)
+                    else if (i < size && j < height && k < size)
                         CreateOneChunk(pos);
                     else
                     {

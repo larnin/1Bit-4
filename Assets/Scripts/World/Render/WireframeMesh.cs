@@ -121,14 +121,146 @@ public static class WireframeMesh
 
     public static Mesh Sphere(Vector3Int size, Color32 color)
     {
-        return null;
+        SimpleMeshParam<WireframeVertexDefinition> meshParams = new SimpleMeshParam<WireframeVertexDefinition>();
+
+        Vector3 center = new Vector3(size.x, size.y, size.z) / 2;
+        var faces = Enum.GetValues(typeof(BlockFace));
+
+        for(int i = 0; i < size.x; i++)
+        {
+            for(int j = 0; j < size.y; j++)
+            {
+                for (int k = 0; k < size.z; k++)
+                {
+                    Vector3 posFromCenter = new Vector3(i, j, k) - center;
+                    for (int x = 0; x < 3; x++)
+                        posFromCenter[x] -= 0.5f * Mathf.Sign(posFromCenter[x]);
+
+                    if (!IsPosOnSphere(posFromCenter, center))
+                        continue;
+
+                    foreach(var face in faces)
+                    {
+                        if (!IsPosOnSphere(posFromCenter + new Vector3(1, 0, 0), center))
+                            AddFace(meshParams, new Vector3(i, j, k), new Vector3(1, 0, 0), color);
+
+                        if (!IsPosOnSphere(posFromCenter + new Vector3(-1, 0, 0), center))
+                            AddFace(meshParams, new Vector3(i, j, k), new Vector3(-1, 0, 0), color);
+
+                        if (!IsPosOnSphere(posFromCenter + new Vector3(0, 1, 0), center))
+                            AddFace(meshParams, new Vector3(i, j, k), new Vector3(0, 1, 0), color);
+
+                        if (!IsPosOnSphere(posFromCenter + new Vector3(0, -1, 0), center))
+                            AddFace(meshParams, new Vector3(i, j, k), new Vector3(0, -1, 0), color);
+
+                        if (!IsPosOnSphere(posFromCenter + new Vector3(0, 0, 1), center))
+                            AddFace(meshParams, new Vector3(i, j, k), new Vector3(0, 0, 1), color);
+
+                        if (!IsPosOnSphere(posFromCenter + new Vector3(0, 0, -1), center))
+                            AddFace(meshParams, new Vector3(i, j, k), new Vector3(0, 0, -1), color);
+                    }
+                }
+            }
+        }
+
+        return MakeMesh(meshParams, new Bounds(new Vector3(size.x, size.y, size.z) / 2, size));
     }
+
+    static bool IsPosOnSphere(Vector3 pos, Vector3 halfSize)
+    {
+        float r = new Vector3(pos.x / halfSize.x, pos.y / halfSize.y, pos.z / halfSize.z).sqrMagnitude;
+        return r <= 1;
+    }
+
+    static void AddFace(SimpleMeshParam<WireframeVertexDefinition> meshParams, Vector3 pos, Vector3 normal, Color color)
+    {
+        Vector3 dir1 = Vector3.zero;
+        Vector3 dir2 = Vector3.zero;
+
+        if(Mathf.Abs(Vector3.Dot(normal, new Vector3(0, 1, 0))) > 0.95f)
+        {
+            dir1 = new Vector3(1, 0, 0);
+            dir2 = new Vector3(0, 1, 0);
+        }
+        else
+        {
+            dir1 = Vector3.Cross(normal, new Vector3(0, 1, 0)).normalized;
+            dir2 = Vector3.Cross(normal, dir1).normalized;
+        }
+
+        var pos1 = pos - dir1 * 0.5f - dir2 * 0.5f;
+        var pos2 = pos - dir1 * 0.5f + dir2 * 0.5f;
+        var pos3 = pos + dir1 * 0.5f - dir2 * 0.5f;
+        var pos4 = pos + dir1 * 0.5f + dir2 * 0.5f;
+
+        AddEdgeIfNotExist(meshParams, pos1, pos2, color);
+        AddEdgeIfNotExist(meshParams, pos2, pos4, color);
+        AddEdgeIfNotExist(meshParams, pos4, pos3, color);
+        AddEdgeIfNotExist(meshParams, pos3, pos1, color);
+    }
+
+    static void AddEdgeIfNotExist(SimpleMeshParam<WireframeVertexDefinition> meshParams, Vector3 pos1, Vector3 pos2, Color color)
+    {
+        var data = meshParams.Allocate(2, 2);
+
+        int firstIndex = -1;
+        int secondIndex = -1;
+        float maxDist = 0.1f;
+
+        for(int i = 0; i < data.verticesSize; i++)
+        {
+            if (firstIndex < 0 && (data.vertices[i].pos - pos1).sqrMagnitude < maxDist)
+                firstIndex = i;
+            if (secondIndex < 0 && (data.vertices[i].pos - pos2).sqrMagnitude < maxDist)
+                secondIndex = i;
+        }
+
+        bool makeEdge = false;
+        if(firstIndex < 0)
+        {
+            data.vertices[data.verticesSize].pos = pos1;
+            data.vertices[data.verticesSize].color = color;
+            firstIndex = data.verticesSize;
+            data.verticesSize++;
+            makeEdge = true;
+        }
+
+        if (secondIndex < 0)
+        {
+            data.vertices[data.verticesSize].pos = pos2;
+            data.vertices[data.verticesSize].color = color;
+            secondIndex = data.verticesSize;
+            data.verticesSize++;
+            makeEdge = true;
+        }
+
+        if(!makeEdge)
+        {
+            makeEdge = true;
+            for(int i = 0; i < data.indexesSize / 2; i++)
+            {
+                if((data.indexes[i * 2] == firstIndex && data.indexes[i * 2 + 1] == secondIndex) ||
+                    (data.indexes[i * 2 + 1] == firstIndex && data.indexes[i * 2] == secondIndex))
+                {
+                    makeEdge = false;
+                    break;
+                }
+            }
+        }
+
+        if(makeEdge)
+        {
+            data.indexes[data.indexesSize] = (ushort)firstIndex;
+            data.indexes[data.indexesSize + 1] = (ushort)secondIndex;
+        }
+    }
+
     static Mesh MakeMesh(SimpleMeshParam<WireframeVertexDefinition> meshParams, Bounds bounds)
     {
         var data = meshParams.GetMesh(0);
 
         Mesh mesh = new Mesh();
-        MeshEx.SetWorldMeshParams(mesh, data.verticesSize, data.indexesSize);
+        MeshEx.SetWireframeMeshParams(mesh, data.verticesSize, data.indexesSize);
 
         mesh.SetVertexBufferData(data.vertices, 0, 0, data.verticesSize);
         mesh.SetIndexBufferData(data.indexes, 0, 0, data.indexesSize);

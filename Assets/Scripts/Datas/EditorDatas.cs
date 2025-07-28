@@ -34,5 +34,8 @@ public class QuestElementData
 [Serializable]
 public class EditorDatas
 {
+    public string editorLayer;
 
+    public List<GameEntityData> entities;
+    public List<QuestElementData> questElements;
 }
