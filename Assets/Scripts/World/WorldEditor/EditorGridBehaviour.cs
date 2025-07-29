@@ -106,4 +106,35 @@ public class EditorGridBehaviour : MonoBehaviour
 
         m_gridSizeDisplay.mesh = WireframeMesh.SimpleCube(new Vector3(size, height, size), Vector3.zero, m_gridSizeColor);
     }
+
+    public void SetBlock(Vector3Int pos, Block b, bool setDirty = true)
+    {
+        if (m_gridBehaviour == null)
+            return;
+
+        var grid = m_gridBehaviour.GetGrid();
+        if (grid == null)
+            return;
+
+        GridEx.SetBlock(grid, pos, b);
+
+        if (setDirty)
+        {
+            Vector3Int chunkIndex = Grid.PosToChunkIndex(new Vector3Int(pos.x, 0, pos.y));
+            m_gridBehaviour.SetChunkDirty(chunkIndex);
+        }
+    }
+
+    public void SetRegionDirty(BoundsInt bounds)
+    {
+        if (m_gridBehaviour == null)
+            return;
+
+        Vector3Int min = Grid.PosToChunkIndex(bounds.min);
+        Vector3Int max = Grid.PosToChunkIndex(bounds.max);
+
+        var chunks = new BoundsInt(min, max - min + Vector3Int.one);
+
+        m_gridBehaviour.SetChunksDirty(chunks);
+    }
 }

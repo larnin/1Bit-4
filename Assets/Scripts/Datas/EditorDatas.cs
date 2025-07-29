@@ -35,6 +35,9 @@ public class QuestElementData
 public class EditorDatas
 {
     public string editorLayer;
+    public Material cursorMaterial;
+
+    public LayerMask groundLayer;
 
     public List<GameEntityData> entities;
     public List<QuestElementData> questElements;

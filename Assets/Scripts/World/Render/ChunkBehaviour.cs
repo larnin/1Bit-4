@@ -45,6 +45,15 @@ public class ChunkBehaviour : MonoBehaviour
 
     void OnRenderEnd()
     {
+        //clean all
+        foreach (var r in m_renders)
+            Destroy(r);
+        m_renders.Clear();
+
+        foreach (var c in m_colliders)
+            Destroy(c);
+        m_colliders.Clear();
+
         // draw render
         int index = 0;
         var mats = m_renderer.GetMaterials();

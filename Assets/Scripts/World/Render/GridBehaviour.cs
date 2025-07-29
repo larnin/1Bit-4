@@ -40,7 +40,31 @@ public class GridBehaviour : MonoBehaviour
         e.grid = m_grid;
     }
 
-    void SetChunkDirty(SetChunkDirtyEvent e)
+    public void SetChunksDirty(BoundsInt bounds)
+    {
+        Vector3Int min = bounds.min;
+        Vector3Int max = bounds.max;
+
+        int size = m_grid.Size();
+        int height = m_grid.Height();
+
+        for(int i = min.x - 1; i <= max.x + 1; i++)
+        {
+            for(int j = min.y - 1; j <= max.y + 1; j++)
+            {
+                for(int k = min.z - 1; k <= max.z + 1; k++)
+                {
+                    if (i < 0 || j < 0 || k < 0 || i >= size || j >= height || k >= size)
+                        continue;
+
+                    var behaviour = m_chunks.Get(i, j, k);
+                    behaviour.SetChunk(m_grid, new Vector3Int(i, j, k));
+                }
+            }
+        }
+    }
+
+    public void SetChunkDirty(Vector3Int pos)
     {
         int size = m_grid.Size();
         int height = m_grid.Height();
@@ -48,11 +72,11 @@ public class GridBehaviour : MonoBehaviour
 
         for (int i = -1; i <= 1; i++)
         {
-            for(int j = -1; j <= 1; j++)
+            for (int j = -1; j <= 1; j++)
             {
-                for(int k = -1; k <= 1; k++)
+                for (int k = -1; k <= 1; k++)
                 {
-                    Vector3Int chunk = e.chunk + new Vector3Int(i, j, k);
+                    Vector3Int chunk = pos + new Vector3Int(i, j, k);
 
                     if (i < 0 || j < 0 || k < 0 || i >= size || j >= height || k >= size)
                         continue;
@@ -62,6 +86,11 @@ public class GridBehaviour : MonoBehaviour
                 }
             }
         }
+    }
+
+    void SetChunkDirty(SetChunkDirtyEvent e)
+    {
+        SetChunkDirty(e.chunk);
     }
 
     void CreateChunks()

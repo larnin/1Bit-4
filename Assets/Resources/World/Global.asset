@@ -720,6 +720,10 @@ MonoBehaviour:
     togglePrefab: {fileID: 681455461261020552, guid: 9548ca192bcd4b04380da3a6fd582f7b, type: 3}
   m_editorDatas:
     editorLayer: Editor
+    cursorMaterial: {fileID: 2100000, guid: 9a144ebe82e67da458deb9ae154cee23, type: 2}
+    groundLayer:
+      serializedVersion: 2
+      m_Bits: 64
     entities: []
     questElements: []
   m_statusDatas:
