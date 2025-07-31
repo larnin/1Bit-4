@@ -19,39 +19,11 @@ public class EditorToolSimpleBlock : EditorToolBase
 
     public override void Update()
     {
-        var mousePos = Input.mousePosition;
-        var cam = Event<GetCameraEvent>.Broadcast(new GetCameraEvent());
-
-        if (cam.camera == null)
-            return;
-
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
-            return;
-
-        var ray = cam.camera.ScreenPointToRay(mousePos);
-        RaycastHit hit;
-
-        bool haveHit = Physics.Raycast(ray, out hit, float.MaxValue, Global.instance.editorDatas.groundLayer);
+        bool haveHit = GetMouseBlockTarget(out m_point, out m_pointOnCollision);
         m_cursor.SetActive(haveHit);
 
-        if(haveHit)
+        if (haveHit)
         {
-            var point = hit.point + hit.normal / 2;
-            m_point = new Vector3Int(Mathf.RoundToInt(point.x), Mathf.RoundToInt(point.y), Mathf.RoundToInt(point.z));
-            if(GridEx.GetRealPosFromLoop(grid.grid, m_point) != m_point)
-            {
-                m_cursor.SetActive(false);
-                return;
-            }
-
-            point -= hit.normal;
-            m_pointOnCollision = new Vector3Int(Mathf.RoundToInt(point.x), Mathf.RoundToInt(point.y), Mathf.RoundToInt(point.z));
-
-            var block = GridEx.GetBlock(grid.grid, m_pointOnCollision);
-            if (block.type == BlockType.water)
-                m_point = m_pointOnCollision;
-
             m_cursor.transform.position = m_pointOnCollision;
 
             if (Input.GetMouseButtonDown(0))
@@ -59,6 +31,43 @@ public class EditorToolSimpleBlock : EditorToolBase
             else if (Input.GetMouseButtonDown(1))
                 SetBlock(m_pointOnCollision, false);
         }
+    }
+
+    public static bool GetMouseBlockTarget(out Vector3Int point, out Vector3Int pointOnCollision)
+    {
+        point = Vector3Int.zero;
+        pointOnCollision = Vector3Int.zero;
+
+        var cam = Event<GetCameraEvent>.Broadcast(new GetCameraEvent());
+        if (cam.camera == null)
+            return false;
+
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        if (grid.grid == null)
+            return false;
+
+        var mousePos = Input.mousePosition;
+
+        var ray = cam.camera.ScreenPointToRay(mousePos);
+        RaycastHit hit;
+
+        bool haveHit = Physics.Raycast(ray, out hit, float.MaxValue, Global.instance.editorDatas.groundLayer);
+        if (!haveHit)
+            return false;
+
+        var hitPoint = hit.point + hit.normal / 2;
+        point = new Vector3Int(Mathf.RoundToInt(hitPoint.x), Mathf.RoundToInt(hitPoint.y), Mathf.RoundToInt(hitPoint.z));
+        if (GridEx.GetRealPosFromLoop(grid.grid, point) != point)
+            return false;
+
+        hitPoint -= hit.normal;
+        pointOnCollision = new Vector3Int(Mathf.RoundToInt(hitPoint.x), Mathf.RoundToInt(hitPoint.y), Mathf.RoundToInt(hitPoint.z));
+
+        var block = GridEx.GetBlock(grid.grid, pointOnCollision);
+        if (block.type == BlockType.water)
+            point = pointOnCollision;
+
+        return true;
     }
 
     public override void End()
@@ -72,7 +81,7 @@ public class EditorToolSimpleBlock : EditorToolBase
         if (m_cursor != null)
             return;
 
-        var obj = new GameObject("Grid Size");
+        var obj = new GameObject("Cursor");
         obj.layer = LayerMask.NameToLayer(Global.instance.editorDatas.editorLayer);
         obj.transform.parent = m_holder.transform;
         obj.transform.localPosition = Vector3.zero;

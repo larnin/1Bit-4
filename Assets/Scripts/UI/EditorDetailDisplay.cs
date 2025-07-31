@@ -237,9 +237,14 @@ public class EditorDetailDisplay : MonoBehaviour
             case EditorSimpleToolType.SimpleBlock:
                 tool = new EditorToolSimpleBlock();
                 break;
+            case EditorSimpleToolType.Cuboid:
+                tool = new EditorToolShapeBlock(EditorToolShape.Cuboid);
+                break;
+            case EditorSimpleToolType.Sphere:
+                tool = new EditorToolShapeBlock(EditorToolShape.Sphere);
+                break;
             default:
                 throw new NotImplementedException("Implement theses fucking tools");
-                break;
         }
 
         if (tool == null)

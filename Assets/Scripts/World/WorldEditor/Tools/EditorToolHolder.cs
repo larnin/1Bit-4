@@ -19,6 +19,11 @@ public class EditorToolHolder : MonoBehaviour
             m_instance = this;
     }
 
+    private void OnDestroy()
+    {
+        SetCurrentTool(null);
+    }
+
     public void SetCurrentTool(EditorToolBase tool)
     {
         if (m_currentTool != null)

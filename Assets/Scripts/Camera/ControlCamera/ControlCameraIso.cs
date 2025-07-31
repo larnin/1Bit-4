@@ -133,6 +133,9 @@ public class ControlCameraIso : ControlCameraBase
         if (!GameInfos.instance.settings.IsInverseZoom())
             scrollY *= -1;
 
+        if (Event<IsScrollLockedEvent>.Broadcast(new IsScrollLockedEvent()).scrollLocked)
+            scrollY = 0;
+
         if (scrollY != 0 && m_resetTime <= 0)
         {
             float multiplier = MathF.Pow(m_params.stepZoom, MathF.Abs(scrollY));

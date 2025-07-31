@@ -282,7 +282,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1944532408}
   m_HandleRect: {fileID: 1944532407}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -844,7 +844,7 @@ MonoBehaviour:
   m_lightTop: 1
   m_lightLeft: 0.65
   m_lightFront: 0.8
-  m_discoverEverything: 0
+  m_discoverEverything: 1
 --- !u!4 &431319727
 Transform:
   m_ObjectHideFlags: 0
@@ -2875,8 +2875,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7793207}
   m_HandleRect: {fileID: 7793206}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.885
+  m_Value: 0.99999934
+  m_Size: 0.88500005
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

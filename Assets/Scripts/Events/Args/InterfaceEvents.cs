@@ -48,6 +48,11 @@ public class SetHoveredObjectEvent
     }
 }
 
+public class IsScrollLockedEvent
+{
+    public bool scrollLocked = false;
+}
+
 public class DisplaySelectionBoxEvent
 {
     public Vector3 pos1;
