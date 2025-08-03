@@ -118,6 +118,10 @@ public class EditorToolShapeBlock : EditorToolBase
         if (m_posEnd != oldPos)
             SetSelectionCursor();
 
+        Vector3Int min = new Vector3Int(Mathf.Min(m_posStart.x, m_posEnd.x), Mathf.Min(m_posStart.y, m_posEnd.y), Mathf.Min(m_posStart.z, m_posEnd.z));
+        m_cursor.transform.position = min;
+        m_cursor.transform.position -= Vector3.one * 0.5f;
+
         int button = m_placeBlock ? 0 : 1;
         if(Input.GetMouseButtonUp(button) || !Input.GetMouseButton(button))
         {
@@ -181,17 +185,97 @@ public class EditorToolShapeBlock : EditorToolBase
         if (m_cursorMesh.mesh != null)
             GameObject.Destroy(m_cursorMesh.mesh);
 
+        Vector3Int min = new Vector3Int(Mathf.Min(m_posStart.x, m_posEnd.x), Mathf.Min(m_posStart.y, m_posEnd.y), Mathf.Min(m_posStart.z, m_posEnd.z));
+        Vector3Int max = new Vector3Int(Mathf.Max(m_posStart.x, m_posEnd.x), Mathf.Max(m_posStart.y, m_posEnd.y), Mathf.Max(m_posStart.z, m_posEnd.z));
+        Vector3Int size = max - min + Vector3Int.one;
+
         if (m_shape == EditorToolShape.Cuboid)
-            m_cursorMesh.mesh = WireframeMesh.Cuboid(m_posEnd - m_posStart, Color.white);
+            m_cursorMesh.mesh = WireframeMesh.Cuboid(size, Color.white);
         else if (m_shape == EditorToolShape.Sphere)
-            m_cursorMesh.mesh = WireframeMesh.Sphere(m_posEnd - m_posStart, Color.white);
+            m_cursorMesh.mesh = WireframeMesh.Sphere(size, Color.white);
     }
 
     void SetBlocks()
     {
+        Vector3Int min = new Vector3Int(Mathf.Min(m_posStart.x, m_posEnd.x), Mathf.Min(m_posStart.y, m_posEnd.y), Mathf.Min(m_posStart.z, m_posEnd.z));
+        Vector3Int max = new Vector3Int(Mathf.Max(m_posStart.x, m_posEnd.x), Mathf.Max(m_posStart.y, m_posEnd.y), Mathf.Max(m_posStart.z, m_posEnd.z));
+        Vector3Int size = max - min + Vector3Int.one;
 
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        if (grid.grid == null)
+            return;
+
+        int gridSize = GridEx.GetRealSize(grid.grid);
+        int gridHeight = GridEx.GetRealSize(grid.grid);
+
+        Vector3Int minIndex = Grid.PosToChunkIndex(min);
+        Vector3Int maxIndex = Grid.PosToChunkIndex(max);
+
+        for(int i = minIndex.x; i <= maxIndex.x; i++)
+        {
+            for(int j = minIndex.y; j <= maxIndex.y; j++)
+            {
+                if (j < 0 || j > grid.grid.Height())
+                    continue;
+                
+                for(int k = minIndex.z; k <= maxIndex.z; k++)
+                {
+                    Vector3Int chunkPos = GridEx.GetPosFromLoop(grid.grid, new Vector3Int(i, j, k));
+                    if (!grid.grid.LoopX() && chunkPos.x != i)
+                        continue;
+                    if (!grid.grid.LoopZ() && chunkPos.z != k)
+                        continue;
+
+                    var chunk = grid.grid.Get(chunkPos);
+
+                    for(int x = 0; x < Grid.ChunkSize; x++)
+                    {
+                        for(int y = 0; y < Grid.ChunkSize; y++)
+                        {
+                            for(int z = 0; z < Grid.ChunkSize; z++)
+                            {
+                                Vector3Int pos = new Vector3Int(i * Grid.ChunkSize + x, j * Grid.ChunkSize + y, k * Grid.ChunkSize + z);
+                                if (pos.x < min.x || pos.x > max.x || pos.y < min.y || pos.y > max.y || pos.z < min.z || pos.z > max.z)
+                                    continue;
+
+                                if (m_shape == EditorToolShape.Sphere && !IsInSphere(pos))
+                                    continue;
+
+                                var block = new Block(BlockType.ground);
+                                if (!m_placeBlock)
+                                {
+                                    if (pos.y == 0)
+                                        block.type = BlockType.water;
+                                    else block.type = BlockType.air;
+                                }
+
+                                chunk.Set(x, y, z, block);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if(EditorGridBehaviour.instance != null)
+            EditorGridBehaviour.instance.SetRegionDirty(new BoundsInt(min, size));
     }
-        
+
+    bool IsInSphere(Vector3Int pos)
+    {
+        Vector3Int min = new Vector3Int(Mathf.Min(m_posStart.x, m_posEnd.x), Mathf.Min(m_posStart.y, m_posEnd.y), Mathf.Min(m_posStart.z, m_posEnd.z));
+        Vector3Int max = new Vector3Int(Mathf.Max(m_posStart.x, m_posEnd.x), Mathf.Max(m_posStart.y, m_posEnd.y), Mathf.Max(m_posStart.z, m_posEnd.z));
+        Vector3Int size = max - min + Vector3Int.one;
+
+        Vector3 center = new Vector3(size.x - 1, size.y - 1, size.z - 1) / 2;
+        Vector3 circleSize = center + Vector3.one * 0.5f;
+
+        Vector3 p = pos - min;
+        p -= center;
+
+        return WireframeMesh.IsPosOnSphere(p, circleSize);
+    }
+
     void ScrollLocked(IsScrollLockedEvent e)
     {
         e.scrollLocked |= m_started;
