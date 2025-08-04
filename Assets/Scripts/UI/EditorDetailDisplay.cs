@@ -35,8 +35,6 @@ public enum EditorSimpleToolType
 
 public class EditorDetailDisplay : MonoBehaviour
 {
-    [SerializeField] Sprite m_testSprite;
-
     UIElementContainer m_container;
 
     SubscriberList m_subscriberList = new SubscriberList();
@@ -264,17 +262,10 @@ public class EditorDetailDisplay : MonoBehaviour
     {
         DrawHeader();
 
-        UIElementData.Create<UIElementLabelAndText>(m_container).SetLabel("Label").SetText("Text a little longer");
-        UIElementData.Create<UIElementLine>(m_container);
-        UIElementData.Create<UIElementButton>(m_container).SetText("Press Me !");
-        UIElementData.Create<UIElementIntInput>(m_container).SetLabel("Int").SetValue(1256);
-        UIElementData.Create<UIElementFloatInput>(m_container).SetLabel("Float").SetValue(14.37f);
-        UIElementData.Create<UIElementTextInput>(m_container).SetLabel("Text").SetText("Nothing !");
-
-        var container = UIElementData.Create<UIElementFoldable>(m_container).SetHeaderText("Foldable").GetContainer();
-        UIElementData.Create<UIElementSprite>(container).SetSprite(m_testSprite).SetPreserveAspect(true).SetAlignment(UIElementAlignment.left).SetScale(2);
-        UIElementData.Create<UIElementToggle>(container).SetLabel("Toggle");
-        UIElementData.Create<UIElementFillValue>(container).SetLabel("Fill").SetMax(10).SetValue(7.2f).SetNbDigits(1);
+        if(EditorWorldGeneration.instance != null)
+        {
+            EditorWorldGeneration.instance.DrawSettings(m_container);
+        }
     }
 
     void Clean()

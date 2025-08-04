@@ -21,13 +21,13 @@ public class WorldGeneratorSettings
     public float baseSurfaceNormalizedRadius = 0.7f;
     public float baseSurfaceNormalizedTopRadius = 0.6f;
     public Ease baseSurfaceDescreaseCurve = Ease.Linear;
-    public PerlinSettings baseSurfaceRandomization;
-    public PerlinSettings plainsHeight;
+    public PerlinSettings baseSurfaceRandomization = new PerlinSettings();
+    public PerlinSettings plainsHeight = new PerlinSettings();
     public float montainsMinDistanceFromCenter = 10;
     public float montainsMinDistanceFromBorder = 10;
     public float montainsBlendDistance = 10;
-    public PerlinSettings montainsHeight;
-    public PerlinSettings montainsDistanceRandomization;
+    public PerlinSettings montainsHeight = new PerlinSettings();
+    public PerlinSettings montainsDistanceRandomization = new PerlinSettings();
     public float montainsHeightOffset = 10;
     public float montainsHeightMultiplier = 1;
     public float montainsHeightPower = 1;
@@ -40,7 +40,7 @@ public class WorldGeneratorSettings
     public float lakeMaxSize = 10;
     public float lakeDecreaseDistance = 5;
     public Ease lakeDescreaseCurve = Ease.Linear;
-    public PerlinSettings lakeSurfaceRandomization;
+    public PerlinSettings lakeSurfaceRandomization = new PerlinSettings();
 
     public float crystalPatchSizeBase = 5;
     public float crystalPatchIncrease = 10;

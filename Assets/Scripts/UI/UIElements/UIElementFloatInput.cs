@@ -36,12 +36,16 @@ public class UIElementFloatInput : UIElementBase
             m_inputField.onEndEdit.AddListener(OnTextChange);
         }
 
-        var buttonTransform = transform.Find("More");
-        if (buttonTransform != null)
-            m_moreButton = buttonTransform.GetComponentInChildren<Button>();
-        buttonTransform = transform.Find("Less");
-        if (buttonTransform != null)
-            m_lessButton = buttonTransform.GetComponentInChildren<Button>();
+        var buttons = transform.Find("Buttons");
+        if (buttons != null)
+        {
+            var buttonTransform = buttons.Find("More");
+            if (buttonTransform != null)
+                m_moreButton = buttonTransform.GetComponentInChildren<Button>();
+            buttonTransform = buttons.Find("Less");
+            if (buttonTransform != null)
+                m_lessButton = buttonTransform.GetComponentInChildren<Button>();
+        }
 
         if (m_moreButton != null)
             m_moreButton.onClick.AddListener(OnMoreClick);

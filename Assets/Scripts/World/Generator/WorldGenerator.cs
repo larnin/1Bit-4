@@ -517,8 +517,11 @@ public static class WorldGenerator
                     multiplier = dist / m_settings.montainsBlendDistance;
 
                 float height = baseMontainPerlin.Get(i, j);
-                foreach (var p in montainsPerlin)
-                    height += p.Get(i, j);
+                if (montainsPerlin != null)
+                {
+                    foreach (var p in montainsPerlin)
+                        height += p.Get(i, j);
+                }
 
                 height -= m_settings.montainsHeightOffset;
                 if (height < 0)
