@@ -54,11 +54,17 @@ public class GridBehaviour : MonoBehaviour
             {
                 for(int k = min.z - 1; k <= max.z + 1; k++)
                 {
-                    if (i < 0 || j < 0 || k < 0 || i >= size || j >= height || k >= size)
+                    Vector3Int loopPos = GridEx.GetPosFromLoop(m_grid, new Vector3Int(i, j, k));
+                    if (!m_grid.LoopX() && loopPos.x != i)
+                        continue;
+                    if (!m_grid.LoopZ() && loopPos.z != k)
                         continue;
 
-                    var behaviour = m_chunks.Get(i, j, k);
-                    behaviour.SetChunk(m_grid, new Vector3Int(i, j, k));
+                    if (j < 0 || j >= height)
+                        continue;
+
+                    var behaviour = m_chunks.Get(loopPos.x, loopPos.y, loopPos.z);
+                    behaviour.SetChunk(m_grid, loopPos);
                 }
             }
         }

@@ -13,6 +13,8 @@ public class FreeCameraParams
 
     public float arrowSpeed = 1;
     public float arrowAccelerationDuration = 0.2f;
+    public float minSpeedMultiplier = 0.2f;
+    public float maxSpeedMultiplier = 5;
 
     public float rotationSpeed = 1;
 }
@@ -37,6 +39,8 @@ public class ControlCameraFree : ControlCameraBase
     float m_right;
     float m_up;
     float m_down;
+
+    float m_moveSpeedMultiplier = 1;
 
     public ControlCameraFree(FreeCameraParams camParams)
     {
@@ -82,6 +86,19 @@ public class ControlCameraFree : ControlCameraBase
             return;
         }
 
+        float scrollY = Input.mouseScrollDelta.y;
+        if (!GameInfos.instance.settings.IsInverseZoom())
+            scrollY *= -1;
+
+        if (Event<IsScrollLockedEvent>.Broadcast(new IsScrollLockedEvent()).scrollLocked)
+            scrollY = 0;
+
+        if (scrollY < 0)
+            m_moveSpeedMultiplier *= 0.9f;
+        if (scrollY > 0)
+            m_moveSpeedMultiplier /= 0.9f;
+        m_moveSpeedMultiplier = Mathf.Clamp(m_moveSpeedMultiplier, m_params.minSpeedMultiplier, m_params.maxSpeedMultiplier);
+
         bool addRight = Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D);
         bool addLeft = Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.A);
         bool addForward = Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.W);
@@ -110,7 +127,7 @@ public class ControlCameraFree : ControlCameraBase
             var forward = camera.transform.forward;
             var side = Vector3.Cross(forward, Vector3.up).normalized;
 
-            Vector3 offset = (forward * inputDir.z + side * inputDir.x + Vector3.up * inputDir.y) * Time.deltaTime * m_params.arrowSpeed;
+            Vector3 offset = (forward * inputDir.z + side * inputDir.x + Vector3.up * inputDir.y) * Time.deltaTime * m_params.arrowSpeed * m_moveSpeedMultiplier;
 
             Vector3 newPos = m_position + offset;
             MoveCamera(newPos);

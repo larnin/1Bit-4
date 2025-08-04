@@ -8,6 +8,7 @@ using UnityEngine;
 public enum EditorToolShape
 {
     Cuboid,
+    Smooth,
     Sphere
 }
 
@@ -189,7 +190,7 @@ public class EditorToolShapeBlock : EditorToolBase
         Vector3Int max = new Vector3Int(Mathf.Max(m_posStart.x, m_posEnd.x), Mathf.Max(m_posStart.y, m_posEnd.y), Mathf.Max(m_posStart.z, m_posEnd.z));
         Vector3Int size = max - min + Vector3Int.one;
 
-        if (m_shape == EditorToolShape.Cuboid)
+        if (m_shape == EditorToolShape.Cuboid || m_shape == EditorToolShape.Smooth)
             m_cursorMesh.mesh = WireframeMesh.Cuboid(size, Color.white);
         else if (m_shape == EditorToolShape.Sphere)
             m_cursorMesh.mesh = WireframeMesh.Sphere(size, Color.white);
@@ -197,6 +198,12 @@ public class EditorToolShapeBlock : EditorToolBase
 
     void SetBlocks()
     {
+        if(m_shape == EditorToolShape.Smooth)
+        {
+            SetBlocksSmooth();
+            return;
+        }    
+
         Vector3Int min = new Vector3Int(Mathf.Min(m_posStart.x, m_posEnd.x), Mathf.Min(m_posStart.y, m_posEnd.y), Mathf.Min(m_posStart.z, m_posEnd.z));
         Vector3Int max = new Vector3Int(Mathf.Max(m_posStart.x, m_posEnd.x), Mathf.Max(m_posStart.y, m_posEnd.y), Mathf.Max(m_posStart.z, m_posEnd.z));
         Vector3Int size = max - min + Vector3Int.one;
@@ -205,9 +212,6 @@ public class EditorToolShapeBlock : EditorToolBase
         if (grid.grid == null)
             return;
 
-        int gridSize = GridEx.GetRealSize(grid.grid);
-        int gridHeight = GridEx.GetRealSize(grid.grid);
-
         Vector3Int minIndex = Grid.PosToChunkIndex(min);
         Vector3Int maxIndex = Grid.PosToChunkIndex(max);
 
@@ -215,7 +219,7 @@ public class EditorToolShapeBlock : EditorToolBase
         {
             for(int j = minIndex.y; j <= maxIndex.y; j++)
             {
-                if (j < 0 || j > grid.grid.Height())
+                if (j < 0 || j >= grid.grid.Height())
                     continue;
                 
                 for(int k = minIndex.z; k <= maxIndex.z; k++)
@@ -274,6 +278,97 @@ public class EditorToolShapeBlock : EditorToolBase
         p -= center;
 
         return WireframeMesh.IsPosOnSphere(p, circleSize);
+    }
+
+    void SetBlocksSmooth()
+    {
+        Vector3Int min = new Vector3Int(Mathf.Min(m_posStart.x, m_posEnd.x), Mathf.Min(m_posStart.y, m_posEnd.y), Mathf.Min(m_posStart.z, m_posEnd.z));
+        Vector3Int max = new Vector3Int(Mathf.Max(m_posStart.x, m_posEnd.x), Mathf.Max(m_posStart.y, m_posEnd.y), Mathf.Max(m_posStart.z, m_posEnd.z));
+
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        if (grid.grid == null)
+            return;
+
+        int gridSize = GridEx.GetRealSize(grid.grid);
+        int gridHeight = GridEx.GetRealHeight(grid.grid);
+
+        if(!grid.grid.LoopX())
+        {
+            min.x = Mathf.Clamp(min.x, 0, gridSize - 1);
+            max.x = Mathf.Clamp(max.x, 0, gridSize - 1);
+        }
+        if(!grid.grid.LoopZ())
+        {
+            min.z = Mathf.Clamp(min.z, 0, gridSize - 1);
+            max.z = Mathf.Clamp(max.z, 0, gridSize - 1);
+        }
+
+        min.y = Mathf.Clamp(min.y, 0, gridHeight - 1);
+        max.y = Mathf.Clamp(max.y, 0, gridHeight - 1);
+        
+        Vector3Int size = max - min + Vector3Int.one;
+        if (size.x <= 0 || size.y <= 0 || size.z <= 0)
+            return;
+
+        Matrix<Block> lastBlocks = new Matrix<Block>(size.x, size.y, size.z);
+        for(int i = 0; i < size.x; i++)
+        {
+            for(int j = 0; j < size.y; j++)
+            {
+                for(int k = 0; k < size.z; k++)
+                {
+                    Vector3Int pos = GridEx.GetRealPosFromLoop(grid.grid, min + new Vector3Int(i, j, k));
+                    lastBlocks.Set(i, j, k, GridEx.GetBlock(grid.grid, pos));
+                }
+            }
+        }
+
+        for (int i = 0; i < size.x; i++)
+        {
+            for (int j = 0; j < size.y; j++)
+            {
+                for (int k = 0; k < size.z; k++)
+                {
+                    int total = 0;
+                    int blocks = 0;
+
+                    for(int x = -1; x<= 1; x++)
+                    {
+                        for(int y = -1; y <= 1; y++)
+                        {
+                            for(int z = -1; z <= 1; z++)
+                            {
+                                Vector3Int point = new Vector3Int(i + x, j + y, k + z);
+                                if (point.x < 0 || point.x >= size.x || point.y < 0 || point.y >= size.y || point.z < 0 || point.z >= size.z)
+                                    continue;
+
+                                var block = lastBlocks.Get(point.x, point.y, point.z);
+                                int blockNb = (x == 0 && y == 0 && z == 0) ? 2 : 1;
+
+                                total += blockNb;
+                                if (block.type == BlockType.ground)
+                                    blocks += blockNb;
+                            }
+                        }
+                    }
+
+                    Vector3Int pos = GridEx.GetRealPosFromLoop(grid.grid, min + new Vector3Int(i, j, k));
+
+                    Block b = new Block(BlockType.ground);
+                    if(blocks < total / 2)
+                    {
+                        if (pos.y == 0)
+                            b.type = BlockType.water;
+                        else b.type = BlockType.air;
+                    }
+
+                    GridEx.SetBlock(grid.grid, pos, b);
+                }
+            }
+        }
+
+        if (EditorGridBehaviour.instance != null)
+            EditorGridBehaviour.instance.SetRegionDirty(new BoundsInt(min, size));
     }
 
     void ScrollLocked(IsScrollLockedEvent e)

@@ -33,6 +33,12 @@ public class GetCameraRotationEvent
     public float rotation = 0;
 }
 
+public class IsIsoCameraEvent
+{
+    public bool isoCamera = false;
+}
+
+
 public class GetCameraDuplicationEvent
 {
     public List<Vector2Int> duplications = new List<Vector2Int>();

@@ -146,8 +146,10 @@ MonoBehaviour:
   m_freeCamParams:
     fov: 90
     placeDistance: 20
-    arrowSpeed: 10
+    arrowSpeed: 20
     arrowAccelerationDuration: 0.2
+    minSpeedMultiplier: 0.2
+    maxSpeedMultiplier: 5
     rotationSpeed: 0.5
   m_UICamera: {fileID: 7536025332573862392}
   m_clearCamera: {fileID: 7536025331712114665}

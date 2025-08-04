@@ -34,6 +34,7 @@ public class GameCamera : MonoBehaviour
         m_subscriberList.Add(new Event<GetCameraEvent>.Subscriber(GetCamera));
         m_subscriberList.Add(new Event<GetCameraScaleEvent>.Subscriber(GetCameraScale));
         m_subscriberList.Add(new Event<GetCameraRotationEvent>.Subscriber(GetCameraRotation));
+        m_subscriberList.Add(new Event<IsIsoCameraEvent>.Subscriber(IsIsoCamera));
         m_subscriberList.Subscribe();
     }
 
@@ -115,6 +116,11 @@ public class GameCamera : MonoBehaviour
     void GetCameraRotation(GetCameraRotationEvent e)
     {
         e.rotation = m_controlCameraIso.GetRotation();
+    }
+
+    void IsIsoCamera(IsIsoCameraEvent e)
+    {
+        e.isoCamera = m_currentControlCamera == m_controlCameraIso;
     }
 
     static public float PosLoop(float pos, float size)

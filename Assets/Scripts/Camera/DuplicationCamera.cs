@@ -82,25 +82,28 @@ public class DuplicationCamera : MonoBehaviour
         var rectMin = rect.min;
         var rectMax = rect.max;
 
-        var min = new Vector2Int(PosToSizeIndex(Mathf.RoundToInt(rectMin.x), size), PosToSizeIndex(Mathf.RoundToInt(rectMin.y), size));
-        var max = new Vector2Int(PosToSizeIndex(Mathf.RoundToInt(rectMax.x), size), PosToSizeIndex(Mathf.RoundToInt(rectMax.y), size));
+        IsIsoCameraEvent isoCam = Event<IsIsoCameraEvent>.Broadcast(new IsIsoCameraEvent());
 
-        if(!m_grid.LoopX())
+        Vector2Int min = new Vector2Int(-2, -2);
+        Vector2Int max = new Vector2Int(2, 2);
+
+        if (isoCam.isoCamera)
+        {
+            min = new Vector2Int(PosToSizeIndex(Mathf.RoundToInt(rectMin.x), size), PosToSizeIndex(Mathf.RoundToInt(rectMin.y), size));
+            max = new Vector2Int(PosToSizeIndex(Mathf.RoundToInt(rectMax.x), size), PosToSizeIndex(Mathf.RoundToInt(rectMax.y), size));
+        }
+
+        if (!m_grid.LoopX())
         {
             min.x = 0;
             max.x = 0;
         }
 
-        if(!m_grid.LoopZ())
+        if (!m_grid.LoopZ())
         {
             min.y = 0;
             max.y = 0;
         }
-
-        min.x = Mathf.Max(min.x, -5);
-        min.y = Mathf.Max(min.y, -5);
-        max.x = Mathf.Clamp(max.x, min.x, 5);
-        max.y = Mathf.Clamp(max.y, min.y, 5);
 
         //Ordering: [0] = Left, [1] = Right, [2] = Down, [3] = Up, [4] = Near, [5] = Far
         var planes = GeometryUtility.CalculateFrustumPlanes(m_mainCamera);
