@@ -54,8 +54,6 @@ public class ControlCameraIso : ControlCameraBase
     Vector3 m_cameraLocation;
     Quaternion m_cameraRotation;
 
-    Grid m_grid;
-
     public ControlCameraIso(IsoCameraParams camParams)
     {
         m_params = camParams;
@@ -118,9 +116,6 @@ public class ControlCameraIso : ControlCameraBase
 
     public override void Update()
     {
-        if(m_grid == null)
-            m_grid = Event<GetGridEvent>.Broadcast(new GetGridEvent()).grid;
-
         var camera = m_gameCamera.GetMainCamera();
 
         if (GameInfos.instance.paused)
@@ -149,6 +144,9 @@ public class ControlCameraIso : ControlCameraBase
                 m_size = MathF.Max(m_params.maxSize, m_params.minSize);
 
             m_gameCamera.OnMove();
+
+            if (EditorLogs.instance != null)
+                EditorLogs.instance.AddLog("Camera", "Set camera size to " + m_size.ToString("0.0"));
         }
 
         if (Input.GetMouseButton(2) && m_resetTime <= 0 && m_wasFocused && Application.isFocused)
@@ -237,6 +235,9 @@ public class ControlCameraIso : ControlCameraBase
                     m_startAngle = Utility.ReduceAngle(m_currentAngle);
                     m_endAngle = m_initialAngle;
                     m_rotationNormDuration = 0;
+
+                    if (EditorLogs.instance != null)
+                        EditorLogs.instance.AddLog("Camera", "Reset camera position");
                 }
                 m_resetPressTime = newResetTime;
             }
@@ -259,6 +260,9 @@ public class ControlCameraIso : ControlCameraBase
                         m_startAngle = m_currentAngle;
                         m_endAngle += 90 * rotDir; ;
                     }
+
+                    if (EditorLogs.instance != null)
+                        EditorLogs.instance.AddLog("Camera", "Rotate camera");
                 }
                 m_resetPressTime = 0;
             }
@@ -315,7 +319,9 @@ public class ControlCameraIso : ControlCameraBase
 
     void MoveCamera(Vector3 newPos)
     {
-        if (m_grid == null)
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+
+        if (grid.grid == null)
         {
             m_position = newPos;
             if(m_isEnabled)
@@ -323,7 +329,7 @@ public class ControlCameraIso : ControlCameraBase
             return;
         }
 
-        newPos = GridEx.ClampPos(m_grid, newPos);
+        newPos = GridEx.ClampPos(grid.grid, newPos);
 
         m_position = newPos;
         if(m_isEnabled)

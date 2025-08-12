@@ -35,6 +35,24 @@ public class EditorToolHolder : MonoBehaviour
 
         m_currentTool.SetHolder(this);
         m_currentTool.Begin();
+
+        if (EditorLogs.instance != null)
+            EditorLogs.instance.AddLog("Tool", "Select tool " + GetToolName(tool));
+    }
+
+    string GetToolName(EditorToolBase tool)
+    {
+        if (tool == null)
+            return "NULL";
+
+        string name = tool.GetType().Name;
+
+        string prefix = "EditorTool";
+
+        if (!name.StartsWith(prefix))
+            return name;
+
+        return name.Substring(prefix.Length);
     }
 
     public EditorToolBase GetCurrentTool()

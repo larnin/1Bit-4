@@ -23,8 +23,6 @@ public class ControlCameraFree : ControlCameraBase
 {
     FreeCameraParams m_params;
 
-    Grid m_grid;
-
     Vector3 m_position;
     Vector3 m_seeDir;
 
@@ -75,9 +73,6 @@ public class ControlCameraFree : ControlCameraBase
 
     public override void Update()
     {
-        if (m_grid == null)
-            m_grid = Event<GetGridEvent>.Broadcast(new GetGridEvent()).grid;
-
         var camera = m_gameCamera.GetMainCamera();
 
         if (GameInfos.instance.paused)
@@ -97,6 +92,12 @@ public class ControlCameraFree : ControlCameraBase
             m_moveSpeedMultiplier *= 0.9f;
         if (scrollY > 0)
             m_moveSpeedMultiplier /= 0.9f;
+        if(scrollY != 0)
+        {
+            if (EditorLogs.instance != null)
+                EditorLogs.instance.AddLog("Camera", "Set camera speed to " + m_moveSpeedMultiplier.ToString("0.0"));
+        }
+
         m_moveSpeedMultiplier = Mathf.Clamp(m_moveSpeedMultiplier, m_params.minSpeedMultiplier, m_params.maxSpeedMultiplier);
 
         bool addRight = Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D);
@@ -162,12 +163,14 @@ public class ControlCameraFree : ControlCameraBase
 
     void MoveCamera(Vector3 newPos)
     {
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+
         if (m_isEnabled)
             m_gameCamera.transform.position = Vector3.zero;
 
         var camera = m_gameCamera.GetMainCamera();
 
-        if (m_grid == null)
+        if (grid.grid == null)
         {
             m_position = newPos;
             if(m_isEnabled)
@@ -175,7 +178,7 @@ public class ControlCameraFree : ControlCameraBase
             return;
         }
 
-        newPos = GridEx.ClampPos(m_grid, newPos);
+        newPos = GridEx.ClampPos(grid.grid, newPos);
 
         m_position = newPos;
         

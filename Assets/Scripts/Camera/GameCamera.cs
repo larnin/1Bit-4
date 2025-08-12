@@ -50,8 +50,17 @@ public class GameCamera : MonoBehaviour
         if(m_allowFreeCamera && Input.GetKeyDown(KeyCode.Tab))
         {
             if (m_currentControlCamera == m_controlCameraIso)
+            {
                 SelectControlCamera(m_controlCameraFree);
-            else SelectControlCamera(m_controlCameraIso);
+                if (EditorLogs.instance != null)
+                    EditorLogs.instance.AddLog("Camera", "Switch to Free camera");
+            }
+            else
+            {
+                SelectControlCamera(m_controlCameraIso);
+                if (EditorLogs.instance != null)
+                    EditorLogs.instance.AddLog("Camera", "Switch to Isometric camera");
+            }
         }
 
         CopyCameraInfos(m_clearCamera, m_UICamera);

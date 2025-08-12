@@ -17,7 +17,7 @@ public static class WireframeMesh
         SimpleMeshParam<WireframeVertexDefinition> meshParams = new SimpleMeshParam<WireframeVertexDefinition>();
         
         SetSimpleCubeData(meshParams, size, center, color);
-        return MakeMesh(meshParams, new Bounds(center, size));
+        return MakeMesh(meshParams, new Bounds(center + size / 2.0f, size));
     }
 
     static void SetSimpleCubeData(SimpleMeshParam<WireframeVertexDefinition> meshParams, Vector3 size, Vector3 center, Color32 color)

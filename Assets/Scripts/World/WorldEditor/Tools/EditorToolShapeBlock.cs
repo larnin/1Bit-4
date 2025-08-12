@@ -215,6 +215,8 @@ public class EditorToolShapeBlock : EditorToolBase
         Vector3Int minIndex = Grid.PosToChunkIndex(min);
         Vector3Int maxIndex = Grid.PosToChunkIndex(max);
 
+        int nbBlockSet = 0;
+
         for(int i = minIndex.x; i <= maxIndex.x; i++)
         {
             for(int j = minIndex.y; j <= maxIndex.y; j++)
@@ -254,6 +256,7 @@ public class EditorToolShapeBlock : EditorToolBase
                                 }
 
                                 chunk.Set(x, y, z, block);
+                                nbBlockSet++;
                             }
                         }
                     }
@@ -263,6 +266,9 @@ public class EditorToolShapeBlock : EditorToolBase
 
         if(EditorGridBehaviour.instance != null)
             EditorGridBehaviour.instance.SetRegionDirty(new BoundsInt(min, size));
+
+        if (EditorLogs.instance != null)
+            EditorLogs.instance.AddLog("Tool", "Blocks changed: " + nbBlockSet);
     }
 
     bool IsInSphere(Vector3Int pos)
@@ -369,6 +375,9 @@ public class EditorToolShapeBlock : EditorToolBase
 
         if (EditorGridBehaviour.instance != null)
             EditorGridBehaviour.instance.SetRegionDirty(new BoundsInt(min, size));
+
+        if (EditorLogs.instance != null)
+            EditorLogs.instance.AddLog("Tool", "Smooth completed");
     }
 
     void ScrollLocked(IsScrollLockedEvent e)

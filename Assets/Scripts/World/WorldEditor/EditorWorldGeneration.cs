@@ -164,8 +164,17 @@ public class EditorWorldGeneration : MonoBehaviour
     {
         if(m_generationStarted)
         {
+            if (EditorLogs.instance != null)
+                EditorLogs.instance.AddLog("Generation", "Generating ...");
+
             if (WorldGenerator.GetState() == WorldGenerator.GenerationState.Finished)
+            {
                 OnGenerationEnd();
+                if (EditorLogs.instance != null)
+                    EditorLogs.instance.AddLog("Generation2", "Completed !");
+            }
+            else if (EditorLogs.instance != null)
+                EditorLogs.instance.AddLog("Generation2", WorldGenerator.GetStateText());
         }
     }
 
