@@ -119,7 +119,7 @@ public static class WireframeMesh
         return MakeMesh(meshParams, new Bounds(new Vector3(size.x, size.y, size.z) / 2, size));
     }
 
-    public static Mesh Sphere(Vector3Int size, Color32 color)
+    public static Mesh VoxelSphere(Vector3Int size, Color32 color)
     {
         SimpleMeshParam<WireframeVertexDefinition> meshParams = new SimpleMeshParam<WireframeVertexDefinition>();
 
@@ -161,6 +161,68 @@ public static class WireframeMesh
         }
 
         return MakeMesh(meshParams, new Bounds(new Vector3(size.x, size.y, size.z) / 2, size));
+    }
+
+    public static Mesh Sphere(Vector3 radius, int circleNb, int segmentNb, Color32 color)
+    {
+        if (segmentNb < 2)
+            segmentNb = 2;
+        segmentNb *= 2;
+
+        SimpleMeshParam<WireframeVertexDefinition> meshParams = new SimpleMeshParam<WireframeVertexDefinition>();
+
+        var data = meshParams.Allocate(circleNb * segmentNb, circleNb * (2 * segmentNb - 1) * 2);
+
+        float segmentSection = Mathf.PI / segmentNb * 2;
+
+        for(int i = 0; i < circleNb; i++)
+        {
+            float angle = Mathf.PI / circleNb * i;
+
+            for(int j = 0; j < segmentNb; j++)
+            {
+                float segmentAngle = segmentSection * j;
+
+                Vector3 pos = new Vector3(Mathf.Sin(segmentAngle), Mathf.Cos(segmentAngle), 0);
+                pos.z = pos.x * Mathf.Sin(angle);
+                pos.x *= Mathf.Cos(angle);
+
+                data.vertices[data.verticesSize].pos = new Vector3(pos.x * radius.x, pos.y * radius.y, pos.z * radius.z);
+                data.vertices[data.verticesSize].color = color;
+                data.verticesSize++;
+            }
+        }
+
+        for (int i = 0; i < circleNb; i++)
+        {
+            for (int j = 0; j < segmentNb; j++)
+            {
+                int index = i * segmentNb + j;
+                int index2 = j == 0 ? (i + 1) * segmentNb - 1 : index - 1;
+
+                data.indexes[data.indexesSize] = (ushort)index;
+                data.indexes[data.indexesSize + 1] = (ushort)index2;
+                data.indexesSize += 2;
+            }
+        }
+
+        for(int i = 1; i < segmentNb; i++)
+        {
+            for(int j = 0; j < circleNb; j++)
+            {
+                int j2 = j == 0 ? circleNb - 1 : j - 1;
+                int i2 = j == 0 ? segmentNb - i: i;
+
+                int index = j * segmentNb + i;
+                int index2 = j2 * segmentNb + i2;
+
+                data.indexes[data.indexesSize] = (ushort)index;
+                data.indexes[data.indexesSize + 1] = (ushort)index2;
+                data.indexesSize += 2;
+            }
+        }
+
+        return MakeMesh(meshParams, new Bounds(Vector3.zero, radius));
     }
 
     static int CountFlags(params bool[] values)

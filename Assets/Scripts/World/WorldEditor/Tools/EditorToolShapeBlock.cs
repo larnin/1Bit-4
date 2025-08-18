@@ -193,7 +193,7 @@ public class EditorToolShapeBlock : EditorToolBase
         if (m_shape == EditorToolShape.Cuboid || m_shape == EditorToolShape.Smooth)
             m_cursorMesh.mesh = WireframeMesh.Cuboid(size, Color.white);
         else if (m_shape == EditorToolShape.Sphere)
-            m_cursorMesh.mesh = WireframeMesh.Sphere(size, Color.white);
+            m_cursorMesh.mesh = WireframeMesh.VoxelSphere(size, Color.white);
     }
 
     void SetBlocks()
