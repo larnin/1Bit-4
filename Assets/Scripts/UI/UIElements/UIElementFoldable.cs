@@ -49,11 +49,6 @@ public class UIElementFoldable : UIElementBase
         return m_container;
     }
 
-    float GetHeaderHeight()
-    {
-        return m_headerText.renderedHeight;
-    }
-
     void OnHeaderClick()
     {
         m_folded = !m_folded;
@@ -72,6 +67,17 @@ public class UIElementFoldable : UIElementBase
         return this;
     }
 
+    public UIElementFoldable SetFolded(bool folded)
+    {
+        if(m_folded != folded)
+        {
+            m_folded = folded;
+            UpdateContainerDisplay();
+        }
+
+        return this;
+    }
+
     void UpdateContainerDisplay()
     {
         m_container.gameObject.SetActive(!m_folded);
@@ -80,6 +86,7 @@ public class UIElementFoldable : UIElementBase
 
     private void Update()
     {
-
+        if (m_headerTextFunc != null)
+            m_headerText.text = m_headerTextFunc();
     }
 }

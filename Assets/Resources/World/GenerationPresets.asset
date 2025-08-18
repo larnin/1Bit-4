@@ -1,0 +1,151 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50e79a48019abde4eafc22fa911ae7c1, type: 3}
+  m_Name: GenerationPresets
+  m_EditorClassIdentifier: 
+  m_presets:
+  - name: Medium
+    settings:
+      size: 12
+      height: 2
+      loopX: 0
+      loopZ: 0
+      waterHeight: -18
+      baseSurfaceHeight: -17
+      baseSurfaceNormalizedRadius: 0.65
+      baseSurfaceNormalizedTopRadius: 0.5
+      baseSurfaceDescreaseCurve: 4
+      baseSurfaceRandomization:
+        baseFrequency: 2
+        baseAmplitude: 100
+        nbLayers: 6
+        layerAmplitudeScale: 0.5
+      plainsHeight:
+        baseFrequency: 3
+        baseAmplitude: 9
+        nbLayers: 4
+        layerAmplitudeScale: 0.4
+      montainsMinDistanceFromCenter: 25
+      montainsMinDistanceFromBorder: 12
+      montainsBlendDistance: 10
+      montainsHeight:
+        baseFrequency: 8
+        baseAmplitude: 10
+        nbLayers: 5
+        layerAmplitudeScale: 0.5
+      montainsDistanceRandomization:
+        baseFrequency: 20
+        baseAmplitude: 0.9
+        nbLayers: 1
+        layerAmplitudeScale: 0.5
+      montainsHeightOffset: 0
+      montainsHeightMultiplier: 35
+      montainsHeightPower: 2
+      lakeDensity: 0
+      lakeRetryCount: 2
+      lakeMinDistance: 30
+      lakeMinDistanceBetweenLakes: 20
+      lakeMinSize: 5
+      lakeMaxSize: 10
+      lakeDecreaseDistance: 5
+      lakeDescreaseCurve: 1
+      lakeSurfaceRandomization:
+        baseFrequency: 1
+        baseAmplitude: 1
+        nbLayers: 1
+        layerAmplitudeScale: 0.5
+      crystalPatchSizeBase: 4
+      crystalPatchIncrease: 8
+      crystalPatchDensity: 12
+      crystalRetryCount: 2
+      crystalInitialPatchDistance: 10
+      crystalMinDistance: 18
+      oilDensity: 11
+      oilRetryCount: 1
+      oilMinDistance: 25
+      titaniumPatchMin: 8
+      titaniumPatchMax: 12
+      titaniumPatchDensity: 7
+      titaniumElevationMinVariation: 1
+      titaniumRetryCount: 5
+      titaniumMinDistance: 25
+      titaniumMinHeight: 1
+      titaniumMaxHeight: 2
+      titaniumHeightNeighbour: 0.3
+  - name: Large
+    settings:
+      size: 16
+      height: 2
+      loopX: 0
+      loopZ: 0
+      waterHeight: -18
+      baseSurfaceHeight: -17
+      baseSurfaceNormalizedRadius: 0.65
+      baseSurfaceNormalizedTopRadius: 0.5
+      baseSurfaceDescreaseCurve: 4
+      baseSurfaceRandomization:
+        baseFrequency: 2
+        baseAmplitude: 120
+        nbLayers: 7
+        layerAmplitudeScale: 0.5
+      plainsHeight:
+        baseFrequency: 4
+        baseAmplitude: 10
+        nbLayers: 5
+        layerAmplitudeScale: 0.4
+      montainsMinDistanceFromCenter: 30
+      montainsMinDistanceFromBorder: 15
+      montainsBlendDistance: 10
+      montainsHeight:
+        baseFrequency: 9
+        baseAmplitude: 10
+        nbLayers: 5
+        layerAmplitudeScale: 0.5
+      montainsDistanceRandomization:
+        baseFrequency: 20
+        baseAmplitude: 0.9
+        nbLayers: 1
+        layerAmplitudeScale: 0.5
+      montainsHeightOffset: 0.2
+      montainsHeightMultiplier: 40
+      montainsHeightPower: 2
+      lakeDensity: 3
+      lakeRetryCount: 6
+      lakeMinDistance: 30
+      lakeMinDistanceBetweenLakes: 20
+      lakeMinSize: 5
+      lakeMaxSize: 10
+      lakeDecreaseDistance: 15
+      lakeDescreaseCurve: 4
+      lakeSurfaceRandomization:
+        baseFrequency: 5
+        baseAmplitude: 8
+        nbLayers: 6
+        layerAmplitudeScale: 0.5
+      crystalPatchSizeBase: 4
+      crystalPatchIncrease: 8
+      crystalPatchDensity: 15
+      crystalRetryCount: 2
+      crystalInitialPatchDistance: 10
+      crystalMinDistance: 20
+      oilDensity: 12
+      oilRetryCount: 1
+      oilMinDistance: 25
+      titaniumPatchMin: 8
+      titaniumPatchMax: 12
+      titaniumPatchDensity: 8
+      titaniumElevationMinVariation: 1
+      titaniumRetryCount: 5
+      titaniumMinDistance: 30
+      titaniumMinHeight: 1
+      titaniumMaxHeight: 2
+      titaniumHeightNeighbour: 0.3

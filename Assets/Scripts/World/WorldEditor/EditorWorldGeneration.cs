@@ -11,7 +11,10 @@ public class EditorWorldGeneration : MonoBehaviour
     static EditorWorldGeneration m_instance;
 
     int m_seed;
+    UIElementContainer m_contentContainer;
     UIElementIntInput m_seedContainer;
+    UIElementContainer m_presetsContainer;
+    string m_savePreset;
 
     WorldGeneratorSettings m_settings = new WorldGeneratorSettings();
 
@@ -33,6 +36,21 @@ public class EditorWorldGeneration : MonoBehaviour
         UIElementData.Create<UIElementButton>(container).SetText("Randomize").SetClickFunc(RandomizeSeed);
         UIElementData.Create<UIElementSpace>(container).SetSpace(5);
 
+        var foldPresets = UIElementData.Create<UIElementFoldable>(container).SetHeaderText("Presets").SetFolded(true).GetContainer();
+        DrawPresets(foldPresets);
+
+        m_contentContainer = UIElementData.Create<UIElementSimpleContainer>(container).GetContainer();
+        DrawContent(m_contentContainer);
+
+        UIElementData.Create<UIElementSpace>(container).SetSpace(15);
+        UIElementData.Create<UIElementSimpleText>(container).SetText("WARNING - Generating a new surface will reset everything and can't be undone");
+        UIElementData.Create<UIElementButton>(container).SetText("Generate").SetClickFunc(Generate);
+    }
+
+    void DrawContent(UIElementContainer container)
+    {
+        container.RemoveAndDestroyAll();
+
         var foldGround = UIElementData.Create<UIElementFoldable>(container).SetHeaderText("Ground").GetContainer();
         DrawGroundSettings(foldGround);
 
@@ -47,10 +65,43 @@ public class EditorWorldGeneration : MonoBehaviour
 
         var foldTitanium = UIElementData.Create<UIElementFoldable>(container).SetHeaderText("Titanium").GetContainer();
         DrawTitaniumSettings(foldTitanium);
+    }
 
-        UIElementData.Create<UIElementSpace>(container).SetSpace(15);
-        UIElementData.Create<UIElementSimpleText>(container).SetText("WARNING - Generating a new surface will reset everything and can't be undone");
-        UIElementData.Create<UIElementButton>(container).SetText("Generate").SetClickFunc(Generate);
+    void DrawPresets(UIElementContainer container)
+    {
+        m_presetsContainer = UIElementData.Create<UIElementFoldable>(container).SetHeaderText("Load").GetContainer();
+        UpdatePresetsContainer();
+
+        UIElementData.Create<UIElementTextInput>(container).SetLabel("Name").SetText(m_savePreset).SetTextChangeFunc((string value) => { m_savePreset = value; });
+        UIElementData.Create<UIElementButton>(container).SetText("Save").SetClickFunc(SavePreset);
+    }
+
+    void UpdatePresetsContainer()
+    {
+        m_presetsContainer.RemoveAndDestroyAll();
+
+        var names = WorldGeneratorSettingsPreset.instance.GetAllPresets();
+        foreach(var name in names)
+        {
+            UIElementData.Create<UIElementButton>(m_presetsContainer).SetText(name).SetClickFunc(()=> { LoadPreset(name); });
+        }
+    }
+
+    void LoadPreset(string name)
+    {
+        var preset = WorldGeneratorSettingsPreset.instance.GetPresetWithCopy(name);
+        if (preset == null)
+            return;
+
+        m_settings = preset;
+
+        DrawContent(m_contentContainer);
+    }
+
+    void SavePreset()
+    {
+        WorldGeneratorSettingsPreset.instance.SetPreset(m_savePreset, m_settings);
+        UpdatePresetsContainer();
     }
 
     void DrawGroundSettings(UIElementContainer container)

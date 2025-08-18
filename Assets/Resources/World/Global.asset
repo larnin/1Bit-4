@@ -718,6 +718,7 @@ MonoBehaviour:
     floatInputPrefab: {fileID: 8110753482784335463, guid: c5127395190ce844a87647c6a34f044d, type: 3}
     foldablePrefab: {fileID: 3816729058983134895, guid: cf20fdc7703d83d4ba417e1350f1a2d5, type: 3}
     togglePrefab: {fileID: 681455461261020552, guid: 9548ca192bcd4b04380da3a6fd582f7b, type: 3}
+    simpleContainerPrefab: {fileID: 3816729058983134895, guid: 8e7379d2be146ba4c82aa778f4f8888d, type: 3}
   m_editorDatas:
     editorLayer: Editor
     cursorMaterial: {fileID: 2100000, guid: 9a144ebe82e67da458deb9ae154cee23, type: 2}

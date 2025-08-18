@@ -87,15 +87,22 @@ public class Global : ScriptableObject
         AssetDatabase.SaveAssets();
     }
 
-    static T Create<T>(string name) where T : ScriptableObject
+    public static T Create<T>(string name, bool loadIfExist = false) where T : ScriptableObject
     {
         var elements = Resources.LoadAll<ScriptableObject>(s_path);
         foreach (var e in elements)
         {
             if (e.name == name)
             {
-                Debug.LogError("An item with the name " + name + " already exist in Ressources/" + s_path);
-                return null;
+                if(loadIfExist)
+                {
+                    return e as T;
+                }
+                else
+                {
+                    Debug.LogError("An item with the name " + name + " already exist in Ressources/" + s_path);
+                    return null;
+                }
             }
         }
 
@@ -123,7 +130,7 @@ public class Global : ScriptableObject
         m_instance = LoadOneInstance<Global>(s_globalName);
     }
 
-    static T LoadOneInstance<T>(string name) where T : ScriptableObject
+    public static T LoadOneInstance<T>(string name) where T : ScriptableObject
     {
         T asset = null;
 
