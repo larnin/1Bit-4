@@ -42,6 +42,15 @@ public class EditorToolShapeBlock : EditorToolBase
 
     public override void Update()
     {
+        var overUI = Event<IsMouseOverUIEvent>.Broadcast(new IsMouseOverUIEvent());
+        if (overUI.overUI)
+        {
+            m_started = false;
+            SetSimpleCursor();
+            m_cursor.SetActive(false);
+            return;
+        }
+
         var mousePos = Input.mousePosition;
         var cam = Event<GetCameraEvent>.Broadcast(new GetCameraEvent());
 

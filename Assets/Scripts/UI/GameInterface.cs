@@ -52,6 +52,7 @@ public class GameInterface : MonoBehaviour
             return;
 
         m_buildingCursor.SetBuildingType(type);
+        m_buildingCursor.SetCursorEnabled(true);
         m_selectCursor.SetCursorEnabled(false);
     }
 
@@ -71,7 +72,7 @@ public class GameInterface : MonoBehaviour
             return;
 
         m_selectCursor.SetCursorEnabled(false);
-        m_buildingCursor.SetCursorDisabled();
+        m_buildingCursor.SetCursorEnabled(false);
 
         if (MenuSystem.instance == null)
             return;

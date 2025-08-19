@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class PlaceBuildingCursor : MonoBehaviour
+public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
 {
     [SerializeField] LayerMask m_groundLayer;
     [SerializeField] string m_placeBuildingSound;
@@ -49,26 +49,25 @@ public class PlaceBuildingCursor : MonoBehaviour
     public void SetBuildingType(BuildingType type)
     {
         m_type = type;
-        m_enabled = true;
-        UpdateBuilding();
     }
 
-    public void SetCursorDisabled()
-    {
-        m_enabled = false;
-        UpdateBuilding();
-
-        if (m_decal != null)
-            m_decal.gameObject.SetActive(false);
-
-        RemoveAllConnexions();
-    }
-
-    public bool IsCursorEnabled()
+    public bool IsCursorEnabled() 
     {
         return m_enabled;
     }
-        
+
+    public void SetCursorEnabled(bool enabled)
+    {
+        m_enabled = enabled;
+        UpdateBuilding();
+
+        if (m_decal != null)
+            m_decal.gameObject.SetActive(enabled);
+
+        if(!enabled)
+            RemoveAllConnexions();
+    }
+
     void UpdateBuilding()
     {
         if(!m_enabled)
@@ -118,7 +117,7 @@ public class PlaceBuildingCursor : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
             OnClick();
         else if (Input.GetMouseButtonDown(1))
-            SetCursorDisabled();
+            SetCursorEnabled(false);
 
         if (m_decal != null)
             m_decal.UpdateVisual();
@@ -509,4 +508,6 @@ public class PlaceBuildingCursor : MonoBehaviour
 
         m_connexions.Clear();
     }
+
+
 }

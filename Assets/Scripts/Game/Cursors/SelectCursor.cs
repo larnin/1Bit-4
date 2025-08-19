@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class SelectCursor : MonoBehaviour
+public class SelectCursor : MonoBehaviour, CursorInterface
 {
     [SerializeField] LayerMask m_selectionLayer;
     [SerializeField] LayerMask m_hoverLayer;

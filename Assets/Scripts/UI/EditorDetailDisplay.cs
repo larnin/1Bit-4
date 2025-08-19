@@ -114,7 +114,7 @@ public class EditorDetailDisplay : MonoBehaviour
     {
         DrawHeader();
 
-        var foldBuildings = UIElementData.Create<UIElementFoldable>(m_container).SetHeaderText("Buildings");
+        var foldBuildings = UIElementData.Create<UIElementFoldable>(m_container).SetHeaderText("Buildings").SetFolded(true);
         foreach(BuildingType type in Enum.GetValues(typeof(BuildingType)))
         {
             if (Global.instance.buildingDatas.GetBuilding(type) == null)
@@ -124,10 +124,10 @@ public class EditorDetailDisplay : MonoBehaviour
             UIElementData.Create<UIElementButton>(foldBuildings.GetContainer()).SetText(type.ToString()).SetClickFunc(() => { OnBuildingClick(temp); });
         }
 
-        var foldEntities = UIElementData.Create<UIElementFoldable>(m_container).SetHeaderText("Entities");
+        var foldEntities = UIElementData.Create<UIElementFoldable>(m_container).SetHeaderText("Entities").SetFolded(true);
         //todo entities
 
-        var foldResources = UIElementData.Create<UIElementFoldable>(m_container).SetHeaderText("Resources");
+        var foldResources = UIElementData.Create<UIElementFoldable>(m_container).SetHeaderText("Resources").SetFolded(true);
         foreach(BlockType type in Enum.GetValues(typeof(BlockType)))
         {
             if (!Global.instance.blockDatas.IsCustomBlock(type))
@@ -137,18 +137,22 @@ public class EditorDetailDisplay : MonoBehaviour
             UIElementData.Create<UIElementButton>(foldResources.GetContainer()).SetText(type.ToString()).SetClickFunc(() => { OnResourceClick(temp); });
         }
 
-        var foldQuest = UIElementData.Create<UIElementFoldable>(m_container).SetHeaderText("Quest");
+        var foldQuest = UIElementData.Create<UIElementFoldable>(m_container).SetHeaderText("Quest").SetFolded(true);
         //todo quest elements
     }
 
     void OnBuildingClick(BuildingType type)
     {
-        Event<EditorBuildingButtonClickedEvent>.Broadcast(new EditorBuildingButtonClickedEvent(type));
+        if (EditorToolHolder.instance == null)
+            return;
+
+        var tool = EditorToolHolder.instance.MakePlaceBuildingTool(type);
+        EditorToolHolder.instance.SetCurrentTool(tool);
     }
 
     void OnResourceClick(BlockType type)
     {
-        Event<EditorResourceButtonClickedEvent>.Broadcast(new EditorResourceButtonClickedEvent(type));
+        //Event<EditorResourceButtonClickedEvent>.Broadcast(new EditorResourceButtonClickedEvent(type));
     }
 
     void DrawTerraformation()

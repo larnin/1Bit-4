@@ -19,6 +19,13 @@ public class EditorToolSimpleBlock : EditorToolBase
 
     public override void Update()
     {
+        var overUI = Event<IsMouseOverUIEvent>.Broadcast(new IsMouseOverUIEvent());
+        if (overUI.overUI)
+        {
+            m_cursor.SetActive(false);
+            return;
+        }
+
         bool haveHit = GetMouseBlockTarget(out m_point, out m_pointOnCollision);
         m_cursor.SetActive(haveHit);
 

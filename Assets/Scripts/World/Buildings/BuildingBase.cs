@@ -98,7 +98,7 @@ public abstract class BuildingBase : MonoBehaviour
 
     public bool IsAdded()
     {
-        return m_added && !m_asCursor;
+        return m_added && !m_asCursor && EditorGridBehaviour.instance == null;
     }
 
     public virtual Vector3Int GetSize()
