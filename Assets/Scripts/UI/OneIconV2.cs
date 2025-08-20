@@ -64,8 +64,12 @@ public class OneIconV2 : MonoBehaviour
             }
         }
 
+        var canvas = m_parent.GetComponentInParent<Canvas>();
+
         Vector2 transformPoint;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(m_parent, pos, camera, out transformPoint);
+        if(canvas != null && canvas.renderMode == RenderMode.ScreenSpaceOverlay)
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(m_parent, pos, null, out transformPoint);
+        else RectTransformUtility.ScreenPointToLocalPointInRectangle(m_parent, pos, camera, out transformPoint);
 
         m_current.anchoredPosition = transformPoint;
     }

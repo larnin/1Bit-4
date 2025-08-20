@@ -16,6 +16,7 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
     [SerializeField] Material m_connexionMaterial;
 
     bool m_enabled = false;
+    bool m_onEditor = false;
     BuildingType m_type;
     BuildingBase m_instance;
     BuildingPlaceType m_canPlace = BuildingPlaceType.Valid;
@@ -58,6 +59,8 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
 
     public void SetCursorEnabled(bool enabled)
     {
+        m_onEditor = EditorGridBehaviour.instance != null;
+
         m_enabled = enabled;
         UpdateBuilding();
 
@@ -226,6 +229,9 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
 
         if (m_decal != null)
             m_decal.SetTarget(m_cursorPos, m_instance.GetBuildingType(), m_instance.PlacementRadius());
+
+        if (m_onEditor)
+            return;
 
         if (!buildingData.IsFree() && !buildingData.cost.HaveMoney())
         {

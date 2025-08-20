@@ -129,6 +129,16 @@ public class BuildingList : MonoBehaviour
         return buildings;
     }
 
+    public List<BuildingBase> GetAllBuilding()
+    {
+        List<BuildingBase> buildings = new List<BuildingBase>();
+
+        foreach (var building in m_buildings)
+            buildings.Add(building);
+
+        return buildings;
+    }
+
     public List<BuildingBase> GetAllBuilding(BuildingType type)
     {
         return GetAllBuilding(x => { return x.GetBuildingType() == type; });

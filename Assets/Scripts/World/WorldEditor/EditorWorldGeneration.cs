@@ -199,6 +199,15 @@ public class EditorWorldGeneration : MonoBehaviour
         if (grid.grid == null)
             return;
 
+        if(BuildingList.instance != null)
+        {
+            var buildings = BuildingList.instance.GetAllBuilding();
+            foreach(var b in buildings)
+            {
+                Destroy(b.gameObject);
+            }
+        }
+
         m_settings.size = grid.grid.Size();
         m_settings.height = grid.grid.Height();
         m_settings.loopX = grid.grid.LoopX();
