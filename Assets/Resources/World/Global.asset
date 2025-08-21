@@ -722,6 +722,9 @@ MonoBehaviour:
   m_editorDatas:
     editorLayer: Editor
     cursorMaterial: {fileID: 2100000, guid: 9a144ebe82e67da458deb9ae154cee23, type: 2}
+    toolHoverLayer:
+      serializedVersion: 2
+      m_Bits: 1408
     groundLayer:
       serializedVersion: 2
       m_Bits: 64

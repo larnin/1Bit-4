@@ -11,6 +11,7 @@ public enum EntityType
     Building,
     GameEntity,
     Projectile,
+    Quest
 }
 
 public class GameSystem : MonoBehaviour

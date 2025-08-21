@@ -66,12 +66,12 @@ public class EditorToolHolder : MonoBehaviour
     {
         if (m_currentTool != null)
             m_currentTool.Update();
+        else SetCurrentTool(MakeDefaultTool());
 
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             SetCurrentTool(MakeDefaultTool());
         }
-            
     }
 
     public EditorToolBase MakePlaceBuildingTool(BuildingType building)

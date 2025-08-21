@@ -132,7 +132,7 @@ public class SelectCursor : MonoBehaviour, CursorInterface
 
         var ray = camera.camera.ScreenPointToRay(Input.mousePosition);
 
-        GameObject newTarget = LoopHoverRatcast(ray);
+        GameObject newTarget = LoopHoverRatcast(ray, m_hoverLayer);
 
         if(CustomLightsManager.instance != null && newTarget != null)
         {
@@ -164,7 +164,7 @@ public class SelectCursor : MonoBehaviour, CursorInterface
         }
     }
 
-    GameObject LoopHoverRatcast(Ray ray)
+    public static GameObject LoopHoverRatcast(Ray ray, LayerMask layer)
     {
         bool haveHit = false;
         GameObject bestTarget = null;
@@ -176,7 +176,7 @@ public class SelectCursor : MonoBehaviour, CursorInterface
 
         if (grid.grid == null)
         {
-            haveHit = Physics.Raycast(ray, out hit, float.MaxValue, m_hoverLayer.value);
+            haveHit = Physics.Raycast(ray, out hit, float.MaxValue, layer.value);
             if (!haveHit)
                 return null;
             return hit.collider.gameObject;
@@ -189,7 +189,7 @@ public class SelectCursor : MonoBehaviour, CursorInterface
         foreach (var d in dups.duplications)
         {
             var tempRay = new Ray(ray.origin - new Vector3(d.x * size, 0, d.y * size), ray.direction);
-            bool tempHit = Physics.Raycast(tempRay, out hit, float.MaxValue, m_hoverLayer.value);
+            bool tempHit = Physics.Raycast(tempRay, out hit, float.MaxValue, layer.value);
             if (!tempHit)
                 continue;
 
@@ -262,7 +262,7 @@ public class SelectCursor : MonoBehaviour, CursorInterface
             var pos = (m_selectionStart + m_selectionEnd) / 2;
 
             var ray = camera.camera.ScreenPointToRay(pos);
-            GameObject newTarget = LoopHoverRatcast(ray);
+            GameObject newTarget = LoopHoverRatcast(ray, m_hoverLayer);
 
             if (newTarget != null && !IsSelectionValid(newTarget))
                 newTarget = null;

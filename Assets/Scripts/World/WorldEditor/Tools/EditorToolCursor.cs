@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 public class EditorToolCursor : EditorToolBase
 {
@@ -18,7 +19,14 @@ public class EditorToolCursor : EditorToolBase
         m_cursor.SetCursorEnabled(true);
     }
 
-    public override void Update() { }
+    public override void Update()
+    { 
+        if(!m_cursor.IsCursorEnabled() && EditorToolHolder.instance != null && EditorToolHolder.instance.GetCurrentTool() == this)
+        {
+            EditorToolHolder.instance.SetCurrentTool(null);
+        }
+
+    }
 
     public override void End()
     {

@@ -36,6 +36,7 @@ public class EditorDatas
 {
     public string editorLayer;
     public Material cursorMaterial;
+    public LayerMask toolHoverLayer;
 
     public LayerMask groundLayer;
 
