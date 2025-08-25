@@ -17,13 +17,6 @@ public class GameEntityData
     public GameObject prefab;
 }
 
-public enum QuestElementType
-{
-    Point,
-    Cuboid,
-    Sphere,
-}
-
 [Serializable]
 public class QuestElementData
 {
@@ -39,6 +32,8 @@ public class EditorDatas
     public LayerMask toolHoverLayer;
 
     public LayerMask groundLayer;
+
+    public Material questElementMaterial;
 
     public List<GameEntityData> entities;
     public List<QuestElementData> questElements;

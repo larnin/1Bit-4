@@ -82,6 +82,12 @@ public class EditorToolHolder : MonoBehaviour
         return Tool;
     }
 
+    public EditorToolBase MakePlaceQuestElementTool(QuestElementType type)
+    {
+        // todo
+        return null;
+    }
+
     public EditorToolBase MakeDefaultTool()
     {
         return new EditorToolSelect();

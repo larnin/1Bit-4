@@ -163,6 +163,11 @@ public static class WireframeMesh
         return MakeMesh(meshParams, new Bounds(new Vector3(size.x, size.y, size.z) / 2, size));
     }
 
+    public static Mesh Sphere(float radius, int circleNb, int segmentNb, Color32 color)
+    {
+        return Sphere(new Vector3(radius, radius, radius), circleNb, segmentNb, color);
+    }
+
     public static Mesh Sphere(Vector3 radius, int circleNb, int segmentNb, Color32 color)
     {
         if (segmentNb < 2)

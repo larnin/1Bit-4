@@ -728,8 +728,15 @@ MonoBehaviour:
     groundLayer:
       serializedVersion: 2
       m_Bits: 64
+    questElementMaterial: {fileID: 2100000, guid: 1ac1427d7badc8948a319d16a19aa58b, type: 2}
     entities: []
-    questElements: []
+    questElements:
+    - type: 0
+      prefab: {fileID: 8340473304973191108, guid: f19020f353dd98046998669ae18bd18c, type: 3}
+    - type: 1
+      prefab: {fileID: 3302721522315360713, guid: fd02a8739d258cb46ad45fda8ddc0d9f, type: 3}
+    - type: 2
+      prefab: {fileID: 204099878833362203, guid: 1159a36e7549da64ea094558ee982fdc, type: 3}
   m_statusDatas:
     burning:
       effectPrefab: {fileID: 0}

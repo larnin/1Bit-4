@@ -138,7 +138,14 @@ public class EditorDetailDisplay : MonoBehaviour
         }
 
         var foldQuest = UIElementData.Create<UIElementFoldable>(m_container).SetHeaderText("Quest").SetFolded(true);
-        //todo quest elements
+        foreach(QuestElementType type in Enum.GetValues(typeof(QuestElementType)))
+        {
+            if (!Global.instance.editorDatas.questElements.Exists(x => { return x.type == type; }))
+                continue;
+
+            var temp = type;
+            UIElementData.Create<UIElementButton>(foldQuest.GetContainer()).SetText(type.ToString()).SetClickFunc(() => { OnQuestElementClick(temp); });
+        }
     }
 
     void OnBuildingClick(BuildingType type)
@@ -153,6 +160,15 @@ public class EditorDetailDisplay : MonoBehaviour
     void OnResourceClick(BlockType type)
     {
         //Event<EditorResourceButtonClickedEvent>.Broadcast(new EditorResourceButtonClickedEvent(type));
+    }
+
+    void OnQuestElementClick(QuestElementType type)
+    {
+        if (EditorToolHolder.instance == null)
+            return;
+
+        var tool = EditorToolHolder.instance.MakePlaceQuestElementTool(type);
+        EditorToolHolder.instance.SetCurrentTool(tool);
     }
 
     void DrawTerraformation()
