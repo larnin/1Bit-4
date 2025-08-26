@@ -145,6 +145,13 @@ public static class GridEx
         return new Vector3Int(LoopPos(pos.x, size), pos.y, LoopPos(pos.z, size));
     }
 
+    public static Vector3 GetRealPosFromLoop(Grid grid, Vector3 pos)
+    {
+        int size = GetRealSize(grid);
+
+        return new Vector3(LoopPos(pos.x, size), pos.y, LoopPos(pos.z, size));
+    }
+
     public static Vector3Int GetPosFromLoop(Grid grid, Vector3Int pos)
     {
         int size = grid.Size();

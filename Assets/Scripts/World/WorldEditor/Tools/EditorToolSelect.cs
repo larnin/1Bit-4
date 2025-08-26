@@ -93,7 +93,7 @@ public class EditorToolSelect : EditorToolBase
             {
                 var bound = collider.bounds;
                 m_cursor.transform.position = bound.center;
-                m_cursor.transform.localScale = bound.size;
+                m_cursor.transform.localScale = bound.size + Vector3.one * 0.2f;
             }
             else m_cursor.transform.localScale = Vector3.one;
         }

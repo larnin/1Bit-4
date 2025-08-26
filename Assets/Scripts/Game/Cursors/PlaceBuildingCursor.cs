@@ -142,7 +142,7 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
 
         var ray = cam.camera.ScreenPointToRay(Input.mousePosition);
 
-        bool haveHit = LoopCursorRatcast(ray, out m_mousePos);
+        bool haveHit = LoopCursorRatcast(ray, m_groundLayer, out m_mousePos);
         if(!haveHit)
             return;
 
@@ -155,7 +155,7 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
         m_posValid = true;
     }
 
-    bool LoopCursorRatcast(Ray ray, out Vector3 pos)
+    public static bool LoopCursorRatcast(Ray ray, LayerMask layer, out Vector3 pos)
     {
         pos = Vector3.zero;
 
@@ -169,7 +169,7 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
 
         if (grid == null)
         {
-            haveHit = Physics.Raycast(ray, out hit, float.MaxValue, m_groundLayer.value);
+            haveHit = Physics.Raycast(ray, out hit, float.MaxValue, layer.value);
             if (!haveHit)
                 return false;
 
@@ -189,7 +189,7 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
         foreach(var d in dups.duplications)
         {
             var tempRay = new Ray(ray.origin - new Vector3(d.x * size, 0, d.y * size), ray.direction);
-            bool tempHit = Physics.Raycast(tempRay, out hit, float.MaxValue, m_groundLayer.value);
+            bool tempHit = Physics.Raycast(tempRay, out hit, float.MaxValue, layer.value);
             if (!tempHit)
                 continue;
 

@@ -24,6 +24,28 @@ public class QuestElement : MonoBehaviour
 
     GameObject m_visual = null;
 
+    bool m_added = false;
+    bool m_isCursor = false;
+
+    private void Awake()
+    {
+        Add();
+    }
+
+    private void OnDestroy()
+    {
+        Remove();
+    }
+
+    public void SetAsCursor(bool asCursor)
+    {
+        m_isCursor = asCursor;
+
+        if (!m_isCursor)
+            Add();
+        else Remove();
+    }
+
     public QuestElementType GetQuestElementType()
     {
         return m_elementType;
@@ -60,6 +82,7 @@ public class QuestElement : MonoBehaviour
 
         m_size = size;
 
+        UpdateCollider();
         UpdateDisplay();
     }
 
@@ -84,17 +107,19 @@ public class QuestElement : MonoBehaviour
 
         m_radius = radius;
 
+        UpdateCollider();
         UpdateDisplay();
     }
 
     private void Start()
     {
+        UpdateCollider();
         UpdateDisplay();
     }
 
     void UpdateDisplay()
     {
-        if(!CanDraw() || m_elementType == QuestElementType.Point)
+        if(!CanDraw())
         {
             if (m_visual != null)
                 Destroy(m_visual);
@@ -125,12 +150,94 @@ public class QuestElement : MonoBehaviour
             if (m_elementType == QuestElementType.Cuboid)
                 filter.mesh = WireframeMesh.SimpleCube(m_size, Color.white);
             else if (m_elementType == QuestElementType.Sphere)
-                filter.mesh = WireframeMesh.Sphere(m_radius, 6, 8, Color.white);
+                filter.mesh = WireframeMesh.Sphere(m_radius, 4, 6, Color.white);
+            else if (m_elementType == QuestElementType.Point)
+                filter.mesh = WireframeMesh.Cross(Vector3.one * 2, Color.white);
+        }
+    }
+
+    void UpdateCollider()
+    {
+        if(!CanDraw())
+        {
+            var tempCollider = GetComponent<Collider>();
+            if (tempCollider != null)
+                Destroy(tempCollider);
+        }
+
+        var collider = GetComponent<Collider>();
+
+        if(m_elementType == QuestElementType.Cuboid || m_elementType == QuestElementType.Point)
+        {
+            var cubeCollider = collider as BoxCollider;
+            if (cubeCollider == null && collider != null)
+                Destroy(collider);
+            if (cubeCollider == null)
+                cubeCollider = gameObject.AddComponent<BoxCollider>();
+
+            if (m_elementType == QuestElementType.Cuboid)
+                cubeCollider.size = m_size;
+            else cubeCollider.size = new Vector3(2, 2, 2);
+        }
+        else if(m_elementType == QuestElementType.Sphere)
+        {
+            var sphereCollider = collider as SphereCollider;
+            if (sphereCollider == null && collider != null)
+                Destroy(collider);
+            if (sphereCollider == null)
+                sphereCollider = gameObject.AddComponent<SphereCollider>();
+
+            sphereCollider.radius = m_radius;
         }
     }
 
     bool CanDraw()
     {
         return EditorGridBehaviour.instance != null;
+    }
+
+    void Add()
+    {
+        if (m_isCursor)
+            return;
+
+        var manager = QuestElementList.instance;
+        if (manager != null)
+        {
+            m_added = true;
+            manager.Register(this);
+        }
+    }
+
+    void Remove()
+    {
+        if (!m_added)
+            return;
+
+        var manager = QuestElementList.instance;
+        if (manager != null)
+            manager.UnRegister(this);
+
+        m_added = false;
+    }
+
+    public bool IsPosOnTrigger(Vector3 pos)
+    {
+        if (m_elementType == QuestElementType.Point)
+            return false;
+
+        if(m_elementType == QuestElementType.Sphere)
+        {
+            float sqrDir = (pos - transform.position).sqrMagnitude;
+            return sqrDir <= m_radius * m_radius;
+        }
+
+        if(m_elementType == QuestElementType.Cuboid)
+        {
+            var bounds = new Bounds(transform.position, m_size);
+            return bounds.Contains(pos);
+        }
+
+        return false;
     }
 }

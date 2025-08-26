@@ -84,8 +84,9 @@ public class EditorToolHolder : MonoBehaviour
 
     public EditorToolBase MakePlaceQuestElementTool(QuestElementType type)
     {
-        // todo
-        return null;
+        EditorToolQuestCursor Tool = new EditorToolQuestCursor();
+        Tool.SetQuestElementType(type);
+        return Tool;
     }
 
     public EditorToolBase MakeDefaultTool()

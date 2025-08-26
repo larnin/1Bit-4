@@ -73,6 +73,33 @@ public static class WireframeMesh
         data.indexesSize += 24;
     }
 
+    public static Mesh Cross(Vector3 size, Color32 color)
+    {
+        SimpleMeshParam<WireframeVertexDefinition> meshParams = new SimpleMeshParam<WireframeVertexDefinition>();
+
+        var data = meshParams.Allocate(6, 6);
+
+        size /= 2;
+
+        data.vertices[data.verticesSize].pos = new Vector3(-size.x, 0, 0);
+        data.vertices[data.verticesSize + 1].pos = new Vector3(size.x, 0, 0);
+        data.vertices[data.verticesSize + 2].pos = new Vector3(0, -size.y, 0);
+        data.vertices[data.verticesSize + 3].pos = new Vector3(0, size.y, 0);
+        data.vertices[data.verticesSize + 4].pos = new Vector3(0, 0, -size.z);
+        data.vertices[data.verticesSize + 5].pos = new Vector3(0, 0, size.z);
+
+        for (int i = 0; i < 6; i++)
+        {
+            data.vertices[data.verticesSize + i].color = color;
+            data.indexes[data.indexesSize + i] = (ushort)(data.verticesSize + i);
+        }
+
+        data.verticesSize += 6;
+        data.indexesSize += 6;
+
+        return MakeMesh(meshParams, new Bounds(Vector3.zero, size));
+    }
+
     public static Mesh Cuboid(Vector3Int size, Color32 color)
     {
         SimpleMeshParam<WireframeVertexDefinition> meshParams = new SimpleMeshParam<WireframeVertexDefinition>();

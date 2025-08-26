@@ -37,4 +37,15 @@ public class EditorDatas
 
     public List<GameEntityData> entities;
     public List<QuestElementData> questElements;
+
+    public GameObject GetQuestElementPrefab(QuestElementType type)
+    {
+        foreach(var e in questElements)
+        {
+            if (e.type == type)
+                return e.prefab;
+        }
+
+        return null;
+    }
 }

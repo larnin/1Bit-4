@@ -205,6 +205,8 @@ public class GameSystem : MonoBehaviour
             return EntityType.GameEntity;
         if (obj.GetComponent<ProjectileBase>() != null)
             return EntityType.Projectile;
+        if (obj.GetComponent<QuestElement>() != null)
+            return EntityType.Quest;
 
         return EntityType.None;
     }
