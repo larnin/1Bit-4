@@ -159,7 +159,11 @@ public class EditorDetailDisplay : MonoBehaviour
 
     void OnResourceClick(BlockType type)
     {
-        //Event<EditorResourceButtonClickedEvent>.Broadcast(new EditorResourceButtonClickedEvent(type));
+        if (EditorToolHolder.instance == null)
+            return;
+
+        var tool = EditorToolHolder.instance.MakePlaceResourceTool(type);
+        EditorToolHolder.instance.SetCurrentTool(tool);
     }
 
     void OnQuestElementClick(QuestElementType type)

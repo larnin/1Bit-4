@@ -77,16 +77,23 @@ public class EditorToolHolder : MonoBehaviour
     public EditorToolBase MakePlaceBuildingTool(BuildingType building)
     {
         m_placeBuildingCursor.SetBuildingType(building);
-        EditorToolCursor Tool = new EditorToolCursor();
-        Tool.SetCursor(m_placeBuildingCursor);
-        return Tool;
+        EditorToolCursor tool = new EditorToolCursor();
+        tool.SetCursor(m_placeBuildingCursor);
+        return tool;
     }
 
     public EditorToolBase MakePlaceQuestElementTool(QuestElementType type)
     {
-        EditorToolQuestCursor Tool = new EditorToolQuestCursor();
-        Tool.SetQuestElementType(type);
-        return Tool;
+        EditorToolQuestCursor tool = new EditorToolQuestCursor();
+        tool.SetQuestElementType(type);
+        return tool;
+    }
+
+    public EditorToolBase MakePlaceResourceTool(BlockType type)
+    {
+        EditorToolResourceCursor tool = new EditorToolResourceCursor();
+        tool.SetResourceType(type);
+        return tool;
     }
 
     public EditorToolBase MakeDefaultTool()
