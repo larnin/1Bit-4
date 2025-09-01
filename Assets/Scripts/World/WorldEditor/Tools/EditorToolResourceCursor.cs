@@ -10,9 +10,9 @@ public class EditorToolResourceCursor : EditorToolBase
     enum CursorState
     {
         Valid,
-        OnWater,
         NeedGround,
         NeedSurface,
+        InvalidPosition,
         UnknowError,
     }
 
@@ -20,6 +20,7 @@ public class EditorToolResourceCursor : EditorToolBase
     GameObject m_instance;
 
     bool m_cursorValid = false;
+    CursorState m_cursorState;
     Vector3Int m_cursorPos = Vector3Int.zero;
 
     public void SetResourceType(BlockType type)
@@ -38,6 +39,8 @@ public class EditorToolResourceCursor : EditorToolBase
     public override void Update()
     {
         UpdatePos();
+        m_cursorState = GetCursorState();
+        UpdateCross();
         UpdateInstance();
         UpdateClick();
     }
@@ -70,6 +73,114 @@ public class EditorToolResourceCursor : EditorToolBase
         m_cursorPos = new Vector3Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y), Mathf.RoundToInt(pos.z));
     }
 
+    CursorState GetCursorState()
+    {
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        if (grid.grid == null)
+            return CursorState.InvalidPosition;
+
+        var loopPos = GridEx.GetRealPosFromLoop(grid.grid, m_cursorPos);
+        if (grid.grid.LoopX())
+            m_cursorPos.x = loopPos.x;
+        if (grid.grid.LoopZ())
+            m_cursorPos.z = loopPos.z;
+
+        var size = GridEx.GetRealSize(grid.grid);
+        if (m_cursorPos.x < 0 || m_cursorPos.z < 0 || m_cursorPos.x >= size || m_cursorPos.z >= size)
+            return CursorState.InvalidPosition;
+
+        var downPos = m_cursorPos;
+        downPos.y--;
+
+        if (downPos.y < 0 || downPos.y >= GridEx.GetRealHeight(grid.grid) - 1)
+            return CursorState.InvalidPosition;
+        
+        var block = GridEx.GetBlock(grid.grid, downPos);
+
+        if (m_type == BlockType.crystal)
+        {
+            if (block.type != BlockType.ground)
+                return CursorState.NeedGround;
+
+            return CursorState.Valid;
+
+        }
+        else if(m_type == BlockType.Titanium)
+        {
+            if (block.type != BlockType.ground && block.type != BlockType.Titanium)
+                return CursorState.NeedGround;
+
+            return CursorState.Valid;
+        }
+        else if(m_type == BlockType.oil)
+        {
+            m_cursorPos = downPos;
+
+            if (block.type != BlockType.ground)
+                return CursorState.NeedGround;
+
+            for(int i = -1; i <= 1; i++)
+            {
+                for(int j = -1; j <= 1; j++)
+                {
+                    if (i == 0 && j == 0)
+                        continue;
+
+                    var ground = GridEx.GetBlock(grid.grid, downPos + new Vector3Int(i, 0, j));
+                    if (ground.type != BlockType.ground)
+                        return CursorState.NeedSurface;
+                    var air = GridEx.GetBlock(grid.grid, downPos + new Vector3Int(i, 1, j));
+                    if (air.type != BlockType.air)
+                        return CursorState.NeedSurface;
+                }
+            }
+            return CursorState.Valid;
+        }
+
+        return CursorState.UnknowError;
+    }
+
+    void UpdateCross()
+    {
+        if (m_cursorState == CursorState.Valid || !m_cursorValid)
+        {
+            EnableCross(false);
+            return;
+        }
+
+        EnableCross(true, GetCursorStateText());
+    }
+
+    void EnableCross(bool enabled, string message = "")
+    {
+        if (DisplayIconsV2.instance == null || m_instance == null)
+            return;
+
+
+        if (enabled)
+            DisplayIconsV2.instance.Register(m_instance, 0, "Cross", message);
+        else DisplayIconsV2.instance.Unregister(m_instance.gameObject);
+    }
+
+    string GetCursorStateText()
+    {
+        switch(m_cursorState)
+        {
+            case CursorState.NeedGround:
+                return "Need ground";
+            case CursorState.InvalidPosition:
+                return "Invalid position";
+            case CursorState.NeedSurface:
+                return "Need flat surface";
+            case CursorState.Valid:
+            case CursorState.UnknowError:
+            default:
+                break;
+        }
+
+        return "";
+    }
+
     void UpdateInstance()
     {
         if (m_instance == null)
@@ -81,27 +192,20 @@ public class EditorToolResourceCursor : EditorToolBase
 
     void UpdateClick()
     {
-        //if (!m_cursorValid)
-        //    return;
+        if (!m_cursorValid || m_cursorState != CursorState.Valid)
+            return;
 
-        //if (!Input.GetMouseButtonDown(0))
-        //    return;
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        if (grid.grid == null)
+            return;
 
-        //var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        //if (grid.grid == null)
-        //    return;
+        if (EditorGridBehaviour.instance == null)
+            return;
 
-        //var pos = GridEx.GetRealPosFromLoop(grid.grid, m_cursorPos);
+        if (!Input.GetMouseButtonDown(0))
+            return;
 
-        //var prefab = Global.instance.editorDatas.GetQuestElementPrefab(m_type);
-        //if (prefab == null)
-        //    return;
-
-        //var instance = GameObject.Instantiate(prefab);
-        //if (QuestElementList.instance != null)
-        //    instance.transform.parent = QuestElementList.instance.transform;
-
-        //instance.transform.position = m_cursorPos;
+        EditorGridBehaviour.instance.SetBlock(m_cursorPos, new Block(m_type));
     }
 
     void CreateInstance()

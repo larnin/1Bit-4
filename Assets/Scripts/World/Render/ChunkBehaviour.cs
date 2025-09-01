@@ -130,7 +130,8 @@ public class ChunkBehaviour : MonoBehaviour
                     var obj = Instantiate(b.prefab);
                     obj.transform.parent = transform;
                     obj.transform.localPosition = new Vector3(i, j, k);
-                    obj.transform.localRotation = RotationEx.ToQuaternion(RotationEx.RandomRotation());
+                    Vector3Int realPos = Grid.PosInChunkToPos(m_index, new Vector3Int(i, j, k));
+                    obj.transform.localRotation = RotationEx.ToQuaternion(RotationEx.RandomRotation(realPos));
                     obj.transform.localScale = Vector3.one;
                     m_customBlocks.Add(obj);
                 }

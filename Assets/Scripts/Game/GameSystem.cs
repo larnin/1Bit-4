@@ -11,6 +11,7 @@ public enum EntityType
     Building,
     GameEntity,
     Projectile,
+    Resource,
     Quest
 }
 
@@ -207,6 +208,8 @@ public class GameSystem : MonoBehaviour
             return EntityType.Projectile;
         if (obj.GetComponent<QuestElement>() != null)
             return EntityType.Quest;
+        if (obj.GetComponent<BlockResourceDisplay>() != null)
+            return EntityType.Resource;
 
         return EntityType.None;
     }

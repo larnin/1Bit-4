@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using NRand;
 
 public enum Rotation
 {
@@ -18,6 +19,14 @@ public static class RotationEx
     public static Rotation RandomRotation()
     {
         return (Rotation)UnityEngine.Random.Range(0, 4);
+    }
+
+    public static Rotation RandomRotation(Vector3Int pos)
+    {
+        var hash = new RandomHash(18734);
+        hash.Set(pos.x, pos.y, pos.z);
+
+        return (Rotation)Rand.UniformIntDistribution(0, 4, hash);
     }
 
     public static Quaternion ToQuaternion(Rotation rot)

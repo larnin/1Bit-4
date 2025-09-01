@@ -120,7 +120,7 @@ public class EditorGridBehaviour : MonoBehaviour
 
         if (setDirty)
         {
-            Vector3Int chunkIndex = Grid.PosToChunkIndex(new Vector3Int(pos.x, 0, pos.y));
+            Vector3Int chunkIndex = Grid.PosToChunkIndex(new Vector3Int(pos.x, 0, pos.z));
             m_gridBehaviour.SetChunkDirty(chunkIndex);
         }
     }

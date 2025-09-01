@@ -84,7 +84,7 @@ public class GridBehaviour : MonoBehaviour
                 {
                     Vector3Int chunk = pos + new Vector3Int(i, j, k);
 
-                    if (i < 0 || j < 0 || k < 0 || i >= size || j >= height || k >= size)
+                    if (chunk.x < 0 || chunk.y < 0 || chunk.z < 0 || chunk.x >= size || chunk.y >= height || chunk.z >= size)
                         continue;
 
                     var behaviour = m_chunks.Get(chunk.x, chunk.y, chunk.z);

@@ -25,26 +25,26 @@ public class EditorToolSelect : EditorToolBase
 
         if(Input.GetMouseButtonDown(0))
         {
-            var ray = camera.camera.ScreenPointToRay(Input.mousePosition);
-
-            GameObject newTarget = SelectCursor.LoopHoverRatcast(ray, Global.instance.editorDatas.toolHoverLayer);
-
-            if (newTarget != null)
+            var overUI = Event<IsMouseOverUIEvent>.Broadcast(new IsMouseOverUIEvent());
+            if (!overUI.overUI)
             {
-                var type = GameSystem.GetEntityType(newTarget);
-                if (type == EntityType.Building || type == EntityType.Building || type == EntityType.Quest)
-                    SelectObject(newTarget);
+                var ray = camera.camera.ScreenPointToRay(Input.mousePosition);
+
+                GameObject newTarget = SelectCursor.LoopHoverRatcast(ray, Global.instance.editorDatas.toolHoverLayer);
+
+                if (newTarget != null)
+                {
+                    var type = GameSystem.GetEntityType(newTarget);
+                    if (type == EntityType.Building || type == EntityType.Building || type == EntityType.Quest || type == EntityType.Resource)
+                        SelectObject(newTarget);
+                    else SelectObject(null);
+                }
                 else SelectObject(null);
             }
-            else SelectObject(null);
         }
 
-        if(Input.GetKeyDown(KeyCode.Delete) && m_selectedObject != null)
-        {
-            GameObject.Destroy(m_selectedObject);
-            m_selectedObject = null;
-            SelectObject(null);
-        }
+        if(Input.GetKeyDown(KeyCode.Delete))
+            DestroySelectedObject();
     }
 
     public override void End()
@@ -99,4 +99,31 @@ public class EditorToolSelect : EditorToolBase
         }
     }
 
+    void DestroySelectedObject()
+    {
+        if (m_selectedObject == null)
+            return;
+
+        var type = GameSystem.GetEntityType(m_selectedObject);
+
+        if (type == EntityType.Resource)
+        {
+            if (EditorGridBehaviour.instance == null)
+                return;
+
+            var pos = m_selectedObject.transform.position;
+            var posI = new Vector3Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y), Mathf.RoundToInt(pos.z));
+
+            if (posI.y == 0)
+                EditorGridBehaviour.instance.SetBlock(posI, new Block(BlockType.water));
+            else EditorGridBehaviour.instance.SetBlock(posI, new Block(BlockType.air));
+        }
+        else
+        {
+            GameObject.Destroy(m_selectedObject);
+            m_selectedObject = null;
+        }
+
+        SelectObject(null);
+    }
 }

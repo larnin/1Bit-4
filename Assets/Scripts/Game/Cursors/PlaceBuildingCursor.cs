@@ -181,9 +181,6 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
 
         var dups = Event<GetCameraDuplicationEvent>.Broadcast(new GetCameraDuplicationEvent());
 
-        int x = grid.grid.LoopX() ? 1 : 0;
-        int y = grid.grid.LoopZ() ? 1 : 0;
-
         int size = GridEx.GetRealSize(grid.grid);
 
         foreach(var d in dups.duplications)
@@ -395,17 +392,17 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
             case BuildingPlaceType.NoResources:
                 return "No resources";
             case BuildingPlaceType.InvalidPlace:
-                return "Invalid Place";
+                return "Invalid place";
             case BuildingPlaceType.TooFar:
                 return "Too far";
             case BuildingPlaceType.NeedCrystal:
-                return "Need Crystal";
+                return "Need crystal";
             case BuildingPlaceType.NeedOil:
-                return "Need Oil";
+                return "Need oil";
             case BuildingPlaceType.NeedTitanim:
-                return "Need Titanium";
+                return "Need titanium";
             case BuildingPlaceType.NeedWater:
-                return "Need Water";
+                return "Need water";
             case BuildingPlaceType.TooCloseSolarPannel:
                 return "Too close to other Solar Pannel";
             case BuildingPlaceType.Unknow:
