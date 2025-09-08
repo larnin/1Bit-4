@@ -128,6 +128,9 @@ public class ControlCameraIso : ControlCameraBase
         if (!GameInfos.instance.settings.IsInverseZoom())
             scrollY *= -1;
 
+        var overUI = Event<IsMouseOverUIEvent>.Broadcast(new IsMouseOverUIEvent());
+        if (overUI.overUI)
+            scrollY = 0;
         if (Event<IsScrollLockedEvent>.Broadcast(new IsScrollLockedEvent()).scrollLocked)
             scrollY = 0;
 

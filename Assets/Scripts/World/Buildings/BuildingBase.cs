@@ -70,6 +70,7 @@ public abstract class BuildingBase : MonoBehaviour
     float m_noHitDuration;
     float m_alarmTimer = 0;
     bool m_wasFullLife = true;
+    Team m_team;
 
     Rotation m_rotation = Rotation.rot_0;
 
@@ -82,6 +83,8 @@ public abstract class BuildingBase : MonoBehaviour
         m_subscriberList.Add(new Event<DeathEvent>.LocalSubscriber(OnDeath, gameObject));
         m_subscriberList.Add(new Event<ConnexionsUpdatedEvent>.Subscriber(OnConnexionUpdated));
         m_subscriberList.Subscribe();
+
+        m_team = GetDefaultTeam();
     }
 
     public void SetAsCursor(bool asCursor)
@@ -185,7 +188,7 @@ public abstract class BuildingBase : MonoBehaviour
 
     public abstract BuildingType GetBuildingType();
 
-    public Team GetTeam()
+    public Team GetDefaultTeam()
     {
         var building = GetBuildingType();
         var b = Global.instance.buildingDatas.GetBuilding(building);
@@ -194,9 +197,19 @@ public abstract class BuildingBase : MonoBehaviour
         return b.team;
     }
 
+    public Team GetTeam()
+    {
+        return m_team;
+    }
+
     void GetTeam(GetTeamEvent e)
     {
         e.team = GetTeam();
+    }
+
+    public void SetTeam(Team team)
+    {
+        m_team = team;
     }
 
     void OnLifeLoss(LifeLossEvent e)
@@ -395,7 +408,7 @@ public abstract class BuildingBase : MonoBehaviour
             light.enabled = enabled;
     }
 
-    protected void DisplayGenericInfos(UIElementContainer container)
+    public void DisplayGenericInfos(UIElementContainer container)
     {
         var data = Global.instance.buildingDatas.GetBuilding(GetBuildingType());
         if (data == null)

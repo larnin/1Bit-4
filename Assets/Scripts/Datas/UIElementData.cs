@@ -23,7 +23,8 @@ public class UIElementData
     [SerializeField] GameObject foldablePrefab;
     [SerializeField] GameObject togglePrefab;
     [SerializeField] GameObject simpleContainerPrefab;
-
+    [SerializeField] GameObject comboBoxPrefab;
+ 
     T CreateImpl<T>(UIElementContainer container) where T : UIElementBase
     {
         GameObject prefab = null;
@@ -54,6 +55,8 @@ public class UIElementData
             prefab = togglePrefab;
         else if (typeof(T) == typeof(UIElementSimpleContainer))
             prefab = simpleContainerPrefab;
+        else if (typeof(T) == typeof(UIElementComboBox))
+            prefab = comboBoxPrefab;
 
         if (prefab == null)
             return null;

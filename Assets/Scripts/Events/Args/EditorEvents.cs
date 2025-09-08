@@ -14,6 +14,18 @@ class ToggleEditorToolCategoryEvent
     }
 }
 
+class EnableEditorCustomToolEvent
+{
+    public UIElementContainer container;
+
+    public bool enabled;
+
+    public EnableEditorCustomToolEvent(bool _enabled)
+    {
+        enabled = _enabled;
+    }
+}
+
 class EditorSystemButtonClickedEvent
 {
     public EditorSystemButtonType button;

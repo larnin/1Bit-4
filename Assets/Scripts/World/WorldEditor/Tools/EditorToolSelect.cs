@@ -97,6 +97,8 @@ public class EditorToolSelect : EditorToolBase
             }
             else m_cursor.transform.localScale = Vector3.one;
         }
+
+        UpdateSelectedDetails();
     }
 
     void DestroySelectedObject()
@@ -125,5 +127,65 @@ public class EditorToolSelect : EditorToolBase
         }
 
         SelectObject(null);
+    }
+
+    void UpdateSelectedDetails()
+    {
+        if(m_selectedObject == null)
+        {
+            Event<EnableEditorCustomToolEvent>.Broadcast(new EnableEditorCustomToolEvent(false));
+            return;
+        }
+
+        var type = GameSystem.GetEntityType(m_selectedObject);
+
+        if(type == EntityType.Building)
+        {
+            var container = Event<EnableEditorCustomToolEvent>.Broadcast(new EnableEditorCustomToolEvent(true)).container;
+
+            BuildingBase building = m_selectedObject.GetComponent<BuildingBase>();
+            if(building != null)
+            {
+                building.DisplayGenericInfos(container);
+
+                UIElementData.Create<UIElementComboBox>(container).SetElementsFromEnum(typeof(Team)).SetLabel("Team").SetValueChangeFunc(OnTeamChange).SetCurrentElementIndex((int)building.GetTeam());
+            }
+
+        }
+        else if(type == EntityType.Quest)
+        {
+            var container = Event<EnableEditorCustomToolEvent>.Broadcast(new EnableEditorCustomToolEvent(true)).container;
+
+            QuestElement element = m_selectedObject.GetComponent<QuestElement>();
+            if(element != null)
+            {
+                UIElementData.Create<UIElementSimpleText>(container).SetText("Quest element: " + element.GetQuestElementType().ToString()).SetAlignment(UIElementAlignment.center);
+                UIElementData.Create<UIElementSpace>(container).SetSpace(5);
+
+                UIElementData.Create<UIElementTextInput>(container).SetLabel("Name").SetText(element.GetName()).SetTextChangeFunc(OnNameChange);
+
+
+            }
+
+
+        }
+        else Event<EnableEditorCustomToolEvent>.Broadcast(new EnableEditorCustomToolEvent(false));
+    }
+
+    void OnTeamChange(int index)
+    {
+        if (m_selectedObject == null)
+            return;
+
+        BuildingBase building = m_selectedObject.GetComponent<BuildingBase>();
+        if(building != null)
+        {
+            building.SetTeam((Team)index);
+        }
+    }
+
+    void OnNameChange(string name)
+    {
+
     }
 }

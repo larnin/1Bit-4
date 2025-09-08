@@ -44,6 +44,7 @@ public class EditorDetailDisplay : MonoBehaviour
     private void Awake()
     {
         m_subscriberList.Add(new Event<ToggleEditorToolCategoryEvent>.Subscriber(ToogleToolCategory));
+        m_subscriberList.Add(new Event<EnableEditorCustomToolEvent>.Subscriber(EnableCustomTool));
         m_subscriberList.Subscribe();
 
         m_container = GetComponent<UIElementContainer>();
@@ -57,6 +58,21 @@ public class EditorDetailDisplay : MonoBehaviour
     private void OnDestroy()
     {
         m_subscriberList.Unsubscribe();
+    }
+
+    void EnableCustomTool(EnableEditorCustomToolEvent e)
+    {
+        if(e.enabled)
+        {
+            m_currentCategory = EditorToolCategoryType.None;
+
+            m_container.RemoveAndDestroyAll();
+            gameObject.SetActive(true);
+
+            e.container = m_container;
+        }
+        else if(m_currentCategory == EditorToolCategoryType.None)
+            Clean();
     }
 
     void ToogleToolCategory(ToggleEditorToolCategoryEvent e)
