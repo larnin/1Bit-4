@@ -11,6 +11,8 @@ public class EditorToolSelect : EditorToolBase
 
     GameObject m_selectedObject;
 
+    bool m_updateCursorNextFrame = false;
+
     public override void Begin()
     {
         CreateCursor();
@@ -45,6 +47,9 @@ public class EditorToolSelect : EditorToolBase
 
         if(Input.GetKeyDown(KeyCode.Delete))
             DestroySelectedObject();
+
+        if (m_updateCursorNextFrame)
+            UpdateCursor();
     }
 
     public override void End()
@@ -84,11 +89,18 @@ public class EditorToolSelect : EditorToolBase
     {
         m_selectedObject = obj;
 
-        m_cursor.SetActive(obj != null);
+        UpdateCursor();
 
-        if(obj != null)
+        UpdateSelectedDetails();
+    }
+
+    void UpdateCursor()
+    {
+        m_cursor.SetActive(m_selectedObject != null);
+
+        if (m_selectedObject != null)
         {
-            var collider = obj.GetComponent<Collider>();
+            var collider = m_selectedObject.GetComponent<Collider>();
             if (collider != null)
             {
                 var bound = collider.bounds;
@@ -97,8 +109,6 @@ public class EditorToolSelect : EditorToolBase
             }
             else m_cursor.transform.localScale = Vector3.one;
         }
-
-        UpdateSelectedDetails();
     }
 
     void DestroySelectedObject()
@@ -164,10 +174,31 @@ public class EditorToolSelect : EditorToolBase
 
                 UIElementData.Create<UIElementTextInput>(container).SetLabel("Name").SetText(element.GetName()).SetTextChangeFunc(OnNameChange);
 
+                var pos = element.transform.position;
+                var posContainer = UIElementData.Create<UIElementFoldable>(container).SetHeaderText("Pos").GetContainer();
+                UIElementData.Create<UIElementFloatInput>(posContainer).SetLabel("X").SetValue(pos.x).SetValueChangeFunc(x => { OnPosChange(x, 0); });
+                UIElementData.Create<UIElementFloatInput>(posContainer).SetLabel("Y").SetValue(pos.y).SetValueChangeFunc(x => { OnPosChange(x, 1); });
+                UIElementData.Create<UIElementFloatInput>(posContainer).SetLabel("Z").SetValue(pos.z).SetValueChangeFunc(x => { OnPosChange(x, 2); });
 
+                if(element.GetQuestElementType() == QuestElementType.Cuboid)
+                {
+                    var size = element.GetSize();
+                    var sizeContainer = UIElementData.Create<UIElementFoldable>(container).SetHeaderText("Size").GetContainer();
+                    UIElementData.Create<UIElementFloatInput>(sizeContainer).SetLabel("X").SetValue(size.x).SetValueChangeFunc(x => { OnSizeChange(x, 0); });
+                    UIElementData.Create<UIElementFloatInput>(sizeContainer).SetLabel("Y").SetValue(size.y).SetValueChangeFunc(x => { OnSizeChange(x, 1); });
+                    UIElementData.Create<UIElementFloatInput>(sizeContainer).SetLabel("Z").SetValue(size.z).SetValueChangeFunc(x => { OnSizeChange(x, 2); });
+
+                    UIElementData.Create<UIElementSpace>(container).SetSpace(5);
+                    var rot = element.transform.rotation.eulerAngles;
+                    UIElementData.Create<UIElementFloatInput>(container).SetLabel("Rot").SetValue(rot.y).SetIncrement(10).SetValueChangeFunc(OnRotChange);
+
+                }
+                else if(element.GetQuestElementType() == QuestElementType.Sphere)
+                {
+                    var radius = element.GetRadius();
+                    UIElementData.Create<UIElementFloatInput>(container).SetLabel("Radius").SetValue(radius).SetValueChangeFunc(x => { OnSizeChange(x, -1); });
+                }
             }
-
-
         }
         else Event<EnableEditorCustomToolEvent>.Broadcast(new EnableEditorCustomToolEvent(false));
     }
@@ -184,8 +215,85 @@ public class EditorToolSelect : EditorToolBase
         }
     }
 
+    void OnPosChange(float value, int index)
+    {
+        if (m_selectedObject == null)
+            return;
+
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        if (grid.grid == null)
+            return;
+
+        QuestElement element = m_selectedObject.GetComponent<QuestElement>();
+        if(element != null)
+        {
+            var pos = element.transform.position;
+            pos[index] = value;
+
+            var loopPos = GridEx.GetRealPosFromLoop(grid.grid, pos);
+
+            if (grid.grid.LoopX())
+                pos.x = loopPos.x;
+            if (grid.grid.LoopZ())
+                pos.z = loopPos.z;
+
+            element.transform.position = pos;
+        }
+
+        m_updateCursorNextFrame = true;
+    }
+
+    void OnSizeChange(float value, int index)
+    {
+        if (m_selectedObject == null)
+            return;
+
+        QuestElement element = m_selectedObject.GetComponent<QuestElement>();
+        if (element != null)
+        {
+            if(element.GetQuestElementType() == QuestElementType.Cuboid)
+            {
+                var size = element.GetSize();
+                if(index >= 0 && index < 3)
+                {
+                    size[index] = value;
+                    element.SetSize(size);
+                }
+            }
+            else if(element.GetQuestElementType() == QuestElementType.Sphere)
+            {
+                if (value > 0)
+                    element.SetRadius(value);
+            }
+        }
+
+        m_updateCursorNextFrame = true;
+    }
+
+    void OnRotChange(float value)
+    {
+        if (m_selectedObject == null)
+            return;
+
+        QuestElement element = m_selectedObject.GetComponent<QuestElement>();
+        if (element != null)
+        {
+            if (element.GetQuestElementType() == QuestElementType.Cuboid)
+                element.transform.rotation = Quaternion.Euler(0, value, 0);
+        }
+
+        m_updateCursorNextFrame = true;
+    }
+
     void OnNameChange(string name)
     {
+        if (m_selectedObject == null)
+            return;
 
+        QuestElement element = m_selectedObject.GetComponent<QuestElement>();
+        if (element != null)
+        {
+            element.SetName(name);
+        }
     }
 }

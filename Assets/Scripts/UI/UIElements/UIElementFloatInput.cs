@@ -16,6 +16,7 @@ public class UIElementFloatInput : UIElementBase
     float m_lastValidValue = 0;
     Button m_moreButton;
     Button m_lessButton;
+    float m_increment = 1;
 
     float m_minValue = float.MinValue;
     float m_maxValue = float.MaxValue;
@@ -97,12 +98,12 @@ public class UIElementFloatInput : UIElementBase
 
     void OnMoreClick()
     {
-        ValueOffset(1);
+        ValueOffset(m_increment);
     }
 
     void OnLessClick()
     {
-        ValueOffset(-1);
+        ValueOffset(-m_increment);
     }
 
     void ValueOffset(float offset)
@@ -151,6 +152,13 @@ public class UIElementFloatInput : UIElementBase
             m_inputField.text = m_lastValidValue.ToString(m_format);
             OnTextChange(m_inputField.text);
         }
+
+        return this;
+    }
+
+    public UIElementFloatInput SetIncrement(float increment)
+    {
+        m_increment = increment;
 
         return this;
     }
