@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-class ToggleEditorToolCategoryEvent
+public class ToggleEditorToolCategoryEvent
 {
     public EditorToolCategoryType category;
 
@@ -14,7 +14,7 @@ class ToggleEditorToolCategoryEvent
     }
 }
 
-class EnableEditorCustomToolEvent
+public class EnableEditorCustomToolEvent
 {
     public UIElementContainer container;
 
@@ -26,7 +26,7 @@ class EnableEditorCustomToolEvent
     }
 }
 
-class EditorSystemButtonClickedEvent
+public class EditorSystemButtonClickedEvent
 {
     public EditorSystemButtonType button;
 

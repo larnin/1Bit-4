@@ -69,4 +69,47 @@ public class QuestElementList : MonoBehaviour
 
         return null;
     }
+
+    public void Clear()
+    {
+        //destroying elements can change the list
+        var elements = m_elements.ToList();
+        m_elements.Clear();
+
+        foreach(var e in elements)
+        {
+            Destroy(e.gameObject);
+        }
+    }
+
+    public void Load(JsonObject obj)
+    {
+        Clear();
+
+        var jsonData = obj.GetElement("data");
+        if (!jsonData.IsJsonArray())
+            return;
+
+        var jsonArray = jsonData.JsonArray();
+        foreach(var jsonElement in jsonArray)
+        {
+            if (jsonElement.IsJsonObject())
+                QuestElement.Create(jsonElement.JsonObject());
+        }
+    }
+
+    public JsonObject Save()
+    {
+        JsonObject obj = new JsonObject();
+
+        var jsonArray = new JsonArray();
+        obj.AddElement("data", jsonArray);
+
+        foreach(var e in m_elements)
+        {
+            jsonArray.Add(e.Save());
+        }
+
+        return obj;
+    }
 }

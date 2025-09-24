@@ -240,4 +240,73 @@ public class QuestElement : MonoBehaviour
 
         return false;
     }
+
+    public JsonObject Save()
+    {
+        var obj = new JsonObject();
+
+        obj.AddElement("type", m_elementType.ToString());
+
+        obj.AddElement("pos", Json.FromVector3(transform.position));
+
+        if(m_elementType == QuestElementType.Cuboid)
+        {
+            obj.AddElement("size", Json.FromVector3(m_size));
+            float rot = transform.rotation.eulerAngles.y;
+            obj.AddElement("rot", rot);
+        }
+        else if(m_elementType == QuestElementType.Sphere)
+        {
+            obj.AddElement("radius", m_radius);
+        }
+
+        return obj;
+    }
+
+    public static QuestElement Create(JsonObject obj)
+    {
+        QuestElementType type = QuestElementType.Point;
+        var jsonType = obj.GetElement("type");
+        if (!jsonType.IsJsonString())
+            return null;
+        Enum.TryParse<QuestElementType>(jsonType.String(), out type);
+
+        var prefab = Global.instance.editorDatas.GetQuestElementPrefab(type);
+        if (prefab == null)
+            return null;
+
+        var instance = GameObject.Instantiate(prefab);
+        if (QuestElementList.instance != null)
+            instance.transform.parent = QuestElementList.instance.transform;
+
+        var jsonPos = obj.GetElement("pos");
+        if(jsonPos.IsJsonArray())
+            instance.transform.position = Json.ToVector3(jsonPos.JsonArray());
+
+        var elem = instance.GetComponent<QuestElement>();
+        if(elem == null)
+        {
+            Destroy(instance);
+            return null;
+        }
+
+        if(type == QuestElementType.Cuboid)
+        {
+            var jsonSize = obj.GetElement("size");
+            if (jsonSize.IsJsonArray())
+                elem.SetSize(Json.ToVector3(jsonSize.JsonArray()));
+
+            var jsonRot = obj.GetElement("rot");
+            if (jsonRot.IsJsonNumber())
+                instance.transform.rotation = Quaternion.Euler(0, jsonRot.Float(), 0);
+        }
+        else if(type == QuestElementType.Sphere)
+        {
+            var jsonRadius = obj.GetElement("radius");
+            if (jsonRadius.IsJsonNumber())
+                elem.SetRadius(jsonRadius.Float());
+        }
+
+        return elem;
+    }
 }

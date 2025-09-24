@@ -304,5 +304,98 @@ public static class GridEx
 
         return pos;
     }
+
+    public static Grid Load(JsonObject obj)
+    {
+        var jsonSize = obj.GetElement("size");
+        if (!jsonSize.IsJsonArray())
+            return null;
+
+        var size = Json.ToVector3Int(jsonSize.JsonArray());
+
+        if (size.x <= 0 || size.y <= 0 || size.z <= 0)
+            return null;
+
+        if (size.x % Grid.ChunkSize != 0 || size.y % Grid.ChunkSize != 0 || size.z % Grid.ChunkSize != 0)
+            return null;
+
+        if (size.x != size.z)
+            return null;
+
+        bool loopX = false;
+        var jsonLoopX = obj.GetElement("loopX");
+        if (jsonLoopX.IsJsonNumber())
+            loopX = jsonLoopX.Int() != 0 ? true : false;
+
+        bool loopZ = false;
+        var jsonLoopZ = obj.GetElement("loopZ");
+        if (jsonLoopZ.IsJsonNumber())
+            loopZ = jsonLoopZ.Int() != 0 ? true : false;
+
+        var jsonData = obj.GetElement("data");
+        if (!jsonData.IsJsonArray())
+            return null;
+
+        var jsonArray = jsonData.JsonArray();
+        if (jsonArray.Size() != size.x * size.y * size.z * 2)
+            return null;
+
+        Grid grid = new Grid(size.x / Grid.ChunkSize, size.y / Grid.ChunkSize, loopX, loopZ);
+
+        for(int i = 0; i < size.x; i++)
+        {
+            for(int j = 0; j < size.y; j++)
+            {
+                for(int k = 0; k < size.z; k++)
+                {
+                    int index = i * size.y * size.z + j * size.z + k;
+
+                    var jsonBlockType = jsonArray[index * 2];
+                    var jsonBlockData = jsonArray[index * 2 + 1];
+                    if(jsonBlockType.IsJsonString() && jsonBlockData.IsJsonNumber())
+                    {
+                        BlockType type = BlockType.air;
+                        Enum.TryParse<BlockType>(jsonBlockType.String(), out type);
+                        GridEx.SetBlock(grid, new Vector3Int(i, j, k), new Block(type, (byte)jsonBlockData.Int()));
+                    }
+                }
+            }
+        }
+
+        return grid;
+    }
+
+    public static JsonObject Save(Grid grid)
+    {
+        if (grid == null)
+            return null;
+
+        JsonObject obj = new JsonObject();
+        int size = GridEx.GetRealSize(grid);
+        int height = GridEx.GetRealHeight(grid);
+
+        obj.AddElement("size", Json.FromVector3Int(new Vector3Int(size, height, size)));
+        obj.AddElement("loopX", new JsonNumber(grid.LoopX() ? 1 : 0));
+        obj.AddElement("loopZ", new JsonNumber(grid.LoopZ() ? 1 : 0));
+
+        var data = new JsonArray();
+        obj.AddElement("data", data);
+
+        for(int i = 0; i < size; i++)
+        {
+            for(int j = 0; j < height; j++)
+            {
+                for(int k = 0; k < size; k++)
+                {
+                    var block = GridEx.GetBlock(grid, new Vector3Int(i, j, k));
+
+                    data.Add(block.type.ToString());
+                    data.Add(block.data);
+                }
+            }
+        }
+
+        return obj;
+    }
 }
 

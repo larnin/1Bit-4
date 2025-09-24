@@ -71,7 +71,7 @@ public class SaveHeader
             if(playTimeElt != null && playTimeElt.IsJsonNumber())
             {
                 float time = playTimeElt.Float();
-                m_startPlayTime = Time.time - m_startPlayTime;
+                m_startPlayTime = Time.time - time;
             }
         }
     }

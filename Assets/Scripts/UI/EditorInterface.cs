@@ -13,6 +13,7 @@ public class EditorInterface : MonoBehaviour
     private void Awake()
     {
         m_subscriberList.Add(new Event<IsMouseOverUIEvent>.Subscriber(IsMouseOverUI));
+        m_subscriberList.Add(new Event<EditorSystemButtonClickedEvent>.Subscriber(OnEditorSystemButtonClick));
         m_subscriberList.Subscribe();
     }
 
@@ -61,5 +62,35 @@ public class EditorInterface : MonoBehaviour
     public void OnGenerationClick()
     {
         Event<ToggleEditorToolCategoryEvent>.Broadcast(new ToggleEditorToolCategoryEvent(EditorToolCategoryType.Generation));
+    }
+
+    void OnEditorSystemButtonClick(EditorSystemButtonClickedEvent e)
+    {
+        switch(e.button)
+        {
+            case EditorSystemButtonType.New:
+
+                break;
+            case EditorSystemButtonType.Load:
+
+                break;
+            case EditorSystemButtonType.Save:
+
+                break;
+            case EditorSystemButtonType.SaveAs:
+
+                break;
+            case EditorSystemButtonType.Undo:
+
+                break;
+            case EditorSystemButtonType.Redo:
+
+                break;
+            case EditorSystemButtonType.Exit:
+
+                break;
+            default:
+                break;
+        }
     }
 }
