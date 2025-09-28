@@ -22,6 +22,11 @@ public class StatusEffectBurning : StatusEffectBase
         return m_duration > 0;
     }
 
+    public override StatusType GetStatusType()
+    {
+        return StatusType.Burning;
+    }
+
     public override void OnDestroy()
     {
         RemoveEffect();
@@ -97,5 +102,30 @@ public class StatusEffectBurning : StatusEffectBase
         var size = building.GetSize();
 
         return Mathf.Max(size.x, size.z);
+    }
+
+    protected override void Load(JsonObject obj)
+    {
+        base.Load(obj);
+
+        var jsonDuration = obj.GetElement("duration");
+        if (jsonDuration != null && jsonDuration.IsJsonNumber())
+            m_duration = jsonDuration.Float();
+
+        var jsonPower = obj.GetElement("power");
+        if (jsonPower != null && jsonPower.IsJsonNumber())
+            m_power = jsonPower.Float();
+
+        StartEffect();
+    }
+
+    public override JsonObject Save()
+    {
+        var obj = base.Save();
+
+        obj.AddElement("duration", m_duration);
+        obj.AddElement("power", m_power);
+
+        return obj;
     }
 }

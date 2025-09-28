@@ -39,6 +39,8 @@ public class LifeComponent : MonoBehaviour
         m_subscriberList.Add(new Event<IsDeadEvent>.LocalSubscriber(IsDead, gameObject));
         m_subscriberList.Add(new Event<HitEvent>.LocalSubscriber(Hit, gameObject));
         m_subscriberList.Add(new Event<HealEvent>.LocalSubscriber(Heal, gameObject));
+        m_subscriberList.Add(new Event<LoadEvent>.LocalSubscriber(Load, gameObject));
+        m_subscriberList.Add(new Event<SaveEvent>.LocalSubscriber(Save, gameObject));
         m_subscriberList.Subscribe();
     }
 
@@ -158,5 +160,31 @@ public class LifeComponent : MonoBehaviour
             m_life = m_life * multiplier / m_maxLifeMultiplier;
             m_maxLifeMultiplier = multiplier;
         }
+    }
+
+    void Load(LoadEvent e)
+    {
+        var jsonObj = e.obj.GetElement("life");
+        if(jsonObj != null && jsonObj.IsJsonObject())
+        {
+            var obj = jsonObj.JsonObject();
+
+            var jsonValue = obj.GetElement("value");
+            if (jsonValue != null && jsonValue.IsJsonNumber())
+                m_life = jsonValue.Float();
+
+            var jsonMul = obj.GetElement("mul");
+            if (jsonMul != null && jsonMul.IsJsonNumber())
+                m_maxLifeMultiplier = jsonMul.Float();
+        }
+    }
+
+    void Save(SaveEvent e)
+    {
+        var obj = new JsonObject();
+        e.obj.AddElement("life", obj);
+
+        obj.AddElement("value", m_life);
+        obj.AddElement("mul", m_maxLifeMultiplier);
     }
 }

@@ -267,7 +267,7 @@ public class QuestElement : MonoBehaviour
     {
         QuestElementType type = QuestElementType.Point;
         var jsonType = obj.GetElement("type");
-        if (!jsonType.IsJsonString())
+        if (jsonType == null || !jsonType.IsJsonString())
             return null;
         Enum.TryParse<QuestElementType>(jsonType.String(), out type);
 
@@ -280,7 +280,7 @@ public class QuestElement : MonoBehaviour
             instance.transform.parent = QuestElementList.instance.transform;
 
         var jsonPos = obj.GetElement("pos");
-        if(jsonPos.IsJsonArray())
+        if(jsonPos != null && jsonPos.IsJsonArray())
             instance.transform.position = Json.ToVector3(jsonPos.JsonArray());
 
         var elem = instance.GetComponent<QuestElement>();
@@ -293,17 +293,17 @@ public class QuestElement : MonoBehaviour
         if(type == QuestElementType.Cuboid)
         {
             var jsonSize = obj.GetElement("size");
-            if (jsonSize.IsJsonArray())
+            if (jsonSize != null && jsonSize.IsJsonArray())
                 elem.SetSize(Json.ToVector3(jsonSize.JsonArray()));
 
             var jsonRot = obj.GetElement("rot");
-            if (jsonRot.IsJsonNumber())
+            if (jsonRot != null && jsonRot.IsJsonNumber())
                 instance.transform.rotation = Quaternion.Euler(0, jsonRot.Float(), 0);
         }
         else if(type == QuestElementType.Sphere)
         {
             var jsonRadius = obj.GetElement("radius");
-            if (jsonRadius.IsJsonNumber())
+            if (jsonRadius != null && jsonRadius.IsJsonNumber())
                 elem.SetRadius(jsonRadius.Float());
         }
 

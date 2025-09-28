@@ -87,7 +87,7 @@ public class QuestElementList : MonoBehaviour
         Clear();
 
         var jsonData = obj.GetElement("data");
-        if (!jsonData.IsJsonArray())
+        if (jsonData == null || !jsonData.IsJsonArray())
             return;
 
         var jsonArray = jsonData.JsonArray();

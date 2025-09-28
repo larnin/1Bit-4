@@ -193,6 +193,30 @@ public static class Json
 
         return array;
     }
+
+    public static Quaternion ToQuaternion(JsonArray array, Quaternion def = default(Quaternion))
+    {
+        Quaternion quat = def;
+        if (array != null && array.Size() == 4)
+        {
+            quat.x = array[0].Int();
+            quat.y = array[1].Int();
+            quat.z = array[2].Int();
+            quat.w = array[3].Int();
+        }
+        return quat;
+    }
+
+    public static JsonArray FromQuaternion(Quaternion quat)
+    {
+        var array = new JsonArray();
+        array.Add(quat.x);
+        array.Add(quat.y);
+        array.Add(quat.z);
+        array.Add(quat.w);
+
+        return array;
+    }
 }
 
 

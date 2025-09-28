@@ -408,4 +408,49 @@ public class BuildingList : MonoBehaviour
         if (chunk != null)
             chunk.buildings.Remove(building);
     }
+
+    public void Clear()
+    {
+        //destroying elements can change the list
+        var elements = m_buildings.ToList();
+        m_buildings.Clear();
+
+        foreach (var e in elements)
+        {
+            Destroy(e.gameObject);
+        }
+    }
+
+    public void Load(JsonObject obj)
+    {
+        Clear();
+
+        var jsonData = obj.GetElement("data");
+        if (jsonData == null || !jsonData.IsJsonArray())
+            return;
+
+        var jsonArray = jsonData.JsonArray();
+        foreach (var jsonElement in jsonArray)
+        {
+            if (jsonElement.IsJsonObject())
+            {
+                BuildingBase.Create(jsonElement.JsonObject());
+            }
+        }
+    }
+
+    public JsonObject Save()
+    {
+        JsonObject obj = new JsonObject();
+
+        var jsonArray = new JsonArray();
+        obj.AddElement("data", jsonArray);
+
+        foreach (var b in m_buildings)
+        {
+            jsonArray.Add(b.Save());
+        }
+
+        return obj;
+    }
 }

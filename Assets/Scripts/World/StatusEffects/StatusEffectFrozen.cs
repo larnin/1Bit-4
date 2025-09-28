@@ -19,6 +19,11 @@ public class StatusEffectFrozen : StatusEffectBase
         return m_duration < 0;
     }
 
+    public override StatusType GetStatusType()
+    {
+        return StatusType.Frozen;
+    }
+
     public override void OnDestroy()
     {
 
@@ -42,6 +47,24 @@ public class StatusEffectFrozen : StatusEffectBase
     public override void Update()
     {
         m_duration -= Time.deltaTime;
+    }
+
+    protected override void Load(JsonObject obj)
+    {
+        base.Load(obj);
+
+        var jsonDuration = obj.GetElement("duration");
+        if (jsonDuration != null && jsonDuration.IsJsonNumber())
+            m_duration = jsonDuration.Float();
+    }
+
+    public override JsonObject Save()
+    {
+        var obj = base.Save();
+
+        obj.AddElement("duration", m_duration);
+
+        return obj;
     }
 }
 

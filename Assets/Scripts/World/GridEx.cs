@@ -308,7 +308,7 @@ public static class GridEx
     public static Grid Load(JsonObject obj)
     {
         var jsonSize = obj.GetElement("size");
-        if (!jsonSize.IsJsonArray())
+        if (jsonSize == null || !jsonSize.IsJsonArray())
             return null;
 
         var size = Json.ToVector3Int(jsonSize.JsonArray());
@@ -324,16 +324,16 @@ public static class GridEx
 
         bool loopX = false;
         var jsonLoopX = obj.GetElement("loopX");
-        if (jsonLoopX.IsJsonNumber())
+        if (jsonLoopX != null && jsonLoopX.IsJsonNumber())
             loopX = jsonLoopX.Int() != 0 ? true : false;
 
         bool loopZ = false;
         var jsonLoopZ = obj.GetElement("loopZ");
-        if (jsonLoopZ.IsJsonNumber())
+        if (jsonLoopZ != null && jsonLoopZ.IsJsonNumber())
             loopZ = jsonLoopZ.Int() != 0 ? true : false;
 
         var jsonData = obj.GetElement("data");
-        if (!jsonData.IsJsonArray())
+        if (jsonData == null || !jsonData.IsJsonArray())
             return null;
 
         var jsonArray = jsonData.JsonArray();
@@ -352,7 +352,7 @@ public static class GridEx
 
                     var jsonBlockType = jsonArray[index * 2];
                     var jsonBlockData = jsonArray[index * 2 + 1];
-                    if(jsonBlockType.IsJsonString() && jsonBlockData.IsJsonNumber())
+                    if(jsonBlockType != null && jsonBlockType.IsJsonString() && jsonBlockData != null && jsonBlockData.IsJsonNumber())
                     {
                         BlockType type = BlockType.air;
                         Enum.TryParse<BlockType>(jsonBlockType.String(), out type);

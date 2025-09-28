@@ -22,6 +22,8 @@ public abstract class StatusEffectBase
 
     public abstract void OnDestroy();
 
+    public abstract StatusType GetStatusType();
+
     public static StatusType DamageTypeToStatus(DamageType type)
     {
         switch(type)
@@ -44,5 +46,38 @@ public abstract class StatusEffectBase
                 return new StatusEffectFrozen(owner);
         }
         return null;
+    }
+
+    public static StatusEffectBase Create(JsonObject obj, GameObject owner)
+    {
+        StatusType statusType;
+        var jsonStatus = obj.GetElement("status");
+        if (jsonStatus != null && jsonStatus.IsJsonString())
+        {
+            if(Enum.TryParse<StatusType>(jsonStatus.ToString(), out statusType))
+            {
+                var status = Create(statusType, owner);
+                if(status != null)
+                {
+                    status.Load(obj);
+                    return status;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public virtual JsonObject Save()
+    {
+        var obj = new JsonObject();
+        obj.AddElement("status", GetStatusType().ToString());
+
+        return obj;
+    }
+
+    protected virtual void Load(JsonObject obj)
+    {
+        //nothing to do here
     }
 }

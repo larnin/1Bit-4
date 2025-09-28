@@ -27,6 +27,20 @@ public class TurretBehaviour : MonoBehaviour
     float m_turretTimer;
     float m_turretTimerMax;
 
+    SubscriberList m_subscriberList = new SubscriberList();
+
+    private void Awake()
+    {
+        m_subscriberList.Add(new Event<LoadEvent>.LocalSubscriber(Load, gameObject));
+        m_subscriberList.Add(new Event<SaveEvent>.LocalSubscriber(Save, gameObject));
+        m_subscriberList.Subscribe();
+    }
+
+    private void OnDestroy()
+    {
+        m_subscriberList.Unsubscribe();
+    }
+
     private void Start()
     {
         m_turretPivot = transform.Find("Pivot");
@@ -197,5 +211,54 @@ public class TurretBehaviour : MonoBehaviour
         current.y = 0;
 
         m_turretInitialRotation = Quaternion.LookRotation(current, Vector3.up);
+    }
+
+    void Load(LoadEvent e)
+    {
+        var objJson = e.obj.GetElement("turret");
+        if(objJson != null && objJson.IsJsonObject())
+        {
+            var obj = objJson.JsonObject();
+
+            var jsonTarget = obj.GetElement("target");
+            if (jsonTarget != null && jsonTarget.IsJsonArray())
+                m_target = Json.ToVector3(jsonTarget.JsonArray());
+
+            var jsonHaveTarget = obj.GetElement("haveTarget");
+            if (jsonHaveTarget != null && jsonHaveTarget.IsJsonNumber())
+                m_haveTarget = jsonHaveTarget.Int() != 0;
+
+            var startRotationJson = obj.GetElement("startRotation");
+            if (startRotationJson != null && startRotationJson.IsJsonArray())
+                m_turretStartRotation = Json.ToQuaternion(startRotationJson.JsonArray());
+
+            var stateJson = obj.GetElement("state");
+            if(stateJson != null && stateJson.IsJsonString())
+            {
+                if (!Enum.TryParse<TurretState>(stateJson.String(), out m_turretState))
+                    m_turretState = TurretState.NoTarget;
+            }
+
+            var timerJson = obj.GetElement("timer");
+            if(timerJson != null && timerJson.IsJsonNumber())
+                m_turretTimer = timerJson.Float();
+
+            var timerMaxJson = obj.GetElement("timerMax");
+            if (timerMaxJson != null && timerMaxJson.IsJsonNumber())
+                m_turretTimerMax = timerMaxJson.Float();
+        }
+    }
+
+    void Save(SaveEvent e)
+    {
+        var obj = new JsonObject();
+        e.obj.AddElement("turret", obj);
+
+        obj.AddElement("target", Json.FromVector3(m_target));
+        obj.AddElement("haveTarget", m_haveTarget ? 1 : 0);
+        obj.AddElement("startRotation", Json.FromQuaternion(m_turretStartRotation));
+        obj.AddElement("state", m_turretState.ToString());
+        obj.AddElement("timer", m_turretTimer);
+        obj.AddElement("timerMax", m_turretTimerMax);
     }
 }

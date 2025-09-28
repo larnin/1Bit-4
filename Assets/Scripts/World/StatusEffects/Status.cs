@@ -30,6 +30,8 @@ public class Status : MonoBehaviour
     {
         m_subscriberList.Add(new Event<LifeLossEvent>.LocalSubscriber(OnHit, gameObject));
         m_subscriberList.Add(new Event<IsFrozenEvent>.LocalSubscriber(IsFrozen, gameObject));
+        m_subscriberList.Add(new Event<SaveEvent>.LocalSubscriber(Save, gameObject));
+        m_subscriberList.Add(new Event<LoadEvent>.LocalSubscriber(Load, gameObject));
         m_subscriberList.Subscribe();
     }
 
@@ -92,5 +94,41 @@ public class Status : MonoBehaviour
 
         foreach (var s in toRemove)
             m_effects.Remove(s);
+    }
+
+    void Save(SaveEvent e)
+    {
+        var obj = new JsonArray();
+        e.obj.AddElement("status", obj);
+
+        foreach(var s in m_effects)
+        {
+            var elem = s.Value.Save();
+            if (elem != null)
+                obj.Add(elem);
+        }
+    }
+
+    void Load(LoadEvent e)
+    {
+        m_effects.Clear();
+
+        var objJson = e.obj.GetElement("status");
+        if(objJson != null && objJson.IsJsonArray())
+        {
+            foreach(var jsonElem in objJson.JsonArray())
+            {
+                if(jsonElem.IsJsonObject())
+                {
+                    var status = StatusEffectBase.Create(jsonElem.JsonObject(), gameObject);
+                    if (status != null)
+                    {
+                        if (!m_effects.ContainsKey(status.GetStatusType()))
+                            m_effects.Add(status.GetStatusType(), status);
+                        else status.OnDestroy();
+                    }
+                }
+            }
+        }
     }
 }

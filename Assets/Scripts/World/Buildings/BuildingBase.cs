@@ -441,5 +441,77 @@ public abstract class BuildingBase : MonoBehaviour
     }
 
     public virtual void UpdateRotation() { }
+
+    public JsonObject Save()
+    {
+        var obj = new JsonObject();
+
+        obj.AddElement("type", GetBuildingType().ToString());
+        obj.AddElement("team", GetTeam().ToString());
+        obj.AddElement("rot", GetRotation().ToString());
+
+        var pos = transform.localPosition;
+        obj.AddElement("pos", Json.FromVector3Int(new Vector3Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y), Mathf.RoundToInt(pos.z))));
+
+        SaveImpl(obj);
+
+        Event<SaveEvent>.Broadcast(new SaveEvent(obj), gameObject);
+
+        return obj;
+    }
+
+    public static BuildingBase Create(JsonObject obj)
+    {
+        var typeJson = obj.GetElement("type");
+        if (typeJson == null || !typeJson.IsJsonString())
+            return null;
+
+        BuildingType type;
+        if (!Enum.TryParse<BuildingType>(typeJson.String(), out type))
+            return null;
+
+        var buildingData = Global.instance.buildingDatas.GetBuilding(type);
+        if (buildingData == null || buildingData.prefab == null)
+            return null;
+
+        var instance = Instantiate(buildingData.prefab);
+        instance.transform.parent = BuildingList.instance.transform;
+        var posJson = obj.GetElement("pos");
+        if(posJson != null && posJson.IsJsonArray())    
+            instance.transform.localPosition = Json.ToVector3Int(posJson.JsonArray());
+        var building = instance.GetComponent<BuildingBase>();
+        if(building == null)
+        {
+            Destroy(instance);
+            return null;
+        }
+
+        var teamJson = obj.GetElement("team");
+        if (teamJson != null && teamJson.IsJsonString())
+        {
+            Team team;
+            if (Enum.TryParse<Team>(teamJson.String(), out team))
+                building.SetTeam(team);
+        }
+        var rotJson = obj.GetElement("rot");
+        if(rotJson != null && rotJson.IsJsonString())
+        {
+            Rotation rot;
+            if(Enum.TryParse<Rotation>(rotJson.String(), out rot))
+            {
+                building.SetRotation(rot);
+                building.UpdateRotation();
+            }
+        }
+
+        building.LoadImpl(obj);
+        Event<LoadEvent>.Broadcast(new LoadEvent(obj), instance);
+
+        return building;
+    }
+
+    protected virtual void LoadImpl(JsonObject obj) { }
+
+    protected virtual void SaveImpl(JsonObject obj) { }
 }
 
