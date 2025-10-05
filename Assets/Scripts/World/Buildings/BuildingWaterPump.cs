@@ -164,4 +164,16 @@ public class BuildingWaterPump : BuildingBase
     {
         SetRotation(RotationEx.Sub(m_waterDirection, Rotation.rot_90));
     }
+
+    protected override void SaveImpl(JsonObject obj)
+    {
+        obj.AddElement("efficiency", m_energyEfficiency);
+    }
+
+    protected override void LoadImpl(JsonObject obj)
+    {
+        var efficiencyJson = obj.GetElement("efficiency");
+        if (efficiencyJson != null && efficiencyJson.IsJsonNumber())
+            m_energyEfficiency = efficiencyJson.Float();
+    }
 }

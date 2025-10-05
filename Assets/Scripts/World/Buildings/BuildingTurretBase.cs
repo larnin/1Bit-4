@@ -289,4 +289,31 @@ public abstract class BuildingTurretBase : BuildingBase
     protected virtual void StartFire() { }
     protected virtual void EndFire() { }
     protected virtual void Fire() { }
+
+    protected override void SaveImpl(JsonObject obj)
+    {
+        obj.AddElement("fireTimer", m_fireTimer);
+        obj.AddElement("fireIndex", m_fireIndex);
+        obj.AddElement("firing", m_firing ? 1 : 0);
+        obj.AddElement("recoilTimer", m_recoilTimer);
+    }
+
+    protected override void LoadImpl(JsonObject obj)
+    {
+        var jsonFireTimer = obj.GetElement("fireTimer");
+        if (jsonFireTimer != null && jsonFireTimer.IsJsonNumber())
+            m_fireTimer = jsonFireTimer.Float();
+
+        var jsonFireIndex = obj.GetElement("fireIndex");
+        if (jsonFireIndex != null && jsonFireIndex.IsJsonNumber())
+            m_fireIndex = jsonFireIndex.Int();
+
+        var jsonFiring = obj.GetElement("firing");
+        if (jsonFiring != null && jsonFiring.IsJsonNumber())
+            m_firing = jsonFiring.Int() != 0 ? true : false;
+
+        var jsonRecoilTimer = obj.GetElement("recoilTimer");
+        if (jsonRecoilTimer != null && jsonRecoilTimer.IsJsonNumber())
+            m_recoilTimer = jsonRecoilTimer.Float();
+    }
 }

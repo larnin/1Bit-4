@@ -170,4 +170,16 @@ public class BuildingOilPump : BuildingBase
             else p.Stop(true, ParticleSystemStopBehavior.StopEmitting);
         }
     }
+
+    protected override void SaveImpl(JsonObject obj)
+    {
+        obj.AddElement("efficiency", m_energyEfficiency);
+    }
+
+    protected override void LoadImpl(JsonObject obj)
+    {
+        var efficiencyJson = obj.GetElement("efficiency");
+        if (efficiencyJson != null && efficiencyJson.IsJsonNumber())
+            m_energyEfficiency = efficiencyJson.Float();
+    }
 }

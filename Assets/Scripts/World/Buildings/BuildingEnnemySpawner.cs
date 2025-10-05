@@ -157,7 +157,7 @@ public class BuildingEnnemySpawner : BuildingBase
         m_state = State.Waiting;
     }
 
-    void StartNextWave()
+    void StartNextWave(int forceCount = -1)
     {
         if (DifficultySystem.instance == null)
         {
@@ -204,11 +204,19 @@ public class BuildingEnnemySpawner : BuildingBase
             var index = allowedIndexs[tabIndex];
             m_entityIndexs.Add(index);
 
-            var e = Global.instance.difficultyDatas.spawnersData.ennemies[index];
-            difficulty -= Rand.UniformFloatDistribution(e.difficultyCostMin, e.difficultyCostMax, rand);
+            if (forceCount > 0)
+            {
+                if (m_entityIndexs.Count >= forceCount)
+                    break;
+            }
+            else
+            {
+                var e = Global.instance.difficultyDatas.spawnersData.ennemies[index];
+                difficulty -= Rand.UniformFloatDistribution(e.difficultyCostMin, e.difficultyCostMax, rand);
 
-            if (m_entityIndexs.Count >= maxEnnemies)
-                break;
+                if (m_entityIndexs.Count >= maxEnnemies)
+                    break;
+            }
         }
 
         m_entityIndexs.Shuffle(rand);
@@ -343,6 +351,56 @@ public class BuildingEnnemySpawner : BuildingBase
         DisplayGenericInfos(e.container);
 
         UIElementData.Create<UIElementLabelAndText>(e.container).SetLabel("Time before next wave").SetTextFunc(GetNextWaveTimer);
+    }
+
+    protected override void LoadImpl(JsonObject obj)
+    {
+        var jsonTimer = obj.GetElement("timer");
+        if (jsonTimer != null && jsonTimer.IsJsonNumber())
+            m_timer = jsonTimer.Float();
+
+        var jsonDeltaTime = obj.GetElement("deltaTime");
+        if (jsonDeltaTime != null && jsonDeltaTime.IsJsonNumber())
+            m_deltaTime = jsonDeltaTime.Float();
+
+        var jsonState = obj.GetElement("state");
+        if(jsonState != null && jsonState.IsJsonString())
+        {
+            if(!Enum.TryParse<State>(jsonState.String(), out m_state))
+                m_state = State.Starting;
+        }
+
+        int nbEntities = 0;
+        var jsonEntities = obj.GetElement("entities");
+        if (jsonEntities != null && jsonEntities.IsJsonNumber())
+            nbEntities = obj.Int();
+
+        var jsonAppearStart = obj.GetElement("appearStart");
+        if (jsonAppearStart != null && jsonAppearStart.IsJsonArray())
+            m_appearStartPos = Json.ToVector3(jsonAppearStart.JsonArray());
+
+        var jsonAppearEnd = obj.GetElement("appearEnd");
+        if (jsonAppearEnd != null && jsonAppearEnd.IsJsonArray())
+            m_appearEndPos = Json.ToVector3(jsonAppearEnd.JsonArray());
+
+        var jsonAppearTimer = obj.GetElement("appearTimer");
+        if (jsonAppearTimer != null && jsonAppearTimer.IsJsonNumber())
+            m_appearTimer = jsonAppearTimer.Float();
+
+        if (m_state == State.Spawning)
+            StartNextWave(nbEntities);
+    }
+
+    protected override void SaveImpl(JsonObject obj)
+    {
+        obj.AddElement("timer", m_timer);
+        obj.AddElement("deltaTime", m_deltaTime);
+        obj.AddElement("state", m_state.ToString());
+        obj.AddElement("entities", m_entityIndexs.Count() - m_currentIndex);
+
+        obj.AddElement("appearStart", Json.FromVector3(m_appearStartPos));
+        obj.AddElement("appearEnd", Json.FromVector3(m_appearEndPos));
+        obj.AddElement("appearTimer", m_appearTimer);
     }
 }
 

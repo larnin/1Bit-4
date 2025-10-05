@@ -125,5 +125,17 @@ public class BuildingPowerPlant : BuildingBase
             else p.Stop(true, ParticleSystemStopBehavior.StopEmitting);
         }
     }
+
+    protected override void SaveImpl(JsonObject obj)
+    {
+        obj.AddElement("efficiency", m_efficiency);
+    }
+
+    protected override void LoadImpl(JsonObject obj)
+    {
+        var efficiencyJson = obj.GetElement("efficiency");
+        if (efficiencyJson != null && efficiencyJson.IsJsonNumber())
+            m_efficiency = efficiencyJson.Float();
+    }
 }
 

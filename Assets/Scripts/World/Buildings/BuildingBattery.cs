@@ -77,4 +77,16 @@ public class BuildingBattery : BuildingBase
 
         UIElementData.Create<UIElementFillValue>(e.container).SetLabel("Energy storage").SetValueFunc(EnergyStorageValue).SetMaxFunc(EnergyStorageMax).SetValueDisplayType(UIElementFillValueDisplayType.classic).SetNbDigits(0);
     }
+
+    protected override void LoadImpl(JsonObject obj)
+    {
+        var energyJson = obj.GetElement("energy");
+        if (energyJson != null && energyJson.IsJsonNumber())
+            m_energy = energyJson.Float();
+    }
+
+    protected override void SaveImpl(JsonObject obj)
+    {
+        obj.AddElement("energy", m_energy);
+    }
 }

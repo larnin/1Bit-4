@@ -125,4 +125,20 @@ public class BuildingTurretEnergy : BuildingTurretBase
 
         UIElementData.Create<UIElementFillValue>(e.container).SetLabel("Power storage").SetValueFunc(GetEnergy).SetMaxFunc(GetStorage).SetNbDigits(1).SetValueDisplayType(UIElementFillValueDisplayType.classic);
     }
+
+    protected override void LoadImpl(JsonObject obj)
+    {
+        base.LoadImpl(obj);
+
+        var jsonEnergy = obj.GetElement("energy");
+        if (jsonEnergy != null && jsonEnergy.IsJsonNumber())
+            m_energy = jsonEnergy.Float();
+    }
+
+    protected override void SaveImpl(JsonObject obj)
+    {
+        base.SaveImpl(obj);
+
+        obj.AddElement("energy", m_energy);
+    }
 }

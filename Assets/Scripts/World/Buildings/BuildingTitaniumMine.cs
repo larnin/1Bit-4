@@ -284,4 +284,54 @@ public class BuildingTitaniumMine : BuildingBase
         foreach (var d in datas)
             d.mineObject.transform.position = d.pos;
     }
+
+    protected override void SaveImpl(JsonObject obj)
+    {
+        obj.AddElement("efficiency", m_energyEfficiency);
+        obj.AddElement("consume", m_consumeMultiplier);
+        obj.AddElement("timer", m_timer);
+
+        var array = new JsonArray();
+        obj.AddElement("titaniums", array);
+
+        foreach (var mine in m_titaniums)
+            array.Add(Json.FromVector3Int(mine.pos));
+    }
+
+    protected override void LoadImpl(JsonObject obj)
+    {
+        var efficiencyJson = obj.GetElement("efficiency");
+        if (efficiencyJson != null && efficiencyJson.IsJsonNumber())
+            m_energyEfficiency = efficiencyJson.Float();
+
+        var consumeJson = obj.GetElement("consume");
+        if (consumeJson != null && consumeJson.IsJsonNumber())
+            m_consumeMultiplier = consumeJson.Float();
+
+        var timerJson = obj.GetElement("timer");
+        if (timerJson != null && timerJson.IsJsonNumber())
+            m_timer = timerJson.Float();
+
+        foreach (var c in m_titaniums)
+        {
+            if (c.mineObject != null)
+                Destroy(c.mineObject);
+        }
+        m_titaniums.Clear();
+
+        var arrayJson = obj.GetElement("titaniums");
+        if (arrayJson != null && arrayJson.IsJsonArray())
+        {
+            foreach (var e in arrayJson.JsonArray())
+            {
+                if (!e.IsJsonArray())
+                    continue;
+
+                MineData data = new MineData();
+                data.pos = Json.ToVector3Int(e.JsonArray());
+                CreateMineItem(data);
+                m_titaniums.Add(data);
+            }
+        }
+    }
 }

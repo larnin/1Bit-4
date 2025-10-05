@@ -240,5 +240,45 @@ public class BuildingCrystalMine : BuildingBase
         foreach(var d in datas)
             d.mineObject.transform.position = d.pos;
     }
+
+    protected override void SaveImpl(JsonObject obj)
+    {
+        obj.AddElement("efficiency", m_energyEfficiency);
+
+        var array = new JsonArray();
+        obj.AddElement("crystals", array);
+
+        foreach(var mine in m_crystals) 
+            array.Add(Json.FromVector3Int(mine.pos));
+    }
+
+    protected override void LoadImpl(JsonObject obj)
+    {
+        var efficiencyJson = obj.GetElement("efficiency");
+        if (efficiencyJson != null && efficiencyJson.IsJsonNumber())
+            m_energyEfficiency = efficiencyJson.Float();
+
+        foreach(var c in m_crystals)
+        {
+            if (c.mineObject != null)
+                Destroy(c.mineObject);
+        }
+        m_crystals.Clear();
+
+        var arrayJson = obj.GetElement("crystals");
+        if(arrayJson != null && arrayJson.IsJsonArray())
+        {
+            foreach(var e in arrayJson.JsonArray())
+            {
+                if (!e.IsJsonArray())
+                    continue;
+
+                MineData data = new MineData();
+                data.pos = Json.ToVector3Int(e.JsonArray());
+                CreateMineItem(data);
+                m_crystals.Add(data);
+            }
+        }
+    }
 }
 
