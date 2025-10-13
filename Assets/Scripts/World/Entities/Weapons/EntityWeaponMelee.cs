@@ -19,6 +19,20 @@ public class EntityWeaponMelee : EntityWeaponBase
 
     float m_hitTimer;
 
+    SubscriberList m_subscriberList = new SubscriberList();
+
+    private void Awake()
+    {
+        m_subscriberList.Add(new Event<LoadEvent>.LocalSubscriber(Load, gameObject));
+        m_subscriberList.Add(new Event<SaveEvent>.LocalSubscriber(Save, gameObject));
+        m_subscriberList.Subscribe();
+    }
+
+    private void OnDestroy()
+    {
+        m_subscriberList.Unsubscribe();   
+    }
+
     public override float GetMoveDistance()
     {
         return m_rangeAttack;
@@ -93,5 +107,26 @@ public class EntityWeaponMelee : EntityWeaponBase
 
         foreach (var col in cols)
             Event<HitEvent>.Broadcast(new HitEvent(hit), col.gameObject);
+    }
+
+    void Load(LoadEvent e)
+    {
+        var jsonObj = e.obj.GetElement("weaponMelee");
+        if (jsonObj != null && jsonObj.IsJsonObject())
+        {
+            var obj = jsonObj.JsonObject();
+
+            var jsonHit = obj.GetElement("hitTimer");
+            if (jsonHit != null && jsonHit.IsJsonNumber())
+                m_hitTimer = jsonHit.Float();
+        }
+    }
+
+    void Save(SaveEvent e)
+    {
+        var obj = new JsonObject();
+        e.obj.AddElement("weaponMelee", obj);
+
+        obj.AddElement("hitTimer", m_hitTimer);
     }
 }

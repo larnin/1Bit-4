@@ -213,7 +213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_projectilePrefab: {fileID: 9030378141569406407, guid: 329877d3bf8808943ab3e9e2617fdbc3, type: 3}
-  m_firePrefab: {fileID: 0}
+  m_firePrefab: {fileID: 9030378141569406407, guid: 329877d3bf8808943ab3e9e2617fdbc3, type: 3}
   m_rangeStopMove: 7
   m_fireRange: 10
   m_fireRate: 1

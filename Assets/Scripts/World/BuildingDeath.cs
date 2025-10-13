@@ -21,9 +21,13 @@ public class BuildingDeath : MonoBehaviour
     ParticleSystem m_particleSystem;
     bool m_stoppedParticles = false;
 
+    bool m_isDead = false;
+
     private void Awake()
     {
         m_subscriberList.Add(new Event<DeathEvent>.LocalSubscriber(OnDeath, gameObject));
+        m_subscriberList.Add(new Event<SaveEvent>.LocalSubscriber(Save, gameObject));
+        m_subscriberList.Add(new Event<LoadEvent>.LocalSubscriber(Load, gameObject));
         m_subscriberList.Subscribe();
     }
 
@@ -34,6 +38,8 @@ public class BuildingDeath : MonoBehaviour
 
     void OnDeath(DeathEvent e)
     {
+        m_isDead = true;
+
         m_renderables = GetComponentsInChildren<Renderer>().ToList();
         m_offset = 0;
         m_building = GetComponent<BuildingBase>();
@@ -124,5 +130,20 @@ public class BuildingDeath : MonoBehaviour
         m_rubblesObject.transform.localRotation = Quaternion.identity;
         m_rubbleInstance = m_rubblesObject.AddComponent<RubblesInstance>();
         m_rubbleInstance.SetSize(new Vector2Int(size.x, size.z));
+    }
+
+    void Load(LoadEvent e)
+    {
+        var jsonDead = e.obj.GetElement("isDead");
+        if (jsonDead != null && jsonDead.IsJsonNumber())
+            m_isDead = jsonDead.Int() != 0 ? true : false;
+
+        if (m_isDead)
+            Destroy(gameObject);
+    }
+
+    void Save(SaveEvent e)
+    {
+        e.obj.AddElement("isDead", m_isDead ? 1 : 0);
     }
 }

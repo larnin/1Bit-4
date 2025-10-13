@@ -22,6 +22,20 @@ public class EntityWeaponGun : EntityWeaponBase
 
     TurretBehaviour m_turret;
 
+    SubscriberList m_subscriberList = new SubscriberList();
+
+    private void Awake()
+    {
+        m_subscriberList.Add(new Event<LoadEvent>.LocalSubscriber(Load, gameObject));
+        m_subscriberList.Add(new Event<SaveEvent>.LocalSubscriber(Save, gameObject));
+        m_subscriberList.Subscribe();
+    }
+
+    private void OnDestroy()
+    {
+        m_subscriberList.Unsubscribe();
+    }
+
     private void Start()
     {
         m_turret = GetComponent<TurretBehaviour>();
@@ -140,5 +154,31 @@ public class EntityWeaponGun : EntityWeaponBase
         float dist = VectorEx.SqrMagnitudeXZ(pos - transform.position);
 
         return dist < m_fireRange * m_fireRange;
+    }
+
+    void Load(LoadEvent e)
+    {
+        var jsonObj = e.obj.GetElement("weaponGun");
+        if (jsonObj != null && jsonObj.IsJsonObject())
+        {
+            var obj = jsonObj.JsonObject();
+
+            var jsonTimer = obj.GetElement("fireTimer");
+            if (jsonTimer != null && jsonTimer.IsJsonNumber())
+                m_fireTimer = jsonTimer.Float();
+
+            var jsonIndex = obj.GetElement("fireIndex");
+            if (jsonIndex != null && jsonIndex.IsJsonNumber())
+                m_fireIndex = jsonIndex.Int();
+        }
+    }
+
+    void Save(SaveEvent e)
+    {
+        var obj = new JsonObject();
+        e.obj.AddElement("weaponGun", obj);
+
+        obj.AddElement("fireTimer", m_fireTimer);
+        obj.AddElement("fireIndex", m_fireIndex);
     }
 }

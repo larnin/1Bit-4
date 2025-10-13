@@ -23,6 +23,8 @@ public class EntityMove : MonoBehaviour
     {
         m_subscriberList.Add(new Event<BuildingListAddEvent>.Subscriber(OnAdd));
         m_subscriberList.Add(new Event<BuildingListRemoveEvent>.Subscriber(OnRemove));
+        m_subscriberList.Add(new Event<LoadEvent>.LocalSubscriber(Load, gameObject));
+        m_subscriberList.Add(new Event<SaveEvent>.LocalSubscriber(Save, gameObject));
         m_subscriberList.Subscribe();
 
         m_lastTarget = transform.position;
@@ -167,5 +169,36 @@ public class EntityMove : MonoBehaviour
             var team = Event<GetTeamEvent>.Broadcast(new GetTeamEvent(), gameObject);
             m_path.SetTarget(transform.position, m_lastTarget, team.team);
         }
+    }
+
+    void Load(LoadEvent e)
+    {
+        var jsonObj = e.obj.GetElement("entityMove");
+        if(jsonObj != null && jsonObj.IsJsonObject())
+        {
+            var obj = jsonObj.JsonObject();
+
+            var jsonSpeed = obj.GetElement("speed");
+            if (jsonSpeed != null && jsonSpeed.IsJsonNumber())
+                m_speed = jsonSpeed.Float();
+
+            var jsonAngle = obj.GetElement("angle");
+            if (jsonAngle != null && jsonAngle.IsJsonNumber())
+                m_angle = jsonAngle.Float();
+
+            var jsonLast = obj.GetElement("last");
+            if (jsonLast != null && jsonLast.IsJsonArray())
+                m_lastTarget = Json.ToVector3(jsonLast.JsonArray());
+        }
+    }
+
+    void Save(SaveEvent e)
+    {
+        var obj = new JsonObject();
+        e.obj.AddElement("entityMove", obj);
+
+        obj.AddElement("speed", m_speed);
+        obj.AddElement("angle", m_angle);
+        obj.AddElement("last", Json.FromVector3(m_lastTarget));
     }
 }

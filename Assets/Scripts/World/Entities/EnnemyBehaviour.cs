@@ -30,6 +30,8 @@ public class EnnemyBehaviour : MonoBehaviour
     {
         m_subscriberList.Add(new Event<GetStatEvent>.LocalSubscriber(GetStat, gameObject));
         m_subscriberList.Add(new Event<DeathEvent>.LocalSubscriber(OnDeath, gameObject));
+        m_subscriberList.Add(new Event<LoadEvent>.LocalSubscriber(Load, gameObject));
+        m_subscriberList.Add(new Event<SaveEvent>.LocalSubscriber(Save, gameObject));
         m_subscriberList.Subscribe();
     }
 
@@ -106,6 +108,27 @@ public class EnnemyBehaviour : MonoBehaviour
     void OnDeath(DeathEvent e)
     {
         Event<OnKillEvent>.Broadcast(new OnKillEvent());
+    }
+
+    void Load(LoadEvent e)
+    {
+        var jsonObj = e.obj.GetElement("ennemy");
+        if (jsonObj != null && jsonObj.IsJsonObject())
+        {
+            var obj = jsonObj.JsonObject();
+
+            var jsonDifficulty = obj.GetElement("difficulty");
+            if (jsonDifficulty != null && jsonDifficulty.IsJsonNumber())
+                m_difficultyOnSpawn = jsonDifficulty.Float();
+        }
+    }
+
+    void Save(SaveEvent e)
+    {
+        var obj = new JsonObject();
+        e.obj.AddElement("ennemy", obj);
+
+        obj.AddElement("difficulty", m_difficultyOnSpawn);
     }
 }
 
