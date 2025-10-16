@@ -730,7 +730,11 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 64
     questElementMaterial: {fileID: 2100000, guid: 1ac1427d7badc8948a319d16a19aa58b, type: 2}
-    entities: []
+    entities:
+    - type: 1
+      prefab: {fileID: 6214975584835344987, guid: 9f3319f4511a1084e9c97146fbc2d7f5, type: 3}
+    - type: 0
+      prefab: {fileID: 1892062940909772011, guid: dfaa13b752694864ca9489aabb93d253, type: 3}
     questElements:
     - type: 0
       prefab: {fileID: 8340473304973191108, guid: f19020f353dd98046998669ae18bd18c, type: 3}

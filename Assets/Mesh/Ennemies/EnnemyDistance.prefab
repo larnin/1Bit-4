@@ -199,7 +199,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_name: Distance ennemy
   m_description: Have low fire rate but is terribly accruate
-  m_team: 1
+  m_defaultTeam: 1
+  m_entityType: 0
 --- !u!114 &3136065468102887465
 MonoBehaviour:
   m_ObjectHideFlags: 0

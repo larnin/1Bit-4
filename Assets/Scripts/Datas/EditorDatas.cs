@@ -7,7 +7,8 @@ using UnityEngine;
 
 public enum GameEntityType
 {
-
+    ProtoEnnemyMelee,
+    ProtoEnnemyDistance
 }
 
 [Serializable]
@@ -41,6 +42,17 @@ public class EditorDatas
     public GameObject GetQuestElementPrefab(QuestElementType type)
     {
         foreach(var e in questElements)
+        {
+            if (e.type == type)
+                return e.prefab;
+        }
+
+        return null;
+    }
+
+    public GameObject GetEntityPrefab(GameEntityType type)
+    {
+        foreach(var e in entities)
         {
             if (e.type == type)
                 return e.prefab;

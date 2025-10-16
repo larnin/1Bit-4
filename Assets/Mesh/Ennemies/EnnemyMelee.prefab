@@ -82,7 +82,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_name: Melee ennemy
   m_description: Deal heavy damage in close combat
-  m_team: 1
+  m_defaultTeam: 1
+  m_entityType: 0
 --- !u!114 &4138828221521969377
 MonoBehaviour:
   m_ObjectHideFlags: 0

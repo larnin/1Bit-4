@@ -91,4 +91,49 @@ public class EntityList : MonoBehaviour
 
         return bestEntity;
     }
+
+    public void Clear()
+    {
+        //destroying elements can change the list
+        var elements = m_entities.ToList();
+        m_entities.Clear();
+
+        foreach (var e in elements)
+        {
+            Destroy(e.gameObject);
+        }
+    }
+
+    public void Load(JsonObject obj)
+    {
+        Clear();
+
+        var jsonData = obj.GetElement("data");
+        if (jsonData == null || !jsonData.IsJsonArray())
+            return;
+
+        var jsonArray = jsonData.JsonArray();
+        foreach (var jsonElement in jsonArray)
+        {
+            if (jsonElement.IsJsonObject())
+            {
+                GameEntity.Create(jsonElement.JsonObject());
+            }
+        }
+    }
+
+    public JsonObject Save()
+    {
+        JsonObject obj = new JsonObject();
+
+        var jsonArray = new JsonArray();
+        obj.AddElement("data", jsonArray);
+
+        foreach (var b in m_entities)
+        {
+            jsonArray.Add(b.Save());
+        }
+
+        return obj;
+    }
 }
