@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 5633195621559333896}
   - component: {fileID: 5067446473808593108}
   - component: {fileID: 8983288983295378621}
+  - component: {fileID: -441694729303165260}
   m_Layer: 8
   m_Name: EnnemyMelee
   m_TagString: Untagged
@@ -200,6 +201,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_initialValues: []
+--- !u!114 &-441694729303165260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1892062940909772011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e3ba961be570c44abd67ec5e913c39c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8666071389132884092
 GameObject:
   m_ObjectHideFlags: 0

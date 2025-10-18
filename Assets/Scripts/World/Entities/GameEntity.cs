@@ -5,6 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+public enum GameEntityType
+{
+    ProtoEnnemyMelee,
+    ProtoEnnemyDistance
+}
+
 public class GameEntity : MonoBehaviour
 {
     [SerializeField] string m_name;
@@ -105,9 +111,7 @@ public class GameEntity : MonoBehaviour
         obj.AddElement("type", GetEntityType().ToString());
         obj.AddElement("team", GetTeam().ToString());
         obj.AddElement("rot", Json.FromQuaternion(transform.rotation));
-
-        var pos = transform.localPosition;
-        obj.AddElement("pos", Json.FromVector3Int(new Vector3Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y), Mathf.RoundToInt(pos.z))));
+        obj.AddElement("pos", Json.FromVector3(transform.localPosition));
 
         Event<SaveEvent>.Broadcast(new SaveEvent(obj), gameObject);
 
@@ -132,7 +136,7 @@ public class GameEntity : MonoBehaviour
         instance.transform.parent = EntityList.instance.transform;
         var posJson = obj.GetElement("pos");
         if (posJson != null && posJson.IsJsonArray())
-            instance.transform.localPosition = Json.ToVector3Int(posJson.JsonArray());
+            instance.transform.localPosition = Json.ToVector3(posJson.JsonArray());
         var entity = instance.GetComponent<GameEntity>();
         if (entity == null)
         {

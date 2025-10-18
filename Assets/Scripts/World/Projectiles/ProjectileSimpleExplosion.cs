@@ -47,7 +47,7 @@ public class ProjectileSimpleExplosion : ProjectileBase
         UpdateExplosionRender();
     }
 
-    private void Update()
+    protected override void Update()
     {
         if (GameInfos.instance.paused)
             return;
@@ -105,5 +105,27 @@ public class ProjectileSimpleExplosion : ProjectileBase
             m_explosionMaterial.SetColor(m_colorName, c);
             m_explosionRenderer.material = m_explosionMaterial;
         }
+    }
+
+    protected override void SaveImpl(JsonObject obj)
+    {
+        obj.AddElement("time", m_time);
+        obj.AddElement("expl", m_explosionEnded ? 1 : 0);
+        obj.AddElement("sound", m_soundPlayed ? 1 : 0);
+    }
+
+    protected override void LoadImpl(JsonObject obj)
+    {
+        var timeJson = obj.GetElement("time");
+        if (timeJson != null && timeJson.IsJsonNumber())
+            m_time = timeJson.Float();
+
+        var explJson = obj.GetElement("expl");
+        if (explJson != null && explJson.IsJsonNumber())
+            m_explosionEnded = explJson.Int() != 0;
+
+        var soundJson = obj.GetElement("sound");
+        if (soundJson != null && soundJson.IsJsonNumber())
+            m_soundPlayed = soundJson.Int() != 0;
     }
 }

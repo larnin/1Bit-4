@@ -5056,6 +5056,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4663558457059073242}
   - component: {fileID: 4663558457059073243}
+  - component: {fileID: 4026148614101810075}
   m_Layer: 0
   m_Name: FrozenProjectile
   m_TagString: Untagged
@@ -5092,6 +5093,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 981ee9cd629ef3640a3a6330dbb5e9da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_projectileType: 0
   m_damages: 8
   m_damageType: 2
   m_damageEffect: 2.5
@@ -5112,3 +5114,15 @@ MonoBehaviour:
   m_explosionFadeEndPercent: 0.8
   m_explosionSound: IceExplosion
   m_explosionSoundVolume: 0.5
+--- !u!114 &4026148614101810075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4663558457059073221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e3ba961be570c44abd67ec5e913c39c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

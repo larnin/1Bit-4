@@ -62,3 +62,8 @@ public class ConnexionsUpdatedEvent
 {
 
 }
+
+public class GetEntityIDEvent
+{
+    public Guid id = Guid.Empty;
+}

@@ -5,12 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public enum GameEntityType
-{
-    ProtoEnnemyMelee,
-    ProtoEnnemyDistance
-}
-
 [Serializable]
 public class GameEntityData
 {
@@ -26,6 +20,13 @@ public class QuestElementData
 }
 
 [Serializable]
+public class ProjectileData
+{
+    public ProjectileType type;
+    public GameObject prefab;
+}
+
+[Serializable]
 public class EditorDatas
 {
     public string editorLayer;
@@ -37,6 +38,7 @@ public class EditorDatas
     public Material questElementMaterial;
 
     public List<GameEntityData> entities;
+    public List<ProjectileData> projectiles;
     public List<QuestElementData> questElements;
 
     public GameObject GetQuestElementPrefab(QuestElementType type)
@@ -53,6 +55,17 @@ public class EditorDatas
     public GameObject GetEntityPrefab(GameEntityType type)
     {
         foreach(var e in entities)
+        {
+            if (e.type == type)
+                return e.prefab;
+        }
+
+        return null;
+    }
+
+    public GameObject GetProjectilePrefab(ProjectileType type)
+    {
+        foreach(var e in projectiles)
         {
             if (e.type == type)
                 return e.prefab;

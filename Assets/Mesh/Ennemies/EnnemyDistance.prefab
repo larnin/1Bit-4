@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 865734231991737917}
   - component: {fileID: 1064615021108426557}
   - component: {fileID: 5477664487980238455}
+  - component: {fileID: 8866054817381774570}
   m_Layer: 8
   m_Name: EnnemyDistance
   m_TagString: Untagged
@@ -326,6 +327,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_initialValues: []
+--- !u!114 &8866054817381774570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6214975584835344987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e3ba961be570c44abd67ec5e913c39c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6536032200619290587
 GameObject:
   m_ObjectHideFlags: 0

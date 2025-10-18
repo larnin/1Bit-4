@@ -15,7 +15,7 @@ public class ProjectileSimple : ProjectileBase
 
     float m_time = 0;
 
-    private void Update()
+    protected override void Update()
     {
         if (GameInfos.instance.paused)
             return;
@@ -61,5 +61,17 @@ public class ProjectileSimple : ProjectileBase
 
             Destroy(gameObject);
         }
+    }
+
+    protected override void SaveImpl(JsonObject obj)
+    {
+        obj.AddElement("time", m_time);
+    }
+
+    protected override void LoadImpl(JsonObject obj)
+    {
+        var timeJson = obj.GetElement("time");
+        if (timeJson != null && timeJson.IsJsonNumber())
+            m_time = timeJson.Float();
     }
 }

@@ -93,6 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2552972014588202862}
   - component: {fileID: 936283481927002344}
+  - component: {fileID: -4990312924017596555}
   m_Layer: 0
   m_Name: SimpleRay
   m_TagString: Untagged
@@ -128,6 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8939e74fa365d424a9d11b25d0e4208c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_projectileType: 0
   m_damages: 1
   m_damageType: 0
   m_damageEffect: 1
@@ -140,3 +142,15 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   m_hitPrefab: {fileID: 1106243580312464698, guid: cb1ad541393030f44b831f7fa8a7fee8, type: 3}
+--- !u!114 &-4990312924017596555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9030378141569406407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e3ba961be570c44abd67ec5e913c39c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

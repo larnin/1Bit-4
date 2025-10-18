@@ -4974,6 +4974,7 @@ GameObject:
   - component: {fileID: 4663558457059073242}
   - component: {fileID: 1953123991462377803}
   - component: {fileID: 2452872358692760592}
+  - component: {fileID: -6982704391171556480}
   m_Layer: 0
   m_Name: GeneratorExplosion
   m_TagString: Untagged
@@ -5009,6 +5010,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 574d8dd4a91347640807a9b9b82635b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_projectileType: 0
   m_damages: 1000
   m_damageType: 0
   m_damageEffect: 1
@@ -5036,3 +5038,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_radius: 10
+--- !u!114 &-6982704391171556480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4663558457059073221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e3ba961be570c44abd67ec5e913c39c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
