@@ -45,6 +45,42 @@ public static class SaveEx
         return true;
     }
 
+    public static void SaveFromEditor(string path, JsonDocument doc)
+    {
+#if UNITY_EDITOR
+        string data = Json.WriteToString(doc);
+
+        var obj = AssetDatabase.LoadAssetAtPath<JsonScriptableObject>(path);
+        if (obj == null)
+        {
+            obj = ScriptableObject.CreateInstance<JsonScriptableObject>();
+            obj.data = data;
+            AssetDatabase.CreateAsset(obj, path);
+            EditorUtility.SetDirty(obj);
+            AssetDatabase.SaveAssets();
+        }
+        else
+        {
+            obj.data = data;
+            EditorUtility.SetDirty(obj);
+            
+            AssetDatabase.SaveAssets();
+        }
+#endif
+    }
+
+    public static JsonDocument LoadFromEditor(string path)
+    {
+#if UNITY_EDITOR
+        var obj = AssetDatabase.LoadAssetAtPath<JsonScriptableObject>(path);
+        if (obj == null)
+            return null;
+
+        var json = Json.ReadFromString(obj.data);
+        return json;
+#endif
+    }
+
     public static bool FileExist(string path)
     {
         return File.Exists(path);

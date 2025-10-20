@@ -32,7 +32,7 @@ public class EditorGridBehaviour : MonoBehaviour
         CreateInitialGrid();
     }
 
-    void CreateInitialGrid()
+    public void CreateInitialGrid()
     {
         Grid grid = new Grid(m_initialGridSize, m_initialGridHeight);
         int size = GridEx.GetRealSize(grid);

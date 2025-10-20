@@ -12,8 +12,13 @@ public class GridBehaviour : MonoBehaviour
 
     SubscriberList m_subscriberList = new SubscriberList();
 
+    static GridBehaviour m_instance = null;
+    public static GridBehaviour instance { get { return m_instance; } }
+
     private void Awake()
     {
+        m_instance = this;
+
         m_subscriberList.Add(new Event<GetGridEvent>.Subscriber(GetGrid));
         m_subscriberList.Add(new Event<SetChunkDirtyEvent>.Subscriber(SetChunkDirty));
         m_subscriberList.Subscribe();
@@ -21,6 +26,9 @@ public class GridBehaviour : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (m_instance == this)
+            m_instance = null;
+
         m_subscriberList.Unsubscribe();
     }
 
