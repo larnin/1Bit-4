@@ -7,5 +7,5 @@ using UnityEngine;
 
 public class JsonScriptableObject : ScriptableObject
 {
-    [SerializeField] public string data;
+    [SerializeField] [HideInInspector] public string data;
 }

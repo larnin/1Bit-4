@@ -350,13 +350,12 @@ public static class GridEx
                 {
                     int index = i * size.y * size.z + j * size.z + k;
 
-                    var jsonBlockType = jsonArray[index * 2];
-                    var jsonBlockData = jsonArray[index * 2 + 1];
-                    if(jsonBlockType != null && jsonBlockType.IsJsonString() && jsonBlockData != null && jsonBlockData.IsJsonNumber())
+                    var jsonBlock = jsonArray[index];
+                    if(jsonBlock.IsJsonString())
                     {
-                        BlockType type = BlockType.air;
-                        Enum.TryParse<BlockType>(jsonBlockType.String(), out type);
-                        GridEx.SetBlock(grid, new Vector3Int(i, j, k), new Block(type, (byte)jsonBlockData.Int()));
+                        Block b = new Block();
+                        b.LoadFromString(jsonBlock.String());
+                        GridEx.SetBlock(grid, new Vector3Int(i, j, k), b);
                     }
                 }
             }
@@ -389,8 +388,7 @@ public static class GridEx
                 {
                     var block = GridEx.GetBlock(grid, new Vector3Int(i, j, k));
 
-                    data.Add(block.type.ToString());
-                    data.Add(block.data);
+                    data.Add(block.SaveToString());
                 }
             }
         }

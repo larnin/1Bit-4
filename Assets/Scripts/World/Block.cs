@@ -24,6 +24,61 @@ public struct Block
         type = _type;
         data = _data;
     }
+
+    public string SaveToString()
+    {
+        string str = "";
+
+        switch(type)
+        {
+            case BlockType.air:
+                str = "a";
+                break;
+            case BlockType.ground:
+                str = "g";
+                break;
+            case BlockType.water:
+                str = "w";
+                break;
+            case BlockType.crystal:
+                str = "c";
+                break;
+            case BlockType.oil:
+                str = "o";
+                break;
+            case BlockType.Titanium:
+                str = "t";
+                break;
+            default:
+                throw new Exception("not supported block type");
+        }
+
+        if (data != 0)
+            str += data.ToString();
+
+        return str;
+    }
+
+    public void LoadFromString(string value)
+    {
+        if (value[0] == 'a')
+            type = BlockType.air;
+        else if (value[0] == 'g')
+            type = BlockType.ground;
+        else if (value[0] == 'w')
+            type = BlockType.water;
+        else if (value[0] == 'c')
+            type = BlockType.crystal;
+        else if (value[0] == 'o')
+            type = BlockType.oil;
+        else if (value[0] == 't')
+            type = BlockType.Titanium;
+        else type = BlockType.air;
+
+        int dataDecode;
+        if (int.TryParse(value.Substring(1), out dataDecode))
+            data = (byte)dataDecode;
+    }
 }
 
 public enum BlockShape

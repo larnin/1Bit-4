@@ -95,50 +95,53 @@ public class BuildingEnnemySpawner : BuildingBase
             return;
         }
 
-        switch (m_state)
+        if(EditorGridBehaviour.instance == null)
         {
-            case State.Appear:
-                if (UpdateAppear())
-                    m_state = State.Starting;
-                break;
-            case State.Starting:
-                StartNextWait();
-                break;
-            case State.Waiting:
-                m_timer -= Time.deltaTime;
-                ProcessWait();
-                if (m_timer < 0)
-                    StartNextWave();
-                break;
-            case State.Spawning:
-                ProcessSpawning();
-                break;
-        }
-
-        if (DisplayIconsV2.instance != null)
-        {
-            if(m_iconDisplayType != IconType.None)
+            switch (m_state)
             {
-                m_iconDisplayDuration -= Mathf.Min(Time.deltaTime, 0.1f);
+                case State.Appear:
+                    if (UpdateAppear())
+                        m_state = State.Starting;
+                    break;
+                case State.Starting:
+                    StartNextWait();
+                    break;
+                case State.Waiting:
+                    m_timer -= Time.deltaTime;
+                    ProcessWait();
+                    if (m_timer < 0)
+                        StartNextWave();
+                    break;
+                case State.Spawning:
+                    ProcessSpawning();
+                    break;
+            }
 
-                string iconName = "";
-
-                switch(m_iconDisplayType)
+            if (DisplayIconsV2.instance != null)
+            {
+                if(m_iconDisplayType != IconType.None)
                 {
-                    case IconType.Appear:
-                        iconName = "Spawner";
-                        break;
-                    case IconType.Spawning:
-                        iconName = "Spawning";
-                        break;
-                }
+                    m_iconDisplayDuration -= Mathf.Min(Time.deltaTime, 0.1f);
 
-                DisplayIconsV2.instance.Register(gameObject, Global.instance.difficultyDatas.spawnersData.displayHeight, iconName, "", true, true);
+                    string iconName = "";
 
-                if(m_iconDisplayDuration < 0)
-                {
-                    DisplayIconsV2.instance.Unregister(gameObject);
-                    m_iconDisplayType = IconType.None;
+                    switch(m_iconDisplayType)
+                    {
+                        case IconType.Appear:
+                            iconName = "Spawner";
+                            break;
+                        case IconType.Spawning:
+                            iconName = "Spawning";
+                            break;
+                    }
+
+                    DisplayIconsV2.instance.Register(gameObject, Global.instance.difficultyDatas.spawnersData.displayHeight, iconName, "", true, true);
+
+                    if(m_iconDisplayDuration < 0)
+                    {
+                        DisplayIconsV2.instance.Unregister(gameObject);
+                        m_iconDisplayType = IconType.None;
+                    }
                 }
             }
         }
