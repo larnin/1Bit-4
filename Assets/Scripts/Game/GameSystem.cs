@@ -214,6 +214,23 @@ public class GameSystem : MonoBehaviour
         return EntityType.None;
     }
 
+    public static JsonObject GetEntityData(GameObject obj)
+    {
+        var building = obj.GetComponent<BuildingBase>();
+        if (building != null)
+            return building.Save();
+        var gameEntity = obj.GetComponent<GameEntity>();
+        if (gameEntity != null)
+            return gameEntity.Save();
+        var projectile = obj.GetComponent<ProjectileBase>();
+        if (projectile != null)
+            return projectile.Save();
+        var questElm = obj.GetComponent<QuestElement>();
+        return questElm.Save();
+
+        return null;
+    }
+
     public string GetStatus()
     {
         switch (m_state)

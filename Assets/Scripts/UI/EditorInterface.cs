@@ -35,6 +35,15 @@ public class EditorInterface : MonoBehaviour
         UpdateFilename();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Z) && (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)))
+            Undo();
+
+        if (Input.GetKeyDown(KeyCode.Y) && (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)))
+            Redo();
+    }
+
     void IsMouseOverUI(IsMouseOverUIEvent e)
     {
         e.overUI = false;
@@ -119,6 +128,8 @@ public class EditorInterface : MonoBehaviour
 
         m_currentPath = "";
         SaveWorld.EditorReset();
+        if (UndoList.instance != null)
+            UndoList.instance.Clear();
     }
 
     void Load()
@@ -163,6 +174,8 @@ public class EditorInterface : MonoBehaviour
             return;
 
         SaveWorld.Load(root.JsonObject());
+        if (UndoList.instance != null)
+            UndoList.instance.Clear();
     }
 
     void Save()
@@ -207,12 +220,14 @@ public class EditorInterface : MonoBehaviour
 
     void Undo()
     {
-
+        if (UndoList.instance != null)
+            UndoList.instance.Undo();
     }
 
     void Redo()
     {
-
+        if (UndoList.instance != null)
+            UndoList.instance.Redo();
     }
 
     void Exit()

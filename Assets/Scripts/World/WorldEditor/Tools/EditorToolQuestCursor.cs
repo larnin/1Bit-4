@@ -90,6 +90,18 @@ public class EditorToolQuestCursor : EditorToolBase
             instance.transform.parent = QuestElementList.instance.transform;
 
         instance.transform.position = m_cursorPos;
+
+        if (UndoList.instance != null)
+        {
+            var ID = Event<GetEntityIDEvent>.Broadcast(new GetEntityIDEvent(), instance).id;
+            var questElm = instance.GetComponent<QuestElement>();
+            if (questElm != null)
+            {
+                var undo = new UndoElementEntityChange();
+                undo.SetPlace(EntityType.Building, ID, questElm.Save());
+                UndoList.instance.AddStep(undo);
+            }
+        }
     }
 
     void CreateInstance()

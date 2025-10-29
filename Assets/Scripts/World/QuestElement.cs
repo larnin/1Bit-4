@@ -278,11 +278,6 @@ public class QuestElement : MonoBehaviour
         var instance = GameObject.Instantiate(prefab);
         if (QuestElementList.instance != null)
             instance.transform.parent = QuestElementList.instance.transform;
-
-        var jsonPos = obj.GetElement("pos");
-        if(jsonPos != null && jsonPos.IsJsonArray())
-            instance.transform.position = Json.ToVector3(jsonPos.JsonArray());
-
         var elem = instance.GetComponent<QuestElement>();
         if(elem == null)
         {
@@ -290,23 +285,33 @@ public class QuestElement : MonoBehaviour
             return null;
         }
 
-        if(type == QuestElementType.Cuboid)
+        elem.Load(obj);
+
+        return elem;
+    }
+
+    public void Load(JsonObject obj)
+    {
+        var jsonPos = obj.GetElement("pos");
+        if (jsonPos != null && jsonPos.IsJsonArray())
+            transform.position = Json.ToVector3(jsonPos.JsonArray());
+
+
+        if (m_elementType == QuestElementType.Cuboid)
         {
             var jsonSize = obj.GetElement("size");
             if (jsonSize != null && jsonSize.IsJsonArray())
-                elem.SetSize(Json.ToVector3(jsonSize.JsonArray()));
+                SetSize(Json.ToVector3(jsonSize.JsonArray()));
 
             var jsonRot = obj.GetElement("rot");
             if (jsonRot != null && jsonRot.IsJsonNumber())
-                instance.transform.rotation = Quaternion.Euler(0, jsonRot.Float(), 0);
+                transform.rotation = Quaternion.Euler(0, jsonRot.Float(), 0);
         }
-        else if(type == QuestElementType.Sphere)
+        else if (m_elementType == QuestElementType.Sphere)
         {
             var jsonRadius = obj.GetElement("radius");
             if (jsonRadius != null && jsonRadius.IsJsonNumber())
-                elem.SetRadius(jsonRadius.Float());
+                SetRadius(jsonRadius.Float());
         }
-
-        return elem;
     }
 }

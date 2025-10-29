@@ -476,9 +476,6 @@ public abstract class BuildingBase : MonoBehaviour
 
         var instance = Instantiate(buildingData.prefab);
         instance.transform.parent = BuildingList.instance.transform;
-        var posJson = obj.GetElement("pos");
-        if(posJson != null && posJson.IsJsonArray())    
-            instance.transform.localPosition = Json.ToVector3Int(posJson.JsonArray());
         var building = instance.GetComponent<BuildingBase>();
         if(building == null)
         {
@@ -486,28 +483,37 @@ public abstract class BuildingBase : MonoBehaviour
             return null;
         }
 
+        building.Load(obj);
+
+        return building;
+    }
+
+    public void Load(JsonObject obj)
+    {
+        var posJson = obj.GetElement("pos");
+        if (posJson != null && posJson.IsJsonArray())
+            transform.localPosition = Json.ToVector3Int(posJson.JsonArray());
+
         var teamJson = obj.GetElement("team");
         if (teamJson != null && teamJson.IsJsonString())
         {
             Team team;
             if (Enum.TryParse<Team>(teamJson.String(), out team))
-                building.SetTeam(team);
+                SetTeam(team);
         }
         var rotJson = obj.GetElement("rot");
-        if(rotJson != null && rotJson.IsJsonString())
+        if (rotJson != null && rotJson.IsJsonString())
         {
             Rotation rot;
-            if(Enum.TryParse<Rotation>(rotJson.String(), out rot))
+            if (Enum.TryParse<Rotation>(rotJson.String(), out rot))
             {
-                building.SetRotation(rot);
-                building.UpdateRotation();
+                SetRotation(rot);
+                UpdateRotation();
             }
         }
 
-        building.LoadImpl(obj);
-        Event<LoadEvent>.Broadcast(new LoadEvent(obj), instance);
-
-        return building;
+        LoadImpl(obj);
+        Event<LoadEvent>.Broadcast(new LoadEvent(obj), gameObject);
     }
 
     protected virtual void LoadImpl(JsonObject obj) { }

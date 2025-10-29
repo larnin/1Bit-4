@@ -360,6 +360,14 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
 
         if (SoundSystem.instance != null)
             SoundSystem.instance.PlaySound(m_placeBuildingSound, obj.transform.position, m_placeBuildingSoundVolume);
+
+        if(UndoList.instance != null)
+        {
+            var ID = Event<GetEntityIDEvent>.Broadcast(new GetEntityIDEvent(), obj).id;
+            var undo = new UndoElementEntityChange();
+            undo.SetPlace(EntityType.Building, ID, building.Save());
+            UndoList.instance.AddStep(undo);
+        }
     }
 
     void EnableCross(bool enabled, string message = "")

@@ -13,10 +13,17 @@ public class EditorToolSelect : EditorToolBase
 
     bool m_updateCursorNextFrame = false;
 
+    SubscriberList m_subscriberList;
+
     public override void Begin()
     {
         CreateCursor();
         m_selectedObject = null;
+
+        if(m_subscriberList == null)
+            m_subscriberList.Add(new Event<UndoEvent>.Subscriber(OnUndo));
+
+        m_subscriberList.Subscribe();
     }
 
     public override void Update()
@@ -58,6 +65,9 @@ public class EditorToolSelect : EditorToolBase
             GameObject.Destroy(m_cursor);
 
         SelectObject(null);
+
+        if (m_subscriberList != null)
+            m_subscriberList.Unsubscribe();
     }
 
     void CreateCursor()
@@ -126,12 +136,31 @@ public class EditorToolSelect : EditorToolBase
             var pos = m_selectedObject.transform.position;
             var posI = new Vector3Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y), Mathf.RoundToInt(pos.z));
 
-            if (posI.y == 0)
-                EditorGridBehaviour.instance.SetBlock(posI, new Block(BlockType.water));
-            else EditorGridBehaviour.instance.SetBlock(posI, new Block(BlockType.air));
+            var newBlock = pos.y == 0 ? new Block(BlockType.water) : new Block(BlockType.air);
+            var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent()).grid;
+            if(grid != null && UndoList.instance != null)
+            {
+                var oldBlock = GridEx.GetBlock(grid, posI);
+
+                var undo = new UndoElementBlocks();
+                undo.AddBlock(posI, oldBlock, newBlock);
+            }
+
+            EditorGridBehaviour.instance.SetBlock(posI, newBlock);
         }
         else
         {
+            if (UndoList.instance != null)
+            {
+                var id = Event<GetEntityIDEvent>.Broadcast(new GetEntityIDEvent(), m_selectedObject).id;
+                JsonObject data = GameSystem.GetEntityData(m_selectedObject);
+                if (data != null)
+                {
+                    var undo = new UndoElementEntityChange();
+                    undo.SetRemove(type, id, data);
+                }
+            }
+
             GameObject.Destroy(m_selectedObject);
             m_selectedObject = null;
         }
@@ -208,11 +237,15 @@ public class EditorToolSelect : EditorToolBase
         if (m_selectedObject == null)
             return;
 
+        var oldState = GameSystem.GetEntityData(m_selectedObject);
+
         BuildingBase building = m_selectedObject.GetComponent<BuildingBase>();
         if(building != null)
         {
             building.SetTeam((Team)index);
         }
+
+        CreateUndoPoint(oldState);
     }
 
     void OnPosChange(float value, int index)
@@ -223,6 +256,8 @@ public class EditorToolSelect : EditorToolBase
         var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
         if (grid.grid == null)
             return;
+
+        var oldState = GameSystem.GetEntityData(m_selectedObject);
 
         QuestElement element = m_selectedObject.GetComponent<QuestElement>();
         if(element != null)
@@ -240,6 +275,8 @@ public class EditorToolSelect : EditorToolBase
             element.transform.position = pos;
         }
 
+        CreateUndoPoint(oldState);
+
         m_updateCursorNextFrame = true;
     }
 
@@ -247,6 +284,8 @@ public class EditorToolSelect : EditorToolBase
     {
         if (m_selectedObject == null)
             return;
+
+        var oldState = GameSystem.GetEntityData(m_selectedObject);
 
         QuestElement element = m_selectedObject.GetComponent<QuestElement>();
         if (element != null)
@@ -267,6 +306,8 @@ public class EditorToolSelect : EditorToolBase
             }
         }
 
+        CreateUndoPoint(oldState);
+
         m_updateCursorNextFrame = true;
     }
 
@@ -275,12 +316,16 @@ public class EditorToolSelect : EditorToolBase
         if (m_selectedObject == null)
             return;
 
+        var oldState = GameSystem.GetEntityData(m_selectedObject);
+
         QuestElement element = m_selectedObject.GetComponent<QuestElement>();
         if (element != null)
         {
             if (element.GetQuestElementType() == QuestElementType.Cuboid)
                 element.transform.rotation = Quaternion.Euler(0, value, 0);
         }
+
+        CreateUndoPoint(oldState);
 
         m_updateCursorNextFrame = true;
     }
@@ -290,10 +335,42 @@ public class EditorToolSelect : EditorToolBase
         if (m_selectedObject == null)
             return;
 
+        var oldState = GameSystem.GetEntityData(m_selectedObject);
+
         QuestElement element = m_selectedObject.GetComponent<QuestElement>();
         if (element != null)
         {
             element.SetName(name);
         }
+
+        CreateUndoPoint(oldState);
+    }
+
+    void CreateUndoPoint(JsonObject oldState)
+    {
+        if (m_selectedObject == null)
+            return;
+
+        var newState = GameSystem.GetEntityData(m_selectedObject);
+
+        if (oldState == null || newState == null)
+            return;
+
+        var type = GameSystem.GetEntityType(m_selectedObject);
+
+        if(UndoList.instance != null)
+        {
+            var id = Event<GetEntityIDEvent>.Broadcast(new GetEntityIDEvent(), m_selectedObject).id;
+            var undo = new UndoElementEntityChange();
+            undo.SetChange(type, id, oldState, newState);
+        }
+    }
+
+    void OnUndo(UndoEvent e)
+    {
+        if (m_selectedObject == null)
+            return;
+
+        UpdateSelectedDetails();
     }
 }

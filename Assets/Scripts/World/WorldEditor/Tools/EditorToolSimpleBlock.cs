@@ -122,6 +122,17 @@ public class EditorToolSimpleBlock : EditorToolBase
             else block.type = BlockType.air;
         }
 
-        editor.SetBlock(pos, block);
+        if (editor.GetGrid() != null)
+        {
+            var oldBlock = GridEx.GetBlock(editor.GetGrid(), pos);
+            editor.SetBlock(pos, block);
+
+            if (UndoList.instance != null)
+            {
+                var undo = new UndoElementBlocks();
+                undo.AddBlock(pos, oldBlock, block);
+                UndoList.instance.AddStep(undo);
+            }
+        }
     }
 }

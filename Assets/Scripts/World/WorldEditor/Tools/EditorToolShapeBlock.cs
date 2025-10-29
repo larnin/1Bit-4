@@ -226,6 +226,8 @@ public class EditorToolShapeBlock : EditorToolBase
 
         int nbBlockSet = 0;
 
+        var undo = new UndoElementBlocks();
+
         for(int i = minIndex.x; i <= maxIndex.x; i++)
         {
             for(int j = minIndex.y; j <= maxIndex.y; j++)
@@ -264,8 +266,12 @@ public class EditorToolShapeBlock : EditorToolBase
                                     else block.type = BlockType.air;
                                 }
 
+                                var oldBlock = chunk.Get(x, y, z);
+
                                 chunk.Set(x, y, z, block);
                                 nbBlockSet++;
+
+                                undo.AddBlock(pos, oldBlock, block);
                             }
                         }
                     }
@@ -275,6 +281,9 @@ public class EditorToolShapeBlock : EditorToolBase
 
         if(EditorGridBehaviour.instance != null)
             EditorGridBehaviour.instance.SetRegionDirty(new BoundsInt(min, size));
+
+        if (UndoList.instance != null)
+            UndoList.instance.AddStep(undo);
 
         if (EditorLogs.instance != null)
             EditorLogs.instance.AddLog("Tool", "Blocks changed: " + nbBlockSet);

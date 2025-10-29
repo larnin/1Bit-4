@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using NRand;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class EditorWorldGeneration : MonoBehaviour
 {
@@ -43,7 +46,6 @@ public class EditorWorldGeneration : MonoBehaviour
         DrawContent(m_contentContainer);
 
         UIElementData.Create<UIElementSpace>(container).SetSpace(15);
-        UIElementData.Create<UIElementSimpleText>(container).SetText("WARNING - Generating a new surface will reset everything and can't be undone");
         UIElementData.Create<UIElementButton>(container).SetText("Generate").SetClickFunc(Generate);
     }
 
@@ -194,6 +196,11 @@ public class EditorWorldGeneration : MonoBehaviour
 
         if (WorldGenerator.GetState() == WorldGenerator.GenerationState.Working)
             return;
+
+#if UNITY_EDITOR
+        if (!EditorUtility.DisplayDialog("Regenerate Level", "Everything will be reseted and the operation cannot be undone.\nContinue ?", "Yes", "No"))
+            return;
+#endif
 
         var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
         if (grid.grid == null)

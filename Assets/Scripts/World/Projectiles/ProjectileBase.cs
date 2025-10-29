@@ -155,6 +155,7 @@ public abstract class ProjectileBase : MonoBehaviour
             return null;
 
         var instance = Instantiate(prefab);
+        instance.transform.parent = ProjectileList.instance.transform;
         var projectile = instance.GetComponent<ProjectileBase>();
         if (projectile == null)
         {
@@ -162,36 +163,41 @@ public abstract class ProjectileBase : MonoBehaviour
             return null;
         }
 
-        instance.transform.parent = ProjectileList.instance.transform;
+        projectile.Load(obj);
+
+        return projectile;
+    }
+
+    public void Load(JsonObject obj)
+    {
         var posJson = obj.GetElement("pos");
         if (posJson != null && posJson.IsJsonArray())
-            instance.transform.localPosition = Json.ToVector3(posJson.JsonArray());
-        
+            transform.localPosition = Json.ToVector3(posJson.JsonArray());
+
         var rotJson = obj.GetElement("rot");
         if (rotJson != null && rotJson.IsJsonArray())
         {
             var rot = Json.ToQuaternion(rotJson.JsonArray());
-            instance.transform.localRotation = rot;
+            transform.localRotation = rot;
         }
 
-        projectile.m_casterSave = Guid.Empty;
+        m_casterSave = Guid.Empty;
         var casterJson = obj.GetElement("caster");
         if (casterJson != null && casterJson.IsJsonString())
-            Guid.TryParse(casterJson.String(), out projectile.m_casterSave);
+            Guid.TryParse(casterJson.String(), out m_casterSave);
 
-        projectile.m_targetSave = Guid.Empty;
+        m_targetSave = Guid.Empty;
         var targetJson = obj.GetElement("target");
         if (targetJson != null && targetJson.IsJsonString())
-            Guid.TryParse(targetJson.String(), out projectile.m_targetSave);
+            Guid.TryParse(targetJson.String(), out m_targetSave);
 
         var mulJson = obj.GetElement("mul");
         if (mulJson != null && mulJson.IsJsonNumber())
-            projectile.m_damagesMultiplier = mulJson.Float();
+            m_damagesMultiplier = mulJson.Float();
 
-        projectile.LoadImpl(obj);
-        Event<LoadEvent>.Broadcast(new LoadEvent(obj), instance);
+        LoadImpl(obj);
+        Event<LoadEvent>.Broadcast(new LoadEvent(obj), gameObject);
 
-        return projectile;
     }
 
     protected virtual void LoadImpl(JsonObject obj) { }

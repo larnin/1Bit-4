@@ -205,7 +205,16 @@ public class EditorToolResourceCursor : EditorToolBase
         if (!Input.GetMouseButtonDown(0))
             return;
 
+        var oldBlock = GridEx.GetBlock(grid.grid, m_cursorPos);
+
         EditorGridBehaviour.instance.SetBlock(m_cursorPos, new Block(m_type));
+
+        if (UndoList.instance != null)
+        {
+            var undo = new UndoElementBlocks();
+            undo.AddBlock(m_cursorPos, oldBlock, new Block(m_type));
+            UndoList.instance.AddStep(undo);
+        }
     }
 
     void CreateInstance()

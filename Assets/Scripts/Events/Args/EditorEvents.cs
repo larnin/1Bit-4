@@ -36,3 +36,5 @@ public class EditorSystemButtonClickedEvent
     }
 }
 
+public class UndoEvent { }
+

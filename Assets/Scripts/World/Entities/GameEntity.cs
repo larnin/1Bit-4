@@ -134,9 +134,6 @@ public class GameEntity : MonoBehaviour
 
         var instance = Instantiate(prefab);
         instance.transform.parent = EntityList.instance.transform;
-        var posJson = obj.GetElement("pos");
-        if (posJson != null && posJson.IsJsonArray())
-            instance.transform.localPosition = Json.ToVector3(posJson.JsonArray());
         var entity = instance.GetComponent<GameEntity>();
         if (entity == null)
         {
@@ -144,22 +141,32 @@ public class GameEntity : MonoBehaviour
             return null;
         }
 
+        entity.Load(obj);
+
+        return entity;
+    }
+
+    public void Load(JsonObject obj)
+    {
+        var posJson = obj.GetElement("pos");
+        if (posJson != null && posJson.IsJsonArray())
+            transform.localPosition = Json.ToVector3(posJson.JsonArray());
+
         var teamJson = obj.GetElement("team");
         if (teamJson != null && teamJson.IsJsonString())
         {
             Team team;
             if (Enum.TryParse<Team>(teamJson.String(), out team))
-                entity.SetTeam(team);
+                SetTeam(team);
         }
         var rotJson = obj.GetElement("rot");
         if (rotJson != null && rotJson.IsJsonArray())
         {
             var rot = Json.ToQuaternion(rotJson.JsonArray());
-            instance.transform.localRotation = rot;
+            transform.localRotation = rot;
         }
 
-        Event<LoadEvent>.Broadcast(new LoadEvent(obj), instance);
+        Event<LoadEvent>.Broadcast(new LoadEvent(obj), gameObject);
 
-        return entity;
     }
 }
