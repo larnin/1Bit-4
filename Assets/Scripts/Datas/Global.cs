@@ -49,6 +49,9 @@ public class Global : ScriptableObject
     [SerializeField] ResourceDatas m_resourcesDatas;
     public ResourceDatas resourceDatas { get { return m_resourcesDatas; } }
 
+    [SerializeField] LevelsData m_levelsData;
+    public LevelsData levelsData { get { return m_levelsData; } }
+
     [SerializeField] DifficultyData m_difficultyDatas;
     public DifficultyData difficultyDatas { get { return m_difficultyDatas; } }
 

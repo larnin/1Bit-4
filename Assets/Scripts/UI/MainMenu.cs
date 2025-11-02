@@ -58,15 +58,20 @@ public class MainMenu : MonoBehaviour
         if (m_selected)
             return;
 
-        m_selected = true;
-        GameInfos.instance.gameParams.worldSize = m_worldSize;
-        GameInfos.instance.gameParams.seedStr = m_seed;
-        GameInfos.instance.gameParams.seed = Cast.HashString(m_seed);
+        MenuSystem.instance.OpenMenu<LevelSelectionMenu>("LevelSelect");
 
-        var scene = new ChangeSceneParams(m_gameSceneName);
-        scene.skipFadeOut = true;
+        //if (m_selected)
+        //    return;
 
-        SceneSystem.changeScene(scene);
+        //m_selected = true;
+        //GameInfos.instance.gameParams.worldSize = m_worldSize;
+        //GameInfos.instance.gameParams.seedStr = m_seed;
+        //GameInfos.instance.gameParams.seed = Cast.HashString(m_seed);
+
+        //var scene = new ChangeSceneParams(m_gameSceneName);
+        //scene.skipFadeOut = true;
+
+        //SceneSystem.changeScene(scene);
     }
 
     public void Options()

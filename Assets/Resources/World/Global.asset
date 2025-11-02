@@ -627,6 +627,33 @@ MonoBehaviour:
       description: Source of life
       storageBase: 100
       storageIncrease: 50
+  m_levelsData:
+    Levels:
+    - name: Tutorial
+      description: You want to know how to play ? You are at the right place !
+      icon: {fileID: 0}
+      unlockCondition: 1
+      level: {fileID: 0}
+      quest: {fileID: 0}
+    - name: Towers
+      description: Destroy everything !
+      icon: {fileID: 0}
+      unlockCondition: 0
+      level: {fileID: 0}
+      quest: {fileID: 0}
+    - name: Waves
+      description: The big boss is here !
+      icon: {fileID: 0}
+      unlockCondition: 0
+      level: {fileID: 0}
+      quest: {fileID: 0}
+    InfiniteMode:
+      name: Infinite
+      description: How many time can you survive ?
+      icon: {fileID: 0}
+      unlockCondition: 1
+      level: {fileID: 0}
+      quest: {fileID: 0}
   m_difficultyDatas:
     difficultyPerMinute:
       baseValue: 0.3
@@ -735,6 +762,7 @@ MonoBehaviour:
       prefab: {fileID: 6214975584835344987, guid: 9f3319f4511a1084e9c97146fbc2d7f5, type: 3}
     - type: 0
       prefab: {fileID: 1892062940909772011, guid: dfaa13b752694864ca9489aabb93d253, type: 3}
+    projectiles: []
     questElements:
     - type: 0
       prefab: {fileID: 8340473304973191108, guid: f19020f353dd98046998669ae18bd18c, type: 3}

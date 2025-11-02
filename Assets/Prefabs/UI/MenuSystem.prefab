@@ -54,3 +54,6 @@ MonoBehaviour:
   - name: Options
     menu: {fileID: 3465249205839453648, guid: a2c6b762f43245e48b418a4ca3401567, type: 3}
     pauseGame: 1
+  - name: LevelSelect
+    menu: {fileID: 4191772307496459155, guid: cf24542f69ff6ca4286c216e0ad04f93, type: 3}
+    pauseGame: 1
