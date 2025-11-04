@@ -173,11 +173,17 @@ public class GameParams
     public string seedStr;
     public WorldSize worldSize;
 
+    public LevelInfo level;
+    public bool infiniteMode;
+
     public GameParams()
     {
         worldSize = WorldSize.Small;
         seedStr = StaticRandomGenerator<MT19937>.Get().Next().ToString();
         seed = Cast.HashString(seedStr);
+
+        level = null;
+        infiniteMode = false;
     }
 }
 

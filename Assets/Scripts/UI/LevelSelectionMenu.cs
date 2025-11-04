@@ -11,12 +11,15 @@ public class LevelSelectionMenu : MonoBehaviour
     [SerializeField] GameObject m_OneLevelPrefab;
     [SerializeField] float m_distanceBetweenLevel = 200;
     [SerializeField] float m_transitionDuration = 0.5f;
+    [SerializeField] string m_gameSceneName;
 
     GameObject m_leftButton;
     GameObject m_rightButton;
 
     GameObject m_levelsPivot;
     int m_levelIndex = 0;
+
+    bool m_selected = false;
 
     List<LevelSelectionElement> m_elements = new List<LevelSelectionElement>();
 
@@ -87,6 +90,9 @@ public class LevelSelectionMenu : MonoBehaviour
 
     public void ClickLeft()
     {
+        if (m_selected)
+            return;
+
         if (m_levelIndex <= 0)
             return;
 
@@ -99,6 +105,9 @@ public class LevelSelectionMenu : MonoBehaviour
 
     public void ClickRight()
     {
+        if (m_selected)
+            return;
+
         if (m_levelIndex >= m_elements.Count - 1)
             return;
 
@@ -111,11 +120,35 @@ public class LevelSelectionMenu : MonoBehaviour
 
     public void ClickPlay()
     {
-        //todo
+        if (m_selected)
+            return;
+
+        if (m_levelIndex >= m_elements.Count || m_levelIndex < 0)
+            return;
+
+        GameInfos.instance.gameParams.infiniteMode = m_elements[m_levelIndex].IsInfiniteMode();
+        if (GameInfos.instance.gameParams.infiniteMode)
+            GameInfos.instance.gameParams.level = Global.instance.levelsData.InfiniteMode;
+        else
+        {
+            int levelIndex = m_elements[m_levelIndex].GetLevelIndex();
+            GameInfos.instance.gameParams.level = Global.instance.levelsData.GetLevelInfo(levelIndex);
+        }
+
+        if (GameInfos.instance.gameParams.level == null)
+            return;
+
+        var scene = new ChangeSceneParams(m_gameSceneName);
+        scene.skipFadeOut = true;
+
+        SceneSystem.changeScene(scene);
     }
 
     public void ClickCancel()
     {
+        if (m_selected)
+            return;
+
         Destroy(gameObject);
     }
 }

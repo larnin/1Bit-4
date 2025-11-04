@@ -30,13 +30,13 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 2
     - Name: 
       Entry: 7
       Data: 2|QuestSaveNode, Assembly-CSharp
     - Name: ID
       Entry: 1
-      Data: 934f1e60-e6c3-4fc1-9766-1154bc107f88
+      Data: f9f774e5-3405-4d84-b89b-169c63c64670
     - Name: name
       Entry: 1
       Data: Start
@@ -85,7 +85,7 @@ MonoBehaviour:
       Data: 4|QuestSaveNode, Assembly-CSharp
     - Name: ID
       Entry: 1
-      Data: 3595035e-84d0-42ce-a412-fdbeb711a7b1
+      Data: 6fa1afa4-8a9d-4c41-8950-0db3ea756dc1
     - Name: name
       Entry: 1
       Data: New Objective
@@ -97,16 +97,16 @@ MonoBehaviour:
       Data: UnityEngine.Rect, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 219
+      Data: 259
     - Name: 
       Entry: 4
-      Data: 217
+      Data: 94
     - Name: 
       Entry: 4
       Data: 151
     - Name: 
       Entry: 4
-      Data: 149
+      Data: 101
     - Name: 
       Entry: 8
       Data: 
@@ -122,47 +122,10 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 2
-    - Name: 
-      Entry: 7
-      Data: 7|QuestSubObjectiveGroup, Assembly-CSharp
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 8|QuestSubObjectiveFailAfterTimer, Assembly-CSharp
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: outNodes
-      Entry: 7
-      Data: 9|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 10|QuestSaveConnection, Assembly-CSharp
-    - Name: currentPortName
-      Entry: 1
-      Data: hj
-    - Name: nextPortName
-      Entry: 1
-      Data: In
-    - Name: nextNodeName
-      Entry: 1
-      Data: 46978f8b-2c43-45d7-a2ea-80f9591389d9
+      Data: 7|QuestSubObjectiveFailAfterTimer, Assembly-CSharp
     - Name: 
       Entry: 8
       Data: 
@@ -175,42 +138,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: 
-      Entry: 7
-      Data: 11|QuestSaveNode, Assembly-CSharp
-    - Name: ID
-      Entry: 1
-      Data: 46978f8b-2c43-45d7-a2ea-80f9591389d9
-    - Name: name
-      Entry: 1
-      Data: Fail_46978f8b-2c43-45d7-a2ea-80f9591389d9
-    - Name: nodeType
-      Entry: 3
-      Data: 3
-    - Name: position
-      Entry: 7
-      Data: UnityEngine.Rect, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 460
-    - Name: 
-      Entry: 4
-      Data: 308
-    - Name: 
-      Entry: 4
-      Data: 81
-    - Name: 
-      Entry: 4
-      Data: 77
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: data
-      Entry: 6
-      Data: 
     - Name: outNodes
       Entry: 7
-      Data: 12|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+      Data: 8|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12

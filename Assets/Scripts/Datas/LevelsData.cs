@@ -23,11 +23,24 @@ public class LevelInfo
 }
 
 [Serializable]
+public class InfiniteLevelInfo
+{
+    public int size = 16;
+    public int height = 4;
+
+    public bool loopX = false;
+    public bool loopZ = false;
+
+    public string presetName;
+}
+
+[Serializable]
 public class LevelsData
 {
     public List<LevelInfo> Levels = new List<LevelInfo>();
 
     public LevelInfo InfiniteMode = new LevelInfo();
+    public InfiniteLevelInfo InfiniteLevel = new InfiniteLevelInfo();
 
     public LevelInfo GetLevelInfo(int index, bool infiniteMode = false)
     {

@@ -226,7 +226,8 @@ public class GameSystem : MonoBehaviour
         if (projectile != null)
             return projectile.Save();
         var questElm = obj.GetComponent<QuestElement>();
-        return questElm.Save();
+        if(questElm != null)
+            return questElm.Save();
 
         return null;
     }
