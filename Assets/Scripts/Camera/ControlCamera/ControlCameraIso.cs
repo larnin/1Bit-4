@@ -177,10 +177,11 @@ public class ControlCameraIso : ControlCameraBase
 
         if (m_resetTime <= 0)
         {
-            bool addRight = Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D);
-            bool addLeft = Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.A);
-            bool addUp = Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.W);
-            bool addDown = Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S);
+            bool ctrlDown = Input.GetKey(KeyCode.RightControl) || Input.GetKey(KeyCode.LeftControl);
+            bool addRight = Input.GetKey(KeyCode.RightArrow) || (Input.GetKey(KeyCode.D) && !ctrlDown);
+            bool addLeft = Input.GetKey(KeyCode.LeftArrow) || ((Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.A)) && !ctrlDown);
+            bool addUp = Input.GetKey(KeyCode.UpArrow) || ((Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.W)) && !ctrlDown);
+            bool addDown = Input.GetKey(KeyCode.DownArrow) || (Input.GetKey(KeyCode.S) && !ctrlDown);
 
             m_right += Time.deltaTime / m_params.arrowAccelerationDuration * (addRight ? 1 : -1);
             m_left += Time.deltaTime / m_params.arrowAccelerationDuration * (addLeft ? 1 : -1);

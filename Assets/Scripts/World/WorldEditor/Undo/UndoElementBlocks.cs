@@ -22,6 +22,8 @@ public class UndoElementBlocks : UndoElementBase
         info.pos = pos;
         info.oldBlock = oldBlock;
         info.newBlock = newBlock;
+
+        m_blocks.Add(info);
     }
 
     public override void Apply()

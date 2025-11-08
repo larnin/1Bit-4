@@ -103,10 +103,11 @@ public class ControlCameraFree : ControlCameraBase
 
         m_moveSpeedMultiplier = Mathf.Clamp(m_moveSpeedMultiplier, m_params.minSpeedMultiplier, m_params.maxSpeedMultiplier);
 
-        bool addRight = Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D);
-        bool addLeft = Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.A);
-        bool addForward = Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.W);
-        bool addBackward = Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S);
+        bool ctrlDown = Input.GetKey(KeyCode.RightControl) || Input.GetKey(KeyCode.LeftControl);
+        bool addRight = Input.GetKey(KeyCode.RightArrow) || (Input.GetKey(KeyCode.D) && !ctrlDown);
+        bool addLeft = Input.GetKey(KeyCode.LeftArrow) || ((Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.A)) && !ctrlDown);
+        bool addForward = Input.GetKey(KeyCode.UpArrow) || ((Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.W)) && !ctrlDown);
+        bool addBackward = Input.GetKey(KeyCode.DownArrow) || (Input.GetKey(KeyCode.S) && !ctrlDown);
         bool addUp = Input.GetKey(KeyCode.Space);
         bool addDown = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
 

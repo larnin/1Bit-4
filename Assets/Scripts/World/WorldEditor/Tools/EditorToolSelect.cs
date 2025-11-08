@@ -21,7 +21,10 @@ public class EditorToolSelect : EditorToolBase
         m_selectedObject = null;
 
         if(m_subscriberList == null)
+        {
+            m_subscriberList = new SubscriberList();
             m_subscriberList.Add(new Event<UndoEvent>.Subscriber(OnUndo));
+        }
 
         m_subscriberList.Subscribe();
     }
@@ -67,7 +70,10 @@ public class EditorToolSelect : EditorToolBase
         SelectObject(null);
 
         if (m_subscriberList != null)
+        {
             m_subscriberList.Unsubscribe();
+            m_subscriberList = null;
+        }
     }
 
     void CreateCursor()

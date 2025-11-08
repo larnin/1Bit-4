@@ -57,7 +57,7 @@ public class UndoList : MonoBehaviour
             return;
 
         var elem = m_redoList[m_redoList.Count - 1];
-        m_redoList.Add(elem.GetRevertElement());
+        m_undoList.Add(elem.GetRevertElement());
         elem.Apply();
 
         m_redoList.RemoveAt(m_redoList.Count - 1);
