@@ -128,7 +128,10 @@ public class LevelSelectionMenu : MonoBehaviour
 
         GameInfos.instance.gameParams.infiniteMode = m_elements[m_levelIndex].IsInfiniteMode();
         if (GameInfos.instance.gameParams.infiniteMode)
+        {
             GameInfos.instance.gameParams.level = Global.instance.levelsData.InfiniteMode;
+            GameInfos.instance.gameParams.SetRandomSeed();
+        }
         else
         {
             int levelIndex = m_elements[m_levelIndex].GetLevelIndex();

@@ -22,6 +22,7 @@ public class GameSystem : MonoBehaviour
         Starting,
         GeneratingWorld,
         PlaceTower,
+        LoadingWorld,
         RenderingWorld,
         Ended
     }
@@ -69,11 +70,8 @@ public class GameSystem : MonoBehaviour
             case State.Starting:
                 {
                     m_delay += Time.deltaTime;
-                    if(m_delay >= 1)
-                    {
-                        WorldGenerator.Generate(Global.instance.GetWorldGeneratorSettings(GameInfos.instance.gameParams.worldSize), GameInfos.instance.gameParams.seed);
-                        m_state = State.GeneratingWorld;
-                    }
+                    if (m_delay >= 1)
+                        StartLoadOrGeneratingWorld();
                     break;
                 }
             case State.GeneratingWorld:
@@ -91,6 +89,11 @@ public class GameSystem : MonoBehaviour
             case State.PlaceTower:
                 {
                     PlaceTower();
+                    m_state = State.RenderingWorld;
+                    break;
+                }
+            case State.LoadingWorld:
+                {
                     m_state = State.RenderingWorld;
                     break;
                 }
@@ -113,6 +116,7 @@ public class GameSystem : MonoBehaviour
                     if (generatedChunks == totalChunks)
                     {
                         m_state = State.Ended;
+                        StartMainQuest();
                         Event<GenerationFinishedEvent>.Broadcast(new GenerationFinishedEvent());
                     }
 
@@ -120,6 +124,45 @@ public class GameSystem : MonoBehaviour
                 }
             default:
                 break;
+        }
+    }
+
+    void StartLoadOrGeneratingWorld()
+    {
+        if(GameInfos.instance.gameParams.infiniteMode)
+        {
+            m_state = State.GeneratingWorld;
+            
+            var preset = WorldGeneratorSettingsPreset.instance.GetPresetWithCopy(Global.instance.levelsData.InfiniteLevel.presetName);
+            if (preset != null)
+            {
+                preset.size = Global.instance.levelsData.InfiniteLevel.size;
+                preset.height = Global.instance.levelsData.InfiniteLevel.height;
+                preset.loopX = Global.instance.levelsData.InfiniteLevel.loopX;
+                preset.loopZ = Global.instance.levelsData.InfiniteLevel.loopZ;
+                WorldGenerator.Generate(preset, GameInfos.instance.gameParams.seed);
+            }
+            else Debug.LogError("Invalid infinite mode preset");
+        }
+        else
+        {
+            m_state = State.LoadingWorld;
+
+            var level = GameInfos.instance.gameParams.level.level;
+            if (level.data != null)
+            {
+                JsonDocument doc = Json.ReadFromString(level.data);
+                if (doc != null)
+                {
+                    var root = doc.GetRoot();
+                    if (root == null || !root.IsJsonObject())
+                        return;
+
+                    SaveWorld.Load(root.JsonObject());
+                }
+                else Debug.LogError("Invalid Json on level loading");
+            }
+            else Debug.LogError("No level asset set on " + GameInfos.instance.gameParams.level.name);
         }
     }
 
@@ -171,6 +214,11 @@ public class GameSystem : MonoBehaviour
 
         var h2 = GridEx.GetHeight(grid, center);
         return new Vector3Int(center.x, h2 + 1, center.y); ;
+    }
+
+    void StartMainQuest()
+    {
+
     }
 
     bool IsPosValid(Grid grid, Vector2Int pos, Vector2Int elementSize)

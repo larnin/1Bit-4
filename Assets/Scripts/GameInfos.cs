@@ -179,11 +179,16 @@ public class GameParams
     public GameParams()
     {
         worldSize = WorldSize.Small;
-        seedStr = StaticRandomGenerator<MT19937>.Get().Next().ToString();
-        seed = Cast.HashString(seedStr);
+        SetRandomSeed();
 
         level = null;
-        infiniteMode = false;
+        infiniteMode = true;
+    }
+
+    public void SetRandomSeed()
+    {
+        seedStr = StaticRandomGenerator<MT19937>.Get().Next().ToString();
+        seed = Cast.HashString(seedStr);
     }
 }
 

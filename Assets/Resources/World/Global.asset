@@ -654,6 +654,12 @@ MonoBehaviour:
       unlockCondition: 1
       level: {fileID: 0}
       quest: {fileID: 0}
+    InfiniteLevel:
+      size: 4
+      height: 1
+      loopX: 0
+      loopZ: 0
+      presetName: Medium
   m_difficultyDatas:
     difficultyPerMinute:
       baseValue: 0.3
