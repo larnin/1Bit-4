@@ -260,6 +260,8 @@ public class QuestElement : MonoBehaviour
             obj.AddElement("radius", m_radius);
         }
 
+        Event<SaveEvent>.Broadcast(new SaveEvent(obj), gameObject);
+
         return obj;
     }
 
@@ -313,5 +315,7 @@ public class QuestElement : MonoBehaviour
             if (jsonRadius != null && jsonRadius.IsJsonNumber())
                 SetRadius(jsonRadius.Float());
         }
+
+        Event<LoadEvent>.Broadcast(new LoadEvent(obj), gameObject);
     }
 }

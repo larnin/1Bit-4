@@ -98,7 +98,7 @@ public class EditorToolQuestCursor : EditorToolBase
             if (questElm != null)
             {
                 var undo = new UndoElementEntityChange();
-                undo.SetPlace(EntityType.Building, ID, questElm.Save());
+                undo.SetPlace(EntityType.Quest, ID, questElm.Save());
                 UndoList.instance.AddStep(undo);
             }
         }

@@ -196,6 +196,7 @@ public abstract class ProjectileBase : MonoBehaviour
             m_damagesMultiplier = mulJson.Float();
 
         LoadImpl(obj);
+
         Event<LoadEvent>.Broadcast(new LoadEvent(obj), gameObject);
 
     }

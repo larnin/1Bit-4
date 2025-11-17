@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3302721522315360715}
   - component: {fileID: 3302721522315360714}
+  - component: {fileID: 4560061090344579804}
   m_Layer: 10
   m_Name: QuestCuboid
   m_TagString: Untagged
@@ -48,3 +49,15 @@ MonoBehaviour:
   m_elementType: 1
   m_size: {x: 5, y: 5, z: 5}
   m_radius: 0
+--- !u!114 &4560061090344579804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3302721522315360713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e3ba961be570c44abd67ec5e913c39c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
