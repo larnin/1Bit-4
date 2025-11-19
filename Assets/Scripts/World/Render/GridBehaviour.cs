@@ -112,6 +112,22 @@ public class GridBehaviour : MonoBehaviour
         int size = m_grid.Size();
         int height = m_grid.Height();
 
+        if(m_chunks != null)
+        {
+            for(int i = 0; i < m_chunks.width; i++)
+            {
+                for(int j = 0; j < m_chunks.height; j++)
+                {
+                    for(int k = 0; k < m_chunks.depth; k++)
+                    {
+                        var old = m_chunks.Get(i, j, k);
+                        if (old != null)
+                            Destroy(old.gameObject);
+                    }
+                }
+            }
+        }
+
         m_chunks = new Matrix<ChunkBehaviour>(size, height, size);
 
         for(int i = 0; i < size; i++)

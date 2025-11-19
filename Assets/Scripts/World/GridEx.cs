@@ -337,7 +337,7 @@ public static class GridEx
             return null;
 
         var jsonArray = jsonData.JsonArray();
-        if (jsonArray.Size() != size.x * size.y * size.z * 2)
+        if (jsonArray.Size() != size.x * size.y * size.z)
             return null;
 
         Grid grid = new Grid(size.x / Grid.ChunkSize, size.y / Grid.ChunkSize, loopX, loopZ);

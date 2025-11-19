@@ -71,11 +71,13 @@ public static class SaveWorld
         if(gridJson != null && gridJson.IsJsonObject())
         {
             var grid = GridEx.Load(gridJson.JsonObject());
-            Event<SetGridEvent>.Broadcast(new SetGridEvent(grid));
 
-            if (GridBehaviour.instance != null)
-                GridBehaviour.instance.SetGrid(grid);
-            Event<SetGridEvent>.Broadcast(new SetGridEvent(grid));
+            if (grid != null)
+            {
+                if (GridBehaviour.instance != null)
+                    GridBehaviour.instance.SetGrid(grid);
+                Event<SetGridEvent>.Broadcast(new SetGridEvent(grid));
+            }
         }
 
         if (BuildingList.instance != null)
