@@ -6,6 +6,36 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 [Serializable]
+public class EntityChoice : ChoiceString
+{
+    protected override List<string> GetChoices()
+    {
+        List<string> choices = new List<string>();
+        foreach(var e in Global.instance.editorDatas.entities)
+        {
+            choices.Add(e.type.ToString());
+        }
+
+        return choices;
+    }
+}
+
+[Serializable]
+public class ProjectileChoice : ChoiceString
+{
+    protected override List<string> GetChoices()
+    {
+        List<string> choices = new List<string>();
+        foreach (var e in Global.instance.editorDatas.projectiles)
+        {
+            choices.Add(e.type.ToString());
+        }
+
+        return choices;
+    }
+}
+
+[Serializable]
 public class GameEntityData
 {
     public GameEntityType type;
