@@ -13,7 +13,7 @@ public class EntityChoice : ChoiceString
         List<string> choices = new List<string>();
         foreach(var e in Global.instance.editorDatas.entities)
         {
-            choices.Add(e.type.ToString());
+            choices.Add(e.type);
         }
 
         return choices;
@@ -28,7 +28,7 @@ public class ProjectileChoice : ChoiceString
         List<string> choices = new List<string>();
         foreach (var e in Global.instance.editorDatas.projectiles)
         {
-            choices.Add(e.type.ToString());
+            choices.Add(e.type);
         }
 
         return choices;
@@ -38,7 +38,14 @@ public class ProjectileChoice : ChoiceString
 [Serializable]
 public class GameEntityData
 {
-    public GameEntityType type;
+    public string type;
+    public GameObject prefab;
+}
+
+[Serializable]
+public class ProjectileData
+{
+    public string type;
     public GameObject prefab;
 }
 
@@ -46,13 +53,6 @@ public class GameEntityData
 public class QuestElementData
 {
     public QuestElementType type;
-    public GameObject prefab;
-}
-
-[Serializable]
-public class ProjectileData
-{
-    public ProjectileType type;
     public GameObject prefab;
 }
 
@@ -82,7 +82,7 @@ public class EditorDatas
         return null;
     }
 
-    public GameObject GetEntityPrefab(GameEntityType type)
+    public GameObject GetEntityPrefab(string type)
     {
         foreach(var e in entities)
         {
@@ -93,7 +93,7 @@ public class EditorDatas
         return null;
     }
 
-    public GameObject GetProjectilePrefab(ProjectileType type)
+    public GameObject GetProjectilePrefab(string type)
     {
         foreach(var e in projectiles)
         {

@@ -124,11 +124,7 @@ public class GameEntity : MonoBehaviour
         if (typeJson == null || !typeJson.IsJsonString())
             return null;
 
-        GameEntityType type;
-        if (!Enum.TryParse<GameEntityType>(typeJson.String(), out type))
-            return null;
-
-        var prefab = Global.instance.editorDatas.GetEntityPrefab(type);
+        var prefab = Global.instance.editorDatas.GetEntityPrefab(typeJson.String());
         if (prefab == null)
             return null;
 

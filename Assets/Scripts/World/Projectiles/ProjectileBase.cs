@@ -5,14 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public enum ProjectileType
-{
-
-}
-
 public abstract class ProjectileBase : MonoBehaviour
 {
-    [SerializeField] protected ProjectileType m_projectileType;
+    [SerializeField] protected ProjectileChoice m_projectileType;
     [SerializeField] protected float m_damages = 1;
     [SerializeField] protected DamageType m_damageType = DamageType.Normal;
     [SerializeField] protected float m_damageEffect = 1;
@@ -115,7 +110,7 @@ public abstract class ProjectileBase : MonoBehaviour
     {
         var obj = new JsonObject();
 
-        obj.AddElement("type", m_projectileType.ToString());
+        obj.AddElement("type", m_projectileType.GetValue());
         obj.AddElement("rot", Json.FromQuaternion(transform.localRotation));
         obj.AddElement("pos", Json.FromVector3(transform.localPosition));
 
@@ -146,11 +141,7 @@ public abstract class ProjectileBase : MonoBehaviour
         if (typeJson == null || !typeJson.IsJsonString())
             return null;
 
-        ProjectileType type;
-        if (!Enum.TryParse<ProjectileType>(typeJson.String(), out type))
-            return null;
-
-        var prefab = Global.instance.editorDatas.GetProjectilePrefab(type);
+        var prefab = Global.instance.editorDatas.GetProjectilePrefab(typeJson.String());
         if (prefab == null)
             return null;
 

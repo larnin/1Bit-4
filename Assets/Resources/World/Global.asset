@@ -764,9 +764,9 @@ MonoBehaviour:
       m_Bits: 64
     questElementMaterial: {fileID: 2100000, guid: 1ac1427d7badc8948a319d16a19aa58b, type: 2}
     entities:
-    - type: 1
+    - type: ProtoEnnemyDistance
       prefab: {fileID: 6214975584835344987, guid: 9f3319f4511a1084e9c97146fbc2d7f5, type: 3}
-    - type: 0
+    - type: ProtoEnnemyMelee
       prefab: {fileID: 1892062940909772011, guid: dfaa13b752694864ca9489aabb93d253, type: 3}
     projectiles: []
     questElements:
