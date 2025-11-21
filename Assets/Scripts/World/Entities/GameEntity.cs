@@ -5,18 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public enum GameEntityType
-{
-    ProtoEnnemyMelee,
-    ProtoEnnemyDistance
-}
-
 public class GameEntity : MonoBehaviour
 {
     [SerializeField] string m_name;
     [SerializeField] string m_description;
     [SerializeField] Team m_defaultTeam = Team.Neutral;
-    [SerializeField] GameEntityType m_entityType;
+    [SerializeField] EntityChoice m_entityType;
 
     bool m_added = false;
 
@@ -99,16 +93,16 @@ public class GameEntity : MonoBehaviour
         UIElementData.Create<UIElementSimpleText>(e.container).SetText(m_description);
     }
 
-    public GameEntityType GetEntityType()
+    public string GetEntityType()
     {
-        return m_entityType;
+        return m_entityType.GetValue();
     }
 
     public JsonObject Save()
     {
         var obj = new JsonObject();
 
-        obj.AddElement("type", GetEntityType().ToString());
+        obj.AddElement("type", GetEntityType());
         obj.AddElement("team", GetTeam().ToString());
         obj.AddElement("rot", Json.FromQuaternion(transform.rotation));
         obj.AddElement("pos", Json.FromVector3(transform.localPosition));
