@@ -70,13 +70,14 @@ public class GameOverMenu : MonoBehaviour
 
     void DrawScores()
     {
-        if (DifficultySystem.instance != null)
-        {
-            int score = Mathf.RoundToInt(DifficultySystem.instance.GetDifficulty() * DifficultySystem.instance.GetDifficulty() * 10);
+        //todo
+        //if (DifficultySystem.instance != null)
+        //{
+        //    int score = Mathf.RoundToInt(DifficultySystem.instance.GetDifficulty() * DifficultySystem.instance.GetDifficulty() * 10);
 
-            if (m_scoreValue != null)
-                m_scoreValue.text = score.ToString();
-        }
+        //    if (m_scoreValue != null)
+        //        m_scoreValue.text = score.ToString();
+        //}
 
         if (StatsSystem.instance != null)
         {

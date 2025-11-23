@@ -60,7 +60,7 @@ public class BuildingEnnemySpawner : BuildingBase
         m_wantedLight = m_light.GetRadius();
 
         m_mesh.transform.localScale = new Vector3(0.99f, 0.99f, 0.99f);
-        UpdateAppear();
+        //UpdateAppear();
 
         m_subscriberList.Add(new Event<DeathEvent>.LocalSubscriber(OnDeath, gameObject));
         m_subscriberList.Add(new Event<BuildSelectionDetailCommonEvent>.LocalSubscriber(BuildCommon, gameObject));
@@ -83,244 +83,244 @@ public class BuildingEnnemySpawner : BuildingBase
         return BuildingType.EnnemySpawner;
     }
 
-    protected override void OnUpdateAlways()
-    {
-        if (Utility.IsFrozen(gameObject))
-            return;
+    //protected override void OnUpdateAlways()
+    //{
+    //    if (Utility.IsFrozen(gameObject))
+    //        return;
 
-        if (Utility.IsDead(gameObject))
-        {
-            if (DisplayIconsV2.instance != null)
-                DisplayIconsV2.instance.Unregister(gameObject);
-            return;
-        }
+    //    if (Utility.IsDead(gameObject))
+    //    {
+    //        if (DisplayIconsV2.instance != null)
+    //            DisplayIconsV2.instance.Unregister(gameObject);
+    //        return;
+    //    }
 
-        if(EditorGridBehaviour.instance == null)
-        {
-            switch (m_state)
-            {
-                case State.Appear:
-                    if (UpdateAppear())
-                        m_state = State.Starting;
-                    break;
-                case State.Starting:
-                    StartNextWait();
-                    break;
-                case State.Waiting:
-                    m_timer -= Time.deltaTime;
-                    ProcessWait();
-                    if (m_timer < 0)
-                        StartNextWave();
-                    break;
-                case State.Spawning:
-                    ProcessSpawning();
-                    break;
-            }
+    //    if(EditorGridBehaviour.instance == null)
+    //    {
+    //        switch (m_state)
+    //        {
+    //            case State.Appear:
+    //                if (UpdateAppear())
+    //                    m_state = State.Starting;
+    //                break;
+    //            case State.Starting:
+    //                StartNextWait();
+    //                break;
+    //            case State.Waiting:
+    //                m_timer -= Time.deltaTime;
+    //                ProcessWait();
+    //                if (m_timer < 0)
+    //                    StartNextWave();
+    //                break;
+    //            case State.Spawning:
+    //                ProcessSpawning();
+    //                break;
+    //        }
 
-            if (DisplayIconsV2.instance != null)
-            {
-                if(m_iconDisplayType != IconType.None)
-                {
-                    m_iconDisplayDuration -= Mathf.Min(Time.deltaTime, 0.1f);
+    //        if (DisplayIconsV2.instance != null)
+    //        {
+    //            if(m_iconDisplayType != IconType.None)
+    //            {
+    //                m_iconDisplayDuration -= Mathf.Min(Time.deltaTime, 0.1f);
 
-                    string iconName = "";
+    //                string iconName = "";
 
-                    switch(m_iconDisplayType)
-                    {
-                        case IconType.Appear:
-                            iconName = "Spawner";
-                            break;
-                        case IconType.Spawning:
-                            iconName = "Spawning";
-                            break;
-                    }
+    //                switch(m_iconDisplayType)
+    //                {
+    //                    case IconType.Appear:
+    //                        iconName = "Spawner";
+    //                        break;
+    //                    case IconType.Spawning:
+    //                        iconName = "Spawning";
+    //                        break;
+    //                }
 
-                    DisplayIconsV2.instance.Register(gameObject, Global.instance.difficultyDatas.spawnersData.displayHeight, iconName, "", true, true);
+    //                DisplayIconsV2.instance.Register(gameObject, Global.instance.difficultyDatas.spawnersData.displayHeight, iconName, "", true, true);
 
-                    if(m_iconDisplayDuration < 0)
-                    {
-                        DisplayIconsV2.instance.Unregister(gameObject);
-                        m_iconDisplayType = IconType.None;
-                    }
-                }
-            }
-        }
-    }
+    //                if(m_iconDisplayDuration < 0)
+    //                {
+    //                    DisplayIconsV2.instance.Unregister(gameObject);
+    //                    m_iconDisplayType = IconType.None;
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
 
-    void StartNextWait()
-    {
-        float min = Global.instance.difficultyDatas.spawnersData.delayBetweenWavesMin;
-        float max = Global.instance.difficultyDatas.spawnersData.delayBetweenWavesMax;
+    //void StartNextWait()
+    //{
+    //    float min = Global.instance.difficultyDatas.spawnersData.delayBetweenWavesMin;
+    //    float max = Global.instance.difficultyDatas.spawnersData.delayBetweenWavesMax;
 
-        float time = Rand.UniformFloatDistribution(min, max, StaticRandomGenerator<MT19937>.Get());
-        if (m_state == State.Starting)
-            time += Global.instance.difficultyDatas.spawnersData.firstDelayAdd;
+    //    float time = Rand.UniformFloatDistribution(min, max, StaticRandomGenerator<MT19937>.Get());
+    //    if (m_state == State.Starting)
+    //        time += Global.instance.difficultyDatas.spawnersData.firstDelayAdd;
 
-        m_timer = time;
-        m_state = State.Waiting;
-    }
+    //    m_timer = time;
+    //    m_state = State.Waiting;
+    //}
 
-    void StartNextWave(int forceCount = -1)
-    {
-        if (DifficultySystem.instance == null)
-        {
-            StartNextWait();
-            return;
-        }
+    //void StartNextWave(int forceCount = -1)
+    //{
+    //    if (DifficultySystem.instance == null)
+    //    {
+    //        StartNextWait();
+    //        return;
+    //    }
 
-        float difficulty = DifficultySystem.instance.GetDifficulty();
+    //    float difficulty = DifficultySystem.instance.GetDifficulty();
 
-        List<int> allowedIndexs = new List<int>();
-        for (int i = 0; i < Global.instance.difficultyDatas.spawnersData.ennemies.Count; i++)
-        {
-            var e = Global.instance.difficultyDatas.spawnersData.ennemies[i];
+    //    List<int> allowedIndexs = new List<int>();
+    //    for (int i = 0; i < Global.instance.difficultyDatas.spawnersData.ennemies.Count; i++)
+    //    {
+    //        var e = Global.instance.difficultyDatas.spawnersData.ennemies[i];
 
-            bool min = e.difficultyMin < 0 || e.difficultyMin <= difficulty;
-            bool max = e.difficultyMax < 0 || e.difficultyMax >= difficulty;
+    //        bool min = e.difficultyMin < 0 || e.difficultyMin <= difficulty;
+    //        bool max = e.difficultyMax < 0 || e.difficultyMax >= difficulty;
 
-            if (min && max)
-                allowedIndexs.Add(i);
-        }
+    //        if (min && max)
+    //            allowedIndexs.Add(i);
+    //    }
 
-        if (allowedIndexs.Count == 0)
-        {
-            StartNextWait();
-            return;
-        }
+    //    if (allowedIndexs.Count == 0)
+    //    {
+    //        StartNextWait();
+    //        return;
+    //    }
 
-        List<float> weights = new List<float>();
-        foreach (var index in allowedIndexs)
-            weights.Add(Global.instance.difficultyDatas.spawnersData.ennemies[index].weight);
+    //    List<float> weights = new List<float>();
+    //    foreach (var index in allowedIndexs)
+    //        weights.Add(Global.instance.difficultyDatas.spawnersData.ennemies[index].weight);
 
-        m_entityIndexs.Clear();
-        m_currentIndex = 0;
-        m_timer = 0;
-        m_state = State.Spawning;
+    //    m_entityIndexs.Clear();
+    //    m_currentIndex = 0;
+    //    m_timer = 0;
+    //    m_state = State.Spawning;
 
-        var rand = StaticRandomGenerator<MT19937>.Get();
+    //    var rand = StaticRandomGenerator<MT19937>.Get();
 
-        int maxEnnemies = Mathf.CeilToInt(Global.instance.difficultyDatas.spawnersData.difficultyToMaxEnnemies.Get(difficulty));
+    //    int maxEnnemies = Mathf.CeilToInt(Global.instance.difficultyDatas.spawnersData.difficultyToMaxEnnemies.Get(difficulty));
 
-        while (difficulty > 0)
-        {
-            var tabIndex = Rand.DiscreteDistribution(weights, rand);
-            var index = allowedIndexs[tabIndex];
-            m_entityIndexs.Add(index);
+    //    while (difficulty > 0)
+    //    {
+    //        var tabIndex = Rand.DiscreteDistribution(weights, rand);
+    //        var index = allowedIndexs[tabIndex];
+    //        m_entityIndexs.Add(index);
 
-            if (forceCount > 0)
-            {
-                if (m_entityIndexs.Count >= forceCount)
-                    break;
-            }
-            else
-            {
-                var e = Global.instance.difficultyDatas.spawnersData.ennemies[index];
-                difficulty -= Rand.UniformFloatDistribution(e.difficultyCostMin, e.difficultyCostMax, rand);
+    //        if (forceCount > 0)
+    //        {
+    //            if (m_entityIndexs.Count >= forceCount)
+    //                break;
+    //        }
+    //        else
+    //        {
+    //            var e = Global.instance.difficultyDatas.spawnersData.ennemies[index];
+    //            difficulty -= Rand.UniformFloatDistribution(e.difficultyCostMin, e.difficultyCostMax, rand);
 
-                if (m_entityIndexs.Count >= maxEnnemies)
-                    break;
-            }
-        }
+    //            if (m_entityIndexs.Count >= maxEnnemies)
+    //                break;
+    //        }
+    //    }
 
-        m_entityIndexs.Shuffle(rand);
+    //    m_entityIndexs.Shuffle(rand);
 
-        m_deltaTime = Global.instance.difficultyDatas.spawnersData.delayBaseBetweenEnnemies;
-        int nbMore = m_entityIndexs.Count - Global.instance.difficultyDatas.spawnersData.delayReduceAfterNbEnnemies;
-        if (nbMore > 0)
-        {
-            float multiplier = 1 + nbMore * Global.instance.difficultyDatas.spawnersData.delaySpeedMultiplayerPerEnnemies;
-            m_deltaTime /= multiplier;
-        }
-    }
+    //    m_deltaTime = Global.instance.difficultyDatas.spawnersData.delayBaseBetweenEnnemies;
+    //    int nbMore = m_entityIndexs.Count - Global.instance.difficultyDatas.spawnersData.delayReduceAfterNbEnnemies;
+    //    if (nbMore > 0)
+    //    {
+    //        float multiplier = 1 + nbMore * Global.instance.difficultyDatas.spawnersData.delaySpeedMultiplayerPerEnnemies;
+    //        m_deltaTime /= multiplier;
+    //    }
+    //}
 
-    void ProcessWait()
-    {
-        if(DisplayIconsV2.instance != null && m_iconDisplayType == IconType.None)
-        {
-            string timer = Utility.FormateTime(m_timer, true);
-            bool displayOutScreen = m_timer < Global.instance.difficultyDatas.spawnersData.displayBeforeWave;
-            string iconName = "";
-            if (displayOutScreen)
-                iconName = "Warning";
+    //void ProcessWait()
+    //{
+    //    if(DisplayIconsV2.instance != null && m_iconDisplayType == IconType.None)
+    //    {
+    //        string timer = Utility.FormateTime(m_timer, true);
+    //        bool displayOutScreen = m_timer < Global.instance.difficultyDatas.spawnersData.displayBeforeWave;
+    //        string iconName = "";
+    //        if (displayOutScreen)
+    //            iconName = "Warning";
 
-            DisplayIconsV2.instance.Register(gameObject, Global.instance.difficultyDatas.spawnersData.displayHeight, iconName, timer, displayOutScreen);
-        }
-    }
+    //        DisplayIconsV2.instance.Register(gameObject, Global.instance.difficultyDatas.spawnersData.displayHeight, iconName, timer, displayOutScreen);
+    //    }
+    //}
 
-    void ProcessSpawning()
-    {
-        m_timer += Time.deltaTime;
-        while (m_timer >= m_deltaTime)
-        {
-            m_timer -= m_deltaTime;
+    //void ProcessSpawning()
+    //{
+    //    m_timer += Time.deltaTime;
+    //    while (m_timer >= m_deltaTime)
+    //    {
+    //        m_timer -= m_deltaTime;
 
-            if (m_currentIndex >= m_entityIndexs.Count)
-            {
-                StartNextWait();
-                return;
-            }
+    //        if (m_currentIndex >= m_entityIndexs.Count)
+    //        {
+    //            StartNextWait();
+    //            return;
+    //        }
 
-            int index = m_entityIndexs[m_currentIndex];
-            SpawnOneEnnemie(index);
-            m_currentIndex++;
-        }
+    //        int index = m_entityIndexs[m_currentIndex];
+    //        SpawnOneEnnemie(index);
+    //        m_currentIndex++;
+    //    }
 
-        if (m_currentIndex >= m_entityIndexs.Count)
-        {
-            StartNextWait();
-            return;
-        }
+    //    if (m_currentIndex >= m_entityIndexs.Count)
+    //    {
+    //        StartNextWait();
+    //        return;
+    //    }
 
-        if (m_iconDisplayType != IconType.Spawning)
-        {
-            m_iconDisplayType = IconType.Spawning;
-            m_iconDisplayDuration = m_minSpawningIconDisplayTime;
-        }
-        else m_iconDisplayDuration = Mathf.Max(m_iconDisplayDuration, 0.1f);
-    }
+    //    if (m_iconDisplayType != IconType.Spawning)
+    //    {
+    //        m_iconDisplayType = IconType.Spawning;
+    //        m_iconDisplayDuration = m_minSpawningIconDisplayTime;
+    //    }
+    //    else m_iconDisplayDuration = Mathf.Max(m_iconDisplayDuration, 0.1f);
+    //}
 
-    void SpawnOneEnnemie(int index)
-    {
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+    //void SpawnOneEnnemie(int index)
+    //{
+    //    var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
 
-        var e = Global.instance.difficultyDatas.spawnersData.ennemies[index];
+    //    var e = Global.instance.difficultyDatas.spawnersData.ennemies[index];
 
-        if (grid.grid == null || e.prefab == null)
-            return;
+    //    if (grid.grid == null )//|| e.prefab == null)
+    //        return;
 
-        var pos = transform.position;
+    //    var pos = transform.position;
 
-        var posInt = new Vector2Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.z));
-        int height = GridEx.GetHeight(grid.grid, posInt);
+    //    var posInt = new Vector2Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.z));
+    //    int height = GridEx.GetHeight(grid.grid, posInt);
 
-        var obj = Instantiate(e.prefab);
-        if(EntityList.instance != null)
-            obj.transform.parent = EntityList.instance.transform;
-        obj.transform.position = new Vector3(posInt.x, height + 1, posInt.y);
-    }
+    //    //var obj = Instantiate(e.prefab);
+    //    //if(EntityList.instance != null)
+    //    //    obj.transform.parent = EntityList.instance.transform;
+    //    //obj.transform.position = new Vector3(posInt.x, height + 1, posInt.y);
+    //}
 
-    bool UpdateAppear()
-    {
-        bool ended = false;
-        m_appearTimer += Time.deltaTime;
+    //bool UpdateAppear()
+    //{
+    //    bool ended = false;
+    //    m_appearTimer += Time.deltaTime;
 
-        float normTimer = m_appearTimer / m_appearDuration;
+    //    float normTimer = m_appearTimer / m_appearDuration;
 
-        if (normTimer > 1)
-        {
-            ended = true;
-            normTimer = 1;
-            m_mesh.transform.localScale = Vector3.one;
-        }
+    //    if (normTimer > 1)
+    //    {
+    //        ended = true;
+    //        normTimer = 1;
+    //        m_mesh.transform.localScale = Vector3.one;
+    //    }
 
-        var pos = DOVirtual.EasedValue(m_appearStartPos, m_appearEndPos, normTimer, m_appearCurve);
-        m_mesh.transform.localPosition = pos;
+    //    var pos = DOVirtual.EasedValue(m_appearStartPos, m_appearEndPos, normTimer, m_appearCurve);
+    //    m_mesh.transform.localPosition = pos;
 
-        float light = DOVirtual.EasedValue(0, m_wantedLight, normTimer, m_appearCurve);
-        m_light.SetRadius(light);
+    //    float light = DOVirtual.EasedValue(0, m_wantedLight, normTimer, m_appearCurve);
+    //    m_light.SetRadius(light);
 
-        return ended;
-    }
+    //    return ended;
+    //}
 
     void OnDeath(DeathEvent e)
     {
@@ -390,8 +390,8 @@ public class BuildingEnnemySpawner : BuildingBase
         if (jsonAppearTimer != null && jsonAppearTimer.IsJsonNumber())
             m_appearTimer = jsonAppearTimer.Float();
 
-        if (m_state == State.Spawning)
-            StartNextWave(nbEntities);
+        //if (m_state == State.Spawning)
+        //    StartNextWave(nbEntities);
     }
 
     protected override void SaveImpl(JsonObject obj)

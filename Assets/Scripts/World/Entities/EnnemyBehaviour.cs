@@ -22,8 +22,9 @@ public class EnnemyBehaviour : MonoBehaviour
         m_weapon = GetComponent<EntityWeaponBase>();
         m_move = GetComponent<EntityMove>();
 
-        if (DifficultySystem.instance != null)
-            m_difficultyOnSpawn = DifficultySystem.instance.GetDifficulty();
+        //todo
+        //if (DifficultySystem.instance != null)
+        //    m_difficultyOnSpawn = DifficultySystem.instance.GetDifficulty();
     }
 
     private void Awake()
@@ -91,18 +92,19 @@ public class EnnemyBehaviour : MonoBehaviour
 
     void GetStat(GetStatEvent e)
     {
-        if(e.type == StatType.DamagesMultiplier)
-        {
-            float value = Global.instance.difficultyDatas.difficultyToDamageMultiplier.Get(m_difficultyOnSpawn);
-            if (value > 0)
-                e.add += value;
-        }
-        else if(e.type == StatType.MaxLifeMultiplier)
-        {
-            float value = Global.instance.difficultyDatas.difficultyToLifeMultiplier.Get(m_difficultyOnSpawn);
-            if (value > 0)
-                e.add += value;
-        }
+        //todo
+        //if(e.type == StatType.DamagesMultiplier)
+        //{
+        //    float value = Global.instance.difficultyDatas.difficultyToDamageMultiplier.Get(m_difficultyOnSpawn);
+        //    if (value > 0)
+        //        e.add += value;
+        //}
+        //else if(e.type == StatType.MaxLifeMultiplier)
+        //{
+        //    float value = Global.instance.difficultyDatas.difficultyToLifeMultiplier.Get(m_difficultyOnSpawn);
+        //    if (value > 0)
+        //        e.add += value;
+        //}
     }
 
     void OnDeath(DeathEvent e)

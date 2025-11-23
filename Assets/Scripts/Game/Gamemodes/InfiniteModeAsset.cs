@@ -1,5 +1,4 @@
-﻿using Sirenix.OdinInspector;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,7 +26,7 @@ public class DifficultyCurve
 [Serializable]
 public class DifficultyOneEnnemyData
 {
-    public GameObject prefab;
+    public EntityChoice entityType;
     public float difficultyMin;
     public float difficultyMax;
     public float difficultyCostMin;
@@ -57,15 +56,8 @@ public class DifficultySpawnerData
     public List<DifficultyOneEnnemyData> ennemies;
 }
 
-[Serializable]
-public class DifficultySizeMultiplier
-{
-    public WorldSize size;
-    public float multiplier;
-}
-
-[Serializable]
-public  class DifficultyData
+[CreateAssetMenu(fileName = "InfiniteMode", menuName = "Game/Gamemode/InfiniteMode", order = 1)]
+public class InfiniteModeAsset : GamemodeAssetBase
 {
     public DifficultyCurve difficultyPerMinute;
     public DifficultyCurve difficultyPerDistance;
@@ -79,16 +71,8 @@ public  class DifficultyData
 
     public DifficultySpawnerData spawnersData;
 
-    public List<DifficultySizeMultiplier> difficultyMultipliers;
-    public float GetDifficultyMultiplier(WorldSize size)
+    public override GamemodeBase GetGamemode(GameSystem owner)
     {
-        foreach(var d in difficultyMultipliers)
-        {
-            if (d.size == size)
-                return d.multiplier;
-        }
-
-        return 1;
+        throw new NotImplementedException();
     }
 }
-
