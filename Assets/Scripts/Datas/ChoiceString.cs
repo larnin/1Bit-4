@@ -54,7 +54,7 @@ public abstract class ChoiceString
         else
         {
             GUILayout.BeginHorizontal();
-            GUILayout.Label("m_value");
+            GUILayout.Label(m_value);
         }
 
         if (GUILayout.Button("Setup", GUILayout.Width(100)))
