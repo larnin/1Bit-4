@@ -4,9 +4,59 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class OnKillEvent { }
+public class OnEnnemyKillEvent 
+{
+    public EnnemyBehaviour ennemy;
 
-public class OnSpawnerDestroyEvent { }
+    public OnEnnemyKillEvent(EnnemyBehaviour _ennemy)
+    {
+        ennemy = _ennemy;
+    }
+}
+
+public class OnEnnemyDamagedEvent
+{
+    public EnnemyBehaviour ennemy;
+
+    public OnEnnemyDamagedEvent(EnnemyBehaviour _ennemy)
+    {
+        ennemy = _ennemy;
+    }
+}
+
+public class OnSpawnerDestroyEvent 
+{
+    public BuildingBase building;
+
+    public OnSpawnerDestroyEvent(BuildingBase _building)
+    {
+        building = _building;
+    }
+}
+
+public class OnSpawnerDamagedEvent
+{
+    public BuildingBase building;
+    public float lifeLossPercent;
+
+    public OnSpawnerDamagedEvent(BuildingBase _building, float percent)
+    {
+        building = _building;
+        lifeLossPercent = percent;
+    }
+}
+
+public class DisplaySpawnerInfosEvent
+{
+    public BuildingBase building;
+    public UIElementContainer container;
+
+    public DisplaySpawnerInfosEvent(BuildingBase _building, UIElementContainer _container)
+    {
+        building = _building;
+        container = _container;
+    }
+}
 
 public class OnBuildingBuildEvent
 {

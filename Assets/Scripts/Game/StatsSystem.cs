@@ -26,7 +26,7 @@ public class StatsSystem : MonoBehaviour
     {
         m_instance = this;
 
-        m_subscriberList.Add(new Event<OnKillEvent>.Subscriber(OnKill));
+        m_subscriberList.Add(new Event<OnEnnemyKillEvent>.Subscriber(OnKill));
         m_subscriberList.Add(new Event<OnSpawnerDestroyEvent>.Subscriber(OnSpawnerDestroyed));
         m_subscriberList.Add(new Event<OnBuildingBuildEvent>.Subscriber(OnBuildingBuild));
         m_subscriberList.Add(new Event<OnBuildingDestroyedEvent>.Subscriber(OnBuildingDestroyed));
@@ -42,7 +42,7 @@ public class StatsSystem : MonoBehaviour
         m_subscriberList.Unsubscribe();
     }
 
-    void OnKill(OnKillEvent e)
+    void OnKill(OnEnnemyKillEvent e)
     {
         m_stats.kills++;
     }

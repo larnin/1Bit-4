@@ -43,6 +43,7 @@ public class DifficultySpawnerData
     public float firstDelayAdd;
     public float delayBetweenWavesMin;
     public float delayBetweenWavesMax;
+    public float delayDecreasePerLifePercentLoss;
     public float distanceFromBuildingsMin;
     public float distanceFromBuildingsMax;
     public float distanceFromSpawnerMin;
@@ -50,6 +51,11 @@ public class DifficultySpawnerData
     public float delayBaseBetweenEnnemies;
     public int delayReduceAfterNbEnnemies;
     public float delaySpeedMultiplayerPerEnnemies;
+
+    public float minSpawningIconDisplayTime;
+    public float appearIconDisplayTime;
+
+    public float timerDecreaseOnHit;
 
     public DifficultyCurve difficultyToMaxEnnemies;
 

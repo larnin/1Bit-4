@@ -8,9 +8,9 @@ using UnityEngine;
 
 public class InfiniteMode : GamemodeBase
 {
-    class SpawnerInfo
+    class EntityInfo
     {
-        public BuildingBase building;
+        public GameEntity entity;
     }
 
     InfiniteModeAsset m_asset;
@@ -25,7 +25,8 @@ public class InfiniteMode : GamemodeBase
     float m_maxDifficulty = 0;
     int m_nbSpawnerToSpawn = 0;
 
-    List<SpawnerInfo> m_spawners = new List<SpawnerInfo>();
+    List<InfiniteModeSpawner> m_spawners = new List<InfiniteModeSpawner>();
+    List<EntityInfo> m_entities = new List<EntityInfo>();
 
     public InfiniteMode(InfiniteModeAsset asset, GameSystem owner)
         : base(owner)
@@ -33,13 +34,20 @@ public class InfiniteMode : GamemodeBase
         m_asset = asset;
     }
 
+    public InfiniteModeAsset GetAsset()
+    {
+        return m_asset;
+    }
+
     public override void Begin()
     {
         if(m_subscriberList == null)
         {
             m_subscriberList = new SubscriberList();
-            m_subscriberList.Add(new Event<OnKillEvent>.Subscriber(OnKill));
+            m_subscriberList.Add(new Event<OnEnnemyKillEvent>.Subscriber(OnKill));
             m_subscriberList.Add(new Event<OnSpawnerDestroyEvent>.Subscriber(OnSpawnerDestroy));
+            m_subscriberList.Add(new Event<OnSpawnerDamagedEvent>.Subscriber(OnSpawnerDamaged));
+            m_subscriberList.Add(new Event<DisplaySpawnerInfosEvent>.Subscriber(DisplayInfos));
         }
 
         m_subscriberList.Subscribe();
@@ -47,6 +55,8 @@ public class InfiniteMode : GamemodeBase
 
     public override void Process()
     {
+        UpdateEntityAndSpawnerList();
+
         if (GameInfos.instance.paused)
             return;
 
@@ -66,14 +76,28 @@ public class InfiniteMode : GamemodeBase
         return GamemodeStatus.Ongoing;
     }
 
-    void OnKill(OnKillEvent e)
+    void OnKill(OnEnnemyKillEvent e)
     {
-        m_nbKill++;
+        var ge = e.ennemy.GetComponent<GameEntity>();
+        if (ge == null)
+            return;
+
+        if(m_entities.Exists((x) => { return x.entity == ge; }))
+            m_nbKill++;
     }
 
     void OnSpawnerDestroy(OnSpawnerDestroyEvent e)
     {
-        m_nbSpawnerDestroyed++;
+        var spawner = GetSpawner(e.building);
+        if (spawner != null)
+            m_nbSpawnerDestroyed++;
+    }
+
+    void OnSpawnerDamaged(OnSpawnerDamagedEvent e)
+    {
+        var spawner = GetSpawner(e.building);
+        if (spawner != null)
+            spawner.OnHit(e.lifeLossPercent);
     }
 
     void UpdateMaxDistance()
@@ -123,9 +147,13 @@ public class InfiniteMode : GamemodeBase
 
         if (m_nbSpawnerToSpawn > 0)
             TrySpawnSpawner();
+
+        float deltaTime = Time.deltaTime;
+        foreach (var spawner in m_spawners)
+            spawner.Update(deltaTime);
     }
 
-    float GetDifficulty()
+    public float GetDifficulty()
     {
         float difficultyPerMinute = m_asset.difficultyPerMinute.Get(m_time / 60);
         float difficultyPerDistance = m_asset.difficultyPerDistance.Get(m_maxDistance);
@@ -225,9 +253,8 @@ public class InfiniteMode : GamemodeBase
                 obj.transform.parent = BuildingList.instance.transform;
                 obj.transform.position = spawnPos;
 
-                SpawnerInfo spawnerInfo = new SpawnerInfo();
-                spawnerInfo.building = obj.GetComponent<BuildingBase>();
-                if (spawnerInfo.building == null)
+                InfiniteModeSpawner spawnerInfo = new InfiniteModeSpawner(this, obj.GetComponent<BuildingBase>());
+                if (spawnerInfo.GetBuilding() == null)
                     Debug.LogError("No building in the prefab " + spawner.prefab.name);
 
                 m_spawners.Add(spawnerInfo);
@@ -236,6 +263,47 @@ public class InfiniteMode : GamemodeBase
             m_nbSpawnerToSpawn--;
 
             return;
+        }
+    }
+
+    InfiniteModeSpawner GetSpawner(BuildingBase building)
+    {
+        foreach(var s in m_spawners)
+        {
+            if (s.GetBuilding() == building)
+                return s;
+        }
+
+        return null;
+    }
+
+    void UpdateEntityAndSpawnerList()
+    {
+        for(int i = 0; i < m_spawners.Count; i++)
+        {
+            if(m_spawners[i].GetBuilding() == null)
+            {
+                m_spawners.RemoveAt(i);
+                i--;
+            }
+        }
+
+        for(int i = 0; i < m_entities.Count; i++)
+        {
+            if(m_entities[i].entity == null)
+            {
+                m_entities.RemoveAt(i);
+                i--;
+            }
+        }
+    }
+
+    void DisplayInfos(DisplaySpawnerInfosEvent e)
+    {
+        foreach(var spawner in  m_spawners)
+        {
+            if (spawner.GetBuilding() == e.building)
+                spawner.DisplayInfos(e.container);
         }
     }
 }

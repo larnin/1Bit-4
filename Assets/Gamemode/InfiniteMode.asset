@@ -60,12 +60,16 @@ MonoBehaviour:
     firstDelayAdd: 90
     delayBetweenWavesMin: 45
     delayBetweenWavesMax: 60
+    delayDecreasePerLifePercentLoss: 0
     distanceFromBuildingsMin: 25
     distanceFromBuildingsMax: 50
     distanceFromSpawnerMin: 10
     delayBaseBetweenEnnemies: 1
     delayReduceAfterNbEnnemies: 10
     delaySpeedMultiplayerPerEnnemies: 0.05
+    minSpawningIconDisplayTime: 2
+    appearIconDisplayTime: 5
+    timerDecreaseOnHit: 1.5
     difficultyToMaxEnnemies:
       baseValue: 3
       powValue: 0.75
