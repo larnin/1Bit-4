@@ -77,8 +77,10 @@ public class InfiniteModeAsset : GamemodeAssetBase
 
     public DifficultySpawnerData spawnersData;
 
-    public override GamemodeBase GetGamemode(GameSystem owner)
+    public override GamemodeBase MakeGamemode(GamemodeSystem owner)
     {
-        throw new NotImplementedException();
+        InfiniteMode mode = new InfiniteMode(this, owner);
+
+        return mode;
     }
 }

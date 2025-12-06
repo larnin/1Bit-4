@@ -14,23 +14,24 @@ public enum GamemodeStatus
 
 public abstract class GamemodeAssetBase : ScriptableObject
 {
-    public abstract GamemodeBase GetGamemode(GameSystem owner);
+    public abstract GamemodeBase MakeGamemode(GamemodeSystem owner);
 }
 
 public abstract class GamemodeBase
 {
-    protected GameSystem m_owner;
+    protected GamemodeSystem m_owner;
 
-    public GamemodeBase(GameSystem owner)
+    public GamemodeBase(GamemodeSystem owner)
     {
         m_owner = owner;
     }
 
-    public GameSystem GetOwner() { return m_owner; }
+    public GamemodeSystem GetOwner() { return m_owner; }
 
     public virtual void Begin() { }
     public virtual void Process() { }
     public virtual void End() { }
 
-    public virtual GamemodeStatus GetStatus() { return GamemodeStatus.Ongoing; }
+    public abstract GamemodeStatus GetStatus();
+    public abstract GamemodeAssetBase GetAsset();
 }

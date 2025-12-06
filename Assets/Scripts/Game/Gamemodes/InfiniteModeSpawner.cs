@@ -40,7 +40,7 @@ public class InfiniteModeSpawner
         m_building = building;
 
         m_iconDisplayType = IconType.Appear;
-        m_iconDisplayDuration = m_mode.GetAsset().spawnersData.appearIconDisplayTime;
+        m_iconDisplayDuration = m_mode.GetInfiniteAsset().spawnersData.appearIconDisplayTime;
     }
 
     public BuildingBase GetBuilding()
@@ -80,7 +80,7 @@ public class InfiniteModeSpawner
     public void OnHit(float lifePercent)
     {
         if (m_state == State.Waiting)
-            m_timer -= m_mode.GetAsset().spawnersData.delayDecreasePerLifePercentLoss * lifePercent;
+            m_timer -= m_mode.GetInfiniteAsset().spawnersData.delayDecreasePerLifePercentLoss * lifePercent;
     }
 
     void UpdateAppear(float deltaTime)
@@ -98,7 +98,7 @@ public class InfiniteModeSpawner
 
     void StartNextWave(int forceCount = -1)
     {
-        InfiniteModeAsset asset = m_mode.GetAsset();
+        InfiniteModeAsset asset = m_mode.GetInfiniteAsset();
 
         float difficulty = m_mode.GetDifficulty();
 
@@ -193,7 +193,7 @@ public class InfiniteModeSpawner
         if (m_iconDisplayType != IconType.Spawning)
         {
             m_iconDisplayType = IconType.Spawning;
-            m_iconDisplayDuration = m_mode.GetAsset().spawnersData.minSpawningIconDisplayTime;
+            m_iconDisplayDuration = m_mode.GetInfiniteAsset().spawnersData.minSpawningIconDisplayTime;
         }
         else m_iconDisplayDuration = Mathf.Max(m_iconDisplayDuration, 0.1f);
     }
@@ -202,7 +202,7 @@ public class InfiniteModeSpawner
     {
         var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
 
-        var e = m_mode.GetAsset().spawnersData.ennemies[index];
+        var e = m_mode.GetInfiniteAsset().spawnersData.ennemies[index];
 
         if (grid.grid == null)//|| e.prefab == null)
             return;
@@ -225,12 +225,12 @@ public class InfiniteModeSpawner
 
     void StartNextWait()
     {
-        float min = m_mode.GetAsset().spawnersData.delayBetweenWavesMin;
-        float max = m_mode.GetAsset().spawnersData.delayBetweenWavesMax;
+        float min = m_mode.GetInfiniteAsset().spawnersData.delayBetweenWavesMin;
+        float max = m_mode.GetInfiniteAsset().spawnersData.delayBetweenWavesMax;
 
         float time = Rand.UniformFloatDistribution(min, max, StaticRandomGenerator<MT19937>.Get());
         if (m_state == State.Appear)
-            time += m_mode.GetAsset().spawnersData.firstDelayAdd;
+            time += m_mode.GetInfiniteAsset().spawnersData.firstDelayAdd;
 
         m_timer = time;
         m_state = State.Waiting;
@@ -241,12 +241,12 @@ public class InfiniteModeSpawner
         if (DisplayIconsV2.instance != null && m_iconDisplayType == IconType.None)
         {
             string timer = Utility.FormateTime(m_timer, true);
-            bool displayOutScreen = m_timer < m_mode.GetAsset().spawnersData.displayBeforeWave;
+            bool displayOutScreen = m_timer < m_mode.GetInfiniteAsset().spawnersData.displayBeforeWave;
             string iconName = "";
             if (displayOutScreen)
                 iconName = "Warning";
 
-            DisplayIconsV2.instance.Register(m_building.gameObject, m_mode.GetAsset().spawnersData.displayHeight, iconName, timer, displayOutScreen);
+            DisplayIconsV2.instance.Register(m_building.gameObject, m_mode.GetInfiniteAsset().spawnersData.displayHeight, iconName, timer, displayOutScreen);
         }
 
         m_timer -= deltaTime;
@@ -276,7 +276,7 @@ public class InfiniteModeSpawner
                         break;
                 }
 
-                DisplayIconsV2.instance.Register(m_building.gameObject, m_mode.GetAsset().spawnersData.displayHeight, iconName, "", true, true);
+                DisplayIconsV2.instance.Register(m_building.gameObject, m_mode.GetInfiniteAsset().spawnersData.displayHeight, iconName, "", true, true);
 
                 if (m_iconDisplayDuration < 0)
                 {

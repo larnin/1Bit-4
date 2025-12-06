@@ -28,13 +28,23 @@ public class InfiniteMode : GamemodeBase
     List<InfiniteModeSpawner> m_spawners = new List<InfiniteModeSpawner>();
     List<EntityInfo> m_entities = new List<EntityInfo>();
 
-    public InfiniteMode(InfiniteModeAsset asset, GameSystem owner)
+    public InfiniteMode(InfiniteModeAsset asset, GamemodeSystem owner)
         : base(owner)
     {
         m_asset = asset;
     }
 
-    public InfiniteModeAsset GetAsset()
+    public InfiniteModeAsset GetInfiniteAsset()
+    {
+        return m_asset;
+    }
+
+    public override GamemodeStatus GetStatus()
+    {
+        return GamemodeStatus.Ongoing;
+    }
+
+    public override GamemodeAssetBase GetAsset()
     {
         return m_asset;
     }
@@ -69,11 +79,6 @@ public class InfiniteMode : GamemodeBase
     public override void End()
     {
         m_subscriberList.Unsubscribe();
-    }
-
-    public override GamemodeStatus GetStatus()
-    {
-        return GamemodeStatus.Ongoing;
     }
 
     void OnKill(OnEnnemyKillEvent e)

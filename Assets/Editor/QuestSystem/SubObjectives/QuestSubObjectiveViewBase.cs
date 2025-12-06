@@ -35,6 +35,12 @@ public abstract class QuestSubObjectiveViewBase
             return new QuestSubObjectiveViewGroup(node, subObjective as QuestSubObjectiveGroup);
         if (subObjective is QuestSubObjectiveFailAfterTimer)
             return new QuestSubObjectiveViewFailAfterTimer(node, subObjective as QuestSubObjectiveFailAfterTimer);
+        if (subObjective is QuestSubObjectiveStartGamemode)
+            return new QuestSubObjectiveViewStartGamemode(node, subObjective as QuestSubObjectiveStartGamemode);
+        if (subObjective is QuestSubObjectiveStopGamemode)
+            return new QuestSubObjectiveViewStopGamemode(node, subObjective as QuestSubObjectiveStopGamemode);
+        if (subObjective is QuestSubObjectiveGamemodeStatus)
+            return new QuestSubObjectiveViewGamemodeStatus(node, subObjective as QuestSubObjectiveGamemodeStatus);
 
         return new QuestSubObjectiveViewNotImplemented(node, subObjective);
     }
