@@ -117,3 +117,26 @@ public class GetEntityIDEvent
 {
     public Guid id = Guid.Empty;
 }
+
+public class DisplayEndLevelEvent
+{
+    public bool levelSuccess;
+    public bool displayed = false;
+
+    public DisplayEndLevelEvent(bool _levelSucces)
+    {
+        levelSuccess = _levelSucces;
+    }
+}
+
+public class TowerDeathEvent { }
+
+public class QuestEndLevelEvent
+{
+    public bool succes = true;
+
+    public QuestEndLevelEvent(bool _succes)
+    {
+        succes = _succes;
+    }
+}

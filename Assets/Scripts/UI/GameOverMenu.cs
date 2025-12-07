@@ -36,19 +36,6 @@ public class GameOverMenu : MonoBehaviour
         SceneSystem.changeScene(new ChangeSceneParams(m_menuName));
     }
 
-    public void OnRestart()
-    {
-        if (m_selected)
-            return;
-
-        m_selected = true;
-
-        var scene = new ChangeSceneParams(m_gameSceneName);
-        scene.skipFadeOut = true;
-
-        SceneSystem.changeScene(scene);
-    }
-
     private void Awake()
     {
         var obj = transform.Find("Pivot");

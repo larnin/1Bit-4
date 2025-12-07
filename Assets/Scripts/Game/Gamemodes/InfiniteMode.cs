@@ -58,6 +58,7 @@ public class InfiniteMode : GamemodeBase
             m_subscriberList.Add(new Event<OnSpawnerDestroyEvent>.Subscriber(OnSpawnerDestroy));
             m_subscriberList.Add(new Event<OnSpawnerDamagedEvent>.Subscriber(OnSpawnerDamaged));
             m_subscriberList.Add(new Event<DisplaySpawnerInfosEvent>.Subscriber(DisplayInfos));
+            m_subscriberList.Add(new Event<DisplayEndLevelEvent>.Subscriber(DisplayEndWindow));
         }
 
         m_subscriberList.Subscribe();
@@ -310,6 +311,16 @@ public class InfiniteMode : GamemodeBase
             if (spawner.GetBuilding() == e.building)
                 spawner.DisplayInfos(e.container);
         }
+    }
+
+    void DisplayEndWindow(DisplayEndLevelEvent e)
+    {
+        if (MenuSystem.instance == null)
+            return;
+
+        MenuSystem.instance.OpenMenu<GameOverMenu>("GameOver");
+
+        e.displayed = true;
     }
 }
 

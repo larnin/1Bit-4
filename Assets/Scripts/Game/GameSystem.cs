@@ -34,6 +34,8 @@ public class GameSystem : MonoBehaviour
     float m_delay;
     float m_alarmTimer = 0;
 
+    SubscriberList m_subscriberList = new SubscriberList();
+
     static GameSystem m_instance = null;
     public static GameSystem instance { get { return m_instance; } }
 
@@ -53,10 +55,16 @@ public class GameSystem : MonoBehaviour
     private void Awake()
     {
         m_instance = this;
+
+        m_subscriberList.Add(new Event<TowerDeathEvent>.Subscriber(OnTowerDeath));
+        m_subscriberList.Add(new Event<QuestEndLevelEvent>.Subscriber(OnQuestEnd));
+        m_subscriberList.Subscribe();
     }
 
     private void OnDestroy()
     {
+        m_subscriberList.Unsubscribe();
+
         if (m_instance == this)
             m_instance = null;
     }
@@ -324,5 +332,28 @@ public class GameSystem : MonoBehaviour
 
         if (SoundSystem.instance != null)
             SoundSystem.instance.PlaySoundUI(Global.instance.buildingDatas.alarmSound, Global.instance.buildingDatas.alarmVolume);
+    }
+
+    void OnTowerDeath(TowerDeathEvent e)
+    {
+        TriggerEndLevel(false);
+    }
+
+    void OnQuestEnd(QuestEndLevelEvent e)
+    {
+        TriggerEndLevel(e.succes);
+    }
+
+    void TriggerEndLevel(bool succes)
+    {
+        DisplayEndLevelEvent displayEnd = Event<DisplayEndLevelEvent>.Broadcast(new DisplayEndLevelEvent(succes));
+        if(!displayEnd.displayed)
+        {
+            if (MenuSystem.instance == null)
+                return;
+
+            var menu = MenuSystem.instance.OpenMenu<GenericGameOverMenu>("GenericGameOver");
+            menu.SetStatus(succes);
+        }
     }
 }

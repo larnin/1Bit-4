@@ -57,3 +57,6 @@ MonoBehaviour:
   - name: LevelSelect
     menu: {fileID: 4191772307496459155, guid: cf24542f69ff6ca4286c216e0ad04f93, type: 3}
     pauseGame: 1
+  - name: GenericGameOver
+    menu: {fileID: 3559934224464040901, guid: 63d0250b4e0adb0488e91fe36cc67a94, type: 3}
+    pauseGame: 1

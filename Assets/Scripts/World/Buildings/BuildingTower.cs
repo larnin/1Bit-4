@@ -50,9 +50,6 @@ public class BuildingTower : BuildingBase
 
     void OnDeath(DeathEvent e)
     {
-        if (MenuSystem.instance == null)
-            return;
-
-        MenuSystem.instance.OpenMenu<GameOverMenu>("GameOver");
+        Event<TowerDeathEvent>.Broadcast(new TowerDeathEvent());
     }
 }

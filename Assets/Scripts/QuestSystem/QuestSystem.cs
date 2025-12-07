@@ -260,12 +260,12 @@ public class QuestSystem : SerializedMonoBehaviour
 
         void OnComplete()
         {
-            //todo
+            Event<QuestEndLevelEvent>.Broadcast(new QuestEndLevelEvent(true));
         }
 
         void OnFail()
         {
-            //todo
+            Event<QuestEndLevelEvent>.Broadcast(new QuestEndLevelEvent(false));
         }
 
         void AddInputObjectiveCompletion(Objective input, Objective output)
