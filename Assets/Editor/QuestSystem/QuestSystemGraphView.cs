@@ -559,7 +559,7 @@ public class QuestSystemGraphView : GraphView
 
             foreach(var connexion in data.outNodes)
             {
-                var outNode = GetFromID(nodes, connexion.nextNodeName);
+                var outNode = GetFromID(nodes, connexion.nextNodeID);
                 if (outNode == null)
                     continue;
 
@@ -615,7 +615,7 @@ public class QuestSystemGraphView : GraphView
                 var saveConnection = new QuestSaveConnection();
                 saveConnection.currentPortName = port.portName;
                 saveConnection.nextPortName = connexion.input.portName;
-                saveConnection.nextNodeName = nextNode.ID;
+                saveConnection.nextNodeID = nextNode.ID;
                 data.outNodes.Add(saveConnection);
             }
         }

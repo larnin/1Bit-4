@@ -63,7 +63,7 @@ public class QuestSystem : SerializedMonoBehaviour
                 {
                     foreach (var output in node.outNodes)
                     {
-                        var objective = GetObjective(output.nextNodeName);
+                        var objective = GetObjectiveByID(output.nextNodeID);
                         if (objective != null)
                             objectivesToStart.Add(objective);
                     }
@@ -78,12 +78,12 @@ public class QuestSystem : SerializedMonoBehaviour
 
                     foreach (var output in node.outNodes)
                     {
-                        var objective = GetObjective(output.nextNodeName);
+                        var objective = GetObjectiveByID(output.nextNodeID);
                         if (objective != null)
                             current.connections.Add(output);
                         else
                         {
-                            var saveNode = GetSaveDataNode(data, output.nextNodeName);
+                            var saveNode = GetSaveDataNode(data, output.nextNodeID);
                             if (saveNode != null)
                             {
                                 var nodeOutput = new ObjectiveOutput();
@@ -165,7 +165,7 @@ public class QuestSystem : SerializedMonoBehaviour
                 if (c.currentPortName != outputName)
                     continue;
 
-                var nextNode = GetObjective(c.nextNodeName);
+                var nextNode = GetObjectiveByID(c.nextNodeID);
                 if (nextNode == null)
                     continue;
 
@@ -195,11 +195,22 @@ public class QuestSystem : SerializedMonoBehaviour
             return null;
         }
 
-        Objective GetObjective(string name)
+        Objective GetObjectiveByName(string name)
         {
             foreach(var o in m_objectives)
             {
                 if (o.name == name)
+                    return o;
+            }
+
+            return null;
+        }
+
+        Objective GetObjectiveByID(string ID)
+        {
+            foreach (var o in m_objectives)
+            {
+                if (o.ID == ID)
                     return o;
             }
 
@@ -313,7 +324,7 @@ public class QuestSystem : SerializedMonoBehaviour
                 {
                     foreach(var c in o.connections)
                     {
-                        if (c.nextNodeName == objective.name)
+                        if (c.nextNodeID == objective.name)
                             nbTransitionsToObjective++;
                     }
                 }
@@ -385,7 +396,7 @@ public class QuestSystem : SerializedMonoBehaviour
     class CompletedQuest
     {
         public string name;
-        public List<string> objectives; 
+        public List<string> objectives = new List<string>(); 
     }
 
     static QuestSystem m_instance = null;
@@ -407,6 +418,9 @@ public class QuestSystem : SerializedMonoBehaviour
 
     public void StartQuest(QuestSaveData data, string name)
     {
+        if (data == null)
+            return;
+
         var newQuest = new OngoingQuest(data, name);
         m_ongoingQuest.Add(newQuest);
     }

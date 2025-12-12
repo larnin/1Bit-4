@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
+[Serializable]
 public class QuestSubObjectiveGroup : QuestSubObjectiveBase
 {
     public enum Operator
@@ -14,9 +16,11 @@ public class QuestSubObjectiveGroup : QuestSubObjectiveBase
         NOR,
     }
 
+    [SerializeField]
     Operator m_completionOperator = Operator.AND;
     public Operator completionOperator { get { return m_completionOperator; } set { m_completionOperator = value; } }
 
+    [SerializeField]
     List<QuestSubObjectiveBase> m_subObjectives = new List<QuestSubObjectiveBase>();
 
     public override int GetSubObjectiveCount()

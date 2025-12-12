@@ -653,7 +653,7 @@ MonoBehaviour:
       icon: {fileID: 0}
       unlockCondition: 1
       level: {fileID: 0}
-      quest: {fileID: 0}
+      quest: {fileID: 11400000, guid: 6af5cff95c08abc459d1f74fe64230ae, type: 2}
     InfiniteLevel:
       size: 4
       height: 1

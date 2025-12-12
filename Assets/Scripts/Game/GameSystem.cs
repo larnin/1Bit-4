@@ -226,6 +226,16 @@ public class GameSystem : MonoBehaviour
 
     void StartMainQuest()
     {
+        if (GameInfos.instance.gameParams.level == null)
+            return;
+
+        if (GameInfos.instance.gameParams.level.quest == null)
+            return;
+
+        if (QuestSystem.instance == null)
+            return;
+
+        QuestSystem.instance.StartQuest(GameInfos.instance.gameParams.level.quest.data, "Main");
 
     }
 

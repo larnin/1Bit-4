@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
+[Serializable]
 public class QuestSubObjectiveStartGamemode : QuestSubObjectiveBase
 {
+    [SerializeField]
     string m_name;
     public string name { get { return m_name; } set { m_name = value; } }
 
+    [SerializeField]
     GamemodeAssetBase m_gamemode;
     public GamemodeAssetBase gamemode { get { return m_gamemode; } set { m_gamemode = value; } }
 

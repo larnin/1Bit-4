@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
+[Serializable]
 public class QuestSubObjectiveTimer : QuestSubObjectiveBase
 {
+    [SerializeField]
     float m_duration = 1;
     public float duration { get { return m_duration; } set { m_duration = value; } }
 

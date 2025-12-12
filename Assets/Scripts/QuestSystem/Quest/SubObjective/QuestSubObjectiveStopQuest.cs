@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
+[Serializable]
 public class QuestSubObjectiveStopQuest : QuestSubObjectiveBase
 {
+    [SerializeField]
     string m_questName;
     public string questName { get { return m_questName; } set { m_questName = value; } }
 

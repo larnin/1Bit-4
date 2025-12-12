@@ -10,7 +10,7 @@ public class QuestSaveConnection
 {
     public string currentPortName;
     public string nextPortName;
-    public string nextNodeName;
+    public string nextNodeID;
 }
 
 public class QuestSaveNode

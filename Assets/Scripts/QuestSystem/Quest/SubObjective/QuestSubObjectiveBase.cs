@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+[Serializable]
 public abstract class QuestSubObjectiveBase
 {
     protected QuestSystem m_system;
 
     protected string m_failNodeName = "";
-    public string failNodeName { get { return m_failNodeName; } set { m_failNodeName = value; } }
+    public string failNodeName { get { if (m_failNodeName == null) return " "; return m_failNodeName; } set { m_failNodeName = value; } }
 
     public abstract void Start();
     public abstract void Update(float deltaTime);

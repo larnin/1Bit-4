@@ -5,8 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+[Serializable]
 public class QuestSubObjectiveStartQuest : QuestSubObjectiveBase
 {
+    [SerializeField]
     QuestScriptableObject m_quest;
     public QuestScriptableObject quest { get { return m_quest; } set { m_quest = value; } }
 
