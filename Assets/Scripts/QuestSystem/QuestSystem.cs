@@ -25,7 +25,7 @@ public class QuestSystem : SerializedMonoBehaviour
     class InputObjectiveCompletion
     {
         public int objectiveIndex;
-        public List<int> validInputIndexs;
+        public List<int> validInputIndexs = new List<int>();
     }
 
     class OngoingQuest
@@ -324,7 +324,7 @@ public class QuestSystem : SerializedMonoBehaviour
                 {
                     foreach(var c in o.connections)
                     {
-                        if (c.nextNodeID == objective.name)
+                        if (c.nextNodeID == objective.ID)
                             nbTransitionsToObjective++;
                     }
                 }

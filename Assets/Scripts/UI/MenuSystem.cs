@@ -147,6 +147,21 @@ public class MenuSystem : MonoBehaviour
         return RemoveAt(menuIndex);
     }
 
+    public T GetOpenedMenu<T>() where T : Component
+    {
+        for (int i = 0; i < m_openMenus.Count; i++)
+        {
+            if (m_openMenus[i].menu == null)
+                continue;
+
+            var comp = m_openMenus[i].menu.GetComponentInChildren<T>();
+            if (comp != null)
+                return comp;
+        }
+
+        return null;
+    }
+
     bool RemoveAt(int menuIndex)
     {
         if (menuIndex < 0)

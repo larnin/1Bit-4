@@ -60,3 +60,6 @@ MonoBehaviour:
   - name: GenericGameOver
     menu: {fileID: 3559934224464040901, guid: 63d0250b4e0adb0488e91fe36cc67a94, type: 3}
     pauseGame: 1
+  - name: DialogPopup
+    menu: {fileID: 6369474051510242215, guid: 7bac6f7bcf76b404284259c6c6d9a056, type: 3}
+    pauseGame: 0

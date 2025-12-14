@@ -41,6 +41,10 @@ public abstract class QuestSubObjectiveViewBase
             return new QuestSubObjectiveViewStopGamemode(node, subObjective as QuestSubObjectiveStopGamemode);
         if (subObjective is QuestSubObjectiveGamemodeStatus)
             return new QuestSubObjectiveViewGamemodeStatus(node, subObjective as QuestSubObjectiveGamemodeStatus);
+        if (subObjective is QuestSubObjectiveStartDialog)
+            return new QuestSubObjectiveViewStartDialog(node, subObjective as QuestSubObjectiveStartDialog);
+        if (subObjective is QuestSubObjectiveStopDialog)
+            return new QuestSubObjectiveViewEmpty(node, subObjective);
 
         return new QuestSubObjectiveViewNotImplemented(node, subObjective);
     }
