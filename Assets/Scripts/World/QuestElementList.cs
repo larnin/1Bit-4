@@ -8,6 +8,7 @@ using UnityEngine;
 public class QuestElementList : MonoBehaviour
 {
     List<QuestElement> m_elements = new List<QuestElement>();
+    List<NamedQuestObject> m_namedObjects = new List<NamedQuestObject>();
 
     static QuestElementList m_instance = null;
     public static QuestElementList instance { get { return m_instance; } }
@@ -23,14 +24,18 @@ public class QuestElementList : MonoBehaviour
             m_instance = null;
     }
 
-    public void Register(QuestElement element)
+    public void Register(NamedQuestObject element)
     {
-        m_elements.Add(element);
+        if(element is QuestElement)
+            m_elements.Add(element as QuestElement);
+        m_namedObjects.Add(element);
     }
 
-    public void UnRegister(QuestElement element)
+    public void UnRegister(NamedQuestObject element)
     {
-        m_elements.Remove(element);
+        if(element is QuestElement)
+            m_elements.Remove(element as QuestElement);
+        m_namedObjects.Remove(element);
     }
 
     public int GetElementNb()
@@ -46,11 +51,24 @@ public class QuestElementList : MonoBehaviour
         return m_elements[index];
     }
 
-    public List<QuestElement> GetElementsByName(string name)
+    public int GetNamedObjectsNb()
     {
-        List<QuestElement> elements = new List<QuestElement>();
+        return m_namedObjects.Count();
+    }
 
-        foreach(var e in m_elements)
+    public NamedQuestObject GetNamedObjectFromIndex(int index)
+    {
+        if (index < 0 || index >= m_namedObjects.Count)
+            return null;
+
+        return m_namedObjects[index];
+    }
+
+    public List<NamedQuestObject> GetNamedObjectsByName(string name)
+    {
+        List<NamedQuestObject> elements = new List<NamedQuestObject>();
+
+        foreach (var e in m_namedObjects)
         {
             if (e.name == name)
                 elements.Add(e);
@@ -59,9 +77,9 @@ public class QuestElementList : MonoBehaviour
         return elements;
     }
 
-    public QuestElement GetFirstElementByName(string name)
+    public NamedQuestObject GetFirstNamedObjectByName(string name)
     {
-        foreach (var e in m_elements)
+        foreach (var e in m_namedObjects)
         {
             if (e.name == name)
                 return e;

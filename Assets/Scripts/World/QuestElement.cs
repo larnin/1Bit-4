@@ -13,9 +13,8 @@ public enum QuestElementType
     Sphere,
 }
 
-public class QuestElement : MonoBehaviour
+public class QuestElement : NamedQuestObject
 {
-    [SerializeField] string m_name;
     [SerializeField] QuestElementType m_elementType;
     [ShowIf("m_elementType", QuestElementType.Cuboid)]
     [SerializeField] Vector3 m_size;
@@ -24,41 +23,10 @@ public class QuestElement : MonoBehaviour
 
     GameObject m_visual = null;
 
-    bool m_added = false;
-    bool m_isCursor = false;
-
-    private void Awake()
-    {
-        Add();
-    }
-
-    private void OnDestroy()
-    {
-        Remove();
-    }
-
-    public void SetAsCursor(bool asCursor)
-    {
-        m_isCursor = asCursor;
-
-        if (!m_isCursor)
-            Add();
-        else Remove();
-    }
-
+    
     public QuestElementType GetQuestElementType()
     {
         return m_elementType;
-    }
-
-    public string GetName()
-    {
-        return m_name;
-    }
-
-    public void SetName(string name)
-    {
-        m_name = name;
     }
 
     public Vector3 GetSize()
@@ -194,31 +162,6 @@ public class QuestElement : MonoBehaviour
     bool CanDraw()
     {
         return EditorGridBehaviour.instance != null;
-    }
-
-    void Add()
-    {
-        if (m_isCursor)
-            return;
-
-        var manager = QuestElementList.instance;
-        if (manager != null)
-        {
-            m_added = true;
-            manager.Register(this);
-        }
-    }
-
-    void Remove()
-    {
-        if (!m_added)
-            return;
-
-        var manager = QuestElementList.instance;
-        if (manager != null)
-            manager.UnRegister(this);
-
-        m_added = false;
     }
 
     public bool IsPosOnTrigger(Vector3 pos)
