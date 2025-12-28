@@ -633,8 +633,8 @@ MonoBehaviour:
       description: You want to know how to play ? You are at the right place !
       icon: {fileID: 0}
       unlockCondition: 1
-      level: {fileID: 0}
-      quest: {fileID: 0}
+      level: {fileID: 11400000, guid: 5e0ddf1f24b55d54cb5758a2ac69c1b9, type: 2}
+      quest: {fileID: 11400000, guid: f139f693a639c4148bdd4a67c2e5246d, type: 2}
     - name: Towers
       description: Destroy everything !
       icon: {fileID: 0}

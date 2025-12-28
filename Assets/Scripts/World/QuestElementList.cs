@@ -70,7 +70,7 @@ public class QuestElementList : MonoBehaviour
 
         foreach (var e in m_namedObjects)
         {
-            if (e.name == name)
+            if (e.GetName() == name)
                 elements.Add(e);
         }
 
@@ -81,7 +81,7 @@ public class QuestElementList : MonoBehaviour
     {
         foreach (var e in m_namedObjects)
         {
-            if (e.name == name)
+            if (e.GetName() == name)
                 return e;
         }
 

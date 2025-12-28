@@ -192,6 +192,8 @@ public class QuestElement : NamedQuestObject
 
         obj.AddElement("pos", Json.FromVector3(transform.position));
 
+        obj.AddElement("name", GetName());
+
         if(m_elementType == QuestElementType.Cuboid)
         {
             obj.AddElement("size", Json.FromVector3(m_size));
@@ -241,6 +243,9 @@ public class QuestElement : NamedQuestObject
         if (jsonPos != null && jsonPos.IsJsonArray())
             transform.position = Json.ToVector3(jsonPos.JsonArray());
 
+        var jsonName = obj.GetElement("name");
+        if (jsonName != null && jsonName.IsJsonString())
+            SetName(jsonName.String());
 
         if (m_elementType == QuestElementType.Cuboid)
         {

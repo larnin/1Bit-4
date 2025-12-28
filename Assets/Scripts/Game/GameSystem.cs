@@ -34,6 +34,9 @@ public class GameSystem : MonoBehaviour
     float m_delay;
     float m_alarmTimer = 0;
 
+    BuildingType m_forcedBuilding = BuildingType.Tower;
+    bool m_forcedBuildingEnabled = false;
+
     SubscriberList m_subscriberList = new SubscriberList();
 
     static GameSystem m_instance = null;
@@ -41,6 +44,13 @@ public class GameSystem : MonoBehaviour
 
     public List<BuildingType> GetUnlockedBuildings()
     {
+        if(m_forcedBuildingEnabled && !m_unlockedBuilding.Contains(m_forcedBuilding))
+        {
+            List<BuildingType> buildings = m_unlockedBuilding.ToList();
+            buildings.Add(m_forcedBuilding);
+            return buildings;
+        }
+
         return m_unlockedBuilding;
     }
 
@@ -50,6 +60,35 @@ public class GameSystem : MonoBehaviour
             m_unlockedBuilding.Add(type);
         if (!unlocked)
             m_unlockedBuilding.Remove(type);
+    }
+
+    public void DisableForcedBuilding()
+    {
+        m_forcedBuildingEnabled = false;
+    }
+
+    public void SetForcedBuilding(BuildingType type)
+    {
+        m_forcedBuilding = type;
+        m_forcedBuildingEnabled = true;
+    }
+
+    public bool IsBuildingForced()
+    {
+        return m_forcedBuildingEnabled;
+    }
+
+    public BuildingType GetForcedBuilding()
+    {
+        return m_forcedBuilding;
+    }
+
+    public bool IsBuildingAllowedToPlace(BuildingType building)
+    {
+        if (m_forcedBuildingEnabled)
+            return building == m_forcedBuilding;
+
+        return m_unlockedBuilding.Contains(building);
     }
 
     private void Awake()

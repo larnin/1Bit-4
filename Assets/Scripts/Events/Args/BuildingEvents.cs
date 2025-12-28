@@ -34,3 +34,14 @@ public class GetTeamEvent
     public Team team = Team.Neutral;
 }
 
+public class ValidateNewBuildingPositionEvent
+{
+    public Vector3Int pos;
+    public BuildingPlaceType placeType = BuildingPlaceType.Valid;
+
+    public ValidateNewBuildingPositionEvent(Vector3Int _pos)
+    {
+        pos = _pos;
+    }
+}
+

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+[Serializable]
 public class QuestSubObjectiveStopDialog : QuestSubObjectiveBase
 {
     public override bool IsCompleted()

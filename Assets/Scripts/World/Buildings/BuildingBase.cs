@@ -53,6 +53,7 @@ public enum BuildingPlaceType
     NeedOil,
     NeedWater,
     TooCloseSolarPannel,
+    PositionLocked,
 }
 
 public abstract class BuildingBase : MonoBehaviour

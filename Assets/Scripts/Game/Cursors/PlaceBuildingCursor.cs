@@ -122,6 +122,9 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
         else if (Input.GetMouseButtonDown(1))
             SetCursorEnabled(false);
 
+        if (GameSystem.instance != null && !GameSystem.instance.IsBuildingAllowedToPlace(m_type))
+            SetCursorEnabled(false);
+
         if (m_decal != null)
             m_decal.UpdateVisual();
     }
@@ -236,6 +239,13 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
             return;
         }
 
+        var validate = Event<ValidateNewBuildingPositionEvent>.Broadcast(new ValidateNewBuildingPositionEvent(m_cursorPos));
+        if (validate.placeType != BuildingPlaceType.Valid)
+        {
+            m_canPlace = validate.placeType;
+            return;
+        }
+
         //test at range of an other pylon
         Vector3 pos = m_instance.GetGroundCenter();
         float radius = m_instance.PlacementRadius();
@@ -334,6 +344,9 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
         if (BuildingList.instance == null)
             return;
 
+        if (GameSystem.instance != null && !GameSystem.instance.IsBuildingAllowedToPlace(m_type))
+            return;
+
         if (m_instance == null)
             return;
         if (!m_posValid || m_canPlace != BuildingPlaceType.Valid)
@@ -356,7 +369,7 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
         m_instance.SetRotation(RotationEx.RandomRotation());
         m_instance.UpdateRotation();
 
-        Event<OnBuildingBuildEvent>.Broadcast(new OnBuildingBuildEvent(m_type));
+        Event<OnBuildingBuildEvent>.Broadcast(new OnBuildingBuildEvent(m_type, m_cursorPos));
 
         if (SoundSystem.instance != null)
             SoundSystem.instance.PlaySound(m_placeBuildingSound, obj.transform.position, m_placeBuildingSoundVolume);
@@ -413,6 +426,8 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
                 return "Need water";
             case BuildingPlaceType.TooCloseSolarPannel:
                 return "Too close to other Solar Pannel";
+            case BuildingPlaceType.PositionLocked:
+                return "Not Here";
             case BuildingPlaceType.Unknow:
             case BuildingPlaceType.Valid:
             default:

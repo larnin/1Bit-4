@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 public class OnEnnemyKillEvent 
 {
@@ -61,10 +62,12 @@ public class DisplaySpawnerInfosEvent
 public class OnBuildingBuildEvent
 {
     public BuildingType type;
+    public Vector3Int pos;
 
-    public OnBuildingBuildEvent(BuildingType _type)
+    public OnBuildingBuildEvent(BuildingType _type, Vector3Int _pos)
     {
         type = _type;
+        pos = _pos;
     }
 }
 

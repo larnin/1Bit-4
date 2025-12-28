@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+[Serializable]
 public class QuestSubObjectiveSpawnObject : QuestSubObjectiveBase
 {
     [SerializeField] GameObject m_prefab;

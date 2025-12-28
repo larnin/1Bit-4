@@ -13,6 +13,7 @@ public class GameInterface : MonoBehaviour
     {
         public BuildingType buildingType;
         public RectTransform button;
+        public GameObject disabledIcon;
     }
 
     [SerializeField] GameObject m_buildingsButtonPrefab;
@@ -120,6 +121,9 @@ public class GameInterface : MonoBehaviour
             BuildingButton buildingButton = new BuildingButton();
             buildingButton.button = button.GetComponent<RectTransform>();
             buildingButton.buildingType = b;
+            Transform disabledTransform = buildingButton.button.Find("Disabled");
+            if (disabledTransform != null)
+                buildingButton.disabledIcon = disabledTransform.gameObject;
 
             m_buildingButtons.Add(buildingButton);
         }
@@ -154,6 +158,13 @@ public class GameInterface : MonoBehaviour
             float posX = i * m_oneBuildingSize + m_buildingStartOffset;
 
             m_buildingButtons[i].button.anchoredPosition = new Vector2(posX, 0);
+
+            if (GameSystem.instance!= null && m_buildingButtons[i].disabledIcon != null)
+            {
+                bool enabled = GameSystem.instance.IsBuildingAllowedToPlace(m_buildingButtons[i].buildingType);
+
+                m_buildingButtons[i].disabledIcon.SetActive(!enabled);
+            }
         }
     }
 

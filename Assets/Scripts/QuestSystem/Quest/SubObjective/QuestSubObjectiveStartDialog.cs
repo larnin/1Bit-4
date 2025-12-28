@@ -69,7 +69,7 @@ public class QuestSubObjectiveStartDialog : QuestSubObjectiveBase
         if (m_texts.Count == 0)
             return;
 
-        DialogPopup popup = MenuSystem.instance.OpenMenu<DialogPopup>("DialogPopup");
+        DialogPopup popup = MenuSystem.instance.OpenMenu<DialogPopup>("DialogPopup", false, true);
         if (popup == null)
             return;
 
