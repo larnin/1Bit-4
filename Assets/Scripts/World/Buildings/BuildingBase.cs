@@ -25,6 +25,7 @@ public enum BuildingType
     Turret3,
     Storage,
     EnnemySpawner = 100,
+    Monolith,
 }
 
 public static class BuildingTypeEx

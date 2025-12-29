@@ -3,6 +3,7 @@ Shader "Unlit/CustomLighted"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _Color("Color", Color) = (1, 1, 1, 1)
         _LightTex("LightTexture", 2D) = "white" {}
         _LightTop("LightTop", float) = 1
         _LightLeft("LightLeft", float) = 0.8
@@ -43,6 +44,8 @@ Shader "Unlit/CustomLighted"
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
+            float4 _Color;
+
             float _LightTop;
             float _LightLeft;
             float _LightFront;
@@ -66,6 +69,7 @@ Shader "Unlit/CustomLighted"
                 float4 light = tex2D(_LightTex, lightUV);
 
                 float4 col = tex2D(_MainTex, i.uv);
+                col *= _Color;
 
 				float a = abs(dot(i.normal, float3(0, 1, 0))) * _LightTop;
 				float b = abs(dot(i.normal, float3(1, 0, 0))) * _LightLeft;

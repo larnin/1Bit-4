@@ -3,6 +3,7 @@ Shader "Unlit/CustomUnlit"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _Color("Color", Color) = (1, 1, 1, 1)
         _LightTop("LightTop", float) = 1
         _LightLeft("LightLeft", float) = 0.8
         _LightFront("LightFront", float) = 0.2
@@ -37,6 +38,8 @@ Shader "Unlit/CustomUnlit"
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
+            float4 _Color;
+
             float _LightTop;
             float _LightLeft;
             float _LightFront;
@@ -53,6 +56,7 @@ Shader "Unlit/CustomUnlit"
             fixed4 frag(v2f i) : SV_Target
             {
                 fixed4 col = tex2D(_MainTex, i.uv);
+                col *= _Color;
 
 				float a = abs(dot(i.normal, float3(0, 1, 0))) * _LightTop;
 				float b = abs(dot(i.normal, float3(1, 0, 0))) * _LightLeft;

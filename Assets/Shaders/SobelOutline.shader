@@ -72,6 +72,9 @@ Shader "Hidden/SobelOutline"
                 float3 outlineColor = lerp(sceneColor, _OutlineColor.rgb, _OutlineColor.a);
                 float3 color = lerp(sceneColor, outlineColor, sobelOutline);
 
+                if (sceneColor.r < 0.5 && sobelOutline > 0.5)
+                    color = 1 - color;
+
                 return float4(color, 1.0);
             }
 
