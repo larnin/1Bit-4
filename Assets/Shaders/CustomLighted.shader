@@ -8,6 +8,7 @@ Shader "Unlit/CustomLighted"
         _LightTop("LightTop", float) = 1
         _LightLeft("LightLeft", float) = 0.8
         _LightFront("LightFront", float) = 0.2
+        _InvertColor("InvertColor", Range(0, 1)) = 0
 
     }
     SubShader
@@ -49,6 +50,7 @@ Shader "Unlit/CustomLighted"
             float _LightTop;
             float _LightLeft;
             float _LightFront;
+            float _InvertColor;
 
             v2f vert (appdata v)
             {
@@ -79,7 +81,7 @@ Shader "Unlit/CustomLighted"
 
 				clip(col.a - 0.5);
 
-                return float4((col * light * mul).rgb, col.a);
+                return float4((col * light * mul).r, _InvertColor, 0, col.a);
             }
             ENDCG
         }

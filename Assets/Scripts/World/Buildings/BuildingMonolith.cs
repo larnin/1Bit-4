@@ -12,7 +12,7 @@ public class BuildingMonolith : BuildingBase
         Idle,
     }
 
-    [SerializeField] List<GameObject> m_orbParts;
+    [SerializeField] GameObject m_orbsPivot;
 
     State m_state = State.Idle;
     float m_timer = 0;

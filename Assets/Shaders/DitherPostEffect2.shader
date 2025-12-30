@@ -49,7 +49,7 @@ Shader "Hidden/DitherPostEffect2"
 			{
 				float4 col = tex2D(_MainTex, i.uv);
 
-				float level = (col.r + col.g + col.b) / 3;
+				float level = col.r;
 
 				if (level <= _DarkLevel)
 					return _DarkColor;

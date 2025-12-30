@@ -72,22 +72,35 @@ Shader "Hidden/SobelOutline"
                 float3 outlineColor = lerp(sceneColor, _OutlineColor.rgb, _OutlineColor.a);
                 float3 color = lerp(sceneColor, outlineColor, sobelOutline);
 
-                if (sceneColor.r < 0.5 && sobelOutline > 0.5)
-                    color = 1 - color;
+                float3 AvgColor = AverageColor(_MainTex, i.uv, offset);
 
-                return float4(color, 1.0);
+                if (AvgColor.g > 0.2)
+                    color.r = 1 - color.r;
+
+                return float4(color.r, color.r, color.r, 1.0);
             }
 
             ENDCG
 
             CGINCLUDE
                 
+            float4 AverageColor(sampler2D t, float2 uv, float3 offset)
+            {
+                float4 pixelCenter = tex2D(t, uv);
+                float4 pixelLeft = tex2D(t, uv - offset.xz);
+                //float4 pixelRight = tex2D(t, uv + offset.xz);
+                //float4 pixelUp = tex2D(t, uv + offset.zy);
+                float4 pixelDown = tex2D(t, uv - offset.zy);
+
+                return (pixelCenter + pixelLeft + pixelDown) / 3;
+            }
+
             float4 SobelSample(sampler2D t, float2 uv, float3 offset)
             {
                 float4 pixelCenter = tex2D(t, uv);
                 float4 pixelLeft = tex2D(t, uv - offset.xz);
-                float4 pixelRight = tex2D(t, uv + offset.xz);
-                float4 pixelUp = tex2D(t, uv + offset.zy);
+                //float4 pixelRight = tex2D(t, uv + offset.xz);
+                //float4 pixelUp = tex2D(t, uv + offset.zy);
                 float4 pixelDown = tex2D(t, uv - offset.zy);
 
                 return abs(pixelLeft - pixelCenter) +
@@ -96,7 +109,7 @@ Shader "Hidden/SobelOutline"
                     abs(pixelDown - pixelCenter);
             }
 
-            float SobelDepth(float ldc, float ldl, float ldr, float ldu, float ldd)
+            float SobelDepth(float ldc, float ldl/*, float ldr, float ldu*/, float ldd)
             {
                 return abs(ldl - ldc) +
                     //abs(ldr - ldc) +
@@ -108,11 +121,11 @@ Shader "Hidden/SobelOutline"
             {
                 float pixelCenter = tex2D(t, uv).r;
                 float pixelLeft = tex2D(t, uv - offset.xz).r;
-                float pixelRight = tex2D(t, uv + offset.xz).r;
-                float pixelUp = tex2D(t, uv + offset.zy).r;
+                //float pixelRight = tex2D(t, uv + offset.xz).r;
+                //float pixelUp = tex2D(t, uv + offset.zy).r;
                 float pixelDown = tex2D(t, uv - offset.zy).r;
 
-                return SobelDepth(pixelCenter, pixelLeft, pixelRight, pixelUp, pixelDown);
+                return SobelDepth(pixelCenter, pixelLeft/*, pixelRight, pixelUp*/, pixelDown);
             }
             ENDCG
         }
