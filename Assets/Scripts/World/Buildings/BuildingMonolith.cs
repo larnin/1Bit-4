@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NRand;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,16 +11,154 @@ public class BuildingMonolith : BuildingBase
     enum State
     {
         Idle,
+        AngryStart,
+        AngryLoop,
+        Wave,
     }
 
-    [SerializeField] GameObject m_orbsPivot;
+    const int MaxOrbNum = 3;
+
+    [SerializeField] Transform m_orbsPivot;
+    [SerializeField] float m_orbCenterHeight = 5;
+    [SerializeField] float m_orbIdleShakeAmplitude = 0.5f;
+    [SerializeField] float m_orbIdleShakeFrequency = 2.0f;
+    [SerializeField] float m_orbIdleSize = 0.2f;
+    [SerializeField] float m_orbIdleRotationSpeed = 1;
+    [SerializeField] float m_orbWaveDistance = 2;
+    [SerializeField] float m_orbAngrySize = 0.5f;
+    [SerializeField] float m_orbAngryShakeAmplitude = 0.5f;
+    [SerializeField] float m_orbAngryTransition = 0.5f;
 
     State m_state = State.Idle;
     float m_timer = 0;
 
+    float m_rotationTimer = 0;
+
+    List<Transform> m_orbParts = new List<Transform>();
+
+    SubscriberList m_subscriberList = new SubscriberList();
+
     public override BuildingType GetBuildingType()
     {
         return BuildingType.Monolith;
+    }
+
+    public override void Awake()
+    {
+        base.Awake();
+        m_subscriberList.Add(new Event<BuildSelectionDetailCommonEvent>.LocalSubscriber(BuildCommon, gameObject));
+        m_subscriberList.Subscribe();
+
+        if(m_orbsPivot != null)
+        {
+            for(int i = 0; i < m_orbsPivot.childCount; i++)
+            {
+                if (i < MaxOrbNum)
+                    m_orbParts.Add(m_orbsPivot.GetChild(i));
+                else m_orbsPivot.GetChild(i).gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+        m_subscriberList.Unsubscribe();
+    }
+
+    void BuildCommon(BuildSelectionDetailCommonEvent e)
+    {
+        DisplayGenericInfos(e.container);
+    }
+
+    protected override void OnUpdateAlways()
+    {
+        if (Utility.IsFrozen(gameObject) || Utility.IsDead(gameObject))
+            return;
+
+        m_rotationTimer += Time.deltaTime;
+
+        switch (m_state)
+        {
+            case State.Idle:
+                UpdateIdleOrbMovement();
+                if (m_rotationTimer > 10)
+                    StartAngry();
+                break;
+            case State.AngryStart:
+                UpdateAngryStart();
+                break;
+            case State.AngryLoop:
+                UpdateAngryLoop();
+                break;
+            case State.Wave:
+                UpdateWave();
+                break;
+        }
+
+    }
+
+    void UpdateIdleOrbMovement()
+    {
+        UpdateOrbShape(1, m_orbIdleSize);
+
+        float height = m_orbCenterHeight + Mathf.Sin(m_rotationTimer * m_orbIdleShakeFrequency * 2 * Mathf.PI) * m_orbIdleShakeAmplitude;
+        m_orbsPivot.localPosition = new Vector3(0, height, 0);
+    }
+
+    void UpdateAngryStart()
+    {
+        m_timer += Time.deltaTime;
+        if (m_timer >= m_orbAngryTransition)
+            m_state = State.AngryLoop;
+
+        float normTimer = m_timer / m_orbAngryTransition;
+
+        UpdateOrbShape(1, m_orbAngrySize * normTimer + m_orbIdleSize * (1 - normTimer));
+
+        float height = m_orbCenterHeight + Mathf.Sin(m_rotationTimer * m_orbIdleShakeFrequency * 2 * Mathf.PI) * m_orbIdleShakeAmplitude * (1 - normTimer);
+        var shake = Rand2D.UniformVector2CircleDistribution(m_orbAngryShakeAmplitude, StaticRandomGenerator<MT19937>.Get()) * normTimer;
+        m_orbsPivot.localPosition = new Vector3(shake.x, height, shake.y);
+    }
+
+    void UpdateAngryLoop()
+    {
+        UpdateOrbShape(1, m_orbAngrySize);
+
+        var shake = Rand2D.UniformVector2CircleDistribution(m_orbAngryShakeAmplitude, StaticRandomGenerator<MT19937>.Get());
+        m_orbsPivot.localPosition = new Vector3(shake.x, m_orbCenterHeight, shake.y);
+    }
+
+    void UpdateWave()
+    {
+
+    }
+
+    void UpdateOrbShape(float lerp, float scale)
+    {
+        Vector3 pivotAngle = Vector3.zero;
+        pivotAngle.x = 100 * Mathf.Cos(m_rotationTimer * m_orbIdleRotationSpeed);
+        pivotAngle.y = 60 * Mathf.Sin(m_rotationTimer * 1.27f * m_orbIdleRotationSpeed);
+        pivotAngle.z = 40 * Mathf.Cos(m_rotationTimer * 1.89f * m_orbIdleRotationSpeed);
+        pivotAngle *= lerp;
+        m_orbsPivot.localRotation = Quaternion.Euler(pivotAngle);
+
+        for (int i = 0; i < m_orbParts.Count; i++)
+        {
+            float angle = i * 360 / 3;
+            m_orbParts[i].localPosition = m_orbWaveDistance * (1 - lerp) * new Vector3(Mathf.Cos(angle + m_rotationTimer / 10), 0, Mathf.Sin(angle + m_rotationTimer / 10));
+            Vector3 euler = Vector3.zero;
+            euler[i] = 45 * lerp;
+            euler.y += i * 360 / 3 * (1 - lerp);
+            m_orbParts[i].localRotation = Quaternion.Euler(euler);
+            m_orbParts[i].localScale = Vector3.one * scale;
+        }
+    }
+
+    public void StartAngry()
+    {
+        m_state = State.AngryStart;
+        m_timer = 0;
     }
 
     protected override void SaveImpl(JsonObject obj)

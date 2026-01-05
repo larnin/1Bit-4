@@ -120,16 +120,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1178671412938617191}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 4, z: 0.5}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 4.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7649288039279880098}
   - {fileID: 6234661095695348432}
   - {fileID: 7979746552797004480}
-  m_Father: {fileID: 1461841332799344721}
-  m_RootOrder: 1
+  m_Father: {fileID: 1461841331497193883}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1461841331497193876
 GameObject:
@@ -160,7 +160,8 @@ Transform:
   m_LocalPosition: {x: 0.5, y: -0.5, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8376581990008822116}
   m_Father: {fileID: 1461841332799344721}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -251,7 +252,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1461841331497193883}
-  - {fileID: 8376581990008822116}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -268,7 +268,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_meshComponent: {fileID: 1461841331497193883}
-  m_orbsPivot: {fileID: 1178671412938617191}
+  m_orbsPivot: {fileID: 8376581990008822116}
+  m_orbCenterHeight: 5
+  m_orbIdleShakeAmplitude: 0.2
+  m_orbIdleShakeFrequency: 0.15
+  m_orbIdleSize: 0.4
+  m_orbIdleRotationSpeed: 0.3
+  m_orbWaveDistance: 2
+  m_orbAngrySize: 0.6
+  m_orbAngryShakeAmplitude: 0.15
+  m_orbAngryTransition: 0.5
 --- !u!65 &7700724906603393362
 BoxCollider:
   m_ObjectHideFlags: 0
