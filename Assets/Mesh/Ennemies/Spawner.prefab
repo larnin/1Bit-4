@@ -177,7 +177,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 524ced02a1a46794eb9b3eaa741097fe, type: 2}
+  - {fileID: 2100000, guid: c2977b20ebf27e24a98f916bc71d3d55, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -269,9 +269,6 @@ MonoBehaviour:
   m_appearOffset: 5
   m_appearDuration: 1
   m_appearCurve: 3
-  m_minSpawningIconDisplayTime: 5
-  m_appearIconDisplayTime: 7
-  m_timerDecreaseOnHit: 0.8
 --- !u!114 &2038352624124042048
 MonoBehaviour:
   m_ObjectHideFlags: 0

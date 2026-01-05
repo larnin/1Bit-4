@@ -13,6 +13,7 @@ Shader "Unlit/EnnemyPortal"
         _NoiseTextureScale("NoiseTextureScale", float) = 1
         _NoiseScale("NoiseScale", float) = 1
         _ColorStep("ColorStep", float) = 0.5
+        _InvertColor("InvertColor", Range(0, 1)) = 0
     }
         SubShader
     {
@@ -57,6 +58,8 @@ Shader "Unlit/EnnemyPortal"
             float _NoiseTextureScale;
             float _NoiseScale;
             float _ColorStep;
+
+            float _InvertColor;
 
             v2f vert (appdata v)
             {
@@ -105,7 +108,7 @@ Shader "Unlit/EnnemyPortal"
 
                 float mul = sqrt(a*a + b*b + c*c);
 
-                return col * mul;
+                return float4(col.r * mul, _InvertColor, 0, col.a);
             }
             ENDCG
         }

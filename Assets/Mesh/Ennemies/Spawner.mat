@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Tower
+  m_Name: Spawner
   m_Shader: {fileID: 4800000, guid: ffe2ea0a3a3cf4a43aaf65596b0a6306, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -65,7 +65,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _InvertColor: 0
+    - _InvertColor: 1
     - _LightFront: 0.8
     - _LightLeft: 0.65
     - _LightTop: 1
