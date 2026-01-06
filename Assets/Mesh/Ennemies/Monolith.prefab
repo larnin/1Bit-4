@@ -274,10 +274,16 @@ MonoBehaviour:
   m_orbIdleShakeFrequency: 0.15
   m_orbIdleSize: 0.4
   m_orbIdleRotationSpeed: 0.3
-  m_orbWaveDistance: 2
   m_orbAngrySize: 0.6
-  m_orbAngryShakeAmplitude: 0.15
+  m_orbAngryShakeAmplitude: 0.1
   m_orbAngryTransition: 0.5
+  m_orbWaveDistance: 2
+  m_orbWaveStartDuration: 0.3
+  m_orbWaveStartCurve: 21
+  m_orbWaveWaitDuration: 3
+  m_orbWaveEndDuration: 3
+  m_orbWaveEndCurve: 3
+  m_orbWavePrefab: {fileID: 4663558457059073221, guid: 24da81cd0ff1aa543a0ef0ffd93e8333, type: 3}
 --- !u!65 &7700724906603393362
 BoxCollider:
   m_ObjectHideFlags: 0
