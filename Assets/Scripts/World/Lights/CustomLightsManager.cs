@@ -16,18 +16,31 @@ public class CustomLightsManager : MonoBehaviour
     const string lightTopName = "_LightTop";
     const string lightLeftName = "_LightLeft";
     const string lightFrontName = "_LightFront";
+    const string lightRangeName = "_LightBaseRange";
+
+    const string noiseName = "_PerlinTex";
+    const string noiseScaleName = "_NoiseTextureScale";
+    const string noiseTimeName = "_NoiseTime";
+    const string noiseAmplitudeName = "_NoiseAmplitude";
 
     [SerializeField] RenderTexture m_renderTexture;
     [SerializeField] Material m_circleMaterial;
     [SerializeField] List<Material> m_lightedMaterials;
     [SerializeField] List<Material> m_unlitMaterials;
     [SerializeField] float m_borderSize = 1;
+    [SerializeField] float m_increaseRadius = -1;
     [SerializeField] float m_lightTop = 1;
     [SerializeField] float m_lightLeft = 1;
     [SerializeField] float m_lightFront = 1;
+    [SerializeField] float m_lightBaseRange = 0.2f;
+    [SerializeField] Texture m_noiseTexture;
+    [SerializeField] float m_noiseTextureScale = 1;
+    [SerializeField] float m_noiseSpeed = 1;
+    [SerializeField] float m_noiseAmplitude = 1;
     [SerializeField] bool m_discoverEverything = false;
 
     List<CustomLight> m_lights = new List<CustomLight>();
+    float m_noiseTime = 0;
 
     static CustomLightsManager m_instance = null;
     public static CustomLightsManager instance { get { return m_instance; } }
@@ -62,6 +75,9 @@ public class CustomLightsManager : MonoBehaviour
         if (grid.grid == null)
             return;
 
+        if (!GameInfos.instance.paused)
+            m_noiseTime += Time.deltaTime * m_noiseSpeed / GridEx.GetRealSize(grid.grid);
+
         var gridSize = GridEx.GetRealSize(grid.grid);
 
         RenderTextureEx.BeginOrthoRendering(m_renderTexture);
@@ -79,11 +95,13 @@ public class CustomLightsManager : MonoBehaviour
                 if (l == null)
                     continue;
 
-                Vector3 pos3 = l.transform.position;
-                Vector2 pos = new Vector2((pos3.x - l.GetRadius()) / gridSize, (pos3.z - l.GetRadius()) / gridSize);
-                Vector2 size = new Vector2(l.GetRadius() * 2 / gridSize, l.GetRadius() * 2 / gridSize);
+                float renderRadius = l.GetRadius() + m_borderSize / 2 + m_increaseRadius;
 
-                m_circleMaterial.SetFloat(radiusName, l.GetRadius());
+                Vector3 pos3 = l.transform.position;
+                Vector2 pos = new Vector2((pos3.x - renderRadius) / gridSize, (pos3.z - renderRadius) / gridSize);
+                Vector2 size = new Vector2(renderRadius * 2 / gridSize, renderRadius * 2 / gridSize);
+
+                m_circleMaterial.SetFloat(radiusName, renderRadius);
                 RenderTextureEx.DrawQuad(m_renderTexture, m_circleMaterial, new Rect(pos, size));
 
                 int x = grid.grid.LoopX() ? 1 : 0;
@@ -132,6 +150,11 @@ public class CustomLightsManager : MonoBehaviour
         mat.SetFloat(lightTopName, m_lightTop);
         mat.SetFloat(lightLeftName, m_lightLeft);
         mat.SetFloat(lightFrontName, m_lightFront);
+        mat.SetFloat(lightRangeName, m_lightBaseRange);
+        mat.SetTexture(noiseName, m_noiseTexture);
+        mat.SetFloat(noiseAmplitudeName, m_noiseAmplitude);
+        mat.SetFloat(noiseScaleName, m_noiseTextureScale);
+        mat.SetFloat(noiseTimeName, m_noiseTime);
     }
 
     public bool IsPosVisible(Vector3 pos)

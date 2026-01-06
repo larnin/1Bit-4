@@ -1969,10 +1969,16 @@ MonoBehaviour:
   - {fileID: 2100000, guid: c2977b20ebf27e24a98f916bc71d3d55, type: 2}
   - {fileID: 2100000, guid: 28af15070617f5c47a389c2bf71d0253, type: 2}
   - {fileID: 2100000, guid: 0aa07c379e570064eb3c2318b05f184f, type: 2}
-  m_borderSize: 1
+  m_borderSize: 10
+  m_increaseRadius: -0.5
   m_lightTop: 1
   m_lightLeft: 0.7
   m_lightFront: 0.8
+  m_lightBaseRange: 0.1
+  m_noiseTexture: {fileID: 2800000, guid: 397387c5675bc5c4396e09a1b443b742, type: 3}
+  m_noiseTextureScale: 2
+  m_noiseSpeed: 1
+  m_noiseAmplitude: 0.1
   m_discoverEverything: 0
 --- !u!4 &750648393
 Transform:
@@ -2072,8 +2078,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 537304905}
   m_HandleRect: {fileID: 537304904}
   m_Direction: 2
-  m_Value: 0.000005307405
-  m_Size: 0.88497716
+  m_Value: -0.0000026537025
+  m_Size: 0.8812975
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2247,7 +2253,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 22.999762}
+  m_AnchoredPosition: {x: 0, y: 22.99994}
   m_SizeDelta: {x: 0, y: 200}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &961390545

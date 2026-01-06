@@ -9,7 +9,11 @@ Shader "Unlit/CustomLighted"
         _LightLeft("LightLeft", float) = 0.8
         _LightFront("LightFront", float) = 0.2
         _InvertColor("InvertColor", Range(0, 1)) = 0
-
+        _LightBaseRange("LightBaseRange", Range(0, 1)) = 0.2
+        _PerlinTex("Noise", 2D) = "white" {}
+        _NoiseTextureScale("NoiseTextureScale", float) = 1
+        _NoiseAmplitude("NoiseAmplitude", float) = 1
+        _NoiseTime("NoiseTime", float) = 0
     }
     SubShader
     {
@@ -51,6 +55,13 @@ Shader "Unlit/CustomLighted"
             float _LightLeft;
             float _LightFront;
             float _InvertColor;
+            float _LightBaseRange;
+
+            sampler2D _PerlinTex;
+            float4 _PerlinTex_ST;
+            float _NoiseTextureScale;
+            float _NoiseAmplitude;
+            float _NoiseTime;
 
             v2f vert (appdata v)
             {
@@ -62,6 +73,17 @@ Shader "Unlit/CustomLighted"
                 return o;
             }
 
+            float noise(float2 uv, float time)
+            {
+                float2 offset1 = float2(time, time);
+                float offset2 = float2(-time / 2, time * 1.5);
+
+                float4 col1 = tex2D(_PerlinTex, uv * _NoiseTextureScale + offset1);
+                float4 col2 = tex2D(_PerlinTex, uv * _NoiseTextureScale + offset2);
+
+                return (col1.r - col2.r) * _NoiseAmplitude;
+            }
+
             float4 frag(v2f i) : SV_Target
             {
                 float2 lightUV = i.initialVertex.xz / _LightTexSize;
@@ -69,6 +91,12 @@ Shader "Unlit/CustomLighted"
                 lightUV.y = clamp(lightUV.y, 0, 1);
 
                 float4 light = tex2D(_LightTex, lightUV);
+
+                float noiseOffset = noise(lightUV, _NoiseTime);
+                float minLight = 0.5 - _LightBaseRange / 2 + noiseOffset;
+                float maxLight = 0.5 + _LightBaseRange / 2 + noiseOffset;
+                light = (light - minLight) / (maxLight - minLight);
+                light = clamp(light, 0, 1);
 
                 float4 col = tex2D(_MainTex, i.uv);
                 col *= _Color;

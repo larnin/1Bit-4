@@ -79,7 +79,7 @@ Material:
     - _Metallic: 0
     - _Mode: 0
     - _NoiseScale: 50
-    - _NoiseTextureScale: 0.25
+    - _NoiseTextureScale: 2
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
