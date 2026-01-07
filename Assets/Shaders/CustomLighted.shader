@@ -4,16 +4,7 @@ Shader "Unlit/CustomLighted"
     {
         _MainTex ("Texture", 2D) = "white" {}
         _Color("Color", Color) = (1, 1, 1, 1)
-        _LightTex("LightTexture", 2D) = "white" {}
-        _LightTop("LightTop", float) = 1
-        _LightLeft("LightLeft", float) = 0.8
-        _LightFront("LightFront", float) = 0.2
         _InvertColor("InvertColor", Range(0, 1)) = 0
-        _LightBaseRange("LightBaseRange", Range(0, 1)) = 0.2
-        _PerlinTex("Noise", 2D) = "white" {}
-        _NoiseTextureScale("NoiseTextureScale", float) = 1
-        _NoiseAmplitude("NoiseAmplitude", float) = 1
-        _NoiseTime("NoiseTime", float) = 0
     }
     SubShader
     {
@@ -62,6 +53,7 @@ Shader "Unlit/CustomLighted"
             float _NoiseTextureScale;
             float _NoiseAmplitude;
             float _NoiseTime;
+            float _NoiseOffset;
 
             v2f vert (appdata v)
             {

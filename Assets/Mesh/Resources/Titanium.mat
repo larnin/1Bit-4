@@ -80,9 +80,9 @@ Material:
     - _LightTop: 1
     - _Metallic: 0
     - _Mode: 0
-    - _NoiseAmplitude: 0.1
+    - _NoiseAmplitude: 0.7
     - _NoiseTextureScale: 2
-    - _NoiseTime: 0.14040169
+    - _NoiseTime: 3.497472
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0

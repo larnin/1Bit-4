@@ -5,6 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+public struct CustomLightsParams
+{
+    public float increaseRadius;
+    public float lightBaseRange;
+    public float noiseSpeed;
+    public float noiseAmplitude;
+}
+
 public class CustomLightsManager : MonoBehaviour
 {
     const string radiusName = "_Size";
@@ -42,11 +50,14 @@ public class CustomLightsManager : MonoBehaviour
     List<CustomLight> m_lights = new List<CustomLight>();
     float m_noiseTime = 0;
 
+    CustomLightsParams m_lightParams = new CustomLightsParams();
+
     static CustomLightsManager m_instance = null;
     public static CustomLightsManager instance { get { return m_instance; } }
 
     private void Awake()
     {
+        m_lightParams = GetDefaultLightParams();
         m_instance = this;
     }
 
@@ -76,7 +87,7 @@ public class CustomLightsManager : MonoBehaviour
             return;
 
         if (!GameInfos.instance.paused)
-            m_noiseTime += Time.deltaTime * m_noiseSpeed / GridEx.GetRealSize(grid.grid);
+            m_noiseTime += Time.deltaTime * m_lightParams.noiseSpeed / GridEx.GetRealSize(grid.grid);
 
         var gridSize = GridEx.GetRealSize(grid.grid);
 
@@ -95,7 +106,7 @@ public class CustomLightsManager : MonoBehaviour
                 if (l == null)
                     continue;
 
-                float renderRadius = l.GetRadius() + m_borderSize / 2 + m_increaseRadius;
+                float renderRadius = l.GetRadius() + m_borderSize / 2 + m_lightParams.increaseRadius;
 
                 Vector3 pos3 = l.transform.position;
                 Vector2 pos = new Vector2((pos3.x - renderRadius) / gridSize, (pos3.z - renderRadius) / gridSize);
@@ -150,9 +161,9 @@ public class CustomLightsManager : MonoBehaviour
         mat.SetFloat(lightTopName, m_lightTop);
         mat.SetFloat(lightLeftName, m_lightLeft);
         mat.SetFloat(lightFrontName, m_lightFront);
-        mat.SetFloat(lightRangeName, m_lightBaseRange);
+        mat.SetFloat(lightRangeName, m_lightParams.lightBaseRange);
         mat.SetTexture(noiseName, m_noiseTexture);
-        mat.SetFloat(noiseAmplitudeName, m_noiseAmplitude);
+        mat.SetFloat(noiseAmplitudeName, m_lightParams.noiseAmplitude);
         mat.SetFloat(noiseScaleName, m_noiseTextureScale);
         mat.SetFloat(noiseTimeName, m_noiseTime);
     }
@@ -192,5 +203,27 @@ public class CustomLightsManager : MonoBehaviour
         }
 
         return false;
+    }
+
+    public CustomLightsParams GetDefaultLightParams()
+    {
+        CustomLightsParams lightParams = new CustomLightsParams();
+
+        lightParams.increaseRadius = m_increaseRadius;
+        lightParams.lightBaseRange = m_lightBaseRange;
+        lightParams.noiseSpeed = m_noiseSpeed;
+        lightParams.noiseAmplitude = m_noiseAmplitude;
+
+        return lightParams;
+    }
+
+    public CustomLightsParams GetCurrentLightParams()
+    {
+        return m_lightParams;
+    }
+
+    public void SetCurrentLightParams(CustomLightsParams lightParams)
+    {
+        m_lightParams = lightParams;
     }
 }
