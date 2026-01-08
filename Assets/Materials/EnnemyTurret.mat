@@ -74,15 +74,16 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _InvertColor: 0
-    - _LightBaseRange: 0.1
+    - _LightBaseRange: 0.49
     - _LightFront: 0.8
     - _LightLeft: 0.7
     - _LightTop: 1
     - _Metallic: 0
     - _Mode: 0
-    - _NoiseAmplitude: 0.7
+    - _NoiseAmplitude: 0.1
+    - _NoiseOffset: -0.07
     - _NoiseTextureScale: 2
-    - _NoiseTime: 3.497472
+    - _NoiseTime: 0.19647975
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
