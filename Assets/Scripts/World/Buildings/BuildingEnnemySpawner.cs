@@ -45,9 +45,7 @@ public class BuildingEnnemySpawner : BuildingBase
         m_mesh.transform.localScale = new Vector3(0.99f, 0.99f, 0.99f);
         UpdateAppear();
 
-        m_subscriberList.Add(new Event<DeathEvent>.LocalSubscriber(OnDeath, gameObject));
         m_subscriberList.Add(new Event<BuildSelectionDetailCommonEvent>.LocalSubscriber(BuildCommon, gameObject));
-        m_subscriberList.Add(new Event<LifeLossEvent>.LocalSubscriber(OnHit, gameObject));
         m_subscriberList.Subscribe();
     }
 
@@ -110,16 +108,6 @@ public class BuildingEnnemySpawner : BuildingBase
         return ended;
     }
 
-    void OnDeath(DeathEvent e)
-    {
-        Event<OnSpawnerDestroyEvent>.Broadcast(new OnSpawnerDestroyEvent(this));
-    }
-
-    void OnHit(LifeLossEvent e)
-    {
-        float valuePercent = e.hit.damages / Event<GetLifeEvent>.Broadcast(new GetLifeEvent(), gameObject).maxLife;
-        Event<OnSpawnerDamagedEvent>.Broadcast(new OnSpawnerDamagedEvent(this, valuePercent));
-    }
 
     void BuildCommon(BuildSelectionDetailCommonEvent e)
     {

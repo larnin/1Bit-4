@@ -9,7 +9,7 @@ using DG.Tweening;
 
 public class BuildingMonolith : BuildingBase
 {
-    enum State
+    public enum State
     {
         Idle,
         AngryStart,
@@ -48,6 +48,11 @@ public class BuildingMonolith : BuildingBase
     public override BuildingType GetBuildingType()
     {
         return BuildingType.Monolith;
+    }
+
+    public State GetState()
+    {
+        return m_state;
     }
 
     public override void Awake()

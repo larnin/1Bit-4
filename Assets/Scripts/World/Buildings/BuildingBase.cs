@@ -84,6 +84,7 @@ public abstract class BuildingBase : MonoBehaviour
         m_subscriberList.Add(new Event<LifeLossEvent>.LocalSubscriber(OnLifeLoss, gameObject));
         m_subscriberList.Add(new Event<DeathEvent>.LocalSubscriber(OnDeath, gameObject));
         m_subscriberList.Add(new Event<ConnexionsUpdatedEvent>.Subscriber(OnConnexionUpdated));
+        m_subscriberList.Add(new Event<LifeLossEvent>.LocalSubscriber(OnHit, gameObject));
         m_subscriberList.Subscribe();
 
         m_team = GetDefaultTeam();
@@ -243,8 +244,7 @@ public abstract class BuildingBase : MonoBehaviour
 
     void OnDeath(DeathEvent e)
     {
-        if (GetTeam() == Team.Player)
-            Event<OnBuildingDestroyedEvent>.Broadcast(new OnBuildingDestroyedEvent(GetBuildingType()));
+        Event<OnBuildingDestroyEvent>.Broadcast(new OnBuildingDestroyEvent(this));
     }
 
     public virtual float EnergyGeneration() { return 0; }
@@ -427,6 +427,12 @@ public abstract class BuildingBase : MonoBehaviour
             if (GetTeam() == Team.Player)
                 SetComponentsEnabled(ConnexionSystem.instance.IsConnected(this));
         }
+    }
+
+    void OnHit(LifeLossEvent e)
+    {
+        float valuePercent = e.hit.damages / Event<GetLifeEvent>.Broadcast(new GetLifeEvent(), gameObject).maxLife;
+        Event<OnBuildingDamagedEvent>.Broadcast(new OnBuildingDamagedEvent(this, valuePercent));
     }
 
     public void SetRotation(Rotation rot)

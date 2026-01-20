@@ -27,9 +27,8 @@ public class StatsSystem : MonoBehaviour
         m_instance = this;
 
         m_subscriberList.Add(new Event<OnEnnemyKillEvent>.Subscriber(OnKill));
-        m_subscriberList.Add(new Event<OnSpawnerDestroyEvent>.Subscriber(OnSpawnerDestroyed));
         m_subscriberList.Add(new Event<OnBuildingBuildEvent>.Subscriber(OnBuildingBuild));
-        m_subscriberList.Add(new Event<OnBuildingDestroyedEvent>.Subscriber(OnBuildingDestroyed));
+        m_subscriberList.Add(new Event<OnBuildingDestroyEvent>.Subscriber(OnBuildingDestroyed));
         m_subscriberList.Add(new Event<OnBuildingRemovedEvent>.Subscriber(OnBuildingRemoved));
         m_subscriberList.Subscribe();
     }
@@ -47,11 +46,6 @@ public class StatsSystem : MonoBehaviour
         m_stats.kills++;
     }
 
-    void OnSpawnerDestroyed(OnSpawnerDestroyEvent e)
-    {
-        m_stats.spawnersDestroyed++;
-    }
-
     void OnBuildingBuild(OnBuildingBuildEvent e)
     {
         m_stats.buildingsBuild++;
@@ -62,9 +56,12 @@ public class StatsSystem : MonoBehaviour
         m_stats.buildingsBuild--;
     }
 
-    void OnBuildingDestroyed(OnBuildingDestroyedEvent e)
+    void OnBuildingDestroyed(OnBuildingDestroyEvent e)
     {
-        m_stats.buildingsLost++;
+        if (e.building.GetTeam() == Team.Player)
+            m_stats.buildingsLost++;
+        else if (e.building.GetTeam() == Team.Ennemy && e.building.GetBuildingType() == BuildingType.EnnemySpawner)
+            m_stats.spawnersDestroyed++;
     }
 
     public StatsInfos GetStats()
