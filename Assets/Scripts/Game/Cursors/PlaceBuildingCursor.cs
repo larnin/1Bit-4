@@ -428,6 +428,8 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
                 return "Too close to other Solar Pannel";
             case BuildingPlaceType.PositionLocked:
                 return "Not Here";
+            case BuildingPlaceType.NeedMonolith:
+                return "Need monilith";
             case BuildingPlaceType.Unknow:
             case BuildingPlaceType.Valid:
             default:

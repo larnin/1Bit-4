@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7471280cf56049499c28d14dba1a996, type: 3}
+  m_Name: MonolithMode
+  m_EditorClassIdentifier: 
+  delayBetweenWave: 30
+  spawnerRadiusAroundMonolith: 50
+  spawnerRadiusBetweenSpawner: 5
+  spawnerRadiusAroundPlayerBuildings: 5
+  spawnerMaxNb: 20
+  spawnerIncreaseMaxPerAngryMonolith: 5
+  spawnerPerWave: 5
+  initialScore: 10
+  scorePerMinute: 1
+  scorePerLostPercent: 0
+  scoreIncreasePerAngryMonolith: 0
+  spawnerSpawnDuration: 5
+  ennemies: []

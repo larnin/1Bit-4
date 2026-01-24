@@ -24,6 +24,7 @@ public enum BuildingType
     Turret2,
     Turret3,
     Storage,
+    MonolithNullifier,
     EnnemySpawner = 100,
     Monolith,
 }
@@ -54,6 +55,7 @@ public enum BuildingPlaceType
     NeedOil,
     NeedWater,
     TooCloseSolarPannel,
+    NeedMonolith,
     PositionLocked,
 }
 

@@ -561,6 +561,35 @@ MonoBehaviour:
           count: 450
         - type: 2
           count: 50
+    - type: 101
+      prefab: {fileID: 1461841332799344722, guid: c2d9b87b6f7b80848b4dbb229a922e5e, type: 3}
+      sprite: {fileID: 0}
+      spriteWithBorder: {fileID: 0}
+      size: {x: 2, y: 4, z: 2}
+      team: 1
+      name: Monolith
+      description: Come here, touch it now !
+      firstFree: 0
+      cost:
+        cost: []
+    - type: 17
+      prefab: {fileID: 2307235541354902313, guid: 77b34740f625c7141b6c8defb4828e59, type: 3}
+      sprite: {fileID: 1275950808, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
+      spriteWithBorder: {fileID: -125211556, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
+      size: {x: 2, y: 2, z: 2}
+      team: 0
+      name: Nullifier
+      description: 'Place it on a monolith.
+
+        Be ready before activation,
+        you have been warned'
+      firstFree: 0
+      cost:
+        cost:
+        - type: 1
+          count: 500
+        - type: 2
+          count: 100
     mineItemPrefab: {fileID: 6943061212826655842, guid: 020dedfdfd13d1c49ac25e185f22167b, type: 3}
     lifeLossDisplayDuration: 10
     lifebarPrefab: {fileID: 403841948413428351, guid: 865e80a7aecab34408fe71ab6fb1fed9, type: 3}
@@ -635,12 +664,12 @@ MonoBehaviour:
       unlockCondition: 1
       level: {fileID: 11400000, guid: 5e0ddf1f24b55d54cb5758a2ac69c1b9, type: 2}
       quest: {fileID: 11400000, guid: f139f693a639c4148bdd4a67c2e5246d, type: 2}
-    - name: Towers
-      description: Destroy everything !
+    - name: Monolith
+      description: Be prepared !
       icon: {fileID: 0}
-      unlockCondition: 0
-      level: {fileID: 0}
-      quest: {fileID: 0}
+      unlockCondition: 1
+      level: {fileID: 11400000, guid: ddef90a164e422941a6479ea55bde5fb, type: 2}
+      quest: {fileID: 11400000, guid: f2bb7d584cb7a2540940ad6188326905, type: 2}
     - name: Waves
       description: The big boss is here !
       icon: {fileID: 0}
