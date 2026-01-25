@@ -134,6 +134,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_meshComponent: {fileID: 598667234590879652}
+  m_selectionPopupPrefab: {fileID: 8340278486877683676, guid: 031dabb4c712d88408d37448444667fa, type: 3}
+  m_selectionPopupOffset: 2
   m_energyConsumption: 1
   m_nullifierMesh: {fileID: 1898658399358536260}
 --- !u!65 &198484882313568561

@@ -62,6 +62,8 @@ public enum BuildingPlaceType
 public abstract class BuildingBase : MonoBehaviour
 {
     [SerializeField] Transform m_meshComponent;
+    [SerializeField] GameObject m_selectionPopupPrefab;
+    [SerializeField] float m_selectionPopupOffset = 0;
 
     bool m_added = false;
     bool m_startCalled = false;
@@ -451,6 +453,16 @@ public abstract class BuildingBase : MonoBehaviour
     }
 
     public virtual void UpdateRotation() { }
+
+    public GameObject GetSelectionPopupPrefab()
+    {
+        return m_selectionPopupPrefab;
+    }
+
+    public float GetSelectionPopupOffset()
+    {
+        return m_selectionPopupOffset;
+    }
 
     public JsonObject Save()
     {

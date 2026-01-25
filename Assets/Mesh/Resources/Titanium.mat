@@ -61,7 +61,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _PerlinTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 397387c5675bc5c4396e09a1b443b742, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -74,16 +74,16 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 1
     - _InvertColor: 0
-    - _LightBaseRange: 0.2
+    - _LightBaseRange: 0.1
     - _LightFront: 0.8
-    - _LightLeft: 0.65
+    - _LightLeft: 0.7
     - _LightTop: 1
     - _Metallic: 0
     - _Mode: 0
-    - _NoiseAmplitude: 1
+    - _NoiseAmplitude: 0.1
     - _NoiseOffset: -0.07
-    - _NoiseTextureScale: 1
-    - _NoiseTime: 0.95403135
+    - _NoiseTextureScale: 2
+    - _NoiseTime: 0.35925493
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
