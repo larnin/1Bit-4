@@ -94,8 +94,6 @@ public class BuildingMonolith : BuildingBase
         {
             case State.Idle:
                 UpdateIdleOrbMovement();
-                if (m_rotationTimer > 10)
-                    StartAngry();
                 break;
             case State.AngryStart:
                 UpdateAngryStart();

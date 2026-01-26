@@ -7,11 +7,15 @@ using UnityEngine;
 
 public abstract class EntityPopupBase : MonoBehaviour
 {
-    GameObject m_entity;
+    bool m_isAwake = false;
+
+    protected GameObject m_entity;
 
     public void SetEntity(GameObject entity)
     {
         m_entity = entity;
+        if(m_isAwake)
+            OnInit();
     }
 
     public Rect GetBounds()
@@ -22,4 +26,13 @@ public abstract class EntityPopupBase : MonoBehaviour
 
         return transform.rect;
     }
+
+    protected virtual void Awake()
+    {
+        m_isAwake = true;
+        if (m_entity != null)
+            OnInit();
+    }
+
+    protected abstract void OnInit();
 }

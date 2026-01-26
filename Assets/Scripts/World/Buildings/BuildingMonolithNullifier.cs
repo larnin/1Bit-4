@@ -10,6 +10,8 @@ public class BuildingMonolithNullifier : BuildingBase
     [SerializeField] float m_energyConsumption = 1;
     [SerializeField] GameObject m_nullifierMesh;
 
+    BuildingMonolith m_monolith;
+
     bool m_active = false;
     float m_energyUptake;
     float m_energyEfficiency = 1;
@@ -29,6 +31,12 @@ public class BuildingMonolithNullifier : BuildingBase
     {
         base.OnDestroy();
         m_subscriberList.Unsubscribe();
+    }
+
+    public override void Start()
+    {
+        base.Start();
+        m_monolith = FindUnderlyingMonilith();
     }
 
     public override BuildingType GetBuildingType()
@@ -77,6 +85,14 @@ public class BuildingMonolithNullifier : BuildingBase
 
         if (m_nullifierMesh != null)
             m_nullifierMesh.SetActive(m_active);
+
+        if (active)
+            TriggerGamemode();
+    }
+
+    public bool IsNullifierActive()
+    {
+        return m_active;
     }
 
     string EnergyUptakeStr()
@@ -98,6 +114,35 @@ public class BuildingMonolithNullifier : BuildingBase
 
         UIElementData.Create<UIElementLabelAndText>(e.container).SetLabel("Energy Uptake").SetTextFunc(EnergyUptakeStr);
         UIElementData.Create<UIElementFillValue>(e.container).SetLabel("Efficiency").SetMax(1).SetValueFunc(GetEfficiency).SetValueDisplayType(UIElementFillValueDisplayType.percent).SetNbDigits(0);
+    }
 
+    BuildingMonolith FindUnderlyingMonilith()
+    {
+        Vector3Int testPos = GetPos() + new Vector3Int(0, -1, 0);
+        var b = BuildingList.instance.GetBuildingAt(testPos);
+        if (b == null)
+            return null;
+
+        return b as BuildingMonolith;
+    }
+
+    void TriggerGamemode()
+    {
+        if (m_monolith == null)
+            return;
+
+        if (GamemodeSystem.instance == null)
+            return;
+
+        int nbMode = GamemodeSystem.instance.GetGamemodeNb();
+
+        for(int i = 0; i < nbMode; i++)
+        {
+            var mode = GamemodeSystem.instance.GetGamemodeFromIndex(i) as MonolithMode;
+            if (mode == null)
+                continue;
+
+            mode.TriggerMonolith(m_monolith);
+        }
     }
 }

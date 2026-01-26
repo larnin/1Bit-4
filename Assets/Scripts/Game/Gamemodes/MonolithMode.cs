@@ -114,6 +114,11 @@ public class MonolithMode : GamemodeBase
 
     }
 
+    public void TriggerMonolith(BuildingMonolith building)
+    {
+
+    }
+
     void UpdateAngryBuilding(BuildingStatus building, float deltaTime)
     {
         if (building.building == null)

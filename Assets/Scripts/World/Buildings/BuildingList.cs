@@ -14,7 +14,7 @@ public class BuildingList : MonoBehaviour
     }
 
     List<BuildingBase> m_buildings = new List<BuildingBase>();
-    Dictionary<ulong, BuildingBase> m_buildingsPos = new Dictionary<ulong, BuildingBase>();
+    Dictionary<ulong, List<BuildingBase>> m_buildingsPos = new Dictionary<ulong, List<BuildingBase>>();
     Dictionary<ulong, BuildingChunk> m_chunks = new Dictionary<ulong, BuildingChunk>();
 
     SubscriberList m_subscriberList = new SubscriberList();
@@ -52,7 +52,14 @@ public class BuildingList : MonoBehaviour
             {
                 for (int z = min.z; z < max.z; z++)
                 {
-                    m_buildingsPos.Add(Utility.PosToID(new Vector3Int(x, y, z)), building);
+                    var id = Utility.PosToID(new Vector3Int(x, y, z));
+                    if (!m_buildingsPos.ContainsKey(id))
+                    {
+                        var list = new List<BuildingBase>();
+                        list.Add(building);
+                        m_buildingsPos.Add(id, list);
+                    }
+                    else m_buildingsPos[id].Add(building);
                 }
             }
         }
@@ -79,7 +86,15 @@ public class BuildingList : MonoBehaviour
             {
                 for (int z = min.z; z < max.z; z++)
                 {
-                    m_buildingsPos.Remove(Utility.PosToID(new Vector3Int(x, y, z)));
+                    var id = Utility.PosToID(new Vector3Int(x, y, z));
+                    if(m_buildingsPos.ContainsKey(id))
+                    {
+                        var list = m_buildingsPos[id];
+                        if (list != null)
+                            list.Remove(building);
+                        if (list.Count == 0 || list == null)
+                            m_buildingsPos.Remove(id);
+                    }
                 }
             }
         }
@@ -318,12 +333,57 @@ public class BuildingList : MonoBehaviour
         return GetNearestBuildingInRadius(pos, radius, x => { return x.GetBuildingType() == type && x.GetTeam() == team && Utility.IsAliveFilter(x.gameObject, alive); });
     }
 
-    public BuildingBase GetBuildingAt(Vector3Int pos)
+    public int GetBuildingNbAt(Vector3Int pos)
     {
-        BuildingBase b;
-        if (!m_buildingsPos.TryGetValue(Utility.PosToID(pos), out b))
+        List<BuildingBase> list;
+        if (!m_buildingsPos.TryGetValue(Utility.PosToID(pos), out list))
+            return 0;
+        if (list == null)
+            return 0;
+        return list.Count;
+    }
+
+    public BuildingBase GetFirstBuildingAt(Vector3Int pos)
+    {
+        return GetBuildingAt(pos);
+    }
+
+    public BuildingBase GetNextBuildingAt(Vector3Int pos, BuildingBase b)
+    {
+        List<BuildingBase> list;
+        if (!m_buildingsPos.TryGetValue(Utility.PosToID(pos), out list))
             return null;
-        return b;
+        if (list == null)
+            return null;
+        if (list.Count == 0)
+            return null;
+
+        if (b == null)
+            return list[0];
+
+        for(int i = 0; i < list.Count; i++)
+        {
+            if(list[i] == b)
+            {
+                if (i == list.Count - 1)
+                    return list[0];
+                return list[i + 1];
+            }
+        }
+
+        return list[0];
+    }
+
+    public BuildingBase GetBuildingAt(Vector3Int pos, int index = 0)
+    {
+        List<BuildingBase> list;
+        if (!m_buildingsPos.TryGetValue(Utility.PosToID(pos), out list))
+            return null;
+        if (list == null)
+            return null;
+        if (list.Count <= index || index < 0)
+            return null;
+        return list[index];
     }
 
     static float GetSqrDistance(Vector3 pos, Vector3 itemPos, Vector3 itemSize)

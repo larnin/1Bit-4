@@ -103,6 +103,27 @@ public class GamemodeSystem : MonoBehaviour
         return null;
     }
 
+    public int GetGamemodeNb()
+    {
+        return m_gamemodes.Count();
+    }
+
+    public GamemodeBase GetGamemodeFromIndex(int index)
+    {
+        if (index < 0 || index > m_gamemodes.Count)
+            return null;
+
+        int nb = 0;
+        foreach(var g in m_gamemodes)
+        {
+            if (index == nb)
+                return g.Value;
+            nb++;
+        }
+
+        return null;
+    }
+
     private void Update()
     {
         foreach(var mode in m_gamemodes)
