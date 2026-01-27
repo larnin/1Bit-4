@@ -61,7 +61,7 @@ public enum BuildingPlaceType
 
 public abstract class BuildingBase : MonoBehaviour
 {
-    [SerializeField] Transform m_meshComponent;
+    [SerializeField] protected Transform m_meshComponent;
     [SerializeField] GameObject m_selectionPopupPrefab;
     [SerializeField] float m_selectionPopupOffset = 0;
 

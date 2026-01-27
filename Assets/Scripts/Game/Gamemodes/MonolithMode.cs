@@ -11,8 +11,9 @@ public class MonolithMode : GamemodeBase
     class BuildingStatus
     {
         public BuildingMonolith building;
-        public float m_timer = 0;
-        public List<MonolithModeSpawner> m_spawners = new List<MonolithModeSpawner>();
+        public float timer = 0;
+        public List<MonolithModeSpawner> spawners = new List<MonolithModeSpawner>();
+        public float nullifyPower = 0;
     }
 
     class NewSpawnerData
@@ -62,7 +63,7 @@ public class MonolithMode : GamemodeBase
         if(m_subscriberList == null)
         {
             m_subscriberList = new SubscriberList();
-            m_subscriberList.Add(new Event<OnBuildingDamagedEvent>.Subscriber(OnMonilithDamaged));
+            m_subscriberList.Add(new Event<OnBuildingDamagedEvent>.Subscriber(OnBuildingDamaged));
             m_subscriberList.Add(new Event<OnBuildingDestroyEvent>.Subscriber(OnBuildingDestroyed));
         }
 
@@ -104,7 +105,7 @@ public class MonolithMode : GamemodeBase
         m_subscriberList.Unsubscribe();
     }
 
-    void OnMonilithDamaged(OnBuildingDamagedEvent e)
+    void OnBuildingDamaged(OnBuildingDamagedEvent e)
     {
 
     }
@@ -116,7 +117,11 @@ public class MonolithMode : GamemodeBase
 
     public void TriggerMonolith(BuildingMonolith building)
     {
+        var data = m_aliveBuildings.Find(x => { return x.building = building; });
+        if (data == null)
+            return;
 
+        building.StartAngry();
     }
 
     void UpdateAngryBuilding(BuildingStatus building, float deltaTime)
@@ -124,16 +129,38 @@ public class MonolithMode : GamemodeBase
         if (building.building == null)
             return;
 
+        if (building.building.GetState() == BuildingMonolith.State.AngryLoop || building.building.GetState() == BuildingMonolith.State.Wave)
+        {
+            var nullifier = building.building.GetNullifier();
+            if (nullifier != null)
+                building.nullifyPower += nullifier.GetEfficiency() * deltaTime;
+
+            if (building.nullifyPower >= m_asset.nullifyDuration)
+            {
+                BuildingNullified(building);
+                return;
+            }
+        }
+
         if (building.building.GetState() != BuildingMonolith.State.AngryLoop)
             return;
 
-        building.m_timer += deltaTime;
+        building.timer += deltaTime;
 
-        if(building.m_timer >= m_asset.delayBetweenWave)
+        if(building.timer >= m_asset.delayBetweenWave)
         {
             StartWaveFromBuilding(building);
-            building.m_timer = 0;
+            building.timer = 0;
+            building.building.StartWave();
         }
+    }
+
+    void BuildingNullified(BuildingStatus building)
+    {
+        if (building.building == null)
+            return;
+
+        building.building.StartNullified();
     }
 
     void UpdateAliveMonoliths()
@@ -158,7 +185,7 @@ public class MonolithMode : GamemodeBase
         {
             m_aliveBuildings.Remove(r);
 
-            foreach(var s in r.m_spawners)
+            foreach(var s in r.spawners)
             {
                 if (s.GetBuilding() == null)
                     continue;
@@ -171,7 +198,7 @@ public class MonolithMode : GamemodeBase
 
     void StartWaveFromBuilding(BuildingStatus building)
     {
-        foreach(var spawner in building.m_spawners)
+        foreach(var spawner in building.spawners)
         {
             spawner.StartNextWave(m_currentScore);
         }
@@ -195,7 +222,7 @@ public class MonolithMode : GamemodeBase
     {
         int count = 0;
         foreach (var monolith in m_aliveBuildings)
-            count += monolith.m_spawners.Count;
+            count += monolith.spawners.Count;
 
         count += m_newSpawners.Count;
 
@@ -266,7 +293,7 @@ public class MonolithMode : GamemodeBase
             if(spawnerInfos.GetBuilding() == null)
                 Debug.LogError("No building in the prefab " + spawner.prefab.name);
 
-            data.source.m_spawners.Add(spawnerInfos);
+            data.source.spawners.Add(spawnerInfos);
         }
     }
 

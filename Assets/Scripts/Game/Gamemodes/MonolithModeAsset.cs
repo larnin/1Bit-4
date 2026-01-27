@@ -28,7 +28,7 @@ public class MonolithModeAsset : GamemodeAssetBase
     public float initialScore = 10;
     public float scorePerMinute = 1;
     public float scorePerLostPercent = 0;
-    public float scoreIncreasePerAngryMonolith = 0;
+    public float nullifyDuration = 150;
     public float spawnerSpawnDuration = 5;
 
     public List<MonolithModeEnnemy> ennemies = new List<MonolithModeEnnemy>();

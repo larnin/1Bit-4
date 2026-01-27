@@ -83,7 +83,7 @@ Material:
     - _NoiseAmplitude: 0.1
     - _NoiseOffset: -0.07
     - _NoiseTextureScale: 2
-    - _NoiseTime: 0.35925493
+    - _NoiseTime: 0.2587298
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0

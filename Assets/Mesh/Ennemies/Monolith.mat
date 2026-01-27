@@ -65,7 +65,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _InvertColor: 1
+    - _InvertColor: 0.563
     - _InvertOutline: 1
     - _LightFront: 0.8
     - _LightLeft: 0.7

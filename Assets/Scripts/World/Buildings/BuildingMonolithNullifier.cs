@@ -54,7 +54,10 @@ public class BuildingMonolithNullifier : BuildingBase
     public override void EnergyUptake(float value)
     {
         m_energyUptake = value;
-        m_energyEfficiency = value / EnergyUptakeWanted();
+        float wanted = EnergyUptakeWanted();
+        if (wanted == 0)
+            m_energyEfficiency = 0;
+        else m_energyEfficiency = value / EnergyUptakeWanted();
         if (m_energyEfficiency > 1)
             m_energyEfficiency = 1;
 
@@ -100,7 +103,7 @@ public class BuildingMonolithNullifier : BuildingBase
         return m_energyUptake.ToString("#0.##") + '/' + m_energyConsumption.ToString("#0.##");
     }
 
-    float GetEfficiency()
+    public float GetEfficiency()
     {
         return m_energyEfficiency;
     }

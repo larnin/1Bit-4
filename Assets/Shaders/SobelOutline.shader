@@ -65,17 +65,14 @@ Shader "Hidden/SobelOutline"
                 sobelNormal = pow(sobelNormal * _OutlineNormalMultiplier, _OutlineNormalBias);
 
                 float sobelOutline = saturate(max(sobelDepth, sobelNormal));
-                if (sobelOutline < 0.5)
-                    sobelOutline = 0;
-                else sobelOutline = 1;
-
                 float3 outlineColor = lerp(sceneColor, _OutlineColor.rgb, _OutlineColor.a);
-                float3 color = lerp(sceneColor, outlineColor, sobelOutline);
 
-                float3 AvgColor = AverageColor(_MainTex, i.uv, offset);
+                float3 color = sceneColor;
+                if (sobelOutline > 0.5f)
+                    color = outlineColor;
 
-                if (AvgColor.g > 0.2)
-                    color.r = 1 - color.r;
+                float AvgColor = AverageColor(_MainTex, i.uv, offset);
+                color.r = (1 - color.r) * AvgColor + color.r * (1 - AvgColor);
 
                 return float4(color.r, color.r, color.r, 1.0);
             }
@@ -84,7 +81,7 @@ Shader "Hidden/SobelOutline"
 
             CGINCLUDE
                 
-            float4 AverageColor(sampler2D t, float2 uv, float3 offset)
+            float AverageColor(sampler2D t, float2 uv, float3 offset)
             {
                 float4 pixelCenter = tex2D(t, uv);
                 float4 pixelLeft = tex2D(t, uv - offset.xz);
@@ -92,7 +89,7 @@ Shader "Hidden/SobelOutline"
                 //float4 pixelUp = tex2D(t, uv + offset.zy);
                 float4 pixelDown = tex2D(t, uv - offset.zy);
 
-                return (pixelCenter + pixelLeft + pixelDown) / 3;
+                return max(max(pixelCenter.g, pixelLeft.g), pixelDown.g);
             }
 
             float4 SobelSample(sampler2D t, float2 uv, float3 offset)
