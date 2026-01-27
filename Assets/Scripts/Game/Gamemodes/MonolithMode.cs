@@ -165,6 +165,8 @@ public class MonolithMode : GamemodeBase
 
     void UpdateAliveMonoliths()
     {
+        float deltaTime = Time.deltaTime;
+
         List<BuildingStatus> toRemove = new List<BuildingStatus>();
 
         foreach(var m in m_aliveBuildings)
@@ -179,6 +181,9 @@ public class MonolithMode : GamemodeBase
                 toRemove.Add(m);
                 continue;
             }
+
+            foreach (var s in m.spawners)
+                s.Update(deltaTime);
         }
 
         foreach(var r in toRemove)
@@ -337,14 +342,14 @@ public class MonolithMode : GamemodeBase
 
         //invalid position if ground is not flat or on building
         
-        Vector3Int buildingMin = spawner.size / 2;
+        Vector3Int buildingMin = -spawner.size / 2;
         buildingMin.y = 0;
 
         for(int i = 0; i < spawner.size.x; i++)
         {
             for(int j = 0; j < spawner.size.z; j++)
             {
-                Vector3Int testPoint = new Vector3Int(i, 0, j) + buildingMin;
+                Vector3Int testPoint = realPosLoop + new Vector3Int(i, 0, j) + buildingMin;
                 var airBlock = GridEx.GetBlock(grid.grid, testPoint);
                 var groundBlock = GridEx.GetBlock(grid.grid, testPoint - new Vector3Int(0, 1, 0));
 

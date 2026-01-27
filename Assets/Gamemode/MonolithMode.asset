@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7471280cf56049499c28d14dba1a996, type: 3}
   m_Name: MonolithMode
   m_EditorClassIdentifier: 
-  delayBetweenWave: 30
+  delayBetweenWave: 10
   spawnerRadiusAroundMonolith: 50
   spawnerRadiusBetweenSpawner: 5
   spawnerRadiusAroundPlayerBuildings: 5
@@ -22,6 +22,18 @@ MonoBehaviour:
   initialScore: 10
   scorePerMinute: 1
   scorePerLostPercent: 0
-  scoreIncreasePerAngryMonolith: 0
+  nullifyDuration: 150
   spawnerSpawnDuration: 5
-  ennemies: []
+  ennemies:
+  - entityType:
+      m_value: ProtoEnnemyMelee
+    scoreMin: -1
+    scoreMax: -1
+    cost: 1
+    weight: 1
+  - entityType:
+      m_value: ProtoEnnemyDistance
+    scoreMin: -1
+    scoreMax: -1
+    cost: 1
+    weight: 1.5
