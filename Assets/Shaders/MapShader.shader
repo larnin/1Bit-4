@@ -5,6 +5,8 @@ Shader "Unlit/MapShader"
         _MainTex ("Texture", 2D) = "white" {}
         _ShadowTex("Shadows", 2D) = "white" {}
 
+        _LightBaseRange("LightBaseRange", Float) = 0
+
         //needed for a shader on ui
         _StencilComp("Stencil Comparison", Float) = 8
         _Stencil("Stencil ID", Float) = 0
@@ -56,6 +58,8 @@ Shader "Unlit/MapShader"
             sampler2D _ShadowTex;
             float4 _ShadowTex_ST;
 
+            float _LightBaseRange;
+
             v2f vert (appdata v)
             {
                 v2f o;
@@ -69,7 +73,14 @@ Shader "Unlit/MapShader"
                 fixed3 col = tex2D(_MainTex, i.uv);
                 fixed3 shadow = tex2D(_ShadowTex, i.uv);
 
-                return fixed4(col * shadow, 1);
+                float light = shadow.r;
+
+                float minLight = 0.5 - _LightBaseRange / 2;
+                float maxLight = 0.5 + _LightBaseRange / 2;
+                light = (light - minLight) / (maxLight - minLight);
+                light = clamp(light, 0, 1);
+
+                return fixed4(col * light, 1);
             }
             ENDCG
         }

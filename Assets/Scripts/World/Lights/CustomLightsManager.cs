@@ -240,4 +240,9 @@ public class CustomLightsManager : MonoBehaviour
     {
         m_lightParams = lightParams;
     }
+
+    public float GetLightBaseRange()
+    {
+        return m_lightBaseRange;
+    }
 }

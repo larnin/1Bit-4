@@ -99,6 +99,9 @@ public class MapDisplay : MonoBehaviour
 
             m_renderImage.material = m_mapMaterial;
         }
+
+        if (CustomLightsManager.instance != null)
+            m_mapMaterial.SetFloat("_LightBaseRange", CustomLightsManager.instance.GetLightBaseRange());
     }
 
     void OnSettingsChange(SettingsDisplayMapChangedEvent e)
