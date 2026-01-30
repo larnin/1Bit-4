@@ -5,9 +5,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using DG.Tweening;
 
 public class MonolithMode : GamemodeBase
 {
+    enum LightState
+    {
+        Idle,
+        AngryStart,
+        Angry,
+        AngryEnd,
+        WaveStart,
+        WaveTop,
+        WaveEnd,
+    }
+
     class BuildingStatus
     {
         public BuildingMonolith building;
@@ -32,6 +44,9 @@ public class MonolithMode : GamemodeBase
     float m_currentScore = 0;
 
     List<NewSpawnerData> m_newSpawners = new List<NewSpawnerData>();
+
+    LightState m_lightState = LightState.Idle;
+    float m_lightTimer = 0;
 
     public MonolithMode(MonolithModeAsset asset, GamemodeSystem owner)
         : base(owner)
@@ -94,10 +109,18 @@ public class MonolithMode : GamemodeBase
         float deltaTime = Time.deltaTime;
 
         UpdateAliveMonoliths();
+        bool oneAngry = false;
         foreach(var b in m_aliveBuildings)
-            UpdateAngryBuilding(b, deltaTime);
+            oneAngry |= UpdateAngryBuilding(b, deltaTime);
+
+        if (oneAngry)
+            m_currentScore += m_asset.scorePerMinute * Time.deltaTime / 60;
+
+        StartLightState(oneAngry ? LightState.Angry : LightState.Idle);
 
         UpdateNewSpawners();
+
+        UpdateLight();
     }
 
     public override void End() 
@@ -124,12 +147,15 @@ public class MonolithMode : GamemodeBase
         building.StartAngry();
     }
 
-    void UpdateAngryBuilding(BuildingStatus building, float deltaTime)
+    bool UpdateAngryBuilding(BuildingStatus building, float deltaTime)
     {
         if (building.building == null)
-            return;
+            return false;
 
-        if (building.building.GetState() == BuildingMonolith.State.AngryLoop || building.building.GetState() == BuildingMonolith.State.Wave)
+        var state = building.building.GetState();
+        bool returnValue = state == BuildingMonolith.State.AngryLoop || state == BuildingMonolith.State.AngryStart || state == BuildingMonolith.State.Wave;
+
+        if (state == BuildingMonolith.State.AngryLoop || state == BuildingMonolith.State.Wave)
         {
             var nullifier = building.building.GetNullifier();
             if (nullifier != null)
@@ -138,12 +164,12 @@ public class MonolithMode : GamemodeBase
             if (building.nullifyPower >= m_asset.nullifyDuration)
             {
                 BuildingNullified(building);
-                return;
+                return returnValue;
             }
         }
 
-        if (building.building.GetState() != BuildingMonolith.State.AngryLoop)
-            return;
+        if (state != BuildingMonolith.State.AngryLoop)
+            return returnValue;
 
         building.timer += deltaTime;
 
@@ -152,7 +178,10 @@ public class MonolithMode : GamemodeBase
             StartWaveFromBuilding(building);
             building.timer = 0;
             building.building.StartWave();
+            StartLightState(LightState.WaveStart);
         }
+
+        return returnValue;
     }
 
     void BuildingNullified(BuildingStatus building)
@@ -386,5 +415,111 @@ public class MonolithMode : GamemodeBase
 
         pos = realPosLoop;
         return true;
+    }
+
+    void StartLightState(LightState newState)
+    {
+        if (m_lightState == newState)
+            return;
+
+        if(m_lightState == LightState.Idle && (newState == LightState.Angry || newState == LightState.AngryStart))
+        {
+            m_lightState = LightState.AngryStart;
+            m_lightTimer = 0;
+            return;
+        }
+
+        if(m_lightState == LightState.Angry)
+        {
+            if(newState == LightState.WaveStart)
+            {
+                m_lightState = LightState.WaveStart;
+                m_lightTimer = 0;
+                return;
+            }
+
+            if(newState == LightState.Idle)
+            {
+                m_lightState = LightState.AngryEnd;
+                m_lightTimer = 0;
+                return;
+            }
+        }
+    }
+
+    void UpdateLight()
+    {
+        if (CustomLightsManager.instance == null)
+            return;
+
+        var light = CustomLightsManager.instance.GetDefaultLightParams();
+
+        m_lightTimer += Time.deltaTime;
+
+        switch(m_lightState)
+        {
+            case LightState.Idle:
+            default:
+                //nothing
+                break;
+            case LightState.AngryStart:
+            case LightState.AngryEnd:
+                {
+                    float percent = m_lightTimer / m_asset.angryLightTransitionTime;
+                    if (m_lightState == LightState.AngryEnd)
+                        percent = 1 - percent;
+                    percent = DOVirtual.EasedValue(0, 1, percent, m_asset.angryLightTransitionCurve);
+                    light.noiseAmplitude += percent * m_asset.angryLightNoiseAmplitude;
+                    light.noiseSpeed += percent * m_asset.angryLightNoiseSpeedOffset;
+                    light.lightBaseRange += percent * m_asset.angryLightBaseRange;
+
+                    if (m_lightTimer >= m_asset.angryLightTransitionTime)
+                    {
+                        m_lightTimer = 0;
+                        m_lightState = m_lightState == LightState.AngryStart ? LightState.Angry : LightState.Idle;
+                    }
+
+                    break;
+                }
+            case LightState.Angry:
+                    light.noiseAmplitude += m_asset.angryLightNoiseAmplitude;
+                    light.noiseSpeed += m_asset.angryLightNoiseSpeedOffset; 
+                light.lightBaseRange += m_asset.angryLightBaseRange;
+                break;
+            case LightState.WaveStart:
+            case LightState.WaveEnd:
+                {
+                    float transitionTime = m_lightState == LightState.WaveStart ? m_asset.waveLightTransitionTimeIn : m_asset.waveLightTransitionTimeOut;
+                    float percent = m_lightTimer / transitionTime;
+                    if (m_lightState == LightState.WaveEnd)
+                        percent = 1 - percent;
+                    percent = DOVirtual.EasedValue(0, 1, percent, m_asset.waveLightTransitionCurve);
+                    light.noiseAmplitude += (1 - percent) * m_asset.angryLightNoiseAmplitude + percent * m_asset.waveLightNoiseAmplitude;
+                    light.noiseSpeed += (1 - percent) * m_asset.angryLightNoiseSpeedOffset + percent * m_asset.waveLightNoiseSpeedOffset;
+                    light.increaseRadius += percent * m_asset.waveLightIncreaseRadius;
+                    light.lightBaseRange += (1 - percent) * m_asset.angryLightBaseRange;
+
+                    if (m_lightTimer >= transitionTime)
+                    {
+                        m_lightTimer = 0;
+                        m_lightState = m_lightState == LightState.WaveEnd ? LightState.Angry : LightState.WaveTop;
+                    }
+
+                    break;
+                }
+            case LightState.WaveTop:
+                light.noiseAmplitude += m_asset.waveLightNoiseAmplitude;
+                light.noiseSpeed += m_asset.waveLightNoiseSpeedOffset;
+                light.increaseRadius += m_asset.waveLightIncreaseRadius;
+
+                if (m_lightTimer >= m_asset.waveLightTopTime)
+                {
+                    m_lightTimer = 0;
+                    m_lightState = LightState.WaveEnd;
+                }
+                break;
+        }
+
+        CustomLightsManager.instance.SetCurrentLightParams(light);
     }
 }

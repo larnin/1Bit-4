@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,6 +31,22 @@ public class MonolithModeAsset : GamemodeAssetBase
     public float scorePerLostPercent = 0;
     public float nullifyDuration = 150;
     public float spawnerSpawnDuration = 5;
+
+    public float angryLightNoiseSpeedOffset = 1;
+    public float angryLightNoiseAmplitude = 1;
+    public float angryLightBaseRange = 1;
+    public float angryLightTransitionTime = 1;
+    public Ease angryLightTransitionCurve = Ease.Linear;
+
+    public float waveLightIncreaseRadius = -1;
+    public float waveLightNoiseSpeedOffset = 1;
+    public float waveLightNoiseAmplitude = 1;
+    public float waveLightTransitionTimeIn = 0.5f;
+    public float waveLightTransitionTimeOut = 0.5f;
+    public float waveLightTopTime = 0.2f;
+    public Ease waveLightTransitionCurve = Ease.Linear;
+
+
 
     public List<MonolithModeEnnemy> ennemies = new List<MonolithModeEnnemy>();
 

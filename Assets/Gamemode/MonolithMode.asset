@@ -18,12 +18,24 @@ MonoBehaviour:
   spawnerRadiusAroundPlayerBuildings: 5
   spawnerMaxNb: 20
   spawnerIncreaseMaxPerAngryMonolith: 5
-  spawnerPerWave: 5
+  spawnerPerWave: 3
   initialScore: 10
   scorePerMinute: 1
   scorePerLostPercent: 0
   nullifyDuration: 150
   spawnerSpawnDuration: 5
+  angryLightNoiseSpeedOffset: 3
+  angryLightNoiseAmplitude: 0.35
+  angryLightBaseRange: 0.3
+  angryLightTransitionTime: 2
+  angryLightTransitionCurve: 4
+  waveLightIncreaseRadius: -3
+  waveLightNoiseSpeedOffset: 0
+  waveLightNoiseAmplitude: 0.2
+  waveLightTransitionTimeIn: 0.5
+  waveLightTransitionTimeOut: 2
+  waveLightTopTime: 0.5
+  waveLightTransitionCurve: 4
   ennemies:
   - entityType:
       m_value: ProtoEnnemyMelee
