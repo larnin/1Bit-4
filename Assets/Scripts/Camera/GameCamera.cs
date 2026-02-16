@@ -22,6 +22,8 @@ public class GameCamera : MonoBehaviour
 
     ControlCameraBase m_currentControlCamera;
 
+    float m_orthographicOffset = 0;
+
     private void Awake()
     {
         m_controlCameraIso = new ControlCameraIso(m_isoCamParams);
@@ -35,6 +37,8 @@ public class GameCamera : MonoBehaviour
         m_subscriberList.Add(new Event<GetCameraScaleEvent>.Subscriber(GetCameraScale));
         m_subscriberList.Add(new Event<GetCameraRotationEvent>.Subscriber(GetCameraRotation));
         m_subscriberList.Add(new Event<IsIsoCameraEvent>.Subscriber(IsIsoCamera));
+        m_subscriberList.Add(new Event<GetCurrentIsoSizePercentEvent>.Subscriber(GetIsoPercent));
+        m_subscriberList.Add(new Event<SetShakeIsoSizeOffsetEvent>.Subscriber(SetShakeIsoOffset));
         m_subscriberList.Subscribe();
     }
 
@@ -132,6 +136,11 @@ public class GameCamera : MonoBehaviour
         e.isoCamera = m_currentControlCamera == m_controlCameraIso;
     }
 
+    void GetIsoPercent(GetCurrentIsoSizePercentEvent e)
+    {
+        e.isoSizePercent = m_controlCameraIso.GetSizePercent();
+    }
+
     static public float PosLoop(float pos, float size)
     {
         if (pos >= 0)
@@ -160,5 +169,15 @@ public class GameCamera : MonoBehaviour
     public Camera GetMainCamera()
     {
         return m_clearCamera;
+    }
+
+    public float GetOrthographicOffset()
+    {
+        return m_orthographicOffset;
+    }
+
+    void SetShakeIsoOffset(SetShakeIsoSizeOffsetEvent e)
+    {
+        m_orthographicOffset = e.offset;
     }
 }

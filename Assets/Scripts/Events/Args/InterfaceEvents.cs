@@ -38,6 +38,20 @@ public class IsIsoCameraEvent
     public bool isoCamera = false;
 }
 
+public class GetCurrentIsoSizePercentEvent
+{
+    public float isoSizePercent = 0;
+}
+
+public class SetShakeIsoSizeOffsetEvent
+{
+    public float offset;
+
+    public SetShakeIsoSizeOffsetEvent(float _offset)
+    {
+        offset = _offset;
+    }
+}
 
 public class GetCameraDuplicationEvent
 {

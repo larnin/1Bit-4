@@ -39,6 +39,7 @@ public class BuildingMonolith : BuildingBase
     [SerializeField] GameObject m_orbWavePrefab;
     [SerializeField] bool m_haveLightedMaterial = false;
     [SerializeField] float m_nullifyDurration = 5;
+    [SerializeField] ScreenShakeInspector m_waveScreenShake;
 
     State m_state = State.Idle;
     float m_timer = 0;
@@ -261,6 +262,9 @@ public class BuildingMonolith : BuildingBase
             obj.transform.localPosition = Vector3.zero;
         }
 
+        if(m_waveScreenShake != null && m_waveScreenShake.asset != null && ScreenShakeBehaviour.instance != null)
+            ScreenShakeBehaviour.instance.StartShake(m_waveScreenShake.asset, GetGroundCenter(), m_waveScreenShake.intensity, m_waveScreenShake.power);
+        
         return true;
     }
 

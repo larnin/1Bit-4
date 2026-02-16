@@ -2018,7 +2018,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 537304904}
   m_Direction: 2
   m_Value: -0.000021893045
-  m_Size: 0.885
+  m_Size: 0.88493127
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2192,7 +2192,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 23.000492}
+  m_AnchoredPosition: {x: 0, y: 23.000458}
   m_SizeDelta: {x: 0, y: 200}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &961390545
@@ -3533,7 +3533,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87defe5f3e4f74f4789b237323341cd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_initialResources: []
+  m_initialResources:
+  - type: 1
+    count: 10000
 --- !u!114 &1693670531
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -88,7 +88,7 @@ public class ControlCameraIso : ControlCameraBase
 
         var camera = m_gameCamera.GetMainCamera();
         camera.orthographic = true;
-        camera.orthographicSize = m_size;
+        camera.orthographicSize = m_size + m_gameCamera.GetOrthographicOffset();
         camera.transform.localPosition = m_cameraLocation;
         camera.transform.localRotation = m_cameraRotation;
     }
@@ -311,11 +311,13 @@ public class ControlCameraIso : ControlCameraBase
             else m_resetTime += Time.deltaTime / m_params.cameraResetTime;
         }
 
+        float size = m_size + m_gameCamera.GetOrthographicOffset();
+
         bool changeSize = false;
-        if (camera.orthographicSize != m_size)
+        if (camera.orthographicSize != size)
             changeSize = true;
 
-        camera.orthographicSize = m_size;
+        camera.orthographicSize = size;
 
         if (changeSize)
             m_gameCamera.OnMove();
@@ -355,5 +357,10 @@ public class ControlCameraIso : ControlCameraBase
     public float GetRotation()
     {
         return m_currentAngle;
+    }
+
+    public float GetSizePercent()
+    {
+        return (m_size - m_params.minSize) / (m_params.maxSize - m_params.minSize);
     }
 }
