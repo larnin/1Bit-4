@@ -87,17 +87,24 @@ public class LifeComponent : MonoBehaviour
         else Event<LifeLossEvent>.Broadcast(new LifeLossEvent(hit), gameObject);
     }
 
-    float GetMaxLife()
+    public float GetMaxLife()
     {
         UpdateMultiplier();
 
         return m_maxLife * m_maxLifeMultiplier;
     }
 
-    float GetLife()
+    public float GetLife()
     {
         UpdateMultiplier();
         return m_life;
+    }
+
+    public float GetLifePercent()
+    {
+        UpdateMultiplier();
+
+        return m_life / (m_maxLife * m_maxLifeMultiplier);
     }
 
     void Heal(float value, bool percent = false)

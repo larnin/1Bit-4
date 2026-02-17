@@ -10,18 +10,23 @@ public class DisplayLife : MonoBehaviour
 
     GameObject m_lifebarInstance;
     Renderer m_barRenderer;
-    
+    LifeComponent m_lifeComponent;
+
+    private void Awake()
+    {
+        m_lifeComponent = GetComponent<LifeComponent>();
+    }
+
     void Update()
     {
-        var life = Event<GetLifeEvent>.Broadcast(new GetLifeEvent(), gameObject);
-        if(!life.haveLife)
+        if(m_lifeComponent == null)
         {
             if (m_lifebarInstance != null)
                 Destroy(m_lifebarInstance);
             return;
         }
 
-        float fLife = life.lifePercent;
+        float fLife = m_lifeComponent.GetLifePercent();
         if(fLife >= 1 || fLife <= 0)
         {
             if (m_lifebarInstance != null)
