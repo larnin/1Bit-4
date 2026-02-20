@@ -149,6 +149,17 @@ public class QuestSystemGraph : EditorWindow
         m_graphView.Load(saveData);
     }
 
+    public void Load(QuestScriptableObject obj)
+    {
+        if (obj == null)
+            return;
+
+        m_savePath = AssetDatabase.GetAssetPath(obj);
+        UpdateLabel();
+
+        m_graphView.Load(obj.data);
+    }
+
     public override void SaveChanges()
     {
         base.SaveChanges();
