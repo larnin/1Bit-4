@@ -12,6 +12,7 @@ public class QuestSystemGraph : EditorWindow
     QuestSystemGraphView m_graphView;
     QuestSystemErrorWindow m_errorWindow;
     QuestSystemDetailWindow m_detailWindow;
+    QuestSystemQuestListWindow m_questListWindow;
 
     Label m_nameLabel;
 
@@ -58,12 +59,23 @@ public class QuestSystemGraph : EditorWindow
 
         horizontal.Add(element);
 
+        VisualElement sideVertical = new VisualElement();
+        sideVertical.style.width = 250;
+        
         VisualElement sideMenu = new VisualElement();
-        sideMenu.style.width = 250;
-
+        sideMenu.style.flexGrow = 1;
         m_detailWindow = new QuestSystemDetailWindow();
         m_detailWindow.SetParent(sideMenu);
-        horizontal.Add(sideMenu);
+        sideVertical.Add(sideMenu);
+
+        VisualElement questsMenu = new VisualElement();
+        questsMenu.style.maxHeight = 250;
+        questsMenu.style.flexGrow = 0;
+        m_questListWindow = new QuestSystemQuestListWindow();
+        m_questListWindow.SetParent(this, questsMenu);
+        sideVertical.Add(questsMenu);
+
+        horizontal.Add(sideVertical);
 
         rootVisualElement.Add(horizontal);
     }
@@ -243,6 +255,7 @@ public class QuestSystemGraph : EditorWindow
             playing = false;
 
         m_graphView.UpdatePlaying(playing);
+        m_questListWindow.Update(playing);
     }
 
     public string GetSavePath()
