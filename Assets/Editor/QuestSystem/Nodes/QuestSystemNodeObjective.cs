@@ -279,5 +279,7 @@ public class QuestSystemNodeObjective : QuestSystemNode
         mainContainer.style.borderBottomRightRadius = radius;
         mainContainer.style.borderTopLeftRadius = radius;
         mainContainer.style.borderTopRightRadius = radius;
+
+        UpdateDisplayStateStyle();
     }
 }

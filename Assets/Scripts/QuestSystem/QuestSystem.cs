@@ -30,9 +30,12 @@ public class QuestSystem : SerializedMonoBehaviour
 
     class OngoingQuest
     {
-        public OngoingQuest(QuestSaveData data, string name)
+        public OngoingQuest(QuestScriptableObject obj, string name)
         {
             m_name = name;
+            m_scriptableObject = obj;
+
+            var data = m_scriptableObject.data;
 
             //create nodes
             foreach(var node in data.nodes)
@@ -384,6 +387,11 @@ public class QuestSystem : SerializedMonoBehaviour
             return m_name;
         }
 
+        public QuestScriptableObject GetScriptableObject()
+        {
+            return m_scriptableObject;
+        }
+
         string m_name;
         List<Objective> m_objectives = new List<Objective>();
         List<ObjectiveOutput> m_completeExits = new List<ObjectiveOutput>();
@@ -391,11 +399,13 @@ public class QuestSystem : SerializedMonoBehaviour
         List<int> m_currentObjectives = new List<int>();
         List<InputObjectiveCompletion> m_completionsToNextNodes = new List<InputObjectiveCompletion>();
         List<string> m_completedObjectives = new List<string>();
+        QuestScriptableObject m_scriptableObject;
     }
 
     class CompletedQuest
     {
         public string name;
+        public QuestScriptableObject scriptableObject;
         public List<string> objectives = new List<string>(); 
     }
 
@@ -416,12 +426,12 @@ public class QuestSystem : SerializedMonoBehaviour
             m_instance = null;
     }
 
-    public void StartQuest(QuestSaveData data, string name)
+    public void StartQuest(QuestScriptableObject obj, string name)
     {
-        if (data == null)
+        if (obj == null)
             return;
 
-        var newQuest = new OngoingQuest(data, name);
+        var newQuest = new OngoingQuest(obj, name);
         m_ongoingQuest.Add(newQuest);
     }
 
@@ -470,6 +480,42 @@ public class QuestSystem : SerializedMonoBehaviour
         return QuestObjectiveCompletionType.NotStarted;
     }
 
+    public List<string> GetActiveQuestsNames()
+    {
+        List<string> names = new List<string>();
+        foreach(var quest in m_ongoingQuest)
+        {
+            names.Add(quest.GetName());
+        }
+
+        return names;
+    }
+
+    public List<string> GetCompletedQuestNames()
+    {
+        List<string> names = new List<string>();
+        foreach (var quest in m_completedQuests)
+        {
+            names.Add(quest.name);
+        }
+
+        return names;
+    }
+     
+    public QuestScriptableObject GetQuestObject(string name)
+    {
+        var quest = m_ongoingQuest.Find(x => { return x.GetName() == name; });
+        if (quest != null)
+            return quest.GetScriptableObject();
+
+        var completed = m_completedQuests.Find(x => { return x.name == name; });
+        if (completed != null)
+            return completed.scriptableObject;
+
+        return null;
+    }
+
+
     private void Update()
     {
         var deltaTime = Time.deltaTime;
@@ -490,6 +536,7 @@ public class QuestSystem : SerializedMonoBehaviour
 
             var completed = new CompletedQuest();
             completed.name = quest.GetName();
+            completed.scriptableObject = quest.GetScriptableObject();
 
             int nbObjective = quest.GetCompletedObjectiveCount();
             for(int i = 0; i < nbObjective; i++)

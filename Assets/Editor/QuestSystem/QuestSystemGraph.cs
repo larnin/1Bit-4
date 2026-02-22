@@ -165,7 +165,7 @@ public class QuestSystemGraph : EditorWindow
         base.SaveChanges();
 
         if (m_savePath == null || m_savePath.Length == 0)
-            GetSavePath();
+            QuerySavePath();
 
         if (m_savePath == null || m_savePath.Length == 0)
             return;
@@ -173,7 +173,7 @@ public class QuestSystemGraph : EditorWindow
         Save(m_savePath);
     }
 
-    void GetSavePath()
+    void QuerySavePath()
     {
         string savePath = SaveEx.GetSaveFilePath("Save Behavior", Application.dataPath, "asset");
         if (savePath == null || savePath.Length == 0)
@@ -186,7 +186,7 @@ public class QuestSystemGraph : EditorWindow
 
     public void SaveAs()
     {
-        GetSavePath();
+        QuerySavePath();
         if (m_savePath == null || m_savePath.Length == 0)
             return;
 
@@ -230,5 +230,23 @@ public class QuestSystemGraph : EditorWindow
                 else m_nameLabel.text = m_savePath;
             }
         }
+    }
+
+    private void Update()
+    {
+        bool playing = true;
+
+        if (!Application.isPlaying)
+            playing = false;
+
+        if (QuestSystem.instance == null)
+            playing = false;
+
+        m_graphView.UpdatePlaying(playing);
+    }
+
+    public string GetSavePath()
+    {
+        return m_savePath;
     }
 }

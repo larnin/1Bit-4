@@ -7,10 +7,19 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+public enum QuestSystemNodeDisplayState
+{
+    Default,
+    Ongoing,
+    Completed,
+}
+
 public class QuestSystemNode : Node
 {
     public static Color errorBorderColor = new Color(1, 0, 0);
     public static Color errorBackgroundColor = new Color(0.5f, 0.2f, 0.2f);
+    public static Color ongoingBackgroundColor = new Color(0.1f, 0.6f, 0.1f);
+    public static Color completedBackgroundColor = new Color(0.1f, 0.2f, 0.6f);
 
     public string ID { get; set; }
     public string NodeName { get; set; }
@@ -18,6 +27,7 @@ public class QuestSystemNode : Node
     protected QuestSystemGraphView m_graphView;
 
     protected bool m_error = false;
+    protected QuestSystemNodeDisplayState m_displayState = QuestSystemNodeDisplayState.Default;
 
     public QuestSystemGraphView GetGraph()
     {
@@ -107,6 +117,27 @@ public class QuestSystemNode : Node
     public virtual void UpdateStyle(bool error)
     {
         m_error = error;
+    }
+
+    public void UpdateDisplayState(QuestSystemNodeDisplayState state)
+    {
+        m_displayState = state;
+        UpdateStyle(m_error);
+    }
+
+    protected void UpdateDisplayStateStyle()
+    {
+        switch(m_displayState)
+        {
+            case QuestSystemNodeDisplayState.Ongoing:
+                mainContainer.style.backgroundColor = ongoingBackgroundColor;
+                break;
+            case QuestSystemNodeDisplayState.Completed:
+                mainContainer.style.backgroundColor = completedBackgroundColor;
+                break;
+            default:
+                break;
+        }
     }
 
     public virtual VisualElement GetDetailElement()

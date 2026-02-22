@@ -61,6 +61,8 @@ public class QuestSystemNodeStart : QuestSystemNode
         mainContainer.style.borderBottomRightRadius = largeRadius;
         mainContainer.style.borderTopLeftRadius = smallRadius;
         mainContainer.style.borderTopRightRadius = largeRadius;
+
+        UpdateDisplayStateStyle();
     }
 
     public override VisualElement GetDetailElement()

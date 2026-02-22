@@ -69,6 +69,8 @@ public class QuestSystemNodeFail : QuestSystemNode
         mainContainer.style.borderBottomRightRadius = smallRadius;
         mainContainer.style.borderTopLeftRadius = largeRadius;
         mainContainer.style.borderTopRightRadius = smallRadius;
+
+        UpdateDisplayStateStyle();
     }
 
     public override VisualElement GetDetailElement()
