@@ -220,6 +220,8 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
         if (BuildingList.instance == null || ConnexionSystem.instance == null)
             return;
 
+        if (m_instance == null)
+            return;
 
         var validPos = GetNearestValidPos(m_cursorPos);
         m_instance.transform.position = validPos;
