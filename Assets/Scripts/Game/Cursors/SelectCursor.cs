@@ -25,6 +25,8 @@ public class SelectCursor : MonoBehaviour, CursorInterface
 
     List<OneSelection> m_selectedObjects = new List<OneSelection>();
 
+    GameObject m_popup;
+
     class OneSelection
     {
         public GameObject obj;
@@ -104,6 +106,8 @@ public class SelectCursor : MonoBehaviour, CursorInterface
             m_selectedObjects.Clear();
 
             Event<SetHoveredObjectEvent>.Broadcast(new SetHoveredObjectEvent(null));
+
+            HidePopup();
         }
     }
 
@@ -122,6 +126,9 @@ public class SelectCursor : MonoBehaviour, CursorInterface
 
         foreach (var s in m_selectedObjects)
             s.Update();
+
+        if (m_popup != null)
+            UpdatePopup();
     }
 
     void UpdateHovered()
@@ -215,6 +222,7 @@ public class SelectCursor : MonoBehaviour, CursorInterface
                 m_selectionStart = Input.mousePosition;
                 m_selectionEnd = Input.mousePosition;
                 m_selectionStarted = true;
+                HidePopup();
             }
         }
 
@@ -231,6 +239,7 @@ public class SelectCursor : MonoBehaviour, CursorInterface
             {
                 Event<HideSelectionBoxEvent>.Broadcast(new HideSelectionBoxEvent());
                 m_selectionStarted = false;
+                DisplayPopup();
             }
         }
 
@@ -242,6 +251,7 @@ public class SelectCursor : MonoBehaviour, CursorInterface
                 s.OnDestroy();
             m_selectedObjects.Clear();
             m_selectionStarted = false;
+            HidePopup();
         }
 
         if (Input.GetKeyDown(KeyCode.Delete))
@@ -405,6 +415,118 @@ public class SelectCursor : MonoBehaviour, CursorInterface
         {
             SoundSystem.instance.PlaySoundUI(m_removeBuildingSound, m_removeBuildingSoundVolume);
         }
+
+        HidePopup();
+    }
+
+    void DisplayPopup()
+    {
+        HidePopup();
+
+        if(m_selectedObjects.Count != 1)
+            return;
+
+        if(m_selectedObjects[0].obj == null)
+            return;
+
+        var building = m_selectedObjects[0].obj.GetComponent<BuildingBase>();
+        if(building == null)
+            return;
+
+        var prefab = building.GetSelectionPopupPrefab();
+        if(prefab == null)
+            return;
+
+        var canvas = Event<GetCanvasEvent>.Broadcast(new GetCanvasEvent()).canvas;
+        if (canvas == null)
+            return;
+
+        var obj = Instantiate(prefab);
+        var popup = obj.GetComponent<EntityPopupBase>();
+        if (popup != null)
+            popup.SetEntity(m_selectedObjects[0].obj);
+        obj.transform.SetParent(canvas.transform, false);
+        m_popup = obj;
+        UpdatePopup();
+    }
+
+    void HidePopup()
+    {
+        if(m_popup != null)
+        {
+            Destroy(m_popup);
+            m_popup = null;
+        }
+    }
+
+    void UpdatePopup()
+    {
+        if (m_selectedObjects.Count == 0 || m_selectedObjects[0].obj == null)
+        {
+            HidePopup();
+            return;
+        }
+
+        var building = m_selectedObjects[0].obj.GetComponent<BuildingBase>();
+        if(building == null)
+        {
+            HidePopup();
+            return;
+        }
+
+        var canvas = Event<GetCanvasEvent>.Broadcast(new GetCanvasEvent()).canvas;
+        if (canvas == null)
+            return;
+        var canvasRect = canvas.GetComponent<RectTransform>();
+
+        var camera = Event<GetCameraEvent>.Broadcast(new GetCameraEvent());
+        if (camera.UICamera == null)
+            return;
+
+        var popup = m_popup.GetComponent<EntityPopupBase>();
+        if (m_popup == null)
+            return;
+
+        float width = Screen.width;
+        float height = Screen.height;
+
+        var pos = building.GetGroundCenter();
+        var bounds = building.GetBounds();
+        pos.y += bounds.size.y;
+
+        Vector2 screenPos = camera.UICamera.WorldToScreenPoint(pos);
+        var rectTransform = m_popup.GetComponent<RectTransform>();
+        if (rectTransform == null)
+            return;
+
+        var cam = camera.UICamera;
+        if (canvas.renderMode == RenderMode.ScreenSpaceOverlay)
+            cam = null;
+
+        Vector2 screenMin, screenMax;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, Vector2.zero, cam, out screenMin);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, new Vector2(width, height), cam, out screenMax);
+
+        Vector2 popupPos;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screenPos, cam, out popupPos);
+
+        popupPos.y += building.GetSelectionPopupOffset();
+
+        var popupBounds = popup.GetBounds();
+        Vector2 popupMin = popupPos + popupBounds.min;
+        Vector2 popupMax = popupPos + popupBounds.max;
+
+        Vector2 offset = Vector2.zero;
+        if (popupMin.x < screenMin.x)
+            offset.x += screenMin.x - popupMin.x;
+        if (popupMin.y < screenMin.y)
+            offset.y += screenMin.y - popupMin.y;
+        if (popupMax.x > screenMax.x)
+            offset.x += screenMax.x - popupMax.x;
+        if (popupMax.y > screenMax.y)
+            offset.y += screenMax.y - popupMax.y;
+
+        rectTransform.anchoredPosition = popupPos + offset;
     }
 }
 

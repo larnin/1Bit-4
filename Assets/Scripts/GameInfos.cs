@@ -32,6 +32,8 @@ public class Settings
     [SerializeField] float m_musicVolume = 1;
     [SerializeField] float m_soundVolume = 1;
 
+    [SerializeField] float m_screenShakeIntensity = 1;
+
     [SerializeField] string m_colorName;
     [SerializeField] bool m_colorFlip = false;
 
@@ -164,6 +166,16 @@ public class Settings
     public bool GetFullScreen()
     {
         return m_fullScreen;
+    }
+
+    public void SetScreenShakeIntensity(float intensity)
+    {
+        m_screenShakeIntensity = intensity;
+    }
+
+    public float GetScreenShakeIntensity()
+    {
+        return m_screenShakeIntensity;
     }
 }
 

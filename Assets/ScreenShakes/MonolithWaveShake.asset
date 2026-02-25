@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c125527ac14bd9942958ed29e232e98d, type: 3}
+  m_Name: MonolithWaveShake
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: m_offsetOscilator
+      Entry: 7
+      Data: 0|ScreenShakeOscilatorPerlin, Assembly-CSharp
+    - Name: m_amplitude
+      Entry: 4
+      Data: 0.4
+    - Name: m_frequency
+      Entry: 3
+      Data: 10
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_offsetWrap
+      Entry: 7
+      Data: 1|ScreenShakeWrapDamping, Assembly-CSharp
+    - Name: m_duration
+      Entry: 4
+      Data: 1.5
+    - Name: m_fadeIn
+      Entry: 4
+      Data: 0.1
+    - Name: m_dampingPower
+      Entry: 4
+      Data: 0.8
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_rotationOscilator
+      Entry: 6
+      Data: 
+    - Name: m_rotationWrap
+      Entry: 6
+      Data: 
+    - Name: m_orthographicSizeOscilator
+      Entry: 6
+      Data: 
+    - Name: m_orthographicSizeWrap
+      Entry: 6
+      Data: 
+  m_freezeOffsetX: 0
+  m_freezeOffsetY: 0

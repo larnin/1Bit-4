@@ -93,6 +93,17 @@ public class EditorDatas
         return null;
     }
 
+    public int GetEntityIndex(string type)
+    {
+        for(int i = 0; i < entities.Count; i++)
+        {
+            if (entities[i].type == type)
+                return i;
+        }
+
+        return -1;
+    }
+
     public GameObject GetProjectilePrefab(string type)
     {
         foreach(var e in projectiles)

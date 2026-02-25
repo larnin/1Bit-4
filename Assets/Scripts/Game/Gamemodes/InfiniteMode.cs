@@ -55,8 +55,8 @@ public class InfiniteMode : GamemodeBase
         {
             m_subscriberList = new SubscriberList();
             m_subscriberList.Add(new Event<OnEnnemyKillEvent>.Subscriber(OnKill));
-            m_subscriberList.Add(new Event<OnSpawnerDestroyEvent>.Subscriber(OnSpawnerDestroy));
-            m_subscriberList.Add(new Event<OnSpawnerDamagedEvent>.Subscriber(OnSpawnerDamaged));
+            m_subscriberList.Add(new Event<OnBuildingDestroyEvent>.Subscriber(OnSpawnerDestroy));
+            m_subscriberList.Add(new Event<OnBuildingDamagedEvent>.Subscriber(OnSpawnerDamaged));
             m_subscriberList.Add(new Event<DisplaySpawnerInfosEvent>.Subscriber(DisplayInfos));
             m_subscriberList.Add(new Event<DisplayEndLevelEvent>.Subscriber(DisplayEndWindow));
         }
@@ -92,14 +92,14 @@ public class InfiniteMode : GamemodeBase
             m_nbKill++;
     }
 
-    void OnSpawnerDestroy(OnSpawnerDestroyEvent e)
+    void OnSpawnerDestroy(OnBuildingDestroyEvent e)
     {
         var spawner = GetSpawner(e.building);
         if (spawner != null)
             m_nbSpawnerDestroyed++;
     }
 
-    void OnSpawnerDamaged(OnSpawnerDamagedEvent e)
+    void OnSpawnerDamaged(OnBuildingDamagedEvent e)
     {
         var spawner = GetSpawner(e.building);
         if (spawner != null)

@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7471280cf56049499c28d14dba1a996, type: 3}
+  m_Name: MonolithMode
+  m_EditorClassIdentifier: 
+  delayBetweenWave: 10
+  spawnerRadiusAroundMonolith: 50
+  spawnerRadiusBetweenSpawner: 5
+  spawnerRadiusAroundPlayerBuildings: 5
+  spawnerMaxNb: 20
+  spawnerIncreaseMaxPerAngryMonolith: 5
+  spawnerPerWave: 3
+  initialScore: 10
+  scorePerMinute: 1
+  scorePerLostPercent: 0
+  nullifyDuration: 150
+  spawnerSpawnDuration: 5
+  angryLightNoiseSpeedOffset: 3
+  angryLightNoiseAmplitude: 0.35
+  angryLightBaseRange: 0.3
+  angryLightTransitionTime: 2
+  angryLightTransitionCurve: 4
+  waveLightIncreaseRadius: -3
+  waveLightNoiseSpeedOffset: 0
+  waveLightNoiseAmplitude: 0.2
+  waveLightTransitionTimeIn: 0.5
+  waveLightTransitionTimeOut: 2
+  waveLightTopTime: 0.5
+  waveLightTransitionCurve: 4
+  ennemies:
+  - entityType:
+      m_value: ProtoEnnemyMelee
+    scoreMin: -1
+    scoreMax: -1
+    cost: 1
+    weight: 1
+  - entityType:
+      m_value: ProtoEnnemyDistance
+    scoreMin: -1
+    scoreMax: -1
+    cost: 1
+    weight: 1.5

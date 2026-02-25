@@ -51,6 +51,10 @@ public abstract class QuestSubObjectiveViewBase
             return new QuestSubObjectiveViewDestroyObject(node, subObjective as QuestSubObjectiveDestroyObject);
         if (subObjective is QuestSubObjectiveSetBuildingUnlocked)
             return new QuestSubObjectiveViewSetBuildingUnlocked(node, subObjective as QuestSubObjectiveSetBuildingUnlocked);
+        if (subObjective is QuestSubObjectiveHaveResource)
+            return new QuestSubObjectiveViewHaveResource(node, subObjective as QuestSubObjectiveHaveResource);
+        if (subObjective is QuestSubObjectiveDiscoverResource)
+            return new QuestSubObjectiveViewDiscoverResource(node, subObjective as QuestSubObjectiveDiscoverResource);
 
         return new QuestSubObjectiveViewNotImplemented(node, subObjective);
     }

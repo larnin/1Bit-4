@@ -77,6 +77,20 @@ public class CustomLightsManager : MonoBehaviour
         m_lights.Remove(light);
     }
 
+    public void RegisterMaterial(Material m, bool lighted)
+    {
+        if (lighted)
+            m_lightedMaterials.Add(m);
+        else m_unlitMaterials.Add(m);
+    }
+
+    public void UnRegisterMaterial(Material m, bool lighted)
+    {
+        if (lighted)
+            m_lightedMaterials.Remove(m);
+        else m_unlitMaterials.Remove(m);
+    }
+
     private void Update()
     {
         if (m_renderTexture == null)
@@ -225,5 +239,10 @@ public class CustomLightsManager : MonoBehaviour
     public void SetCurrentLightParams(CustomLightsParams lightParams)
     {
         m_lightParams = lightParams;
+    }
+
+    public float GetLightBaseRange()
+    {
+        return m_lightBaseRange;
     }
 }

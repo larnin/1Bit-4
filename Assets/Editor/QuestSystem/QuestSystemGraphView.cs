@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -13,6 +14,8 @@ public class QuestSystemGraphView : GraphView
 
     List<QuestSystemNode> m_nodes = new List<QuestSystemNode>();
     QuestSystemNodeStart m_startNode;
+
+    bool m_lastPlaying = false;
 
     public QuestSystemGraphView(QuestSystemGraph editorWindow)
     {
@@ -630,6 +633,62 @@ public class QuestSystemGraphView : GraphView
         }
 
         return data;
+    }
+
+    public void UpdatePlaying(bool playing)
+    {
+        if (!m_lastPlaying && !playing)
+            return;
+
+        m_lastPlaying = playing;
+
+        if (!playing)
+        {
+            foreach (var node in m_nodes)
+                node.UpdateDisplayState(QuestSystemNodeDisplayState.Default);
+
+            return;
+        }
+
+        if (QuestSystem.instance == null)
+            return;
+
+        string currentQuest = "";
+
+        var questNames = QuestSystem.instance.GetActiveQuestsNames();
+        questNames.AddRange(QuestSystem.instance.GetCompletedQuestNames());
+        foreach (var name in questNames)
+        {
+            var obj = QuestSystem.instance.GetQuestObject(name);
+            var path = AssetDatabase.GetAssetPath(obj);
+            if (path == m_editorWindow.GetSavePath())
+            {
+                currentQuest = name;
+                break;
+            }
+        }
+
+        foreach (var node in m_nodes)
+        {
+            var obj = node as QuestSystemNodeObjective;
+            if (obj == null)
+                continue;
+
+            QuestObjectiveCompletionType completion = QuestSystem.instance.GetQuestObjectiveStatus(currentQuest, obj.NodeName);
+            switch(completion)
+            {
+                case QuestObjectiveCompletionType.Completed:
+                    obj.UpdateDisplayState(QuestSystemNodeDisplayState.Completed);
+                    break;
+                case QuestObjectiveCompletionType.Ongoing:
+                    obj.UpdateDisplayState(QuestSystemNodeDisplayState.Ongoing);
+                    break;
+                case QuestObjectiveCompletionType.NotStarted:
+                default:
+                    obj.UpdateDisplayState(QuestSystemNodeDisplayState.Default);
+                    break;
+            }
+        }
     }
 }
 

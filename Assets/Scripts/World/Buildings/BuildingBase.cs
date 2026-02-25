@@ -24,6 +24,7 @@ public enum BuildingType
     Turret2,
     Turret3,
     Storage,
+    MonolithNullifier,
     EnnemySpawner = 100,
     Monolith,
 }
@@ -54,12 +55,15 @@ public enum BuildingPlaceType
     NeedOil,
     NeedWater,
     TooCloseSolarPannel,
+    NeedMonolith,
     PositionLocked,
 }
 
 public abstract class BuildingBase : MonoBehaviour
 {
-    [SerializeField] Transform m_meshComponent;
+    [SerializeField] protected Transform m_meshComponent;
+    [SerializeField] GameObject m_selectionPopupPrefab;
+    [SerializeField] float m_selectionPopupOffset = 0;
 
     bool m_added = false;
     bool m_startCalled = false;
@@ -84,6 +88,7 @@ public abstract class BuildingBase : MonoBehaviour
         m_subscriberList.Add(new Event<LifeLossEvent>.LocalSubscriber(OnLifeLoss, gameObject));
         m_subscriberList.Add(new Event<DeathEvent>.LocalSubscriber(OnDeath, gameObject));
         m_subscriberList.Add(new Event<ConnexionsUpdatedEvent>.Subscriber(OnConnexionUpdated));
+        m_subscriberList.Add(new Event<LifeLossEvent>.LocalSubscriber(OnHit, gameObject));
         m_subscriberList.Subscribe();
 
         m_team = GetDefaultTeam();
@@ -243,8 +248,7 @@ public abstract class BuildingBase : MonoBehaviour
 
     void OnDeath(DeathEvent e)
     {
-        if (GetTeam() == Team.Player)
-            Event<OnBuildingDestroyedEvent>.Broadcast(new OnBuildingDestroyedEvent(GetBuildingType()));
+        Event<OnBuildingDestroyEvent>.Broadcast(new OnBuildingDestroyEvent(this));
     }
 
     public virtual float EnergyGeneration() { return 0; }
@@ -429,6 +433,12 @@ public abstract class BuildingBase : MonoBehaviour
         }
     }
 
+    void OnHit(LifeLossEvent e)
+    {
+        float valuePercent = e.hit.damages / Event<GetLifeEvent>.Broadcast(new GetLifeEvent(), gameObject).maxLife;
+        Event<OnBuildingDamagedEvent>.Broadcast(new OnBuildingDamagedEvent(this, valuePercent));
+    }
+
     public void SetRotation(Rotation rot)
     {
         if (m_meshComponent != null)
@@ -443,6 +453,16 @@ public abstract class BuildingBase : MonoBehaviour
     }
 
     public virtual void UpdateRotation() { }
+
+    public GameObject GetSelectionPopupPrefab()
+    {
+        return m_selectionPopupPrefab;
+    }
+
+    public float GetSelectionPopupOffset()
+    {
+        return m_selectionPopupOffset;
+    }
 
     public JsonObject Save()
     {

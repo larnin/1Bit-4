@@ -55,6 +55,8 @@ Shader "Unlit/Lifebar"
             {
                 // sample the texture
                 fixed4 col = tex2D(_MainTex, i.uv);
+                col.g = 0;
+                col.b = 0;
 
                 float xValue = i.uv.x;
                 if (i.uv.y < 0.5)

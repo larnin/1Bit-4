@@ -25,22 +25,22 @@ public class OnEnnemyDamagedEvent
     }
 }
 
-public class OnSpawnerDestroyEvent 
+public class OnBuildingDestroyEvent 
 {
     public BuildingBase building;
 
-    public OnSpawnerDestroyEvent(BuildingBase _building)
+    public OnBuildingDestroyEvent(BuildingBase _building)
     {
         building = _building;
     }
 }
 
-public class OnSpawnerDamagedEvent
+public class OnBuildingDamagedEvent
 {
     public BuildingBase building;
     public float lifeLossPercent;
 
-    public OnSpawnerDamagedEvent(BuildingBase _building, float percent)
+    public OnBuildingDamagedEvent(BuildingBase _building, float percent)
     {
         building = _building;
         lifeLossPercent = percent;
@@ -76,16 +76,6 @@ public class OnBuildingRemovedEvent
     public BuildingType type;
 
     public OnBuildingRemovedEvent(BuildingType _type)
-    {
-        type = _type;
-    }
-}
-
-public class OnBuildingDestroyedEvent
-{
-    public BuildingType type;
-
-    public OnBuildingDestroyedEvent(BuildingType _type)
     {
         type = _type;
     }

@@ -274,8 +274,7 @@ public class GameSystem : MonoBehaviour
         if (QuestSystem.instance == null)
             return;
 
-        QuestSystem.instance.StartQuest(GameInfos.instance.gameParams.level.quest.data, "Main");
-
+        QuestSystem.instance.StartQuest(GameInfos.instance.gameParams.level.quest, GameInfos.instance.gameParams.level.quest.name);
     }
 
     bool IsPosValid(Grid grid, Vector2Int pos, Vector2Int elementSize)

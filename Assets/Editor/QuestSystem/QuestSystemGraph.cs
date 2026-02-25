@@ -12,6 +12,7 @@ public class QuestSystemGraph : EditorWindow
     QuestSystemGraphView m_graphView;
     QuestSystemErrorWindow m_errorWindow;
     QuestSystemDetailWindow m_detailWindow;
+    QuestSystemQuestListWindow m_questListWindow;
 
     Label m_nameLabel;
 
@@ -58,12 +59,23 @@ public class QuestSystemGraph : EditorWindow
 
         horizontal.Add(element);
 
+        VisualElement sideVertical = new VisualElement();
+        sideVertical.style.width = 250;
+        
         VisualElement sideMenu = new VisualElement();
-        sideMenu.style.width = 250;
-
+        sideMenu.style.flexGrow = 1;
         m_detailWindow = new QuestSystemDetailWindow();
         m_detailWindow.SetParent(sideMenu);
-        horizontal.Add(sideMenu);
+        sideVertical.Add(sideMenu);
+
+        VisualElement questsMenu = new VisualElement();
+        questsMenu.style.maxHeight = 250;
+        questsMenu.style.flexGrow = 0;
+        m_questListWindow = new QuestSystemQuestListWindow();
+        m_questListWindow.SetParent(this, questsMenu);
+        sideVertical.Add(questsMenu);
+
+        horizontal.Add(sideVertical);
 
         rootVisualElement.Add(horizontal);
     }
@@ -149,12 +161,23 @@ public class QuestSystemGraph : EditorWindow
         m_graphView.Load(saveData);
     }
 
+    public void Load(QuestScriptableObject obj)
+    {
+        if (obj == null)
+            return;
+
+        m_savePath = AssetDatabase.GetAssetPath(obj);
+        UpdateLabel();
+
+        m_graphView.Load(obj.data);
+    }
+
     public override void SaveChanges()
     {
         base.SaveChanges();
 
         if (m_savePath == null || m_savePath.Length == 0)
-            GetSavePath();
+            QuerySavePath();
 
         if (m_savePath == null || m_savePath.Length == 0)
             return;
@@ -162,7 +185,7 @@ public class QuestSystemGraph : EditorWindow
         Save(m_savePath);
     }
 
-    void GetSavePath()
+    void QuerySavePath()
     {
         string savePath = SaveEx.GetSaveFilePath("Save Behavior", Application.dataPath, "asset");
         if (savePath == null || savePath.Length == 0)
@@ -175,7 +198,7 @@ public class QuestSystemGraph : EditorWindow
 
     public void SaveAs()
     {
-        GetSavePath();
+        QuerySavePath();
         if (m_savePath == null || m_savePath.Length == 0)
             return;
 
@@ -219,5 +242,24 @@ public class QuestSystemGraph : EditorWindow
                 else m_nameLabel.text = m_savePath;
             }
         }
+    }
+
+    private void Update()
+    {
+        bool playing = true;
+
+        if (!Application.isPlaying)
+            playing = false;
+
+        if (QuestSystem.instance == null)
+            playing = false;
+
+        m_graphView.UpdatePlaying(playing);
+        m_questListWindow.Update(playing);
+    }
+
+    public string GetSavePath()
+    {
+        return m_savePath;
     }
 }

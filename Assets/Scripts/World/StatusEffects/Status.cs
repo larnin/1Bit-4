@@ -80,20 +80,23 @@ public class Status : MonoBehaviour
 
     private void Update()
     {
-        List<StatusType> toRemove = new List<StatusType>();
-
-        foreach(var effect in m_effects)
+        if (m_effects.Count != 0)
         {
-            if (effect.Value.Ended())
-            {
-                effect.Value.OnDestroy();
-                toRemove.Add(effect.Key);
-            }
-            else effect.Value.Update();
-        }
+            List<StatusType> toRemove = new List<StatusType>();
 
-        foreach (var s in toRemove)
-            m_effects.Remove(s);
+            foreach (var effect in m_effects)
+            {
+                if (effect.Value.Ended())
+                {
+                    effect.Value.OnDestroy();
+                    toRemove.Add(effect.Key);
+                }
+                else effect.Value.Update();
+            }
+
+            foreach (var s in toRemove)
+                m_effects.Remove(s);
+        }
     }
 
     void Save(SaveEvent e)

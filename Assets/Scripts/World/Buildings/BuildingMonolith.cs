@@ -9,12 +9,14 @@ using DG.Tweening;
 
 public class BuildingMonolith : BuildingBase
 {
-    enum State
+    public enum State
     {
         Idle,
         AngryStart,
         AngryLoop,
         Wave,
+        NullifiedStart,
+        Nullified,
     }
 
     const int MaxOrbNum = 3;
@@ -35,6 +37,9 @@ public class BuildingMonolith : BuildingBase
     [SerializeField] float m_orbWaveEndDuration = 1.5f;
     [SerializeField] Ease m_orbWaveEndCurve = Ease.Linear;
     [SerializeField] GameObject m_orbWavePrefab;
+    [SerializeField] bool m_haveLightedMaterial = false;
+    [SerializeField] float m_nullifyDurration = 5;
+    [SerializeField] ScreenShakeInspector m_waveScreenShake;
 
     State m_state = State.Idle;
     float m_timer = 0;
@@ -45,9 +50,18 @@ public class BuildingMonolith : BuildingBase
 
     SubscriberList m_subscriberList = new SubscriberList();
 
+    Material m_material;
+
+    bool m_nextNullified = false;
+
     public override BuildingType GetBuildingType()
     {
         return BuildingType.Monolith;
+    }
+
+    public State GetState()
+    {
+        return m_state;
     }
 
     public override void Awake()
@@ -89,21 +103,18 @@ public class BuildingMonolith : BuildingBase
         {
             case State.Idle:
                 UpdateIdleOrbMovement();
-                if (m_rotationTimer > 10)
-                    StartAngry();
                 break;
             case State.AngryStart:
                 UpdateAngryStart();
                 break;
             case State.AngryLoop:
                 UpdateAngryLoop();
-
-                m_timer += Time.deltaTime;
-                if (m_timer > 5)
-                    StartWave();
                 break;
             case State.Wave:
                 UpdateWave();
+                break;
+            case State.NullifiedStart:
+                UpdateNullifiedStart();
                 break;
         }
 
@@ -166,12 +177,44 @@ public class BuildingMonolith : BuildingBase
         {
             m_state = State.AngryLoop;
             m_timer = 0;
+            if (m_nextNullified)
+            {
+                m_nextNullified = false;
+                StartNullified();
+            }
         }
 
         UpdateOrbShape(percent, m_orbAngrySize);
 
         var shake = Rand2D.UniformVector2CircleDistribution(m_orbAngryShakeAmplitude * shakePower, StaticRandomGenerator<MT19937>.Get());
         m_orbsPivot.localPosition = new Vector3(shake.x, m_orbCenterHeight, shake.y);
+    }
+
+    void UpdateNullifiedStart()
+    {
+        m_timer += Time.deltaTime;
+
+        float shakeIntensity = 1 - (m_timer / (m_nullifyDurration / 2));
+        if (shakeIntensity < 0)
+            shakeIntensity = 0;
+        shakeIntensity *= shakeIntensity;
+
+        var shake = Rand2D.UniformVector2CircleDistribution(m_orbAngryShakeAmplitude, StaticRandomGenerator<MT19937>.Get()) * shakeIntensity;
+        m_orbsPivot.localPosition = new Vector3(shake.x, m_orbCenterHeight, shake.y);
+        m_orbsPivot.localScale = Vector3.one * shakeIntensity;
+
+        float normTimer = m_timer / m_nullifyDurration;
+        if (normTimer > 1)
+            normTimer = 1;
+
+        if (m_material != null)
+            m_material.SetFloat("_InvertColor", 1 - normTimer);
+
+        if (m_timer > m_nullifyDurration)
+        {
+            m_state = State.Nullified;
+            m_timer = 0;
+        }
     }
 
     void UpdateOrbShape(float lerp, float scale)
@@ -197,6 +240,9 @@ public class BuildingMonolith : BuildingBase
 
     public void StartAngry()
     {
+        if (m_state == State.NullifiedStart || m_state == State.Nullified)
+            return;
+
         m_state = State.AngryStart;
         m_timer = 0;
     }
@@ -216,7 +262,31 @@ public class BuildingMonolith : BuildingBase
             obj.transform.localPosition = Vector3.zero;
         }
 
+        if(m_waveScreenShake != null && m_waveScreenShake.asset != null && ScreenShakeBehaviour.instance != null)
+            ScreenShakeBehaviour.instance.StartShake(m_waveScreenShake.asset, GetGroundCenter(), m_waveScreenShake.intensity, m_waveScreenShake.power);
+        
         return true;
+    }
+
+    public void StartNullified()
+    {
+        if(m_state != State.AngryLoop)
+        {
+            m_nextNullified = true;
+            return;
+        }
+
+        m_state = State.NullifiedStart;
+        m_timer = 0;
+
+        var renderer = m_meshComponent.GetComponent<MeshRenderer>();
+        if(renderer != null)
+        {
+            m_material = new Material(renderer.sharedMaterial);
+            if (CustomLightsManager.instance != null)
+                CustomLightsManager.instance.RegisterMaterial(m_material, m_haveLightedMaterial);
+            renderer.sharedMaterial = m_material;
+        }
     }
 
     protected override void SaveImpl(JsonObject obj)
@@ -227,5 +297,15 @@ public class BuildingMonolith : BuildingBase
     protected override void LoadImpl(JsonObject obj)
     {
         //todo
+    }
+
+    public BuildingMonolithNullifier GetNullifier()
+    {
+        Vector3Int testPos = GetPos() + new Vector3Int(0, 1, 0);
+        var b = BuildingList.instance.GetNextBuildingAt(testPos, this);
+        if (b == null)
+            return null;
+
+        return b as BuildingMonolithNullifier;
     }
 }

@@ -32,6 +32,7 @@ public class GameInterface : MonoBehaviour
     private void Awake()
     {
         m_subscriberList.Add(new Event<IsMouseOverUIEvent>.Subscriber(IsMouseOverUI));
+        m_subscriberList.Add(new Event<GetCanvasEvent>.Subscriber(GetCanvas));
         m_subscriberList.Subscribe();
     }
 
@@ -227,5 +228,10 @@ public class GameInterface : MonoBehaviour
                 break;
             }
         }
+    }
+
+    void GetCanvas(GetCanvasEvent e)
+    {
+        e.canvas = GetComponent<Canvas>();
     }
 }

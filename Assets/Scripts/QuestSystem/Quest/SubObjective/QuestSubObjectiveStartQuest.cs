@@ -26,7 +26,7 @@ public class QuestSubObjectiveStartQuest : QuestSubObjectiveBase
         if (m_quest == null)
             return;
 
-        questSystem.StartQuest(m_quest.data, m_quest.name);
+        questSystem.StartQuest(m_quest, m_quest.name);
     }
 
     public override void Update(float deltaTime) { }
