@@ -17,14 +17,14 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 4182363552691996492, guid: 662de2ae932dac447b25ebdec26620d8, type: 3}
-    - {fileID: 919132149155446097, guid: d5d705cd1e0a93e46b729065bf110467, type: 3}
-    - {fileID: 919132149155446097, guid: c5f62f964deecdc478cbc6983c975475, type: 3}
-    - {fileID: 919132149155446097, guid: 132e4c5df1e9a574bae955d2e0bdfe77, type: 3}
-    - {fileID: 919132149155446097, guid: d86a8b9dda2ff394296745912f759711, type: 3}
-    - {fileID: 919132149155446097, guid: 63a0919fb701e2f4fac8c79eb7c2f409, type: 3}
-    - {fileID: 919132149155446097, guid: 98ba0a6a8d7885e43a513ccc0260b413, type: 3}
-    - {fileID: 919132149155446097, guid: 6a316c28685adb34eb985ecf5cfe5e13, type: 3}
-    - {fileID: 919132149155446097, guid: 2e938e2098b71854e8f4a7db663d2397, type: 3}
+    - {fileID: 3309540261721966588, guid: 195cf98505c961d4a840049dd589ee1a, type: 3}
+    - {fileID: 1314699865516490813, guid: 1c3c5c46bc806d3419fc0143a6cb2a72, type: 3}
+    - {fileID: 3997734854722243983, guid: 0cefb08d496c66340907bf6219a7ac80, type: 3}
+    - {fileID: 1064575487689297133, guid: 3f20dfb2b7bb2bc48a1052bb0551b2cb, type: 3}
+    - {fileID: 7998746714223171040, guid: 7ea1af8298c2b9649bb073d0989e4906, type: 3}
+    - {fileID: 1700099125905157640, guid: 5da7fb61327e4ef4dac3bb15f9829ae7, type: 3}
+    - {fileID: 8492040273503722389, guid: 43e9beed1131aa948a626e944b3cf4ac, type: 3}
+    - {fileID: 4446344811870290524, guid: 42c594c375a04a14082a91db60a4ea7b, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -391,7 +391,7 @@ MonoBehaviour:
       Data: true
     - Name: m_waitDialogEndToComplete
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -504,7 +504,7 @@ MonoBehaviour:
       Data: true
     - Name: m_waitDialogEndToComplete
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -614,7 +614,7 @@ MonoBehaviour:
       Data: true
     - Name: m_waitDialogEndToComplete
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -853,7 +853,7 @@ MonoBehaviour:
       Data: true
     - Name: m_waitDialogEndToComplete
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -1074,7 +1074,7 @@ MonoBehaviour:
       Data: true
     - Name: m_waitDialogEndToComplete
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -1312,7 +1312,7 @@ MonoBehaviour:
       Data: true
     - Name: m_waitDialogEndToComplete
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -1533,7 +1533,7 @@ MonoBehaviour:
       Data: true
     - Name: m_waitDialogEndToComplete
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -1881,7 +1881,7 @@ MonoBehaviour:
       Data: true
     - Name: m_waitDialogEndToComplete
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -2119,7 +2119,7 @@ MonoBehaviour:
       Data: true
     - Name: m_waitDialogEndToComplete
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -2340,7 +2340,7 @@ MonoBehaviour:
       Data: true
     - Name: m_waitDialogEndToComplete
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -2689,7 +2689,7 @@ MonoBehaviour:
       Data: true
     - Name: m_waitDialogEndToComplete
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -2928,7 +2928,7 @@ MonoBehaviour:
       Data: true
     - Name: m_waitDialogEndToComplete
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -2980,7 +2980,7 @@ MonoBehaviour:
       Data: ca00c426-d334-405f-8547-4dd4a18164ae
     - Name: name
       Entry: 1
-      Data: BuildGenerator
+      Data: BuildPowerPlant
     - Name: nodeType
       Entry: 3
       Data: 1
@@ -2995,7 +2995,7 @@ MonoBehaviour:
       Data: -1
     - Name: 
       Entry: 4
-      Data: 152
+      Data: 161
     - Name: 
       Entry: 4
       Data: 77
@@ -3023,7 +3023,7 @@ MonoBehaviour:
       Data: 7
     - Name: m_name
       Entry: 1
-      Data: LockGenerator
+      Data: LockPowerPlant
     - Name: m_location
       Entry: 6
       Data: 
@@ -3044,7 +3044,7 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 1
-      Data: Build a generator
+      Data: Build a Power Plant
     - Name: 
       Entry: 13
       Data: 
@@ -3277,7 +3277,7 @@ MonoBehaviour:
       Data: true
     - Name: m_waitDialogEndToComplete
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -3536,7 +3536,7 @@ MonoBehaviour:
       Data: true
     - Name: m_waitDialogEndToComplete
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -3894,7 +3894,7 @@ MonoBehaviour:
       Data: true
     - Name: m_waitDialogEndToComplete
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -4097,7 +4097,7 @@ MonoBehaviour:
       Data: true
     - Name: m_waitDialogEndToComplete
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 
