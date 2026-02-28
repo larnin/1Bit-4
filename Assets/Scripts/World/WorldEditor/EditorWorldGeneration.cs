@@ -108,7 +108,7 @@ public class EditorWorldGeneration : MonoBehaviour
 
     void DrawGroundSettings(UIElementContainer container)
     {
-        UIElementData.Create<UIElementFloatInput>(container).SetLabel("Base SurfaceHeight").SetValue(m_settings.baseSurfaceHeight).SetValueChangeFunc((float value) => { m_settings.baseSurfaceHeight = value; });
+        UIElementData.Create<UIElementFloatInput>(container).SetLabel("Base Surface Height").SetValue(m_settings.baseSurfaceHeight).SetValueChangeFunc((float value) => { m_settings.baseSurfaceHeight = value; });
         UIElementData.Create<UIElementFloatInput>(container).SetLabel("Base Surface Normalized Radius").SetValue(m_settings.baseSurfaceNormalizedRadius).SetValueChangeFunc((float value) => { m_settings.baseSurfaceNormalizedRadius = value; });
         UIElementData.Create<UIElementFloatInput>(container).SetLabel("Base Surface Normalized Top Radius").SetValue(m_settings.baseSurfaceNormalizedTopRadius).SetValueChangeFunc((float value) => { m_settings.baseSurfaceNormalizedTopRadius = value; });
 
@@ -177,9 +177,9 @@ public class EditorWorldGeneration : MonoBehaviour
         var folder = UIElementData.Create<UIElementFoldable>(container).SetHeaderText(label).GetContainer();
 
         UIElementData.Create<UIElementIntInput>(folder).SetLabel("Base Frequency").SetValue(settings.baseFrequency).SetValueChangeFunc((int value) => { settings.baseFrequency = value; });
-        UIElementData.Create<UIElementFloatInput>(folder).SetLabel("Base Amplitude").SetValue(settings.baseFrequency).SetValueChangeFunc((float value) => { settings.baseAmplitude = value; });
-        UIElementData.Create<UIElementIntInput>(folder).SetLabel("Nb Layers").SetValue(settings.baseFrequency).SetValueChangeFunc((int value) => { settings.nbLayers = value; });
-        UIElementData.Create<UIElementFloatInput>(folder).SetLabel("Layer Amplitude Scale").SetValue(settings.baseFrequency).SetValueChangeFunc((float value) => { settings.layerAmplitudeScale = value; });
+        UIElementData.Create<UIElementFloatInput>(folder).SetLabel("Base Amplitude").SetValue(settings.baseAmplitude).SetValueChangeFunc((float value) => { settings.baseAmplitude = value; });
+        UIElementData.Create<UIElementIntInput>(folder).SetLabel("Nb Layers").SetValue(settings.nbLayers).SetValueChangeFunc((int value) => { settings.nbLayers = value; });
+        UIElementData.Create<UIElementFloatInput>(folder).SetLabel("Layer Amplitude Scale").SetValue(settings.layerAmplitudeScale).SetValueChangeFunc((float value) => { settings.layerAmplitudeScale = value; });
     }
 
     void RandomizeSeed()
@@ -214,7 +214,7 @@ public class EditorWorldGeneration : MonoBehaviour
         m_settings.loopZ = grid.grid.LoopZ();
 
         int realHeight = GridEx.GetRealHeight(grid.grid);
-        m_settings.waterHeight = -(realHeight / 2);
+        m_settings.waterHeight = 0;
 
         m_generationStarted = true;
         WorldGenerator.Generate(m_settings, m_seed);

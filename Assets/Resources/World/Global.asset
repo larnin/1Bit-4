@@ -688,7 +688,7 @@ MonoBehaviour:
       height: 1
       loopX: 0
       loopZ: 0
-      presetName: Medium
+      presetName: InfiniteMode
   m_UIElementDatas:
     spacing: 1
     simpleTextPrefab: {fileID: 5313160618128964874, guid: 964242146cd4cc043afb125a1cf639cf, type: 3}

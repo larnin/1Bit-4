@@ -216,7 +216,6 @@ public static class WorldGenerator
     {
         public Vector2Int pos;
         public float size;
-        public float minHeight;
     }
 
     static void GenerateLakes(Matrix<Area> heights)
@@ -264,14 +263,12 @@ public static class WorldGenerator
 
                     float radius = Rand.UniformFloatDistribution(m_settings.lakeMinSize, m_settings.lakeMaxSize, rand);
 
-                    float minHeight;
-                    if (!CanPlaceLakeAt(new Vector2Int(x, y), radius, heights, out minHeight))
+                    if (!CanPlaceLakeAt(new Vector2Int(x, y), radius, heights))
                         continue;
 
                     LakeData lake = new LakeData();
                     lake.pos = new Vector2Int(x, y);
                     lake.size = radius;
-                    lake.minHeight = minHeight;
                     lakes.Add(lake);
 
                     break;
@@ -282,13 +279,12 @@ public static class WorldGenerator
         PlaceLakes(lakes, heights);
     }
 
-    static bool CanPlaceLakeAt(Vector2Int pos, float radius, Matrix<Area> heights, out float minHeight)
+    static bool CanPlaceLakeAt(Vector2Int pos, float radius, Matrix<Area> heights)
     {
         int size = GridEx.GetRealSize(m_grid);
 
         int radiusInt = Mathf.CeilToInt(radius);
 
-        minHeight = 10000;
 
         for(int x = -radiusInt; x <= radiusInt; x++)
         {
@@ -304,8 +300,6 @@ public static class WorldGenerator
 
                 if (heights.Get(p.x, p.y).type != AreaType.Plain)
                     return false;
-
-                minHeight = Mathf.Min(heights.Get(p.x, p.y).height, minHeight - 2);
             }
         }
 
@@ -340,7 +334,7 @@ public static class WorldGenerator
                     float localDistance = distance * l.size;
                     localDistance += (new Vector2(i, j) - l.pos).magnitude;
 
-                    float minHeight = Mathf.Max(m_settings.waterHeight, l.minHeight);
+                    float minHeight = m_settings.waterHeight;
 
                     if (localDistance < l.size)
                     {
@@ -609,8 +603,6 @@ public static class WorldGenerator
         int size = GridEx.GetRealSize(m_grid);
         int height = GridEx.GetRealHeight(m_grid);
 
-        int midHeight = height / 2;
-
         for (int i = 0; i < size; i++)
         {
             for (int k = 0; k < size; k++)
@@ -620,7 +612,7 @@ public static class WorldGenerator
                 if (a.type == AreaType.Water)
                     type = BlockType.water;
 
-                int localHeight = Mathf.RoundToInt(a.height) + midHeight;
+                int localHeight = Mathf.RoundToInt(a.height);
 
                 if (localHeight < 0)
                     localHeight = 0;
@@ -994,7 +986,7 @@ public static class WorldGenerator
             if (nbNeightbourgs > 0)
                 nbNeightbourgs--;
 
-            int h = Mathf.RoundToInt(Rand.UniformFloatDistribution(m_settings.titaniumMinHeight, m_settings.titaniumMaxHeight, rand) + m_settings.titaniumHeightNeighbour);
+            int h = Mathf.RoundToInt(Rand.UniformFloatDistribution(m_settings.titaniumMinHeight, m_settings.titaniumMaxHeight, rand) + m_settings.titaniumHeightNeighbour * nbNeightbourgs);
 
             for(int i = 1; i < h; i++)
                 GridEx.SetBlock(m_grid, t + new Vector3Int(0, i, 0), new Block(BlockType.Titanium));
