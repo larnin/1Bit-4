@@ -55,6 +55,8 @@ public class CustomLightsManager : MonoBehaviour
     static CustomLightsManager m_instance = null;
     public static CustomLightsManager instance { get { return m_instance; } }
 
+    public bool discoverEverything { get { return m_discoverEverything; } set { m_discoverEverything = value; } }
+
     private void Awake()
     {
         m_lightParams = GetDefaultLightParams();

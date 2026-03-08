@@ -57,6 +57,9 @@ public class EditorDetailDisplay : MonoBehaviour
     private void Start()
     {
         Clean();
+
+        if (CustomLightsManager.instance != null)
+            CustomLightsManager.instance.discoverEverything = true;
     }
 
     private void OnDestroy()
@@ -198,6 +201,9 @@ public class EditorDetailDisplay : MonoBehaviour
     void DrawTerraformation()
     {
         DrawHeader();
+
+        if(CustomLightsManager.instance != null)
+            UIElementData.Create<UIElementToggle>(m_container).SetLabel("Discover everything").SetValue(CustomLightsManager.instance.discoverEverything).SetValueChangeFunc((bool value)=>{ CustomLightsManager.instance.discoverEverything = value; });
 
         UIElementData.Create<UIElementSimpleText>(m_container).SetText("Grid size");
         UIElementData.Create<UIElementIntInput>(m_container).SetLabel("- Width").SetValue(GetWorldSize()).SetValueChangeFunc(SetWorldSize).SetBounds(1, 100);

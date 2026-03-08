@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8477894371165138318
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8477894371165138304}
+  - component: {fileID: 8477894371165138305}
+  m_Layer: 0
+  m_Name: LightManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8477894371165138304
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8477894371165138318}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8477894371165138305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8477894371165138318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0af7f332f0398414fb6f34027bdac2a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_renderTexture: {fileID: 8400000, guid: 591fe3e50089171479aa14081b67789d, type: 2}
+  m_circleMaterial: {fileID: 2100000, guid: 28b58a05c2815574e85f5015f639a4ee, type: 2}
+  m_lightedMaterials:
+  - {fileID: 2100000, guid: 963d52d036299094b986f2c929f03250, type: 2}
+  - {fileID: 2100000, guid: 62b1df7190384634fb819dd47b16fcbc, type: 2}
+  - {fileID: 2100000, guid: 7cd8a5a11711d6345b1dbcde469c99a6, type: 2}
+  - {fileID: 2100000, guid: 3a2c718f17120fd4c8d9098b32dbeb27, type: 2}
+  - {fileID: 2100000, guid: b438c98ed85cd2949bb60bff0ed62e68, type: 2}
+  m_unlitMaterials:
+  - {fileID: 2100000, guid: c750478f392003e4f96db78cafc4b825, type: 2}
+  - {fileID: 2100000, guid: 4859aa7187332834db6f2d9582b85c42, type: 2}
+  - {fileID: 2100000, guid: cb8a2e6e825818f4c92b0ffacea649b7, type: 2}
+  - {fileID: 2100000, guid: 899b8c153b3e83c44907528d303cf8e2, type: 2}
+  - {fileID: 2100000, guid: 524ced02a1a46794eb9b3eaa741097fe, type: 2}
+  - {fileID: 2100000, guid: 0ce6cd3211c88624c9a87b40428c9fc4, type: 2}
+  - {fileID: 2100000, guid: 1df791a19bd883849ac8ab5d31db60b8, type: 2}
+  - {fileID: 2100000, guid: c2977b20ebf27e24a98f916bc71d3d55, type: 2}
+  - {fileID: 2100000, guid: 28af15070617f5c47a389c2bf71d0253, type: 2}
+  - {fileID: 2100000, guid: 0aa07c379e570064eb3c2318b05f184f, type: 2}
+  m_borderSize: 10
+  m_increaseRadius: -0.5
+  m_lightTop: 1
+  m_lightLeft: 0.7
+  m_lightFront: 0.8
+  m_lightBaseRange: 0.1
+  m_noiseTexture: {fileID: 2800000, guid: 397387c5675bc5c4396e09a1b443b742, type: 3}
+  m_noiseTextureScale: 2
+  m_noiseSpeed: 1
+  m_noiseAmplitude: 0.1
+  m_discoverEverything: 0
