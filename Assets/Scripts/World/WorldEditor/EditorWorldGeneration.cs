@@ -156,7 +156,7 @@ public class EditorWorldGeneration : MonoBehaviour
     {
         UIElementData.Create<UIElementFloatInput>(container).SetLabel("Oil Density").SetValue(m_settings.oilDensity).SetValueChangeFunc((float value) => { m_settings.oilDensity = value; });
         UIElementData.Create<UIElementFloatInput>(container).SetLabel("Oil RetryCount").SetValue(m_settings.oilRetryCount).SetValueChangeFunc((float value) => { m_settings.oilRetryCount = value; });
-        UIElementData.Create<UIElementFloatInput>(container).SetLabel("Oil MinDistance").SetValue(m_settings.oilMinDistance).SetValueChangeFunc((float value) => { m_settings.oilMinDistance = value; });
+        UIElementData.Create<UIElementFloatInput>(container).SetLabel("Oil Min Distance").SetValue(m_settings.oilMinDistance).SetValueChangeFunc((float value) => { m_settings.oilMinDistance = value; });
     }
 
     void DrawTitaniumSettings(UIElementContainer container)

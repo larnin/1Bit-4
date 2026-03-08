@@ -7,6 +7,54 @@ using UnityEngine;
 
 public static class WireframeMesh
 {
+    public static Mesh Cylinder(Vector3 baseCenter, float radius, float height, int segmentCount, int circleCount, Color32 color)
+    {
+        if (circleCount < 2)
+            circleCount = 2;
+
+        float step = height / (circleCount - 1);
+
+        SimpleMeshParam<WireframeVertexDefinition> meshParams = new SimpleMeshParam<WireframeVertexDefinition>();
+
+        for(int i = 0; i < circleCount; i++)
+            DrawCircle(meshParams, baseCenter + i * new Vector3(0, step, 0), radius, segmentCount, color);
+
+        Vector3 size = new Vector3(radius, height, radius) / 2;
+        return MakeMesh(meshParams, new Bounds(baseCenter - size / 2.0f + new Vector3(0, height / 2, 0), size));
+    }
+
+    public static Mesh Circle(Vector3 center, float radius, int segmentCount, Color32 color)
+    {
+        SimpleMeshParam<WireframeVertexDefinition> meshParams = new SimpleMeshParam<WireframeVertexDefinition>();
+
+        DrawCircle(meshParams, center, radius, segmentCount, color);
+
+        Vector3 size = new Vector3(radius, 0.1f, radius) / 2;
+        return MakeMesh(meshParams, new Bounds(center - size / 2.0f, size));
+    }
+
+    static void DrawCircle(SimpleMeshParam<WireframeVertexDefinition> meshParams, Vector3 center, float radius, int segmentCount, Color32 color)
+    {
+        var data = meshParams.Allocate(segmentCount, segmentCount * 2);
+
+        float angleStep = 2 * Mathf.PI / segmentCount;
+
+        for (int i = 0; i < segmentCount; i++)
+        {
+            float angle = angleStep * (i + 0.5f);
+
+            data.vertices[data.verticesSize + i].pos = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * radius + center;
+            data.vertices[data.verticesSize + i].color = color;
+            data.indexes[data.indexesSize + 2 * i] = (ushort)(data.verticesSize + i);
+            if (i == segmentCount - 1)
+                data.indexes[data.indexesSize + 2 * i + 1] = (ushort)data.verticesSize;
+            else data.indexes[data.indexesSize + 2 * i + 1] = (ushort)(data.verticesSize + i + 1);
+        }
+
+        data.verticesSize += segmentCount;
+        data.indexesSize += segmentCount * 2;
+    }
+
     public static Mesh SimpleCube(Vector3 size, Color32 color)
     {
         return SimpleCube(size, size / 2, color);

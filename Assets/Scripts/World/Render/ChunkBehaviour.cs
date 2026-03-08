@@ -11,6 +11,7 @@ public class ChunkBehaviour : MonoBehaviour
     Vector3Int m_index;
 
     ChunkRenderer m_renderer;
+    List<ChunkRenderer> m_oldRenderers = new List<ChunkRenderer>();
 
     List<GameObject> m_renders = new List<GameObject>();
     List<GameObject> m_colliders = new List<GameObject>();
@@ -26,6 +27,15 @@ public class ChunkBehaviour : MonoBehaviour
 
     void StartGeneration()
     {
+        if(m_renderer != null)
+        {
+            if (!m_renderer.IsGenerating())
+                return;
+
+            m_oldRenderers.Add(m_renderer);
+            m_renderer = null;
+        }
+
         m_renderer = new ChunkRenderer(m_grid, m_index);
         m_renderer.Start();   
     }
@@ -39,11 +49,24 @@ public class ChunkBehaviour : MonoBehaviour
     {
         if(m_renderer != null && m_renderer.Ended())
         {
-            OnRenderEnd();
+            OnRenderEnd(m_renderer);
+            m_renderer = null;
+            m_oldRenderers.Clear();
+        }
+
+        for(int i = m_oldRenderers.Count - 1; i >= 0; i--)
+        {
+            if(m_oldRenderers[i].Ended())
+            {
+                OnRenderEnd(m_oldRenderers[i]);
+                for (int j = 0; j <= i; j++)
+                    m_oldRenderers.RemoveAt(0);
+                break;
+            }
         }
     }
 
-    void OnRenderEnd()
+    void OnRenderEnd(ChunkRenderer renderer)
     {
         //clean all
         foreach (var r in m_renders)
@@ -60,10 +83,10 @@ public class ChunkBehaviour : MonoBehaviour
 
         // draw render
         int index = 0;
-        var mats = m_renderer.GetMaterials();
+        var mats = renderer.GetMaterials();
         foreach(var mat in mats)
         {
-            int nbMesh = m_renderer.GetMeshCount(mat);
+            int nbMesh = renderer.GetMeshCount(mat);
             for(int i = 0; i < nbMesh; i++)
             {
                 var obj = new GameObject("Mesh " + index);
@@ -75,10 +98,10 @@ public class ChunkBehaviour : MonoBehaviour
                 obj.transform.localScale = Vector3.one;
 
                 var mesh = new Mesh();
-                m_renderer.ApplyMesh(mesh, mat, i);
+                renderer.ApplyMesh(mesh, mat, i);
 
-                var renderer = obj.AddComponent<MeshRenderer>();
-                renderer.sharedMaterial = mat;
+                var meshRenderer = obj.AddComponent<MeshRenderer>();
+                meshRenderer.sharedMaterial = mat;
 
                 var filter = obj.AddComponent<MeshFilter>();
                 filter.mesh = mesh;
@@ -88,7 +111,7 @@ public class ChunkBehaviour : MonoBehaviour
         }
 
         //draw colliders
-        int nbColliders = m_renderer.GetColliderMeshCount();
+        int nbColliders = renderer.GetColliderMeshCount();
         for(int i = 0; i < nbColliders; i++)
         {
             var obj = new GameObject("Collider " + i);
@@ -99,7 +122,7 @@ public class ChunkBehaviour : MonoBehaviour
             obj.transform.localScale = Vector3.one;
 
             var mesh = new Mesh();
-            m_renderer.ApplyColliderMesh(mesh, i);
+            renderer.ApplyColliderMesh(mesh, i);
 
             var collider = obj.AddComponent<MeshCollider>();
             collider.sharedMesh = mesh;
@@ -107,8 +130,6 @@ public class ChunkBehaviour : MonoBehaviour
 
             m_colliders.Add(obj);
         }
-
-        m_renderer = null;
 
         InstantiateCustomBlocks();
     }

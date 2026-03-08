@@ -8,6 +8,8 @@ using TMPro;
 
 public class FPSCounter : MonoBehaviour
 {
+    [SerializeField] bool m_displayJobs = true;
+
     TMP_Text m_text;
 
     float lastFPS = 0;
@@ -31,5 +33,12 @@ public class FPSCounter : MonoBehaviour
         lastFPS = lastFPS * (1 - percent) + fps * percent;
 
         m_text.text = Mathf.RoundToInt(lastFPS).ToString();
+
+        if(m_displayJobs)
+        {
+            int jobs = ThreadPool.GetPendingJobCount();
+
+            m_text.text += " - Jobs: " + jobs.ToString();
+        }
     }
 }
