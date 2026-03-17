@@ -21,6 +21,21 @@ public class EntityChoice : ChoiceString
 }
 
 [Serializable]
+public class NavigationProfileChoice : ChoiceString
+{
+    protected override List<string> GetChoices()
+    {
+        List<string> choices = new List<string>();
+        foreach (var e in Global.instance.editorDatas.navigationProfiles)
+        {
+            choices.Add(e.name);
+        }
+
+        return choices;
+    }
+}
+
+[Serializable]
 public class ProjectileChoice : ChoiceString
 {
     protected override List<string> GetChoices()
@@ -40,6 +55,14 @@ public class GameEntityData
 {
     public string type;
     public GameObject prefab;
+    public NavigationProfileChoice navigationProfile;
+}
+
+[Serializable]
+public class NavigationData
+{
+    public string name;
+    public NavigationProfile profile;
 }
 
 [Serializable]
@@ -68,6 +91,7 @@ public class EditorDatas
     public Material questElementMaterial;
 
     public List<GameEntityData> entities;
+    public List<NavigationData> navigationProfiles;
     public List<ProjectileData> projectiles;
     public List<QuestElementData> questElements;
 
@@ -84,13 +108,20 @@ public class EditorDatas
 
     public GameObject GetEntityPrefab(string type)
     {
-        foreach(var e in entities)
-        {
-            if (e.type == type)
-                return e.prefab;
-        }
+        int index = GetEntityIndex(type);
+        if (index < 0)
+            return null;
 
-        return null;
+        return entities[index].prefab;
+    }
+
+    public NavigationProfile GetEntityNavigationProfile(string type)
+    {
+        int index = GetEntityIndex(type);
+        if (index < 0)
+            return null;
+
+        return GetNavigationProfile(entities[index].navigationProfile.GetValue());
     }
 
     public int GetEntityIndex(string type)
@@ -102,6 +133,17 @@ public class EditorDatas
         }
 
         return -1;
+    }
+
+    public NavigationProfile GetNavigationProfile(string name)
+    {
+        foreach (var n in navigationProfiles)
+        {
+            if (n.name == name)
+                return n.profile;
+        }
+
+        return null;
     }
 
     public GameObject GetProjectilePrefab(string type)
