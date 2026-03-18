@@ -299,4 +299,39 @@ public class NavigationSurface
         if (restart)
             Rebuild();
     }
+
+    public void DebugDrawGrid()
+    {
+        lock (m_navigationGridLock)
+        {
+            for(int i = 0; i < m_navigationGrid.width; i++)
+            {
+                for(int j = 0; j < m_navigationGrid.depth; j++)
+                {
+                    var elem = m_navigationGrid.Get(i, j);
+
+                    if(elem.nextPos.x >= 0 && elem.nextPos.y >= 0)
+                    {
+                        Vector3 pos = new Vector3(i, elem.height, j);
+                        var nextElem = m_navigationGrid.Get(elem.nextPos.x, elem.nextPos.y);
+
+                        Vector2Int nextPosI = elem.nextPos;
+                        Vector2Int offset = nextPosI - new Vector2Int(i, j);
+                        if (offset.x < -1)
+                            nextPosI.x = i + 1;
+                        if (offset.x > 1)
+                            nextPosI.x = i - 1;
+                        if (offset.y < -1)
+                            nextPosI.y = j + 1;
+                        if (offset.y > 1)
+                            nextPosI.y = i - 1;
+
+                        Vector3 nextPos = new Vector3(elem.nextPos.x, nextElem.height, elem.nextPos.y);
+
+                        DebugDraw.Line(pos, nextPos, Color.blue);
+                    }
+                }
+            }
+        }
+    }
 }

@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class NavigationSystem : MonoBehaviour
 {
+    [SerializeField] bool m_debugDraw = false;
+
     Dictionary<string, NavigationSurface> m_surfaces = new Dictionary<string, NavigationSurface>();
 
     SubscriberList m_subscriberList = new SubscriberList();
@@ -56,6 +58,19 @@ public class NavigationSystem : MonoBehaviour
         foreach(var surface in m_surfaces)
         {
             surface.Value.Rebuild();
+        }
+    }
+
+    private void Update()
+    {
+        if(m_debugDraw)
+        {
+            if (m_surfaces.Count == 0)
+                return;
+
+            NavigationSurface surface = m_surfaces.First().Value;
+
+            surface.DebugDrawGrid();
         }
     }
 }
