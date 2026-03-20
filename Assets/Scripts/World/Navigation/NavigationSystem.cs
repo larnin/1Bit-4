@@ -13,6 +13,8 @@ public class NavigationSystem : MonoBehaviour
 
     SubscriberList m_subscriberList = new SubscriberList();
 
+    bool m_generationEnded = false;
+
     private void Awake()
     {
         m_subscriberList.Add(new Event<GenerationFinishedEvent>.Subscriber(OnGenerationEnd));
@@ -40,6 +42,7 @@ public class NavigationSystem : MonoBehaviour
 
     void OnGenerationEnd(GenerationFinishedEvent e)
     {
+        m_generationEnded = true;
         NeedRebuild();
     }
 
@@ -55,6 +58,9 @@ public class NavigationSystem : MonoBehaviour
 
     void NeedRebuild()
     {
+        if (!m_generationEnded)
+            return;
+
         foreach(var surface in m_surfaces)
         {
             surface.Value.Rebuild();

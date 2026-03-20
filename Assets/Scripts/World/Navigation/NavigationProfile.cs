@@ -12,6 +12,8 @@ public class NavigationProfile
     [SerializeField] public bool canWalkOnWater = true;
     [SerializeField] public int radius = 1;
     [SerializeField] public int climbStep = 1;
+    [SerializeField] public float climbCost = 1;
     [SerializeField] public int fallStep = 2;
+    [SerializeField] public float fallCost = 1;
     [SerializeField] public Team team;
 }

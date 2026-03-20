@@ -718,8 +718,23 @@ MonoBehaviour:
     entities:
     - type: ProtoEnnemyDistance
       prefab: {fileID: 6214975584835344987, guid: 9f3319f4511a1084e9c97146fbc2d7f5, type: 3}
+      navigationProfile:
+        m_value: 
     - type: ProtoEnnemyMelee
       prefab: {fileID: 1892062940909772011, guid: dfaa13b752694864ca9489aabb93d253, type: 3}
+      navigationProfile:
+        m_value: 
+    navigationProfiles:
+    - name: SmallEnnemies
+      profile:
+        buildingDetectionDistance: 10
+        canWalkOnWater: 1
+        radius: 1
+        climbStep: 1
+        climbCost: 2
+        fallStep: 2
+        fallCost: 2
+        team: 1
     projectiles: []
     questElements:
     - type: 0

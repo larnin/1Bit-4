@@ -124,6 +124,7 @@ public class NavigationSurface
         public Vector2Int previous;
         public Vector2Int current;
         public float distance;
+        public float flyDistance;
     }
 
     void MakeNavToBuilding(Matrix<NavigationElement> navGrid, Matrix<int> heights, BuildingBase b, int maxDistance = -1)
@@ -139,9 +140,10 @@ public class NavigationSurface
         startOpenPos.current = startPos;
         startOpenPos.previous = new Vector2Int(-1, -1);
         startOpenPos.distance = 0;
+        startOpenPos.flyDistance = 0;
         openPos.Add(startOpenPos);
 
-        Matrix<bool> explored = new Matrix<bool>(navGrid.width, navGrid.height);
+        Matrix<bool> explored = new Matrix<bool>(navGrid.width, navGrid.depth);
         explored.SetAll(false);
         explored.Set(startPos.x, startPos.y, true);
 
@@ -167,7 +169,7 @@ public class NavigationSurface
                         continue;
 
                     Vector2Int newPos = elem.current + new Vector2Int(i, j);
-                    Vector2Int newLoopPos = GridEx.GetPosFromLoop(m_grid, newPos);
+                    Vector2Int newLoopPos = GridEx.GetRealPosFromLoop(m_grid, newPos);
                     if (newLoopPos.x != newPos.x && !m_grid.LoopX())
                         continue;
                     if (newLoopPos.y != newPos.y && !m_grid.LoopZ())
@@ -175,10 +177,16 @@ public class NavigationSurface
 
                     if (explored.Get(newLoopPos.x, newLoopPos.y))
                         continue;
+                    
+                    float cost = 0;
+                    if (!IsValidMove(heights, newLoopPos, elem.current, out cost))
+                        continue;
 
                     float dist = 1;
                     if (i != 0 && j != 0)
-                        dist = 1.5f;
+                        dist = 1.41f;
+                    dist *= cost;
+                    dist += elem.distance;
 
                     var currentElem = navGrid.Get(newLoopPos.x, newLoopPos.y);
                     if (currentElem.distance >= 0 && currentElem.distance <= dist)
@@ -187,17 +195,15 @@ public class NavigationSurface
                     if (maxDistance >= 0 && dist > maxDistance)
                         continue;
 
-                    if (!IsValidMove(heights, newLoopPos, elem.current))
-                        continue;
-
                     OpenPos newOpenPos = new OpenPos();
                     newOpenPos.current = newLoopPos;
                     newOpenPos.previous = elem.current;
-                    newOpenPos.distance = elem.distance + dist;
+                    newOpenPos.distance = dist;
+                    newOpenPos.flyDistance = (newPos - startPos).magnitude;
                     bool added = false;
                     for(int k = 0; k < openPos.Count; k++)
                     {
-                        if(openPos[k].distance < newOpenPos.distance)
+                        if(openPos[k].flyDistance > newOpenPos.flyDistance)
                         {
                             openPos.Insert(k, newOpenPos);
                             added = true;
@@ -205,11 +211,11 @@ public class NavigationSurface
                         }
                     }    
                     if(!added)
-                        openPos.Add(startOpenPos);
+                        openPos.Add(newOpenPos);
 
                     NavigationElement newElem = new NavigationElement();
                     newElem.distance = dist;
-                    newElem.height = heights.Get(startPos.x, startPos.y);
+                    newElem.height = heights.Get(newLoopPos.x, newLoopPos.y);
                     newElem.nextPos = elem.current;
                     newElem.leftPos = new Vector2Int(-1, -1);
                     newElem.rightPos = new Vector2Int(-1, -1);
@@ -222,8 +228,10 @@ public class NavigationSurface
         }
     }
 
-    bool IsValidMove(Matrix<int> heights, Vector2Int start, Vector2Int end)
+    bool IsValidMove(Matrix<int> heights, Vector2Int start, Vector2Int end, out float cost)
     {
+        cost = 0;
+
         int startHeight = GetHeightAt(heights, start);
         int endHeight = GetHeightAt(heights, end);
 
@@ -231,19 +239,28 @@ public class NavigationSurface
             return false;
 
         int heightDiff = endHeight - startHeight;
-        if (heightDiff < 0 && m_profile.fallStep < -heightDiff)
-            return false;
-        if (heightDiff > 0 && m_profile.climbStep < heightDiff)
-            return false;
+        if (heightDiff < 0)
+        {
+            if (m_profile.fallStep < -heightDiff)
+                return false;
+            cost = m_profile.fallCost;
+        }
+        if (heightDiff > 0)
+        {
+            if (m_profile.climbStep < heightDiff)
+                return false;
+            cost = m_profile.climbCost;
+        }
 
         // need test diagonals
         if(start.x != end.x && start.y != end.y && m_profile.radius == 1)
         {
             Vector2Int pos1 = new Vector2Int(start.x, end.y);
-            Vector2Int pos2 = new Vector2Int(end.x, start.x);
-            if (IsValidMove(heights, start, pos1) && IsValidMove(heights, pos1, end))
+            Vector2Int pos2 = new Vector2Int(end.x, start.y);
+            float tempCost = 0;
+            if (IsValidMove(heights, start, pos1, out tempCost) && IsValidMove(heights, pos1, end, out tempCost))
                 return true;
-            if (IsValidMove(heights, start, pos2) && IsValidMove(heights, pos2, end))
+            if (IsValidMove(heights, start, pos2, out tempCost) && IsValidMove(heights, pos2, end, out tempCost))
                 return true;
             return false;
         }
@@ -260,7 +277,7 @@ public class NavigationSurface
             for (int j = -m_profile.radius + 1; j <= m_profile.radius - 1; j++)
             {
                 Vector2Int testPos = pos + new Vector2Int(i, j);
-                Vector2Int testLoopPos = GridEx.GetPosFromLoop(m_grid, testPos);
+                Vector2Int testLoopPos = GridEx.GetRealPosFromLoop(m_grid, testPos);
                 if (testLoopPos.x != testPos.x && !m_grid.LoopX())
                     continue;
                 if (testLoopPos.y != testPos.y && !m_grid.LoopZ())
@@ -304,6 +321,9 @@ public class NavigationSurface
     {
         lock (m_navigationGridLock)
         {
+            if (m_navigationGrid == null)
+                return;
+
             for(int i = 0; i < m_navigationGrid.width; i++)
             {
                 for(int j = 0; j < m_navigationGrid.depth; j++)
@@ -313,6 +333,7 @@ public class NavigationSurface
                     if(elem.nextPos.x >= 0 && elem.nextPos.y >= 0)
                     {
                         Vector3 pos = new Vector3(i, elem.height, j);
+                        pos.y += 0.6f;
                         var nextElem = m_navigationGrid.Get(elem.nextPos.x, elem.nextPos.y);
 
                         Vector2Int nextPosI = elem.nextPos;
@@ -326,7 +347,8 @@ public class NavigationSurface
                         if (offset.y > 1)
                             nextPosI.y = i - 1;
 
-                        Vector3 nextPos = new Vector3(elem.nextPos.x, nextElem.height, elem.nextPos.y);
+                        Vector3 nextPos = new Vector3(nextPosI.x, nextElem.height, nextPosI.y);
+                        nextPos.y += 0.6f;
 
                         DebugDraw.Line(pos, nextPos, Color.blue);
                     }
