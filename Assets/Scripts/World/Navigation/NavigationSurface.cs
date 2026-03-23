@@ -124,7 +124,6 @@ public class NavigationSurface
         public Vector2Int previous;
         public Vector2Int current;
         public float distance;
-        public float flyDistance;
     }
 
     void MakeNavToBuilding(Matrix<NavigationElement> navGrid, Matrix<int> heights, BuildingBase b, int maxDistance = -1)
@@ -140,12 +139,11 @@ public class NavigationSurface
         startOpenPos.current = startPos;
         startOpenPos.previous = new Vector2Int(-1, -1);
         startOpenPos.distance = 0;
-        startOpenPos.flyDistance = 0;
         openPos.Add(startOpenPos);
 
-        Matrix<bool> explored = new Matrix<bool>(navGrid.width, navGrid.depth);
-        explored.SetAll(false);
-        explored.Set(startPos.x, startPos.y, true);
+        Matrix<float> exploredDistance = new Matrix<float>(navGrid.width, navGrid.depth);
+        exploredDistance.SetAll(-1);
+        exploredDistance.Set(startPos.x, startPos.y, 0);
 
         NavigationElement startElem = new NavigationElement();
         startElem.distance = 0;
@@ -174,19 +172,20 @@ public class NavigationSurface
                         continue;
                     if (newLoopPos.y != newPos.y && !m_grid.LoopZ())
                         continue;
-
-                    if (explored.Get(newLoopPos.x, newLoopPos.y))
-                        continue;
                     
-                    float cost = 0;
+                    float cost = 1;
                     if (!IsValidMove(heights, newLoopPos, elem.current, out cost))
                         continue;
 
                     float dist = 1;
                     if (i != 0 && j != 0)
-                        dist = 1.41f;
+                        dist = 1.5f;
                     dist *= cost;
                     dist += elem.distance;
+
+                    float exp = exploredDistance.Get(newLoopPos.x, newLoopPos.y);
+                    if (exp >= 0 && exp < dist)
+                        continue;
 
                     var currentElem = navGrid.Get(newLoopPos.x, newLoopPos.y);
                     if (currentElem.distance >= 0 && currentElem.distance <= dist)
@@ -199,11 +198,10 @@ public class NavigationSurface
                     newOpenPos.current = newLoopPos;
                     newOpenPos.previous = elem.current;
                     newOpenPos.distance = dist;
-                    newOpenPos.flyDistance = (newPos - startPos).magnitude;
                     bool added = false;
                     for(int k = 0; k < openPos.Count; k++)
                     {
-                        if(openPos[k].flyDistance > newOpenPos.flyDistance)
+                        if(openPos[k].distance > newOpenPos.distance)
                         {
                             openPos.Insert(k, newOpenPos);
                             added = true;
@@ -222,7 +220,7 @@ public class NavigationSurface
                     newElem.target = startPos;
                     navGrid.Set(newLoopPos.x, newLoopPos.y, newElem);
 
-                    explored.Set(newLoopPos.x, newLoopPos.y, true);
+                    exploredDistance.Set(newLoopPos.x, newLoopPos.y, dist);
                 }
             }
         }
@@ -230,7 +228,7 @@ public class NavigationSurface
 
     bool IsValidMove(Matrix<int> heights, Vector2Int start, Vector2Int end, out float cost)
     {
-        cost = 0;
+        cost = 1;
 
         int startHeight = GetHeightAt(heights, start);
         int endHeight = GetHeightAt(heights, end);
