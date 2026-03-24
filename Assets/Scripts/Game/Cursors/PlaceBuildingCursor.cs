@@ -170,7 +170,7 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
 
         RaycastHit hit;
 
-        if (grid == null)
+        if (grid.grid == null)
         {
             haveHit = Physics.Raycast(ray, out hit, float.MaxValue, layer.value);
             if (!haveHit)

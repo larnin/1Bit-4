@@ -76,7 +76,24 @@ public class NavigationSystem : MonoBehaviour
 
             NavigationSurface surface = m_surfaces.First().Value;
 
-            surface.DebugDrawGrid();
+            //surface.DebugDrawGrid();
+
+            var cam = Event<GetCameraEvent>.Broadcast(new GetCameraEvent());
+            if (cam.camera != null)
+            {
+                Vector3 pos;
+                var ray = cam.camera.ScreenPointToRay(Input.mousePosition);
+                if(PlaceBuildingCursor.LoopCursorRatcast(ray, Global.instance.editorDatas.groundLayer, out pos))
+                {
+                    Vector2Int startPos = new Vector2Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.z));
+
+                    surface.DebugDrawPathFromPos(startPos, 1, -1, Color.red);
+                    surface.DebugDrawPathFromPos(startPos, 1, -0.5f, Color.yellow);
+                    surface.DebugDrawPathFromPos(startPos, 1, 0, Color.green);
+                    surface.DebugDrawPathFromPos(startPos, 1, 0.5f, Color.cyan);
+                    surface.DebugDrawPathFromPos(startPos, 1, 1, Color.blue);
+                }
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using NRand;
 
 public class NavigationSurface
 {
@@ -100,6 +101,8 @@ public class NavigationSurface
                 MakeNavToBuilding(navGrid, heights, b, m_profile.buildingDetectionDistance);
             }
         }
+
+        AddLeftRightPath(navGrid, heights);
 
         m_pendingNavigationGrid = navGrid;
     }
@@ -226,6 +229,145 @@ public class NavigationSurface
         }
     }
 
+    void AddLeftRightPath(Matrix<NavigationElement> navGrid, Matrix<int> heights)
+    {
+        for(int i = 0; i < navGrid.width; i++)
+        {
+            for(int j = 0; j < navGrid.depth; j++)
+            {
+                if (heights.Get(i, j) < 0)
+                    continue;
+
+                var elem = navGrid.Get(i, j);
+                if (elem.nextPos.x < 0 || elem.nextPos.y < 0)
+                    continue;
+
+                if (elem.distance <= m_profile.minSideDistance)
+                    continue;
+
+                //loop
+                Vector2Int dir = elem.nextPos - new Vector2Int(i, j);
+                if (dir.x > 1)
+                    dir.x = -1;
+                if (dir.x < -1)
+                    dir.x = 1;
+                if (dir.y > 1)
+                    dir.y = -1;
+                if (dir.y < -1)
+                    dir.y = 1;
+
+                var leftDir = GetLeftDir(dir);
+                if(leftDir.x != 0 || leftDir.y != 0)
+                {
+                    Vector2Int end;
+                    if(GetValidEnd(heights, new Vector2Int(i, j), leftDir, out end))
+                    {
+                        if (heights.Get(end.x, end.y) >= 0)
+                            elem.leftPos = end;
+                    }
+                }
+
+                var rightDir = GetRightDir(dir);
+                if (rightDir.x != 0 || rightDir.y != 0)
+                {
+                    Vector2Int end;
+                    if (GetValidEnd(heights, new Vector2Int(i, j), rightDir, out end))
+                    {
+                        if (heights.Get(end.x, end.y) >= 0)
+                            elem.rightPos = end;
+                    }
+                }
+
+                navGrid.Set(i, j, elem);
+            }
+        }
+    }
+
+    bool GetValidEnd(Matrix<int> heights, Vector2Int current, Vector2Int dir, out Vector2Int pos)
+    {
+        pos = new Vector2Int(-1, -1);
+
+        var end = current + dir;
+        Vector2Int endLoop = GridEx.GetRealPosFromLoop(m_grid, end);
+        if (endLoop.x != end.x && !m_grid.LoopX())
+            return false;
+        if (endLoop.y != end.y && !m_grid.LoopZ())
+            return false;
+
+        float cost = 0;
+        if (!IsValidMove(heights, current, end, out cost))
+            return false;
+
+        pos = end;
+        return true;
+    }
+
+    static Vector2Int GetLeftDir(Vector2Int dir)
+    {
+        if (dir.x > 1)
+            dir.x = 1;
+        if (dir.x < -1)
+            dir.x = -1;
+        if (dir.y > 1)
+            dir.y = 1;
+        if (dir.y < -1)
+            dir.y = -1;
+
+        if (dir.x == 0 && dir.y == 0)
+            return Vector2Int.zero;
+
+        if (dir.x == 0 && dir.y == 1)
+            return new Vector2Int(1, 1);
+        if (dir.x == 1 && dir.y == 1)
+            return new Vector2Int(1, 0);
+        if (dir.x == 1 && dir.y == 0)
+            return new Vector2Int(1, -1);
+        if (dir.x == 1 && dir.y == -1)
+            return new Vector2Int(0, -1);
+        if (dir.x == 0 && dir.y == -1)
+            return new Vector2Int(-1, -1);
+        if (dir.x == -1 && dir.y == -1)
+            return new Vector2Int(-1, 0);
+        if (dir.x == -1 && dir.y == 0)
+            return new Vector2Int(-1, 1);
+        if (dir.x == -1 && dir.y == 1)
+            return new Vector2Int(0, 1);
+        return Vector2Int.zero;
+    }
+
+    static Vector2Int GetRightDir(Vector2Int dir)
+    {
+        if (dir.x > 1)
+            dir.x = 1;
+        if (dir.x < -1)
+            dir.x = -1;
+        if (dir.y > 1)
+            dir.y = 1;
+        if (dir.y < -1)
+            dir.y = -1;
+
+        if(dir.x == 0 && dir.y == 0)
+            return Vector2Int.zero;
+
+        if (dir.x == 0 && dir.y == 1)
+            return new Vector2Int(-1, 1);
+        if (dir.x == -1 && dir.y == 1)
+            return new Vector2Int(-1, 0);
+        if (dir.x == -1 && dir.y == 0)
+            return new Vector2Int(-1, -1);
+        if (dir.x == -1 && dir.y == -1)
+            return new Vector2Int(0, -1);
+        if (dir.x == 0 && dir.y == -1)
+            return new Vector2Int(1, -1);
+        if (dir.x == 1 && dir.y == -1)
+            return new Vector2Int(1, 0);
+        if (dir.x == 1 && dir.y == 0)
+            return new Vector2Int(1, 1);
+        if (dir.x == 1 && dir.y == 1)
+            return new Vector2Int(0, 1);
+        return Vector2Int.zero;
+    }
+
     bool IsValidMove(Matrix<int> heights, Vector2Int start, Vector2Int end, out float cost)
     {
         cost = 1;
@@ -315,6 +457,53 @@ public class NavigationSurface
             Rebuild();
     }
 
+    public Vector2Int GetNextPos(Vector2Int pos, int seed, float deviation)
+    {
+        NavigationElement elem = new NavigationElement();
+        lock (m_navigationGridLock)
+        {
+            if (m_navigationGrid == null)
+                return pos;
+
+            if (pos.x < 0 || pos.x >= m_navigationGrid.width || pos.y < 0 || pos.y >= m_navigationGrid.depth)
+                return pos;
+
+            elem = m_navigationGrid.Get(pos.x, pos.y);
+        }
+
+        if (elem.nextPos.x < 0 || elem.nextPos.y < 0)
+            return pos;
+
+        RandomHash hash = new RandomHash(seed);
+        hash.Set(pos.x, pos.y);
+
+        bool side = Rand.BernoulliDistribution(Mathf.Abs(deviation), hash);
+        if(side)
+        {
+            if (deviation > 0 && elem.rightPos.x >= 0 && elem.rightPos.y >= 0)
+                return elem.rightPos;
+            else if (deviation < 0 && elem.leftPos.x >= 0 && elem.leftPos.y >= 0)
+                return elem.leftPos;
+        }
+
+        return elem.nextPos;
+    }
+
+    public int GetHeight(Vector2Int pos)
+    {
+        lock (m_navigationGridLock)
+        {
+            if (m_navigationGrid == null)
+                return -1;
+
+            if (pos.x < 0 || pos.x >= m_navigationGrid.width || pos.y < 0 || pos.y >= m_navigationGrid.depth)
+                return -1;
+
+            var elem = m_navigationGrid.Get(pos.x, pos.y);
+            return elem.height;
+        }
+    }
+
     public void DebugDrawGrid()
     {
         lock (m_navigationGridLock)
@@ -349,9 +538,75 @@ public class NavigationSurface
                         nextPos.y += 0.6f;
 
                         DebugDraw.Line(pos, nextPos, Color.blue);
+
+                        if (elem.leftPos.x >= 0 && elem.leftPos.y >= 0)
+                        {
+                            Vector2Int leftPosI = elem.leftPos;
+                            offset = leftPosI - new Vector2Int(i, j);
+                            if (offset.x < -1)
+                                leftPosI.x = i + 1;
+                            if (offset.x > 1)
+                                leftPosI.x = i - 1;
+                            if (offset.y < -1)
+                                leftPosI.y = j + 1;
+                            if (offset.y > 1)
+                                leftPosI.y = i - 1;
+
+                            nextPos = new Vector3(leftPosI.x, nextElem.height, leftPosI.y);
+                            nextPos.y += 0.7f;
+                            pos.y += 0.1f;
+
+                            DebugDraw.Line(pos, nextPos, Color.cyan);
+                        }
+
+                        if (elem.rightPos.x >= 0 && elem.rightPos.y >= 0)
+                        {
+                            Vector2Int rightPosI = elem.rightPos;
+                            offset = rightPosI - new Vector2Int(i, j);
+                            if (offset.x < -1)
+                                rightPosI.x = i + 1;
+                            if (offset.x > 1)
+                                rightPosI.x = i - 1;
+                            if (offset.y < -1)
+                                rightPosI.y = j + 1;
+                            if (offset.y > 1)
+                                rightPosI.y = i - 1;
+
+                            nextPos = new Vector3(rightPosI.x, nextElem.height, rightPosI.y);
+                            nextPos.y += 0.8f;
+                            pos.y += 0.1f;
+
+                            DebugDraw.Line(pos, nextPos, Color.magenta);
+                        }
                     }
                 }
             }
+        }
+    }
+
+    public void DebugDrawPathFromPos(Vector2Int pos, int seed, float deviation, Color color)
+    {
+        Vector2Int current = pos;
+        int height = GetHeight(current);
+        if (height < 0)
+            return;
+
+        for(int i = 0; i < 1000; i++)
+        {
+            Vector2Int next = GetNextPos(current, seed, deviation);
+            if (next.x < 0 || next.y < 0)
+                break;
+            if (next == current)
+                break;
+            int nextHeight = GetHeight(next);
+
+            Vector3 currentF = new Vector3(current.x, height + 0.6f, current.y);
+            Vector3 nextF = new Vector3(next.x, nextHeight + 0.6f, next.y);
+
+            DebugDraw.Line(currentF, nextF, color);
+
+            current = next;
+            height = nextHeight;
         }
     }
 }
