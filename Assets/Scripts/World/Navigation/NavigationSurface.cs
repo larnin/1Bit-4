@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 using UnityEngine;
 using NRand;
 
+public struct NavigationQueryResult
+{
+    public Vector3Int nextPos;
+    public Vector2Int targetPos;
+}
+
 public class NavigationSurface
 {
     struct NavigationElement
@@ -457,36 +463,42 @@ public class NavigationSurface
             Rebuild();
     }
 
-    public Vector2Int GetNextPos(Vector2Int pos, int seed, float deviation)
+    public NavigationQueryResult QueryNext(Vector2Int pos, int seed, float deviation)
     {
-        NavigationElement elem = new NavigationElement();
+        NavigationQueryResult result = new NavigationQueryResult();
+        result.nextPos = new Vector3Int(pos.x, -1, pos.y);
+
         lock (m_navigationGridLock)
         {
             if (m_navigationGrid == null)
-                return pos;
+                return result;
 
             if (pos.x < 0 || pos.x >= m_navigationGrid.width || pos.y < 0 || pos.y >= m_navigationGrid.depth)
-                return pos;
+                return result;
 
-            elem = m_navigationGrid.Get(pos.x, pos.y);
+            NavigationElement elem = m_navigationGrid.Get(pos.x, pos.y);
+
+            if (elem.nextPos.x < 0 || elem.nextPos.y < 0)
+                return result;
+
+            RandomHash hash = new RandomHash(seed);
+            hash.Set(pos.x, pos.y);
+
+            bool side = Rand.BernoulliDistribution(Mathf.Abs(deviation), hash);
+            if(side)
+            {
+                if (deviation > 0 && elem.rightPos.x >= 0 && elem.rightPos.y >= 0)
+                    result.nextPos = new Vector3Int(elem.rightPos.x, -1, elem.rightPos.y);
+                else if (deviation < 0 && elem.leftPos.x >= 0 && elem.leftPos.y >= 0)
+                    result.nextPos = new Vector3Int(elem.leftPos.x, -1, elem.leftPos.y);
+                else result.nextPos = new Vector3Int(elem.nextPos.x, -1, elem.nextPos.y);
+            }
+            else result.nextPos = new Vector3Int(elem.nextPos.x, -1, elem.nextPos.y);
+
+            result.nextPos.y = m_navigationGrid.Get(result.nextPos.x, result.nextPos.z).height;
         }
 
-        if (elem.nextPos.x < 0 || elem.nextPos.y < 0)
-            return pos;
-
-        RandomHash hash = new RandomHash(seed);
-        hash.Set(pos.x, pos.y);
-
-        bool side = Rand.BernoulliDistribution(Mathf.Abs(deviation), hash);
-        if(side)
-        {
-            if (deviation > 0 && elem.rightPos.x >= 0 && elem.rightPos.y >= 0)
-                return elem.rightPos;
-            else if (deviation < 0 && elem.leftPos.x >= 0 && elem.leftPos.y >= 0)
-                return elem.leftPos;
-        }
-
-        return elem.nextPos;
+        return result;
     }
 
     public int GetHeight(Vector2Int pos)
@@ -593,20 +605,18 @@ public class NavigationSurface
 
         for(int i = 0; i < 1000; i++)
         {
-            Vector2Int next = GetNextPos(current, seed, deviation);
-            if (next.x < 0 || next.y < 0)
+            var result = QueryNext(current, seed, deviation);
+
+            if (result.nextPos.x == current.x && result.nextPos.z == current.y)
                 break;
-            if (next == current)
-                break;
-            int nextHeight = GetHeight(next);
 
             Vector3 currentF = new Vector3(current.x, height + 0.6f, current.y);
-            Vector3 nextF = new Vector3(next.x, nextHeight + 0.6f, next.y);
+            Vector3 nextF = new Vector3(result.nextPos.x, result.nextPos.y + 0.6f, result.nextPos.z);
 
             DebugDraw.Line(currentF, nextF, color);
 
-            current = next;
-            height = nextHeight;
+            current = new Vector2Int(result.nextPos.x, result.nextPos.z);
+            height = result.nextPos.y;
         }
     }
 }

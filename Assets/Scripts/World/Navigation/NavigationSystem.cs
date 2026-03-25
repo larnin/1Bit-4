@@ -15,8 +15,13 @@ public class NavigationSystem : MonoBehaviour
 
     bool m_generationEnded = false;
 
+    static NavigationSystem m_instance = null;
+    public static NavigationSystem instance { get { return m_instance; } }
+
     private void Awake()
     {
+        m_instance = this;
+
         m_subscriberList.Add(new Event<GenerationFinishedEvent>.Subscriber(OnGenerationEnd));
         m_subscriberList.Add(new Event<BuildingListAddEvent>.Subscriber(OnBuildingAdd));
         m_subscriberList.Add(new Event<BuildingListRemoveEvent>.Subscriber(OnBuildingRemove));
@@ -25,6 +30,9 @@ public class NavigationSystem : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (m_instance == this)
+            m_instance = null;
+
         m_subscriberList.Unsubscribe();
     }
 
@@ -65,6 +73,14 @@ public class NavigationSystem : MonoBehaviour
         {
             surface.Value.Rebuild();
         }
+    }
+
+    public NavigationSurface GetSurface(string profile)
+    {
+        NavigationSurface surface;
+        m_surfaces.TryGetValue(profile, out surface);
+
+        return surface;
     }
 
     private void Update()
