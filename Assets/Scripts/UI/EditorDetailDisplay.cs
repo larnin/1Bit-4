@@ -31,6 +31,7 @@ public enum EditorSimpleToolType
     Cuboid,
     Sphere,
     Smooth,
+    Height,
 }
 
 public class EditorDetailDisplay : MonoBehaviour
@@ -40,6 +41,9 @@ public class EditorDetailDisplay : MonoBehaviour
     SubscriberList m_subscriberList = new SubscriberList();
 
     EditorToolCategoryType m_currentCategory = EditorToolCategoryType.None;
+
+    float m_heightBrushSize = 5;
+    float m_heightBrushSpeed = 10;
 
     private void Awake()
     {
@@ -53,6 +57,9 @@ public class EditorDetailDisplay : MonoBehaviour
     private void Start()
     {
         Clean();
+
+        if (CustomLightsManager.instance != null)
+            CustomLightsManager.instance.discoverEverything = true;
     }
 
     private void OnDestroy()
@@ -195,6 +202,9 @@ public class EditorDetailDisplay : MonoBehaviour
     {
         DrawHeader();
 
+        if(CustomLightsManager.instance != null)
+            UIElementData.Create<UIElementToggle>(m_container).SetLabel("Discover everything").SetValue(CustomLightsManager.instance.discoverEverything).SetValueChangeFunc((bool value)=>{ CustomLightsManager.instance.discoverEverything = value; });
+
         UIElementData.Create<UIElementSimpleText>(m_container).SetText("Grid size");
         UIElementData.Create<UIElementIntInput>(m_container).SetLabel("- Width").SetValue(GetWorldSize()).SetValueChangeFunc(SetWorldSize).SetBounds(1, 100);
         UIElementData.Create<UIElementIntInput>(m_container).SetLabel("- Height").SetValue(GetWorldHeight()).SetValueChangeFunc(SetWorldHeight).SetBounds(1, 100);
@@ -206,6 +216,9 @@ public class EditorDetailDisplay : MonoBehaviour
         UIElementData.Create<UIElementButton>(ToolsContainer).SetText("Cuboid").SetClickFunc(() => { EnableSimpleTool(EditorSimpleToolType.Cuboid); });
         UIElementData.Create<UIElementButton>(ToolsContainer).SetText("Sphere").SetClickFunc(() => { EnableSimpleTool(EditorSimpleToolType.Sphere); });
         UIElementData.Create<UIElementButton>(ToolsContainer).SetText("Smooth").SetClickFunc(() => { EnableSimpleTool(EditorSimpleToolType.Smooth); });
+        UIElementData.Create<UIElementButton>(ToolsContainer).SetText("Height Brush").SetClickFunc(() => { EnableSimpleTool(EditorSimpleToolType.Height); });
+        UIElementData.Create<UIElementFloatInput>(ToolsContainer).SetLabel("Radius").SetValue(m_heightBrushSize).SetValueChangeFunc((float value) => { SetHeightBrushSize(value); });
+        UIElementData.Create<UIElementFloatInput>(ToolsContainer).SetLabel("Speed").SetValue(m_heightBrushSpeed).SetValueChangeFunc((float value) => { SetHeightBrushSpeed(value); });
     }
 
     int GetWorldSize()
@@ -284,6 +297,14 @@ public class EditorDetailDisplay : MonoBehaviour
             case EditorSimpleToolType.Smooth:
                 tool = new EditorToolShapeBlock(EditorToolShape.Smooth);
                 break;
+            case EditorSimpleToolType.Height:
+                {
+                    EditorToolHeightBrush brushTool = new EditorToolHeightBrush();
+                    brushTool.SetRadius(m_heightBrushSize);
+                    brushTool.SetSpeed(m_heightBrushSpeed);
+                    tool = brushTool;
+                }
+                break;
             default:
                 throw new NotImplementedException("Implement theses fucking tools");
         }
@@ -296,6 +317,34 @@ public class EditorDetailDisplay : MonoBehaviour
             return;
 
         holder.SetCurrentTool(tool);
+    }
+
+    void SetHeightBrushSize(float size)
+    {
+        m_heightBrushSize = size;
+
+        var holder = EditorToolHolder.instance;
+        if (holder == null)
+            return;
+
+        var tool = holder.GetCurrentTool() as EditorToolHeightBrush;
+        if (tool == null)
+            return;
+        tool.SetRadius(size);
+    }
+
+    void SetHeightBrushSpeed(float speed)
+    {
+        m_heightBrushSpeed = speed;
+
+        var holder = EditorToolHolder.instance;
+        if (holder == null)
+            return;
+
+        var tool = holder.GetCurrentTool() as EditorToolHeightBrush;
+        if (tool == null)
+            return;
+        tool.SetSpeed(speed);
     }
 
     void DrawGeneration()

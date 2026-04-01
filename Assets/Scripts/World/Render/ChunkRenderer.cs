@@ -15,6 +15,9 @@ public class ChunkRenderer
     bool m_ended = false;
     bool m_working = false;
 
+    bool m_generating = false;
+    readonly object m_generatingLock = new object();
+
     public ChunkRenderer(Grid grid, Vector3Int index)
     {
         m_grid = grid;
@@ -43,6 +46,14 @@ public class ChunkRenderer
     public bool Ended()
     {
         return m_ended && !m_working;
+    }
+
+    public bool IsGenerating()
+    {
+        lock (m_generatingLock)
+        {
+            return m_generating;
+        }
     }
 
     public List<Material> GetMaterials()
@@ -94,6 +105,11 @@ public class ChunkRenderer
 
     void JobWorker()
     {
+        lock (m_generatingLock)
+        {
+            m_generating = true;
+        }
+
         m_meshParams = new MeshParams<WorldVertexDefinition, ColliderVertexDefinition>();
 
         var mat = new Matrix<Block>(Grid.ChunkSize + 2, Grid.ChunkSize + 2, Grid.ChunkSize + 2);
@@ -105,15 +121,15 @@ public class ChunkRenderer
 
         for (int i = 0; i < Grid.ChunkSize; i++)
         {
-            for(int j = 0; j < Grid.ChunkSize; j++)
+            for (int j = 0; j < Grid.ChunkSize; j++)
             {
-                for(int k = 0; k < Grid.ChunkSize; k++)
+                for (int k = 0; k < Grid.ChunkSize; k++)
                 {
-                    for(int x = -1; x <= 1; x++)
+                    for (int x = -1; x <= 1; x++)
                     {
-                        for(int y = -1; y <= 1; y++)
+                        for (int y = -1; y <= 1; y++)
                         {
-                            for(int z = -1; z <= 1; z++)
+                            for (int z = -1; z <= 1; z++)
                             {
                                 var block = mat.Get(i + x + 1, j + y + 1, k + z + 1);
                                 localMat.Set(block, x, y, z);
@@ -133,6 +149,11 @@ public class ChunkRenderer
     {
         m_working = false;
         m_ended = true;
+
+        lock (m_generatingLock)
+        {
+            m_generating = false;
+        }
     }
 
     void DrawBlock(Vector3Int pos, NearMatrix3<Block> mat)

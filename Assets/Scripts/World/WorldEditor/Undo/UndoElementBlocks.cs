@@ -62,4 +62,9 @@ public class UndoElementBlocks : UndoElementBase
 
         return revert;
     }
+
+    public bool HaveBlock()
+    {
+        return m_blocks.Count > 0;
+    }
 }

@@ -138,6 +138,14 @@ public class EditorGridBehaviour : MonoBehaviour
         m_gridBehaviour.SetChunksDirty(chunks);
     }
 
+    public void SetChunkDirty(Vector3Int chunk)
+    {
+        if (m_gridBehaviour == null)
+            return;
+
+        m_gridBehaviour.SetChunkDirty(chunk);
+    }
+
     public Grid GetGrid()
     {
         if (m_gridBehaviour != null)

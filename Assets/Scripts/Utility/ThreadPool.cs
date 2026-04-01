@@ -57,6 +57,14 @@ public static class ThreadPool
         return true;
     }
 
+    public static int GetPendingJobCount()
+    {
+        lock(m_pendingJobsLock)
+        {
+            return m_pendingJobs.Count;
+        }
+    }
+
     [RuntimeInitializeOnLoadMethod]
     static void RunOnStart()
     {
