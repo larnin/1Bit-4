@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using NRand;
 
-public class EnemyBehaviourV2 : MonoBehaviour
+public class EnemyBehaviourV2 : MonoBehaviour, EntityMoveTargetInterface
 {
     [SerializeField] NavigationProfileChoice m_navigationProfile;
 
@@ -63,6 +63,9 @@ public class EnemyBehaviourV2 : MonoBehaviour
             return;
 
         if (Utility.IsFrozen(gameObject))
+            return;
+
+        if (Utility.IsDead(gameObject))
             return;
 
         if (NavigationSystem.instance == null)
@@ -129,5 +132,15 @@ public class EnemyBehaviourV2 : MonoBehaviour
             return null;
 
         return building.gameObject;
+    }
+
+    Vector3 EntityMoveTargetInterface.GetNextPos()
+    {
+        return new Vector3(m_nextPos.x, m_nextPos.y, m_nextPos.z);
+    }
+
+    public bool CanMove()
+    {
+        return m_needMove;
     }
 }
