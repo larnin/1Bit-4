@@ -8,7 +8,7 @@ using TMPro;
 
 public class FPSCounter : MonoBehaviour
 {
-    [SerializeField] bool m_displayJobs = true;
+    [SerializeField] bool m_displayDetails = true;
 
     TMP_Text m_text;
 
@@ -23,7 +23,28 @@ public class FPSCounter : MonoBehaviour
 
     private void Update()
     {
+        string data = "";
+
+        if(m_displayDetails)
+        {
+            int jobs = ThreadPool.GetPendingJobCount();
+            m_text.text += "Jobs: " + jobs.ToString() + "\n";
+
+            if(BuildingList.instance != null)
+            {
+                int buildings = BuildingList.instance.GetBuildingNb();
+                m_text.text += "Buildings: " + buildings.ToString() + "\n";
+            }
+
+            if(EntityList.instance != null)
+            {
+                int entities = EntityList.instance.GetEntityNb();
+                m_text.text += "Entities: " + entities.ToString() + "\n";
+            }
+        }
+
         float fps = 1 / Time.deltaTime;
+
 
         if (lastFPS == 0)
             lastFPS = fps;
@@ -32,13 +53,8 @@ public class FPSCounter : MonoBehaviour
 
         lastFPS = lastFPS * (1 - percent) + fps * percent;
 
-        m_text.text = Mathf.RoundToInt(lastFPS).ToString();
+        data += Mathf.RoundToInt(lastFPS).ToString();
 
-        if(m_displayJobs)
-        {
-            int jobs = ThreadPool.GetPendingJobCount();
-
-            m_text.text += " - Jobs: " + jobs.ToString();
-        }
+        m_text.text = data;
     }
 }
