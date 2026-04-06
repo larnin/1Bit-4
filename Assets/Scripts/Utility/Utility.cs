@@ -186,7 +186,7 @@ public static class Utility
         if(Mathf.Abs(det) < Mathf.Epsilon)
             return new Vector2(float.MinValue, float.MinValue);
 
-        float k = -(A.x * OP.y - O.x * OP.y - OP.x * A.y + OP.x * O.y) / det;
+        //float k = -(A.x * OP.y - O.x * OP.y - OP.x * A.y + OP.x * O.y) / det;
         float l = -(-AB.x * A.y + AB.x * O.y + AB.y * A.x - AB.y * O.x) / det;
 
         return l * OP + O;

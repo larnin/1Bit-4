@@ -143,4 +143,21 @@ public class EnemyBehaviourV2 : MonoBehaviour, EntityMoveTargetInterface
     {
         return m_needMove;
     }
+
+    public bool IsNavigable(Vector3Int pos)
+    {
+        if (NavigationSystem.instance == null)
+            return false;
+
+        var surface = NavigationSystem.instance.GetSurface(m_navigationProfile.GetValue());
+        if (surface == null)
+        {
+            Debug.LogError("Unable to find a surface with name " + m_navigationProfile.GetValue());
+            return false;
+        }
+
+        var posI = new Vector2Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.z));
+
+        return surface.IsNavigable(posI);
+    }
 }

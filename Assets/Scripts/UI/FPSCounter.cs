@@ -28,18 +28,18 @@ public class FPSCounter : MonoBehaviour
         if(m_displayDetails)
         {
             int jobs = ThreadPool.GetPendingJobCount();
-            m_text.text += "Jobs: " + jobs.ToString() + "\n";
+            data += "Jobs: " + jobs.ToString() + "\n";
 
             if(BuildingList.instance != null)
             {
                 int buildings = BuildingList.instance.GetBuildingNb();
-                m_text.text += "Buildings: " + buildings.ToString() + "\n";
+                data += "Buildings: " + buildings.ToString() + "\n";
             }
 
             if(EntityList.instance != null)
             {
                 int entities = EntityList.instance.GetEntityNb();
-                m_text.text += "Entities: " + entities.ToString() + "\n";
+                data += "Entities: " + entities.ToString() + "\n";
             }
         }
 

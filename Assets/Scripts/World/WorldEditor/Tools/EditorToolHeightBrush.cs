@@ -267,7 +267,7 @@ public class EditorToolHeightBrush : EditorToolBase
         if (height <= 0)
             return height;
 
-        for(int i = height; i > 0; i++)
+        for(int i = height; i > 0; i--)
         {
             var block = GridEx.GetBlock(grid, new Vector3Int(pos.x, i, pos.y));
             if (block.type == BlockType.ground || block.type == BlockType.water)

@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public enum EntityType
 {
@@ -36,6 +39,8 @@ public class GameSystem : MonoBehaviour
 
     BuildingType m_forcedBuilding = BuildingType.Tower;
     bool m_forcedBuildingEnabled = false;
+
+    bool m_isClosing = false;
 
     SubscriberList m_subscriberList = new SubscriberList();
 
@@ -97,7 +102,16 @@ public class GameSystem : MonoBehaviour
 
         m_subscriberList.Add(new Event<TowerDeathEvent>.Subscriber(OnTowerDeath));
         m_subscriberList.Add(new Event<QuestEndLevelEvent>.Subscriber(OnQuestEnd));
+        m_subscriberList.Add(new Event<ExitPlaymodeEvent>.Subscriber(IsPlaymodeEnded));
         m_subscriberList.Subscribe();
+
+
+#if UNITY_EDITOR
+        EditorApplication.playModeStateChanged += (PlayModeStateChange change) => 
+        { 
+            m_isClosing = change == PlayModeStateChange.ExitingPlayMode || change == PlayModeStateChange.EnteredEditMode; 
+        };
+#endif
     }
 
     private void OnDestroy()
@@ -390,6 +404,11 @@ public class GameSystem : MonoBehaviour
     void OnQuestEnd(QuestEndLevelEvent e)
     {
         TriggerEndLevel(e.succes);
+    }
+
+    void IsPlaymodeEnded(ExitPlaymodeEvent e)
+    {
+        e.exitPlay = m_isClosing;
     }
 
     void TriggerEndLevel(bool succes)

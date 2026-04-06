@@ -38,3 +38,8 @@ public class EditorSystemButtonClickedEvent
 
 public class UndoEvent { }
 
+public class ExitPlaymodeEvent
+{
+    public bool exitPlay = GameSystem.instance == null;
+}
+

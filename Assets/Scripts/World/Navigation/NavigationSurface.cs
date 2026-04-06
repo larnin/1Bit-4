@@ -463,6 +463,24 @@ public class NavigationSurface
             Rebuild();
     }
 
+    public bool IsNavigable(Vector2Int pos)
+    {
+        lock(m_navigationGridLock)
+        {
+            if (m_navigationGrid == null)
+                return false;
+
+            if (pos.x < 0 || pos.x >= m_navigationGrid.width || pos.y < 0 || pos.y >= m_navigationGrid.depth)
+                return false;
+
+            NavigationElement elem = m_navigationGrid.Get(pos.x, pos.y);
+            if (elem.nextPos.x < 0 || elem.nextPos.y < 0)
+                return false;
+        }
+
+        return true;
+    }
+
     public NavigationQueryResult QueryNext(Vector2Int pos, int seed, float deviation)
     {
         NavigationQueryResult result = new NavigationQueryResult();
@@ -496,6 +514,7 @@ public class NavigationSurface
             else result.nextPos = new Vector3Int(elem.nextPos.x, -1, elem.nextPos.y);
 
             result.nextPos.y = m_navigationGrid.Get(result.nextPos.x, result.nextPos.z).height;
+            result.targetPos = elem.target;
         }
 
         return result;

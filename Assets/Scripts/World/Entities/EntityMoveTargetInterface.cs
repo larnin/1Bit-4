@@ -9,4 +9,6 @@ public interface EntityMoveTargetInterface
 {
     public abstract Vector3 GetNextPos();
     public abstract bool CanMove();
+
+    public bool IsNavigable(Vector3Int pos);
 }

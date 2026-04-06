@@ -109,7 +109,7 @@ public class EntityMoveV2 : MonoBehaviour
             Vector3 newPos = transform.position + moveDir * Time.deltaTime * m_speed;
             newPos.y = GetHeight(newPos);
 
-            transform.position = newPos;
+            MoveTo(newPos);
 
             transform.forward = moveDir;
         }
@@ -153,6 +153,51 @@ public class EntityMoveV2 : MonoBehaviour
     bool StartJump()
     {
         return false;
+    }
+
+    void MoveTo(Vector3 next)
+    {
+        Vector3 current = transform.position;
+        Vector3Int currentI = new Vector3Int(Mathf.RoundToInt(current.x), Mathf.RoundToInt(current.y), Mathf.RoundToInt(current.z));
+        Vector3Int nextI = new Vector3Int(Mathf.RoundToInt(next.x), Mathf.RoundToInt(next.y), Mathf.RoundToInt(next.z));
+
+        if(currentI == nextI || m_moveInterface.IsNavigable(nextI))
+        {
+            transform.position = next;
+            return;
+        }
+
+        Vector2[] points = new Vector2[]{
+            new Vector2(current.x - 0.5f, current.z - 0.5f),
+            new Vector2(current.x - 0.5f, current.z + 0.5f),
+            new Vector2(current.x + 0.5f, current.z + 0.5f),
+            new Vector2(current.x + 0.5f, current.z - 0.5f) };
+
+        Vector2 current2 = new Vector2(current.x, current.z);
+
+        for (int i = 0; i < 4; i++)
+        {
+            Vector2 p1 = points[i];
+            Vector2 p2 = i == 3 ? points[0] : points[i + 1];
+
+            Vector2 result = Utility.IntersectLines(current2, new Vector2(next.x, next.z), p1, p2);
+
+            Vector2 dir = result - current2;
+            float dist = dir.magnitude;
+            dir /= dist;
+
+            if (dist > 1)
+                continue;
+
+            if (dist > 0.01f)
+                dist -= 0.01f;
+            else return;
+
+            Vector2 targetMove = dir * dist + current2;
+            transform.position = new Vector3(targetMove.x, next.y, targetMove.y);
+
+            return;
+        }
     }
 
     void Load(LoadEvent e)
