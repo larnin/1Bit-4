@@ -182,6 +182,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_meshComponent: {fileID: 981647863647172320}
+  m_selectionPopupPrefab: {fileID: 0}
+  m_selectionPopupOffset: 0
   m_powerGeneration: 10
   m_placementRadius: 9
 --- !u!65 &915030668676742545

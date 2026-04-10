@@ -86,10 +86,10 @@ public class EntityMoveV2 : MonoBehaviour
         if (m_speed > m_moveSpeed)
             m_speed = m_moveSpeed;
 
-        Vector3 target = m_moveInterface.GetNextPos();
-
         if (m_speed > 0.001f)
         {
+            Vector3 target = m_moveInterface.GetNextPos();
+            
             Vector3 dir = target - transform.position;
             float angleDir = Mathf.Atan2(dir.z, dir.x);
             float deltaAngle = angleDir - m_angle;
@@ -155,7 +155,7 @@ public class EntityMoveV2 : MonoBehaviour
         return false;
     }
 
-    void MoveTo(Vector3 next)
+    void MoveTo(Vector3 next, bool retry = false)
     {
         Vector3 current = transform.position;
         Vector3Int currentI = new Vector3Int(Mathf.RoundToInt(current.x), Mathf.RoundToInt(current.y), Mathf.RoundToInt(current.z));
@@ -168,12 +168,17 @@ public class EntityMoveV2 : MonoBehaviour
         }
 
         Vector2[] points = new Vector2[]{
-            new Vector2(current.x - 0.5f, current.z - 0.5f),
-            new Vector2(current.x - 0.5f, current.z + 0.5f),
-            new Vector2(current.x + 0.5f, current.z + 0.5f),
-            new Vector2(current.x + 0.5f, current.z - 0.5f) };
+            new Vector2(currentI.x - 0.5f, currentI.z - 0.5f),
+            new Vector2(currentI.x - 0.5f, currentI.z + 0.5f),
+            new Vector2(currentI.x + 0.5f, currentI.z + 0.5f),
+            new Vector2(currentI.x + 0.5f, currentI.z - 0.5f) };
 
         Vector2 current2 = new Vector2(current.x, current.z);
+
+        bool intersect = false;
+        float intersectDist = 0;
+        Vector2 intersectPos = Vector2.zero;
+        Vector2 intersectDir = Vector2.zero;
 
         for (int i = 0; i < 4; i++)
         {
@@ -191,13 +196,34 @@ public class EntityMoveV2 : MonoBehaviour
 
             if (dist > 0.01f)
                 dist -= 0.01f;
-            else return;
+            else dist = 0;
 
-            Vector2 targetMove = dir * dist + current2;
-            transform.position = new Vector3(targetMove.x, next.y, targetMove.y);
+            if(!intersect || dist < intersectDist)
+            {
+                intersect = true;
+                intersectDist = dist;
+                intersectPos = dir * dist + current2;
+                intersectDir = (p2 - p1).normalized;
+            }
+        }
 
+        if(!intersect)
+        {
+            transform.position = next;
             return;
         }
+
+        transform.position = new Vector3(intersectPos.x, next.y, intersectPos.y);
+        if (retry)
+            return;
+
+        Vector3 remaining = next - transform.position;
+        Vector3 remainingDir = Vector3.Project(remaining, new Vector3(intersectDir.x, 0, intersectDir.y));
+
+        Vector3 newNext = transform.position + remainingDir;
+
+        MoveTo(newNext, true);
+
     }
 
     void Load(LoadEvent e)
