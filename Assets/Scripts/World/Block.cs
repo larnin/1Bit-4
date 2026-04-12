@@ -11,7 +11,8 @@ public enum BlockType : byte
     water,
     crystal,
     oil,
-    Titanium
+    Titanium,
+    Geothermal
 }
 
 public struct Block
