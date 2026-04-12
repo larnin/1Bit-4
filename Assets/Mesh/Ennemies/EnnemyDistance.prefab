@@ -203,7 +203,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60ad0231b28a0e64aaac68e8d6441240, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_projectilePrefab: {fileID: 9030378141569406407, guid: 329877d3bf8808943ab3e9e2617fdbc3, type: 3}
+  m_projectileType:
+    m_value: SimpleEnnemyProjectile
   m_firePrefab: {fileID: 9030378141569406407, guid: 329877d3bf8808943ab3e9e2617fdbc3, type: 3}
   m_rangeStopMove: 7
   m_fireRange: 10
@@ -300,7 +301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a6c11ee1fb1dda429dd1226b2d17eb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_initialValues: []
+  m_values: []
 --- !u!114 &8866054817381774570
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,7 +10,7 @@ public class BuildingTurretEnergy : BuildingTurretBase
     [SerializeField] float m_energyStorage = 10;
     [SerializeField] float m_energyUptake = 2;
     [SerializeField] float m_energyPerFire = 1;
-    [SerializeField] GameObject m_projectilePrefab;
+    [SerializeField] ProjectileChoice m_projectileType;
     [SerializeField] string m_fireSound;
     [SerializeField] float m_fireSoundVolume = 1;
 
@@ -82,30 +82,18 @@ public class BuildingTurretEnergy : BuildingTurretBase
         if (firePoint == null)
             return;
 
-        if (m_projectilePrefab != null)
+        var startInfos = new ProjectileStartInfos();
+        startInfos.name = m_projectileType.GetValue();
+        startInfos.caster = gameObject;
+        startInfos.target = GetTarget();
+        startInfos.position = firePoint.position;
+        startInfos.rotation = firePoint.rotation;
+
+        ProjectileBase.ThrowProjectile(startInfos);
+
+        if(SoundSystem.instance != null)
         {
-            var obj = Instantiate(m_projectilePrefab);
-            obj.transform.position = firePoint.position;
-            obj.transform.rotation = firePoint.rotation;
-
-            var projectile = obj.GetComponent<ProjectileBase>();
-            if (projectile != null)
-            {
-                var target = GetTarget();
-                if (target != null)
-                {
-                    projectile.SetTarget(target);
-                    projectile.SetCaster(gameObject);
-
-                    var multiplier = Event<GetStatEvent>.Broadcast(new GetStatEvent(StatType.DamagesMultiplier), gameObject);
-                    projectile.SetDamagesMultiplier(multiplier.GetValue());
-                }
-            }
-
-            if(SoundSystem.instance != null)
-            {
-                SoundSystem.instance.PlaySound(m_fireSound, firePoint.position, m_fireSoundVolume);
-            }
+            SoundSystem.instance.PlaySound(m_fireSound, firePoint.position, m_fireSoundVolume);
         }
     }
 

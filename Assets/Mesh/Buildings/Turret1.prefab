@@ -134,6 +134,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_meshComponent: {fileID: 6463425457681592621}
+  m_selectionPopupPrefab: {fileID: 0}
+  m_selectionPopupOffset: 0
   m_fireRate: 3
   m_range: 15
   m_recoilDistance: 0.3
@@ -144,6 +146,8 @@ MonoBehaviour:
   m_energyUptake: 8
   m_energyPerFire: 2.5
   m_projectilePrefab: {fileID: 9030378141569406407, guid: 87e9017554cad3b469d1f42ecbc47c60, type: 3}
+  m_projectileType:
+    m_value: SimplePlayerProjectile
   m_fireSound: TurretEnergyFire
   m_fireSoundVolume: 0.5
 --- !u!114 &116782343465566749
@@ -158,7 +162,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a6c11ee1fb1dda429dd1226b2d17eb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_initialValues: []
 --- !u!114 &4706527088241685180
 MonoBehaviour:
   m_ObjectHideFlags: 0

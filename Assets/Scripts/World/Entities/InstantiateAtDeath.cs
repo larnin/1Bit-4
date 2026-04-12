@@ -8,6 +8,7 @@ using UnityEngine;
 public class InstantiateAtDeath : MonoBehaviour
 {
     [SerializeField] GameObject m_instantiateAtDeathPrefab;
+    [SerializeField] ProjectileChoice m_instantiateAtDeathProjectile;
 
     SubscriberList m_subscriberList = new SubscriberList();
 
@@ -32,6 +33,17 @@ public class InstantiateAtDeath : MonoBehaviour
             var obj = Instantiate(m_instantiateAtDeathPrefab);
             obj.transform.position = transform.position;
             obj.transform.rotation = transform.rotation;
+        }
+
+        if(m_instantiateAtDeathProjectile.IsValid())
+        {
+            ProjectileStartInfos startInfos = new ProjectileStartInfos();
+            startInfos.name = m_instantiateAtDeathProjectile.GetValue();
+            startInfos.caster = gameObject;
+            startInfos.position = transform.position;
+            startInfos.rotation = transform.rotation;
+
+            ProjectileBase.ThrowProjectile(startInfos);
         }
     }
 }

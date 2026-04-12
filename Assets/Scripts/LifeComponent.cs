@@ -157,11 +157,7 @@ public class LifeComponent : MonoBehaviour
 
     void UpdateMultiplier()
     {
-        var stat = new GetStatEvent(StatType.MaxLifeMultiplier);
-        stat.set = 1;
-        Event<GetStatEvent>.Broadcast(stat, gameObject);
-
-        float multiplier = stat.GetValue();
+        float multiplier = Event<GetStatEvent>.Broadcast(new GetStatEvent(StatType.MaxLifeMultiplier), gameObject).GetValue();
         if(multiplier != m_maxLifeMultiplier)
         {
             m_life = m_life * multiplier / m_maxLifeMultiplier;

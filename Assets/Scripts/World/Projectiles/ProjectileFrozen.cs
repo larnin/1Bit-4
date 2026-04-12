@@ -139,7 +139,7 @@ class ProjectileFrozen : ProjectileBase
         {
             if (m_hitEntities.Contains(col.gameObject))
                 continue;
-            Event<HitEvent>.Broadcast(new HitEvent(new Hit(m_damages * m_damagesMultiplier, m_caster, m_damageType, m_damageEffect)), col.gameObject);
+            Event<HitEvent>.Broadcast(new HitEvent(new Hit(m_damages * GetStat(StatType.DamagesMultiplier), m_caster, m_damageType, m_damageEffect)), col.gameObject);
             m_hitEntities.Add(col.gameObject);
         }
 
