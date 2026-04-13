@@ -25,6 +25,7 @@ public enum BuildingType
     Turret3,
     Storage,
     MonolithNullifier,
+    GeothermalGenerator,
     EnnemySpawner = 100,
     Monolith,
 }
@@ -54,6 +55,7 @@ public enum BuildingPlaceType
     NeedTitanim,
     NeedOil,
     NeedWater,
+    NeedGeothermal,
     TooCloseSolarPannel,
     NeedMonolith,
     PositionLocked,

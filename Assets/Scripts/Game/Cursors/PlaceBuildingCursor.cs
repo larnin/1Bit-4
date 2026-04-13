@@ -422,6 +422,8 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
                 return "Need crystal";
             case BuildingPlaceType.NeedOil:
                 return "Need oil";
+            case BuildingPlaceType.NeedGeothermal:
+                return "Need Geothermal pit";
             case BuildingPlaceType.NeedTitanim:
                 return "Need titanium";
             case BuildingPlaceType.NeedWater:

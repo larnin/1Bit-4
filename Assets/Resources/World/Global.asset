@@ -363,6 +363,8 @@ MonoBehaviour:
       prefab: {fileID: 8456270362634877586, guid: 3c803b095a069cf49a886d3f7760e830, type: 3}
     - type: 4
       prefab: {fileID: 3008861276544816395, guid: c6e294c93c8ab094f97647343a50d57d, type: 3}
+    - type: 6
+      prefab: {fileID: 3008861276544816395, guid: 1a49b0f63d4fa9a4f8fa38379ede33cd, type: 3}
     renderMoreHeight: 0
   m_buildingDatas:
     m_buildings:
@@ -590,6 +592,20 @@ MonoBehaviour:
           count: 500
         - type: 2
           count: 100
+    - type: 18
+      prefab: {fileID: 3302297477251710701, guid: e0d2315b947d7654c8e85adac6a0bdd3, type: 3}
+      sprite: {fileID: 0}
+      spriteWithBorder: {fileID: 0}
+      size: {x: 3, y: 2, z: 3}
+      team: 0
+      name: Geothermal Generator
+      description: Use the heath of the core to generate energy. More powerfull than
+        the solar panel, but need a geothermal pit to work
+      firstFree: 0
+      cost:
+        cost:
+        - type: 1
+          count: 300
     mineItemPrefab: {fileID: 6943061212826655842, guid: 020dedfdfd13d1c49ac25e185f22167b, type: 3}
     lifeLossDisplayDuration: 10
     lifebarPrefab: {fileID: 403841948413428351, guid: 865e80a7aecab34408fe71ab6fb1fed9, type: 3}
