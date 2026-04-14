@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -18,6 +19,8 @@ public class BuildingList : MonoBehaviour
     Dictionary<ulong, BuildingChunk> m_chunks = new Dictionary<ulong, BuildingChunk>();
 
     SubscriberList m_subscriberList = new SubscriberList();
+
+    ReaderWriterLockSlim m_locker = new ReaderWriterLockSlim();
 
     static BuildingList m_instance = null;
     public static BuildingList instance { get { return m_instance; } }
@@ -40,6 +43,8 @@ public class BuildingList : MonoBehaviour
 
     public void Register(BuildingBase building)
     {
+        m_locker.EnterWriteLock();
+
         m_buildings.Add(building);
 
         var bounds = building.GetBounds();
@@ -66,6 +71,8 @@ public class BuildingList : MonoBehaviour
 
         AddInChunks(building);
 
+        m_locker.ExitWriteLock();
+
         if (building.GetTeam() == Team.Player && ConnexionSystem.instance != null)
             ConnexionSystem.instance.OnBuildingAdd(building);
 
@@ -74,6 +81,8 @@ public class BuildingList : MonoBehaviour
 
     public void UnRegister(BuildingBase building)
     {
+        m_locker.EnterWriteLock();
+
         m_buildings.Remove(building);
 
         var bounds = building.GetBounds();
@@ -101,6 +110,8 @@ public class BuildingList : MonoBehaviour
 
         RemoveFromChunks(building);
 
+        m_locker.ExitWriteLock();
+
         if (building.GetTeam() == Team.Player && ConnexionSystem.instance != null)
             ConnexionSystem.instance.OnBuildingRemove(building);
 
@@ -109,49 +120,89 @@ public class BuildingList : MonoBehaviour
 
     public int GetBuildingNb()
     {
-        return m_buildings.Count;
+        m_locker.EnterReadLock();
+        try
+        {
+            return m_buildings.Count;
+        }
+        finally
+        {
+            m_locker.ExitReadLock();
+        }
     }
 
     public BuildingBase GetBuildingFromIndex(int index)
     {
-        if (index < 0 || index >= m_buildings.Count)
-            return null;
+        m_locker.EnterReadLock();
+        try
+        {
+            if (index < 0 || index >= m_buildings.Count)
+                return null;
 
-        return m_buildings[index];
+            return m_buildings[index];
+        }
+        finally
+        {
+            m_locker.ExitReadLock();
+        }
     }
 
     public BuildingBase GetFirstBuilding(BuildingType type)
     {
-        foreach (var building in m_buildings)
+        m_locker.EnterReadLock();
+        try
         {
-            if (building.GetBuildingType() == type)
-                return building;
-        }
+            foreach (var building in m_buildings)
+            {
+                if (building.GetBuildingType() == type)
+                    return building;
+            }
 
-        return null;
+            return null;
+        }
+        finally
+        {
+            m_locker.ExitReadLock();
+        }
     }
 
     List<BuildingBase> GetAllBuilding(Func<BuildingBase, bool> condition)
     {
-        List<BuildingBase> buildings = new List<BuildingBase>();
-
-        foreach (var building in m_buildings)
+        m_locker.EnterReadLock();
+        try
         {
-            if(condition != null && condition(building))
-                buildings.Add(building);
-        }
+            List<BuildingBase> buildings = new List<BuildingBase>();
 
-        return buildings;
+            foreach (var building in m_buildings)
+            {
+                if (condition != null && condition(building))
+                    buildings.Add(building);
+            }
+
+            return buildings;
+        }
+        finally
+        {
+            m_locker.ExitReadLock();
+        }
     }
 
     public List<BuildingBase> GetAllBuilding()
     {
-        List<BuildingBase> buildings = new List<BuildingBase>();
+        m_locker.EnterReadLock();
+        try
+        {
+            List<BuildingBase> buildings = new List<BuildingBase>();
 
-        foreach (var building in m_buildings)
-            buildings.Add(building);
+            foreach (var building in m_buildings)
+                buildings.Add(building);
 
-        return buildings;
+            return buildings;
+        }
+        finally
+        {
+            m_locker.ExitReadLock();
+        }
     }
 
     public List<BuildingBase> GetAllBuilding(BuildingType type)
@@ -171,101 +222,117 @@ public class BuildingList : MonoBehaviour
 
     BuildingBase GetNearestBuilding(Vector3 pos, Func<BuildingBase, bool> condition)
     {
-        float bestDistance = 0;
-        BuildingBase bestBuilding = null;
-
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
-            return null;
-
-        int x = grid.grid.LoopX() ? 1 : 0;
-        int y = grid.grid.LoopZ() ? 1 : 0;
-        var size = GridEx.GetRealSize(grid.grid);
-
-        foreach (var building in m_buildings)
+        m_locker.EnterReadLock();
+        try
         {
-            if (condition != null && !condition(building))
-                continue;
+            float bestDistance = 0;
+            BuildingBase bestBuilding = null;
 
-            Vector3 buildingPos = building.GetPos();
-            Vector3 buildingSize = building.GetSize();
+            var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+            if (grid.grid == null)
+                return null;
 
-            for (int i = -x; i <= x; i++)
+            int x = grid.grid.LoopX() ? 1 : 0;
+            int y = grid.grid.LoopZ() ? 1 : 0;
+            var size = GridEx.GetRealSize(grid.grid);
+
+            foreach (var building in m_buildings)
             {
-                for (int j = -y; j <= y; j++)
+                if (condition != null && !condition(building))
+                    continue;
+
+                Vector3 buildingPos = building.GetPos();
+                Vector3 buildingSize = building.GetSize();
+
+                for (int i = -x; i <= x; i++)
                 {
-                    Vector3 loopPos = buildingPos + new Vector3(i, 0, j) * size;
-
-                    float dist = GetSqrDistance(pos, loopPos, buildingSize);
-
-                    if (dist < bestDistance || bestBuilding == null)
+                    for (int j = -y; j <= y; j++)
                     {
-                        bestBuilding = building;
-                        bestDistance = dist;
+                        Vector3 loopPos = buildingPos + new Vector3(i, 0, j) * size;
+
+                        float dist = GetSqrDistance(pos, loopPos, buildingSize);
+
+                        if (dist < bestDistance || bestBuilding == null)
+                        {
+                            bestBuilding = building;
+                            bestDistance = dist;
+                        }
                     }
                 }
             }
-        }
 
-        return bestBuilding;
+            return bestBuilding;
+        }
+        finally
+        {
+            m_locker.ExitReadLock();
+        }
     }
 
     BuildingBase GetNearestBuildingInRadius(Vector3 pos, float radius, Func<BuildingBase, bool> condition)
     {
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
-            return null;
-
-        Vector2Int posMin = new Vector2Int(Mathf.FloorToInt(pos.x - radius), Mathf.FloorToInt(pos.z - radius));
-        Vector2Int posMax = new Vector2Int(Mathf.CeilToInt(pos.x + radius), Mathf.CeilToInt(pos.z + radius));
-
-        Vector2Int chunkMin = Grid.PosToChunkIndex(posMin);
-        Vector2Int chunkMax = Grid.PosToChunkIndex(posMax);
-
-        var size = grid.grid.Size();
-        
-        if(!grid.grid.LoopX())
+        m_locker.EnterReadLock();
+        try
         {
-            if (posMin.x < 0)
-                posMin.x = 0;
-            if (posMax.x >= size)
-                posMax.x = size - 1;
-        }
-        if(!grid.grid.LoopZ())
-        {
-            if (posMin.y < 0)
-                posMin.y = 0;
-            if (posMax.y >= size)
-                posMax.y = size - 1;
-        }
+            var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+            if (grid.grid == null)
+                return null;
 
-        BuildingBase best = null;
-        float bestDistance = radius;
+            Vector2Int posMin = new Vector2Int(Mathf.FloorToInt(pos.x - radius), Mathf.FloorToInt(pos.z - radius));
+            Vector2Int posMax = new Vector2Int(Mathf.CeilToInt(pos.x + radius), Mathf.CeilToInt(pos.z + radius));
 
-        for (int i = posMin.x; i <= posMax.x; i++)
-        {
-            for(int j = posMin.y; j <= posMax.y; j++)
+            Vector2Int chunkMin = Grid.PosToChunkIndex(posMin);
+            Vector2Int chunkMax = Grid.PosToChunkIndex(posMax);
+
+            var size = grid.grid.Size();
+
+            if (!grid.grid.LoopX())
             {
-                Vector2Int chunkPos = GridEx.GetPosFromLoop(grid.grid, new Vector2Int(i, j));
+                if (posMin.x < 0)
+                    posMin.x = 0;
+                if (posMax.x >= size)
+                    posMax.x = size - 1;
+            }
+            if (!grid.grid.LoopZ())
+            {
+                if (posMin.y < 0)
+                    posMin.y = 0;
+                if (posMax.y >= size)
+                    posMax.y = size - 1;
+            }
 
-                var b = GetNearestBuilding(GetChunk(chunkPos), pos, condition);
-                if (b == null)
-                    continue;
+            BuildingBase best = null;
+            float bestDistance = radius;
 
-                Vector3 buildingPos = b.GetPos();
-                Vector3 buildingSize = b.GetSize();
-
-                float dist = GetSqrDistance(pos, buildingPos, buildingSize);
-
-                if(dist < bestDistance)
+            for (int i = posMin.x; i <= posMax.x; i++)
+            {
+                for (int j = posMin.y; j <= posMax.y; j++)
                 {
-                    bestDistance = dist;
-                    best = b;
+                    Vector2Int chunkPos = GridEx.GetPosFromLoop(grid.grid, new Vector2Int(i, j));
+
+                    var b = GetNearestBuilding(GetChunk(chunkPos), pos, condition);
+                    if (b == null)
+                        continue;
+
+                    Vector3 buildingPos = b.GetPos();
+                    Vector3 buildingSize = b.GetSize();
+
+                    float dist = GetSqrDistance(pos, buildingPos, buildingSize);
+
+                    if (dist < bestDistance)
+                    {
+                        bestDistance = dist;
+                        best = b;
+                    }
                 }
             }
-        }
 
-        return best;
+            return best;
+        }
+        finally
+        {
+            m_locker.ExitReadLock();
+        }
     }
 
     static BuildingBase GetNearestBuilding(BuildingChunk chunk, Vector3 pos, Func<BuildingBase, bool> condition)
@@ -335,58 +402,90 @@ public class BuildingList : MonoBehaviour
 
     public int GetBuildingNbAt(Vector3Int pos)
     {
-        List<BuildingBase> list;
-        if (!m_buildingsPos.TryGetValue(Utility.PosToID(pos), out list))
-            return 0;
-        if (list == null)
-            return 0;
-        return list.Count;
+        m_locker.EnterReadLock();
+        try
+        {
+            List<BuildingBase> list;
+            if (!m_buildingsPos.TryGetValue(Utility.PosToID(pos), out list))
+                return 0;
+            if (list == null)
+                return 0;
+            return list.Count;
+        }
+        finally
+        {
+            m_locker.ExitReadLock();
+        }
     }
 
     public BuildingBase GetFirstBuildingAt(Vector3Int pos)
     {
-        return GetBuildingAt(pos);
+        m_locker.EnterReadLock();
+        try
+        {
+            return GetBuildingAt(pos);
+        }
+        finally
+        {
+            m_locker.ExitReadLock();
+        }
     }
 
     public BuildingBase GetNextBuildingAt(Vector3Int pos, BuildingBase b)
     {
-        List<BuildingBase> list;
-        if (!m_buildingsPos.TryGetValue(Utility.PosToID(pos), out list))
-            return null;
-        if (list == null)
-            return null;
-        if (list.Count == 0)
-            return null;
-
-        if (b == null)
-            return list[0];
-
-        for(int i = 0; i < list.Count; i++)
+        m_locker.EnterReadLock();
+        try
         {
-            if(list[i] == b)
-            {
-                if (i == list.Count - 1)
-                    return list[0];
-                return list[i + 1];
-            }
-        }
+            List<BuildingBase> list;
+            if (!m_buildingsPos.TryGetValue(Utility.PosToID(pos), out list))
+                return null;
+            if (list == null)
+                return null;
+            if (list.Count == 0)
+                return null;
 
-        return list[0];
+            if (b == null)
+                return list[0];
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i] == b)
+                {
+                    if (i == list.Count - 1)
+                        return list[0];
+                    return list[i + 1];
+                }
+            }
+
+            return list[0];
+        }
+        finally
+        {
+            m_locker.ExitReadLock();
+        }
     }
 
     public BuildingBase GetBuildingAt(Vector3Int pos, int index = 0)
     {
-        List<BuildingBase> list;
-        if (!m_buildingsPos.TryGetValue(Utility.PosToID(pos), out list))
-            return null;
-        if (list == null)
-            return null;
-        if (list.Count <= index || index < 0)
-            return null;
-        return list[index];
+        m_locker.EnterReadLock();
+        try
+        {
+            List<BuildingBase> list;
+            if (!m_buildingsPos.TryGetValue(Utility.PosToID(pos), out list))
+                return null;
+            if (list == null)
+                return null;
+            if (list.Count <= index || index < 0)
+                return null;
+            return list[index];
+        }
+        finally
+        {
+            m_locker.ExitReadLock();
+        }
     }
 
-    static float GetSqrDistance(Vector3 pos, Vector3 itemPos, Vector3 itemSize)
+    public static float GetSqrDistance(Vector3 pos, Vector3 itemPos, Vector3 itemSize)
     {
         Vector3 dir = itemPos - pos;
         if (dir.x > 0)
@@ -471,6 +570,8 @@ public class BuildingList : MonoBehaviour
 
     public void Clear()
     {
+        m_locker.EnterWriteLock();
+
         //destroying elements can change the list
         var elements = m_buildings.ToList();
         m_buildings.Clear();
@@ -479,6 +580,8 @@ public class BuildingList : MonoBehaviour
         {
             Destroy(e.gameObject);
         }
+
+        m_locker.ExitWriteLock();
     }
 
     public void Load(JsonObject obj)
@@ -506,10 +609,14 @@ public class BuildingList : MonoBehaviour
         var jsonArray = new JsonArray();
         obj.AddElement("data", jsonArray);
 
+        m_locker.EnterReadLock();
+
         foreach (var b in m_buildings)
         {
             jsonArray.Add(b.Save());
         }
+
+        m_locker.ExitReadLock();
 
         return obj;
     }

@@ -4,27 +4,43 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Sirenix.OdinInspector;
+
+[Serializable]
+public class StatInfo
+{
+    public StatType type;
+    public float initialValue;
+
+    [HideLabel]
+    [HorizontalGroup("Min", Width = 30)]
+    public bool haveMin;
+
+    [HorizontalGroup("Min")]
+    [EnableIf("haveMin")]
+    public float minValue;
+
+    [HideLabel]
+    [HorizontalGroup("Max", Width = 30)]
+    public bool haveMax;
+
+    [HorizontalGroup("Max")]
+    [EnableIf("haveMax")]
+    public float maxValue;
+}
 
 [Serializable]
 public class StatsData
 {
-    [Serializable]
-    class StatInfo
-    {
-        public StatType type;
-        public float initialValue;
-    }
+    [SerializeField] List<StatInfo> m_statInfos = new List<StatInfo>();
 
-    [SerializeField] List<StatInfo> m_initialValues = new List<StatInfo>();
-
-    public float GetInitialValue(StatType type)
+    public StatInfo GetStatInfos(StatType type)
     {
-        foreach(var s in m_initialValues)
+        foreach(var s in m_statInfos)
         {
             if (s.type == type)
-                return s.initialValue;
+                return s;
         }
-
-        return 0;
+        return null;
     }
 }

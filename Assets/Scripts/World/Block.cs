@@ -11,7 +11,8 @@ public enum BlockType : byte
     water,
     crystal,
     oil,
-    Titanium
+    Titanium,
+    Geothermal
 }
 
 public struct Block
@@ -49,6 +50,9 @@ public struct Block
             case BlockType.Titanium:
                 str = "t";
                 break;
+            case BlockType.Geothermal:
+                str = "G";
+                break;
             default:
                 throw new Exception("not supported block type");
         }
@@ -73,6 +77,8 @@ public struct Block
             type = BlockType.oil;
         else if (value[0] == 't')
             type = BlockType.Titanium;
+        else if (value[0] == 'G')
+            type = BlockType.Geothermal;
         else type = BlockType.air;
 
         int dataDecode;

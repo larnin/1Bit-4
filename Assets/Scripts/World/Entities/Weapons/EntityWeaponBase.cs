@@ -6,6 +6,15 @@ using System.Threading.Tasks;
 using Unity.Profiling;
 using UnityEngine;
 
+public class ProjectileStartInfos
+{
+    public string name;
+    public GameObject caster;
+    public GameObject target;
+    public Vector3 position;
+    public Quaternion rotation;
+}
+
 public abstract class EntityWeaponBase : MonoBehaviour
 {
     static readonly ProfilerMarker ms_profilerMarker = new ProfilerMarker(ProfilerCategory.Scripts, "EntityWeaponBase.GetNearestBuildingAtRange");

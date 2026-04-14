@@ -44,8 +44,11 @@ public class BuildingDeath : MonoBehaviour
         m_offset = 0;
         m_building = GetComponent<BuildingBase>();
 
-        InstantiateParticles();
-        InstantiateDestroyedBuilding();
+        if (!Event<ExitPlaymodeEvent>.Broadcast(new ExitPlaymodeEvent()).exitPlay)
+        {
+            InstantiateParticles();
+            InstantiateDestroyedBuilding();
+        }
 
         if (ConnexionSystem.instance != null)
             ConnexionSystem.instance.OnBuildingRemove(GetComponent<BuildingBase>());

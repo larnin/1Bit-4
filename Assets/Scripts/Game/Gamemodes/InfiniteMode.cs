@@ -248,7 +248,7 @@ public class InfiniteMode : GamemodeBase
         Vector3 spawnPos = new Vector3(posI.x, height + 1, posI.z);
         var testBuilding = BuildingList.instance.GetNearestBuildingInRadius(spawnPos, m_asset.spawnersData.distanceFromSpawnerMin);
 
-        posOk = testBuilding != null;
+        posOk = testBuilding == null;
 
         if (posOk)
         {

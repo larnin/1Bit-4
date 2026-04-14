@@ -170,7 +170,7 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
 
         RaycastHit hit;
 
-        if (grid == null)
+        if (grid.grid == null)
         {
             haveHit = Physics.Raycast(ray, out hit, float.MaxValue, layer.value);
             if (!haveHit)
@@ -422,6 +422,8 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
                 return "Need crystal";
             case BuildingPlaceType.NeedOil:
                 return "Need oil";
+            case BuildingPlaceType.NeedGeothermal:
+                return "Need Geothermal pit";
             case BuildingPlaceType.NeedTitanim:
                 return "Need titanium";
             case BuildingPlaceType.NeedWater:

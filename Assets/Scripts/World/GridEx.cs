@@ -145,6 +145,13 @@ public static class GridEx
         return new Vector3Int(LoopPos(pos.x, size), pos.y, LoopPos(pos.z, size));
     }
 
+    public static Vector2Int GetRealPosFromLoop(Grid grid, Vector2Int pos)
+    {
+        int size = GetRealSize(grid);
+
+        return new Vector2Int(LoopPos(pos.x, size), LoopPos(pos.y, size));
+    }
+
     public static Vector3 GetRealPosFromLoop(Grid grid, Vector3 pos)
     {
         int size = GetRealSize(grid);

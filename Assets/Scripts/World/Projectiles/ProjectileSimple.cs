@@ -43,7 +43,7 @@ public class ProjectileSimple : ProjectileBase
         var team = Event<GetTeamEvent>.Broadcast(new GetTeamEvent(), hit.collider.gameObject);
         if (team.team == TeamEx.GetOppositeTeam(m_casterTeam))
         {
-            Event<HitEvent>.Broadcast(new HitEvent(new Hit(m_damages * m_damagesMultiplier, m_caster, m_damageType, m_damageEffect)), hit.collider.gameObject);
+            Event<HitEvent>.Broadcast(new HitEvent(new Hit(m_damages * GetStat(StatType.DamagesMultiplier), m_caster, m_damageType, m_damageEffect)), hit.collider.gameObject);
 
             needDestroy = true;
         }

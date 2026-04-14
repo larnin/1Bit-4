@@ -112,7 +112,7 @@ public class EditorToolResourceCursor : EditorToolBase
 
             return CursorState.Valid;
         }
-        else if(m_type == BlockType.oil)
+        else if(m_type == BlockType.oil || m_type == BlockType.Geothermal)
         {
             m_cursorPos = downPos;
 

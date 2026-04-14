@@ -134,6 +134,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_meshComponent: {fileID: 4599273482891498275}
+  m_selectionPopupPrefab: {fileID: 0}
+  m_selectionPopupOffset: 0
   m_fireRate: 1
   m_range: 22
   m_recoilDistance: 0.5
@@ -142,6 +144,8 @@ MonoBehaviour:
   m_fireParticles: {fileID: 5996570877976836119}
   m_resourceConsumption: 2
   m_consumption: 2
+  m_projectileType:
+    m_value: FrozenPlayerProjectile
   m_projectilePrefab: {fileID: 4663558457059073221, guid: 40944aad284fb12449a32e5dc9a68036, type: 3}
   m_fireSound: TurretIceFire
   m_fireSoundVolume: 0.5
@@ -157,7 +161,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a6c11ee1fb1dda429dd1226b2d17eb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_initialValues: []
 --- !u!114 &4189495704371027519
 MonoBehaviour:
   m_ObjectHideFlags: 0

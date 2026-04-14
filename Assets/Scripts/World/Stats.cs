@@ -18,10 +18,10 @@ public class Stats : MonoBehaviour
     class StatInfo
     {
         public StatType type;
-        public float initialValue;
+        public float value;
     }
 
-    [SerializeField] List<StatInfo> m_initialValues = new List<StatInfo>();
+    [SerializeField] List<StatInfo> m_values = new List<StatInfo>();
 
     SubscriberList m_subscriberList = new SubscriberList();
 
@@ -38,15 +38,18 @@ public class Stats : MonoBehaviour
 
     void GetStat(GetStatEvent e)
     {
-        foreach(var s in m_initialValues)
+        foreach(var v in m_values)
         {
-            if(s.type == e.type)
-            {
-                e.set = s.initialValue;
-                return;
-            }
+            if (v.type == e.type)
+                e.value += v.value;
         }
+    }
 
-        e.set = Global.instance.statsDatas.GetInitialValue(e.type);
+    public static List<StatType> GetProjectileStats()
+    {
+        return new List<StatType>
+        {
+            StatType.DamagesMultiplier,
+        };
     }
 }

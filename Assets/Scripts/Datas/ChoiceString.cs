@@ -34,6 +34,15 @@ public abstract class ChoiceString
 #endif
     }
 
+    public bool IsValid()
+    {
+        if (m_value == "")
+            return false;
+
+        var choices = GetChoices();
+        return choices.Contains(m_value);
+    }
+
     [OnInspectorGUI]
     private void OnInspectorGUI()
     {

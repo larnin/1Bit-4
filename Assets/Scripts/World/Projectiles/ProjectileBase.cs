@@ -15,7 +15,7 @@ public abstract class ProjectileBase : MonoBehaviour
     protected GameObject m_target;
     protected Team m_casterTeam;
     protected GameObject m_caster;
-    protected float m_damagesMultiplier = 1;
+    protected Dictionary<StatType, float> m_stats = new Dictionary<StatType, float>();
 
     Guid m_targetSave = Guid.Empty;
     Guid m_casterSave = Guid.Empty;
@@ -101,9 +101,9 @@ public abstract class ProjectileBase : MonoBehaviour
         m_casterTeam = Event<GetTeamEvent>.Broadcast(new GetTeamEvent(), caster).team;
     }
 
-    public void SetDamagesMultiplier(float multiplier)
+    public void SetStat(StatType type, float value)
     {
-        m_damagesMultiplier = multiplier;
+        m_stats[type] = value;
     }
 
     public JsonObject Save()
@@ -126,7 +126,10 @@ public abstract class ProjectileBase : MonoBehaviour
             obj.AddElement("target", id.ToString("N"));
         }
 
-        obj.AddElement("mul", m_damagesMultiplier);
+        var stats = new JsonObject();
+        foreach(var s in m_stats)
+            stats.AddElement(s.Key.ToString(), s.Value);
+        obj.AddElement("stats", stats);
 
         SaveImpl(obj);
 
@@ -182,10 +185,20 @@ public abstract class ProjectileBase : MonoBehaviour
         if (targetJson != null && targetJson.IsJsonString())
             Guid.TryParse(targetJson.String(), out m_targetSave);
 
-        var mulJson = obj.GetElement("mul");
-        if (mulJson != null && mulJson.IsJsonNumber())
-            m_damagesMultiplier = mulJson.Float();
+        var statsJson = obj.GetElement("stats");
+        if(statsJson != null && statsJson.IsJsonObject())
+        {
+            var statsJsonObj = statsJson.JsonObject();
+            foreach(var s in statsJsonObj)
+            {
+                StatType statType;
+                if (!Enum.TryParse(s.Key, out statType))
+                    continue;
 
+                if (s.Value.IsJsonNumber())
+                    m_stats[statType] = s.Value.Float();
+            }
+        }
         LoadImpl(obj);
 
         Event<LoadEvent>.Broadcast(new LoadEvent(obj), gameObject);
@@ -195,4 +208,46 @@ public abstract class ProjectileBase : MonoBehaviour
     protected virtual void LoadImpl(JsonObject obj) { }
 
     protected virtual void SaveImpl(JsonObject obj) { }
+
+    public static ProjectileBase ThrowProjectile(ProjectileStartInfos startInfos)
+    {
+        if (startInfos == null)
+            return null;
+
+        var prefab = Global.instance.editorDatas.GetProjectilePrefab(startInfos.name);
+        if (prefab == null)
+            return null;
+
+        var obj = GameObject.Instantiate(prefab);
+        obj.transform.position = startInfos.position;
+        obj.transform.rotation = startInfos.rotation;
+
+        var projectile = obj.GetComponent<ProjectileBase>();
+        if (projectile == null)
+        {
+            GameObject.Destroy(obj);
+            return null;
+        }
+
+        projectile.SetTarget(startInfos.target);
+
+        if (startInfos.caster != null)
+        {
+            projectile.SetCaster(startInfos.caster);
+
+            foreach(var stat in Stats.GetProjectileStats())
+                projectile.SetStat(stat, Event<GetStatEvent>.Broadcast(new GetStatEvent(stat), startInfos.caster).GetValue());
+        }
+
+        return projectile;
+    }
+
+    public float GetStat(StatType type)
+    {
+        float value;
+        if (!m_stats.TryGetValue(type, out value))
+            return 0;
+
+        return value;
+    }
 }

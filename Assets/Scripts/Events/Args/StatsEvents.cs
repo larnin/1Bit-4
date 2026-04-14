@@ -9,9 +9,7 @@ using UnityEngine;
 public class GetStatEvent
 {
     public StatType type;
-    public float set = 0;
-    public float add = 0;
-    public float mul = 1;
+    public float value;
 
     public GetStatEvent(StatType _type)
     {
@@ -20,6 +18,17 @@ public class GetStatEvent
 
     public float GetValue()
     {
-        return (set + add) * mul;
+        var infos = Global.instance.statsDatas.GetStatInfos(type);
+        if(infos == null)
+            return value;
+
+        float realValue = value + infos.initialValue;
+        if (infos.haveMin && realValue < infos.minValue)
+            realValue = infos.minValue;
+
+        if (infos.haveMax && realValue > infos.maxValue)
+            realValue = infos.maxValue;
+
+        return realValue;
     }
 }
