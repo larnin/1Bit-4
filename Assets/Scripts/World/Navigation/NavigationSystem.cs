@@ -25,6 +25,7 @@ public class NavigationSystem : MonoBehaviour
         m_subscriberList.Add(new Event<GenerationFinishedEvent>.Subscriber(OnGenerationEnd));
         m_subscriberList.Add(new Event<BuildingListAddEvent>.Subscriber(OnBuildingAdd));
         m_subscriberList.Add(new Event<BuildingListRemoveEvent>.Subscriber(OnBuildingRemove));
+        m_subscriberList.Add(new Event<OnBuildingDestroyEvent>.Subscriber(OnBuildingDeath));
         m_subscriberList.Subscribe();
     }
 
@@ -60,6 +61,11 @@ public class NavigationSystem : MonoBehaviour
     }
 
     void OnBuildingRemove(BuildingListRemoveEvent e)
+    {
+        NeedRebuild();
+    }
+
+    void OnBuildingDeath(OnBuildingDestroyEvent e)
     {
         NeedRebuild();
     }

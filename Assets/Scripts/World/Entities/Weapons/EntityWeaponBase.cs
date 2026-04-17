@@ -20,20 +20,19 @@ public abstract class EntityWeaponBase : MonoBehaviour
     static readonly ProfilerMarker ms_profilerMarker = new ProfilerMarker(ProfilerCategory.Scripts, "EntityWeaponBase.GetNearestBuildingAtRange");
 
     const float updateTargetDelay = 0.2f;
-
-    BuildingBase m_towerTarget;
-    BuildingBase m_target;
     float m_updateTargetTimer = 0;
+
+    EnemyBehaviourV2 m_behaviour;
+    GameObject m_target;
+
+    protected virtual void Start()
+    {
+        m_behaviour = GetComponentInParent<EnemyBehaviourV2>();
+    }
 
     public GameObject GetTarget()
     {
-        if (m_target == null)
-        {
-            if (m_towerTarget == null)
-                return null;
-            return m_towerTarget.gameObject;
-        }
-        return m_target.gameObject;
+        return m_target;
     }
 
     public Vector3 GetTargetPos()
@@ -42,61 +41,46 @@ public abstract class EntityWeaponBase : MonoBehaviour
         if (target == null)
             return transform.position + transform.forward;
 
-        return TurretBehaviour.GetTargetCenter(target.gameObject);
+        return TurretBehaviour.GetTargetCenter(target);
     }
 
     public abstract float GetMoveDistance();
 
-    protected BuildingBase GetTower()
+    public void UpdateTarget(float range)
     {
-        if (BuildingList.instance == null)
-            return null;
-
-        return BuildingList.instance.GetFirstBuilding(BuildingType.Tower);
-    }
-
-    protected BuildingBase GetNearestBuildingAtRange(float range, Team team)
-    {
-        using (ms_profilerMarker.Auto())
+        if (m_behaviour == null)
         {
-            if (BuildingList.instance == null)
-                return null;
-
-            var building = BuildingList.instance.GetNearestBuildingInRadius(transform.position, range, team, AliveType.Alive);
-            if (building == null)
-                return null;
-
-            float dist = (building.GetGroundCenter() - transform.position).sqrMagnitude;
-            if (dist <= range * range)
-                return building;
-            return null;
+            m_target = null;
+            return;
         }
-    }
 
-    protected void UpdateTarget(float range)
-    {
-        m_updateTargetTimer -= Time.deltaTime;
-        if (m_updateTargetTimer <= 0 || m_target == null)
+        m_updateTargetTimer += Time.deltaTime; 
+        if (m_updateTargetTimer < updateTargetDelay)
+            return;
+        m_updateTargetTimer = 0;
+
+        var target = m_behaviour.GetTarget();
+        if(target == null)
         {
-            m_updateTargetTimer = updateTargetDelay;
-
-            var team = Event<GetTeamEvent>.Broadcast(new GetTeamEvent(), gameObject);
-            Team targetTeam = TeamEx.GetOppositeTeam(team.team);
-
-            if (BuildingList.instance == null)
-                return;
-
-            if (m_target != null)
-            {
-                if (Utility.IsDead(m_target.gameObject))
-                    m_target = null;
-            }
-
-            if (m_towerTarget == null)
-                m_towerTarget = GetTower();
-            if (m_target == null)
-                m_target = GetNearestBuildingAtRange(range, targetTeam);
+            m_target = null;
+            return;
         }
+
+        if(Event<IsDeadEvent>.Broadcast(new IsDeadEvent(), target).isDead)
+        {
+            m_target = null;
+            return;
+        }
+
+        Vector3 targetPos = TurretBehaviour.GetTargetCenter(target);
+        float sqrDist = (transform.position - targetPos).sqrMagnitude;
+        if(sqrDist > range * range)
+        {
+            m_target = null;
+            return;
+        }
+
+        m_target = target;
     }
 }
 

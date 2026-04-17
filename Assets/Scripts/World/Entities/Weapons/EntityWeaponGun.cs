@@ -36,8 +36,10 @@ public class EntityWeaponGun : EntityWeaponBase
         m_subscriberList.Unsubscribe();
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+
         m_turret = GetComponent<TurretBehaviour>();
 
         m_firePoints.Clear();

@@ -67,6 +67,9 @@ public class EditorWorldGeneration : MonoBehaviour
 
         var foldTitanium = UIElementData.Create<UIElementFoldable>(container).SetHeaderText("Titanium").GetContainer();
         DrawTitaniumSettings(foldTitanium);
+
+        var foldGeothermal = UIElementData.Create<UIElementFoldable>(container).SetHeaderText("Geothermal").GetContainer();
+        DrawGeothermalSettings(foldGeothermal);
     }
 
     void DrawPresets(UIElementContainer container)
@@ -170,6 +173,14 @@ public class EditorWorldGeneration : MonoBehaviour
         UIElementData.Create<UIElementFloatInput>(container).SetLabel("Titanium Min Height").SetValue(m_settings.titaniumMinHeight).SetValueChangeFunc((float value) => { m_settings.titaniumMinHeight = value; });
         UIElementData.Create<UIElementFloatInput>(container).SetLabel("Titanium Max Height").SetValue(m_settings.titaniumMaxHeight).SetValueChangeFunc((float value) => { m_settings.titaniumMaxHeight = value; });
         UIElementData.Create<UIElementFloatInput>(container).SetLabel("Titanium Height Neighbour").SetValue(m_settings.titaniumHeightNeighbour).SetValueChangeFunc((float value) => { m_settings.titaniumHeightNeighbour = value; });
+    }
+
+    void DrawGeothermalSettings(UIElementContainer container)
+    {
+        UIElementData.Create<UIElementFloatInput>(container).SetLabel("Geothermal Density").SetValue(m_settings.geothermalDensity).SetValueChangeFunc((float value) => { m_settings.geothermalDensity = value; });
+        UIElementData.Create<UIElementIntInput>(container).SetLabel("Geothermal RetryCount").SetValue(m_settings.geothermalRetryCount).SetValueChangeFunc((int value) => { m_settings.geothermalRetryCount = value; });
+        UIElementData.Create<UIElementFloatInput>(container).SetLabel("Geothermal Initial Patch Distance").SetValue(m_settings.geothermalInitialPatchDistance).SetValueChangeFunc((float value) => { m_settings.geothermalInitialPatchDistance = value; });
+        UIElementData.Create<UIElementFloatInput>(container).SetLabel("Geothermal Min Distance").SetValue(m_settings.geothermalMinDistance).SetValueChangeFunc((float value) => { m_settings.geothermalMinDistance = value; });
     }
 
     void DrawPerlinSettings(UIElementContainer container, PerlinSettings settings, string label)

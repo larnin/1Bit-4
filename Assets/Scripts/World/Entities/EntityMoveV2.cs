@@ -49,7 +49,7 @@ public class EntityMoveV2 : MonoBehaviour
         m_subscriberList.Unsubscribe();    
     }
 
-    private void LateUpdate()
+    private void Update()
     {
         if (m_moveInterface == null)
             return;

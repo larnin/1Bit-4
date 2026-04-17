@@ -284,7 +284,7 @@ public class BuildingList : MonoBehaviour
             Vector2Int chunkMin = Grid.PosToChunkIndex(posMin);
             Vector2Int chunkMax = Grid.PosToChunkIndex(posMax);
 
-            var size = grid.grid.Size();
+            var size = GridEx.GetRealSize(grid.grid);
 
             if (!grid.grid.LoopX())
             {

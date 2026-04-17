@@ -105,6 +105,7 @@ public static class WorldGenerator
         GenerateCrystal();
         GenerateTitanium();
         GenerateOil();
+        GenerateGeothermal();
 
         m_heights = null;
     }
@@ -1016,6 +1017,61 @@ public static class WorldGenerator
         }
 
         return points;
+    }
+
+    static void GenerateGeothermal()
+    {
+
+        MT19937 rand = new MT19937((uint)m_seed + 5);
+
+        int size = GridEx.GetRealSize(m_grid);
+
+        //place initial patch
+        int initialRetry = m_settings.geothermalRetryCount * 2;
+        if (initialRetry < 5)
+            initialRetry = 5;
+        for (int k = 0; k < initialRetry + 1; k++)
+        {
+            var initialPoint = Rand2D.UniformVector2CircleSurfaceDistribution(rand);
+            initialPoint *= m_settings.crystalInitialPatchDistance;
+            initialPoint += new Vector2(size / 2, size / 2);
+            Vector2Int initialI = new Vector2Int(Mathf.RoundToInt(initialPoint.x), Mathf.RoundToInt(initialPoint.y));
+            if (!CanPlaceOilAt(initialI))
+                continue;
+
+            int height = GridEx.GetHeight(m_grid, initialI);
+            GridEx.SetBlock(m_grid, new Vector3Int(initialI.x, height, initialI.y), new Block(BlockType.Geothermal));
+        }
+
+        // rain drop patchs
+        float densitySize = (float)size / m_settings.geothermalDensity;
+        for (int i = 0; i < m_settings.geothermalDensity; i++)
+        {
+            for (int j = 0; j < m_settings.geothermalDensity; j++)
+            {
+                int minX = Mathf.FloorToInt(i * densitySize);
+                int maxX = Mathf.CeilToInt((i + 1) * densitySize);
+                int minY = Mathf.FloorToInt(j * densitySize);
+                int maxY = Mathf.CeilToInt((j + 1) * densitySize);
+
+                for (int k = 0; k < m_settings.geothermalRetryCount + 1; k++)
+                {
+                    int x = Rand.UniformIntDistribution(minX, maxX, rand);
+                    int y = Rand.UniformIntDistribution(minY, maxY, rand);
+
+                    float d = new Vector2Int(x - size / 2, y - size / 2).sqrMagnitude;
+                    if (d < m_settings.geothermalMinDistance * m_settings.geothermalMinDistance)
+                        break;
+
+                    if (!CanPlaceOilAt(new Vector2Int(x, y)))
+                        continue;
+
+                    int height = GridEx.GetHeight(m_grid, new Vector2Int(x, y));
+                    GridEx.SetBlock(m_grid, new Vector3Int(x, height, y), new Block(BlockType.Geothermal));
+                    break;
+                }
+            }
+        }
     }
 }
 

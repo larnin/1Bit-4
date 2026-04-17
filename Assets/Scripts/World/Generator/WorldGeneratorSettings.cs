@@ -62,6 +62,11 @@ public class WorldGeneratorSettings
     public float titaniumMinHeight = 1;
     public float titaniumMaxHeight = 2;
     public float titaniumHeightNeighbour = 0.25f;
+
+    public float geothermalDensity = 1;
+    public int geothermalRetryCount = 1;
+    public float geothermalInitialPatchDistance = 20;
+    public float geothermalMinDistance = 30;
 }
 
 [Serializable]

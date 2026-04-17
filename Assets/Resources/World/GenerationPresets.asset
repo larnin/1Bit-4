@@ -81,3 +81,7 @@ MonoBehaviour:
       titaniumMinHeight: 1
       titaniumMaxHeight: 2
       titaniumHeightNeighbour: 0.3
+      geothermalDensity: 8
+      geothermalRetryCount: 5
+      geothermalInitialPatchDistance: 20
+      geothermalMinDistance: 30

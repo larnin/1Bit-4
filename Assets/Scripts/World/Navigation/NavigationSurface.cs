@@ -104,6 +104,9 @@ public class NavigationSurface
                 if (b.GetBuildingType() == BuildingType.Tower)
                     continue;
 
+                if (b.IsDead())
+                    continue;
+
                 MakeNavToBuilding(navGrid, heights, b, m_profile.buildingDetectionDistance);
             }
         }
