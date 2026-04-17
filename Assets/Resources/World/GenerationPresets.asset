@@ -15,18 +15,18 @@ MonoBehaviour:
   m_presets:
   - name: InfiniteMode
     settings:
-      size: 12
+      size: 15
       height: 2
       loopX: 0
       loopZ: 0
-      waterHeight: 0
+      waterHeight: -18
       baseSurfaceHeight: 1
-      baseSurfaceNormalizedRadius: 0.65
+      baseSurfaceNormalizedRadius: 0.8
       baseSurfaceNormalizedTopRadius: 0.5
       baseSurfaceDescreaseCurve: 4
       baseSurfaceRandomization:
         baseFrequency: 2
-        baseAmplitude: 50
+        baseAmplitude: 100
         nbLayers: 6
         layerAmplitudeScale: 0.5
       plainsHeight:
@@ -38,7 +38,7 @@ MonoBehaviour:
       montainsMinDistanceFromBorder: 12
       montainsBlendDistance: 10
       montainsHeight:
-        baseFrequency: 6
+        baseFrequency: 8
         baseAmplitude: 10
         nbLayers: 5
         layerAmplitudeScale: 0.5
@@ -65,16 +65,16 @@ MonoBehaviour:
         layerAmplitudeScale: 0.5
       crystalPatchSizeBase: 4
       crystalPatchIncrease: 8
-      crystalPatchDensity: 12
+      crystalPatchDensity: 10
       crystalRetryCount: 2
       crystalInitialPatchDistance: 10
       crystalMinDistance: 18
-      oilDensity: 11
-      oilRetryCount: 1
+      oilDensity: 8
+      oilRetryCount: 5
       oilMinDistance: 25
       titaniumPatchMin: 8
       titaniumPatchMax: 12
-      titaniumPatchDensity: 7
+      titaniumPatchDensity: 8
       titaniumElevationMinVariation: 1
       titaniumRetryCount: 5
       titaniumMinDistance: 25

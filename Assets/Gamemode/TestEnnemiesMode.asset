@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TestEnnemiesMode
   m_EditorClassIdentifier: 
   positionName: Spawner
-  ennemiesPerSecond: 0
+  ennemiesPerSecond: 3
   ennemies:
   - entityType:
       m_value: ProtoEnnemyDistance

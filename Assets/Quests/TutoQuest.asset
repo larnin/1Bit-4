@@ -242,10 +242,10 @@ MonoBehaviour:
       Data: 0
     - Name: m_name
       Entry: 1
-      Data: LockPylon
+      Data: Pylon
     - Name: m_location
       Entry: 1
-      Data: Pylon
+      Data: LockPylon
     - Name: m_waitTaskComplete
       Entry: 5
       Data: true
@@ -716,10 +716,10 @@ MonoBehaviour:
       Data: 1
     - Name: m_name
       Entry: 1
-      Data: LockCrystalMine
+      Data: CristalMine
     - Name: m_location
       Entry: 1
-      Data: CrystalMine
+      Data: LockCristalMine
     - Name: m_waitTaskComplete
       Entry: 5
       Data: true
@@ -994,7 +994,7 @@ MonoBehaviour:
       Data: 
     - Name: m_inputToEndDialog
       Entry: 5
-      Data: true
+      Data: false
     - Name: m_waitDialogEndToComplete
       Entry: 5
       Data: false
