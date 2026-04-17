@@ -55,6 +55,8 @@ public abstract class QuestSubObjectiveViewBase
             return new QuestSubObjectiveViewHaveResource(node, subObjective as QuestSubObjectiveHaveResource);
         if (subObjective is QuestSubObjectiveDiscoverResource)
             return new QuestSubObjectiveViewDiscoverResource(node, subObjective as QuestSubObjectiveDiscoverResource);
+        if (subObjective is QuestSubObjectiveConstructBuilding)
+            return new QuestSubObjectiveViewConstructBuilding(node, subObjective as QuestSubObjectiveConstructBuilding);
 
         return new QuestSubObjectiveViewNotImplemented(node, subObjective);
     }
