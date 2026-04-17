@@ -42,6 +42,8 @@ public class WorldGeneratorSettings
     public Ease lakeDescreaseCurve = Ease.Linear;
     public PerlinSettings lakeSurfaceRandomization = new PerlinSettings();
 
+    public int minDistanceBetweenResources = 2;
+
     public float crystalPatchSizeBase = 5;
     public float crystalPatchIncrease = 10;
     public float crystalPatchDensity = 1;

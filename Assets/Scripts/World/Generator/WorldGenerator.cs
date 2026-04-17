@@ -677,6 +677,9 @@ public static class WorldGenerator
         if (height < 0)
             return false;
 
+        if (HaveResourceAround(pos, m_settings.minDistanceBetweenResources))
+            return false;
+
         float radius = 2.5f;
         for (int i = Mathf.FloorToInt(-radius); i <= Mathf.CeilToInt(radius); i++)
         {
@@ -836,6 +839,9 @@ public static class WorldGenerator
         if (height < 0)
             return false;
 
+        if (HaveResourceAround(pos, m_settings.minDistanceBetweenResources))
+            return false;
+
         for (int i = -1; i <= 1; i++)
         {
             for (int j = -1; j <= 1; j++)
@@ -897,6 +903,9 @@ public static class WorldGenerator
 
         int height = GridEx.GetHeight(m_grid, pos);
         if (height < 0)
+            return false;
+
+        if (HaveResourceAround(pos, m_settings.minDistanceBetweenResources))
             return false;
 
         float radius = 2.5f;
@@ -1072,6 +1081,29 @@ public static class WorldGenerator
                 }
             }
         }
+    }
+
+    static bool HaveResourceAround(Vector2Int pos, int radius)
+    {
+        for(int i = -radius; i <= radius; i++)
+        {
+            for(int j = -radius; j <= radius; j++)
+            {
+                if (i == 0 && j == 0)
+                    continue;
+
+                Vector2Int testPoint = pos + new Vector2Int(i, j);
+
+                int height = GridEx.GetHeight(m_grid, testPoint);
+                if (height < 0)
+                    continue;
+                var block = GridEx.GetBlock(m_grid, new Vector3Int(testPoint.x, height, testPoint.y));
+                if (BlockEx.IsResource(block.type))
+                    return true;
+            }
+        }
+
+        return false;
     }
 }
 

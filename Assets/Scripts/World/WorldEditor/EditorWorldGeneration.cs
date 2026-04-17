@@ -59,6 +59,8 @@ public class EditorWorldGeneration : MonoBehaviour
         var foldLakes = UIElementData.Create<UIElementFoldable>(container).SetHeaderText("Lakes").GetContainer();
         DrawLakesSettings(foldLakes);
 
+        UIElementData.Create<UIElementIntInput>(container).SetLabel("Distance Between Resources").SetValue(m_settings.minDistanceBetweenResources).SetValueChangeFunc((int value) => { m_settings.minDistanceBetweenResources = value; });
+
         var foldCrystal = UIElementData.Create<UIElementFoldable>(container).SetHeaderText("Crystal").GetContainer();
         DrawCrystalSettings(foldCrystal);
 
