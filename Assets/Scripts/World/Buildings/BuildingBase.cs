@@ -79,6 +79,7 @@ public abstract class BuildingBase : MonoBehaviour
     float m_alarmTimer = 0;
     bool m_wasFullLife = true;
     Team m_team;
+    bool m_isDead = false;
 
     Rotation m_rotation = Rotation.rot_0;
 
@@ -250,7 +251,13 @@ public abstract class BuildingBase : MonoBehaviour
 
     void OnDeath(DeathEvent e)
     {
+        m_isDead = true;
         Event<OnBuildingDestroyEvent>.Broadcast(new OnBuildingDestroyEvent(this));
+    }
+
+    public bool IsDead()
+    {
+        return m_isDead;
     }
 
     public virtual float EnergyGeneration() { return 0; }

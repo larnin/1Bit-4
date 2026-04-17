@@ -13,11 +13,8 @@ MonoBehaviour:
   m_Name: TestEnnemiesMode
   m_EditorClassIdentifier: 
   positionName: Spawner
-  ennemiesPerSecond: 0
+  ennemiesPerSecond: 1
   ennemies:
   - entityType:
       m_value: ProtoEnnemyDistance
-    weight: 1
-  - entityType:
-      m_value: ProtoEnnemyMelee
     weight: 1

@@ -104,7 +104,7 @@ public class EnemyBehaviourV2 : MonoBehaviour, EntityMoveTargetInterface
         m_needMove = sqrDist > minDist * minDist;
     }
 
-    GameObject GetTarget()
+    public GameObject GetTarget()
     {
         //todo select other target (enemy entity ...)
 
