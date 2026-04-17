@@ -38,6 +38,12 @@ public class Grid
         }
     }
 
+    public static Vector3Int PosToChunkIndex(Vector3 pos)
+    {
+        Vector3Int posI = new Vector3Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y), Mathf.RoundToInt(pos.z));
+        return PosToChunkIndex(posI);
+    }
+
     public static Vector3Int PosToChunkIndex(Vector3Int pos)
     {
         Vector3Int index = pos / ChunkSize;
