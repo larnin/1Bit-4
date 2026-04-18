@@ -45,6 +45,8 @@ public abstract class QuestSubObjectiveViewBase
             return new QuestSubObjectiveViewStartDialog(node, subObjective as QuestSubObjectiveStartDialog);
         if (subObjective is QuestSubObjectiveStopDialog)
             return new QuestSubObjectiveViewEmpty(node, subObjective);
+        if(subObjective is QuestSubObjectiveAllEnnemiesKilled)
+            return new QuestSubObjectiveViewEmpty(node, subObjective);
         if (subObjective is QuestSubObjectiveSpawnObject)
             return new QuestSubObjectiveViewSpawnObject(node, subObjective as QuestSubObjectiveSpawnObject);
         if (subObjective is QuestSubObjectiveDestroyObject)
@@ -57,6 +59,8 @@ public abstract class QuestSubObjectiveViewBase
             return new QuestSubObjectiveViewDiscoverResource(node, subObjective as QuestSubObjectiveDiscoverResource);
         if (subObjective is QuestSubObjectiveConstructBuilding)
             return new QuestSubObjectiveViewConstructBuilding(node, subObjective as QuestSubObjectiveConstructBuilding);
+        if (subObjective is QuestSubObjectiveEntityCount)
+            return new QuestSubObjectiveViewEntityCount(node, subObjective as QuestSubObjectiveEntityCount);
 
         return new QuestSubObjectiveViewNotImplemented(node, subObjective);
     }
