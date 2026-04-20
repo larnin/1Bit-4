@@ -86,6 +86,9 @@ public class MonolithModeSpawner
 
     void UpdateSpawning(float deltaTime)
     {
+        if (m_building == null)
+            return;
+
         m_timer += deltaTime;
 
         int toSpawn = (int)(m_timer / m_spawnDeltaTime);
