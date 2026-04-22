@@ -81,6 +81,10 @@ MonoBehaviour:
       titaniumMinHeight: 1
       titaniumMaxHeight: 2
       titaniumHeightNeighbour: 0.3
+      geothermalDensity: 1
+      geothermalRetryCount: 1
+      geothermalInitialPatchDistance: 20
+      geothermalMinDistance: 30
   - size: 1
     settings:
       size: 12
@@ -149,6 +153,10 @@ MonoBehaviour:
       titaniumMinHeight: 1
       titaniumMaxHeight: 2
       titaniumHeightNeighbour: 0.3
+      geothermalDensity: 1
+      geothermalRetryCount: 1
+      geothermalInitialPatchDistance: 20
+      geothermalMinDistance: 30
   - size: 2
     settings:
       size: 16
@@ -217,6 +225,10 @@ MonoBehaviour:
       titaniumMinHeight: 1
       titaniumMaxHeight: 2
       titaniumHeightNeighbour: 0.3
+      geothermalDensity: 1
+      geothermalRetryCount: 1
+      geothermalInitialPatchDistance: 20
+      geothermalMinDistance: 30
   - size: 3
     settings:
       size: 4
@@ -285,6 +297,10 @@ MonoBehaviour:
       titaniumMinHeight: 1
       titaniumMaxHeight: 2
       titaniumHeightNeighbour: 0.3
+      geothermalDensity: 1
+      geothermalRetryCount: 1
+      geothermalInitialPatchDistance: 20
+      geothermalMinDistance: 30
   - size: 4
     settings:
       size: 32
@@ -353,6 +369,10 @@ MonoBehaviour:
       titaniumMinHeight: 1
       titaniumMaxHeight: 2
       titaniumHeightNeighbour: 0.3
+      geothermalDensity: 1
+      geothermalRetryCount: 1
+      geothermalInitialPatchDistance: 20
+      geothermalMinDistance: 30
   m_blockDatas:
     defaultMaterial: {fileID: 2100000, guid: 963d52d036299094b986f2c929f03250, type: 2}
     waterMaterial: {fileID: 2100000, guid: ce8f60df2fcaed342971dd0e90f4368f, type: 2}
@@ -605,7 +625,7 @@ MonoBehaviour:
       cost:
         cost:
         - type: 1
-          count: 300
+          count: 175
     mineItemPrefab: {fileID: 6943061212826655842, guid: 020dedfdfd13d1c49ac25e185f22167b, type: 3}
     lifeLossDisplayDuration: 10
     lifebarPrefab: {fileID: 403841948413428351, guid: 865e80a7aecab34408fe71ab6fb1fed9, type: 3}
