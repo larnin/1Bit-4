@@ -205,7 +205,7 @@ public class MonolithMode : GamemodeBase
                 toRemove.Add(m);
                 continue;
             }
-            if(Event<IsDeadEvent>.Broadcast(new IsDeadEvent()).isDead)
+            if(Event<IsDeadEvent>.Broadcast(new IsDeadEvent(), m.building.gameObject).isDead)
             {
                 toRemove.Add(m);
                 continue;

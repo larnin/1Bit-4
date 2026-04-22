@@ -113,4 +113,18 @@ public static class BlockEx
         int rot = data | 0b11;
         return (Rotation)rot;
     }
+
+    public static bool IsResource(BlockType type)
+    {
+        switch(type)
+        {
+            case BlockType.crystal:
+            case BlockType.Geothermal:
+            case BlockType.oil:
+            case BlockType.Titanium:
+                return true;
+            default:
+                return false;
+        }
+    }
 }
