@@ -74,6 +74,7 @@ public class TestEnnemiesMode : GamemodeBase
         groundPos.y = GridEx.GetHeight(grid, new Vector2Int(groundPos.x, groundPos.z)) + 1;
         if (groundPos.y <= 0)
             return;
+        pos.y = groundPos.y;
 
         var spawner = Global.instance.buildingDatas.GetBuilding(BuildingType.EnnemySpawner);
         if (spawner == null)
