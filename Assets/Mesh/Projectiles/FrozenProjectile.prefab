@@ -5093,7 +5093,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 981ee9cd629ef3640a3a6330dbb5e9da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_projectileType: 0
+  m_projectileType:
+    m_value: FrozenPlayerProjectile
   m_damages: 8
   m_damageType: 2
   m_damageEffect: 2.5

@@ -52,7 +52,7 @@ public class TestEnnemiesMode : GamemodeBase
     public override void End()
     {
         if(m_spawner != null)
-            Event<HitEvent>.Broadcast(new HitEvent(new Hit(10000000)), m_spawner.gameObject);
+            Event<KillEvent>.Broadcast(new KillEvent(), m_spawner.gameObject);
     }
 
     void SpawnSpawner()

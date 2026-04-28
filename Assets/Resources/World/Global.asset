@@ -766,11 +766,15 @@ MonoBehaviour:
     - type: ProtoEnnemyDistance
       prefab: {fileID: 6214975584835344987, guid: 9f3319f4511a1084e9c97146fbc2d7f5, type: 3}
       navigationProfile:
-        m_value: 
+        m_value: SmallEnnemies
     - type: ProtoEnnemyMelee
       prefab: {fileID: 1892062940909772011, guid: dfaa13b752694864ca9489aabb93d253, type: 3}
       navigationProfile:
-        m_value: 
+        m_value: SmallEnnemies
+    - type: ProtoEnnemyKamikaze
+      prefab: {fileID: 1892062940909772011, guid: 38e819281eddc054b844cdec94353e47, type: 3}
+      navigationProfile:
+        m_value: SmallEnnemies
     navigationProfiles:
     - name: SmallEnnemies
       profile:
@@ -792,6 +796,8 @@ MonoBehaviour:
       prefab: {fileID: 9030378141569406407, guid: 329877d3bf8808943ab3e9e2617fdbc3, type: 3}
     - type: GeneratorExplosion
       prefab: {fileID: 4663558457059073221, guid: ebfdddaab9f821d41974171d3319a020, type: 3}
+    - type: KamikazeExplosion
+      prefab: {fileID: 4663558457059073221, guid: 31bea621bcde2564e920a042ac7635cf, type: 3}
     questElements:
     - type: 0
       prefab: {fileID: 8340473304973191108, guid: f19020f353dd98046998669ae18bd18c, type: 3}

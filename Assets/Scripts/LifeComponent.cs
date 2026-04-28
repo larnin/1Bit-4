@@ -39,6 +39,7 @@ public class LifeComponent : MonoBehaviour
         m_subscriberList.Add(new Event<IsDeadEvent>.LocalSubscriber(IsDead, gameObject));
         m_subscriberList.Add(new Event<HitEvent>.LocalSubscriber(Hit, gameObject));
         m_subscriberList.Add(new Event<HealEvent>.LocalSubscriber(Heal, gameObject));
+        m_subscriberList.Add(new Event<KillEvent>.LocalSubscriber(Kill, gameObject));
         m_subscriberList.Add(new Event<LoadEvent>.LocalSubscriber(Load, gameObject));
         m_subscriberList.Add(new Event<SaveEvent>.LocalSubscriber(Save, gameObject));
         m_subscriberList.Subscribe();
@@ -153,6 +154,17 @@ public class LifeComponent : MonoBehaviour
     void Heal(HealEvent e)
     {
         Heal(e.value, e.percent);
+    }
+
+    void Kill(KillEvent e)
+    {
+        if (m_life <= 0)
+            return;
+
+        Hit killHit = new Hit(m_life);
+        m_life = 0;
+
+        Event<DeathEvent>.Broadcast(new DeathEvent(killHit), gameObject);
     }
 
     void UpdateMultiplier()

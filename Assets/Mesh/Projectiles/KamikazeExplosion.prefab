@@ -116,8 +116,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1.8
-      minScalar: 1
+      scalar: 1.4
+      minScalar: 0.8
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -169,7 +169,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 3
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -977,7 +977,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 100
+        scalar: 40
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -2093,7 +2093,7 @@ ParticleSystem:
           inWeight: 0.33333334
           outWeight: 0.33333334
         - serializedVersion: 3
-          time: 0.5
+          time: 0.3975271
           value: 1
           inSlope: 0
           outSlope: 0
@@ -2104,11 +2104,11 @@ ParticleSystem:
         - serializedVersion: 3
           time: 1
           value: 0
-          inSlope: -1.7123885
-          outSlope: -1.7123885
+          inSlope: -0.898254
+          outSlope: -0.898254
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.44444466
+          inWeight: 0.2936292
           outWeight: 0.33333334
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -4976,7 +4976,7 @@ GameObject:
   - component: {fileID: 2452872358692760592}
   - component: {fileID: -6982704391171556480}
   m_Layer: 0
-  m_Name: GeneratorExplosion
+  m_Name: KamikazeExplosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5011,19 +5011,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_projectileType:
-    m_value: GeneratorExplosion
-  m_damages: 1000
+    m_value: KamikazeExplosion
+  m_damages: 10
   m_damageType: 0
   m_damageEffect: 1
   m_explosionLayer:
     serializedVersion: 2
     m_Bits: 384
-  m_explosionDuration: 1
-  m_explosionRadius: 16
+  m_explosionDuration: 0.5
+  m_explosionRadius: 6
   m_explosionCurve: 3
   m_explosionFadeEndPercent: 0.8
   m_explosionSound: BuildingExplosion
-  m_explosionSoundVolume: 1
+  m_explosionSoundVolume: 0.6
   m_hitAll: 1
   m_delayBeforeFadeout: 2
 --- !u!114 &2452872358692760592
@@ -5038,7 +5038,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7566a92e6c74f2489fe792a67f7a91b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_radius: 10
+  m_radius: 5
 --- !u!114 &-6982704391171556480
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -194,6 +194,9 @@ public class EntityMoveV2 : MonoBehaviour
             if (dist > 1)
                 continue;
 
+            if (dist < 0.001f)
+                return;
+
             if (dist > 0.01f)
                 dist -= 0.01f;
             else dist = 0;
