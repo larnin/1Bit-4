@@ -343,6 +343,9 @@ public class ChunkRenderer
         if (type == BlockType.air)
             return false;
 
+        if (type == BlockType.water)
+            return false;
+
         if (Global.instance.blockDatas.IsCustomBlock(type))
             return false;
 

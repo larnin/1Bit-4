@@ -33,6 +33,8 @@ public class BlockDatas
 
     public int renderMoreHeight;
 
+    public int waterShoreDistance = 2;
+
     public bool IsCustomBlock(BlockType type)
     {
         foreach (var b in customBlocks)
