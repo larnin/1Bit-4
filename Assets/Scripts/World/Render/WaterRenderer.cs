@@ -7,11 +7,13 @@ using UnityEngine;
 
 public class WaterRenderer
 {
-    const int pixelPerBlock = 4;
+    public const int border = 1;
+    public const int pixelPerBlock = 4;
     Grid m_grid;
     Vector3Int m_chunkIndex;
 
-    Color32[] m_pixels;
+    //3 byte per pixel
+    byte[] m_pixelDatas;
 
     bool m_ended = false;
     bool m_working = false;
@@ -88,8 +90,11 @@ public class WaterRenderer
                 return null;
         }
 
-        Texture2D t = new Texture2D(Grid.ChunkSize * pixelPerBlock, Grid.ChunkSize * pixelPerBlock);
-        t.SetPixels32(m_pixels);
+        Texture2D t = new Texture2D(TextureWidth(), TextureWidth(), TextureFormat.RGB24, false);
+        t.SetPixelData(m_pixelDatas, 0, 0);
+        t.filterMode = FilterMode.Bilinear;
+        t.wrapMode = TextureWrapMode.Clamp;
+        t.Apply(updateMipmaps: false);
 
         return t;
     }
@@ -103,16 +108,16 @@ public class WaterRenderer
 
         int shoreDistance = Global.instance.blockDatas.waterShoreDistance;
 
-        var mat = new Matrix<Block>(Grid.ChunkSize + 2 * shoreDistance, 1, Grid.ChunkSize + 2 * shoreDistance);
-        var initialPos = Grid.PosInChunkToPos(m_chunkIndex, new Vector3Int(-shoreDistance, 0, -shoreDistance));
+        var mat = new Matrix<Block>(Grid.ChunkSize + 2 * (shoreDistance + border), 1, Grid.ChunkSize + 2 * (shoreDistance + border));
+        var initialPos = Grid.PosInChunkToPos(m_chunkIndex, new Vector3Int(-shoreDistance - border, 0, -shoreDistance - border));
 
         GridEx.GetLocalMatrix(m_grid, initialPos, mat);
 
         List<Segment> allOutsideSegments = GetAllOutsideSegments(mat);
 
-        m_pixels = new Color32[Grid.ChunkSize * pixelPerBlock * Grid.ChunkSize * pixelPerBlock];
+        m_pixelDatas = new byte[TextureWidth() * TextureWidth() * 3];
 
-        MakePixels(Grid.ChunkSize * pixelPerBlock, allOutsideSegments, mat);
+        MakePixels(TextureWidth(), allOutsideSegments, mat);
     }
 
     List<Segment> GetAllOutsideSegments(Matrix<Block> mat)
@@ -125,11 +130,11 @@ public class WaterRenderer
         {
             for (int j = 0; j < size; j++)
             {
+                if (mat.Get(i, 0, j).type != BlockType.ground)
+                    continue;
+
                 for (int k = 0; k < 4; k++)
                 {
-                    if (mat.Get(i, 0, j).type != BlockType.ground)
-                        continue;
-
                     var dir = RotationEx.ToVectorInt((Rotation)k);
                     if ((i == 0 && dir.x < 0) || (j == 0 && dir.y < 0) || (i == size - 1 && dir.x > 0) || (j == size - 1 && dir.y > 0))
                         continue;
@@ -162,15 +167,21 @@ public class WaterRenderer
                 Vector2Int matPos = new Vector2Int(Mathf.RoundToInt(pixPos.x), Mathf.RoundToInt(pixPos.y));
                 int pixIndex = GetPixelIndex(new Vector2Int(i, j));
 
+                var type = mat.Get(matPos.x, matPos.y);
+
                 if (mat.Get(matPos.x, matPos.y).type != BlockType.water)
-                    m_pixels[pixIndex] = new Color32(255, 255, 255, 255);
+                {
+                    m_pixelDatas[pixIndex * 3] = 255;
+                    m_pixelDatas[pixIndex * 3 + 1] = 255;
+                    m_pixelDatas[pixIndex * 3 + 2] = 255;
+                }
                 else
                 {
                     float bestLight = 0;
-                    foreach(var s in segments)
+                    foreach (var s in segments)
                     {
                         float sqrDist = Utility.SqrDistanceToSegment(s.pos1, s.pos2, pixPos);
-                        if(sqrDist < maxSqrDist)
+                        if (sqrDist < maxSqrDist)
                         {
                             float normDist = Mathf.Sqrt(sqrDist) / Global.instance.blockDatas.waterShoreDistance;
                             float light = 1 - normDist;
@@ -179,7 +190,9 @@ public class WaterRenderer
                         }
                     }
                     byte color = (byte)(bestLight * 255);
-                    m_pixels[pixIndex] = new Color32(color, color, color, color);
+                    m_pixelDatas[pixIndex * 3] = color;
+                    m_pixelDatas[pixIndex * 3 + 1] = color;
+                    m_pixelDatas[pixIndex * 3 + 2] = color;
                 }
             }
         }
@@ -187,7 +200,7 @@ public class WaterRenderer
 
     int GetPixelIndex(Vector2Int pix)
     {
-        return pix.x + pix.y * Grid.ChunkSize * pixelPerBlock;
+        return pix.x + pix.y * TextureWidth();
     }
 
     //relative to the chunk matrix
@@ -213,5 +226,10 @@ public class WaterRenderer
         {
             m_generating = false;
         }
+    }
+
+    public static int TextureWidth()
+    {
+        return (Grid.ChunkSize + WaterRenderer.border * 2) * WaterRenderer.pixelPerBlock;
     }
 }

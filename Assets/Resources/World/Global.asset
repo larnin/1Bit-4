@@ -380,7 +380,7 @@ MonoBehaviour:
       geothermalMinDistance: 30
   m_blockDatas:
     defaultMaterial: {fileID: 2100000, guid: 963d52d036299094b986f2c929f03250, type: 2}
-    waterMaterial: {fileID: 2100000, guid: ce8f60df2fcaed342971dd0e90f4368f, type: 2}
+    waterMaterial: {fileID: 2100000, guid: f19865cf9430f9446833ba5d6ca58f29, type: 2}
     customBlocks:
     - type: 3
       prefab: {fileID: 2083799976012209129, guid: d54fbf1147769194eae1a4915554ee16, type: 3}
@@ -391,6 +391,7 @@ MonoBehaviour:
     - type: 6
       prefab: {fileID: 3008861276544816395, guid: 1a49b0f63d4fa9a4f8fa38379ede33cd, type: 3}
     renderMoreHeight: 0
+    waterShoreDistance: 3
   m_buildingDatas:
     m_buildings:
     - type: 0

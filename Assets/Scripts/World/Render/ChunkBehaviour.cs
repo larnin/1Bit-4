@@ -226,7 +226,7 @@ public class ChunkBehaviour : MonoBehaviour
             Destroy(m_waterTexture);
         m_waterTexture = renderer.GetTexture();
         if (m_waterMaterial != null)
-            m_waterMaterial.SetTexture("Shores", m_waterTexture);
+            m_waterMaterial.SetTexture("_ShoreTex", m_waterTexture);
     }
 
     void MakeWaterSurface()
@@ -238,18 +238,20 @@ public class ChunkBehaviour : MonoBehaviour
         m_waterSurface.transform.localRotation = Quaternion.identity;
         m_waterSurface.transform.localScale = Vector3.one;
 
-        float h = 0.4f;
+        float b = (float)(WaterRenderer.border * WaterRenderer.pixelPerBlock) / (WaterRenderer.TextureWidth());
+
+        float h = 0.25f;
         SimpleMeshParam<WorldVertexDefinition> meshParams = new SimpleMeshParam<WorldVertexDefinition>();
         var data = meshParams.Allocate(4, 6);
         int v = data.verticesSize;
         data.vertices[v].pos = new Vector3(-0.5f, h, -0.5f);
-        data.vertices[v].uv = new Vector2(0, 0);
+        data.vertices[v].uv = new Vector2(b, b);
         data.vertices[v + 1].pos = new Vector3(Grid.ChunkSize - 0.5f, h, -0.5f);
-        data.vertices[v + 1].uv = new Vector2(1, 0);
+        data.vertices[v + 1].uv = new Vector2(1 - b, b);
         data.vertices[v + 2].pos = new Vector3(Grid.ChunkSize - 0.5f, h, Grid.ChunkSize - 0.5f);
-        data.vertices[v + 2].uv = new Vector2(1, 1);
+        data.vertices[v + 2].uv = new Vector2(1 - b, 1 - b);
         data.vertices[v + 3].pos = new Vector3(-0.5f, h, Grid.ChunkSize - 0.5f);
-        data.vertices[v + 3].uv = new Vector2(0, 1);
+        data.vertices[v + 3].uv = new Vector2(b, 1 - b);
 
         for (int i = v; i < v + 4; i++)
         {
