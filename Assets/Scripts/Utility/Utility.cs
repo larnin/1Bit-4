@@ -43,17 +43,17 @@ public static class Utility
         return dir.normalized * Mathf.Cos(a) * vect.magnitude;
     }
 
-    static float DistanceToPoint(Vector3 pos, Vector3 point)
-    {
-        return (point - pos).magnitude;
-    }
-
-    static float DistanceToPoint(Vector2 pos, Vector2 point)
-    {
-        return (point - pos).magnitude;
-    }
-
     public static float DistanceToSegment(Vector2 line1, Vector2 line2, Vector2 point)
+    {
+        return Mathf.Sqrt(SqrDistanceToSegment(line1, line2, point));
+    }
+
+    public static float SqrDistanceToSegment(Vector2 line1, Vector2 line2, Vector2 point)
+    {
+        return (projectToSegment(line1, line2, point) - point).sqrMagnitude;
+    }
+
+    public static Vector2 projectToSegment(Vector2 line1, Vector2 line2, Vector2 point)
     {
         Vector2 p = Project(line1, line2, point);
 
@@ -66,7 +66,7 @@ public static class Utility
         else if (d2 > d)
             p = line1;
 
-        return (p - point).magnitude;
+        return p;
     }
 
     public static Vector2 Project(Vector2 line1, Vector2 line2, Vector2 point)

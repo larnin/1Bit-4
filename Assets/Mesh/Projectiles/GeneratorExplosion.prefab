@@ -5010,7 +5010,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 574d8dd4a91347640807a9b9b82635b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_projectileType: 0
+  m_projectileType:
+    m_value: GeneratorExplosion
   m_damages: 1000
   m_damageType: 0
   m_damageEffect: 1

@@ -41,6 +41,8 @@ public class HealEvent
     }
 }
 
+public class KillEvent { }
+
 public class HitBeforeApplyEvent
 {
     public Hit hit;

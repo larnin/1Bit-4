@@ -224,8 +224,7 @@ public class MonolithMode : GamemodeBase
                 if (s.GetBuilding() == null)
                     continue;
 
-                var life = Event<GetLifeEvent>.Broadcast(new GetLifeEvent());
-                Event<HitEvent>.Broadcast(new HitEvent(new Hit(life.maxLife * 10000)), s.GetBuilding().gameObject);
+                Event<KillEvent>.Broadcast(new KillEvent(), s.GetBuilding().gameObject);
             }
         }
     }

@@ -61,9 +61,14 @@ public class BuildingEnnemySpawner : BuildingBase
         return BuildingType.EnnemySpawner;
     }
 
+    public float GetAppearDuration()
+    {
+        return m_appearDuration;
+    }
+    
     public bool HaveAppeared()
     {
-        return true;
+        return m_state != State.Appear;
     }
 
     protected override void OnUpdateAlways()

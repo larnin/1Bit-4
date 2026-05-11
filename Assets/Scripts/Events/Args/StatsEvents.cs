@@ -32,3 +32,29 @@ public class GetStatEvent
         return realValue;
     }
 }
+
+public class AddStatEvent
+{
+    public StatType type;
+    public float value;
+    public string id;
+
+    public AddStatEvent(StatType _type, float _value, string _id)
+    {
+        type = _type;
+        value = _value;
+        id = _id;
+    }
+}
+
+public class RemoveStatEvent
+{
+    public StatType type;
+    public string id;
+
+    public RemoveStatEvent(StatType _type, string _id)
+    {
+        type = _type;
+        id = _id;
+    }
+}
