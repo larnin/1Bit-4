@@ -40,8 +40,8 @@ public class LifeComponent : MonoBehaviour
         m_subscriberList.Add(new Event<HitEvent>.LocalSubscriber(Hit, gameObject));
         m_subscriberList.Add(new Event<HealEvent>.LocalSubscriber(Heal, gameObject));
         m_subscriberList.Add(new Event<KillEvent>.LocalSubscriber(Kill, gameObject));
-        m_subscriberList.Add(new Event<LoadEvent>.LocalSubscriber(Load, gameObject));
-        m_subscriberList.Add(new Event<SaveEvent>.LocalSubscriber(Save, gameObject));
+        m_subscriberList.Add(new Event<LoadLevelEvent>.LocalSubscriber(Load, gameObject));
+        m_subscriberList.Add(new Event<SaveLevelEvent>.LocalSubscriber(Save, gameObject));
         m_subscriberList.Subscribe();
     }
 
@@ -177,7 +177,7 @@ public class LifeComponent : MonoBehaviour
         }
     }
 
-    void Load(LoadEvent e)
+    void Load(LoadLevelEvent e)
     {
         var jsonObj = e.obj.GetElement("life");
         if(jsonObj != null && jsonObj.IsJsonObject())
@@ -194,7 +194,7 @@ public class LifeComponent : MonoBehaviour
         }
     }
 
-    void Save(SaveEvent e)
+    void Save(SaveLevelEvent e)
     {
         var obj = new JsonObject();
         e.obj.AddElement("life", obj);

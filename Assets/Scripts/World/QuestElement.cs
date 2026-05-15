@@ -205,7 +205,7 @@ public class QuestElement : NamedQuestObject
             obj.AddElement("radius", m_radius);
         }
 
-        Event<SaveEvent>.Broadcast(new SaveEvent(obj), gameObject);
+        Event<SaveLevelEvent>.Broadcast(new SaveLevelEvent(obj), gameObject);
 
         return obj;
     }
@@ -264,6 +264,6 @@ public class QuestElement : NamedQuestObject
                 SetRadius(jsonRadius.Float());
         }
 
-        Event<LoadEvent>.Broadcast(new LoadEvent(obj), gameObject);
+        Event<LoadLevelEvent>.Broadcast(new LoadLevelEvent(obj), gameObject);
     }
 }

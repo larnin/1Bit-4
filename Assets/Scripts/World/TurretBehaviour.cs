@@ -31,8 +31,8 @@ public class TurretBehaviour : MonoBehaviour
 
     private void Awake()
     {
-        m_subscriberList.Add(new Event<LoadEvent>.LocalSubscriber(Load, gameObject));
-        m_subscriberList.Add(new Event<SaveEvent>.LocalSubscriber(Save, gameObject));
+        m_subscriberList.Add(new Event<LoadLevelEvent>.LocalSubscriber(Load, gameObject));
+        m_subscriberList.Add(new Event<SaveLevelEvent>.LocalSubscriber(Save, gameObject));
         m_subscriberList.Subscribe();
     }
 
@@ -209,7 +209,7 @@ public class TurretBehaviour : MonoBehaviour
         m_turretInitialRotation = Quaternion.LookRotation(current, Vector3.up);
     }
 
-    void Load(LoadEvent e)
+    void Load(LoadLevelEvent e)
     {
         var objJson = e.obj.GetElement("turret");
         if(objJson != null && objJson.IsJsonObject())
@@ -245,7 +245,7 @@ public class TurretBehaviour : MonoBehaviour
         }
     }
 
-    void Save(SaveEvent e)
+    void Save(SaveLevelEvent e)
     {
         var obj = new JsonObject();
         e.obj.AddElement("turret", obj);

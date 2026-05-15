@@ -15,8 +15,8 @@ public class EntityID : MonoBehaviour
     {
         m_uniqueID = Guid.NewGuid();
 
-        m_subscriberList.Add(new Event<SaveEvent>.LocalSubscriber(Save, gameObject));
-        m_subscriberList.Add(new Event<LoadEvent>.LocalSubscriber(Load, gameObject));
+        m_subscriberList.Add(new Event<SaveLevelEvent>.LocalSubscriber(Save, gameObject));
+        m_subscriberList.Add(new Event<LoadLevelEvent>.LocalSubscriber(Load, gameObject));
         m_subscriberList.Add(new Event<GetEntityIDEvent>.LocalSubscriber(GetID, gameObject));
         m_subscriberList.Subscribe();
 
@@ -32,12 +32,12 @@ public class EntityID : MonoBehaviour
             IDList.instance.UnRegister(this);
     }
 
-    void Save(SaveEvent e)
+    void Save(SaveLevelEvent e)
     {
         e.obj.AddElement("guid", m_uniqueID.ToString("N"));
     }
 
-    void Load(LoadEvent e)
+    void Load(LoadLevelEvent e)
     {
         var guidJson = e.obj.GetElement("guid");
         if(guidJson != null && guidJson.IsJsonString())

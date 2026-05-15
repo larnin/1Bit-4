@@ -23,8 +23,8 @@ public class EntityMove : MonoBehaviour
     {
         m_subscriberList.Add(new Event<BuildingListAddEvent>.Subscriber(OnAdd));
         m_subscriberList.Add(new Event<BuildingListRemoveEvent>.Subscriber(OnRemove));
-        m_subscriberList.Add(new Event<LoadEvent>.LocalSubscriber(Load, gameObject));
-        m_subscriberList.Add(new Event<SaveEvent>.LocalSubscriber(Save, gameObject));
+        m_subscriberList.Add(new Event<LoadLevelEvent>.LocalSubscriber(Load, gameObject));
+        m_subscriberList.Add(new Event<SaveLevelEvent>.LocalSubscriber(Save, gameObject));
         m_subscriberList.Subscribe();
 
         m_lastTarget = transform.position;
@@ -171,7 +171,7 @@ public class EntityMove : MonoBehaviour
         }
     }
 
-    void Load(LoadEvent e)
+    void Load(LoadLevelEvent e)
     {
         var jsonObj = e.obj.GetElement("entityMove");
         if(jsonObj != null && jsonObj.IsJsonObject())
@@ -192,7 +192,7 @@ public class EntityMove : MonoBehaviour
         }
     }
 
-    void Save(SaveEvent e)
+    void Save(SaveLevelEvent e)
     {
         var obj = new JsonObject();
         e.obj.AddElement("entityMove", obj);

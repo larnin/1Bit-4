@@ -107,7 +107,7 @@ public class GameEntity : MonoBehaviour
         obj.AddElement("rot", Json.FromQuaternion(transform.rotation));
         obj.AddElement("pos", Json.FromVector3(transform.localPosition));
 
-        Event<SaveEvent>.Broadcast(new SaveEvent(obj), gameObject);
+        Event<SaveLevelEvent>.Broadcast(new SaveLevelEvent(obj), gameObject);
 
         return obj;
     }
@@ -156,7 +156,7 @@ public class GameEntity : MonoBehaviour
             transform.localRotation = rot;
         }
 
-        Event<LoadEvent>.Broadcast(new LoadEvent(obj), gameObject);
+        Event<LoadLevelEvent>.Broadcast(new LoadLevelEvent(obj), gameObject);
 
     }
 }

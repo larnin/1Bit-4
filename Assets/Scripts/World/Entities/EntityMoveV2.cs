@@ -39,8 +39,8 @@ public class EntityMoveV2 : MonoBehaviour
 
     private void Awake()
     {
-        m_subscriberList.Add(new Event<LoadEvent>.LocalSubscriber(Load, gameObject));
-        m_subscriberList.Add(new Event<SaveEvent>.LocalSubscriber(Save, gameObject));
+        m_subscriberList.Add(new Event<LoadLevelEvent>.LocalSubscriber(Load, gameObject));
+        m_subscriberList.Add(new Event<SaveLevelEvent>.LocalSubscriber(Save, gameObject));
         m_subscriberList.Subscribe();
     }
 
@@ -229,7 +229,7 @@ public class EntityMoveV2 : MonoBehaviour
 
     }
 
-    void Load(LoadEvent e)
+    void Load(LoadLevelEvent e)
     {
         var jsonObj = e.obj.GetElement("entityMove");
         if (jsonObj != null && jsonObj.IsJsonObject())
@@ -271,7 +271,7 @@ public class EntityMoveV2 : MonoBehaviour
         }
     }
 
-    void Save(SaveEvent e)
+    void Save(SaveLevelEvent e)
     {
         var obj = new JsonObject();
         e.obj.AddElement("entityMove", obj);

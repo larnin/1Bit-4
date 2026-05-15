@@ -16,8 +16,8 @@ public class EntityDeath : MonoBehaviour
     private void Awake()
     {
         m_subscriberList.Add(new Event<DeathEvent>.LocalSubscriber(OnDeath, gameObject));
-        m_subscriberList.Add(new Event<SaveEvent>.LocalSubscriber(Save, gameObject));
-        m_subscriberList.Add(new Event<LoadEvent>.LocalSubscriber(Load, gameObject));
+        m_subscriberList.Add(new Event<SaveLevelEvent>.LocalSubscriber(Save, gameObject));
+        m_subscriberList.Add(new Event<LoadLevelEvent>.LocalSubscriber(Load, gameObject));
         m_subscriberList.Subscribe();
     }
 
@@ -43,7 +43,7 @@ public class EntityDeath : MonoBehaviour
         }
     }
 
-    void Load(LoadEvent e)
+    void Load(LoadLevelEvent e)
     {
         var jsonDead = e.obj.GetElement("isDead");
         if (jsonDead != null && jsonDead.IsJsonNumber())
@@ -53,7 +53,7 @@ public class EntityDeath : MonoBehaviour
             Destroy(gameObject);
     }
 
-    void Save(SaveEvent e)
+    void Save(SaveLevelEvent e)
     {
         e.obj.AddElement("isDead", m_isDead ? 1 : 0);
     }

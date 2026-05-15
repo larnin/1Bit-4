@@ -23,8 +23,8 @@ public class EntityWeaponMelee : EntityWeaponBase
 
     private void Awake()
     {
-        m_subscriberList.Add(new Event<LoadEvent>.LocalSubscriber(Load, gameObject));
-        m_subscriberList.Add(new Event<SaveEvent>.LocalSubscriber(Save, gameObject));
+        m_subscriberList.Add(new Event<LoadLevelEvent>.LocalSubscriber(Load, gameObject));
+        m_subscriberList.Add(new Event<SaveLevelEvent>.LocalSubscriber(Save, gameObject));
         m_subscriberList.Subscribe();
     }
 
@@ -109,7 +109,7 @@ public class EntityWeaponMelee : EntityWeaponBase
             Event<HitEvent>.Broadcast(new HitEvent(hit), col.gameObject);
     }
 
-    void Load(LoadEvent e)
+    void Load(LoadLevelEvent e)
     {
         var jsonObj = e.obj.GetElement("weaponMelee");
         if (jsonObj != null && jsonObj.IsJsonObject())
@@ -122,7 +122,7 @@ public class EntityWeaponMelee : EntityWeaponBase
         }
     }
 
-    void Save(SaveEvent e)
+    void Save(SaveLevelEvent e)
     {
         var obj = new JsonObject();
         e.obj.AddElement("weaponMelee", obj);

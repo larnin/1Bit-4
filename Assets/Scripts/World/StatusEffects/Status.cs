@@ -30,8 +30,8 @@ public class Status : MonoBehaviour
     {
         m_subscriberList.Add(new Event<LifeLossEvent>.LocalSubscriber(OnHit, gameObject));
         m_subscriberList.Add(new Event<IsFrozenEvent>.LocalSubscriber(IsFrozen, gameObject));
-        m_subscriberList.Add(new Event<SaveEvent>.LocalSubscriber(Save, gameObject));
-        m_subscriberList.Add(new Event<LoadEvent>.LocalSubscriber(Load, gameObject));
+        m_subscriberList.Add(new Event<SaveLevelEvent>.LocalSubscriber(Save, gameObject));
+        m_subscriberList.Add(new Event<LoadLevelEvent>.LocalSubscriber(Load, gameObject));
         m_subscriberList.Subscribe();
     }
 
@@ -99,7 +99,7 @@ public class Status : MonoBehaviour
         }
     }
 
-    void Save(SaveEvent e)
+    void Save(SaveLevelEvent e)
     {
         var obj = new JsonArray();
         e.obj.AddElement("status", obj);
@@ -112,7 +112,7 @@ public class Status : MonoBehaviour
         }
     }
 
-    void Load(LoadEvent e)
+    void Load(LoadLevelEvent e)
     {
         m_effects.Clear();
 

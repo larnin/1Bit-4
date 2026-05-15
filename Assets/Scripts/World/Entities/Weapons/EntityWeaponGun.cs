@@ -26,8 +26,8 @@ public class EntityWeaponGun : EntityWeaponBase
 
     private void Awake()
     {
-        m_subscriberList.Add(new Event<LoadEvent>.LocalSubscriber(Load, gameObject));
-        m_subscriberList.Add(new Event<SaveEvent>.LocalSubscriber(Save, gameObject));
+        m_subscriberList.Add(new Event<LoadLevelEvent>.LocalSubscriber(Load, gameObject));
+        m_subscriberList.Add(new Event<SaveLevelEvent>.LocalSubscriber(Save, gameObject));
         m_subscriberList.Subscribe();
     }
 
@@ -146,7 +146,7 @@ public class EntityWeaponGun : EntityWeaponBase
         return dist < m_fireRange * m_fireRange;
     }
 
-    void Load(LoadEvent e)
+    void Load(LoadLevelEvent e)
     {
         var jsonObj = e.obj.GetElement("weaponGun");
         if (jsonObj != null && jsonObj.IsJsonObject())
@@ -163,7 +163,7 @@ public class EntityWeaponGun : EntityWeaponBase
         }
     }
 
-    void Save(SaveEvent e)
+    void Save(SaveLevelEvent e)
     {
         var obj = new JsonObject();
         e.obj.AddElement("weaponGun", obj);
