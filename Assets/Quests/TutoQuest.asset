@@ -18,8 +18,6 @@ MonoBehaviour:
     ReferencedUnityObjects:
     - {fileID: 4182363552691996492, guid: 662de2ae932dac447b25ebdec26620d8, type: 3}
     - {fileID: 3309540261721966588, guid: 195cf98505c961d4a840049dd589ee1a, type: 3}
-    - {fileID: 1314699865516490813, guid: 1c3c5c46bc806d3419fc0143a6cb2a72, type: 3}
-    - {fileID: 7998746714223171040, guid: 7ea1af8298c2b9649bb073d0989e4906, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -1197,28 +1195,10 @@ MonoBehaviour:
       Data: 3
     - Name: 
       Entry: 7
-      Data: 75|QuestSubObjectiveSpawnObject, Assembly-CSharp
-    - Name: m_prefab
-      Entry: 10
-      Data: 2
-    - Name: m_name
-      Entry: 1
-      Data: LockSolarPanel
-    - Name: m_location
-      Entry: 1
-      Data: 
-    - Name: m_waitTaskComplete
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 76|QuestSubObjectiveStartDialog, Assembly-CSharp
+      Data: 75|QuestSubObjectiveStartDialog, Assembly-CSharp
     - Name: m_texts
       Entry: 7
-      Data: 77|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+      Data: 76|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
     - Name: 
       Entry: 12
       Data: 1
@@ -1242,13 +1222,25 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 78|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+      Data: 77|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
     - Name: m_buildingType
       Entry: 3
       Data: 3
     - Name: m_unlocked
       Entry: 5
       Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 78|QuestSubObjectiveConstructBuilding, Assembly-CSharp
+    - Name: m_buildingType
+      Entry: 3
+      Data: 3
+    - Name: m_count
+      Entry: 3
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -1448,28 +1440,10 @@ MonoBehaviour:
       Data: 3
     - Name: 
       Entry: 7
-      Data: 91|QuestSubObjectiveSpawnObject, Assembly-CSharp
-    - Name: m_prefab
-      Entry: 10
-      Data: 3
-    - Name: m_name
-      Entry: 1
-      Data: LockStorage
-    - Name: m_location
-      Entry: 6
-      Data: 
-    - Name: m_waitTaskComplete
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 92|QuestSubObjectiveStartDialog, Assembly-CSharp
+      Data: 91|QuestSubObjectiveStartDialog, Assembly-CSharp
     - Name: m_texts
       Entry: 7
-      Data: 93|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+      Data: 92|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
     - Name: 
       Entry: 12
       Data: 1
@@ -1493,13 +1467,25 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 94|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+      Data: 93|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
     - Name: m_buildingType
       Entry: 3
       Data: 16
     - Name: m_unlocked
       Entry: 5
       Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 94|QuestSubObjectiveConstructBuilding, Assembly-CSharp
+    - Name: m_buildingType
+      Entry: 3
+      Data: 16
+    - Name: m_count
+      Entry: 3
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -2503,28 +2489,10 @@ MonoBehaviour:
       Data: 3
     - Name: 
       Entry: 7
-      Data: 160|QuestSubObjectiveSpawnObject, Assembly-CSharp
-    - Name: m_prefab
-      Entry: 6
-      Data: 
-    - Name: m_name
-      Entry: 1
-      Data: Turret1
-    - Name: m_location
-      Entry: 6
-      Data: 
-    - Name: m_waitTaskComplete
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 161|QuestSubObjectiveStartDialog, Assembly-CSharp
+      Data: 160|QuestSubObjectiveStartDialog, Assembly-CSharp
     - Name: m_texts
       Entry: 7
-      Data: 162|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+      Data: 161|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
     - Name: 
       Entry: 12
       Data: 1
@@ -2548,13 +2516,25 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 163|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+      Data: 162|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
     - Name: m_buildingType
       Entry: 3
       Data: 13
     - Name: m_unlocked
       Entry: 5
       Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 163|QuestSubObjectiveConstructBuilding, Assembly-CSharp
+    - Name: m_buildingType
+      Entry: 3
+      Data: 13
+    - Name: m_count
+      Entry: 3
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -2696,7 +2676,7 @@ MonoBehaviour:
       Data: In
     - Name: nextNodeID
       Entry: 1
-      Data: b078ce0d-02a7-4a6a-906f-eab224930520
+      Data: c9c7ee2c-5856-4fe2-8886-e06e898770f7
     - Name: 
       Entry: 8
       Data: 
@@ -2726,10 +2706,10 @@ MonoBehaviour:
       Data: UnityEngine.Rect, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 3139
+      Data: 3145
     - Name: 
       Entry: 4
-      Data: 11
+      Data: 117
     - Name: 
       Entry: 4
       Data: 159
@@ -2812,22 +2792,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 180|QuestSaveConnection, Assembly-CSharp
-    - Name: currentPortName
-      Entry: 1
-      Data: Out
-    - Name: nextPortName
-      Entry: 1
-      Data: In
-    - Name: nextNodeID
-      Entry: 1
-      Data: c9c7ee2c-5856-4fe2-8886-e06e898770f7
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
@@ -2839,7 +2804,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 181|QuestSaveNode, Assembly-CSharp
+      Data: 180|QuestSaveNode, Assembly-CSharp
     - Name: ID
       Entry: 1
       Data: c9c7ee2c-5856-4fe2-8886-e06e898770f7
@@ -2854,10 +2819,10 @@ MonoBehaviour:
       Data: UnityEngine.Rect, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 3338
+      Data: 3340
     - Name: 
       Entry: 4
-      Data: 10
+      Data: 19
     - Name: 
       Entry: 4
       Data: 154
@@ -2869,23 +2834,23 @@ MonoBehaviour:
       Data: 
     - Name: data
       Entry: 7
-      Data: 182|QuestObjective, Assembly-CSharp
+      Data: 181|QuestObjective, Assembly-CSharp
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
     - Name: m_subObjectives
       Entry: 7
-      Data: 183|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+      Data: 182|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 184|QuestSubObjectiveStartDialog, Assembly-CSharp
+      Data: 183|QuestSubObjectiveStartDialog, Assembly-CSharp
     - Name: m_texts
       Entry: 7
-      Data: 185|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+      Data: 184|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
     - Name: 
       Entry: 12
       Data: 1
@@ -2920,14 +2885,14 @@ MonoBehaviour:
       Data: 
     - Name: outNodes
       Entry: 7
-      Data: 186|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+      Data: 185|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 187|QuestSaveConnection, Assembly-CSharp
+      Data: 186|QuestSaveConnection, Assembly-CSharp
     - Name: currentPortName
       Entry: 1
       Data: Out
