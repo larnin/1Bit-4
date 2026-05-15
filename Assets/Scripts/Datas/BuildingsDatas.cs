@@ -125,6 +125,7 @@ public class BuildingDestructionData
 public class BuildingsDatas
 {
     [SerializeField] List<OneBuildingData> m_buildings;
+    public List<BuildingType> defaultUnlockedBuildings;
     public GameObject mineItemPrefab;
     public float lifeLossDisplayDuration = 10;
     public GameObject lifebarPrefab;

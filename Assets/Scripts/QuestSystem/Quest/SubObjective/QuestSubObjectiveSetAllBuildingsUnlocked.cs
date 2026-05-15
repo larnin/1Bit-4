@@ -5,13 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-[Serializable]
-public class QuestSubObjectiveSetBuildingUnlocked : QuestSubObjectiveBase
+public class QuestSubObjectiveSetAllBuildingsUnlocked : QuestSubObjectiveBase
 {
-    [SerializeField]
-    BuildingType m_buildingType;
-    public BuildingType buildingType { get { return m_buildingType; } set { m_buildingType = value; } }
-
     [SerializeField]
     bool m_unlocked = true;
     public bool unlocked { get { return m_unlocked; } set { m_unlocked = value; } }
@@ -27,11 +22,17 @@ public class QuestSubObjectiveSetBuildingUnlocked : QuestSubObjectiveBase
 
     public override void Start()
     {
-        if (m_globalyUnlocked)
-            GameInfos.instance.persistant.SetBuildingUnlocked(m_buildingType, m_unlocked);
+        var allBuildings = Enum.GetValues(typeof(BuildingType));
+        foreach (var type in allBuildings)
+        {
+            var b = (BuildingType)type;
 
-        if (GameSystem.instance != null)
-            GameSystem.instance.SetBuildingUnlocked(m_buildingType, m_unlocked);
+            if (m_globalyUnlocked)
+                GameInfos.instance.persistant.SetBuildingUnlocked(b, m_unlocked);
+
+            if (GameSystem.instance != null)
+                GameSystem.instance.SetBuildingUnlocked(b, m_unlocked);
+        }
     }
 
     public override void Update(float deltaTime) { }

@@ -31,8 +31,8 @@ public class GameSystem : MonoBehaviour
     }
 
     [SerializeField] GridBehaviour m_grid;
-    [SerializeField] List<BuildingType> m_unlockedBuilding;
-
+    
+    List<BuildingType> m_unlockedBuilding = new List<BuildingType>();
     State m_state = State.Starting;
     float m_delay;
     float m_alarmTimer = 0;
@@ -99,6 +99,15 @@ public class GameSystem : MonoBehaviour
     private void Awake()
     {
         m_instance = this;
+
+        m_unlockedBuilding.Clear();
+        var allBuildings = Enum.GetValues(typeof(BuildingType));
+        foreach(var type in allBuildings)
+        {
+            var b = (BuildingType)type;
+            if (GameInfos.instance.persistant.IsBuildingUnlocked(b))
+                m_unlockedBuilding.Add(b);
+        }
 
         m_subscriberList.Add(new Event<TowerDeathEvent>.Subscriber(OnTowerDeath));
         m_subscriberList.Add(new Event<QuestEndLevelEvent>.Subscriber(OnQuestEnd));
