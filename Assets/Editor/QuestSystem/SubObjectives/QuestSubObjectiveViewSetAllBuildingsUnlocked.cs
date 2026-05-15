@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
-public class QuestSubObjectiveViewSetBuildingUnlocked : QuestSubObjectiveViewBase
+public class QuestSubObjectiveViewSetAllBuildingsUnlocked : QuestSubObjectiveViewBase
 {
-    new QuestSubObjectiveSetBuildingUnlocked m_subObjective;
+    new QuestSubObjectiveSetAllBuildingsUnlocked m_subObjective;
 
-    public QuestSubObjectiveViewSetBuildingUnlocked(QuestSystemNodeObjective node, QuestSubObjectiveSetBuildingUnlocked subObjective) : base(node, subObjective)
+    public QuestSubObjectiveViewSetAllBuildingsUnlocked(QuestSystemNodeObjective node, QuestSubObjectiveSetAllBuildingsUnlocked subObjective) : base(node, subObjective)
     {
         m_subObjective = subObjective;
     }
@@ -19,20 +18,11 @@ public class QuestSubObjectiveViewSetBuildingUnlocked : QuestSubObjectiveViewBas
     {
         var element = new VisualElement();
 
-        var completion = new EnumField("Building Type", m_subObjective.buildingType);
-        completion.RegisterValueChangedCallback(OnBuildingChange);
-        element.Add(completion);
-
         element.Add(QuestSystemEditorUtility.CreateCheckbox("Unlocked", m_subObjective.unlocked, OnLockChange));
 
         element.Add(QuestSystemEditorUtility.CreateCheckbox("Globaly", m_subObjective.globalyUnlocked, OnGlobalyChange));
 
         return element;
-    }
-
-    void OnBuildingChange(ChangeEvent<Enum> completion)
-    {
-        m_subObjective.buildingType = completion.newValue as BuildingType? ?? BuildingType.Pylon;
     }
 
     void OnLockChange(ChangeEvent<bool> unlocked)

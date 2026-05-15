@@ -417,7 +417,13 @@ public class QuestSystem : SerializedMonoBehaviour
 
     private void Awake()
     {
+        if (m_instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
         m_instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     private void OnDestroy()

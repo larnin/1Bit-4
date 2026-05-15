@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -177,7 +177,7 @@ public class LifeComponent : MonoBehaviour
         }
     }
 
-    void Load(LoadEvent e)
+    void Load(LoadLevelEvent e)
     {
         var jsonObj = e.obj.GetElement("life");
         if(jsonObj != null && jsonObj.IsJsonObject())
@@ -194,7 +194,7 @@ public class LifeComponent : MonoBehaviour
         }
     }
 
-    void Save(SaveEvent e)
+    void Save(SaveLevelEvent e)
     {
         var obj = new JsonObject();
         e.obj.AddElement("life", obj);

@@ -12,6 +12,13 @@ public enum LevelUnlockCondition
 }
 
 [Serializable]
+public class InitialResource
+{
+    public ResourceType type;
+    public float count;
+}
+
+[Serializable]
 public class LevelInfo
 {
     public string name;
@@ -20,6 +27,7 @@ public class LevelInfo
     public LevelUnlockCondition unlockCondition;
     public JsonScriptableObject level;
     public QuestScriptableObject quest;
+    public List<InitialResource> initialResources = new List<InitialResource>();
 }
 
 [Serializable]

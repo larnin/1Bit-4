@@ -12,6 +12,7 @@ public class GameInfos
 
     public Settings settings = new Settings();
     public GameParams gameParams = new GameParams();
+    public GamePersistant persistant = new GamePersistant();
     public bool paused = false;
     public int lastTip = -1;
 
@@ -201,6 +202,31 @@ public class GameParams
     {
         seedStr = StaticRandomGenerator<MT19937>.Get().Next().ToString();
         seed = Cast.HashString(seedStr);
+    }
+}
+
+public class GamePersistant
+{
+    List<BuildingType> m_unlockedBuilding = new List<BuildingType>();
+
+    public GamePersistant()
+    {
+        foreach (var b in Global.instance.buildingDatas.defaultUnlockedBuildings)
+            m_unlockedBuilding.Add(b);
+    }
+
+    public bool IsBuildingUnlocked(BuildingType type)
+    {
+        return m_unlockedBuilding.Contains(type);
+    }
+
+    public void SetBuildingUnlocked(BuildingType type, bool unlocked)
+    {
+        bool found = IsBuildingUnlocked(type);
+        if (!found && unlocked)
+            m_unlockedBuilding.Add(type);
+        if (found && !unlocked)
+            m_unlockedBuilding.Remove(type);
     }
 }
 

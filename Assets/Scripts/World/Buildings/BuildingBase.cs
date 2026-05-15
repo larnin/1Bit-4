@@ -486,7 +486,7 @@ public abstract class BuildingBase : MonoBehaviour
 
         SaveImpl(obj);
 
-        Event<SaveEvent>.Broadcast(new SaveEvent(obj), gameObject);
+        Event<SaveLevelEvent>.Broadcast(new SaveLevelEvent(obj), gameObject);
 
         return obj;
     }
@@ -544,7 +544,7 @@ public abstract class BuildingBase : MonoBehaviour
         }
 
         LoadImpl(obj);
-        Event<LoadEvent>.Broadcast(new LoadEvent(obj), gameObject);
+        Event<LoadLevelEvent>.Broadcast(new LoadLevelEvent(obj), gameObject);
     }
 
     protected virtual void LoadImpl(JsonObject obj) { }
