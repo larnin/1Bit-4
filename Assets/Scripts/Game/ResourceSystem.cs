@@ -7,13 +7,6 @@ using UnityEngine;
 
 public class ResourceSystem : MonoBehaviour
 {
-    [Serializable]
-    class InitialResource
-    {
-        public ResourceType type;
-        public float count;
-    }
-
     class OneResourceHistory
     {
         public float count;
@@ -61,8 +54,6 @@ public class ResourceSystem : MonoBehaviour
         }
     }
     
-    [SerializeField] List<InitialResource> m_initialResources;
-
     List<ResourceInfo> m_resources = new List<ResourceInfo>();
 
     static ResourceSystem m_instance = null;
@@ -81,7 +72,9 @@ public class ResourceSystem : MonoBehaviour
 
     private void Start()
     {
-        foreach(var r in m_initialResources)
+        var level = GameInfos.instance.gameParams.level;
+
+        foreach (var r in level.initialResources)
         {
             var resource = GetResourceOrCreate(r.type);
             resource.stored += r.count;
