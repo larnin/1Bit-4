@@ -126,6 +126,9 @@ public class LevelSelectionMenu : MonoBehaviour
         if (m_levelIndex >= m_elements.Count || m_levelIndex < 0)
             return;
 
+        if (m_elements[m_levelIndex].IsLocked())
+            return;
+
         GameInfos.instance.gameParams.infiniteMode = m_elements[m_levelIndex].IsInfiniteMode();
         if (GameInfos.instance.gameParams.infiniteMode)
         {

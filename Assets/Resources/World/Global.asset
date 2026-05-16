@@ -700,6 +700,7 @@ MonoBehaviour:
       storageBase: 100
       storageIncrease: 50
   m_levelsData:
+    globalQuest: {fileID: 0}
     Levels:
     - name: Tutorial
       description: You want to know how to play ? You are at the right place !
@@ -711,14 +712,14 @@ MonoBehaviour:
     - name: Monolith
       description: Be prepared !
       icon: {fileID: 0}
-      unlockCondition: 1
+      unlockCondition: 0
       level: {fileID: 11400000, guid: ddef90a164e422941a6479ea55bde5fb, type: 2}
       quest: {fileID: 11400000, guid: f2bb7d584cb7a2540940ad6188326905, type: 2}
       initialResources: []
     - name: Waves
       description: The big boss is here !
       icon: {fileID: 0}
-      unlockCondition: 1
+      unlockCondition: 0
       level: {fileID: 11400000, guid: 067753a7461cbe341a42e953e7f2868a, type: 2}
       quest: {fileID: 11400000, guid: e1b3d32216353aa4aa42270607021d0c, type: 2}
       initialResources: []

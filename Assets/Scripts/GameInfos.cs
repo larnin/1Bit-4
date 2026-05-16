@@ -208,6 +208,7 @@ public class GameParams
 public class GamePersistant
 {
     List<BuildingType> m_unlockedBuilding = new List<BuildingType>();
+    List<string> m_completedLevels = new List<string>();
 
     public GamePersistant()
     {
@@ -227,6 +228,19 @@ public class GamePersistant
             m_unlockedBuilding.Add(type);
         if (found && !unlocked)
             m_unlockedBuilding.Remove(type);
+    }
+
+    public bool IsLevelCompleted(string level)
+    {
+        return m_completedLevels.Contains(level);
+    }
+
+    public void SetLevelCompleted(string level)
+    {
+        if (IsLevelCompleted(level))
+            return;
+
+        m_completedLevels.Add(level);
     }
 }
 

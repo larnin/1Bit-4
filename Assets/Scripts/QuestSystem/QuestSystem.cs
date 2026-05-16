@@ -87,7 +87,7 @@ public class QuestSystem : SerializedMonoBehaviour
                             current.connections.Add(output);
                         else
                         {
-                            var saveNode = GetSaveDataNode(data, output.nextNodeID);
+                            var saveNode = GetSaveDataNodeFromID(data, output.nextNodeID);
                             if (saveNode != null)
                             {
                                 var nodeOutput = new ObjectiveOutput();
@@ -189,11 +189,11 @@ public class QuestSystem : SerializedMonoBehaviour
             objective.objective.Start();
         }
 
-        QuestSaveNode GetSaveDataNode(QuestSaveData data, string nodeName)
+        QuestSaveNode GetSaveDataNodeFromID(QuestSaveData data, string nodeID)
         {
             foreach(var n in data.nodes)
             {
-                if (n.name == nodeName)
+                if (n.ID == nodeID)
                     return n;
             }
             return null;

@@ -131,6 +131,8 @@ public class GameSystem : MonoBehaviour
             m_instance = null;
 
         StopMapQuest();
+
+        GameInfos.instance.gameParams.level = null;
     }
 
     private void Update()
@@ -432,6 +434,9 @@ public class GameSystem : MonoBehaviour
 
     void TriggerEndLevel(bool succes)
     {
+        if (succes && GameInfos.instance.gameParams.level != null)
+            GameInfos.instance.persistant.SetLevelCompleted(GameInfos.instance.gameParams.level.name);
+
         DisplayEndLevelEvent displayEnd = Event<DisplayEndLevelEvent>.Broadcast(new DisplayEndLevelEvent(succes));
         if(!displayEnd.displayed)
         {

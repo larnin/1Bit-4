@@ -63,6 +63,8 @@ public abstract class QuestSubObjectiveViewBase
             return new QuestSubObjectiveViewConstructBuilding(node, subObjective as QuestSubObjectiveConstructBuilding);
         if (subObjective is QuestSubObjectiveEntityCount)
             return new QuestSubObjectiveViewEntityCount(node, subObjective as QuestSubObjectiveEntityCount);
+        if (subObjective is QuestSubObjectiveIsLevelCompleted)
+            return new QuestSubObjectiveViewIsLevelCompleted(node, subObjective as QuestSubObjectiveIsLevelCompleted);
 
         return new QuestSubObjectiveViewNotImplemented(node, subObjective);
     }
