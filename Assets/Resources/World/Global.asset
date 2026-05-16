@@ -632,6 +632,7 @@ MonoBehaviour:
         cost:
         - type: 1
           count: 300
+    defaultUnlockedBuildings: 0100000009000000
     mineItemPrefab: {fileID: 6943061212826655842, guid: 020dedfdfd13d1c49ac25e185f22167b, type: 3}
     lifeLossDisplayDuration: 10
     lifebarPrefab: {fileID: 403841948413428351, guid: 865e80a7aecab34408fe71ab6fb1fed9, type: 3}
@@ -706,24 +707,28 @@ MonoBehaviour:
       unlockCondition: 1
       level: {fileID: 11400000, guid: 5e0ddf1f24b55d54cb5758a2ac69c1b9, type: 2}
       quest: {fileID: 11400000, guid: f139f693a639c4148bdd4a67c2e5246d, type: 2}
+      initialResources: []
     - name: Monolith
       description: Be prepared !
       icon: {fileID: 0}
       unlockCondition: 1
       level: {fileID: 11400000, guid: ddef90a164e422941a6479ea55bde5fb, type: 2}
       quest: {fileID: 11400000, guid: f2bb7d584cb7a2540940ad6188326905, type: 2}
+      initialResources: []
     - name: Waves
       description: The big boss is here !
       icon: {fileID: 0}
       unlockCondition: 1
       level: {fileID: 11400000, guid: 067753a7461cbe341a42e953e7f2868a, type: 2}
       quest: {fileID: 11400000, guid: e1b3d32216353aa4aa42270607021d0c, type: 2}
+      initialResources: []
     - name: Test Ennemies
       description: Just a level to test ennemies behavior
       icon: {fileID: 0}
       unlockCondition: 1
       level: {fileID: 11400000, guid: f441ab70e66490d43918c733fcf8d6fa, type: 2}
       quest: {fileID: 11400000, guid: b87f32c0993863846a41d79887db9f1b, type: 2}
+      initialResources: []
     InfiniteMode:
       name: Infinite
       description: How many time can you survive ?
@@ -731,6 +736,9 @@ MonoBehaviour:
       unlockCondition: 1
       level: {fileID: 0}
       quest: {fileID: 11400000, guid: 6af5cff95c08abc459d1f74fe64230ae, type: 2}
+      initialResources:
+      - type: 1
+        count: 1000
     InfiniteLevel:
       size: 4
       height: 1

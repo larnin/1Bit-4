@@ -129,6 +129,8 @@ public class GameSystem : MonoBehaviour
 
         if (m_instance == this)
             m_instance = null;
+
+        StopMapQuest();
     }
 
     private void Update()
@@ -297,7 +299,15 @@ public class GameSystem : MonoBehaviour
         if (QuestSystem.instance == null)
             return;
 
-        QuestSystem.instance.StartQuest(GameInfos.instance.gameParams.level.quest, GameInfos.instance.gameParams.level.quest.name);
+        QuestSystem.instance.StartQuest(GameInfos.instance.gameParams.level.quest, GameInfos.instance.gameParams.level.quest.name, false);
+    }
+
+    void StopMapQuest()
+    {
+        if(QuestSystem.instance != null)
+        {
+            QuestSystem.instance.StopLocalQuests();
+        }
     }
 
     bool IsPosValid(Grid grid, Vector2Int pos, Vector2Int elementSize)

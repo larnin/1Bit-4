@@ -26,7 +26,9 @@ public class QuestSubObjectiveStartQuest : QuestSubObjectiveBase
         if (m_quest == null)
             return;
 
-        questSystem.StartQuest(m_quest, m_quest.name);
+        bool QuestGlobal = m_system.IsFromGlobalQuest(this);
+
+        questSystem.StartQuest(m_quest, m_quest.name, QuestGlobal);
     }
 
     public override void Update(float deltaTime) { }
