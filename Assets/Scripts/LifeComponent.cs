@@ -40,8 +40,8 @@ public class LifeComponent : MonoBehaviour
         m_subscriberList.Add(new Event<HitEvent>.LocalSubscriber(Hit, gameObject));
         m_subscriberList.Add(new Event<HealEvent>.LocalSubscriber(Heal, gameObject));
         m_subscriberList.Add(new Event<KillEvent>.LocalSubscriber(Kill, gameObject));
-        m_subscriberList.Add(new Event<LoadEvent>.LocalSubscriber(Load, gameObject));
-        m_subscriberList.Add(new Event<SaveEvent>.LocalSubscriber(Save, gameObject));
+        m_subscriberList.Add(new Event<LoadLevelEvent>.LocalSubscriber(Load, gameObject));
+        m_subscriberList.Add(new Event<SaveLevelEvent>.LocalSubscriber(Save, gameObject));
         m_subscriberList.Subscribe();
     }
 
