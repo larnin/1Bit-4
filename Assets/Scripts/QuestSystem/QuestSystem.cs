@@ -30,9 +30,10 @@ public class QuestSystem : SerializedMonoBehaviour
 
     class OngoingQuest
     {
-        public OngoingQuest(QuestScriptableObject obj, string name)
+        public OngoingQuest(QuestScriptableObject obj, string name, bool isGlobal)
         {
             m_name = name;
+            m_isGlobal = isGlobal;
             m_scriptableObject = obj;
 
             var data = m_scriptableObject.data;
@@ -86,7 +87,7 @@ public class QuestSystem : SerializedMonoBehaviour
                             current.connections.Add(output);
                         else
                         {
-                            var saveNode = GetSaveDataNode(data, output.nextNodeID);
+                            var saveNode = GetSaveDataNodeFromID(data, output.nextNodeID);
                             if (saveNode != null)
                             {
                                 var nodeOutput = new ObjectiveOutput();
@@ -188,11 +189,11 @@ public class QuestSystem : SerializedMonoBehaviour
             objective.objective.Start();
         }
 
-        QuestSaveNode GetSaveDataNode(QuestSaveData data, string nodeName)
+        QuestSaveNode GetSaveDataNodeFromID(QuestSaveData data, string nodeID)
         {
             foreach(var n in data.nodes)
             {
-                if (n.name == nodeName)
+                if (n.ID == nodeID)
                     return n;
             }
             return null;
@@ -387,12 +388,33 @@ public class QuestSystem : SerializedMonoBehaviour
             return m_name;
         }
 
+        public bool IsGlobal()
+        {
+            return m_isGlobal;
+        }
+
         public QuestScriptableObject GetScriptableObject()
         {
             return m_scriptableObject;
         }
 
+        public bool HaveObjective(QuestSubObjectiveBase objective)
+        {
+            foreach(var o in m_objectives)
+            {
+                int nbSub = o.objective.GetSubObjectiveCount();
+                for(int i = 0; i < nbSub; i++)
+                {
+                    if (o.objective.GetSubObjective(i) == objective)
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
         string m_name;
+        bool m_isGlobal;
         List<Objective> m_objectives = new List<Objective>();
         List<ObjectiveOutput> m_completeExits = new List<ObjectiveOutput>();
         List<ObjectiveOutput> m_failExits = new List<ObjectiveOutput>();
@@ -432,12 +454,12 @@ public class QuestSystem : SerializedMonoBehaviour
             m_instance = null;
     }
 
-    public void StartQuest(QuestScriptableObject obj, string name)
+    public void StartQuest(QuestScriptableObject obj, string name, bool isGlobal)
     {
         if (obj == null)
             return;
 
-        var newQuest = new OngoingQuest(obj, name);
+        var newQuest = new OngoingQuest(obj, name, isGlobal);
         m_ongoingQuest.Add(newQuest);
     }
 
@@ -521,6 +543,15 @@ public class QuestSystem : SerializedMonoBehaviour
         return null;
     }
 
+    private void Start()
+    {
+        //todo make this quest start with game load and stop when back on main menu
+
+        if (Global.instance.levelsData.globalQuest != null)
+        {
+            StartQuest(Global.instance.levelsData.globalQuest, "Main", true);
+        }
+    }
 
     private void Update()
     {
@@ -549,6 +580,29 @@ public class QuestSystem : SerializedMonoBehaviour
                 completed.objectives.Add(quest.GetCompletedObjectiveName(i));
 
             m_completedQuests.Add(completed);
+        }
+    }
+
+    public bool IsFromGlobalQuest(QuestSubObjectiveBase objective)
+    {
+        foreach(var quest in m_ongoingQuest)
+        {
+            if (quest.HaveObjective(objective))
+                return quest.IsGlobal();
+        }
+
+        return false;
+    }
+
+    public void StopLocalQuests()
+    {
+        for(int i = 0; i < m_ongoingQuest.Count; i++)
+        {
+            if(!m_ongoingQuest[i].IsGlobal())
+            {
+                m_ongoingQuest.RemoveAt(i);
+                i--;
+            }    
         }
     }
 }

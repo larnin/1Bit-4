@@ -27,7 +27,8 @@ public enum BuildingType
     MonolithNullifier,
     GeothermalGenerator,
     EnnemySpawner = 100,
-    Monolith,
+    EnnemySpawnerIndestructible,
+    Monolith = 150,
 }
 
 public static class BuildingTypeEx

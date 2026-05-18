@@ -45,6 +45,8 @@ public class InfiniteLevelInfo
 [Serializable]
 public class LevelsData
 {
+    public QuestScriptableObject globalQuest;
+
     public List<LevelInfo> Levels = new List<LevelInfo>();
 
     public LevelInfo InfiniteMode = new LevelInfo();

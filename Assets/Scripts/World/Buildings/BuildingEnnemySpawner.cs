@@ -13,6 +13,7 @@ public class BuildingEnnemySpawner : BuildingBase
     [SerializeField] float m_appearOffset;
     [SerializeField] float m_appearDuration;
     [SerializeField] Ease m_appearCurve;
+    [SerializeField] bool m_isDestructible;
 
     enum State
     {
@@ -58,7 +59,9 @@ public class BuildingEnnemySpawner : BuildingBase
 
     public override BuildingType GetBuildingType()
     {
-        return BuildingType.EnnemySpawner;
+        if (m_isDestructible)
+            return BuildingType.EnnemySpawner;
+        else return BuildingType.EnnemySpawnerIndestructible;
     }
 
     public float GetAppearDuration()

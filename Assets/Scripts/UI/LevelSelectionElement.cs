@@ -11,6 +11,7 @@ public class LevelSelectionElement : MonoBehaviour
 {
     int m_levelIndex = -1;
     bool m_infiniteMode = false;
+    bool m_locked = true;
 
     public void SetLevelIndex(int levelIndex)
     {
@@ -62,9 +63,21 @@ public class LevelSelectionElement : MonoBehaviour
             }
         }
 
+
+        m_locked = false;
+        if (info.unlockCondition == LevelUnlockCondition.WhenPreviousCompleted && !m_infiniteMode)
+        {
+            if (m_levelIndex > 0)
+            {
+                var previous = Global.instance.levelsData.GetLevelInfo(m_levelIndex - 1, false);
+                if (previous != null)
+                    m_locked = !GameInfos.instance.persistant.IsLevelCompleted(previous.name);
+            }
+        }
+
         var lockTr = transform.Find("Lock");
-        if (lockTr != null)//todo
-            lockTr.gameObject.SetActive(false);
+        if (lockTr != null)
+            lockTr.gameObject.SetActive(m_locked);
     }
 
     public int GetLevelIndex()
@@ -75,5 +88,10 @@ public class LevelSelectionElement : MonoBehaviour
     public bool IsInfiniteMode()
     {
         return m_infiniteMode;
+    }
+
+    public bool IsLocked()
+    {
+        return m_locked;
     }
 }
