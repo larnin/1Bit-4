@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c89a4b76a7f6b2446827e54dded60038, type: 3}
-  m_Name: WaveMode
+  m_Name: WaveMission1 1
   m_EditorClassIdentifier: 
   portals:
   - positionName: Portal1
@@ -39,14 +39,14 @@ MonoBehaviour:
       entities:
       - entityType:
           m_value: ProtoEnnemyDistance
-        count: 5
+        count: 15
         stats: []
     - delayBeforeFirstEntity: 0
       spawnDuration: 10
       entities:
       - entityType:
           m_value: ProtoEnnemyMelee
-        count: 10
+        count: 20
         stats:
         - stat: 0
           value: 4
@@ -55,7 +55,7 @@ MonoBehaviour:
       entities:
       - entityType:
           m_value: ProtoEnnemyDistance
-        count: 5
+        count: 20
         stats: []
   - positionName: Portal2
     portalType: 100
@@ -161,4 +161,4 @@ MonoBehaviour:
         count: 5
         stats: []
   delayBeforeFirstWave: 60
-  delayBetweenWave: 30
+  delayBetweenWave: 20

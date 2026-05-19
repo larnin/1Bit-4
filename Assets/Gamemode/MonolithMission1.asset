@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a7471280cf56049499c28d14dba1a996, type: 3}
-  m_Name: MonolithMode
+  m_Name: MonolithMission1
   m_EditorClassIdentifier: 
   delayBetweenWave: 30
   spawnerRadiusAroundMonolith: 50

@@ -63,6 +63,7 @@ MonoBehaviour:
         baseAmplitude: 1
         nbLayers: 1
         layerAmplitudeScale: 0.5
+      minDistanceBetweenResources: 2
       crystalPatchSizeBase: 4
       crystalPatchIncrease: 8
       crystalPatchDensity: 10
@@ -81,7 +82,7 @@ MonoBehaviour:
       titaniumMinHeight: 1
       titaniumMaxHeight: 2
       titaniumHeightNeighbour: 0.3
-      geothermalDensity: 8
-      geothermalRetryCount: 5
-      geothermalInitialPatchDistance: 20
-      geothermalMinDistance: 30
+      geothermalDensity: 2
+      geothermalRetryCount: 1
+      geothermalInitialPatchDistance: 30
+      geothermalMinDistance: 60

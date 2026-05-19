@@ -632,6 +632,7 @@ MonoBehaviour:
         cost:
         - type: 1
           count: 175
+    defaultUnlockedBuildings: 01000000030000000500000006000000090000000a0000000b0000000c0000000d0000000e0000000f0000001000000012000000
     mineItemPrefab: {fileID: 6943061212826655842, guid: 020dedfdfd13d1c49ac25e185f22167b, type: 3}
     lifeLossDisplayDuration: 10
     lifebarPrefab: {fileID: 403841948413428351, guid: 865e80a7aecab34408fe71ab6fb1fed9, type: 3}
@@ -738,9 +739,7 @@ MonoBehaviour:
       unlockCondition: 1
       level: {fileID: 0}
       quest: {fileID: 11400000, guid: 6af5cff95c08abc459d1f74fe64230ae, type: 2}
-      initialResources:
-      - type: 1
-        count: 1000
+      initialResources: []
     InfiniteLevel:
       size: 4
       height: 1
