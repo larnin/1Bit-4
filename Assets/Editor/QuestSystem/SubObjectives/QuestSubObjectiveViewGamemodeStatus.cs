@@ -23,6 +23,7 @@ public class QuestSubObjectiveViewGamemodeStatus : QuestSubObjectiveViewBase
 
         var completion = new EnumField("Status", m_subObjective.status);
         completion.RegisterValueChangedCallback(OnStatusChange);
+        element.Add(completion);
 
         return element;
     }
