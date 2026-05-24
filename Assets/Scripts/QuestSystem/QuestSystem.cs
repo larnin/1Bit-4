@@ -413,6 +413,97 @@ public class QuestSystem : SerializedMonoBehaviour
             return false;
         }
 
+        public void Load(JsonObject obj)
+        {
+            m_currentObjectives.Clear();
+            m_completionsToNextNodes.Clear();
+            m_completedObjectives.Clear();
+
+            var currentObjectivesJson = obj.GetElement("currentObjectives");
+            if(currentObjectivesJson != null && currentObjectivesJson.IsJsonArray())
+            {
+                var currentObjectivesArray = currentObjectivesJson.JsonArray();
+                foreach(var oJson in currentObjectivesArray)
+                {
+                    if (oJson.IsJsonNumber())
+                        m_currentObjectives.Add(oJson.Int());
+                }
+            }
+
+            var completionToNextJson = obj.GetElement("completionToNext");
+            if(completionToNextJson != null && completionToNextJson.IsJsonArray())
+            {
+                var completionToNextArray = completionToNextJson.JsonArray();
+                foreach(var oJson in completionToNextArray)
+                {
+                    if(oJson.IsJsonObject())
+                    {
+                        var oObj = oJson.JsonObject();
+
+                        var elem = new InputObjectiveCompletion();
+                        var indexJson = oObj.GetElement("index");
+                        if (indexJson != null && indexJson.IsJsonNumber())
+                            elem.objectiveIndex = indexJson.Int();
+
+                        var inputsJson = oObj.GetElement("validInputs");
+                        if(inputsJson != null && inputsJson.IsJsonArray())
+                        {
+                            var inputsArray = inputsJson.JsonArray();
+                            foreach(var inputElem in inputsArray)
+                            {
+                                if (inputElem.IsJsonNumber())
+                                    elem.validInputIndexs.Add(inputElem.Int());
+                            }
+                        }
+                        m_completionsToNextNodes.Add(elem);
+                    }
+                }
+            }
+
+            var completedJson = obj.GetElement("completedObjectives");
+            if(completedJson != null && completedJson.IsJsonArray())
+            {
+                var completedArray = completedJson.JsonArray();
+                foreach(var cJson in completedArray)
+                {
+                    if (cJson.IsJsonString())
+                        m_completedObjectives.Add(cJson.String());
+                }
+            }
+        }
+
+        public JsonObject Save()
+        {
+            JsonObject obj = new JsonObject();
+
+            JsonArray currentObjectivesJson = new JsonArray();
+            obj.AddElement("currentObjectives", currentObjectivesJson);
+            foreach(var o in m_currentObjectives)
+                currentObjectivesJson.Add(o);
+
+            JsonArray completionToNextJson = new JsonArray();
+            obj.AddElement("completionToNext", completionToNextJson);
+            foreach(var c in m_completionsToNextNodes)
+            {
+                JsonObject oneCompletionJson = new JsonObject();
+                oneCompletionJson.AddElement("index", c.objectiveIndex);
+
+                JsonArray validInputsArray = new JsonArray();
+                oneCompletionJson.AddElement("validInputs", validInputsArray);
+                foreach (var i in c.validInputIndexs)
+                    validInputsArray.Add(i);
+
+                completionToNextJson.Add(oneCompletionJson);
+            }
+
+            JsonArray completedObjectivesJson = new JsonArray();
+            obj.AddElement("completedObjectives", completedObjectivesJson);
+            foreach (var o in m_completedObjectives)
+                completedObjectivesJson.Add(o);
+
+            return obj;
+        }
+
         string m_name;
         bool m_isGlobal;
         List<Objective> m_objectives = new List<Objective>();
@@ -428,7 +519,8 @@ public class QuestSystem : SerializedMonoBehaviour
     {
         public string name;
         public QuestScriptableObject scriptableObject;
-        public List<string> objectives = new List<string>(); 
+        public List<string> objectives = new List<string>();
+        public bool isGlobal;
     }
 
     static QuestSystem m_instance = null;
@@ -456,11 +548,17 @@ public class QuestSystem : SerializedMonoBehaviour
 
     public void StartQuest(QuestScriptableObject obj, string name, bool isGlobal)
     {
+        StartAndReturnQuest(obj, name, isGlobal);
+    }
+
+    OngoingQuest StartAndReturnQuest(QuestScriptableObject obj, string name, bool isGlobal)
+    {
         if (obj == null)
-            return;
+            return null;
 
         var newQuest = new OngoingQuest(obj, name, isGlobal);
         m_ongoingQuest.Add(newQuest);
+        return newQuest;
     }
 
     public void StopQuest(string name)
@@ -574,6 +672,7 @@ public class QuestSystem : SerializedMonoBehaviour
             var completed = new CompletedQuest();
             completed.name = quest.GetName();
             completed.scriptableObject = quest.GetScriptableObject();
+            completed.isGlobal = quest.IsGlobal();
 
             int nbObjective = quest.GetCompletedObjectiveCount();
             for(int i = 0; i < nbObjective; i++)
@@ -604,5 +703,151 @@ public class QuestSystem : SerializedMonoBehaviour
                 i--;
             }    
         }
+    }
+
+    QuestScriptableObject GetQuestScriptable(string name)
+    {
+        foreach(var q in Global.instance.editorDatas.sauvableQuests)
+        {
+            if (q.name == name)
+                return q;
+        }
+
+        return null;
+    }
+
+    public void LoadGlobalQuests(JsonObject obj)
+    {
+        List<string> questToStop = new List<string>();
+        foreach(var q in m_ongoingQuest)
+        {
+            if (q.IsGlobal())
+                questToStop.Add(q.GetName());
+        }
+        foreach (var q in questToStop)
+            StopQuest(q);
+
+        for(int i = 0; i < m_completedQuests.Count; i++)
+        {
+            if(m_completedQuests[i].isGlobal)
+            {
+                m_completedQuests.RemoveAt(i);
+                i--;
+            }
+        }
+
+        var ongoingJson = obj.GetElement("ongoing");
+        if(ongoingJson != null && ongoingJson.IsJsonArray())
+        {
+            var ongoingArray = ongoingJson.JsonArray();
+            foreach(var elemJson in ongoingArray)
+            {
+                if(elemJson.IsJsonObject())
+                {
+                    var elemObj = elemJson.JsonObject();
+                    var nameJson = elemObj.GetElement("name");
+                    string name = "";
+                    if (nameJson != null && nameJson.IsJsonString())
+                        name = nameJson.String();
+
+                    var scriptablejson = elemObj.GetElement("scriptable");
+                    string scriptableName = "";
+                    if (scriptablejson != null && scriptablejson.IsJsonString())
+                        scriptableName = scriptablejson.String();
+
+                    var scriptable = GetQuestScriptable(scriptableName);
+                    if (scriptable == null)
+                        continue;
+
+                    var quest = StartAndReturnQuest(scriptable, name, true);
+                    if (quest == null)
+                        continue;
+
+                    quest.Load(elemObj);
+                }
+            }
+        }
+
+        var completedJson = obj.GetElement("completed");
+        if(completedJson != null && completedJson.IsJsonArray())
+        {
+            var completedArray = completedJson.JsonArray();
+            foreach(var elemJson in completedArray)
+            {
+                if(elemJson.IsJsonObject())
+                {
+                    var elemObj = elemJson.JsonObject();
+
+                    CompletedQuest completed = new CompletedQuest();
+                    completed.isGlobal = true;
+
+                    var nameJson = elemObj.GetElement("name");
+                    if (nameJson != null && nameJson.IsJsonString())
+                        completed.name = nameJson.String();
+
+                    var scriptableJson = elemObj.GetElement("scriptable");
+                    string scriptableName = "";
+                    if (scriptableJson != null && scriptableJson.IsJsonString())
+                        scriptableName = scriptableJson.String();
+
+                    completed.scriptableObject = GetQuestScriptable(scriptableName);
+                    if (completed.scriptableObject == null)
+                        continue;
+
+                    var objectivesJson = elemObj.GetElement("objectives");
+                    if(objectivesJson != null && objectivesJson.IsJsonArray())
+                    {
+                        var objectivesArray = objectivesJson.JsonArray();
+                        foreach(var oJson in objectivesArray)
+                        {
+                            if (oJson.IsJsonString())
+                                completed.objectives.Add(oJson.String());
+                        }
+                    }
+
+                    m_completedQuests.Add(completed);
+                }
+            }
+        }
+    }
+
+    public JsonObject SaveGlobalQuests()
+    {
+        JsonObject obj = new JsonObject();
+
+        JsonArray ongoingJson = new JsonArray();
+        obj.AddElement("ongoing", ongoingJson);
+        foreach(var quest in m_ongoingQuest)
+        {
+            if (!quest.IsGlobal())
+                continue;
+
+            JsonObject questJson = quest.Save();
+            questJson.AddElement("name", quest.GetName());
+
+            var scriptable = quest.GetScriptableObject();
+            questJson.AddElement("scriptable", scriptable.name);
+
+            ongoingJson.Add(questJson);
+        }
+
+        JsonArray completedJson = new JsonArray();
+        obj.AddElement("completed", completedJson);
+        foreach(var quest in m_completedQuests)
+        {
+            if (!quest.isGlobal)
+                continue;
+
+            JsonObject questJson = new JsonObject();
+            questJson.AddElement("name", quest.name);
+            questJson.AddElement("scriptable", quest.scriptableObject.name);
+
+            JsonArray objectiveArray = new JsonArray();
+            questJson.AddElement("objectives", objectiveArray);
+            foreach (var o in quest.objectives)
+                objectiveArray.Add(o);
+        }
+
+        return obj;
     }
 }

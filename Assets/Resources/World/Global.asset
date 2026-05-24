@@ -643,7 +643,7 @@ MonoBehaviour:
       firstFree: 0
       cost:
         cost: []
-    defaultUnlockedBuildings: 0100000009000000
+    defaultUnlockedBuildings: 01000000090000000d000000
     mineItemPrefab: {fileID: 6943061212826655842, guid: 020dedfdfd13d1c49ac25e185f22167b, type: 3}
     lifeLossDisplayDuration: 10
     lifebarPrefab: {fileID: 403841948413428351, guid: 865e80a7aecab34408fe71ab6fb1fed9, type: 3}
