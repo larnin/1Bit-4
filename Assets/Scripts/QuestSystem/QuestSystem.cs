@@ -703,6 +703,15 @@ public class QuestSystem : SerializedMonoBehaviour
                 i--;
             }    
         }
+
+        for(int i = 0; i < m_completedQuests.Count; i++)
+        {
+            if(!m_completedQuests[i].isGlobal)
+            {
+                m_completedQuests.RemoveAt(i);
+                i--;
+            }
+        }
     }
 
     QuestScriptableObject GetQuestScriptable(string name)
