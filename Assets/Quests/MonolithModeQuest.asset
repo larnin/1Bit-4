@@ -340,7 +340,7 @@ MonoBehaviour:
       Data: Monolith
     - Name: m_status
       Entry: 3
-      Data: 0
+      Data: 1
     - Name: 
       Entry: 8
       Data: 

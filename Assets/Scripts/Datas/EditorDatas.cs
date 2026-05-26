@@ -94,6 +94,7 @@ public class EditorDatas
     public List<NavigationData> navigationProfiles;
     public List<ProjectileData> projectiles;
     public List<QuestElementData> questElements;
+    public List<QuestScriptableObject> sauvableQuests;
 
     public GameObject GetQuestElementPrefab(QuestElementType type)
     {

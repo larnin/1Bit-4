@@ -242,5 +242,55 @@ public class GamePersistant
 
         m_completedLevels.Add(level);
     }
+
+    public void Load(JsonObject obj)
+    {
+        m_unlockedBuilding.Clear();
+        m_completedLevels.Clear();
+
+        var unlockedJson = obj.GetElement("unlockedBuilding");
+        if(unlockedJson != null && unlockedJson.IsJsonArray())
+        {
+            var unlockedArray = unlockedJson.JsonArray();
+            foreach(var uJson in unlockedArray)
+            {
+                if(uJson.IsJsonString())
+                {
+                    string buildingName = uJson.String();
+                    BuildingType type;
+                    if (Enum.TryParse(buildingName, out type))
+                        m_unlockedBuilding.Add(type);
+                }
+            }
+        }
+
+        var completedJson = obj.GetElement("completedLevel");
+        if(completedJson != null && completedJson.IsJsonArray())
+        {
+            var completedArray = completedJson.JsonArray();
+            foreach(var cJson in completedArray)
+            {
+                if (cJson.IsJsonString())
+                    m_completedLevels.Add(cJson.String());
+            }
+        }
+    }
+
+    public JsonObject Save()
+    {
+        JsonObject obj = new JsonObject();
+
+        JsonArray unlockedArray = new JsonArray();
+        obj.AddElement("unlockedBuilding", unlockedArray);
+        foreach (var u in m_unlockedBuilding)
+            unlockedArray.Add(u.ToString());
+
+        JsonArray completedLevelArray = new JsonArray();
+        obj.AddElement("completedLevel", completedLevelArray);
+        foreach (var l in m_completedLevels)
+            completedLevelArray.Add(l);
+
+        return obj;
+    }
 }
 

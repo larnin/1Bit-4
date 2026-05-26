@@ -631,8 +631,19 @@ MonoBehaviour:
       cost:
         cost:
         - type: 1
-          count: 175
-    defaultUnlockedBuildings: 01000000030000000500000006000000090000000a0000000b0000000c0000000d0000000e0000000f0000001000000012000000
+          count: 300
+    - type: 101
+      prefab: {fileID: 8816298933707241032, guid: 3983e93b24f4c4842b0b86c39dc534f1, type: 3}
+      sprite: {fileID: 0}
+      spriteWithBorder: {fileID: 0}
+      size: {x: 3, y: 5, z: 3}
+      team: 1
+      name: Indestructible Spawner
+      description: Create waves of ennemies
+      firstFree: 0
+      cost:
+        cost: []
+    defaultUnlockedBuildings: 
     mineItemPrefab: {fileID: 6943061212826655842, guid: 020dedfdfd13d1c49ac25e185f22167b, type: 3}
     lifeLossDisplayDuration: 10
     lifebarPrefab: {fileID: 403841948413428351, guid: 865e80a7aecab34408fe71ab6fb1fed9, type: 3}
@@ -700,7 +711,7 @@ MonoBehaviour:
       storageBase: 100
       storageIncrease: 50
   m_levelsData:
-    globalQuest: {fileID: 0}
+    globalQuest: {fileID: 11400000, guid: b8d347b18d23e8e41ab889d0838dfc56, type: 2}
     Levels:
     - name: Tutorial
       description: You want to know how to play ? You are at the right place !
@@ -709,22 +720,22 @@ MonoBehaviour:
       level: {fileID: 11400000, guid: e9a2b27843467d84abfd48dd89364549, type: 2}
       quest: {fileID: 11400000, guid: f139f693a639c4148bdd4a67c2e5246d, type: 2}
       initialResources: []
-    - name: Monolith
-      description: Be prepared !
-      icon: {fileID: 0}
-      unlockCondition: 1
-      level: {fileID: 11400000, guid: ddef90a164e422941a6479ea55bde5fb, type: 2}
-      quest: {fileID: 11400000, guid: f2bb7d584cb7a2540940ad6188326905, type: 2}
-      initialResources: []
     - name: Waves
       description: The big boss is here !
       icon: {fileID: 0}
-      unlockCondition: 1
+      unlockCondition: 0
       level: {fileID: 11400000, guid: 067753a7461cbe341a42e953e7f2868a, type: 2}
       quest: {fileID: 11400000, guid: e1b3d32216353aa4aa42270607021d0c, type: 2}
       initialResources:
       - type: 1
         count: 1000
+    - name: Monolith
+      description: Be prepared !
+      icon: {fileID: 0}
+      unlockCondition: 0
+      level: {fileID: 11400000, guid: ddef90a164e422941a6479ea55bde5fb, type: 2}
+      quest: {fileID: 11400000, guid: f2bb7d584cb7a2540940ad6188326905, type: 2}
+      initialResources: []
     - name: Test Ennemies
       description: Just a level to test ennemies behavior
       icon: {fileID: 0}
@@ -815,6 +826,7 @@ MonoBehaviour:
       prefab: {fileID: 3302721522315360713, guid: fd02a8739d258cb46ad45fda8ddc0d9f, type: 3}
     - type: 3
       prefab: {fileID: 204099878833362203, guid: 1159a36e7549da64ea094558ee982fdc, type: 3}
+    sauvableQuests: []
   m_statusDatas:
     burning:
       effectPrefab: {fileID: 0}

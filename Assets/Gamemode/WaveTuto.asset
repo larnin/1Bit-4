@@ -60,5 +60,5 @@ MonoBehaviour:
           m_value: ProtoEnnemyDistance
         count: 10
         stats: []
-  delayBeforeFirstWave: 30
+  delayBeforeFirstWave: 0
   delayBetweenWave: 30
