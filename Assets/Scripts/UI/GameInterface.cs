@@ -97,6 +97,12 @@ public class GameInterface : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Escape))
                 OnClickOptions();
         }
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            var canvas = gameObject.GetComponent<Canvas>();
+            canvas.enabled = !canvas.enabled;
+        }
     }
 
     void UpdateBuildingsButtons()

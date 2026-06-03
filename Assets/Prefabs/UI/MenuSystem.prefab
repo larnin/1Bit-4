@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9a46e66129d1e94c927d94f50835021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_menuHolder: {fileID: 1067762561132561513, guid: 9d9905ab15a9a5d4eabdfd6dc5dd9421, type: 3}
   m_menus:
   - name: Pause
     menu: {fileID: 3465249205839453648, guid: 0751f46b97d8eb542b06198c407f8feb, type: 3}
@@ -62,4 +63,7 @@ MonoBehaviour:
     pauseGame: 1
   - name: DialogPopup
     menu: {fileID: 6369474051510242215, guid: 7bac6f7bcf76b404284259c6c6d9a056, type: 3}
+    pauseGame: 0
+  - name: SaveSelect
+    menu: {fileID: 8508195838324088670, guid: dcd84c1652274214caa06a331448d59b, type: 3}
     pauseGame: 0
