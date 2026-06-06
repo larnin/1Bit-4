@@ -305,7 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c15438510a693b14d840efe52b213295, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_menuName: Main
+  m_menuName: Lobby
   m_appearOffset: -600
   m_appearDuration: 2
   m_appearCurve: 3

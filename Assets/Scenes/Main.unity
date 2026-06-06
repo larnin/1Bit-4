@@ -697,7 +697,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_continueButton: {fileID: 600787860}
   m_quitButton: {fileID: 1030013846}
-  m_gameSceneName: Game
+  m_gameSceneName: Lobby
   m_submenuPivot: {fileID: 643635146}
 --- !u!114 &854007428
 MonoBehaviour:

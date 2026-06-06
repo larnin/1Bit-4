@@ -714,6 +714,12 @@ public class QuestSystem : SerializedMonoBehaviour
         }
     }
 
+    public void StopAllQuests()
+    {
+        m_ongoingQuest.Clear();
+        m_completedQuests.Clear();
+    }
+
     QuestScriptableObject GetQuestScriptable(string name)
     {
         foreach(var q in Global.instance.editorDatas.sauvableQuests)

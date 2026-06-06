@@ -103,7 +103,7 @@ public class Save
 
     void LoadGlobal()
     {
-        string path = GetGlobalPath();
+        string path = GetGlobalPath() + "Main.sav";
 
         var doc = Json.ReadFromFile(path);
 
@@ -114,8 +114,8 @@ public class Save
     public void SaveGlobal()
     {
         var doc = m_saveGlobal.Save();
-        
-        string path = GetGlobalPath();
+
+        string path = GetGlobalPath() + "Main.sav";
 
         Json.WriteToFile(path, doc);
     }
@@ -163,7 +163,7 @@ public class Save
         string path = GetHeaderPath(index);
         SaveEx.DeleteFile(path);
 
-        path = GetSavePath(index);
+        path = GetGamePath(index);
         SaveEx.DeleteFile(path);
 
         LoadHeader(index);

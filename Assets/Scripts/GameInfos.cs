@@ -241,6 +241,8 @@ public class GamePersistant
             return;
 
         m_completedLevels.Add(level);
+
+        global::Save.instance.SaveCurrentSlot();
     }
 
     public void Load(JsonObject obj)

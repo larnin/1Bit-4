@@ -12,6 +12,7 @@ public class LevelSelectionMenu : MonoBehaviour
     [SerializeField] float m_distanceBetweenLevel = 200;
     [SerializeField] float m_transitionDuration = 0.5f;
     [SerializeField] string m_gameSceneName;
+    [SerializeField] string m_mainMenuName;
 
     GameObject m_leftButton;
     GameObject m_rightButton;
@@ -155,6 +156,13 @@ public class LevelSelectionMenu : MonoBehaviour
         if (m_selected)
             return;
 
-        Destroy(gameObject);
+        m_selected = true;
+
+        var scene = new ChangeSceneParams(m_mainMenuName);
+
+        SceneSystem.changeScene(scene);
+
+        if (QuestSystem.instance != null)
+            QuestSystem.instance.StopAllQuests();
     }
 }
