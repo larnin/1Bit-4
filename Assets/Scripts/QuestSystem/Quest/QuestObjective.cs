@@ -11,8 +11,17 @@ public enum QuestOperator
     AND,
 }
 
+public class QuestObjectiveText
+{
+    public string title;
+    public List<string> details = new List<string>();
+}
+
 public class QuestObjective
 {
+    [SerializeField] QuestObjectiveText m_text = new QuestObjectiveText();
+    public QuestObjectiveText text { get { return m_text; } }
+
     [SerializeField] QuestOperator m_multipleInputOperator = QuestOperator.AND;
     public QuestOperator multipleInputOperator { get { return m_multipleInputOperator; } set { m_multipleInputOperator = value; } }
 
@@ -117,5 +126,83 @@ public class QuestObjective
             return;
 
         m_subObjectives.Insert(index, objective);
+    }
+
+    public QuestObjectiveText GetCompletedTexts()
+    {
+        QuestObjectiveText newTexts = new QuestObjectiveText();
+        newTexts.title = CompleteText(m_text.title);
+        foreach (var d in m_text.details)
+            newTexts.details.Add(CompleteText(d));
+
+        return newTexts;
+    }
+
+    string CompleteText(string text)
+    {
+        string newText = String.Copy(text);
+        int lastIndex = 0;
+        while (true)
+        {
+            int nextIndex = newText.IndexOf('[', lastIndex);
+            if (nextIndex < 0)
+                return newText;
+
+            int closeIndex = newText.IndexOf(']', nextIndex);
+            if (closeIndex < 0)
+                return newText;
+
+            string valueStr = newText.Substring(nextIndex + 1, closeIndex - nextIndex - 2);
+            int socket;
+            if(!int.TryParse(valueStr, out socket))
+            {
+                lastIndex = closeIndex + 1;
+                continue;
+            }
+
+            string detail = "";
+            if(!GetDetailForSocket(socket, ref detail))
+            {
+                lastIndex = closeIndex + 1;
+                continue;
+            }
+
+            newText.Remove(nextIndex, closeIndex - nextIndex + 1);
+            newText.Insert(nextIndex, detail);
+            lastIndex = nextIndex + detail.Length;
+        }
+    }
+
+    bool GetDetailForSocket(int socket, ref string value)
+    {
+        foreach(var obj in m_subObjectives)
+        {
+            if (GetDetailForSocket(obj, socket, ref value))
+                return true;
+        }
+
+        return false;
+    }
+
+    bool GetDetailForSocket(QuestSubObjectiveBase objective, int socket, ref string value)
+    {
+        int nbSub = objective.GetSubObjectiveCount();
+        for(int i = 0; i < nbSub; i++)
+        {
+            if (GetDetailForSocket(objective.GetSubObjective(i), socket, ref value))
+                return true;
+        }
+
+        int nbDetail = objective.GetDetailCount();
+        for(int i = 0; i < nbDetail; i++)
+        {
+            if(objective.GetDetailSocket(i) == socket)
+            {
+                value = objective.GetDetail(i);
+                return true;
+            }
+        }
+
+        return false;
     }
 }

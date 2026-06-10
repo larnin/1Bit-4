@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 public class QuestSubObjectiveAllEnnemiesKilled : QuestSubObjectiveBase
 {
     SubscriberList m_subscriberList;
 
     int m_entityCount = 1;
+    int m_lastFrameUpdate = -1;
 
     public override bool IsCompleted()
     {
@@ -26,10 +28,7 @@ public class QuestSubObjectiveAllEnnemiesKilled : QuestSubObjectiveBase
         m_subscriberList.Subscribe();
     }
 
-    public override void Update(float deltaTime)
-    {
-        
-    }
+    public override void Update(float deltaTime) { }
 
     public override void End()
     {
@@ -38,13 +37,18 @@ public class QuestSubObjectiveAllEnnemiesKilled : QuestSubObjectiveBase
 
     void OnKill(OnEnnemyKillEvent e)
     {
+        RefreshCount();
+    }
+
+    void RefreshCount()
+    {
         m_entityCount = 0;
 
         if (EntityList.instance == null)
             return;
 
         int nbEntity = EntityList.instance.GetEntityNb();
-        for(int i = 0; i < nbEntity; i++)
+        for (int i = 0; i < nbEntity; i++)
         {
             var entity = EntityList.instance.GetEntityFromIndex(i);
             if (entity.GetTeam() != Team.Ennemy)
@@ -55,5 +59,30 @@ public class QuestSubObjectiveAllEnnemiesKilled : QuestSubObjectiveBase
 
             m_entityCount++;
         }
+
+        m_lastFrameUpdate = Time.frameCount;
+    }
+
+    public override int GetDetailCount()
+    {
+        return 1;
+    }
+
+    public override string GetDetailName(int index)
+    {
+        if (index == 0)
+            return "Remaining";
+        return base.GetDetailName(index);
+    }
+
+    public override string GetDetail(int index)
+    {
+        if (index == 0)
+        {
+            if (m_lastFrameUpdate != Time.frameCount)
+                RefreshCount();
+            return m_entityCount.ToString();
+        }
+        return base.GetDetail(index);
     }
 }

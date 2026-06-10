@@ -92,9 +92,24 @@ public class QuestSubObjectiveDiscoverResource : QuestSubObjectiveBase
         return block.type == m_blockType;
     }
 
-    public override void End()
-    {
+    public override void End() { }
 
+    public override int GetDetailCount()
+    {
+        return 1;
     }
 
+    public override string GetDetailName(int index)
+    {
+        if (index == 0)
+            return "resource";
+        return base.GetDetailName(index);
+    }
+
+    public override string GetDetail(int index)
+    {
+        if (index == 0)
+            return m_blockType.ToString();
+        return base.GetDetail(index);
+    }
 }

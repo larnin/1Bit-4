@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 [Serializable]
 public abstract class QuestSubObjectiveBase
 {
+    [SerializeField] List<int> m_detailSockets = new List<int>();
+
     protected QuestSystem m_system;
 
     protected string m_failNodeName = "";
@@ -23,6 +26,27 @@ public abstract class QuestSubObjectiveBase
 
     public virtual int GetSubObjectiveCount() { return 0; }
     public virtual QuestSubObjectiveBase GetSubObjective(int index) { return null; }
+
+    public virtual int GetDetailCount() { return 0; }
+    public virtual string GetDetailName(int index) { return ""; }
+    public virtual string GetDetail(int index) { return ""; }
+
+    public int GetDetailSocket(int index)
+    {
+        if (m_detailSockets.Count() < index || index < 0)
+            return -1;
+        return m_detailSockets[index];
+    }
+
+    public void SetDetailSocket(int index, int value)
+    {
+        if (index < 0 || index >= GetDetailCount())
+            return;
+
+        while (m_detailSockets.Count() <= index)
+            m_detailSockets.Add(-1);
+        m_detailSockets[index] = value;
+    }
 
     public void SetSystem(QuestSystem system)
     {
