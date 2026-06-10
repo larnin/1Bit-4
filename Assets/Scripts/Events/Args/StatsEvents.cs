@@ -10,10 +10,12 @@ public class GetStatEvent
 {
     public StatType type;
     public float value;
+    public bool onlyLocalStat = false;
 
-    public GetStatEvent(StatType _type)
+    public GetStatEvent(StatType _type, bool _local = false)
     {
         type = _type;
+        onlyLocalStat = _local;
     }
 
     public float GetValue()
