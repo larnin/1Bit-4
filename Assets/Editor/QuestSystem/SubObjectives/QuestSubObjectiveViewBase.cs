@@ -71,13 +71,16 @@ public abstract class QuestSubObjectiveViewBase
 
     public VisualElement GetElement()
     {
-        VisualElement element = GetElementInternal();
-        if(!m_subObjective.CanFail())
-            return element;
-
         VisualElement container = new VisualElement();
+
+        VisualElement element = GetElementInternal();
         container.Add(element);
-        container.Add(QuestSystemEditorUtility.CreateTextField(m_subObjective.failNodeName, "Fail Output", OnFailNodeChange));
+
+        if(m_subObjective.CanFail())
+            container.Add(QuestSystemEditorUtility.CreateTextField(m_subObjective.failNodeName, "Fail Output", OnFailNodeChange));
+
+        if (m_subObjective.GetDetailCount() > 0)
+            container.Add(GetDetailsElement());
 
         return container;
     }
@@ -88,5 +91,27 @@ public abstract class QuestSubObjectiveViewBase
     {
         m_subObjective.failNodeName = newName.newValue;
         m_node.OnOutputChange();
+    }
+
+    VisualElement GetDetailsElement()
+    {
+        var foldable = new Foldout() { text = "Details", value = false };
+        
+        for(int i = 0; i < m_subObjective.GetDetailCount(); i++)
+        {
+            int index = i;
+            var field = QuestSystemEditorUtility.CreateIntField(m_subObjective.GetDetailSocket(index), m_subObjective.GetDetailName(index), (x) => { OnDetailSocketChange(index, x); });
+            foldable.Add(field);
+        }
+
+        return foldable;
+    }
+
+    void OnDetailSocketChange(int DetailIndex, ChangeEvent<int> newSocket)
+    {
+        if(DetailIndex >= 0 && DetailIndex < m_subObjective.GetDetailCount())
+        {
+            m_subObjective.SetDetailSocket(DetailIndex, newSocket.newValue);
+        }
     }
 }

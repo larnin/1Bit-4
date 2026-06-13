@@ -60,7 +60,7 @@ public class QuestSystemGraph : EditorWindow
         horizontal.Add(element);
 
         VisualElement sideVertical = new VisualElement();
-        sideVertical.style.width = 250;
+        sideVertical.style.width = 400;
         
         VisualElement sideMenu = new VisualElement();
         sideMenu.style.flexGrow = 1;

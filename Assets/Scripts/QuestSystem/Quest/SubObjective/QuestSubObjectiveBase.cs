@@ -33,19 +33,26 @@ public abstract class QuestSubObjectiveBase
 
     public int GetDetailSocket(int index)
     {
-        if (m_detailSockets.Count() < index || index < 0)
-            return -1;
+        SetDetailValid(index);
+
         return m_detailSockets[index];
     }
 
     public void SetDetailSocket(int index, int value)
     {
-        if (index < 0 || index >= GetDetailCount())
-            return;
+        SetDetailValid(index);
 
-        while (m_detailSockets.Count() <= index)
-            m_detailSockets.Add(-1);
+        if (index < 0)
+            return;
         m_detailSockets[index] = value;
+    }
+
+    void SetDetailValid(int index)
+    {
+        if (m_detailSockets == null)
+            m_detailSockets = new List<int>();
+        while (m_detailSockets.Count <= index)
+            m_detailSockets.Add(-1);
     }
 
     public void SetSystem(QuestSystem system)
