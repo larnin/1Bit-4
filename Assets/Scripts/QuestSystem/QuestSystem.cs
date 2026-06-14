@@ -504,6 +504,19 @@ public class QuestSystem : SerializedMonoBehaviour
             return obj;
         }
 
+        public List<int> GetCurrentObjectivesIndexs()
+        {
+            return m_currentObjectives;
+        }
+
+        public QuestObjective GetQuestObjective(int index)
+        {
+            if (index < 0 || index >= m_objectives.Count)
+                return null;
+
+            return m_objectives[index].objective;
+        }
+
         string m_name;
         bool m_isGlobal;
         List<Objective> m_objectives = new List<Objective>();
@@ -718,6 +731,43 @@ public class QuestSystem : SerializedMonoBehaviour
     {
         m_ongoingQuest.Clear();
         m_completedQuests.Clear();
+    }
+
+    public List<QuestObjectiveText> GetLocalObjectiveTexts()
+    {
+        return GetObjectiveTexts(false);
+    }
+
+    public List<QuestObjectiveText> GetGlobalObjectiveTexts()
+    {
+        return GetObjectiveTexts(true);
+    }
+
+    List<QuestObjectiveText> GetObjectiveTexts(bool global)
+    {
+        List<QuestObjectiveText> texts = new List<QuestObjectiveText>();
+
+        foreach (var quest in m_ongoingQuest)
+        {
+            if (quest.IsGlobal() != global)
+                continue;
+
+            var currentQuestIndexs = quest.GetCurrentObjectivesIndexs();
+            foreach (var index in currentQuestIndexs)
+            {
+                var obj = quest.GetQuestObjective(index);
+                if (obj == null)
+                    continue;
+
+                var text = obj.GetCompletedTexts();
+                if ((text.title == "" || text.title == null) && text.details.Count == 0)
+                    continue;
+
+                texts.Add(text);
+            }
+        }
+
+        return texts;
     }
 
     QuestScriptableObject GetQuestScriptable(string name)

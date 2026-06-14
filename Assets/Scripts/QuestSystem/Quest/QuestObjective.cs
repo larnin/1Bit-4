@@ -20,7 +20,17 @@ public class QuestObjectiveText
 public class QuestObjective
 {
     [SerializeField] QuestObjectiveText m_text = new QuestObjectiveText();
-    public QuestObjectiveText text { get { return m_text; } }
+    public QuestObjectiveText text 
+    { 
+        get 
+        {
+            if (m_text == null)
+                m_text = new QuestObjectiveText();
+            if (m_text.details == null)
+                m_text.details = new List<string>();
+            return m_text; 
+        } 
+    }
 
     [SerializeField] QuestOperator m_multipleInputOperator = QuestOperator.AND;
     public QuestOperator multipleInputOperator { get { return m_multipleInputOperator; } set { m_multipleInputOperator = value; } }
@@ -131,6 +141,8 @@ public class QuestObjective
     public QuestObjectiveText GetCompletedTexts()
     {
         QuestObjectiveText newTexts = new QuestObjectiveText();
+        if (m_text == null)
+            return newTexts;
         newTexts.title = CompleteText(m_text.title);
         foreach (var d in m_text.details)
             newTexts.details.Add(CompleteText(d));
@@ -152,7 +164,7 @@ public class QuestObjective
             if (closeIndex < 0)
                 return newText;
 
-            string valueStr = newText.Substring(nextIndex + 1, closeIndex - nextIndex - 2);
+            string valueStr = newText.Substring(nextIndex + 1, closeIndex - nextIndex - 1);
             int socket;
             if(!int.TryParse(valueStr, out socket))
             {
@@ -167,8 +179,8 @@ public class QuestObjective
                 continue;
             }
 
-            newText.Remove(nextIndex, closeIndex - nextIndex + 1);
-            newText.Insert(nextIndex, detail);
+            newText = newText.Remove(nextIndex, closeIndex - nextIndex + 1);
+            newText = newText.Insert(nextIndex, detail);
             lastIndex = nextIndex + detail.Length;
         }
     }
