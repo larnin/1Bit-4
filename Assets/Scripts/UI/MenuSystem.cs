@@ -15,9 +15,16 @@ public class MenuSystem : MonoBehaviour
         public bool pauseGame;
     }
 
+    class OpenMenuData
+    {
+        public MenuData menuData;
+        public GameObject holder;
+    }
+
+    [SerializeField] GameObject m_menuHolder;
     [SerializeField] List<MenuData> m_menus = new List<MenuData>();
 
-    List<MenuData> m_openMenus = new List<MenuData>();
+    List<OpenMenuData> m_openMenus = new List<OpenMenuData>();
 
     static MenuSystem m_instance = null;
     public static MenuSystem instance { get { return m_instance; } }
@@ -35,14 +42,14 @@ public class MenuSystem : MonoBehaviour
         GameInfos.instance.paused = false;
     }
 
-    public T OpenMenu<T>(string name, bool overrideOpen = false, bool returnOpen = false) where T : Component
+    public T OpenMenu<T>(string name, bool overrideOpen = false, bool returnOpen = false, bool withHolder = true) where T : Component
     {
         GameObject openMenu = null;
         foreach (var w in m_openMenus)
         {
-            if (w.name == name)
+            if (w.menuData.name == name)
             {
-                openMenu = w.menu;
+                openMenu = w.menuData.menu;
                 break;
             }
         }
@@ -73,16 +80,43 @@ public class MenuSystem : MonoBehaviour
             return default(T);
         }
 
-        var camera = Event<GetCameraEvent>.Broadcast(new GetCameraEvent());
+        var menu = Instantiate(prefab);
+        GameObject holder = null;
 
-        var menu = Instantiate(prefab, transform);
-
-        var canvas = menu.GetComponent<Canvas>();
-        if (camera.UICamera != null && canvas != null)
+        if (withHolder)
         {
-            canvas.worldCamera = camera.UICamera;
-            canvas.renderMode = RenderMode.ScreenSpaceCamera;
-            canvas.planeDistance = 1;
+            holder = Instantiate(m_menuHolder, transform);
+
+            var camera = Event<GetCameraEvent>.Broadcast(new GetCameraEvent());
+
+            var canvas = holder.GetComponent<Canvas>();
+            if (camera.UICamera != null && canvas != null)
+            {
+                canvas.worldCamera = camera.UICamera;
+                canvas.renderMode = RenderMode.ScreenSpaceCamera;
+                canvas.planeDistance = 1;
+            }
+
+            if (canvas != null)
+            {
+                var pivot = canvas.transform.Find("Pivot");
+                if (pivot != null)
+                {
+                    menu.transform.SetParent(pivot.transform, false);
+                    var tr = menu.GetComponent<RectTransform>();
+                    if (tr != null)
+                    {
+                        tr.localPosition = Vector3.zero;
+                        tr.localRotation = Quaternion.identity;
+                        tr.localScale = Vector3.one;
+                        tr.offsetMin = Vector2.zero;
+                        tr.offsetMax = Vector2.zero;
+
+                    }
+                    
+                }
+            }
+
         }
 
         T comp = menu.GetComponentInChildren<T>();
@@ -96,9 +130,10 @@ public class MenuSystem : MonoBehaviour
         bool found = false;
         foreach (var m in m_openMenus)
         {
-            if (m.name == name)
+            if (m.menuData.name == name)
             {
-                m.menu = menu;
+                m.menuData.menu = menu;
+                m.holder = holder;
                 found = true;
                 break;
             }
@@ -109,7 +144,10 @@ public class MenuSystem : MonoBehaviour
             data.name = name;
             data.menu = menu;
             data.pauseGame = paused;
-            m_openMenus.Add(data);
+            OpenMenuData openData = new OpenMenuData();
+            openData.menuData = data;
+            openData.holder = holder;
+            m_openMenus.Add(openData);
         }
 
         GameInfos.instance.paused = IsPaused();
@@ -122,7 +160,7 @@ public class MenuSystem : MonoBehaviour
         int menuIndex = -1;
         for(int i = 0; i < m_openMenus.Count; i++)
         {
-            if(m_openMenus[i].name == menuName)
+            if(m_openMenus[i].menuData.name == menuName)
             {
                 menuIndex = i;
                 break;
@@ -136,10 +174,10 @@ public class MenuSystem : MonoBehaviour
         int menuIndex = -1;
         for (int i = 0; i < m_openMenus.Count; i++)
         {
-            if (m_openMenus[i].menu == null)
+            if (m_openMenus[i].menuData.menu == null)
                 continue;
 
-            var comp = m_openMenus[i].menu.GetComponentInChildren<T>();
+            var comp = m_openMenus[i].menuData.menu.GetComponentInChildren<T>();
             if (comp != null)
                 menuIndex = i;
         }
@@ -151,10 +189,10 @@ public class MenuSystem : MonoBehaviour
     {
         for (int i = 0; i < m_openMenus.Count; i++)
         {
-            if (m_openMenus[i].menu == null)
+            if (m_openMenus[i].menuData.menu == null)
                 continue;
 
-            var comp = m_openMenus[i].menu.GetComponentInChildren<T>();
+            var comp = m_openMenus[i].menuData.menu.GetComponentInChildren<T>();
             if (comp != null)
                 return comp;
         }
@@ -167,8 +205,8 @@ public class MenuSystem : MonoBehaviour
         if (menuIndex < 0)
             return false;
 
-        if (m_openMenus[menuIndex].menu != null)
-            Destroy(m_openMenus[menuIndex].menu);
+        if (m_openMenus[menuIndex].menuData.menu != null)
+            Destroy(m_openMenus[menuIndex].menuData.menu);
 
         m_openMenus.RemoveAt(menuIndex);
 
@@ -181,7 +219,7 @@ public class MenuSystem : MonoBehaviour
     {
         foreach(var m in m_openMenus)
         {
-            if (m.pauseGame)
+            if (m.menuData.pauseGame)
                 return true;
         }
         return false;
@@ -192,7 +230,7 @@ public class MenuSystem : MonoBehaviour
         bool changed = false;
         for(int i = 0; i < m_openMenus.Count; i++)
         {
-            if(m_openMenus[i].menu == null)
+            if(m_openMenus[i].menuData.menu == null)
             {
                 changed = true;
                 m_openMenus.RemoveAt(i);

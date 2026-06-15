@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Cancel
+  m_text: 'Quit
 
 '
   m_isRightToLeft: 0
@@ -850,6 +850,7 @@ MonoBehaviour:
   m_distanceBetweenLevel: 1000
   m_transitionDuration: 0.5
   m_gameSceneName: Game
+  m_mainMenuName: Main
 --- !u!1 &5010701809317082500
 GameObject:
   m_ObjectHideFlags: 0
@@ -999,7 +1000,7 @@ GameObject:
   - component: {fileID: 2188635873969583272}
   - component: {fileID: 8011108055318473946}
   m_Layer: 5
-  m_Name: CancelButton
+  m_Name: QuitButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

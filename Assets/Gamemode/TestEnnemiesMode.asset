@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: TestEnnemiesMode
   m_EditorClassIdentifier: 
   positionName: Spawner
-  ennemiesPerSecond: 20
+  ennemiesPerSecond: 1
   ennemies:
   - entityType:
-      m_value: ProtoEnnemyKamikaze
+      m_value: ProtoEnnemyMiniboss
     weight: 1

@@ -47,4 +47,28 @@ public class QuestSubObjectiveHaveResource : QuestSubObjectiveBase
     public override void Update(float deltaTime) { }
 
     public override void End() { }
+
+
+    public override int GetDetailCount()
+    {
+        return 2;
+    }
+
+    public override string GetDetailName(int index)
+    {
+        if (index == 0)
+            return "resourceType";
+        if (index == 1)
+            return "quantity";
+        return base.GetDetailName(index);
+    }
+
+    public override string GetDetail(int index)
+    {
+        if (index == 0)
+            return m_resourceType.ToString();
+        if (index == 1)
+            return m_quantity.ToString();
+        return base.GetDetail(index);
+    }
 }

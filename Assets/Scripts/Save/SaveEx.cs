@@ -78,6 +78,9 @@ public static class SaveEx
 
         var json = Json.ReadFromString(obj.data);
         return json;
+
+#else
+        return null;
 #endif
     }
 

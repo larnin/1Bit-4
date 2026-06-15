@@ -20,11 +20,13 @@ public class Save
         }
     }
 
+    SaveGlobal m_saveGlobal = new SaveGlobal();
     SaveHeader[] m_saveHeaders = new SaveHeader[maxSaveSlots];
     int m_currentSlot = -1;
 
     Save()
     {
+        LoadGlobal();
         LoadHeaders();
     }
 
@@ -69,17 +71,53 @@ public class Save
         return m_saveHeaders[index];
     }
 
+    public SaveGlobal GetGlobal()
+    {
+        return m_saveGlobal;
+    }
+
     string GetHeaderPath(int index)
     {
         return GetSavePath(index) + "Header.sav";
     }
 
+    string GetGamePath(int index)
+    {
+        return GetSavePath(index) + "Game.sav";
+    }
+
+    string GetGlobalPath()
+    {
+        return Application.persistentDataPath + "\\Save\\";
+    }
+
     public string GetSavePath(int index)
     {
-        if(index < 0)
-            return Application.persistentDataPath + "\\Default\\";
+        string basePath = GetGlobalPath();
 
-        return Application.persistentDataPath + "\\Slot_" + index + "\\";
+        if(index < 0)
+            return basePath + "Default\\";
+
+        return basePath + "Slot_" + index + "\\";
+    }
+
+    void LoadGlobal()
+    {
+        string path = GetGlobalPath() + "Main.sav";
+
+        var doc = Json.ReadFromFile(path);
+
+        if (doc != null)
+            m_saveGlobal.Load(doc);
+    }
+
+    public void SaveGlobal()
+    {
+        var doc = m_saveGlobal.Save();
+
+        string path = GetGlobalPath() + "Main.sav";
+
+        Json.WriteToFile(path, doc);
     }
 
     public void SelectSaveSlot(int index)
@@ -99,7 +137,8 @@ public class Save
 
         LoadHeader(m_currentSlot);
 
-        //todo load others files
+        LoadGame(m_currentSlot);
+
     }
 
     public void SaveCurrentSlot()
@@ -109,7 +148,9 @@ public class Save
 
         SaveHeader(m_currentSlot);
 
-        //todo save others files
+        SaveGame(m_currentSlot);
+
+        SaveGlobal();
     }
 
     public void DeleteSave(int index)
@@ -121,5 +162,47 @@ public class Save
 
         string path = GetHeaderPath(index);
         SaveEx.DeleteFile(path);
+
+        path = GetGamePath(index);
+        SaveEx.DeleteFile(path);
+
+        LoadHeader(index);
+    }
+
+    void LoadGame(int index)
+    {
+        string path = GetGamePath(index);
+        var doc = Json.ReadFromFile(path);
+        if(doc != null)
+        {
+            var rootJson = doc.GetRoot();
+            if(rootJson != null && rootJson.IsJsonObject())
+            {
+                var rootObj = rootJson.JsonObject();
+                var questsJson = rootObj.GetElement("quests");
+                if (questsJson != null && questsJson.IsJsonObject() && QuestSystem.instance != null)
+                    QuestSystem.instance.LoadGlobalQuests(questsJson.JsonObject());
+
+                var persistantJson = rootObj.GetElement("persistant");
+                if (persistantJson != null && persistantJson.IsJsonObject())
+                    GameInfos.instance.persistant.Load(persistantJson.JsonObject());
+            }
+        }
+    }
+
+    void SaveGame(int index)
+    {
+        var doc = new JsonDocument();
+        var root = new JsonObject();
+        doc.SetRoot(root);
+
+        if (QuestSystem.instance != null)
+            root.AddElement("quests", QuestSystem.instance.SaveGlobalQuests());
+
+        root.AddElement("persistant", GameInfos.instance.persistant.Save());
+
+        string path = GetGamePath(index);
+
+        Json.WriteToFile(path, doc);
     }
 }

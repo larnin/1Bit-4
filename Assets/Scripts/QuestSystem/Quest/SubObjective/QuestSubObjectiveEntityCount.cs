@@ -98,4 +98,31 @@ public class QuestSubObjectiveEntityCount : QuestSubObjectiveBase
 
         return count;
     }
+
+    public override int GetDetailCount()
+    {
+        return 3;
+    }
+
+    public override string GetDetailName(int index)
+    {
+        if (index == 0)
+            return "entityType";
+        if (index == 1)
+            return "team";
+        if (index == 2)
+            return "total";
+        return base.GetDetailName(index);
+    }
+
+    public override string GetDetail(int index)
+    {
+        if (index == 0)
+            return m_entityType.ToString();
+        if (index == 1)
+            return m_team.ToString();
+        if (index == 2)
+            return m_count.ToString();
+        return base.GetDetail(index);
+    }
 }

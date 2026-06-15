@@ -29,7 +29,12 @@ public class WorldGeneratorSettingsPreset : ScriptableObject
         {
             if (m_instance == null)
             {
-                m_instance = Global.Create<WorldGeneratorSettingsPreset>(s_name, true);
+                m_instance = Global.LoadOneInstance<WorldGeneratorSettingsPreset>(s_name);
+
+#if UNITY_EDITOR
+                if (m_instance == null)
+                    m_instance = Global.Create<WorldGeneratorSettingsPreset>(s_name);
+#endif
             }
             return m_instance;
         }

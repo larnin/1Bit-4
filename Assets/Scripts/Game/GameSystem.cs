@@ -443,7 +443,7 @@ public class GameSystem : MonoBehaviour
             if (MenuSystem.instance == null)
                 return;
 
-            var menu = MenuSystem.instance.OpenMenu<GenericGameOverMenu>("GenericGameOver");
+            var menu = MenuSystem.instance.OpenMenu<GenericGameOverMenu>("GenericGameOver", false, false, false);
             menu.SetStatus(succes);
         }
     }

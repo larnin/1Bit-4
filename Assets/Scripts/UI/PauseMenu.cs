@@ -50,7 +50,7 @@ public class PauseMenu : MonoBehaviour
         if (MenuSystem.instance == null)
             return;
 
-        MenuSystem.instance.OpenMenu<OptionsMenu>("Options");
+        MenuSystem.instance.OpenMenu<OptionsMenu>("Options", false, false, true);
     }
 
     public void OnQuit()

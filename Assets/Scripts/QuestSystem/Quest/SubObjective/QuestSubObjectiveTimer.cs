@@ -31,5 +31,32 @@ public class QuestSubObjectiveTimer : QuestSubObjectiveBase
     }
 
     public override void End() { }
+
+    public override int GetDetailCount()
+    {
+        return 3;
+    }
+
+    public override string GetDetailName(int index)
+    {
+        if (index == 0)
+            return "timer";
+        if (index == 1)
+            return "duration";
+        if (index == 2)
+            return "remaining";
+        return base.GetDetailName(index);
+    }
+
+    public override string GetDetail(int index)
+    {
+        if (index == 0)
+            return m_timer.ToString();
+        if (index == 1)
+            return m_duration.ToString();
+        if (index == 2)
+            return (m_duration - m_timer).ToString();
+        return base.GetDetail(index);
+    }
 }
 

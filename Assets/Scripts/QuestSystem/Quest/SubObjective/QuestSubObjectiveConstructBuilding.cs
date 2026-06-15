@@ -52,4 +52,35 @@ public class QuestSubObjectiveConstructBuilding : QuestSubObjectiveBase
         if (e.building.GetBuildingType() == m_buildingType)
             m_nb++;
     }
+
+    public override int GetDetailCount()
+    {
+        return 4;
+    }
+
+    public override string GetDetailName(int index)
+    {
+        if (index == 0)
+            return "Type";
+        if (index == 1)
+            return "constructed";
+        if (index == 2)
+            return "total";
+        if (index == 3)
+            return "remaining";
+        return base.GetDetailName(index);
+    }
+
+    public override string GetDetail(int index)
+    {
+        if (index == 0)
+            return m_buildingType.ToString();
+        if (index == 1)
+            return m_nb.ToString();
+        if (index == 2)
+            return m_count.ToString();
+        if (index == 3)
+            return (m_count - m_nb).ToString();
+        return base.GetDetail(index);
+    }
 }

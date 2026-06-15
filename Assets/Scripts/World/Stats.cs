@@ -49,10 +49,13 @@ public class Stats : MonoBehaviour
 
     void GetStat(GetStatEvent e)
     {
-        foreach(var v in m_values)
+        if (!e.onlyLocalStat)
         {
-            if (v.type == e.type)
-                e.value += v.value;
+            foreach (var v in m_values)
+            {
+                if (v.type == e.type)
+                    e.value += v.value;
+            }
         }
 
         foreach(var v in m_localStats)

@@ -15,6 +15,7 @@ public class QuestSystemNodeObjective : QuestSystemNode
 
     VisualElement m_subObjectiveContainer;
     VisualElement m_addSubObjectiveButton;
+    VisualElement m_textDetailContainer;
 
     public override void Draw()
     {
@@ -30,6 +31,8 @@ public class QuestSystemNodeObjective : QuestSystemNode
     public override VisualElement GetDetailElement()
     {
         VisualElement block = new VisualElement();
+
+        block.Add(DrawTexts());
 
         block.Add(GetInputOperator());
 
@@ -93,6 +96,75 @@ public class QuestSystemNodeObjective : QuestSystemNode
                 m_subObjectiveContainer.Add(subObjectiveContainer);
             }
         }
+    }
+
+    VisualElement DrawTexts()
+    {
+        var foldable = new Foldout() { text = "Texts", value = false };
+
+        foldable.Add(QuestSystemEditorUtility.CreateTextArea(m_objective.text.title, "Title", OnTitleChange));
+
+        foldable.Add(QuestSystemEditorUtility.CreateLabel("Details:"));
+
+        m_textDetailContainer = new VisualElement();
+        foldable.Add(m_textDetailContainer);
+
+        RefreshTextDetailContainer();
+
+        foldable.Add(QuestSystemEditorUtility.CreateButton("Add text", OnTextDetailAdd));
+
+        return foldable;
+    }
+
+    void RefreshTextDetailContainer()
+    {
+        m_textDetailContainer.Clear();
+
+        for(int i = 0; i < m_objective.text.details.Count; i++)
+        {
+            int index = i;
+
+            var elem = QuestSystemEditorUtility.CreateHorizontalLayout();
+
+            var text = QuestSystemEditorUtility.CreateTextArea(m_objective.text.details[i], "", (x) => { OnTextDetailChange(index, x); });
+            text.style.flexGrow = 1;
+            elem.Add(text);
+
+            var deleteButton = QuestSystemEditorUtility.CreateButton("X", () => { OnTextDetailRemove(index); });
+            deleteButton.style.width = 15;
+            parent.Add(deleteButton);
+            elem.Add(deleteButton);
+
+            m_textDetailContainer.Add(elem);
+        }
+    }
+
+    void OnTitleChange(ChangeEvent<string> newTitle)
+    {
+        m_objective.text.title = newTitle.newValue;
+    }
+
+    void OnTextDetailChange(int index, ChangeEvent<string> newText)
+    {
+        if (index < 0 || index >= m_objective.text.details.Count)
+            return;
+
+        m_objective.text.details[index] = newText.newValue;
+    }
+
+    void OnTextDetailRemove(int index)
+    {
+        if (index < 0 || index >= m_objective.text.details.Count)
+            return;
+
+        m_objective.text.details.RemoveAt(index);
+        RefreshTextDetailContainer();
+    }
+
+    void OnTextDetailAdd()
+    {
+        m_objective.text.details.Add("");
+        RefreshTextDetailContainer();
     }
 
     VisualElement DrawOneSubObjective(QuestSubObjectiveViewBase subObjectiveView)

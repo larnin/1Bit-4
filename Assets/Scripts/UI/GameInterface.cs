@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -23,6 +24,7 @@ public class GameInterface : MonoBehaviour
     [SerializeField] PlaceBuildingCursor m_buildingCursor;
     [SerializeField] SelectCursor m_selectCursor;
     [SerializeField] BuildingDetailDisplay m_detail;
+    [SerializeField] TMP_Text m_questText;
 
     RectTransform m_buildingsBackground;
     List<BuildingButton> m_buildingButtons = new List<BuildingButton>();
@@ -79,12 +81,13 @@ public class GameInterface : MonoBehaviour
         if (MenuSystem.instance == null)
             return;
 
-        MenuSystem.instance.OpenMenu<PauseMenu>("Pause");
+        MenuSystem.instance.OpenMenu<PauseMenu>("Pause", false, false, false);
     }
 
     private void Update()
     {
         UpdateBuildingsButtons();
+        UpdateQuestText();
 
         if (!GameInfos.instance.paused)
         {
@@ -96,6 +99,12 @@ public class GameInterface : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Escape))
                 OnClickOptions();
+        }
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            var canvas = gameObject.GetComponent<Canvas>();
+            canvas.enabled = !canvas.enabled;
         }
     }
 
@@ -233,5 +242,29 @@ public class GameInterface : MonoBehaviour
     void GetCanvas(GetCanvasEvent e)
     {
         e.canvas = GetComponent<Canvas>();
+    }
+
+    void UpdateQuestText()
+    {
+        if (m_questText == null)
+            return;
+
+        if (QuestSystem.instance == null)
+            return;
+
+        var texts = QuestSystem.instance.GetLocalObjectiveTexts();
+
+        string str = "";
+
+        foreach(var t in texts)
+        {
+            if (t.title != null && t.title.Length != 0)
+                str += "<size=+4px>" + t.title + "</size>\n";
+            foreach (var detail in t.details)
+                str += detail + "\n";
+            str += "<line-height=20%>\n<line-height=100%>";
+        }
+
+        m_questText.text = str;
     }
 }

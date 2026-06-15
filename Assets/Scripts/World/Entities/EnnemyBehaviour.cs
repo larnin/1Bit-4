@@ -29,7 +29,6 @@ public class EnnemyBehaviour : MonoBehaviour
 
     private void Awake()
     {
-        m_subscriberList.Add(new Event<GetStatEvent>.LocalSubscriber(GetStat, gameObject));
         m_subscriberList.Add(new Event<DeathEvent>.LocalSubscriber(OnDeath, gameObject));
         m_subscriberList.Add(new Event<LifeLossEvent>.LocalSubscriber(OnLifeLoss, gameObject));
         m_subscriberList.Add(new Event<LoadLevelEvent>.LocalSubscriber(Load, gameObject));
@@ -89,23 +88,6 @@ public class EnnemyBehaviour : MonoBehaviour
             else if(!m_move.IsMoving())
                 m_move.SetTarget(realTargetPos);
         }
-    }
-
-    void GetStat(GetStatEvent e)
-    {
-        //todo
-        //if(e.type == StatType.DamagesMultiplier)
-        //{
-        //    float value = Global.instance.difficultyDatas.difficultyToDamageMultiplier.Get(m_difficultyOnSpawn);
-        //    if (value > 0)
-        //        e.add += value;
-        //}
-        //else if(e.type == StatType.MaxLifeMultiplier)
-        //{
-        //    float value = Global.instance.difficultyDatas.difficultyToLifeMultiplier.Get(m_difficultyOnSpawn);
-        //    if (value > 0)
-        //        e.add += value;
-        //}
     }
 
     void OnDeath(DeathEvent e)
