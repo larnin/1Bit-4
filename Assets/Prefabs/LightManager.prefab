@@ -48,6 +48,7 @@ MonoBehaviour:
   m_circleMaterial: {fileID: 2100000, guid: 28b58a05c2815574e85f5015f639a4ee, type: 2}
   m_lightedMaterials:
   - {fileID: 2100000, guid: 963d52d036299094b986f2c929f03250, type: 2}
+  - {fileID: 2100000, guid: fdd845cb1aea42e40a2497f0c397a733, type: 2}
   - {fileID: 2100000, guid: 62b1df7190384634fb819dd47b16fcbc, type: 2}
   - {fileID: 2100000, guid: 7cd8a5a11711d6345b1dbcde469c99a6, type: 2}
   - {fileID: 2100000, guid: 5aec5bd629c7d3b4c9726dd211e33c82, type: 2}

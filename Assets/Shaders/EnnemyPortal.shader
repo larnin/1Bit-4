@@ -108,7 +108,7 @@ Shader "Unlit/EnnemyPortal"
 
                 float mul = sqrt(a*a + b*b + c*c);
 
-                return float4(col.r * mul, _InvertColor, 0, col.a);
+                return float4(col.r * mul, _InvertColor, 1, col.a);
             }
             ENDCG
         }
