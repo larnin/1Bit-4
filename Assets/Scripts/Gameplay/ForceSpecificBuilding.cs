@@ -82,8 +82,6 @@ public class ForceSpecificBuilding : NamedQuestObject
     {
         if (e.pos != m_pos)
             e.placeType = BuildingPlaceType.PositionLocked;
-
-        Debug.Log(e.pos - m_pos);
     }
 
     void OnBuild(OnBuildingBuildEvent e)
