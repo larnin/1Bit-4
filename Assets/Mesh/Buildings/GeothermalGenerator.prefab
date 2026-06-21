@@ -68,7 +68,7 @@ MonoBehaviour:
   m_meshComponent: {fileID: 0}
   m_selectionPopupPrefab: {fileID: 0}
   m_selectionPopupOffset: 0
-  m_powerGeneration: 10
+  m_powerGeneration: 25
 --- !u!114 &-4853991008608040837
 MonoBehaviour:
   m_ObjectHideFlags: 0

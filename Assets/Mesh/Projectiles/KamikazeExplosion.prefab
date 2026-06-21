@@ -5012,7 +5012,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_projectileType:
     m_value: KamikazeExplosion
-  m_damages: 10
+  m_damages: 30
   m_damageType: 0
   m_damageEffect: 1
   m_explosionLayer:

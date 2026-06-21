@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c89a4b76a7f6b2446827e54dded60038, type: 3}
+  m_Name: WaveTuto
+  m_EditorClassIdentifier: 
+  portals:
+  - positionName: Portal1
+    portalType: 100
+    waveStart: 1
+    destroyAfterLastWave: 0
+    waves:
+    - delayBeforeFirstEntity: 0
+      spawnDuration: 10
+      entities:
+      - entityType:
+          m_value: ProtoEnnemyMelee
+        count: 5
+        stats: []
+    - delayBeforeFirstEntity: 0
+      spawnDuration: 10
+      entities:
+      - entityType:
+          m_value: ProtoEnnemyMelee
+        count: 10
+        stats:
+        - stat: 0
+          value: 4
+    - delayBeforeFirstEntity: 0
+      spawnDuration: 10
+      entities:
+      - entityType:
+          m_value: ProtoEnnemyMelee
+        count: 10
+        stats: []
+  - positionName: Portal2
+    portalType: 100
+    waveStart: 2
+    destroyAfterLastWave: 0
+    waves:
+    - delayBeforeFirstEntity: 0
+      spawnDuration: 15
+      entities:
+      - entityType:
+          m_value: ProtoEnnemyDistance
+        count: 5
+        stats: []
+    - delayBeforeFirstEntity: 0
+      spawnDuration: 10
+      entities:
+      - entityType:
+          m_value: ProtoEnnemyDistance
+        count: 10
+        stats: []
+  delayBeforeFirstWave: 0
+  delayBetweenWave: 30

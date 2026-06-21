@@ -1,0 +1,464 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 386e1e95cc1accb43bfa305858dbdf62, type: 3}
+  m_Name: GlobalQuest
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: data
+      Entry: 7
+      Data: 0|QuestSaveData, Assembly-CSharp
+    - Name: nodes
+      Entry: 7
+      Data: 1|System.Collections.Generic.List`1[[QuestSaveNode, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 2|QuestSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: 167c5370-9e05-437c-9089-caefb32f9d07
+    - Name: name
+      Entry: 1
+      Data: Start
+    - Name: nodeType
+      Entry: 3
+      Data: 0
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 10
+    - Name: 
+      Entry: 4
+      Data: 10
+    - Name: 
+      Entry: 4
+      Data: 89
+    - Name: 
+      Entry: 4
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 6
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 3|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 4|QuestSaveConnection, Assembly-CSharp
+    - Name: currentPortName
+      Entry: 1
+      Data: Out
+    - Name: nextPortName
+      Entry: 1
+      Data: In
+    - Name: nextNodeID
+      Entry: 1
+      Data: b04e3d6e-2e11-49d9-a5a2-12251a66c51e
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|QuestSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: b04e3d6e-2e11-49d9-a5a2-12251a66c51e
+    - Name: name
+      Entry: 1
+      Data: CompleteTuto
+    - Name: nodeType
+      Entry: 3
+      Data: 1
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 148
+    - Name: 
+      Entry: 4
+      Data: 9
+    - Name: 
+      Entry: 4
+      Data: 148
+    - Name: 
+      Entry: 4
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 7
+      Data: 6|QuestObjective, Assembly-CSharp
+    - Name: m_multipleInputOperator
+      Entry: 3
+      Data: 1
+    - Name: m_subObjectives
+      Entry: 7
+      Data: 7|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 8|QuestSubObjectiveIsLevelCompleted, Assembly-CSharp
+    - Name: m_levelName
+      Entry: 1
+      Data: Tutorial
+    - Name: m_completionType
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 9|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 10|QuestSaveConnection, Assembly-CSharp
+    - Name: currentPortName
+      Entry: 1
+      Data: Out
+    - Name: nextPortName
+      Entry: 1
+      Data: In
+    - Name: nextNodeID
+      Entry: 1
+      Data: 6423bc81-80f7-4391-9c85-7b57200981e6
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 11|QuestSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: 6423bc81-80f7-4391-9c85-7b57200981e6
+    - Name: name
+      Entry: 1
+      Data: GiveBuildings
+    - Name: nodeType
+      Entry: 3
+      Data: 1
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 346
+    - Name: 
+      Entry: 4
+      Data: 8
+    - Name: 
+      Entry: 4
+      Data: 145
+    - Name: 
+      Entry: 4
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 7
+      Data: 12|QuestObjective, Assembly-CSharp
+    - Name: m_multipleInputOperator
+      Entry: 3
+      Data: 1
+    - Name: m_subObjectives
+      Entry: 7
+      Data: 13|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 13
+    - Name: 
+      Entry: 7
+      Data: 14|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_buildingType
+      Entry: 3
+      Data: 1
+    - Name: m_unlocked
+      Entry: 5
+      Data: true
+    - Name: m_globalyUnlocked
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 15|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_buildingType
+      Entry: 3
+      Data: 3
+    - Name: m_unlocked
+      Entry: 5
+      Data: true
+    - Name: m_globalyUnlocked
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 16|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_buildingType
+      Entry: 3
+      Data: 5
+    - Name: m_unlocked
+      Entry: 5
+      Data: true
+    - Name: m_globalyUnlocked
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 17|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_buildingType
+      Entry: 3
+      Data: 6
+    - Name: m_unlocked
+      Entry: 5
+      Data: true
+    - Name: m_globalyUnlocked
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 18|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_buildingType
+      Entry: 3
+      Data: 9
+    - Name: m_unlocked
+      Entry: 5
+      Data: true
+    - Name: m_globalyUnlocked
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 19|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_buildingType
+      Entry: 3
+      Data: 10
+    - Name: m_unlocked
+      Entry: 5
+      Data: true
+    - Name: m_globalyUnlocked
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 20|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_buildingType
+      Entry: 3
+      Data: 11
+    - Name: m_unlocked
+      Entry: 5
+      Data: true
+    - Name: m_globalyUnlocked
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 21|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_buildingType
+      Entry: 3
+      Data: 12
+    - Name: m_unlocked
+      Entry: 5
+      Data: true
+    - Name: m_globalyUnlocked
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 22|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_buildingType
+      Entry: 3
+      Data: 13
+    - Name: m_unlocked
+      Entry: 5
+      Data: true
+    - Name: m_globalyUnlocked
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 23|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_buildingType
+      Entry: 3
+      Data: 14
+    - Name: m_unlocked
+      Entry: 5
+      Data: true
+    - Name: m_globalyUnlocked
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 24|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_buildingType
+      Entry: 3
+      Data: 15
+    - Name: m_unlocked
+      Entry: 5
+      Data: true
+    - Name: m_globalyUnlocked
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 25|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_buildingType
+      Entry: 3
+      Data: 16
+    - Name: m_unlocked
+      Entry: 5
+      Data: true
+    - Name: m_globalyUnlocked
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 26|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_buildingType
+      Entry: 3
+      Data: 18
+    - Name: m_unlocked
+      Entry: 5
+      Data: true
+    - Name: m_globalyUnlocked
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 27|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 

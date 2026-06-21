@@ -4971,9 +4971,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_meshComponent: {fileID: 4113768735600542028}
+  m_selectionPopupPrefab: {fileID: 0}
+  m_selectionPopupOffset: 0
   m_energyConsumption: 6
   m_generatedResource: 3
-  m_generation: 3
+  m_generation: 5
 --- !u!114 &3108995353832990689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5025,7 +5027,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a6c11ee1fb1dda429dd1226b2d17eb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_initialValues: []
+  m_values: []
 --- !u!114 &9211465085560781138
 MonoBehaviour:
   m_ObjectHideFlags: 0
