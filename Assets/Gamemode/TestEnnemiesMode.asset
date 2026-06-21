@@ -16,5 +16,5 @@ MonoBehaviour:
   ennemiesPerSecond: 1
   ennemies:
   - entityType:
-      m_value: ProtoEnnemyMiniboss
+      m_value: ProtoEnnemyMelee
     weight: 1
