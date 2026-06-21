@@ -41,6 +41,7 @@ public class EntityMoveV2 : MonoBehaviour
     {
         m_subscriberList.Add(new Event<LoadLevelEvent>.LocalSubscriber(Load, gameObject));
         m_subscriberList.Add(new Event<SaveLevelEvent>.LocalSubscriber(Save, gameObject));
+        m_subscriberList.Add(new Event<GetVelocityEvent>.LocalSubscriber(GetVelocity, gameObject));
         m_subscriberList.Subscribe();
     }
 
@@ -229,6 +230,10 @@ public class EntityMoveV2 : MonoBehaviour
 
     }
 
+    void GetVelocity(GetVelocityEvent e)
+    {
+        e.velocity = new Vector3(Mathf.Cos(m_angle), 0, Mathf.Sin(m_angle)) * m_speed;
+    }
     void Load(LoadLevelEvent e)
     {
         var jsonObj = e.obj.GetElement("entityMove");

@@ -88,9 +88,13 @@ public class BuildingTurretFreezer : BuildingTurretBase
         return false;
     }
 
-
     void BuildCommon(BuildSelectionDetailCommonEvent e)
     {
         DisplayGenericInfos(e.container);
+    }
+
+    protected override string GetProjectileType()
+    {
+        return m_projectileType.GetValue();
     }
 }

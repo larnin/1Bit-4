@@ -40,6 +40,8 @@ class ProjectileFrozen : ProjectileBase
 
     List<Guid> m_hitEntitiesSave = new List<Guid>();
 
+    float m_distance = 0;
+
     private void Awake()
     {
         m_projectile = transform.Find("Projectile");
@@ -110,14 +112,18 @@ class ProjectileFrozen : ProjectileBase
 
         RaycastHit hit;
         var haveHit = Physics.Raycast(ray, out hit, Time.deltaTime * m_speed + 0.01f, m_hitLayer);
+        m_distance += (nextPos - transform.position).magnitude;
         if (haveHit)
             StartExplosion(hit);
 
         transform.position = nextPos;
 
-        m_time += Time.deltaTime;
-        if (m_time > m_maxLife)
-            StartExplosion(hit);
+        if (m_distance > m_minimalDistance)
+        {
+            m_time += Time.deltaTime;
+            if (m_time > m_maxLife)
+                StartExplosion(hit);
+        }
     }
 
     void UpdateExplosion()
@@ -155,6 +161,13 @@ class ProjectileFrozen : ProjectileBase
 
     void StartExplosion(RaycastHit hit)
     {
+        var targetType = GameSystem.GetEntityType(hit.collider.gameObject);
+        if (targetType != EntityType.Building && targetType != EntityType.GameEntity && targetType != EntityType.Projectile)
+        {
+            if (m_distance < m_minimalDistance)
+                return;
+        }
+
         bool startExplosion = true;
 
         if (hit.collider != null)
@@ -259,5 +272,10 @@ class ProjectileFrozen : ProjectileBase
                 }
             }
         }
+    }
+
+    public override float GetSpeed()
+    {
+        return m_speed;
     }
 }

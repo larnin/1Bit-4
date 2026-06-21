@@ -131,7 +131,15 @@ public abstract class BuildingTurretBase : BuildingBase
             {
                 if (m_target == null)
                     m_turret.SetNoTarget();
-                else m_turret.SetTarget(TurretBehaviour.GetTargetCenter(m_target));
+                else
+                {
+                    Vector3 target = TurretBehaviour.GetTargetCenter(m_target);
+                    Vector3 predicted = target;
+                    var firepoint = GetCurrentFirepoint();
+                    if (firepoint != null)
+                        predicted = TurretBehaviour.GetTargetCenter(m_target, firepoint.position, TurretBehaviour.GetProjectileSpeed(GetProjectileType()));
+                    m_turret.SetTarget(target, predicted);
+                }
             }
 
             if (IsContinuousWeapon())
@@ -164,8 +172,6 @@ public abstract class BuildingTurretBase : BuildingBase
         if (!CanFire())
             return;
 
-        var firePos = GetCurrentFirepoint();
-
         if(m_fireParticles != null)
         {
             m_fireParticles.Play();
@@ -175,6 +181,8 @@ public abstract class BuildingTurretBase : BuildingBase
         StartRecoil();
 
         m_fireIndex++;
+        if (m_fireIndex < 0 || m_fireIndex >= m_firePoints.Count)
+            m_fireIndex = 0;
     }
 
     void UpdateContinuousTurret()
@@ -282,6 +290,11 @@ public abstract class BuildingTurretBase : BuildingBase
         }
 
         return true;
+    }
+
+    protected virtual string GetProjectileType()
+    {
+        return "";
     }
 
     protected abstract bool IsContinuousWeapon();
