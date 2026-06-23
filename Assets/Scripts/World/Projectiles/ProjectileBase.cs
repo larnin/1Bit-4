@@ -20,6 +20,8 @@ public abstract class ProjectileBase : MonoBehaviour
     Guid m_targetSave = Guid.Empty;
     Guid m_casterSave = Guid.Empty;
 
+    protected float m_minimalDistance = 0;
+
     bool m_added = false;
 
     void OnEnable()
@@ -41,6 +43,11 @@ public abstract class ProjectileBase : MonoBehaviour
     {
         if (!m_added)
             Add();
+    }
+
+    public virtual float GetSpeed()
+    {
+        return 0;
     }
 
     void Add()
@@ -88,6 +95,9 @@ public abstract class ProjectileBase : MonoBehaviour
                 m_casterSave = Guid.Empty;
             }
         }
+
+        if (m_caster != null && m_target != null)
+            m_minimalDistance = (m_caster.transform.position - m_target.transform.position).magnitude + 1;
     }
 
     public void SetTarget(GameObject target)

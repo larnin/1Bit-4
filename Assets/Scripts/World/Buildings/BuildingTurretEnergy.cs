@@ -129,4 +129,9 @@ public class BuildingTurretEnergy : BuildingTurretBase
 
         obj.AddElement("energy", m_energy);
     }
+
+    protected override string GetProjectileType()
+    {
+        return m_projectileType.GetValue();
+    }
 }

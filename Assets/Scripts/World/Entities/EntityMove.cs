@@ -23,6 +23,7 @@ public class EntityMove : MonoBehaviour
     {
         m_subscriberList.Add(new Event<BuildingListAddEvent>.Subscriber(OnAdd));
         m_subscriberList.Add(new Event<BuildingListRemoveEvent>.Subscriber(OnRemove));
+        m_subscriberList.Add(new Event<GetVelocityEvent>.LocalSubscriber(GetVelocity, gameObject));
         m_subscriberList.Add(new Event<LoadLevelEvent>.LocalSubscriber(Load, gameObject));
         m_subscriberList.Add(new Event<SaveLevelEvent>.LocalSubscriber(Save, gameObject));
         m_subscriberList.Subscribe();
@@ -141,6 +142,11 @@ public class EntityMove : MonoBehaviour
     void OnRemove(BuildingListRemoveEvent e)
     {
         CheckNeedRebuildIfAround(e.building);
+    }
+
+    void GetVelocity(GetVelocityEvent e)
+    {
+        e.velocity = new Vector3(Mathf.Cos(m_angle), 0, Mathf.Sin(m_angle)) * m_speed;
     }
 
     void CheckNeedRebuildIfAround(BuildingBase b)

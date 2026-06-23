@@ -74,7 +74,7 @@ Shader "Hidden/SobelOutline"
                 float AvgColor = AverageColor(_MainTex, i.uv, offset);
                 color.r = (1 - color.r) * AvgColor + color.r * (1 - AvgColor);
 
-                return float4(color.r, color.r, color.r, 1.0);
+                return float4(color.r * sceneColor.b, color.r * sceneColor.b, color.r * sceneColor.b, 1.0);
             }
 
             ENDCG

@@ -101,7 +101,7 @@ Shader "Unlit/CustomLighted"
 
 				clip(col.a - 0.5);
 
-                return float4((col * light * mul).r, _InvertColor, 0, col.a);
+                return float4(col.r * mul, _InvertColor, light.r, col.a);
             }
             ENDCG
         }

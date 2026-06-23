@@ -8,6 +8,7 @@ using UnityEngine;
 public class TurretBehaviour : MonoBehaviour
 {
     [SerializeField] float m_turretRotSpeed;
+    [SerializeField] float m_predictonPercent = 1;
 
     enum TurretState
     {
@@ -18,6 +19,7 @@ public class TurretBehaviour : MonoBehaviour
     }
 
     Vector3 m_target;
+    Vector3 m_predictedTarget;
     bool m_haveTarget = false;
 
     Transform m_turretPivot;
@@ -47,16 +49,23 @@ public class TurretBehaviour : MonoBehaviour
         m_turretInitialRotation = m_turretPivot.rotation;
     }
 
-    public void SetTarget(Vector3 target)
+    public void SetTarget(Vector3 target, Vector3 predictedTarget)
     {
         m_target = target;
+        m_predictedTarget = predictedTarget;
         m_haveTarget = true;
     }
 
     public void SetNoTarget()
     {
         m_target = Vector3.zero;
+        m_predictedTarget = Vector3.zero;
         m_haveTarget = false;
+    }
+
+    Vector3 GetTarget()
+    {
+        return m_target * (1 - m_predictonPercent) + m_predictedTarget * m_predictonPercent;
     }
 
     public bool CanFire()
@@ -64,7 +73,7 @@ public class TurretBehaviour : MonoBehaviour
         if (m_turretState != TurretState.Target)
             return false;
 
-        var forward = (m_target - m_turretPivot.position).normalized;
+        var forward = (GetTarget() - m_turretPivot.position).normalized;
         Quaternion targetAngle = Quaternion.LookRotation(forward, Vector3.up);
 
         float delta = Mathf.Abs(Quaternion.Angle(m_turretPivot.rotation, targetAngle));
@@ -129,7 +138,7 @@ public class TurretBehaviour : MonoBehaviour
 
                         float normTime = m_turretTimer / m_turretTimerMax;
 
-                        var forward = (m_target - m_turretPivot.position).normalized;
+                        var forward = (GetTarget() - m_turretPivot.position).normalized;
                         Quaternion targetAngle = Quaternion.LookRotation(forward, Vector3.up);
 
                         m_turretPivot.rotation = Quaternion.Lerp(m_turretStartRotation, targetAngle, normTime);
@@ -149,7 +158,7 @@ public class TurretBehaviour : MonoBehaviour
                             m_turretState = TurretState.MovingToDefault;
                         }
 
-                        var targetPos = m_target;
+                        var targetPos = GetTarget();
                         var forward = (targetPos - m_turretPivot.position).normalized;
                         Quaternion targetAngle = Quaternion.LookRotation(forward, Vector3.up);
 
@@ -198,7 +207,50 @@ public class TurretBehaviour : MonoBehaviour
 
             return center;
         }
+        
         return target.transform.position;
+    }
+
+    public static Vector3 GetTargetCenter(GameObject target, Vector3 projectilePos, float projectileSpeed)
+    {
+        var pos = GetTargetCenter(target);
+        if (projectileSpeed < 0.01f)
+            return pos;
+
+         Vector3 velocity = Event<GetVelocityEvent>.Broadcast(new GetVelocityEvent(), target).velocity;
+
+        if (velocity.sqrMagnitude < 0.1f)
+            return pos;
+
+        //https://officialtwelve.blogspot.com/2015/08/projectile-interception.html
+
+        Vector3 relativePos = projectilePos - target.transform.position;
+        float theta = Vector3.Angle(relativePos, velocity);
+
+        float a = velocity.sqrMagnitude - (projectileSpeed * projectileSpeed);
+        float b = -2 * Mathf.Cos(theta * Mathf.Deg2Rad) * relativePos.magnitude * velocity.magnitude;
+        float c = relativePos.sqrMagnitude;
+        float sqrDelta = (b * b) - (4 * a * c);
+        if (sqrDelta < 0)
+            return pos;
+        float delta = Mathf.Sqrt(sqrDelta);
+        float t = -(b + delta) / (2 * a);
+
+        Vector3 prediction = target.transform.position + velocity * t;
+        return prediction;
+    }
+
+    public static float GetProjectileSpeed(string projectileType)
+    {
+        var prefab = Global.instance.editorDatas.GetProjectilePrefab(projectileType);
+        if (prefab == null)
+            return 0;
+
+        var projectile = prefab.GetComponent<ProjectileBase>();
+        if (projectile == null)
+            return 0;
+
+        return projectile.GetSpeed();
     }
 
     void MakeInitialRotationFromCurrent()
@@ -219,6 +271,10 @@ public class TurretBehaviour : MonoBehaviour
             var jsonTarget = obj.GetElement("target");
             if (jsonTarget != null && jsonTarget.IsJsonArray())
                 m_target = Json.ToVector3(jsonTarget.JsonArray());
+
+            var jsonPredicted = obj.GetElement("predicted");
+            if (jsonPredicted != null && jsonPredicted.IsJsonArray())
+                m_predictedTarget = Json.ToVector3(jsonPredicted.JsonArray());
 
             var jsonHaveTarget = obj.GetElement("haveTarget");
             if (jsonHaveTarget != null && jsonHaveTarget.IsJsonNumber())
@@ -251,6 +307,7 @@ public class TurretBehaviour : MonoBehaviour
         e.obj.AddElement("turret", obj);
 
         obj.AddElement("target", Json.FromVector3(m_target));
+        obj.AddElement("predicted", Json.FromVector3(m_predictedTarget));
         obj.AddElement("haveTarget", m_haveTarget ? 1 : 0);
         obj.AddElement("startRotation", Json.FromQuaternion(m_turretStartRotation));
         obj.AddElement("state", m_turretState.ToString());

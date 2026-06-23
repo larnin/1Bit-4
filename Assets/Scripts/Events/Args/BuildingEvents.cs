@@ -45,3 +45,8 @@ public class ValidateNewBuildingPositionEvent
     }
 }
 
+public class GetVelocityEvent
+{
+    public Vector3 velocity = Vector3.zero;
+}
+

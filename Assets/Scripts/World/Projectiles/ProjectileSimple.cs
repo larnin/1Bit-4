@@ -8,12 +8,13 @@ using UnityEngine;
 public class ProjectileSimple : ProjectileBase
 {
     [SerializeField] float m_speed = 5;
-    [SerializeField] float m_maxLife = 5;
+    [SerializeField] float m_maxLife = 1;
     [SerializeField] LayerMask m_hitLayer;
     [SerializeField] LayerMask m_groundLayer;
     [SerializeField] GameObject m_hitPrefab;
 
     float m_time = 0;
+    float m_distance = 0;
 
     protected override void Update()
     {
@@ -29,16 +30,27 @@ public class ProjectileSimple : ProjectileBase
         var haveHit = Physics.Raycast(ray, out hit, Time.deltaTime * m_speed + 0.01f, m_hitLayer);
         if (haveHit)
             OnHit(hit);
+        m_distance += (nextPos - transform.position).magnitude;
         transform.position = nextPos;
 
-        m_time += Time.deltaTime;
-        if (m_time > m_maxLife)
-            Destroy(gameObject);
+        if (m_distance > m_minimalDistance)
+        {
+            m_time += Time.deltaTime;
+            if (m_time > m_maxLife)
+                Destroy(gameObject);
+        }
     }
 
     void OnHit(RaycastHit hit)
     {
         bool needDestroy = false;
+
+        var targetType = GameSystem.GetEntityType(hit.collider.gameObject);
+        if (targetType != EntityType.Building && targetType != EntityType.GameEntity && targetType != EntityType.Projectile)
+        {
+            if (m_distance < m_minimalDistance)
+                return;
+        }
         
         var team = Event<GetTeamEvent>.Broadcast(new GetTeamEvent(), hit.collider.gameObject);
         if (team.team == TeamEx.GetOppositeTeam(m_casterTeam))
@@ -73,5 +85,10 @@ public class ProjectileSimple : ProjectileBase
         var timeJson = obj.GetElement("time");
         if (timeJson != null && timeJson.IsJsonNumber())
             m_time = timeJson.Float();
+    }
+
+    public override float GetSpeed()
+    {
+        return m_speed;
     }
 }

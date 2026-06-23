@@ -227,11 +227,16 @@ public class GameInterface : MonoBehaviour
         List<RaycastResult> raysastResults = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventData, raysastResults);
 
+        int UILayer = LayerMask.NameToLayer("UI");
+
         for (int index = 0; index < raysastResults.Count; index++)
         {
             RaycastResult curRaysastResult = raysastResults[index];
 
-            if (curRaysastResult.gameObject.layer == LayerMask.NameToLayer("UI"))
+            if (curRaysastResult.gameObject.GetComponentInParent<IgnoreUiRaycast>())
+                continue;
+
+            if (curRaysastResult.gameObject.layer == UILayer)
             {
                 e.overUI = true;
                 break;

@@ -18,7 +18,7 @@ public class EntityWeaponGun : EntityWeaponBase
     List<Transform> m_firePoints = new List<Transform>();
 
     float m_fireTimer;
-    int m_fireIndex;
+    int m_fireIndex = 0;
 
     TurretBehaviour m_turret;
 
@@ -85,7 +85,7 @@ public class EntityWeaponGun : EntityWeaponBase
         {
             if (!IsTargetAtRange())
                 m_turret.SetNoTarget();
-            else m_turret.SetTarget(GetTargetPos());
+            else m_turret.SetTarget(GetTargetPos(), GetPredictedPos());
         }
 
         float rateTimer = 1 / m_fireRate;
@@ -170,5 +170,18 @@ public class EntityWeaponGun : EntityWeaponBase
 
         obj.AddElement("fireTimer", m_fireTimer);
         obj.AddElement("fireIndex", m_fireIndex);
+    }
+
+    protected override Vector3 GetFirePoint()
+    {
+        if (m_fireIndex < 0 || m_fireIndex >= m_firePoints.Count)
+            m_fireIndex = 0;
+
+        return m_firePoints[m_fireIndex].position;
+    }
+
+    protected override string GetProjectileType()
+    {
+        return m_projectileType.GetValue();
     }
 }

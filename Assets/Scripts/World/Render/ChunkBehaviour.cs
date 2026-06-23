@@ -253,6 +253,10 @@ public class ChunkBehaviour : MonoBehaviour
         data.vertices[v + 3].pos = new Vector3(-0.5f, h, Grid.ChunkSize - 0.5f);
         data.vertices[v + 3].uv = new Vector2(b, 1 - b);
 
+        var collider = m_waterSurface.AddComponent<BoxCollider>();
+        collider.size = new Vector3(Grid.ChunkSize, 1, Grid.ChunkSize);
+        collider.center = (collider.size - Vector3.one) / 2.0f - new Vector3(0, h, 0);
+
         for (int i = v; i < v + 4; i++)
         {
             data.vertices[i].normal = Vector3.up;

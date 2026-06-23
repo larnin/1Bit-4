@@ -152,6 +152,9 @@ public class QuestObjective
 
     string CompleteText(string text)
     {
+        if (text == null)
+            return "";
+
         string newText = String.Copy(text);
         int lastIndex = 0;
         while (true)

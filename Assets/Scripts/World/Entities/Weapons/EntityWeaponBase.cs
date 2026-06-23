@@ -44,6 +44,15 @@ public abstract class EntityWeaponBase : MonoBehaviour
         return TurretBehaviour.GetTargetCenter(target);
     }
 
+    public Vector3 GetPredictedPos()
+    {
+        var target = GetTarget();
+        if (target == null)
+            return transform.position + transform.forward;
+
+        return TurretBehaviour.GetTargetCenter(m_target, GetFirePoint(), TurretBehaviour.GetProjectileSpeed(GetProjectileType()));
+    }
+
     public abstract float GetMoveDistance();
 
     public void UpdateTarget(float range)
@@ -82,5 +91,8 @@ public abstract class EntityWeaponBase : MonoBehaviour
 
         m_target = target;
     }
+
+    protected virtual Vector3 GetFirePoint() { return Vector3.zero; }
+    protected virtual string GetProjectileType() { return ""; }
 }
 
