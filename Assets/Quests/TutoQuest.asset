@@ -132,6 +132,9 @@ MonoBehaviour:
     - Name: data
       Entry: 7
       Data: 6|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 6
+      Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
@@ -145,6 +148,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 8|QuestSubObjectiveTimer, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_duration
       Entry: 4
       Data: 5
@@ -224,6 +230,9 @@ MonoBehaviour:
     - Name: data
       Entry: 7
       Data: 12|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 6
+      Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
@@ -237,6 +246,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 14|QuestSubObjectiveSpawnObject, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_prefab
       Entry: 10
       Data: 0
@@ -255,6 +267,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 15|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_texts
       Entry: 7
       Data: 16|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
@@ -282,6 +297,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 17|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_buildingType
       Entry: 3
       Data: 1
@@ -367,6 +385,9 @@ MonoBehaviour:
     - Name: data
       Entry: 7
       Data: 21|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 6
+      Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
@@ -380,6 +401,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 23|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_texts
       Entry: 7
       Data: 24|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
@@ -478,6 +502,9 @@ MonoBehaviour:
     - Name: data
       Entry: 7
       Data: 28|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 6
+      Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
@@ -491,6 +518,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 30|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_texts
       Entry: 7
       Data: 31|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
@@ -591,6 +621,9 @@ MonoBehaviour:
     - Name: data
       Entry: 7
       Data: 35|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 6
+      Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
@@ -604,6 +637,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 37|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_texts
       Entry: 7
       Data: 38|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
@@ -701,6 +737,9 @@ MonoBehaviour:
     - Name: data
       Entry: 7
       Data: 42|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 6
+      Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
@@ -714,6 +753,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 44|QuestSubObjectiveSpawnObject, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_prefab
       Entry: 10
       Data: 1
@@ -732,6 +774,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 45|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_texts
       Entry: 7
       Data: 46|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
@@ -759,6 +804,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 47|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_buildingType
       Entry: 3
       Data: 9
@@ -844,6 +892,9 @@ MonoBehaviour:
     - Name: data
       Entry: 7
       Data: 51|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 6
+      Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
@@ -857,6 +908,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 53|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_texts
       Entry: 7
       Data: 54|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
@@ -955,6 +1009,9 @@ MonoBehaviour:
     - Name: data
       Entry: 7
       Data: 58|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 6
+      Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
@@ -968,6 +1025,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 60|QuestSubObjectiveHaveResource, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_resourceType
       Entry: 3
       Data: 1
@@ -983,6 +1043,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 61|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_texts
       Entry: 7
       Data: 62|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
@@ -1080,6 +1143,9 @@ MonoBehaviour:
     - Name: data
       Entry: 7
       Data: 66|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 6
+      Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
@@ -1093,6 +1159,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 68|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_texts
       Entry: 7
       Data: 69|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
@@ -1191,6 +1260,9 @@ MonoBehaviour:
     - Name: data
       Entry: 7
       Data: 73|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 6
+      Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
@@ -1204,6 +1276,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 75|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_texts
       Entry: 7
       Data: 76|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
@@ -1231,6 +1306,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 77|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_buildingType
       Entry: 3
       Data: 3
@@ -1246,6 +1324,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 78|QuestSubObjectiveConstructBuilding, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_buildingType
       Entry: 3
       Data: 3
@@ -1328,6 +1409,9 @@ MonoBehaviour:
     - Name: data
       Entry: 7
       Data: 82|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 6
+      Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
@@ -1341,6 +1425,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 84|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_texts
       Entry: 7
       Data: 85|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
@@ -1439,6 +1526,9 @@ MonoBehaviour:
     - Name: data
       Entry: 7
       Data: 89|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 6
+      Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
@@ -1452,6 +1542,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 91|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_texts
       Entry: 7
       Data: 92|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
@@ -1479,6 +1572,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 93|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_buildingType
       Entry: 3
       Data: 16
@@ -1494,6 +1590,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 94|QuestSubObjectiveConstructBuilding, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_buildingType
       Entry: 3
       Data: 16
@@ -1576,6 +1675,9 @@ MonoBehaviour:
     - Name: data
       Entry: 7
       Data: 98|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 6
+      Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
@@ -1589,6 +1691,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 100|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_texts
       Entry: 7
       Data: 101|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
@@ -1687,6 +1792,9 @@ MonoBehaviour:
     - Name: data
       Entry: 7
       Data: 105|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 6
+      Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
@@ -1700,6 +1808,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 107|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_texts
       Entry: 7
       Data: 108|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
@@ -1797,28 +1908,52 @@ MonoBehaviour:
     - Name: data
       Entry: 7
       Data: 112|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 7
+      Data: 113|QuestObjectiveText, Assembly-CSharp
+    - Name: title
+      Entry: 6
+      Data: 
+    - Name: details
+      Entry: 7
+      Data: 114|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
     - Name: m_subObjectives
       Entry: 7
-      Data: 113|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+      Data: 115|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 114|QuestSubObjectiveStartDialog, Assembly-CSharp
+      Data: 116|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_texts
       Entry: 7
-      Data: 115|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+      Data: 117|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 1
-      Data: Prepare yourself. Protect your tower at all cost during those 3 waves
+      Data: Prepare yourself. Protect your tower at all cost during those 2 waves
     - Name: 
       Entry: 13
       Data: 
@@ -1845,14 +1980,14 @@ MonoBehaviour:
       Data: 
     - Name: outNodes
       Entry: 7
-      Data: 116|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+      Data: 118|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 117|QuestSaveConnection, Assembly-CSharp
+      Data: 119|QuestSaveConnection, Assembly-CSharp
     - Name: currentPortName
       Entry: 1
       Data: Out
@@ -1876,7 +2011,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 118|QuestSaveNode, Assembly-CSharp
+      Data: 120|QuestSaveNode, Assembly-CSharp
     - Name: ID
       Entry: 1
       Data: c1c25e98-5564-4239-8bf2-be8996bc3b08
@@ -1906,23 +2041,29 @@ MonoBehaviour:
       Data: 
     - Name: data
       Entry: 7
-      Data: 119|QuestObjective, Assembly-CSharp
+      Data: 121|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 6
+      Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
     - Name: m_subObjectives
       Entry: 7
-      Data: 120|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+      Data: 122|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 3
     - Name: 
       Entry: 7
-      Data: 121|QuestSubObjectiveStartDialog, Assembly-CSharp
+      Data: 123|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_texts
       Entry: 7
-      Data: 122|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+      Data: 124|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
     - Name: 
       Entry: 12
       Data: 1
@@ -1946,7 +2087,10 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 123|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+      Data: 125|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_buildingType
       Entry: 3
       Data: 13
@@ -1961,7 +2105,10 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 124|QuestSubObjectiveSpawnObject, Assembly-CSharp
+      Data: 126|QuestSubObjectiveSpawnObject, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_prefab
       Entry: 10
       Data: 2
@@ -1988,14 +2135,14 @@ MonoBehaviour:
       Data: 
     - Name: outNodes
       Entry: 7
-      Data: 125|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+      Data: 127|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 126|QuestSaveConnection, Assembly-CSharp
+      Data: 128|QuestSaveConnection, Assembly-CSharp
     - Name: currentPortName
       Entry: 1
       Data: Out
@@ -2019,7 +2166,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 127|QuestSaveNode, Assembly-CSharp
+      Data: 129|QuestSaveNode, Assembly-CSharp
     - Name: ID
       Entry: 1
       Data: b343ad71-f71a-48c5-9d50-c0448dfd30af
@@ -2049,23 +2196,29 @@ MonoBehaviour:
       Data: 
     - Name: data
       Entry: 7
-      Data: 128|QuestObjective, Assembly-CSharp
+      Data: 130|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 6
+      Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
     - Name: m_subObjectives
       Entry: 7
-      Data: 129|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+      Data: 131|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 130|QuestSubObjectiveStartDialog, Assembly-CSharp
+      Data: 132|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_texts
       Entry: 7
-      Data: 131|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+      Data: 133|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
     - Name: 
       Entry: 12
       Data: 1
@@ -2099,14 +2252,14 @@ MonoBehaviour:
       Data: 
     - Name: outNodes
       Entry: 7
-      Data: 132|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+      Data: 134|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 133|QuestSaveConnection, Assembly-CSharp
+      Data: 135|QuestSaveConnection, Assembly-CSharp
     - Name: currentPortName
       Entry: 1
       Data: Out
@@ -2130,7 +2283,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 134|QuestSaveNode, Assembly-CSharp
+      Data: 136|QuestSaveNode, Assembly-CSharp
     - Name: ID
       Entry: 1
       Data: f8cb44b3-0277-49dc-810f-fc5f3b504c32
@@ -2160,20 +2313,44 @@ MonoBehaviour:
       Data: 
     - Name: data
       Entry: 7
-      Data: 135|QuestObjective, Assembly-CSharp
+      Data: 137|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 7
+      Data: 138|QuestObjectiveText, Assembly-CSharp
+    - Name: title
+      Entry: 6
+      Data: 
+    - Name: details
+      Entry: 7
+      Data: 139|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
     - Name: m_subObjectives
       Entry: 7
-      Data: 136|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+      Data: 140|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 137|QuestSubObjectiveStartGamemode, Assembly-CSharp
+      Data: 141|QuestSubObjectiveStartGamemode, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_name
       Entry: 1
       Data: Waves
@@ -2194,14 +2371,14 @@ MonoBehaviour:
       Data: 
     - Name: outNodes
       Entry: 7
-      Data: 138|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+      Data: 142|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 139|QuestSaveConnection, Assembly-CSharp
+      Data: 143|QuestSaveConnection, Assembly-CSharp
     - Name: currentPortName
       Entry: 1
       Data: Out
@@ -2225,7 +2402,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 140|QuestSaveNode, Assembly-CSharp
+      Data: 144|QuestSaveNode, Assembly-CSharp
     - Name: ID
       Entry: 1
       Data: 110254f7-f4e9-46dd-9d93-c0efc6e68b06
@@ -2255,20 +2432,44 @@ MonoBehaviour:
       Data: 
     - Name: data
       Entry: 7
-      Data: 141|QuestObjective, Assembly-CSharp
+      Data: 145|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 7
+      Data: 146|QuestObjectiveText, Assembly-CSharp
+    - Name: title
+      Entry: 6
+      Data: 
+    - Name: details
+      Entry: 7
+      Data: 147|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
     - Name: m_subObjectives
       Entry: 7
-      Data: 142|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+      Data: 148|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 143|QuestSubObjectiveGamemodeStatus, Assembly-CSharp
+      Data: 149|QuestSubObjectiveGamemodeStatus, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_name
       Entry: 1
       Data: Waves
@@ -2289,14 +2490,14 @@ MonoBehaviour:
       Data: 
     - Name: outNodes
       Entry: 7
-      Data: 144|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+      Data: 150|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 145|QuestSaveConnection, Assembly-CSharp
+      Data: 151|QuestSaveConnection, Assembly-CSharp
     - Name: currentPortName
       Entry: 1
       Data: Out
@@ -2320,7 +2521,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 146|QuestSaveNode, Assembly-CSharp
+      Data: 152|QuestSaveNode, Assembly-CSharp
     - Name: ID
       Entry: 1
       Data: 9c05a677-1458-4424-9fae-ef669270b1a9
@@ -2353,7 +2554,7 @@ MonoBehaviour:
       Data: 
     - Name: outNodes
       Entry: 7
-      Data: 147|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+      Data: 153|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -2369,7 +2570,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 148|QuestSaveNode, Assembly-CSharp
+      Data: 154|QuestSaveNode, Assembly-CSharp
     - Name: ID
       Entry: 1
       Data: 60c75890-3e6e-44a9-ae4f-8981816514a9
@@ -2399,20 +2600,62 @@ MonoBehaviour:
       Data: 
     - Name: data
       Entry: 7
-      Data: 149|QuestObjective, Assembly-CSharp
+      Data: 155|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 7
+      Data: 156|QuestObjectiveText, Assembly-CSharp
+    - Name: title
+      Entry: 6
+      Data: 
+    - Name: details
+      Entry: 7
+      Data: 157|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
     - Name: m_subObjectives
       Entry: 7
-      Data: 150|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+      Data: 158|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 151|QuestSubObjectiveTimer, Assembly-CSharp
+      Data: 159|QuestSubObjectiveTimer, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 7
+      Data: 160|System.Collections.Generic.List`1[[System.Int32, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 3
+      Data: 20
+    - Name: 
+      Entry: 3
+      Data: 20
+    - Name: 
+      Entry: 3
+      Data: 20
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: m_duration
       Entry: 4
       Data: 20
@@ -2430,14 +2673,14 @@ MonoBehaviour:
       Data: 
     - Name: outNodes
       Entry: 7
-      Data: 152|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+      Data: 161|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 153|QuestSaveConnection, Assembly-CSharp
+      Data: 162|QuestSaveConnection, Assembly-CSharp
     - Name: currentPortName
       Entry: 1
       Data: Out
