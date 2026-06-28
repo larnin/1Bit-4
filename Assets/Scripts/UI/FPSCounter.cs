@@ -41,6 +41,8 @@ public class FPSCounter : MonoBehaviour
                 int entities = EntityList.instance.GetEntityNb();
                 data += "Entities: " + entities.ToString() + "\n";
             }
+
+            data += Event<FPSDisplayDetailsEvent>.Broadcast(new FPSDisplayDetailsEvent()).details;
         }
 
         float fps = 1 / Time.deltaTime;
