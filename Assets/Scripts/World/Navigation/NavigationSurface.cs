@@ -307,7 +307,7 @@ public class NavigationSurface
         if (!IsValidMove(heights, current, end, out cost))
             return false;
 
-        pos = end;
+        pos = endLoop;
         return true;
     }
 
