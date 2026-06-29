@@ -109,7 +109,7 @@ public class InfiniteMode : GamemodeBase
 
     void UpdateMaxDistance()
     {
-        m_maxDistanceTimer += Time.deltaTime;
+        m_maxDistanceTimer -= Time.deltaTime;
         if (m_maxDistanceTimer > 0)
             return;
 
@@ -344,7 +344,7 @@ public class InfiniteMode : GamemodeBase
 
         float spawnerNb = m_asset.difficultyToSpawnerNb.Get(m_maxDifficulty);
         float entityNb = m_asset.spawnersData.difficultyToMaxEnnemies.Get(m_maxDifficulty);
-        e.details += "SpawnerNb: " + spawnerNb.ToString("0.0") + "(" + Mathf.RoundToInt(spawnerNb) + ") - ";
+        e.details += "SpawnerNb: " + spawnerNb.ToString("0.0") + "(" + Mathf.FloorToInt(spawnerNb) + ") - ";
         e.details += "EntityNb: " + entityNb.ToString("0.0") + "(" + Mathf.CeilToInt(entityNb) + ")\n";
         e.details += "Life: " + GetEntityLifeMultiplier().ToString("0.00") + " - Damage: " + GetEntityDamageMultiplier().ToString("0.00") + "\n"; 
     }
