@@ -59,6 +59,7 @@ public class InfiniteMode : GamemodeBase
             m_subscriberList.Add(new Event<OnBuildingDamagedEvent>.Subscriber(OnSpawnerDamaged));
             m_subscriberList.Add(new Event<DisplaySpawnerInfosEvent>.Subscriber(DisplayInfos));
             m_subscriberList.Add(new Event<DisplayEndLevelEvent>.Subscriber(DisplayEndWindow));
+            m_subscriberList.Add(new Event<FPSDisplayDetailsEvent>.Subscriber(AddFpsDetails));
         }
 
         m_subscriberList.Subscribe();
@@ -321,6 +322,31 @@ public class InfiniteMode : GamemodeBase
         MenuSystem.instance.OpenMenu<GameOverMenu>("GameOver", false, false, false);
 
         e.displayed = true;
+    }
+
+    public float GetEntityLifeMultiplier()
+    {
+        return m_asset.difficultyToLifeMultiplier.Get(m_maxDifficulty);
+    }
+
+    public float GetEntityDamageMultiplier()
+    {
+        return m_asset.difficultyToDamageMultiplier.Get(m_maxDifficulty);
+    }
+
+    void AddFpsDetails(FPSDisplayDetailsEvent e)
+    {
+        e.details += "Difficulty: " + m_maxDifficulty.ToString("0.00") + "\n";
+        e.details += "Minute: " + m_asset.difficultyPerMinute.Get(m_time / 60).ToString("0.00") + " - ";
+        e.details += "Distance: " + m_asset.difficultyPerDistance.Get(m_maxDistance).ToString("0.00") + " - ";
+        e.details += "Kill: " + m_asset.difficultyPerKill.Get(m_nbKill).ToString("0.00") + " - ";
+        e.details += "Spawner: " + m_asset.difficultyPerSpawner.Get(m_nbSpawnerDestroyed).ToString("0.00") + "\n";
+
+        float spawnerNb = m_asset.difficultyToSpawnerNb.Get(m_maxDifficulty);
+        float entityNb = m_asset.spawnersData.difficultyToMaxEnnemies.Get(m_maxDifficulty);
+        e.details += "SpawnerNb: " + spawnerNb.ToString("0.0") + "(" + Mathf.RoundToInt(spawnerNb) + ") - ";
+        e.details += "EntityNb: " + entityNb.ToString("0.0") + "(" + Mathf.CeilToInt(entityNb) + ")\n";
+        e.details += "Life: " + GetEntityLifeMultiplier().ToString("0.00") + " - Damage: " + GetEntityDamageMultiplier().ToString("0.00") + "\n"; 
     }
 }
 

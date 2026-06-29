@@ -220,6 +220,9 @@ public class InfiniteModeSpawner
             if (EntityList.instance != null)
                 obj.transform.parent = EntityList.instance.transform;
             obj.transform.position = new Vector3(posInt.x, height + 1, posInt.y);
+
+            Event<AddStatEvent>.Broadcast(new AddStatEvent(StatType.MaxLifeMultiplier, m_mode.GetEntityLifeMultiplier(), "gamemode"), obj);
+            Event<AddStatEvent>.Broadcast(new AddStatEvent(StatType.DamagesMultiplier, m_mode.GetEntityDamageMultiplier(), "gamemode"), obj);
         }
     }
 

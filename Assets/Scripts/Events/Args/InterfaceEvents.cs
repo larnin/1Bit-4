@@ -91,3 +91,8 @@ public class IsMouseOverUIEvent
 {
     public bool overUI = false;
 }
+
+public class FPSDisplayDetailsEvent
+{
+    public string details;
+}
