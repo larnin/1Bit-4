@@ -90,7 +90,13 @@ public static class GridEx
             {
                 for(int k = minIndex.z; k <= maxIndex.z; k++)
                 {
-                    var chunk = grid.Get(new Vector3Int(i, j, k));
+                    Vector3Int loopPos = GridEx.GetPosFromLoop(grid, new Vector3Int(i, j, k));
+                    if (!grid.LoopX())
+                        loopPos.x = i;
+                    if (!grid.LoopZ())
+                        loopPos.z = k;
+
+                    var chunk = grid.Get(loopPos);
 
                     Vector3Int min = new Vector3Int(0, 0, 0);
                     Vector3Int max = new Vector3Int(Grid.ChunkSize - 1, Grid.ChunkSize - 1, Grid.ChunkSize - 1);
