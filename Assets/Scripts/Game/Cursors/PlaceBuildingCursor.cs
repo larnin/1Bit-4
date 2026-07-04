@@ -269,7 +269,7 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
 
                 var targetPos = b.GetGroundCenter();
                 var targetRadius = Global.instance.buildingDatas.GetRealPlaceRadius(radius, b.PlacementRadius()) - 0.01f;
-                if(GridEx.GetDistance(grid.grid, pos, targetPos) < targetRadius)
+                if(GridEx.GetDistance(grid.grid, new Vector2(pos.x, pos.z), new Vector2(targetPos.x, targetPos.z)) < targetRadius)
                 {
                     canPlace = true;
                     break;

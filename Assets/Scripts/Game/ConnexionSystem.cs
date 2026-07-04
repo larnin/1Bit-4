@@ -290,7 +290,9 @@ public class ConnexionSystem : MonoBehaviour
         float maxDist = Global.instance.buildingDatas.GetRealPlaceRadius(b1.PlacementRadius(), b2.PlacementRadius());
         if (m_grid != null)
         {
-            float dist = GridEx.GetDistance(m_grid, b1.GetGroundCenter(), b2.GetGroundCenter());
+            Vector3 p1 = b1.GetGroundCenter();
+            Vector3 p2 = b2.GetGroundCenter();
+            float dist = GridEx.GetDistance(m_grid, new Vector2(p1.x, p1.z), new Vector2(p2.x, p2.z));
             return dist < maxDist;
         }
 
