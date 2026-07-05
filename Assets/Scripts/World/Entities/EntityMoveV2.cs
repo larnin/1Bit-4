@@ -80,8 +80,8 @@ public class EntityMoveV2 : MonoBehaviour
         bool moving = m_moveInterface.CanMove();
 
         if(moving)
-            m_speed += m_acceleration;
-        else m_speed -= 2 * m_acceleration;
+            m_speed += m_acceleration * Time.deltaTime;
+        else m_speed -= 2 * m_acceleration * Time.deltaTime;
         if (m_speed < 0)
             m_speed = 0;
         if (m_speed > m_moveSpeed)
@@ -92,6 +92,7 @@ public class EntityMoveV2 : MonoBehaviour
             Vector3 target = m_moveInterface.GetNextPos();
             
             Vector3 dir = target - transform.position;
+            dir = GetDirWithLoop(dir);
             float angleDir = Mathf.Atan2(dir.z, dir.x);
             float deltaAngle = angleDir - m_angle;
             while (deltaAngle < -Mathf.PI)
@@ -110,10 +111,46 @@ public class EntityMoveV2 : MonoBehaviour
             Vector3 newPos = transform.position + moveDir * Time.deltaTime * m_speed;
             newPos.y = GetHeight(newPos);
 
+            newPos = ReplacePosOnGridWithLoop(newPos);
             MoveTo(newPos);
 
             transform.forward = moveDir;
         }
+    }
+
+    Vector3 GetDirWithLoop(Vector3 dir)
+    {
+        //fast exit
+        if (MathF.Abs(dir.x) < 5 && Mathf.Abs(dir.z) < 5)
+            return dir;
+
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent()).grid;
+        if (grid == null)
+            return dir;
+
+        int size = GridEx.GetRealSize(grid);
+
+        if(grid.LoopX())
+        {
+            if(Mathf.Abs(dir.x) >=  size / 2)
+            {
+                if (dir.x > 0)
+                    dir.x -= size;
+                else dir.x += size;
+            }
+        }
+
+        if(grid.LoopZ())
+        {
+            if(Mathf.Abs(dir.z) >= size / 2)
+            {
+                if (dir.z > 0)
+                    dir.z -= size;
+                else dir.z += size;
+            }
+        }
+
+        return dir;
     }
 
     //todo make the entity jump 
@@ -227,7 +264,33 @@ public class EntityMoveV2 : MonoBehaviour
         Vector3 newNext = transform.position + remainingDir;
 
         MoveTo(newNext, true);
+    }
 
+    Vector3 ReplacePosOnGridWithLoop(Vector3 pos)
+    {
+        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent()).grid;
+        if (grid == null)
+            return pos;
+
+        var loopPos = GridEx.GetRealPosFromLoop(grid, pos);
+        if (!grid.LoopX())
+            loopPos.x = pos.x;
+        if (!grid.LoopZ())
+            loopPos.z = pos.z;
+
+        var size = GridEx.GetRealSize(grid);
+
+        if (loopPos.x <= -0.5f)
+            loopPos.x = -0.499f;
+        if (loopPos.x >= size - 0.5f)
+            loopPos.x = size - 0.501f;
+
+        if (loopPos.z <= -0.5f)
+            loopPos.z = -0.499f;
+        if (loopPos.z >= size - 0.5f)
+            loopPos.z = size - 0.501f;
+
+        return loopPos;
     }
 
     void GetVelocity(GetVelocityEvent e)

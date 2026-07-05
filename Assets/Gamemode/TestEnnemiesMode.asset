@@ -18,3 +18,4 @@ MonoBehaviour:
   - entityType:
       m_value: ProtoEnnemyMelee
     weight: 1
+  onlyOneEnnemy: 1

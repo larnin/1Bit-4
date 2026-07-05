@@ -473,6 +473,15 @@ public class NavigationSurface
             if (m_navigationGrid == null)
                 return false;
 
+            if(m_grid != null)
+            {
+                Vector2Int newPos = GridEx.GetRealPosFromLoop(m_grid, pos);
+                if (m_grid.LoopX())
+                    pos.x = newPos.x;
+                if (m_grid.LoopZ())
+                    pos.y = newPos.y;
+            }
+
             if (pos.x < 0 || pos.x >= m_navigationGrid.width || pos.y < 0 || pos.y >= m_navigationGrid.depth)
                 return false;
 
@@ -632,8 +641,18 @@ public class NavigationSurface
             if (result.nextPos.x == current.x && result.nextPos.z == current.y)
                 break;
 
+            Vector2Int displayNext = new Vector2Int(result.nextPos.x, result.nextPos.z);
+            if (displayNext.x - current.x < -2)
+                displayNext.x = current.x + 1;
+            else if (displayNext.x - current.x > 2)
+                displayNext.x = current.x - 1;
+            if (displayNext.y - current.y < -2)
+                displayNext.y = current.y + 1;
+            if (displayNext.y - current.y > 2)
+                displayNext.y = current.y + 1;
+
             Vector3 currentF = new Vector3(current.x, height + 0.6f, current.y);
-            Vector3 nextF = new Vector3(result.nextPos.x, result.nextPos.y + 0.6f, result.nextPos.z);
+            Vector3 nextF = new Vector3(displayNext.x, result.nextPos.y + 0.6f, displayNext.y);
 
             DebugDraw.Line(currentF, nextF, color);
 
