@@ -344,11 +344,11 @@ public class MonolithMode : GamemodeBase
         if (BuildingList.instance == null)
             return false;
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
             return false;
 
-        int size = GridEx.GetRealSize(grid.grid);
+        int size = GridEx.GetRealSize(grid);
 
         var gen = StaticRandomGenerator<MT19937>.Get();
 
@@ -357,13 +357,13 @@ public class MonolithMode : GamemodeBase
         Vector3 center = source.building.GetGroundCenter();
         Vector2 testPos2 = new Vector2(center.x, center.z) + Rand2D.UniformVector2CircleDistribution(m_asset.spawnerRadiusAroundMonolith, gen);
         Vector3Int realPos = new Vector3Int(Mathf.RoundToInt(testPos2.x), 0, Mathf.RoundToInt(testPos2.y));
-        Vector3Int realPosLoop = GridEx.GetRealPosFromLoop(grid.grid, new Vector3Int(realPos.x, 0, realPos.z));
-        if (!grid.grid.LoopX() && realPos.x != realPosLoop.x)
+        Vector3Int realPosLoop = GridEx.GetRealPosFromLoop(grid, new Vector3Int(realPos.x, 0, realPos.z));
+        if (!grid.LoopX() && realPos.x != realPosLoop.x)
             return false;
-        if (!grid.grid.LoopZ() && realPos.z != realPosLoop.z)
+        if (!grid.LoopZ() && realPos.z != realPosLoop.z)
             return false;
 
-        realPosLoop.y = GridEx.GetHeight(grid.grid, new Vector2Int(realPosLoop.x, realPosLoop.z));
+        realPosLoop.y = GridEx.GetHeight(grid, new Vector2Int(realPosLoop.x, realPosLoop.z));
         if (realPosLoop.y < 0)
             return false;
         realPosLoop.y++;
@@ -378,8 +378,8 @@ public class MonolithMode : GamemodeBase
             for(int j = 0; j < spawner.size.z; j++)
             {
                 Vector3Int testPoint = realPosLoop + new Vector3Int(i, 0, j) + buildingMin;
-                var airBlock = GridEx.GetBlock(grid.grid, testPoint);
-                var groundBlock = GridEx.GetBlock(grid.grid, testPoint - new Vector3Int(0, 1, 0));
+                var airBlock = GridEx.GetBlock(grid, testPoint);
+                var groundBlock = GridEx.GetBlock(grid, testPoint - new Vector3Int(0, 1, 0));
 
                 if (airBlock.type != BlockType.air && (groundBlock.type != BlockType.ground || groundBlock.type != BlockType.water))
                     return false;
@@ -398,7 +398,7 @@ public class MonolithMode : GamemodeBase
             var b = BuildingList.instance.GetBuildingFromIndex(i);
             Vector3 buildingPos = b.GetGroundCenter();
 
-            float buildingDist = GridEx.GetDistance(grid.grid, new Vector2(buildingPos.x, buildingPos.z), new Vector2(realPosLoop.x, realPosLoop.z));
+            float buildingDist = GridEx.GetDistance(grid, new Vector2(buildingPos.x, buildingPos.z), new Vector2(realPosLoop.x, realPosLoop.z));
 
             if(b.GetTeam() == Team.Player)
             {

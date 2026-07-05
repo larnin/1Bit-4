@@ -152,7 +152,7 @@ public class WaveModeSpawner
         var pos = obj.transform.position;
         Vector3Int groundPos = new Vector3Int(Mathf.RoundToInt(pos.x), -1, Mathf.RoundToInt(pos.z));
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent()).grid;
+        var grid = GridEx.GetCurrentGrid();
         if (grid == null)
             return;
 

@@ -63,14 +63,14 @@ public class MapDisplay : MonoBehaviour
 
     void OnLoadEnd(GenerationFinishedEvent e)
     {
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
             return;
 
         Color landColor = Color.white;
         Color waterColor = Color.black;
 
-        var gridSize = GridEx.GetRealSize(grid.grid);
+        var gridSize = GridEx.GetRealSize(grid);
 
         m_mapTexture = new Texture2D(gridSize, gridSize);
 
@@ -78,12 +78,12 @@ public class MapDisplay : MonoBehaviour
         {
             for(int z = 0; z < gridSize; z++)
             {
-                int height = GridEx.GetHeight(grid.grid, new Vector2Int(x, z));
+                int height = GridEx.GetHeight(grid, new Vector2Int(x, z));
                 if (height < 0)
                     m_mapTexture.SetPixel(x, z, waterColor);
                 else
                 {
-                    var b = GridEx.GetBlock(grid.grid, new Vector3Int(x, height, z));
+                    var b = GridEx.GetBlock(grid, new Vector3Int(x, height, z));
                     if (b.type == BlockType.water)
                         m_mapTexture.SetPixel(x, z, waterColor);
                     else m_mapTexture.SetPixel(x, z, landColor);
@@ -186,11 +186,11 @@ public class MapDisplay : MonoBehaviour
 
         m_cameraRect.localRotation = Quaternion.Euler(0, 0, angle);
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
             return;
 
-        int gridSize = GridEx.GetRealSize(grid.grid);
+        int gridSize = GridEx.GetRealSize(grid);
 
         var normalizedRect = new Rect(rect.position / gridSize, rect.size / gridSize);
 
@@ -206,11 +206,11 @@ public class MapDisplay : MonoBehaviour
         if (m_buildingSprite == null)
             return;
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
             return;
 
-        var gridSize = GridEx.GetRealSize(grid.grid);
+        var gridSize = GridEx.GetRealSize(grid);
 
         var instance = new BuildingSprite();
         instance.building = e.building;

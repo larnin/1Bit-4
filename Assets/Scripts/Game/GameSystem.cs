@@ -245,18 +245,18 @@ public class GameSystem : MonoBehaviour
         if (BuildingList.instance == null)
             return;
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
             return;
 
-        var size = GridEx.GetRealSize(grid.grid);
+        var size = GridEx.GetRealSize(grid);
 
         Vector2Int centerPos = new Vector2Int(size / 2, size / 2);
         var buildingData = Global.instance.buildingDatas.GetBuilding(BuildingType.Tower);
         if (buildingData == null || buildingData.prefab == null)
             return;
 
-        Vector3Int towerPos = SearchValidPos(grid.grid, centerPos, new Vector2Int(buildingData.size.x, buildingData.size.z), 5);
+        Vector3Int towerPos = SearchValidPos(grid, centerPos, new Vector2Int(buildingData.size.x, buildingData.size.z), 5);
 
         var obj = Instantiate(buildingData.prefab);
         obj.transform.parent = BuildingList.instance.transform;

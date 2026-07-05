@@ -135,19 +135,21 @@ public class EntityPath
             return;
         }
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if(grid.grid == null)
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
         {
             SetEmptyPath(m_target);
             return;
         }
 
-        var start = GetNearestValidPosition(grid.grid, m_current);
-        var end = GetNearestValidPosition(grid.grid, m_target);
+        var start = GetNearestValidPosition(grid, m_current);
+        var end = GetNearestValidPosition(grid, m_target);
 
-        Matrix<bool> visitedPoint = new Matrix<bool>(GridEx.GetRealSize(grid.grid), GridEx.GetRealHeight(grid.grid), GridEx.GetRealSize(grid.grid));
+        int size = GridEx.GetRealSize(grid);
+
+        Matrix<bool> visitedPoint = new Matrix<bool>(size, GridEx.GetRealHeight(grid), size);
         visitedPoint.SetAll(false);
-        List<PathStep> path = new List<PathStep>(GridEx.GetRealSize(grid.grid) * GridEx.GetRealSize(grid.grid));
+        List<PathStep> path = new List<PathStep>(size * size);
         List<PathStep> openList = new List<PathStep>();
 
         PathStep startStep = new PathStep();
@@ -177,7 +179,7 @@ public class EntityPath
 
                         Vector3Int target = step.pos + new Vector3Int(i, j, k);
 
-                        float weight = IsPosValid(grid.grid, target);
+                        float weight = IsPosValid(grid, target);
                         if(weight < 0)
                             continue;
                         if (visitedPoint.Get(target.x, target.y, target.z))

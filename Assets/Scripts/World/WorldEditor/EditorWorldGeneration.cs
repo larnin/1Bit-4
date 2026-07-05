@@ -215,18 +215,18 @@ public class EditorWorldGeneration : MonoBehaviour
             return;
 #endif
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
             return;
 
         SaveWorld.EditorReset(false);
 
-        m_settings.size = grid.grid.Size();
-        m_settings.height = grid.grid.Height();
-        m_settings.loopX = grid.grid.LoopX();
-        m_settings.loopZ = grid.grid.LoopZ();
+        m_settings.size = grid.Size();
+        m_settings.height = grid.Height();
+        m_settings.loopX = grid.LoopX();
+        m_settings.loopZ = grid.LoopZ();
 
-        int realHeight = GridEx.GetRealHeight(grid.grid);
+        int realHeight = GridEx.GetRealHeight(grid);
         m_settings.waterHeight = 0;
 
         m_generationStarted = true;
@@ -259,13 +259,13 @@ public class EditorWorldGeneration : MonoBehaviour
 
         var newGrid = WorldGenerator.GetGrid();
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
             return;
 
-        int size = GridEx.GetRealSize(grid.grid);
+        int size = GridEx.GetRealSize(grid);
         int newSize = GridEx.GetRealSize(newGrid);
-        int height = GridEx.GetRealHeight(grid.grid);
+        int height = GridEx.GetRealHeight(grid);
         int newHeight = GridEx.GetRealHeight(newGrid);
 
         if (size != newSize || height != newHeight)
@@ -278,7 +278,7 @@ public class EditorWorldGeneration : MonoBehaviour
                 for(int k = 0; k < size; k++)
                 {
                     Vector3Int pos = new Vector3Int(i, j, k);
-                    GridEx.SetBlock(grid.grid, pos, GridEx.GetBlock(newGrid, pos));
+                    GridEx.SetBlock(grid, pos, GridEx.GetBlock(newGrid, pos));
                 }
             }
         }

@@ -107,8 +107,8 @@ public class EntityMove : MonoBehaviour
 
     float GetHeight(Vector3 newPos)
     {
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
             return newPos.y;
 
         float radius = 0.4f;
@@ -123,7 +123,7 @@ public class EntityMove : MonoBehaviour
         {
             Vector2 point = p + new Vector2(newPos.x, newPos.z);
 
-            float height = GridEx.GetHeight(grid.grid, new Vector2Int(Mathf.RoundToInt(point.x), Mathf.RoundToInt(point.y))) + 1;
+            float height = GridEx.GetHeight(grid, new Vector2Int(Mathf.RoundToInt(point.x), Mathf.RoundToInt(point.y))) + 1;
             if (height > top)
                 top = height;
         }

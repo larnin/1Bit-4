@@ -57,9 +57,9 @@ public class BuildingGeothermalGenerator : BuildingBase
 
     public override BuildingPlaceType CanBePlaced(Vector3Int pos)
     {
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        var grid = GridEx.GetCurrentGrid();
         var bounds = GetBounds(pos);
-        if (grid.grid != null)
+        if (grid != null)
         {
             Vector3Int min = bounds.min;
             Vector3Int max = bounds.max;
@@ -68,7 +68,7 @@ public class BuildingGeothermalGenerator : BuildingBase
             {
                 for (int k = min.z; k < max.z; k++)
                 {
-                    var ground = GridEx.GetBlock(grid.grid, new Vector3Int(i, min.y - 1, k));
+                    var ground = GridEx.GetBlock(grid, new Vector3Int(i, min.y - 1, k));
                     if (i == pos.x && k == pos.z)
                     {
                         if (ground.type != BlockType.Geothermal)
@@ -81,7 +81,7 @@ public class BuildingGeothermalGenerator : BuildingBase
 
                     for (int j = min.y; j < max.y; j++)
                     {
-                        var block = GridEx.GetBlock(grid.grid, new Vector3Int(i, j, k));
+                        var block = GridEx.GetBlock(grid, new Vector3Int(i, j, k));
                         if (block.type != BlockType.air)
                             return BuildingPlaceType.InvalidPlace;
                     }
@@ -96,7 +96,7 @@ public class BuildingGeothermalGenerator : BuildingBase
             var b = BuildingList.instance.GetBuildingFromIndex(i);
             var otherBounds = b.GetBounds();
 
-            if (GridEx.IntersectLoop(grid.grid, otherBounds, bounds))
+            if (GridEx.IntersectLoop(grid, otherBounds, bounds))
                 return BuildingPlaceType.InvalidPlace;
         }
 
@@ -105,13 +105,13 @@ public class BuildingGeothermalGenerator : BuildingBase
 
     bool HavePit(Vector3Int pos)
     {
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
             return false;
 
-        int height = GridEx.GetHeight(grid.grid, new Vector2Int(pos.x, pos.z));
+        int height = GridEx.GetHeight(grid, new Vector2Int(pos.x, pos.z));
         pos.y = height;
-        var item = GridEx.GetBlock(grid.grid, pos);
+        var item = GridEx.GetBlock(grid, pos);
 
         return item.type == BlockType.Geothermal;
     }

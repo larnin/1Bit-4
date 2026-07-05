@@ -228,13 +228,13 @@ public class BuildingList : MonoBehaviour
             float bestDistance = 0;
             BuildingBase bestBuilding = null;
 
-            var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-            if (grid.grid == null)
+            var grid = GridEx.GetCurrentGrid();
+            if (grid == null)
                 return null;
 
-            int x = grid.grid.LoopX() ? 1 : 0;
-            int y = grid.grid.LoopZ() ? 1 : 0;
-            var size = GridEx.GetRealSize(grid.grid);
+            int x = grid.LoopX() ? 1 : 0;
+            int y = grid.LoopZ() ? 1 : 0;
+            var size = GridEx.GetRealSize(grid);
 
             foreach (var building in m_buildings)
             {
@@ -274,8 +274,8 @@ public class BuildingList : MonoBehaviour
         m_locker.EnterReadLock();
         try
         {
-            var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-            if (grid.grid == null)
+            var grid = GridEx.GetCurrentGrid();
+            if (grid == null)
                 return null;
 
             Vector2Int posMin = new Vector2Int(Mathf.FloorToInt(pos.x - radius), Mathf.FloorToInt(pos.z - radius));
@@ -284,16 +284,16 @@ public class BuildingList : MonoBehaviour
             Vector2Int chunkMin = Grid.PosToChunkIndex(posMin);
             Vector2Int chunkMax = Grid.PosToChunkIndex(posMax);
 
-            var size = GridEx.GetRealSize(grid.grid);
+            var size = GridEx.GetRealSize(grid);
 
-            if (!grid.grid.LoopX())
+            if (!grid.LoopX())
             {
                 if (posMin.x < 0)
                     posMin.x = 0;
                 if (posMax.x >= size)
                     posMax.x = size - 1;
             }
-            if (!grid.grid.LoopZ())
+            if (!grid.LoopZ())
             {
                 if (posMin.y < 0)
                     posMin.y = 0;
@@ -308,7 +308,7 @@ public class BuildingList : MonoBehaviour
             {
                 for (int j = posMin.y; j <= posMax.y; j++)
                 {
-                    Vector2Int chunkPos = GridEx.GetPosFromLoop(grid.grid, new Vector2Int(i, j));
+                    Vector2Int chunkPos = GridEx.GetPosFromLoop(grid, new Vector2Int(i, j));
 
                     var b = GetNearestBuilding(GetChunk(chunkPos), pos, condition);
                     if (b == null)
@@ -520,9 +520,9 @@ public class BuildingList : MonoBehaviour
 
     void InitializeBuildingChunks()
     {
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        var grid = GridEx.GetCurrentGrid();
 
-        int size = grid.grid.Size();
+        int size = grid.Size();
 
         for(int i = 0; i < size; i++)
         {

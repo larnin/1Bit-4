@@ -119,7 +119,7 @@ public class EnemyBehaviourV2 : MonoBehaviour, EntityMoveTargetInterface
         if (BuildingList.instance == null)
             return null;
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent()).grid;
+        var grid = GridEx.GetCurrentGrid();
         if (grid == null)
             return null;
 

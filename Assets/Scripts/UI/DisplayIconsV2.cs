@@ -173,10 +173,10 @@ public class DisplayIconsV2 : MonoBehaviour
 
     private void Update()
     {
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
             return;
-        var size = GridEx.GetRealSize(grid.grid);
+        var size = GridEx.GetRealSize(grid);
 
         var dups = Event<GetCameraDuplicationEvent>.Broadcast(new GetCameraDuplicationEvent());
 

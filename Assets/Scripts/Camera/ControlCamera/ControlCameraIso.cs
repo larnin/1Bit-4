@@ -325,9 +325,9 @@ public class ControlCameraIso : ControlCameraBase
 
     void MoveCamera(Vector3 newPos)
     {
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        var grid = GridEx.GetCurrentGrid();
 
-        if (grid.grid == null)
+        if (grid == null)
         {
             m_position = newPos;
             if(m_isEnabled)
@@ -335,7 +335,7 @@ public class ControlCameraIso : ControlCameraBase
             return;
         }
 
-        newPos = GridEx.ClampPos(grid.grid, newPos);
+        newPos = GridEx.ClampPos(grid, newPos);
 
         m_position = newPos;
         if(m_isEnabled)

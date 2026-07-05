@@ -31,18 +31,29 @@ public class EntityList : MonoBehaviour
 
     void RefreshChunks()
     {
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent()).grid;
+        var grid = GridEx.GetCurrentGrid();
 
-        if(grid == null)
+        if (grid == null)
             return;
 
         int size = grid.Size();
 
-        m_chunks = new Matrix<List<GameEntity>>(size, size);
-        for(int i = 0; i < size; i++)
+        if (m_chunks == null || m_chunks.width != size)
+        { 
+            m_chunks = new Matrix<List<GameEntity>>(size, size);
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                    m_chunks.Set(i, j, new List<GameEntity>());
+            }
+        }
+        else
         {
-            for (int j = 0; j < size; j++)
-                m_chunks.Set(i, j, new List<GameEntity>());
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                    m_chunks.Get(i, j).Clear();
+            }
         }
 
         foreach(var e in m_entities)

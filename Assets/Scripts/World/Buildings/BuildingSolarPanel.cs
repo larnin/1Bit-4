@@ -63,15 +63,15 @@ public class BuildingSolarPanel : BuildingBase
         var currentBounds = GetBounds(pos);
         var dist = new Vector3Int(m_distanceToOtherPannel, m_distanceToOtherPannel, m_distanceToOtherPannel);
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        var grid = GridEx.GetCurrentGrid();
 
-        if (grid.grid != null)
+        if (grid != null)
         {
             foreach (var p in pannels)
             {
                 var bounds = p.GetBounds();
                 bounds = new BoundsInt(bounds.position - dist, bounds.size + dist * 2);
-                if (GridEx.IntersectLoop(grid.grid, currentBounds, bounds))
+                if (GridEx.IntersectLoop(grid, currentBounds, bounds))
                     return BuildingPlaceType.TooCloseSolarPannel;
             }
         }

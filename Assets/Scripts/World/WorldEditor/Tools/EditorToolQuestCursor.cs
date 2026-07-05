@@ -75,11 +75,11 @@ public class EditorToolQuestCursor : EditorToolBase
         if (!Input.GetMouseButtonDown(0))
             return;
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
             return;
 
-        var pos = GridEx.GetRealPosFromLoop(grid.grid, m_cursorPos);
+        var pos = GridEx.GetRealPosFromLoop(grid, m_cursorPos);
 
         var prefab = Global.instance.editorDatas.GetQuestElementPrefab(m_type);
         if (prefab == null)

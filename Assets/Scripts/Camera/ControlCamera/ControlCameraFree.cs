@@ -167,14 +167,14 @@ public class ControlCameraFree : ControlCameraBase
 
     void MoveCamera(Vector3 newPos)
     {
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        var grid = GridEx.GetCurrentGrid();
 
         if (m_isEnabled)
             m_gameCamera.transform.position = Vector3.zero;
 
         var camera = m_gameCamera.GetMainCamera();
 
-        if (grid.grid == null)
+        if (grid == null)
         {
             m_position = newPos;
             if(m_isEnabled)
@@ -182,7 +182,7 @@ public class ControlCameraFree : ControlCameraBase
             return;
         }
 
-        newPos = GridEx.ClampPos(grid.grid, newPos);
+        newPos = GridEx.ClampPos(grid, newPos);
 
         m_position = newPos;
         

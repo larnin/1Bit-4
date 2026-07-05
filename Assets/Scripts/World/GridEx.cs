@@ -413,5 +413,23 @@ public static class GridEx
 
         return obj;
     }
+
+    public static Grid GetCurrentGrid()
+    {
+        if(GridBehaviour.instance != null)
+        {
+            var grid = GridBehaviour.instance.GetGrid();
+            if (grid != null)
+                return grid;
+        }
+        if(EditorGridBehaviour.instance != null)
+        {
+            var grid = EditorGridBehaviour.instance.GetGrid();
+            if (grid != null)
+                return grid;
+        }
+
+        return null;
+    }
 }
 

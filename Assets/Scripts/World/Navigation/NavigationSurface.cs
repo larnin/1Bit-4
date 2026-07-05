@@ -51,7 +51,7 @@ public class NavigationSurface
                 return;
         }
 
-        m_grid = Event<GetGridEvent>.Broadcast(new GetGridEvent()).grid;
+        m_grid = GridEx.GetCurrentGrid();
 
         ThreadPool.StartJob(RebuildJob, OnJobDone, 1, this);
     }

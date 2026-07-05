@@ -223,17 +223,17 @@ public class EditorDetailDisplay : MonoBehaviour
 
     int GetWorldSize()
     {
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid != null)
-            return grid.grid.Size();
+        var grid = GridEx.GetCurrentGrid();
+        if (grid != null)
+            return grid.Size();
         return 0;
     }
 
     int GetWorldHeight()
     {
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid != null)
-            return grid.grid.Height();
+        var grid = GridEx.GetCurrentGrid();
+        if (grid != null)
+            return grid.Height();
         return 0;
     }
 
@@ -252,32 +252,32 @@ public class EditorDetailDisplay : MonoBehaviour
 
     bool GetWorldLoopX()
     {
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid != null)
-            return grid.grid.LoopX();
+        var grid = GridEx.GetCurrentGrid();
+        if (grid != null)
+            return grid.LoopX();
         return false;
     }
 
     bool GetWorldLoopZ()
     {
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid != null)
-            return grid.grid.LoopZ();
+        var grid = GridEx.GetCurrentGrid();
+        if (grid != null)
+            return grid.LoopZ();
         return false;
     }
 
     void SetWorldLoopX(bool loop)
     {
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid != null)
-            grid.grid.SetLoopX(loop);
+        var grid = GridEx.GetCurrentGrid();
+        if (grid != null)
+            grid.SetLoopX(loop);
     }
 
     void SetWorldLoopZ(bool loop)
     {
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid != null)
-            grid.grid.SetLoopZ(loop);
+        var grid = GridEx.GetCurrentGrid();
+        if (grid != null)
+            grid.SetLoopZ(loop);
     }
 
     void EnableSimpleTool(EditorSimpleToolType type)

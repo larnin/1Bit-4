@@ -31,10 +31,10 @@ public static class SaveWorld
     {
         JsonObject obj = new JsonObject();
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if(grid.grid != null)
+        var grid = GridEx.GetCurrentGrid();
+        if(grid != null)
         {
-            var gridSave = GridEx.Save(grid.grid);
+            var gridSave = GridEx.Save(grid);
             obj.AddElement("grid", gridSave);
         }
 

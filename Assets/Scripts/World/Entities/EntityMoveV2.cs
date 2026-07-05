@@ -124,7 +124,7 @@ public class EntityMoveV2 : MonoBehaviour
         if (MathF.Abs(dir.x) < 5 && Mathf.Abs(dir.z) < 5)
             return dir;
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent()).grid;
+        var grid = GridEx.GetCurrentGrid();
         if (grid == null)
             return dir;
 
@@ -156,8 +156,8 @@ public class EntityMoveV2 : MonoBehaviour
     //todo make the entity jump 
     float GetHeight(Vector3 newPos)
     {
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
             return newPos.y;
 
         float radius = 0.4f;
@@ -172,7 +172,7 @@ public class EntityMoveV2 : MonoBehaviour
         {
             Vector2 point = p + new Vector2(newPos.x, newPos.z);
 
-            float height = GridEx.GetHeight(grid.grid, new Vector2Int(Mathf.RoundToInt(point.x), Mathf.RoundToInt(point.y))) + 1;
+            float height = GridEx.GetHeight(grid, new Vector2Int(Mathf.RoundToInt(point.x), Mathf.RoundToInt(point.y))) + 1;
             if (height > top)
                 top = height;
         }
@@ -268,7 +268,7 @@ public class EntityMoveV2 : MonoBehaviour
 
     Vector3 ReplacePosOnGridWithLoop(Vector3 pos)
     {
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent()).grid;
+        var grid = GridEx.GetCurrentGrid();
         if (grid == null)
             return pos;
 

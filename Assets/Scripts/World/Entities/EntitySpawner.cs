@@ -136,7 +136,7 @@ public class EntitySpawner : MonoBehaviour
     {
         pos = Vector3.zero;
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent()).grid;
+        var grid = GridEx.GetCurrentGrid();
         if (grid == null)
             return false;
 

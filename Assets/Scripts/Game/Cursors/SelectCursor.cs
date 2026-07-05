@@ -177,11 +177,11 @@ public class SelectCursor : MonoBehaviour, CursorInterface
         GameObject bestTarget = null;
         float bestDistance = float.MaxValue;
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        var grid = GridEx.GetCurrentGrid();
 
         RaycastHit hit;
 
-        if (grid.grid == null)
+        if (grid == null)
         {
             haveHit = Physics.Raycast(ray, out hit, float.MaxValue, layer.value);
             if (!haveHit)
@@ -191,7 +191,7 @@ public class SelectCursor : MonoBehaviour, CursorInterface
 
         var dups = Event<GetCameraDuplicationEvent>.Broadcast(new GetCameraDuplicationEvent());
 
-        int size = GridEx.GetRealSize(grid.grid);
+        int size = GridEx.GetRealSize(grid);
 
         foreach (var d in dups.duplications)
         {
@@ -286,11 +286,11 @@ public class SelectCursor : MonoBehaviour, CursorInterface
             {
                 var dups = Event<GetCameraDuplicationEvent>.Broadcast(new GetCameraDuplicationEvent());
 
-                var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+                var grid = GridEx.GetCurrentGrid();
 
-                if (grid.grid != null)
+                if (grid != null)
                 {
-                    float size = GridEx.GetRealSize(grid.grid);
+                    float size = GridEx.GetRealSize(grid);
 
                     int nbBuilding = BuildingList.instance.GetBuildingNb();
                     for (int i = 0; i < nbBuilding; i++)

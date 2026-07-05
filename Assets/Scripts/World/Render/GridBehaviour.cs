@@ -19,7 +19,6 @@ public class GridBehaviour : MonoBehaviour
     {
         m_instance = this;
 
-        m_subscriberList.Add(new Event<GetGridEvent>.Subscriber(GetGrid));
         m_subscriberList.Add(new Event<SetChunkDirtyEvent>.Subscriber(SetChunkDirty));
         m_subscriberList.Subscribe();
     }
@@ -41,11 +40,6 @@ public class GridBehaviour : MonoBehaviour
     public Grid GetGrid()
     {
         return m_grid;
-    }
-
-    void GetGrid(GetGridEvent e)
-    {
-        e.grid = m_grid;
     }
 
     public void SetChunksDirty(BoundsInt bounds)

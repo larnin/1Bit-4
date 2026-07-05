@@ -98,14 +98,14 @@ public class CustomLightsManager : MonoBehaviour
         if (m_renderTexture == null)
             return;
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
             return;
 
         if (!GameInfos.instance.paused)
-            m_noiseTime += Time.deltaTime * m_lightParams.noiseSpeed / GridEx.GetRealSize(grid.grid);
+            m_noiseTime += Time.deltaTime * m_lightParams.noiseSpeed / GridEx.GetRealSize(grid);
 
-        var gridSize = GridEx.GetRealSize(grid.grid);
+        var gridSize = GridEx.GetRealSize(grid);
 
         RenderTextureEx.BeginOrthoRendering(m_renderTexture);
 
@@ -131,8 +131,8 @@ public class CustomLightsManager : MonoBehaviour
                 m_circleMaterial.SetFloat(radiusName, renderRadius);
                 RenderTextureEx.DrawQuad(m_renderTexture, m_circleMaterial, new Rect(pos, size));
 
-                int x = grid.grid.LoopX() ? 1 : 0;
-                int y = grid.grid.LoopZ() ? 1 : 0;
+                int x = grid.LoopX() ? 1 : 0;
+                int y = grid.LoopZ() ? 1 : 0;
 
                 for(int i = -x; i <= x; i++)
                 {
@@ -156,7 +156,7 @@ public class CustomLightsManager : MonoBehaviour
 
         foreach (var m in m_lightedMaterials)
         {
-            UpdateMaterial(m, grid.grid);
+            UpdateMaterial(m, grid);
             UpdateLights(m);
         }
 
@@ -191,13 +191,13 @@ public class CustomLightsManager : MonoBehaviour
 
     public bool IsPosVisible(Vector2 pos)
     {
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
             return false;
 
-        var gridSize = GridEx.GetRealSize(grid.grid);
-        int x = grid.grid.LoopX() ? 1 : 0;
-        int y = grid.grid.LoopZ() ? 1 : 0;
+        var gridSize = GridEx.GetRealSize(grid);
+        int x = grid.LoopX() ? 1 : 0;
+        int y = grid.LoopZ() ? 1 : 0;
 
         for(int i = -x; i <= x; i++)
         {

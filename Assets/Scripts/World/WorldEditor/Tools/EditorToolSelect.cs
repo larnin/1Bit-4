@@ -143,8 +143,8 @@ public class EditorToolSelect : EditorToolBase
             var posI = new Vector3Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y), Mathf.RoundToInt(pos.z));
 
             var newBlock = pos.y == 0 ? new Block(BlockType.water) : new Block(BlockType.air);
-            var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent()).grid;
-            if(grid != null && UndoList.instance != null)
+            var grid = GridEx.GetCurrentGrid();
+            if (grid != null && UndoList.instance != null)
             {
                 var oldBlock = GridEx.GetBlock(grid, posI);
 
@@ -259,8 +259,8 @@ public class EditorToolSelect : EditorToolBase
         if (m_selectedObject == null)
             return;
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
             return;
 
         var oldState = GameSystem.GetEntityData(m_selectedObject);
@@ -271,11 +271,11 @@ public class EditorToolSelect : EditorToolBase
             var pos = element.transform.position;
             pos[index] = value;
 
-            var loopPos = GridEx.GetRealPosFromLoop(grid.grid, pos);
+            var loopPos = GridEx.GetRealPosFromLoop(grid, pos);
 
-            if (grid.grid.LoopX())
+            if (grid.LoopX())
                 pos.x = loopPos.x;
-            if (grid.grid.LoopZ())
+            if (grid.LoopZ())
                 pos.z = loopPos.z;
 
             element.transform.position = pos;

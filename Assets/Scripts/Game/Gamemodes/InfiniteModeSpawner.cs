@@ -200,17 +200,17 @@ public class InfiniteModeSpawner
 
     void SpawnOneEnnemie(int index)
     {
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        var grid = GridEx.GetCurrentGrid();
 
         var e = m_mode.GetInfiniteAsset().spawnersData.ennemies[index];
 
-        if (grid.grid == null)//|| e.prefab == null)
+        if (grid == null)//|| e.prefab == null)
             return;
 
         var pos = m_building.transform.position;
 
         var posInt = new Vector2Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.z));
-        int height = GridEx.GetHeight(grid.grid, posInt);
+        int height = GridEx.GetHeight(grid, posInt);
 
         var prefab = Global.instance.editorDatas.GetEntityPrefab(e.entityType.GetValue());
 

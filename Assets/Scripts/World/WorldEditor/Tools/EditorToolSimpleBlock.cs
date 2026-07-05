@@ -49,8 +49,8 @@ public class EditorToolSimpleBlock : EditorToolBase
         if (cam.camera == null)
             return false;
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
             return false;
 
         var mousePos = Input.mousePosition;
@@ -64,13 +64,13 @@ public class EditorToolSimpleBlock : EditorToolBase
 
         var hitPoint = hit.point + hit.normal / 2;
         point = new Vector3Int(Mathf.RoundToInt(hitPoint.x), Mathf.RoundToInt(hitPoint.y), Mathf.RoundToInt(hitPoint.z));
-        if (GridEx.GetRealPosFromLoop(grid.grid, point) != point)
+        if (GridEx.GetRealPosFromLoop(grid, point) != point)
             return false;
 
         hitPoint -= hit.normal;
         pointOnCollision = new Vector3Int(Mathf.RoundToInt(hitPoint.x), Mathf.RoundToInt(hitPoint.y), Mathf.RoundToInt(hitPoint.z));
 
-        var block = GridEx.GetBlock(grid.grid, pointOnCollision);
+        var block = GridEx.GetBlock(grid, pointOnCollision);
         if (block.type == BlockType.water)
             point = pointOnCollision;
 

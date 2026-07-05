@@ -81,8 +81,8 @@ public class BuildingWaterPump : BuildingBase
 
     bool HaveWaterAround(Vector3Int pos)
     {
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
             return false;
 
         var bounds = new BoundsInt(pos, GetSize());
@@ -109,8 +109,8 @@ public class BuildingWaterPump : BuildingBase
             for(int j = 0; j < dist; j++)
             {
                 var currentPos = initialPos + new Vector3Int(ortoDir.x, 0, ortoDir.y) * j;
-                currentPos = GridEx.GetRealPosFromLoop(grid.grid, currentPos);
-                if (GridEx.GetBlock(grid.grid, currentPos).type != BlockType.water)
+                currentPos = GridEx.GetRealPosFromLoop(grid, currentPos);
+                if (GridEx.GetBlock(grid, currentPos).type != BlockType.water)
                 {
                     allWater = false;
                     break;
