@@ -233,7 +233,7 @@ public class EntityMoveV2 : MonoBehaviour
                 continue;
 
             if (dist < 0.001f)
-                return;
+                continue;
 
             if (dist > 0.01f)
                 dist -= 0.01f;

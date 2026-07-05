@@ -337,6 +337,9 @@ public class BuildingList : MonoBehaviour
 
     static BuildingBase GetNearestBuilding(BuildingChunk chunk, Vector3 pos, Func<BuildingBase, bool> condition)
     {
+        if (chunk == null)
+            return null;
+
         float bestDistance = 0;
         BuildingBase bestBuilding = null;
 

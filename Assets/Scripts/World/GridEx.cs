@@ -188,9 +188,14 @@ public static class GridEx
 
     static float LoopPos(float pos, float size)
     {
-        if (pos >= 0)
-            return pos % size;
-        return size - ((-pos - 1) % size) - 1;
+        float posToLoop = pos + 0.5f;
+        float nextPos = posToLoop;
+        if (nextPos >= 0)
+            nextPos = posToLoop % size;
+        else nextPos = size - ((-posToLoop - 1) % size) - 1;
+
+        nextPos -= 0.5f;
+        return nextPos;
     }
 
     public static float GetDistance(Grid grid, Vector3Int pos1, Vector3Int pos2)
