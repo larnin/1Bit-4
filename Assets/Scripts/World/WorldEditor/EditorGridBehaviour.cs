@@ -51,7 +51,7 @@ public class EditorGridBehaviour : MonoBehaviour
         UpdateGridSizeDisplay();
     }
 
-    void PopulateNewChunkFunction(Matrix<Block> chunk, Vector3Int pos)
+    void PopulateNewChunkFunction(Chunk chunk, Vector3Int pos)
     {
         if (pos.y != 0)
             return;

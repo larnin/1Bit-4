@@ -178,7 +178,7 @@ public class GridBehaviour : MonoBehaviour
         return m_chunks.width * m_chunks.height * m_chunks.depth;
     }
 
-    public void ResizeGrid(int size, int height, Action<Matrix<Block>, Vector3Int> populateNewChunkCallback = null)
+    public void ResizeGrid(int size, int height, Action<Chunk, Vector3Int> populateNewChunkCallback = null)
     {
         Grid newGrid = new Grid(size, height, m_grid.LoopX(), m_grid.LoopZ());
 

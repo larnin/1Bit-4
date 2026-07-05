@@ -5,9 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using NRand;
+using Unity.Profiling;
 
 public class EnemyBehaviourV2 : MonoBehaviour, EntityMoveTargetInterface
 {
+    static readonly ProfilerMarker ms_profilerMarker = new ProfilerMarker(ProfilerCategory.Scripts, "EnemyBehaviourTest");
+
     [SerializeField] NavigationProfileChoice m_navigationProfile;
 
     List<EntityWeaponBase> m_weapons = new List<EntityWeaponBase>();

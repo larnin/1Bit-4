@@ -18,13 +18,11 @@ public static class GridEx
             if (chunk == null)
                 return -1;
 
-            for(int j = Grid.ChunkSize - 1; j >= 0; j--)
+            int height = chunk.GetHeight(posInChunk.x, posInChunk.z);
+            if(height >= 0)
             {
-                if(chunk.Get(posInChunk.x, j, posInChunk.z).type != BlockType.air)
-                {
-                    Vector3Int outPos = Grid.PosInChunkToPos(new Vector3Int(chunkIndex.x, i, chunkIndex.z), new Vector3Int(posInChunk.x, j, posInChunk.z));
-                    return outPos.y;
-                }
+                Vector3Int outPos = Grid.PosInChunkToPos(new Vector3Int(chunkIndex.x, i, chunkIndex.z), new Vector3Int(posInChunk.x, height, posInChunk.z));
+                return outPos.y;
             }
         }
 

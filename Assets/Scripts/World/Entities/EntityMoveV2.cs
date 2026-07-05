@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.Profiling;
 using UnityEngine;
 
 public class EntityMoveV2 : MonoBehaviour
 {
+    static readonly ProfilerMarker ms_profilerMarker = new ProfilerMarker(ProfilerCategory.Scripts, "EntityMoveTest");
+
     enum MoveType
     {
         Idle,
@@ -90,7 +93,7 @@ public class EntityMoveV2 : MonoBehaviour
         if (m_speed > 0.001f)
         {
             Vector3 target = m_moveInterface.GetNextPos();
-            
+
             Vector3 dir = target - transform.position;
             dir = GetDirWithLoop(dir);
             float angleDir = Mathf.Atan2(dir.z, dir.x);
@@ -153,19 +156,19 @@ public class EntityMoveV2 : MonoBehaviour
         return dir;
     }
 
+    //infos used in the next function
+    const float radius = 0.4f;
+    static Vector2[] testPos = new Vector2[]
+    {
+    Vector2.zero, new Vector2(-radius, -radius), new Vector2(-radius, radius), new Vector2(radius, radius), new Vector2(radius, -radius)
+    };
+
     //todo make the entity jump 
     float GetHeight(Vector3 newPos)
     {
         var grid = GridEx.GetCurrentGrid();
         if (grid == null)
             return newPos.y;
-
-        float radius = 0.4f;
-
-        Vector2[] testPos = new Vector2[]
-        {
-            Vector2.zero, new Vector2(-radius, -radius), new Vector2(-radius, radius), new Vector2(radius, radius), new Vector2(radius, -radius)
-        };
 
         float top = float.MinValue;
         foreach (var p in testPos)
@@ -193,6 +196,12 @@ public class EntityMoveV2 : MonoBehaviour
         return false;
     }
 
+    static Vector2[] offsets = new Vector2[]{
+            new Vector2(-0.5f, -0.5f),
+            new Vector2(-0.5f, 0.5f),
+            new Vector2(0.5f, 0.5f),
+            new Vector2(0.5f, -0.5f)};
+
     void MoveTo(Vector3 next, bool retry = false)
     {
         Vector3 current = transform.position;
@@ -205,13 +214,8 @@ public class EntityMoveV2 : MonoBehaviour
             return;
         }
 
-        Vector2[] points = new Vector2[]{
-            new Vector2(currentI.x - 0.5f, currentI.z - 0.5f),
-            new Vector2(currentI.x - 0.5f, currentI.z + 0.5f),
-            new Vector2(currentI.x + 0.5f, currentI.z + 0.5f),
-            new Vector2(currentI.x + 0.5f, currentI.z - 0.5f) };
-
         Vector2 current2 = new Vector2(current.x, current.z);
+        Vector2Int currentI2 = new Vector2Int(currentI.x, currentI.z);
 
         bool intersect = false;
         float intersectDist = 0;
@@ -220,8 +224,8 @@ public class EntityMoveV2 : MonoBehaviour
 
         for (int i = 0; i < 4; i++)
         {
-            Vector2 p1 = points[i];
-            Vector2 p2 = i == 3 ? points[0] : points[i + 1];
+            Vector2 p1 = offsets[i] + current2;
+            Vector2 p2 = (i == 3 ? offsets[0] : offsets[i + 1]) + currentI2;
 
             Vector2 result = Utility.IntersectLines(current2, new Vector2(next.x, next.z), p1, p2);
 
