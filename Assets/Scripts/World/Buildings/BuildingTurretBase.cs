@@ -91,7 +91,7 @@ public abstract class BuildingTurretBase : BuildingBase
             else
             {
                 m_updateTargetTimer -= Time.deltaTime;
-                if (m_target == null || m_updateTargetTimer <= 0)
+                if (m_updateTargetTimer <= 0)
                 {
                     m_updateTargetTimer = updateTargetDelay;
 

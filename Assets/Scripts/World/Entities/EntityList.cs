@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.Profiling;
 using UnityEngine;
 
 public class EntityList : MonoBehaviour
@@ -91,14 +92,14 @@ public class EntityList : MonoBehaviour
         float bestDist = 0;
         GameEntity bestEntity = null;
 
-        foreach(var e in m_entities)
+        foreach (var e in m_entities)
         {
             if (!Utility.IsAliveFilter(e.gameObject, alive))
                 continue;
 
             float dist = (pos - e.transform.position).sqrMagnitude;
 
-            if(dist < bestDist || bestEntity == null)
+            if (dist < bestDist || bestEntity == null)
             {
                 bestDist = dist;
                 bestEntity = e;
@@ -156,15 +157,15 @@ public class EntityList : MonoBehaviour
         float bestDist = maxDistance * maxDistance;
         GameEntity bestEntity = null;
 
-        for(int i = minChunk.x; i <= maxChunk.x; i++)
+        for (int i = minChunk.x; i <= maxChunk.x; i++)
         {
-            for(int j = minChunk.z; j <= maxChunk.z; j++)
+            for (int j = minChunk.z; j <= maxChunk.z; j++)
             {
                 var list = m_chunks.Get(i, j);
                 if (list == null)
                     continue;
 
-                foreach(var e in list)
+                foreach (var e in list)
                 {
                     if (e == null)
                         continue;

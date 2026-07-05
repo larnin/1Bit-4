@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Unity.Profiling;
 using UnityEngine;
 
 public class BuildingList : MonoBehaviour
@@ -284,33 +285,31 @@ public class BuildingList : MonoBehaviour
             Vector2Int chunkMin = Grid.PosToChunkIndex(posMin);
             Vector2Int chunkMax = Grid.PosToChunkIndex(posMax);
 
-            var size = GridEx.GetRealSize(grid);
-
+            var size = grid.Size();
             if (!grid.LoopX())
             {
-                if (posMin.x < 0)
-                    posMin.x = 0;
-                if (posMax.x >= size)
-                    posMax.x = size - 1;
+                if (chunkMin.x < 0)
+                    chunkMin.x = 0;
+                if (chunkMax.x >= size)
+                    chunkMax.x = size - 1;
             }
             if (!grid.LoopZ())
             {
-                if (posMin.y < 0)
-                    posMin.y = 0;
-                if (posMax.y >= size)
-                    posMax.y = size - 1;
+                if (chunkMin.y < 0)
+                    chunkMin.y = 0;
+                if (chunkMax.y >= size)
+                    chunkMax.y = size - 1;
             }
 
             BuildingBase best = null;
             float bestDistance = radius;
 
-            for (int i = posMin.x; i <= posMax.x; i++)
+            for(int i = chunkMin.x; i < chunkMax.x; i++)
             {
-                for (int j = posMin.y; j <= posMax.y; j++)
+                for(int j = chunkMin.y; j < chunkMax.y; j++)
                 {
-                    Vector2Int chunkPos = GridEx.GetPosFromLoop(grid, new Vector2Int(i, j));
-
-                    var b = GetNearestBuilding(GetChunk(chunkPos), pos, condition);
+                    Vector2Int chunkLoop = GridEx.GetPosFromLoop(grid, new Vector2Int(i, j));
+                    var b = GetNearestBuilding(GetChunk(chunkLoop), pos, condition);
                     if (b == null)
                         continue;
 
