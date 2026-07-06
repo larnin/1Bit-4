@@ -53,13 +53,13 @@ public class PlaceBuildingCursorDecal : MonoBehaviour
         m_buildingType = type;
         m_placementRadius = placementRadius;
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null || m_duplicationDecalPrefab == null)
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null || m_duplicationDecalPrefab == null)
             return;
 
-        int x = grid.grid.LoopX() ? 1 : 0;
-        int y = grid.grid.LoopZ() ? 1 : 0;
-        int size = GridEx.GetRealSize(grid.grid);
+        int x = grid.LoopX() ? 1 : 0;
+        int y = grid.LoopZ() ? 1 : 0;
+        int size = GridEx.GetRealSize(grid);
 
         int index = 0;
 
@@ -103,9 +103,9 @@ public class PlaceBuildingCursorDecal : MonoBehaviour
         GL.Clear(true, true, Color.black);
         RenderTexture.active = null;
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        var grid = GridEx.GetCurrentGrid();
 
-        if(ConnexionSystem.instance != null && m_circleMaterial != null && grid.grid != null)
+        if(ConnexionSystem.instance != null && m_circleMaterial != null && grid != null)
         {
             m_circleMaterial.SetFloat(borderName, m_borderThickness);
 
@@ -113,9 +113,9 @@ public class PlaceBuildingCursorDecal : MonoBehaviour
 
             int pixelSize = m_size * m_pixelPerUnit * 2;
 
-            int size = GridEx.GetRealSize(grid.grid);
-            int x = grid.grid.LoopX() ? 1 : 0;
-            int y = grid.grid.LoopZ() ? 1 : 0;
+            int size = GridEx.GetRealSize(grid);
+            int x = grid.LoopX() ? 1 : 0;
+            int y = grid.LoopZ() ? 1 : 0;
 
             for (int index = 0; index < ConnexionSystem.instance.GetConnectedBuildingNb(); index++)
             {

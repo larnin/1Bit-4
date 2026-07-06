@@ -135,8 +135,8 @@ public class BuildingTitaniumMine : BuildingBase
     {
         List<MineData> points = new List<MineData>();
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
             return points;
 
         var bounds = new BoundsInt(pos, GetSize());
@@ -168,10 +168,10 @@ public class BuildingTitaniumMine : BuildingBase
                     if (MathF.Abs(offset.x) + Math.Abs(offset.y) > m_mineRadius)
                         continue;
 
-                    var realPos = GridEx.GetRealPosFromLoop(grid.grid, new Vector3Int(i, 0, k));
+                    var realPos = GridEx.GetRealPosFromLoop(grid, new Vector3Int(i, 0, k));
 
                     Vector3Int itemPos = new Vector3Int(realPos.x, j, realPos.z);
-                    var item = GridEx.GetBlock(grid.grid, itemPos);
+                    var item = GridEx.GetBlock(grid, itemPos);
                     if (item.type != BlockType.Titanium)
                         continue;
 

@@ -109,7 +109,7 @@ public class InfiniteMode : GamemodeBase
 
     void UpdateMaxDistance()
     {
-        m_maxDistanceTimer += Time.deltaTime;
+        m_maxDistanceTimer -= Time.deltaTime;
         if (m_maxDistanceTimer > 0)
             return;
 
@@ -181,11 +181,11 @@ public class InfiniteMode : GamemodeBase
         if (BuildingList.instance == null)
             return;
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
             return;
 
-        int size = GridEx.GetRealSize(grid.grid);
+        int size = GridEx.GetRealSize(grid);
 
         int nbBuilding = ConnexionSystem.instance.GetConnectedBuildingNb();
 
@@ -220,7 +220,7 @@ public class InfiniteMode : GamemodeBase
         if (!distOk)
             return;
 
-        int height = GridEx.GetHeight(grid.grid, new Vector2Int(posI.x, posI.z));
+        int height = GridEx.GetHeight(grid, new Vector2Int(posI.x, posI.z));
         if (height < 0)
             return;
 
@@ -232,7 +232,7 @@ public class InfiniteMode : GamemodeBase
                 if (x == 0 && z == 0)
                     continue;
 
-                int tempHeight = GridEx.GetHeight(grid.grid, new Vector2Int(posI.x + x, posI.z + z));
+                int tempHeight = GridEx.GetHeight(grid, new Vector2Int(posI.x + x, posI.z + z));
                 if (tempHeight != height)
                 {
                     posOk = false;
@@ -344,7 +344,7 @@ public class InfiniteMode : GamemodeBase
 
         float spawnerNb = m_asset.difficultyToSpawnerNb.Get(m_maxDifficulty);
         float entityNb = m_asset.spawnersData.difficultyToMaxEnnemies.Get(m_maxDifficulty);
-        e.details += "SpawnerNb: " + spawnerNb.ToString("0.0") + "(" + Mathf.RoundToInt(spawnerNb) + ") - ";
+        e.details += "SpawnerNb: " + spawnerNb.ToString("0.0") + "(" + Mathf.FloorToInt(spawnerNb) + ") - ";
         e.details += "EntityNb: " + entityNb.ToString("0.0") + "(" + Mathf.CeilToInt(entityNb) + ")\n";
         e.details += "Life: " + GetEntityLifeMultiplier().ToString("0.00") + " - Damage: " + GetEntityDamageMultiplier().ToString("0.00") + "\n"; 
     }

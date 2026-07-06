@@ -46,7 +46,7 @@ public class QuestSubObjectiveDiscoverResource : QuestSubObjectiveBase
         if (checkCount < 0)
             return;
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent()).grid;
+        var grid = GridEx.GetCurrentGrid();
         if (grid == null)
             return;
 

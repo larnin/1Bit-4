@@ -507,7 +507,7 @@ MonoBehaviour:
       prefab: {fileID: 3550513972471810787, guid: 4328f2ad333202f419ef6f5c0130b950, type: 3}
       sprite: {fileID: -743678667, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
       spriteWithBorder: {fileID: -1190505154, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
-      size: {x: 1, y: 1, z: 1}
+      size: {x: 2, y: 2, z: 2}
       team: 0
       name: Battery
       description: Store a small amount of energy for later

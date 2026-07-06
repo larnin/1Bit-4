@@ -92,10 +92,6 @@ public class EditorToolHeightBrush : EditorToolBase
         if (cam.camera == null)
             return false;
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
-            return false;
-
         var mousePos = Input.mousePosition;
 
         var ray = cam.camera.ScreenPointToRay(mousePos);

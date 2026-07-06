@@ -217,8 +217,8 @@ public class EditorToolShapeBlock : EditorToolBase
         Vector3Int max = new Vector3Int(Mathf.Max(m_posStart.x, m_posEnd.x), Mathf.Max(m_posStart.y, m_posEnd.y), Mathf.Max(m_posStart.z, m_posEnd.z));
         Vector3Int size = max - min + Vector3Int.one;
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
             return;
 
         Vector3Int minIndex = Grid.PosToChunkIndex(min);
@@ -232,18 +232,18 @@ public class EditorToolShapeBlock : EditorToolBase
         {
             for(int j = minIndex.y; j <= maxIndex.y; j++)
             {
-                if (j < 0 || j >= grid.grid.Height())
+                if (j < 0 || j >= grid.Height())
                     continue;
                 
                 for(int k = minIndex.z; k <= maxIndex.z; k++)
                 {
-                    Vector3Int chunkPos = GridEx.GetPosFromLoop(grid.grid, new Vector3Int(i, j, k));
-                    if (!grid.grid.LoopX() && chunkPos.x != i)
+                    Vector3Int chunkPos = GridEx.GetPosFromLoop(grid, new Vector3Int(i, j, k));
+                    if (!grid.LoopX() && chunkPos.x != i)
                         continue;
-                    if (!grid.grid.LoopZ() && chunkPos.z != k)
+                    if (!grid.LoopZ() && chunkPos.z != k)
                         continue;
 
-                    var chunk = grid.grid.Get(chunkPos);
+                    var chunk = grid.Get(chunkPos);
 
                     for(int x = 0; x < Grid.ChunkSize; x++)
                     {
@@ -309,19 +309,19 @@ public class EditorToolShapeBlock : EditorToolBase
         Vector3Int min = new Vector3Int(Mathf.Min(m_posStart.x, m_posEnd.x), Mathf.Min(m_posStart.y, m_posEnd.y), Mathf.Min(m_posStart.z, m_posEnd.z));
         Vector3Int max = new Vector3Int(Mathf.Max(m_posStart.x, m_posEnd.x), Mathf.Max(m_posStart.y, m_posEnd.y), Mathf.Max(m_posStart.z, m_posEnd.z));
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
             return;
 
-        int gridSize = GridEx.GetRealSize(grid.grid);
-        int gridHeight = GridEx.GetRealHeight(grid.grid);
+        int gridSize = GridEx.GetRealSize(grid);
+        int gridHeight = GridEx.GetRealHeight(grid);
 
-        if(!grid.grid.LoopX())
+        if(!grid.LoopX())
         {
             min.x = Mathf.Clamp(min.x, 0, gridSize - 1);
             max.x = Mathf.Clamp(max.x, 0, gridSize - 1);
         }
-        if(!grid.grid.LoopZ())
+        if(!grid.LoopZ())
         {
             min.z = Mathf.Clamp(min.z, 0, gridSize - 1);
             max.z = Mathf.Clamp(max.z, 0, gridSize - 1);
@@ -341,8 +341,8 @@ public class EditorToolShapeBlock : EditorToolBase
             {
                 for(int k = 0; k < size.z; k++)
                 {
-                    Vector3Int pos = GridEx.GetRealPosFromLoop(grid.grid, min + new Vector3Int(i, j, k));
-                    lastBlocks.Set(i, j, k, GridEx.GetBlock(grid.grid, pos));
+                    Vector3Int pos = GridEx.GetRealPosFromLoop(grid, min + new Vector3Int(i, j, k));
+                    lastBlocks.Set(i, j, k, GridEx.GetBlock(grid, pos));
                 }
             }
         }
@@ -376,7 +376,7 @@ public class EditorToolShapeBlock : EditorToolBase
                         }
                     }
 
-                    Vector3Int pos = GridEx.GetRealPosFromLoop(grid.grid, min + new Vector3Int(i, j, k));
+                    Vector3Int pos = GridEx.GetRealPosFromLoop(grid, min + new Vector3Int(i, j, k));
 
                     Block b = new Block(BlockType.ground);
                     if(blocks < total / 2)
@@ -386,7 +386,7 @@ public class EditorToolShapeBlock : EditorToolBase
                         else b.type = BlockType.air;
                     }
 
-                    GridEx.SetBlock(grid.grid, pos, b);
+                    GridEx.SetBlock(grid, pos, b);
                 }
             }
         }

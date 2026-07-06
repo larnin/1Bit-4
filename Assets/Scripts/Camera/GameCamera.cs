@@ -99,13 +99,13 @@ public class GameCamera : MonoBehaviour
             }
         }
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        var grid = GridEx.GetCurrentGrid();
 
-        if (grid.grid == null)
+        if (grid == null)
             return;
 
-        var size = GridEx.GetRealSize(grid.grid);
-        var height = GridEx.GetRealHeight(grid.grid);
+        var size = GridEx.GetRealSize(grid);
+        var height = GridEx.GetRealHeight(grid);
 
         Vector3 pos = new Vector3(size, height, size) / 2;
 

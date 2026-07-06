@@ -15,6 +15,7 @@ public class TestEnnemiesModeAsset : GamemodeAssetBase
     public string positionName;
     public float ennemiesPerSecond;
     public List<TestEnnemiesData> ennemies;
+    public bool onlyOneEnnemy = false;
 
     public override GamemodeBase MakeGamemode(GamemodeSystem owner)
     {

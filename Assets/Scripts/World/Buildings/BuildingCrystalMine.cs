@@ -101,8 +101,8 @@ public class BuildingCrystalMine : BuildingBase
     {
         List<MineData> points = new List<MineData>();
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
             return points;
 
         var bounds = new BoundsInt(pos, GetSize());
@@ -132,14 +132,14 @@ public class BuildingCrystalMine : BuildingBase
                 if (MathF.Abs(offset.x) + Math.Abs(offset.y) > m_mineRadius)
                     continue;
 
-                var realPos = GridEx.GetRealPosFromLoop(grid.grid, new Vector3Int(i, 0, j));
+                var realPos = GridEx.GetRealPosFromLoop(grid, new Vector3Int(i, 0, j));
 
-                int height = GridEx.GetHeight(grid.grid, new Vector2Int(realPos.x, realPos.z));
+                int height = GridEx.GetHeight(grid, new Vector2Int(realPos.x, realPos.z));
                 if (height < 0 || Mathf.Abs(pos.y - height) > 1)
                     continue;
 
                 Vector3Int itemPos = new Vector3Int(realPos.x, height, realPos.z);
-                var item = GridEx.GetBlock(grid.grid, itemPos);
+                var item = GridEx.GetBlock(grid, itemPos);
                 if (item.type != BlockType.crystal)
                     continue;
 

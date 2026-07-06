@@ -75,27 +75,27 @@ public class EditorToolResourceCursor : EditorToolBase
 
     CursorState GetCursorState()
     {
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
             return CursorState.InvalidPosition;
 
-        var loopPos = GridEx.GetRealPosFromLoop(grid.grid, m_cursorPos);
-        if (grid.grid.LoopX())
+        var loopPos = GridEx.GetRealPosFromLoop(grid, m_cursorPos);
+        if (grid.LoopX())
             m_cursorPos.x = loopPos.x;
-        if (grid.grid.LoopZ())
+        if (grid.LoopZ())
             m_cursorPos.z = loopPos.z;
 
-        var size = GridEx.GetRealSize(grid.grid);
+        var size = GridEx.GetRealSize(grid);
         if (m_cursorPos.x < 0 || m_cursorPos.z < 0 || m_cursorPos.x >= size || m_cursorPos.z >= size)
             return CursorState.InvalidPosition;
 
         var downPos = m_cursorPos;
         downPos.y--;
 
-        if (downPos.y < 0 || downPos.y >= GridEx.GetRealHeight(grid.grid) - 1)
+        if (downPos.y < 0 || downPos.y >= GridEx.GetRealHeight(grid) - 1)
             return CursorState.InvalidPosition;
         
-        var block = GridEx.GetBlock(grid.grid, downPos);
+        var block = GridEx.GetBlock(grid, downPos);
 
         if (m_type == BlockType.crystal)
         {
@@ -126,10 +126,10 @@ public class EditorToolResourceCursor : EditorToolBase
                     if (i == 0 && j == 0)
                         continue;
 
-                    var ground = GridEx.GetBlock(grid.grid, downPos + new Vector3Int(i, 0, j));
+                    var ground = GridEx.GetBlock(grid, downPos + new Vector3Int(i, 0, j));
                     if (ground.type != BlockType.ground)
                         return CursorState.NeedSurface;
-                    var air = GridEx.GetBlock(grid.grid, downPos + new Vector3Int(i, 1, j));
+                    var air = GridEx.GetBlock(grid, downPos + new Vector3Int(i, 1, j));
                     if (air.type != BlockType.air)
                         return CursorState.NeedSurface;
                 }
@@ -195,8 +195,8 @@ public class EditorToolResourceCursor : EditorToolBase
         if (!m_cursorValid || m_cursorState != CursorState.Valid)
             return;
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
             return;
 
         if (EditorGridBehaviour.instance == null)
@@ -205,7 +205,7 @@ public class EditorToolResourceCursor : EditorToolBase
         if (!Input.GetMouseButtonDown(0))
             return;
 
-        var oldBlock = GridEx.GetBlock(grid.grid, m_cursorPos);
+        var oldBlock = GridEx.GetBlock(grid, m_cursorPos);
 
         EditorGridBehaviour.instance.SetBlock(m_cursorPos, new Block(m_type));
 

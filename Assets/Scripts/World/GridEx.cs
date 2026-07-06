@@ -18,13 +18,11 @@ public static class GridEx
             if (chunk == null)
                 return -1;
 
-            for(int j = Grid.ChunkSize - 1; j >= 0; j--)
+            int height = chunk.GetHeight(posInChunk.x, posInChunk.z);
+            if(height >= 0)
             {
-                if(chunk.Get(posInChunk.x, j, posInChunk.z).type != BlockType.air)
-                {
-                    Vector3Int outPos = Grid.PosInChunkToPos(new Vector3Int(chunkIndex.x, i, chunkIndex.z), new Vector3Int(posInChunk.x, j, posInChunk.z));
-                    return outPos.y;
-                }
+                Vector3Int outPos = Grid.PosInChunkToPos(new Vector3Int(chunkIndex.x, i, chunkIndex.z), new Vector3Int(posInChunk.x, height, posInChunk.z));
+                return outPos.y;
             }
         }
 
@@ -90,7 +88,13 @@ public static class GridEx
             {
                 for(int k = minIndex.z; k <= maxIndex.z; k++)
                 {
-                    var chunk = grid.Get(new Vector3Int(i, j, k));
+                    Vector3Int loopPos = GridEx.GetPosFromLoop(grid, new Vector3Int(i, j, k));
+                    if (!grid.LoopX())
+                        loopPos.x = i;
+                    if (!grid.LoopZ())
+                        loopPos.z = k;
+
+                    var chunk = grid.Get(loopPos);
 
                     Vector3Int min = new Vector3Int(0, 0, 0);
                     Vector3Int max = new Vector3Int(Grid.ChunkSize - 1, Grid.ChunkSize - 1, Grid.ChunkSize - 1);
@@ -182,9 +186,14 @@ public static class GridEx
 
     static float LoopPos(float pos, float size)
     {
-        if (pos >= 0)
-            return pos % size;
-        return size - ((-pos - 1) % size) - 1;
+        float posToLoop = pos + 0.5f;
+        float nextPos = posToLoop;
+        if (nextPos >= 0)
+            nextPos = posToLoop % size;
+        else nextPos = size - ((-posToLoop - 1) % size) - 1;
+
+        nextPos -= 0.5f;
+        return nextPos;
     }
 
     public static float GetDistance(Grid grid, Vector3Int pos1, Vector3Int pos2)
@@ -401,6 +410,24 @@ public static class GridEx
         }
 
         return obj;
+    }
+
+    public static Grid GetCurrentGrid()
+    {
+        if(GridBehaviour.instance != null)
+        {
+            var grid = GridBehaviour.instance.GetGrid();
+            if (grid != null)
+                return grid;
+        }
+        if(EditorGridBehaviour.instance != null)
+        {
+            var grid = EditorGridBehaviour.instance.GetGrid();
+            if (grid != null)
+                return grid;
+        }
+
+        return null;
     }
 }
 

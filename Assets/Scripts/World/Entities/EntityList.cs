@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.Profiling;
 using UnityEngine;
 
 public class EntityList : MonoBehaviour
@@ -31,18 +32,29 @@ public class EntityList : MonoBehaviour
 
     void RefreshChunks()
     {
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent()).grid;
+        var grid = GridEx.GetCurrentGrid();
 
-        if(grid == null)
+        if (grid == null)
             return;
 
         int size = grid.Size();
 
-        m_chunks = new Matrix<List<GameEntity>>(size, size);
-        for(int i = 0; i < size; i++)
+        if (m_chunks == null || m_chunks.width != size)
+        { 
+            m_chunks = new Matrix<List<GameEntity>>(size, size);
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                    m_chunks.Set(i, j, new List<GameEntity>());
+            }
+        }
+        else
         {
-            for (int j = 0; j < size; j++)
-                m_chunks.Set(i, j, new List<GameEntity>());
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                    m_chunks.Get(i, j).Clear();
+            }
         }
 
         foreach(var e in m_entities)
@@ -80,14 +92,14 @@ public class EntityList : MonoBehaviour
         float bestDist = 0;
         GameEntity bestEntity = null;
 
-        foreach(var e in m_entities)
+        foreach (var e in m_entities)
         {
             if (!Utility.IsAliveFilter(e.gameObject, alive))
                 continue;
 
             float dist = (pos - e.transform.position).sqrMagnitude;
 
-            if(dist < bestDist || bestEntity == null)
+            if (dist < bestDist || bestEntity == null)
             {
                 bestDist = dist;
                 bestEntity = e;
@@ -145,15 +157,15 @@ public class EntityList : MonoBehaviour
         float bestDist = maxDistance * maxDistance;
         GameEntity bestEntity = null;
 
-        for(int i = minChunk.x; i <= maxChunk.x; i++)
+        for (int i = minChunk.x; i <= maxChunk.x; i++)
         {
-            for(int j = minChunk.z; j <= maxChunk.z; j++)
+            for (int j = minChunk.z; j <= maxChunk.z; j++)
             {
                 var list = m_chunks.Get(i, j);
                 if (list == null)
                     continue;
 
-                foreach(var e in list)
+                foreach (var e in list)
                 {
                     if (e == null)
                         continue;

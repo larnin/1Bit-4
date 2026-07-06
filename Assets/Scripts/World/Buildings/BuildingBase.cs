@@ -272,9 +272,9 @@ public abstract class BuildingBase : MonoBehaviour
 
     public virtual BuildingPlaceType CanBePlaced(Vector3Int pos) 
     {
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        var grid = GridEx.GetCurrentGrid();
         var bounds = GetBounds(pos);
-        if (grid.grid != null)
+        if (grid != null)
         {
             Vector3Int min = bounds.min;
             Vector3Int max = bounds.max;
@@ -283,7 +283,7 @@ public abstract class BuildingBase : MonoBehaviour
             {
                 for (int k = min.z; k < max.z; k++)
                 {
-                    var ground = GridEx.GetBlock(grid.grid, GridEx.GetRealPosFromLoop(grid.grid, new Vector3Int(i, min.y - 1, k)));
+                    var ground = GridEx.GetBlock(grid, GridEx.GetRealPosFromLoop(grid, new Vector3Int(i, min.y - 1, k)));
                     if (ground.type != BlockType.ground)
                         return BuildingPlaceType.InvalidPlace;
                     if (BlockEx.GetShapeFromData(ground.data) != BlockShape.Full)
@@ -291,7 +291,7 @@ public abstract class BuildingBase : MonoBehaviour
 
                     for (int j = min.y; j < max.y; j++)
                     {
-                        var block = GridEx.GetBlock(grid.grid, GridEx.GetRealPosFromLoop(grid.grid, new Vector3Int(i, j, k)));
+                        var block = GridEx.GetBlock(grid, GridEx.GetRealPosFromLoop(grid, new Vector3Int(i, j, k)));
                         if (block.type != BlockType.air)
                             return BuildingPlaceType.InvalidPlace;
                     }
@@ -306,7 +306,7 @@ public abstract class BuildingBase : MonoBehaviour
             var b = BuildingList.instance.GetBuildingFromIndex(i);
             var otherBounds = b.GetBounds();
 
-            if (GridEx.IntersectLoop(grid.grid, otherBounds, bounds))
+            if (GridEx.IntersectLoop(grid, otherBounds, bounds))
                 return BuildingPlaceType.InvalidPlace;
         }
 

@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.Profiling;
 using UnityEngine;
 
 public class EntityMoveV2 : MonoBehaviour
 {
+    static readonly ProfilerMarker ms_profilerMarker = new ProfilerMarker(ProfilerCategory.Scripts, "EntityMoveTest");
+
     enum MoveType
     {
         Idle,
@@ -80,8 +83,8 @@ public class EntityMoveV2 : MonoBehaviour
         bool moving = m_moveInterface.CanMove();
 
         if(moving)
-            m_speed += m_acceleration;
-        else m_speed -= 2 * m_acceleration;
+            m_speed += m_acceleration * Time.deltaTime;
+        else m_speed -= 2 * m_acceleration * Time.deltaTime;
         if (m_speed < 0)
             m_speed = 0;
         if (m_speed > m_moveSpeed)
@@ -90,8 +93,9 @@ public class EntityMoveV2 : MonoBehaviour
         if (m_speed > 0.001f)
         {
             Vector3 target = m_moveInterface.GetNextPos();
-            
+
             Vector3 dir = target - transform.position;
+            dir = GetDirWithLoop(dir);
             float angleDir = Mathf.Atan2(dir.z, dir.x);
             float deltaAngle = angleDir - m_angle;
             while (deltaAngle < -Mathf.PI)
@@ -110,32 +114,68 @@ public class EntityMoveV2 : MonoBehaviour
             Vector3 newPos = transform.position + moveDir * Time.deltaTime * m_speed;
             newPos.y = GetHeight(newPos);
 
+            newPos = ReplacePosOnGridWithLoop(newPos);
             MoveTo(newPos);
 
             transform.forward = moveDir;
         }
     }
 
+    Vector3 GetDirWithLoop(Vector3 dir)
+    {
+        //fast exit
+        if (MathF.Abs(dir.x) < 5 && Mathf.Abs(dir.z) < 5)
+            return dir;
+
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
+            return dir;
+
+        int size = GridEx.GetRealSize(grid);
+
+        if(grid.LoopX())
+        {
+            if(Mathf.Abs(dir.x) >=  size / 2)
+            {
+                if (dir.x > 0)
+                    dir.x -= size;
+                else dir.x += size;
+            }
+        }
+
+        if(grid.LoopZ())
+        {
+            if(Mathf.Abs(dir.z) >= size / 2)
+            {
+                if (dir.z > 0)
+                    dir.z -= size;
+                else dir.z += size;
+            }
+        }
+
+        return dir;
+    }
+
+    //infos used in the next function
+    const float radius = 0.4f;
+    static Vector2[] testPos = new Vector2[]
+    {
+    Vector2.zero, new Vector2(-radius, -radius), new Vector2(-radius, radius), new Vector2(radius, radius), new Vector2(radius, -radius)
+    };
+
     //todo make the entity jump 
     float GetHeight(Vector3 newPos)
     {
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
-        if (grid.grid == null)
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
             return newPos.y;
-
-        float radius = 0.4f;
-
-        Vector2[] testPos = new Vector2[]
-        {
-            Vector2.zero, new Vector2(-radius, -radius), new Vector2(-radius, radius), new Vector2(radius, radius), new Vector2(radius, -radius)
-        };
 
         float top = float.MinValue;
         foreach (var p in testPos)
         {
             Vector2 point = p + new Vector2(newPos.x, newPos.z);
 
-            float height = GridEx.GetHeight(grid.grid, new Vector2Int(Mathf.RoundToInt(point.x), Mathf.RoundToInt(point.y))) + 1;
+            float height = GridEx.GetHeight(grid, new Vector2Int(Mathf.RoundToInt(point.x), Mathf.RoundToInt(point.y))) + 1;
             if (height > top)
                 top = height;
         }
@@ -156,6 +196,12 @@ public class EntityMoveV2 : MonoBehaviour
         return false;
     }
 
+    static Vector2[] offsets = new Vector2[]{
+            new Vector2(-0.5f, -0.5f),
+            new Vector2(-0.5f, 0.5f),
+            new Vector2(0.5f, 0.5f),
+            new Vector2(0.5f, -0.5f)};
+
     void MoveTo(Vector3 next, bool retry = false)
     {
         Vector3 current = transform.position;
@@ -168,13 +214,8 @@ public class EntityMoveV2 : MonoBehaviour
             return;
         }
 
-        Vector2[] points = new Vector2[]{
-            new Vector2(currentI.x - 0.5f, currentI.z - 0.5f),
-            new Vector2(currentI.x - 0.5f, currentI.z + 0.5f),
-            new Vector2(currentI.x + 0.5f, currentI.z + 0.5f),
-            new Vector2(currentI.x + 0.5f, currentI.z - 0.5f) };
-
         Vector2 current2 = new Vector2(current.x, current.z);
+        Vector2Int currentI2 = new Vector2Int(currentI.x, currentI.z);
 
         bool intersect = false;
         float intersectDist = 0;
@@ -183,8 +224,8 @@ public class EntityMoveV2 : MonoBehaviour
 
         for (int i = 0; i < 4; i++)
         {
-            Vector2 p1 = points[i];
-            Vector2 p2 = i == 3 ? points[0] : points[i + 1];
+            Vector2 p1 = offsets[i] + current2;
+            Vector2 p2 = (i == 3 ? offsets[0] : offsets[i + 1]) + currentI2;
 
             Vector2 result = Utility.IntersectLines(current2, new Vector2(next.x, next.z), p1, p2);
 
@@ -196,7 +237,7 @@ public class EntityMoveV2 : MonoBehaviour
                 continue;
 
             if (dist < 0.001f)
-                return;
+                continue;
 
             if (dist > 0.01f)
                 dist -= 0.01f;
@@ -227,7 +268,33 @@ public class EntityMoveV2 : MonoBehaviour
         Vector3 newNext = transform.position + remainingDir;
 
         MoveTo(newNext, true);
+    }
 
+    Vector3 ReplacePosOnGridWithLoop(Vector3 pos)
+    {
+        var grid = GridEx.GetCurrentGrid();
+        if (grid == null)
+            return pos;
+
+        var loopPos = GridEx.GetRealPosFromLoop(grid, pos);
+        if (!grid.LoopX())
+            loopPos.x = pos.x;
+        if (!grid.LoopZ())
+            loopPos.z = pos.z;
+
+        var size = GridEx.GetRealSize(grid);
+
+        if (loopPos.x <= -0.5f)
+            loopPos.x = -0.499f;
+        if (loopPos.x >= size - 0.5f)
+            loopPos.x = size - 0.501f;
+
+        if (loopPos.z <= -0.5f)
+            loopPos.z = -0.499f;
+        if (loopPos.z >= size - 0.5f)
+            loopPos.z = size - 0.501f;
+
+        return loopPos;
     }
 
     void GetVelocity(GetVelocityEvent e)

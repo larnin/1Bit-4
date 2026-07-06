@@ -166,11 +166,11 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
         Vector3 bestPos = Vector3.zero;
         float bestDistance = float.MaxValue;
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        var grid = GridEx.GetCurrentGrid();
 
         RaycastHit hit;
 
-        if (grid.grid == null)
+        if (grid == null)
         {
             haveHit = Physics.Raycast(ray, out hit, float.MaxValue, layer.value);
             if (!haveHit)
@@ -184,7 +184,7 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
 
         var dups = Event<GetCameraDuplicationEvent>.Broadcast(new GetCameraDuplicationEvent());
 
-        int size = GridEx.GetRealSize(grid.grid);
+        int size = GridEx.GetRealSize(grid);
 
         foreach(var d in dups.duplications)
         {
@@ -257,10 +257,10 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
         connectable.AddRange(BuildingList.instance.GetAllBuilding(BuildingType.Pylon));
         connectable.AddRange(BuildingList.instance.GetAllBuilding(BuildingType.BigPylon));
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        var grid = GridEx.GetCurrentGrid();
 
         bool canPlace = false;
-        if (grid.grid != null)
+        if (grid != null)
         {
             foreach (var b in connectable)
             {
@@ -269,7 +269,7 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
 
                 var targetPos = b.GetGroundCenter();
                 var targetRadius = Global.instance.buildingDatas.GetRealPlaceRadius(radius, b.PlacementRadius()) - 0.01f;
-                if(GridEx.GetDistance(grid.grid, pos, targetPos) < targetRadius)
+                if(GridEx.GetDistance(grid, new Vector2(pos.x, pos.z), new Vector2(targetPos.x, targetPos.z)) < targetRadius)
                 {
                     canPlace = true;
                     break;
@@ -474,9 +474,9 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
         Vector3 pos = m_instance.GetGroundCenter();
         float radius = m_instance.PlacementRadius();
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        var grid = GridEx.GetCurrentGrid();
 
-        if (grid.grid != null)
+        if (grid != null)
         {
             for (int i = 0; i < nbConnexions; i++)
             {
@@ -495,7 +495,7 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
                     {
                         var c = m_connexions[connexionIndex];
                         c.SetPosition(0, m_instance.GetRayPoint());
-                        c.SetPosition(1, GridEx.GetNearestPoint(grid.grid, b.GetRayPoint(), m_instance.GetRayPoint()));
+                        c.SetPosition(1, GridEx.GetNearestPoint(grid, b.GetRayPoint(), m_instance.GetRayPoint()));
                     }
 
                     connexionIndex++;

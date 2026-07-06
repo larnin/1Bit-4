@@ -105,19 +105,19 @@ public class MonolithModeSpawner
 
     void SpawnOneEntity(int entityIndex)
     {
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        var grid = GridEx.GetCurrentGrid();
 
         if (entityIndex < 0 || entityIndex >= Global.instance.editorDatas.entities.Count)
             return;
         var prefab = Global.instance.editorDatas.entities[entityIndex].prefab;
 
-        if (grid.grid == null || prefab == null)
+        if (grid == null || prefab == null)
             return;
 
         var pos = m_building.transform.position;
 
         var posInt = new Vector2Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.z));
-        int height = GridEx.GetHeight(grid.grid, posInt);
+        int height = GridEx.GetHeight(grid, posInt);
 
         var obj = GameObject.Instantiate(prefab);
         if (EntityList.instance != null)

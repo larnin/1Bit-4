@@ -53,19 +53,19 @@ public class SpawnerTest : MonoBehaviour
         if (m_count > m_maxCount)
             return;
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent());
+        var grid = GridEx.GetCurrentGrid();
 
-        if (grid.grid == null || m_entityPrefab == null)
+        if (grid == null || m_entityPrefab == null)
             return;
 
-        var size = GridEx.GetRealSize(grid.grid);
+        var size = GridEx.GetRealSize(grid);
 
         var pos = Rand2D.UniformVector2CircleSurfaceDistribution(StaticRandomGenerator<MT19937>.Get());
         pos *= size / 6.1f;
         pos += new Vector2(size, size) / 2;
 
         var posInt = new Vector2Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y));
-        int height = GridEx.GetHeight(grid.grid, posInt);
+        int height = GridEx.GetHeight(grid, posInt);
 
         var obj = Instantiate(m_entityPrefab);
         obj.transform.parent = transform;

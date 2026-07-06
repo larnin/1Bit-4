@@ -67,7 +67,7 @@ Shader "Hidden/DitherPostEffect2"
 				level *= 7;
 				float2 tempPos = i.vertex.xy;
 
-				int2 pos = int2(floor(tempPos.x), floor(tempPos.y));
+				uint2 pos = uint2(floor(tempPos.x), floor(tempPos.y));
 
 				if (level < 1)
 					level = ditherLevel1(pos);
@@ -95,22 +95,22 @@ Shader "Hidden/DitherPostEffect2"
 				return frac(sin(7.289 * uv.x + 11.23 * uv.y + 18.747 * seed) * 23758.5453);
 			}
 
-			float ditherLevel1(int2 pos)
+			float ditherLevel1(uint2 pos)
 			{
 				return (pos.x + pos.y / 2) % 4 == 0 && pos.y % 4 == 0;
 			}
 
-			float ditherLevel2(int2 pos)
+			float ditherLevel2(uint2 pos)
 			{
 				return (pos.x + pos.y) % 4 == 0 && (pos.x - pos.y) % 4 == 0;
 			}
 
-			float ditherLevel3(int2 pos)
+			float ditherLevel3(uint2 pos)
 			{
 				return (pos.x + pos.y) % 4 == 0 || (pos.x - pos.y) % 4 == 0;
 			}
 
-			float ditherLevel4(int2 pos)
+			float ditherLevel4(uint2 pos)
 			{
 				return (pos.x + pos.y) % 2;
 			}

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sirenix.OdinInspector;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -157,6 +158,34 @@ public class GameEntity : MonoBehaviour
         }
 
         Event<LoadLevelEvent>.Broadcast(new LoadLevelEvent(obj), gameObject);
-
     }
+
+    [Button("Isolate")]
+    void DebugIsolate()
+    {
+        List<GameObject> toRemove = new List<GameObject>();
+
+        if (EntityList.instance != null)
+        {
+            for (int i = 0; i < EntityList.instance.GetEntityNb(); i++)
+            {
+                var entity = EntityList.instance.GetEntityFromIndex(i);
+                if (entity == this)
+                    continue;
+
+                toRemove.Add(entity.gameObject);
+            }
+        }
+
+        foreach (var e in toRemove)
+            Destroy(e);
+
+        if(GamemodeSystem.instance != null)
+        {
+            var modes = GamemodeSystem.instance.GetGamemodesName();
+            foreach(var mode in modes)
+                GamemodeSystem.instance.StopGamemode(mode);
+        }
+    }
+
 }

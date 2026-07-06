@@ -12,6 +12,7 @@ public class TestEnnemiesMode : GamemodeBase
 
     BuildingEnnemySpawner m_spawner = null;
     float m_remainingTimer = 0;
+    int m_nbSpawned = 0;
 
     public TestEnnemiesMode(TestEnnemiesModeAsset asset, GamemodeSystem owner)
         : base(owner)
@@ -67,7 +68,7 @@ public class TestEnnemiesMode : GamemodeBase
         var pos = obj.transform.position;
         Vector3Int groundPos = new Vector3Int(Mathf.RoundToInt(pos.x), -1, Mathf.RoundToInt(pos.z));
 
-        var grid = Event<GetGridEvent>.Broadcast(new GetGridEvent()).grid;
+        var grid = GridEx.GetCurrentGrid();
         if (grid == null)
             return;
 
@@ -91,6 +92,9 @@ public class TestEnnemiesMode : GamemodeBase
 
     void SpawnOneEnnemy()
     {
+        if (m_asset.onlyOneEnnemy && m_nbSpawned > 0)
+            return;
+
         if (m_spawner == null)
             return;
 
@@ -111,6 +115,8 @@ public class TestEnnemiesMode : GamemodeBase
             return;
 
         var stratPos = m_spawner.GetGroundCenter();
+
+        m_nbSpawned++;
 
         var obj = GameObject.Instantiate(prefab);
         if (EntityList.instance != null)
