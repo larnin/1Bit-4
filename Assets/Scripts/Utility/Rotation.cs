@@ -21,6 +21,11 @@ public static class RotationEx
         return (Rotation)UnityEngine.Random.Range(0, 4);
     }
 
+    public static Rotation RandomRotation(IRandomGenerator gen)
+    {
+        return (Rotation)Rand.UniformIntDistribution(0, 4, gen);
+    }
+
     public static Rotation RandomRotation(Vector3Int pos)
     {
         var hash = new RandomHash(18734);

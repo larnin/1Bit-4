@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class Fade : MonoBehaviour
 {
     const string PercentName = "_Percent";
+    const string RatioName = "_Ratio";
 
     [SerializeField] Material m_material;
     [SerializeField] float m_transitionDuration = 0.5f;
@@ -77,6 +78,12 @@ public class Fade : MonoBehaviour
     private void Update()
     {
         UpdateCamera();
+
+        if(m_material != null)
+        {
+            float ratio = (float)(Screen.width) / Screen.height;
+            m_material.SetFloat(RatioName, ratio);
+        }
     }
 
     void UpdateCamera()
