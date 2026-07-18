@@ -177,7 +177,7 @@ public static class GridEx
         return new Vector2Int(LoopPos(pos.x, size), LoopPos(pos.y, size));
     }
 
-    static int LoopPos(int pos, int size)
+    public static int LoopPos(int pos, int size)
     {
         if (pos >= 0)
             return pos % size;
