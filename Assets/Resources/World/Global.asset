@@ -398,7 +398,7 @@ MonoBehaviour:
       prefab: {fileID: 6645571961945564104, guid: 845fcb3417acb4f4f8c610b63aa90822, type: 3}
       sprite: {fileID: 322178047, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
       spriteWithBorder: {fileID: -1644204466, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
-      size: {x: 2, y: 6, z: 2}
+      size: {x: 3, y: 5, z: 3}
       team: 0
       name: Tower
       description: The core of your factory, you must keep it alive at all cost.
