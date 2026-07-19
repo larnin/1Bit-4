@@ -170,6 +170,11 @@ public class CustomLightsManager : MonoBehaviour
 
         var gridSize = GridEx.GetRealSize(grid);
         mat.SetFloat(lightTextureSizeName, gridSize);
+
+        mat.SetTexture(noiseName, m_noiseTexture);
+        mat.SetFloat(noiseAmplitudeName, m_lightParams.noiseAmplitude);
+        mat.SetFloat(noiseScaleName, m_noiseTextureScale);
+        mat.SetFloat(noiseTimeName, m_noiseTime);
     }
 
     void UpdateLights(Material mat)
@@ -178,10 +183,6 @@ public class CustomLightsManager : MonoBehaviour
         mat.SetFloat(lightLeftName, m_lightLeft);
         mat.SetFloat(lightFrontName, m_lightFront);
         mat.SetFloat(lightRangeName, m_lightParams.lightBaseRange);
-        mat.SetTexture(noiseName, m_noiseTexture);
-        mat.SetFloat(noiseAmplitudeName, m_lightParams.noiseAmplitude);
-        mat.SetFloat(noiseScaleName, m_noiseTextureScale);
-        mat.SetFloat(noiseTimeName, m_noiseTime);
     }
 
     public bool IsPosVisible(Vector3 pos)
