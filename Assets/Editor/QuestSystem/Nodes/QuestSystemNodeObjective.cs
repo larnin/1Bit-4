@@ -36,8 +36,11 @@ public class QuestSystemNodeObjective : QuestSystemNode
 
         block.Add(GetInputOperator());
 
+        var view = new ScrollView(ScrollViewMode.Vertical);
+        block.Add(view);
+
         m_subObjectiveContainer = new VisualElement();
-        block.Add(m_subObjectiveContainer);
+        view.Add(m_subObjectiveContainer);
         DrawObjectivesContainer();
 
         m_addSubObjectiveButton = QuestSystemEditorUtility.CreateButton("Add Sub Objective", OnClickAddObjective);
