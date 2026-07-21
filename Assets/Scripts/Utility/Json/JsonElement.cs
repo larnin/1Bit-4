@@ -98,6 +98,13 @@ public abstract class JsonElement
 
         return json.Float();
     }
+
+    public virtual bool Bool()
+    {
+        var json = JsonNumber();
+
+        return json.Bool();
+    }
 }
 
 public class JsonArray : JsonElement, IEnumerable<JsonElement>
@@ -124,6 +131,11 @@ public class JsonArray : JsonElement, IEnumerable<JsonElement>
     public void Add(float value)
     {
         Add(new JsonNumber(value));
+    }
+
+    public void Add(bool value)
+    {
+        Add(new JsonNumber(value ? 1 : 0));
     }
 
     public bool Remove(JsonElement element)
@@ -216,6 +228,11 @@ public class JsonObject : JsonElement, IEnumerable<KeyValuePair<string, JsonElem
     public void AddElement(string key, float value)
     {
         AddElement(key, new JsonNumber(value));
+    }
+
+    public void AddElement(string key, bool value)
+    {
+        AddElement(key, new JsonNumber(value ? 1 : 0));
     }
 
     public bool RemoveElement(string key)
@@ -326,6 +343,8 @@ public class JsonNumber : JsonElement
 
     public override float Float() { return m_value; }
     public override int Int() { return (int)m_value; }
+
+    public override bool Bool() { return Int() != 0; }
 
     public override void Read(JsonReader reader)
     {

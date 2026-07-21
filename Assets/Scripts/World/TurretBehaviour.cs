@@ -278,7 +278,7 @@ public class TurretBehaviour : MonoBehaviour
 
             var jsonHaveTarget = obj.GetElement("haveTarget");
             if (jsonHaveTarget != null && jsonHaveTarget.IsJsonNumber())
-                m_haveTarget = jsonHaveTarget.Int() != 0;
+                m_haveTarget = jsonHaveTarget.Bool();
 
             var startRotationJson = obj.GetElement("startRotation");
             if (startRotationJson != null && startRotationJson.IsJsonArray())
@@ -308,7 +308,7 @@ public class TurretBehaviour : MonoBehaviour
 
         obj.AddElement("target", Json.FromVector3(m_target));
         obj.AddElement("predicted", Json.FromVector3(m_predictedTarget));
-        obj.AddElement("haveTarget", m_haveTarget ? 1 : 0);
+        obj.AddElement("haveTarget", m_haveTarget);
         obj.AddElement("startRotation", Json.FromQuaternion(m_turretStartRotation));
         obj.AddElement("state", m_turretState.ToString());
         obj.AddElement("timer", m_turretTimer);

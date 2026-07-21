@@ -177,6 +177,9 @@ public class QuestSystem : SerializedMonoBehaviour
             }
 
             TryStartObjectivesWithInputCompletion();
+
+            if(IsGlobal())
+                global::Save.instance.SaveCurrentSlot();
         }
 
         void StartObjective(Objective objective)
@@ -541,6 +544,7 @@ public class QuestSystem : SerializedMonoBehaviour
 
     List<CompletedQuest> m_completedQuests = new List<CompletedQuest>();
     List<OngoingQuest> m_ongoingQuest = new List<OngoingQuest>();
+    bool m_globalQuestStarted = false;
 
     private void Awake()
     {
@@ -656,12 +660,7 @@ public class QuestSystem : SerializedMonoBehaviour
 
     private void Start()
     {
-        //todo make this quest start with game load and stop when back on main menu
 
-        if (Global.instance.levelsData.globalQuest != null)
-        {
-            StartQuest(Global.instance.levelsData.globalQuest, "Main", true);
-        }
     }
 
     private void Update()
@@ -678,6 +677,8 @@ public class QuestSystem : SerializedMonoBehaviour
                 completedQuests.Add(quest);
         }
 
+        bool needSave = false;
+
         foreach(var quest in completedQuests)
         {
             m_ongoingQuest.Remove(quest);
@@ -692,7 +693,12 @@ public class QuestSystem : SerializedMonoBehaviour
                 completed.objectives.Add(quest.GetCompletedObjectiveName(i));
 
             m_completedQuests.Add(completed);
+            if(quest.IsGlobal())
+                needSave = true;
         }
+
+        if(needSave)
+            Save.instance.SaveCurrentSlot();
     }
 
     public bool IsFromGlobalQuest(QuestSubObjectiveBase objective)
@@ -801,6 +807,10 @@ public class QuestSystem : SerializedMonoBehaviour
             }
         }
 
+        var globalStartedJson = obj.GetElement("globalStarted");
+        if (globalStartedJson != null && globalStartedJson.IsJsonNumber())
+            m_globalQuestStarted = globalStartedJson.Bool();
+
         var ongoingJson = obj.GetElement("ongoing");
         if(ongoingJson != null && ongoingJson.IsJsonArray())
         {
@@ -874,6 +884,15 @@ public class QuestSystem : SerializedMonoBehaviour
                 }
             }
         }
+
+        if(!m_globalQuestStarted)
+        {
+            if (Global.instance.levelsData.globalQuest != null)
+            {
+                StartQuest(Global.instance.levelsData.globalQuest, "Main", true);
+            }
+            m_globalQuestStarted = true;
+        }
     }
 
     public JsonObject SaveGlobalQuests()
@@ -912,6 +931,8 @@ public class QuestSystem : SerializedMonoBehaviour
             foreach (var o in quest.objectives)
                 objectiveArray.Add(o);
         }
+
+        obj.AddElement("globalStarted", m_globalQuestStarted);
 
         return obj;
     }

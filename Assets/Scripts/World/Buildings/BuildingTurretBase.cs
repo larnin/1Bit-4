@@ -307,7 +307,7 @@ public abstract class BuildingTurretBase : BuildingBase
     {
         obj.AddElement("fireTimer", m_fireTimer);
         obj.AddElement("fireIndex", m_fireIndex);
-        obj.AddElement("firing", m_firing ? 1 : 0);
+        obj.AddElement("firing", m_firing);
         obj.AddElement("recoilTimer", m_recoilTimer);
     }
 
@@ -323,7 +323,7 @@ public abstract class BuildingTurretBase : BuildingBase
 
         var jsonFiring = obj.GetElement("firing");
         if (jsonFiring != null && jsonFiring.IsJsonNumber())
-            m_firing = jsonFiring.Int() != 0 ? true : false;
+            m_firing = jsonFiring.Bool();
 
         var jsonRecoilTimer = obj.GetElement("recoilTimer");
         if (jsonRecoilTimer != null && jsonRecoilTimer.IsJsonNumber())
