@@ -110,8 +110,8 @@ public class ProjectileSimpleExplosion : ProjectileBase
     protected override void SaveImpl(JsonObject obj)
     {
         obj.AddElement("time", m_time);
-        obj.AddElement("expl", m_explosionEnded ? 1 : 0);
-        obj.AddElement("sound", m_soundPlayed ? 1 : 0);
+        obj.AddElement("expl", m_explosionEnded);
+        obj.AddElement("sound", m_soundPlayed);
     }
 
     protected override void LoadImpl(JsonObject obj)
@@ -122,10 +122,10 @@ public class ProjectileSimpleExplosion : ProjectileBase
 
         var explJson = obj.GetElement("expl");
         if (explJson != null && explJson.IsJsonNumber())
-            m_explosionEnded = explJson.Int() != 0;
+            m_explosionEnded = explJson.Bool();
 
         var soundJson = obj.GetElement("sound");
         if (soundJson != null && soundJson.IsJsonNumber())
-            m_soundPlayed = soundJson.Int() != 0;
+            m_soundPlayed = soundJson.Bool();
     }
 }

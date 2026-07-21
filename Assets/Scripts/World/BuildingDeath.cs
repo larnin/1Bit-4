@@ -139,7 +139,7 @@ public class BuildingDeath : MonoBehaviour
     {
         var jsonDead = e.obj.GetElement("isDead");
         if (jsonDead != null && jsonDead.IsJsonNumber())
-            m_isDead = jsonDead.Int() != 0 ? true : false;
+            m_isDead = jsonDead.Bool();
 
         if (m_isDead)
             Destroy(gameObject);
@@ -147,6 +147,6 @@ public class BuildingDeath : MonoBehaviour
 
     void Save(SaveLevelEvent e)
     {
-        e.obj.AddElement("isDead", m_isDead ? 1 : 0);
+        e.obj.AddElement("isDead", m_isDead);
     }
 }
