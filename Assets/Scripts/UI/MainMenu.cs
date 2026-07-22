@@ -20,6 +20,8 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
+        ResetSave();
+
         HideContinueButton();
         HideQuitButton();
     }
@@ -115,5 +117,20 @@ public class MainMenu : MonoBehaviour
     void CloseCurrentMenu()
     {
         MenuSystem.instance.CloseMenu(m_currentMenu);
+    }
+
+    void ResetSave()
+    {
+        if(Save.instance != null)
+        {
+            Save.instance.SelectSaveSlot(-1);
+        }
+
+        if(QuestSystem.instance != null)
+        {
+            QuestSystem.instance.StopAllQuests();
+        }
+
+        GameInfos.instance.persistant.Reset();
     }
 }

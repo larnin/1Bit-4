@@ -245,6 +245,12 @@ public class GamePersistant
         global::Save.instance.SaveCurrentSlot();
     }
 
+    public void Reset()
+    {
+        m_completedLevels.Clear();
+        m_unlockedBuilding.Clear();
+    }
+
     public void Load(JsonObject obj)
     {
         m_unlockedBuilding.Clear();

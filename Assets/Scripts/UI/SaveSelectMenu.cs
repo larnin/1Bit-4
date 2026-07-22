@@ -45,8 +45,6 @@ public class SaveSelectMenu : MonoBehaviour
 
     public void OnPlay(int index)
     {
-        Save.instance.SelectSaveSlot(index);
-        Save.instance.SaveCurrentSlot();
         Save.instance.GetGlobal().lastPlayedSlot = index;
         Save.instance.SaveGlobal();
         if (m_menu != null)

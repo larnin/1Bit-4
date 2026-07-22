@@ -35,7 +35,6 @@ public class MonolithMode : GamemodeBase
     }
 
     List<BuildingStatus> m_aliveBuildings = new List<BuildingStatus>();
-    int m_StartBuildingNb = 0;
 
     MonolithModeAsset m_asset;
 
@@ -70,6 +69,17 @@ public class MonolithMode : GamemodeBase
         if (m_aliveBuildings.Count == 0)
             return GamemodeStatus.Completed;
 
+        bool AllCompleted = true;
+        foreach(var b in m_aliveBuildings)
+        {
+            if (b.building == null)
+                continue;
+            if (b.building.GetState() != BuildingMonolith.State.Nullified)
+                AllCompleted = false;
+        }
+        if (AllCompleted)
+            return GamemodeStatus.Completed;
+
         return GamemodeStatus.Ongoing;
     }
 
@@ -98,7 +108,6 @@ public class MonolithMode : GamemodeBase
                     
             }
         }
-        m_StartBuildingNb = m_aliveBuildings.Count;
     }
 
     public override void Process()
