@@ -737,6 +737,7 @@ public class QuestSystem : SerializedMonoBehaviour
     {
         m_ongoingQuest.Clear();
         m_completedQuests.Clear();
+        m_globalQuestStarted = false;
     }
 
     public List<QuestObjectiveText> GetLocalObjectiveTexts()

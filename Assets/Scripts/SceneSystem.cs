@@ -22,7 +22,6 @@ public class ChangeSceneParams
 
 public class SceneSystem
 {
-    const string defaultSceneName = "MainMenu";
     const float delay = 1.5f;
 
     static bool m_starting = false;
@@ -36,7 +35,7 @@ public class SceneSystem
         if (!Application.CanStreamedLevelBeLoaded(scene.sceneName))
         {
             Debug.LogError("Can't load scene " + scene.sceneName + ". Back to main menu");
-            scene.sceneName = defaultSceneName;
+            scene.sceneName = Global.instance.editorDatas.mainSceneName;
         }
 
         Time.timeScale = 1.0f;

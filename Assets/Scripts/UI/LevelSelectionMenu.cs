@@ -159,8 +159,5 @@ public class LevelSelectionMenu : MonoBehaviour
         var scene = new ChangeSceneParams(Global.instance.editorDatas.mainSceneName);
 
         SceneSystem.changeScene(scene);
-
-        if (QuestSystem.instance != null)
-            QuestSystem.instance.StopAllQuests();
     }
 }
