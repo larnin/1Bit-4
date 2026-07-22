@@ -9,7 +9,6 @@ using TMPro;
 
 public class GameOverMenu : MonoBehaviour
 {
-    [SerializeField] string m_menuName;
     [SerializeField] float m_appearOffset;
     [SerializeField] float m_appearDuration;
     [SerializeField] Ease m_appearCurve;
@@ -33,7 +32,7 @@ public class GameOverMenu : MonoBehaviour
 
         m_selected = true;
 
-        SceneSystem.changeScene(new ChangeSceneParams(m_menuName));
+        SceneSystem.changeScene(new ChangeSceneParams(Global.instance.editorDatas.lobbySceneName));
     }
 
     private void Awake()

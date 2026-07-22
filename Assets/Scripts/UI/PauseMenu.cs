@@ -8,7 +8,6 @@ using TMPro;
 
 public class PauseMenu : MonoBehaviour
 {
-    [SerializeField] string m_menuName;
     [SerializeField] string m_pauseSound;
     [SerializeField] float m_pauseVolume = 1;
 
@@ -60,7 +59,7 @@ public class PauseMenu : MonoBehaviour
 
         m_selected = true;
 
-        SceneSystem.changeScene(new ChangeSceneParams(m_menuName));
+        SceneSystem.changeScene(new ChangeSceneParams(Global.instance.editorDatas.lobbySceneName));
     }
 
     private void Update()

@@ -11,8 +11,6 @@ public class LevelSelectionMenu : MonoBehaviour
     [SerializeField] GameObject m_OneLevelPrefab;
     [SerializeField] float m_distanceBetweenLevel = 200;
     [SerializeField] float m_transitionDuration = 0.5f;
-    [SerializeField] string m_gameSceneName;
-    [SerializeField] string m_mainMenuName;
 
     GameObject m_leftButton;
     GameObject m_rightButton;
@@ -145,7 +143,7 @@ public class LevelSelectionMenu : MonoBehaviour
         if (GameInfos.instance.gameParams.level == null)
             return;
 
-        var scene = new ChangeSceneParams(m_gameSceneName);
+        var scene = new ChangeSceneParams(Global.instance.editorDatas.gameSceneName);
         scene.skipFadeOut = true;
 
         SceneSystem.changeScene(scene);
@@ -158,7 +156,7 @@ public class LevelSelectionMenu : MonoBehaviour
 
         m_selected = true;
 
-        var scene = new ChangeSceneParams(m_mainMenuName);
+        var scene = new ChangeSceneParams(Global.instance.editorDatas.mainSceneName);
 
         SceneSystem.changeScene(scene);
 

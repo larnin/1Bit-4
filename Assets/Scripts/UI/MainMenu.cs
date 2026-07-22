@@ -12,7 +12,6 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField] Button m_continueButton;
     [SerializeField] Button m_quitButton;
-    [SerializeField] string m_gameSceneName;
     [SerializeField] Transform m_submenuPivot;
 
     string m_currentMenu;
@@ -32,7 +31,7 @@ public class MainMenu : MonoBehaviour
 
         m_selected = true;
 
-        var scene = new ChangeSceneParams(m_gameSceneName);
+        var scene = new ChangeSceneParams(Global.instance.editorDatas.lobbySceneName);
         SceneSystem.changeScene(scene);
 
         int currentSave = Save.instance.GetGlobal().lastPlayedSlot;

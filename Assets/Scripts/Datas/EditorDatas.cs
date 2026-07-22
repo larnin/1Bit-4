@@ -96,6 +96,11 @@ public class EditorDatas
     public List<QuestElementData> questElements;
     public List<QuestScriptableObject> sauvableQuests;
 
+    public string mainSceneName = "Main";
+    public string lobbySceneName = "Lobby";
+    public string gameSceneName = "Game";
+    public string editorSceneName = "Editor";
+
     public GameObject GetQuestElementPrefab(QuestElementType type)
     {
         foreach(var e in questElements)

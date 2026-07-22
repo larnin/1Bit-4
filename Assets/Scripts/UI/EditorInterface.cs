@@ -11,8 +11,6 @@ using UnityEngine.EventSystems;
 
 public class EditorInterface : MonoBehaviour
 {
-    [SerializeField] string m_menuName;
-
     SubscriberList m_subscriberList = new SubscriberList();
 
     string m_currentPath = ""; 
@@ -237,7 +235,7 @@ public class EditorInterface : MonoBehaviour
 
         m_selected = true;
 
-        SceneSystem.changeScene(new ChangeSceneParams(m_menuName));
+        SceneSystem.changeScene(new ChangeSceneParams(Global.instance.editorDatas.mainSceneName));
     }
 
     void UpdateFilename()
