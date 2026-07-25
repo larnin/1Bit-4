@@ -9,6 +9,7 @@ public enum LevelUnlockCondition
 {
     WhenPreviousCompleted,
     UnlockedByDefault,
+    WhenTutorialCompleted,
 }
 
 [Serializable]

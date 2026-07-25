@@ -832,6 +832,10 @@ MonoBehaviour:
       prefab: {fileID: 204099878833362203, guid: 1159a36e7549da64ea094558ee982fdc, type: 3}
     sauvableQuests:
     - {fileID: 11400000, guid: b8d347b18d23e8e41ab889d0838dfc56, type: 2}
+    mainSceneName: Main
+    lobbySceneName: Lobby
+    gameSceneName: Game
+    editorSceneName: Editor
   m_statusDatas:
     burning:
       effectPrefab: {fileID: 0}
