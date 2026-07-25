@@ -34,7 +34,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 22
+      Data: 23
     - Name: 
       Entry: 7
       Data: 2|QuestSaveNode, Assembly-CSharp
@@ -133,23 +133,59 @@ MonoBehaviour:
       Entry: 7
       Data: 6|QuestObjective, Assembly-CSharp
     - Name: m_text
+      Entry: 7
+      Data: 7|QuestObjectiveText, Assembly-CSharp
+    - Name: title
       Entry: 6
+      Data: 
+    - Name: details
+      Entry: 7
+      Data: 8|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
     - Name: m_subObjectives
       Entry: 7
-      Data: 7|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+      Data: 9|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 8|QuestSubObjectiveTimer, Assembly-CSharp
+      Data: 10|QuestSubObjectiveTimer, Assembly-CSharp
     - Name: m_detailSockets
-      Entry: 6
+      Entry: 7
+      Data: 11|System.Collections.Generic.List`1[[System.Int32, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 3
+      Data: -1
+    - Name: 
+      Entry: 3
+      Data: -1
+    - Name: 
+      Entry: 3
+      Data: -1
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
     - Name: m_duration
       Entry: 4
@@ -168,14 +204,14 @@ MonoBehaviour:
       Data: 
     - Name: outNodes
       Entry: 7
-      Data: 9|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+      Data: 12|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 10|QuestSaveConnection, Assembly-CSharp
+      Data: 13|QuestSaveConnection, Assembly-CSharp
     - Name: currentPortName
       Entry: 1
       Data: Out
@@ -199,7 +235,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 11|QuestSaveNode, Assembly-CSharp
+      Data: 14|QuestSaveNode, Assembly-CSharp
     - Name: ID
       Entry: 1
       Data: 4f4e1b87-9a24-449c-9243-6f0b07e9e355
@@ -229,23 +265,41 @@ MonoBehaviour:
       Data: 
     - Name: data
       Entry: 7
-      Data: 12|QuestObjective, Assembly-CSharp
+      Data: 15|QuestObjective, Assembly-CSharp
     - Name: m_text
-      Entry: 6
+      Entry: 7
+      Data: 16|QuestObjectiveText, Assembly-CSharp
+    - Name: title
+      Entry: 1
+      Data: Build a Pylon
+    - Name: details
+      Entry: 7
+      Data: 17|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
     - Name: m_subObjectives
       Entry: 7
-      Data: 13|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+      Data: 18|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 3
     - Name: 
       Entry: 7
-      Data: 14|QuestSubObjectiveSpawnObject, Assembly-CSharp
+      Data: 19|QuestSubObjectiveSpawnObject, Assembly-CSharp
     - Name: m_detailSockets
       Entry: 6
       Data: 
@@ -266,13 +320,13 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 15|QuestSubObjectiveStartDialog, Assembly-CSharp
+      Data: 20|QuestSubObjectiveStartDialog, Assembly-CSharp
     - Name: m_detailSockets
       Entry: 6
       Data: 
     - Name: m_texts
       Entry: 7
-      Data: 16|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+      Data: 21|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
     - Name: 
       Entry: 12
       Data: 1
@@ -285,18 +339,18 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: m_inputToEndDialog
-      Entry: 5
-      Data: false
-    - Name: m_waitDialogEndToComplete
-      Entry: 5
-      Data: false
+    - Name: m_dialogEndType
+      Entry: 3
+      Data: 3
+    - Name: m_delayToClose
+      Entry: 4
+      Data: 3
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 7
-      Data: 17|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+      Data: 22|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
     - Name: m_detailSockets
       Entry: 6
       Data: 
@@ -323,14 +377,14 @@ MonoBehaviour:
       Data: 
     - Name: outNodes
       Entry: 7
-      Data: 18|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+      Data: 23|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 19|QuestSaveConnection, Assembly-CSharp
+      Data: 24|QuestSaveConnection, Assembly-CSharp
     - Name: currentPortName
       Entry: 1
       Data: Out
@@ -354,7 +408,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 20|QuestSaveNode, Assembly-CSharp
+      Data: 25|QuestSaveNode, Assembly-CSharp
     - Name: ID
       Entry: 1
       Data: e6479bc6-fd01-4c55-8e8f-a86592e5d0ba
@@ -384,51 +438,19 @@ MonoBehaviour:
       Data: 
     - Name: data
       Entry: 7
-      Data: 21|QuestObjective, Assembly-CSharp
+      Data: 26|QuestObjective, Assembly-CSharp
     - Name: m_text
+      Entry: 7
+      Data: 27|QuestObjectiveText, Assembly-CSharp
+    - Name: title
       Entry: 6
       Data: 
-    - Name: m_multipleInputOperator
-      Entry: 3
-      Data: 1
-    - Name: m_subObjectives
+    - Name: details
       Entry: 7
-      Data: 22|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
-        mscorlib
+      Data: 28|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
     - Name: 
       Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 23|QuestSubObjectiveStartDialog, Assembly-CSharp
-    - Name: m_detailSockets
-      Entry: 6
-      Data: 
-    - Name: m_texts
-      Entry: 7
-      Data: 24|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 1
-      Data: The pylon let you see further. You discovered a mine, you need to exploit
-        it
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: m_inputToEndDialog
-      Entry: 5
-      Data: true
-    - Name: m_waitDialogEndToComplete
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
@@ -437,73 +459,6 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 8
-      Data: 
-    - Name: outNodes
-      Entry: 7
-      Data: 25|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 26|QuestSaveConnection, Assembly-CSharp
-    - Name: currentPortName
-      Entry: 1
-      Data: Out
-    - Name: nextPortName
-      Entry: 1
-      Data: In
-    - Name: nextNodeID
-      Entry: 1
-      Data: eb9a269e-4bd3-4e63-9d64-532351806f5c
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 27|QuestSaveNode, Assembly-CSharp
-    - Name: ID
-      Entry: 1
-      Data: a5e72ca9-b692-46f7-b421-c5b2a9c72160
-    - Name: name
-      Entry: 1
-      Data: Explanation One
-    - Name: nodeType
-      Entry: 3
-      Data: 1
-    - Name: position
-      Entry: 7
-      Data: UnityEngine.Rect, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 293
-    - Name: 
-      Entry: 4
-      Data: 10
-    - Name: 
-      Entry: 4
-      Data: 159
-    - Name: 
-      Entry: 4
-      Data: 77
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: data
-      Entry: 7
-      Data: 28|QuestObjective, Assembly-CSharp
-    - Name: m_text
-      Entry: 6
       Data: 
     - Name: m_multipleInputOperator
       Entry: 3
@@ -529,22 +484,20 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 1
-      Data: 'This is your base, you need to protect it. For that you need to explore
-        and gather resources
-
-'
+      Data: The pylon let you see further. You discovered a mine, you need to exploit
+        it
     - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
-    - Name: m_inputToEndDialog
-      Entry: 5
-      Data: true
-    - Name: m_waitDialogEndToComplete
-      Entry: 5
-      Data: true
+    - Name: m_dialogEndType
+      Entry: 3
+      Data: 0
+    - Name: m_delayToClose
+      Entry: 4
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -575,7 +528,7 @@ MonoBehaviour:
       Data: In
     - Name: nextNodeID
       Entry: 1
-      Data: 4dfc25b6-c8b1-47fc-9ee2-05f3bb0fb060
+      Data: eb9a269e-4bd3-4e63-9d64-532351806f5c
     - Name: 
       Entry: 8
       Data: 
@@ -591,6 +544,143 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 34|QuestSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: a5e72ca9-b692-46f7-b421-c5b2a9c72160
+    - Name: name
+      Entry: 1
+      Data: Explanation One
+    - Name: nodeType
+      Entry: 3
+      Data: 1
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 293
+    - Name: 
+      Entry: 4
+      Data: 10
+    - Name: 
+      Entry: 4
+      Data: 159
+    - Name: 
+      Entry: 4
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 7
+      Data: 35|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 7
+      Data: 36|QuestObjectiveText, Assembly-CSharp
+    - Name: title
+      Entry: 6
+      Data: 
+    - Name: details
+      Entry: 7
+      Data: 37|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_multipleInputOperator
+      Entry: 3
+      Data: 1
+    - Name: m_subObjectives
+      Entry: 7
+      Data: 38|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 39|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
+    - Name: m_texts
+      Entry: 7
+      Data: 40|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 1
+      Data: 'This is your base, you need to protect it. For that you need to explore
+        and gather resources
+
+'
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_dialogEndType
+      Entry: 3
+      Data: 0
+    - Name: m_delayToClose
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 41|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 42|QuestSaveConnection, Assembly-CSharp
+    - Name: currentPortName
+      Entry: 1
+      Data: Out
+    - Name: nextPortName
+      Entry: 1
+      Data: In
+    - Name: nextNodeID
+      Entry: 1
+      Data: 4dfc25b6-c8b1-47fc-9ee2-05f3bb0fb060
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 43|QuestSaveNode, Assembly-CSharp
     - Name: ID
       Entry: 1
       Data: 4dfc25b6-c8b1-47fc-9ee2-05f3bb0fb060
@@ -620,29 +710,47 @@ MonoBehaviour:
       Data: 
     - Name: data
       Entry: 7
-      Data: 35|QuestObjective, Assembly-CSharp
+      Data: 44|QuestObjective, Assembly-CSharp
     - Name: m_text
+      Entry: 7
+      Data: 45|QuestObjectiveText, Assembly-CSharp
+    - Name: title
       Entry: 6
+      Data: 
+    - Name: details
+      Entry: 7
+      Data: 46|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
     - Name: m_subObjectives
       Entry: 7
-      Data: 36|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+      Data: 47|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 37|QuestSubObjectiveStartDialog, Assembly-CSharp
+      Data: 48|QuestSubObjectiveStartDialog, Assembly-CSharp
     - Name: m_detailSockets
       Entry: 6
       Data: 
     - Name: m_texts
       Entry: 7
-      Data: 38|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+      Data: 49|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
     - Name: 
       Entry: 12
       Data: 1
@@ -655,12 +763,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: m_inputToEndDialog
-      Entry: 5
-      Data: true
-    - Name: m_waitDialogEndToComplete
-      Entry: 5
-      Data: true
+    - Name: m_dialogEndType
+      Entry: 3
+      Data: 0
+    - Name: m_delayToClose
+      Entry: 4
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -675,14 +783,14 @@ MonoBehaviour:
       Data: 
     - Name: outNodes
       Entry: 7
-      Data: 39|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+      Data: 50|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 40|QuestSaveConnection, Assembly-CSharp
+      Data: 51|QuestSaveConnection, Assembly-CSharp
     - Name: currentPortName
       Entry: 1
       Data: Out
@@ -706,7 +814,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 41|QuestSaveNode, Assembly-CSharp
+      Data: 52|QuestSaveNode, Assembly-CSharp
     - Name: ID
       Entry: 1
       Data: eb9a269e-4bd3-4e63-9d64-532351806f5c
@@ -736,23 +844,41 @@ MonoBehaviour:
       Data: 
     - Name: data
       Entry: 7
-      Data: 42|QuestObjective, Assembly-CSharp
+      Data: 53|QuestObjective, Assembly-CSharp
     - Name: m_text
-      Entry: 6
+      Entry: 7
+      Data: 54|QuestObjectiveText, Assembly-CSharp
+    - Name: title
+      Entry: 1
+      Data: Buind a Crystal mine
+    - Name: details
+      Entry: 7
+      Data: 55|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
     - Name: m_subObjectives
       Entry: 7
-      Data: 43|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+      Data: 56|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 3
     - Name: 
       Entry: 7
-      Data: 44|QuestSubObjectiveSpawnObject, Assembly-CSharp
+      Data: 57|QuestSubObjectiveSpawnObject, Assembly-CSharp
     - Name: m_detailSockets
       Entry: 6
       Data: 
@@ -773,37 +899,37 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 45|QuestSubObjectiveStartDialog, Assembly-CSharp
+      Data: 58|QuestSubObjectiveStartDialog, Assembly-CSharp
     - Name: m_detailSockets
       Entry: 6
       Data: 
     - Name: m_texts
       Entry: 7
-      Data: 46|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+      Data: 59|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 1
-      Data: Build a Crystal Mine
+      Data: Build a Crystal mine
     - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
-    - Name: m_inputToEndDialog
-      Entry: 5
-      Data: false
-    - Name: m_waitDialogEndToComplete
-      Entry: 5
-      Data: false
+    - Name: m_dialogEndType
+      Entry: 3
+      Data: 3
+    - Name: m_delayToClose
+      Entry: 4
+      Data: 3
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 7
-      Data: 47|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+      Data: 60|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
     - Name: m_detailSockets
       Entry: 6
       Data: 
@@ -830,14 +956,14 @@ MonoBehaviour:
       Data: 
     - Name: outNodes
       Entry: 7
-      Data: 48|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+      Data: 61|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 49|QuestSaveConnection, Assembly-CSharp
+      Data: 62|QuestSaveConnection, Assembly-CSharp
     - Name: currentPortName
       Entry: 1
       Data: Out
@@ -861,7 +987,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 50|QuestSaveNode, Assembly-CSharp
+      Data: 63|QuestSaveNode, Assembly-CSharp
     - Name: ID
       Entry: 1
       Data: c6ff2cc6-7c10-46dd-92ef-4ee21bef92bc
@@ -891,185 +1017,19 @@ MonoBehaviour:
       Data: 
     - Name: data
       Entry: 7
-      Data: 51|QuestObjective, Assembly-CSharp
+      Data: 64|QuestObjective, Assembly-CSharp
     - Name: m_text
+      Entry: 7
+      Data: 65|QuestObjectiveText, Assembly-CSharp
+    - Name: title
       Entry: 6
       Data: 
-    - Name: m_multipleInputOperator
-      Entry: 3
-      Data: 1
-    - Name: m_subObjectives
+    - Name: details
       Entry: 7
-      Data: 52|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
-        mscorlib
+      Data: 66|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
     - Name: 
       Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 53|QuestSubObjectiveStartDialog, Assembly-CSharp
-    - Name: m_detailSockets
-      Entry: 6
-      Data: 
-    - Name: m_texts
-      Entry: 7
-      Data: 54|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 1
-      Data: The mine exploit the crystal next to it. You can put down multiple crystal
-        mines to exploit all the crystals
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: m_inputToEndDialog
-      Entry: 5
-      Data: true
-    - Name: m_waitDialogEndToComplete
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: outNodes
-      Entry: 7
-      Data: 55|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 56|QuestSaveConnection, Assembly-CSharp
-    - Name: currentPortName
-      Entry: 1
-      Data: Out
-    - Name: nextPortName
-      Entry: 1
-      Data: In
-    - Name: nextNodeID
-      Entry: 1
-      Data: a194c0b2-23f1-4109-bc17-a8e5b60b714b
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 57|QuestSaveNode, Assembly-CSharp
-    - Name: ID
-      Entry: 1
-      Data: a194c0b2-23f1-4109-bc17-a8e5b60b714b
-    - Name: name
-      Entry: 1
-      Data: Gather 100 crystals
-    - Name: nodeType
-      Entry: 3
-      Data: 1
-    - Name: position
-      Entry: 7
-      Data: UnityEngine.Rect, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 1389
-    - Name: 
-      Entry: 4
-      Data: 10
-    - Name: 
-      Entry: 4
-      Data: 178
-    - Name: 
-      Entry: 4
-      Data: 77
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: data
-      Entry: 7
-      Data: 58|QuestObjective, Assembly-CSharp
-    - Name: m_text
-      Entry: 6
-      Data: 
-    - Name: m_multipleInputOperator
-      Entry: 3
-      Data: 1
-    - Name: m_subObjectives
-      Entry: 7
-      Data: 59|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 2
-    - Name: 
-      Entry: 7
-      Data: 60|QuestSubObjectiveHaveResource, Assembly-CSharp
-    - Name: m_detailSockets
-      Entry: 6
-      Data: 
-    - Name: m_resourceType
-      Entry: 3
-      Data: 1
-    - Name: m_operator
-      Entry: 3
       Data: 0
-    - Name: m_quantity
-      Entry: 4
-      Data: 100
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 61|QuestSubObjectiveStartDialog, Assembly-CSharp
-    - Name: m_detailSockets
-      Entry: 6
-      Data: 
-    - Name: m_texts
-      Entry: 7
-      Data: 62|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 1
-      Data: gather crystals to build other things
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: m_inputToEndDialog
-      Entry: 5
-      Data: false
-    - Name: m_waitDialogEndToComplete
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -1078,73 +1038,6 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 8
-      Data: 
-    - Name: outNodes
-      Entry: 7
-      Data: 63|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 64|QuestSaveConnection, Assembly-CSharp
-    - Name: currentPortName
-      Entry: 1
-      Data: Out
-    - Name: nextPortName
-      Entry: 1
-      Data: In
-    - Name: nextNodeID
-      Entry: 1
-      Data: 7f8689f3-e9af-4704-a99a-4aa3b82e84fc
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 65|QuestSaveNode, Assembly-CSharp
-    - Name: ID
-      Entry: 1
-      Data: 7f8689f3-e9af-4704-a99a-4aa3b82e84fc
-    - Name: name
-      Entry: 1
-      Data: Explanation five
-    - Name: nodeType
-      Entry: 3
-      Data: 1
-    - Name: position
-      Entry: 7
-      Data: UnityEngine.Rect, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 1588
-    - Name: 
-      Entry: 4
-      Data: 9
-    - Name: 
-      Entry: 4
-      Data: 157
-    - Name: 
-      Entry: 4
-      Data: 77
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: data
-      Entry: 7
-      Data: 66|QuestObjective, Assembly-CSharp
-    - Name: m_text
-      Entry: 6
       Data: 
     - Name: m_multipleInputOperator
       Entry: 3
@@ -1170,20 +1063,20 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 1
-      Data: This is you electric energy. Your base is more efficient when the energy
-        is positive. You can place solar pannel for that.
+      Data: The mine exploit the crystal next to it. You can put down multiple crystal
+        mines to exploit all the crystals
     - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
-    - Name: m_inputToEndDialog
-      Entry: 5
-      Data: true
-    - Name: m_waitDialogEndToComplete
-      Entry: 5
-      Data: true
+    - Name: m_dialogEndType
+      Entry: 3
+      Data: 0
+    - Name: m_delayToClose
+      Entry: 4
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -1214,7 +1107,7 @@ MonoBehaviour:
       Data: In
     - Name: nextNodeID
       Entry: 1
-      Data: d5183eae-f02d-4b43-8c4b-4827adf9f6d2
+      Data: a194c0b2-23f1-4109-bc17-a8e5b60b714b
     - Name: 
       Entry: 8
       Data: 
@@ -1230,6 +1123,308 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 72|QuestSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: a194c0b2-23f1-4109-bc17-a8e5b60b714b
+    - Name: name
+      Entry: 1
+      Data: Gather 100 crystals
+    - Name: nodeType
+      Entry: 3
+      Data: 1
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 1389
+    - Name: 
+      Entry: 4
+      Data: 10
+    - Name: 
+      Entry: 4
+      Data: 178
+    - Name: 
+      Entry: 4
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 7
+      Data: 73|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 7
+      Data: 74|QuestObjectiveText, Assembly-CSharp
+    - Name: title
+      Entry: 1
+      Data: Gather [1] [2]
+    - Name: details
+      Entry: 7
+      Data: 75|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_multipleInputOperator
+      Entry: 3
+      Data: 1
+    - Name: m_subObjectives
+      Entry: 7
+      Data: 76|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 77|QuestSubObjectiveHaveResource, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 7
+      Data: 78|System.Collections.Generic.List`1[[System.Int32, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_resourceType
+      Entry: 3
+      Data: 1
+    - Name: m_operator
+      Entry: 3
+      Data: 0
+    - Name: m_quantity
+      Entry: 4
+      Data: 100
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 79|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
+    - Name: m_texts
+      Entry: 7
+      Data: 80|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 1
+      Data: gather crystals to build other things
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_dialogEndType
+      Entry: 3
+      Data: 3
+    - Name: m_delayToClose
+      Entry: 4
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 81|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 82|QuestSaveConnection, Assembly-CSharp
+    - Name: currentPortName
+      Entry: 1
+      Data: Out
+    - Name: nextPortName
+      Entry: 1
+      Data: In
+    - Name: nextNodeID
+      Entry: 1
+      Data: 7f8689f3-e9af-4704-a99a-4aa3b82e84fc
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 83|QuestSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: 7f8689f3-e9af-4704-a99a-4aa3b82e84fc
+    - Name: name
+      Entry: 1
+      Data: Explanation five
+    - Name: nodeType
+      Entry: 3
+      Data: 1
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 1588
+    - Name: 
+      Entry: 4
+      Data: 9
+    - Name: 
+      Entry: 4
+      Data: 157
+    - Name: 
+      Entry: 4
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 7
+      Data: 84|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 7
+      Data: 85|QuestObjectiveText, Assembly-CSharp
+    - Name: title
+      Entry: 6
+      Data: 
+    - Name: details
+      Entry: 7
+      Data: 86|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_multipleInputOperator
+      Entry: 3
+      Data: 1
+    - Name: m_subObjectives
+      Entry: 7
+      Data: 87|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 88|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
+    - Name: m_texts
+      Entry: 7
+      Data: 89|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 1
+      Data: This is you electric energy. Your base is more efficient when the energy
+        is positive. You can place solar pannel for that.
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_dialogEndType
+      Entry: 3
+      Data: 0
+    - Name: m_delayToClose
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 90|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 91|QuestSaveConnection, Assembly-CSharp
+    - Name: currentPortName
+      Entry: 1
+      Data: Out
+    - Name: nextPortName
+      Entry: 1
+      Data: In
+    - Name: nextNodeID
+      Entry: 1
+      Data: d5183eae-f02d-4b43-8c4b-4827adf9f6d2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 92|QuestSaveNode, Assembly-CSharp
     - Name: ID
       Entry: 1
       Data: d5183eae-f02d-4b43-8c4b-4827adf9f6d2
@@ -1259,53 +1454,71 @@ MonoBehaviour:
       Data: 
     - Name: data
       Entry: 7
-      Data: 73|QuestObjective, Assembly-CSharp
+      Data: 93|QuestObjective, Assembly-CSharp
     - Name: m_text
-      Entry: 6
-      Data: 
-    - Name: m_multipleInputOperator
-      Entry: 3
-      Data: 1
-    - Name: m_subObjectives
       Entry: 7
-      Data: 74|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 3
-    - Name: 
-      Entry: 7
-      Data: 75|QuestSubObjectiveStartDialog, Assembly-CSharp
-    - Name: m_detailSockets
-      Entry: 6
-      Data: 
-    - Name: m_texts
-      Entry: 7
-      Data: 76|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
+      Data: 94|QuestObjectiveText, Assembly-CSharp
+    - Name: title
       Entry: 1
-      Data: Build a solar panel
+      Data: Build a Solar panel
+    - Name: details
+      Entry: 7
+      Data: 95|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
-    - Name: m_inputToEndDialog
-      Entry: 5
-      Data: false
-    - Name: m_waitDialogEndToComplete
-      Entry: 5
-      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_multipleInputOperator
+      Entry: 3
+      Data: 1
+    - Name: m_subObjectives
+      Entry: 7
+      Data: 96|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 97|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
+    - Name: m_texts
+      Entry: 7
+      Data: 98|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 1
+      Data: Build a Solar panel
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_dialogEndType
+      Entry: 3
+      Data: 3
+    - Name: m_delayToClose
+      Entry: 4
+      Data: 3
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 7
-      Data: 77|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+      Data: 99|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
     - Name: m_detailSockets
       Entry: 6
       Data: 
@@ -1323,9 +1536,30 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 78|QuestSubObjectiveConstructBuilding, Assembly-CSharp
+      Data: 100|QuestSubObjectiveConstructBuilding, Assembly-CSharp
     - Name: m_detailSockets
-      Entry: 6
+      Entry: 7
+      Data: 101|System.Collections.Generic.List`1[[System.Int32, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 3
+      Data: -1
+    - Name: 
+      Entry: 3
+      Data: -1
+    - Name: 
+      Entry: 3
+      Data: -1
+    - Name: 
+      Entry: 3
+      Data: -1
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
     - Name: m_buildingType
       Entry: 3
@@ -1333,389 +1567,6 @@ MonoBehaviour:
     - Name: m_count
       Entry: 3
       Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: outNodes
-      Entry: 7
-      Data: 79|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 80|QuestSaveConnection, Assembly-CSharp
-    - Name: currentPortName
-      Entry: 1
-      Data: Out
-    - Name: nextPortName
-      Entry: 1
-      Data: In
-    - Name: nextNodeID
-      Entry: 1
-      Data: 821ea53f-3110-4ddf-9b82-af2f1daa33a5
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 81|QuestSaveNode, Assembly-CSharp
-    - Name: ID
-      Entry: 1
-      Data: 821ea53f-3110-4ddf-9b82-af2f1daa33a5
-    - Name: name
-      Entry: 1
-      Data: Explanation six
-    - Name: nodeType
-      Entry: 3
-      Data: 1
-    - Name: position
-      Entry: 7
-      Data: UnityEngine.Rect, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 1964
-    - Name: 
-      Entry: 4
-      Data: 9
-    - Name: 
-      Entry: 4
-      Data: 151
-    - Name: 
-      Entry: 4
-      Data: 77
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: data
-      Entry: 7
-      Data: 82|QuestObjective, Assembly-CSharp
-    - Name: m_text
-      Entry: 6
-      Data: 
-    - Name: m_multipleInputOperator
-      Entry: 3
-      Data: 1
-    - Name: m_subObjectives
-      Entry: 7
-      Data: 83|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 84|QuestSubObjectiveStartDialog, Assembly-CSharp
-    - Name: m_detailSockets
-      Entry: 6
-      Data: 
-    - Name: m_texts
-      Entry: 7
-      Data: 85|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 1
-      Data: Your base need energy in order to be 100% efficient. Thoses pannels produce
-        energy. This help you stay productiv.
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: m_inputToEndDialog
-      Entry: 5
-      Data: true
-    - Name: m_waitDialogEndToComplete
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: outNodes
-      Entry: 7
-      Data: 86|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 87|QuestSaveConnection, Assembly-CSharp
-    - Name: currentPortName
-      Entry: 1
-      Data: Out
-    - Name: nextPortName
-      Entry: 1
-      Data: In
-    - Name: nextNodeID
-      Entry: 1
-      Data: d5500c69-caf6-4b51-b2f6-a42f6fc1ae07
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 88|QuestSaveNode, Assembly-CSharp
-    - Name: ID
-      Entry: 1
-      Data: d5500c69-caf6-4b51-b2f6-a42f6fc1ae07
-    - Name: name
-      Entry: 1
-      Data: BuildStorage
-    - Name: nodeType
-      Entry: 3
-      Data: 1
-    - Name: position
-      Entry: 7
-      Data: UnityEngine.Rect, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 2144
-    - Name: 
-      Entry: 4
-      Data: 10
-    - Name: 
-      Entry: 4
-      Data: 140
-    - Name: 
-      Entry: 4
-      Data: 77
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: data
-      Entry: 7
-      Data: 89|QuestObjective, Assembly-CSharp
-    - Name: m_text
-      Entry: 6
-      Data: 
-    - Name: m_multipleInputOperator
-      Entry: 3
-      Data: 1
-    - Name: m_subObjectives
-      Entry: 7
-      Data: 90|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 3
-    - Name: 
-      Entry: 7
-      Data: 91|QuestSubObjectiveStartDialog, Assembly-CSharp
-    - Name: m_detailSockets
-      Entry: 6
-      Data: 
-    - Name: m_texts
-      Entry: 7
-      Data: 92|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 1
-      Data: Build a storage
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: m_inputToEndDialog
-      Entry: 5
-      Data: false
-    - Name: m_waitDialogEndToComplete
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 93|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
-    - Name: m_detailSockets
-      Entry: 6
-      Data: 
-    - Name: m_buildingType
-      Entry: 3
-      Data: 16
-    - Name: m_unlocked
-      Entry: 5
-      Data: true
-    - Name: m_globalyUnlocked
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 94|QuestSubObjectiveConstructBuilding, Assembly-CSharp
-    - Name: m_detailSockets
-      Entry: 6
-      Data: 
-    - Name: m_buildingType
-      Entry: 3
-      Data: 16
-    - Name: m_count
-      Entry: 3
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: outNodes
-      Entry: 7
-      Data: 95|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 96|QuestSaveConnection, Assembly-CSharp
-    - Name: currentPortName
-      Entry: 1
-      Data: Out
-    - Name: nextPortName
-      Entry: 1
-      Data: In
-    - Name: nextNodeID
-      Entry: 1
-      Data: 8babe9f8-2927-40de-b3f4-1ab8b042b1ac
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 97|QuestSaveNode, Assembly-CSharp
-    - Name: ID
-      Entry: 1
-      Data: 8babe9f8-2927-40de-b3f4-1ab8b042b1ac
-    - Name: name
-      Entry: 1
-      Data: Explanation seven
-    - Name: nodeType
-      Entry: 3
-      Data: 1
-    - Name: position
-      Entry: 7
-      Data: UnityEngine.Rect, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 2315
-    - Name: 
-      Entry: 4
-      Data: 9
-    - Name: 
-      Entry: 4
-      Data: 170
-    - Name: 
-      Entry: 4
-      Data: 77
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: data
-      Entry: 7
-      Data: 98|QuestObjective, Assembly-CSharp
-    - Name: m_text
-      Entry: 6
-      Data: 
-    - Name: m_multipleInputOperator
-      Entry: 3
-      Data: 1
-    - Name: m_subObjectives
-      Entry: 7
-      Data: 99|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 100|QuestSubObjectiveStartDialog, Assembly-CSharp
-    - Name: m_detailSockets
-      Entry: 6
-      Data: 
-    - Name: m_texts
-      Entry: 7
-      Data: 101|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 1
-      Data: 'The storage upgrade the maximum resources limit you can have. You can
-        have several storages. '
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: m_inputToEndDialog
-      Entry: 5
-      Data: true
-    - Name: m_waitDialogEndToComplete
-      Entry: 5
-      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -1746,7 +1597,7 @@ MonoBehaviour:
       Data: In
     - Name: nextNodeID
       Entry: 1
-      Data: 8cf61370-2d78-4906-8714-920e3f975e60
+      Data: 821ea53f-3110-4ddf-9b82-af2f1daa33a5
     - Name: 
       Entry: 8
       Data: 
@@ -1764,10 +1615,10 @@ MonoBehaviour:
       Data: 104|QuestSaveNode, Assembly-CSharp
     - Name: ID
       Entry: 1
-      Data: 8cf61370-2d78-4906-8714-920e3f975e60
+      Data: 821ea53f-3110-4ddf-9b82-af2f1daa33a5
     - Name: name
       Entry: 1
-      Data: Explanation eight
+      Data: Explanation six
     - Name: nodeType
       Entry: 3
       Data: 1
@@ -1776,13 +1627,13 @@ MonoBehaviour:
       Data: UnityEngine.Rect, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 2519
+      Data: 1964
     - Name: 
       Entry: 4
-      Data: 13
+      Data: 9
     - Name: 
       Entry: 4
-      Data: 164
+      Data: 151
     - Name: 
       Entry: 4
       Data: 77
@@ -1793,45 +1644,64 @@ MonoBehaviour:
       Entry: 7
       Data: 105|QuestObjective, Assembly-CSharp
     - Name: m_text
+      Entry: 7
+      Data: 106|QuestObjectiveText, Assembly-CSharp
+    - Name: title
       Entry: 6
       Data: 
-    - Name: m_multipleInputOperator
-      Entry: 3
-      Data: 1
-    - Name: m_subObjectives
+    - Name: details
       Entry: 7
-      Data: 106|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
-        mscorlib
+      Data: 107|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
     - Name: 
       Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 107|QuestSubObjectiveStartDialog, Assembly-CSharp
-    - Name: m_detailSockets
-      Entry: 6
-      Data: 
-    - Name: m_texts
-      Entry: 7
-      Data: 108|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 1
-      Data: There will be enemies to destroy your base, you need protection
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
-    - Name: m_inputToEndDialog
-      Entry: 5
-      Data: true
-    - Name: m_waitDialogEndToComplete
-      Entry: 5
-      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_multipleInputOperator
+      Entry: 3
+      Data: 1
+    - Name: m_subObjectives
+      Entry: 7
+      Data: 108|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 109|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
+    - Name: m_texts
+      Entry: 7
+      Data: 110|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 1
+      Data: Your base need energy in order to be 100% efficient. Thoses pannels produce
+        energy. This help you stay productive.
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_dialogEndType
+      Entry: 3
+      Data: 0
+    - Name: m_delayToClose
+      Entry: 4
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -1846,14 +1716,471 @@ MonoBehaviour:
       Data: 
     - Name: outNodes
       Entry: 7
-      Data: 109|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+      Data: 111|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 110|QuestSaveConnection, Assembly-CSharp
+      Data: 112|QuestSaveConnection, Assembly-CSharp
+    - Name: currentPortName
+      Entry: 1
+      Data: Out
+    - Name: nextPortName
+      Entry: 1
+      Data: In
+    - Name: nextNodeID
+      Entry: 1
+      Data: d5500c69-caf6-4b51-b2f6-a42f6fc1ae07
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 113|QuestSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: d5500c69-caf6-4b51-b2f6-a42f6fc1ae07
+    - Name: name
+      Entry: 1
+      Data: BuildStorage
+    - Name: nodeType
+      Entry: 3
+      Data: 1
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 2144
+    - Name: 
+      Entry: 4
+      Data: 10
+    - Name: 
+      Entry: 4
+      Data: 140
+    - Name: 
+      Entry: 4
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 7
+      Data: 114|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 7
+      Data: 115|QuestObjectiveText, Assembly-CSharp
+    - Name: title
+      Entry: 1
+      Data: Build a Storage
+    - Name: details
+      Entry: 7
+      Data: 116|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_multipleInputOperator
+      Entry: 3
+      Data: 1
+    - Name: m_subObjectives
+      Entry: 7
+      Data: 117|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 118|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
+    - Name: m_texts
+      Entry: 7
+      Data: 119|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 1
+      Data: Build a Storage
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_dialogEndType
+      Entry: 3
+      Data: 3
+    - Name: m_delayToClose
+      Entry: 4
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 120|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
+    - Name: m_buildingType
+      Entry: 3
+      Data: 16
+    - Name: m_unlocked
+      Entry: 5
+      Data: true
+    - Name: m_globalyUnlocked
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 121|QuestSubObjectiveConstructBuilding, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 7
+      Data: 122|System.Collections.Generic.List`1[[System.Int32, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 3
+      Data: -1
+    - Name: 
+      Entry: 3
+      Data: -1
+    - Name: 
+      Entry: 3
+      Data: -1
+    - Name: 
+      Entry: 3
+      Data: -1
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_buildingType
+      Entry: 3
+      Data: 16
+    - Name: m_count
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 123|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 124|QuestSaveConnection, Assembly-CSharp
+    - Name: currentPortName
+      Entry: 1
+      Data: Out
+    - Name: nextPortName
+      Entry: 1
+      Data: In
+    - Name: nextNodeID
+      Entry: 1
+      Data: 8babe9f8-2927-40de-b3f4-1ab8b042b1ac
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 125|QuestSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: 8babe9f8-2927-40de-b3f4-1ab8b042b1ac
+    - Name: name
+      Entry: 1
+      Data: Explanation seven
+    - Name: nodeType
+      Entry: 3
+      Data: 1
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 2315
+    - Name: 
+      Entry: 4
+      Data: 9
+    - Name: 
+      Entry: 4
+      Data: 170
+    - Name: 
+      Entry: 4
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 7
+      Data: 126|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 7
+      Data: 127|QuestObjectiveText, Assembly-CSharp
+    - Name: title
+      Entry: 6
+      Data: 
+    - Name: details
+      Entry: 7
+      Data: 128|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_multipleInputOperator
+      Entry: 3
+      Data: 1
+    - Name: m_subObjectives
+      Entry: 7
+      Data: 129|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 130|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
+    - Name: m_texts
+      Entry: 7
+      Data: 131|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 1
+      Data: 'The storage upgrade the maximum resources limit you can have. You can
+        have several storages. '
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_dialogEndType
+      Entry: 3
+      Data: 0
+    - Name: m_delayToClose
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 132|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 133|QuestSaveConnection, Assembly-CSharp
+    - Name: currentPortName
+      Entry: 1
+      Data: Out
+    - Name: nextPortName
+      Entry: 1
+      Data: In
+    - Name: nextNodeID
+      Entry: 1
+      Data: 8cf61370-2d78-4906-8714-920e3f975e60
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 134|QuestSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: 8cf61370-2d78-4906-8714-920e3f975e60
+    - Name: name
+      Entry: 1
+      Data: Explanation eight
+    - Name: nodeType
+      Entry: 3
+      Data: 1
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 2521
+    - Name: 
+      Entry: 4
+      Data: 9
+    - Name: 
+      Entry: 4
+      Data: 164
+    - Name: 
+      Entry: 4
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 7
+      Data: 135|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 7
+      Data: 136|QuestObjectiveText, Assembly-CSharp
+    - Name: title
+      Entry: 6
+      Data: 
+    - Name: details
+      Entry: 7
+      Data: 137|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_multipleInputOperator
+      Entry: 3
+      Data: 1
+    - Name: m_subObjectives
+      Entry: 7
+      Data: 138|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 139|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
+    - Name: m_texts
+      Entry: 7
+      Data: 140|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 1
+      Data: There will be enemies to destroy your base, you need protection
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_dialogEndType
+      Entry: 3
+      Data: 0
+    - Name: m_delayToClose
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 141|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 142|QuestSaveConnection, Assembly-CSharp
     - Name: currentPortName
       Entry: 1
       Data: Out
@@ -1877,7 +2204,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 111|QuestSaveNode, Assembly-CSharp
+      Data: 143|QuestSaveNode, Assembly-CSharp
     - Name: ID
       Entry: 1
       Data: 15a96b0d-885d-4f28-8b17-7035daba52c2
@@ -1907,16 +2234,16 @@ MonoBehaviour:
       Data: 
     - Name: data
       Entry: 7
-      Data: 112|QuestObjective, Assembly-CSharp
+      Data: 144|QuestObjective, Assembly-CSharp
     - Name: m_text
       Entry: 7
-      Data: 113|QuestObjectiveText, Assembly-CSharp
+      Data: 145|QuestObjectiveText, Assembly-CSharp
     - Name: title
       Entry: 6
       Data: 
     - Name: details
       Entry: 7
-      Data: 114|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+      Data: 146|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
     - Name: 
       Entry: 12
       Data: 0
@@ -1934,20 +2261,20 @@ MonoBehaviour:
       Data: 1
     - Name: m_subObjectives
       Entry: 7
-      Data: 115|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+      Data: 147|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 116|QuestSubObjectiveStartDialog, Assembly-CSharp
+      Data: 148|QuestSubObjectiveStartDialog, Assembly-CSharp
     - Name: m_detailSockets
       Entry: 6
       Data: 
     - Name: m_texts
       Entry: 7
-      Data: 117|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+      Data: 149|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
     - Name: 
       Entry: 12
       Data: 1
@@ -1960,522 +2287,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: m_inputToEndDialog
-      Entry: 5
-      Data: true
-    - Name: m_waitDialogEndToComplete
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: outNodes
-      Entry: 7
-      Data: 118|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 119|QuestSaveConnection, Assembly-CSharp
-    - Name: currentPortName
-      Entry: 1
-      Data: Out
-    - Name: nextPortName
-      Entry: 1
-      Data: In
-    - Name: nextNodeID
-      Entry: 1
-      Data: f8cb44b3-0277-49dc-810f-fc5f3b504c32
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 120|QuestSaveNode, Assembly-CSharp
-    - Name: ID
-      Entry: 1
-      Data: c1c25e98-5564-4239-8bf2-be8996bc3b08
-    - Name: name
-      Entry: 1
-      Data: Build energetic turret
-    - Name: nodeType
+    - Name: m_dialogEndType
       Entry: 3
-      Data: 1
-    - Name: position
-      Entry: 7
-      Data: UnityEngine.Rect, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 2711
-    - Name: 
-      Entry: 4
-      Data: 10
-    - Name: 
-      Entry: 4
-      Data: 185
-    - Name: 
-      Entry: 4
-      Data: 77
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: data
-      Entry: 7
-      Data: 121|QuestObjective, Assembly-CSharp
-    - Name: m_text
-      Entry: 6
-      Data: 
-    - Name: m_multipleInputOperator
-      Entry: 3
-      Data: 1
-    - Name: m_subObjectives
-      Entry: 7
-      Data: 122|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 3
-    - Name: 
-      Entry: 7
-      Data: 123|QuestSubObjectiveStartDialog, Assembly-CSharp
-    - Name: m_detailSockets
-      Entry: 6
-      Data: 
-    - Name: m_texts
-      Entry: 7
-      Data: 124|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 1
-      Data: Build energetic turret
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: m_inputToEndDialog
-      Entry: 5
-      Data: false
-    - Name: m_waitDialogEndToComplete
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 125|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
-    - Name: m_detailSockets
-      Entry: 6
-      Data: 
-    - Name: m_buildingType
-      Entry: 3
-      Data: 13
-    - Name: m_unlocked
-      Entry: 5
-      Data: true
-    - Name: m_globalyUnlocked
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 126|QuestSubObjectiveSpawnObject, Assembly-CSharp
-    - Name: m_detailSockets
-      Entry: 6
-      Data: 
-    - Name: m_prefab
-      Entry: 10
-      Data: 2
-    - Name: m_name
-      Entry: 1
-      Data: Turret
-    - Name: m_location
-      Entry: 1
-      Data: LockTurret
-    - Name: m_waitTaskComplete
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: outNodes
-      Entry: 7
-      Data: 127|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 128|QuestSaveConnection, Assembly-CSharp
-    - Name: currentPortName
-      Entry: 1
-      Data: Out
-    - Name: nextPortName
-      Entry: 1
-      Data: In
-    - Name: nextNodeID
-      Entry: 1
-      Data: b343ad71-f71a-48c5-9d50-c0448dfd30af
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 129|QuestSaveNode, Assembly-CSharp
-    - Name: ID
-      Entry: 1
-      Data: b343ad71-f71a-48c5-9d50-c0448dfd30af
-    - Name: name
-      Entry: 1
-      Data: Explanation nine
-    - Name: nodeType
-      Entry: 3
-      Data: 1
-    - Name: position
-      Entry: 7
-      Data: UnityEngine.Rect, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 2941
-    - Name: 
-      Entry: 4
-      Data: 13
-    - Name: 
-      Entry: 4
-      Data: 160
-    - Name: 
-      Entry: 4
-      Data: 77
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: data
-      Entry: 7
-      Data: 130|QuestObjective, Assembly-CSharp
-    - Name: m_text
-      Entry: 6
-      Data: 
-    - Name: m_multipleInputOperator
-      Entry: 3
-      Data: 1
-    - Name: m_subObjectives
-      Entry: 7
-      Data: 131|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 132|QuestSubObjectiveStartDialog, Assembly-CSharp
-    - Name: m_detailSockets
-      Entry: 6
-      Data: 
-    - Name: m_texts
-      Entry: 7
-      Data: 133|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 1
-      Data: This turret will kill enemis when they'll be there with energy. When
-        it shoots, it consume energy. Make sure you stay positiv
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: m_inputToEndDialog
-      Entry: 5
-      Data: true
-    - Name: m_waitDialogEndToComplete
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: outNodes
-      Entry: 7
-      Data: 134|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 135|QuestSaveConnection, Assembly-CSharp
-    - Name: currentPortName
-      Entry: 1
-      Data: Out
-    - Name: nextPortName
-      Entry: 1
-      Data: In
-    - Name: nextNodeID
-      Entry: 1
-      Data: 15a96b0d-885d-4f28-8b17-7035daba52c2
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 136|QuestSaveNode, Assembly-CSharp
-    - Name: ID
-      Entry: 1
-      Data: f8cb44b3-0277-49dc-810f-fc5f3b504c32
-    - Name: name
-      Entry: 1
-      Data: Waves
-    - Name: nodeType
-      Entry: 3
-      Data: 1
-    - Name: position
-      Entry: 7
-      Data: UnityEngine.Rect, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 3548
-    - Name: 
-      Entry: 4
-      Data: 11
-    - Name: 
-      Entry: 4
-      Data: 138
-    - Name: 
-      Entry: 4
-      Data: 77
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: data
-      Entry: 7
-      Data: 137|QuestObjective, Assembly-CSharp
-    - Name: m_text
-      Entry: 7
-      Data: 138|QuestObjectiveText, Assembly-CSharp
-    - Name: title
-      Entry: 6
-      Data: 
-    - Name: details
-      Entry: 7
-      Data: 139|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
-    - Name: 
-      Entry: 12
       Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: m_multipleInputOperator
-      Entry: 3
-      Data: 1
-    - Name: m_subObjectives
-      Entry: 7
-      Data: 140|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 141|QuestSubObjectiveStartGamemode, Assembly-CSharp
-    - Name: m_detailSockets
-      Entry: 6
-      Data: 
-    - Name: m_name
-      Entry: 1
-      Data: Waves
-    - Name: m_gamemode
-      Entry: 10
-      Data: 3
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: outNodes
-      Entry: 7
-      Data: 142|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 143|QuestSaveConnection, Assembly-CSharp
-    - Name: currentPortName
-      Entry: 1
-      Data: Out
-    - Name: nextPortName
-      Entry: 1
-      Data: In
-    - Name: nextNodeID
-      Entry: 1
-      Data: 110254f7-f4e9-46dd-9d93-c0efc6e68b06
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 144|QuestSaveNode, Assembly-CSharp
-    - Name: ID
-      Entry: 1
-      Data: 110254f7-f4e9-46dd-9d93-c0efc6e68b06
-    - Name: name
-      Entry: 1
-      Data: IsComplete
-    - Name: nodeType
-      Entry: 3
-      Data: 1
-    - Name: position
-      Entry: 7
-      Data: UnityEngine.Rect, UnityEngine.CoreModule
-    - Name: 
+    - Name: m_delayToClose
       Entry: 4
-      Data: 3738
-    - Name: 
-      Entry: 4
-      Data: 10
-    - Name: 
-      Entry: 4
-      Data: 138
-    - Name: 
-      Entry: 4
-      Data: 77
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: data
-      Entry: 7
-      Data: 145|QuestObjective, Assembly-CSharp
-    - Name: m_text
-      Entry: 7
-      Data: 146|QuestObjectiveText, Assembly-CSharp
-    - Name: title
-      Entry: 6
-      Data: 
-    - Name: details
-      Entry: 7
-      Data: 147|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
-    - Name: 
-      Entry: 12
       Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: m_multipleInputOperator
-      Entry: 3
-      Data: 1
-    - Name: m_subObjectives
-      Entry: 7
-      Data: 148|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 149|QuestSubObjectiveGamemodeStatus, Assembly-CSharp
-    - Name: m_detailSockets
-      Entry: 6
-      Data: 
-    - Name: m_name
-      Entry: 1
-      Data: Waves
-    - Name: m_status
-      Entry: 3
-      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -2506,7 +2323,7 @@ MonoBehaviour:
       Data: In
     - Name: nextNodeID
       Entry: 1
-      Data: 60c75890-3e6e-44a9-ae4f-8981816514a9
+      Data: f8cb44b3-0277-49dc-810f-fc5f3b504c32
     - Name: 
       Entry: 8
       Data: 
@@ -2524,59 +2341,10 @@ MonoBehaviour:
       Data: 152|QuestSaveNode, Assembly-CSharp
     - Name: ID
       Entry: 1
-      Data: 9c05a677-1458-4424-9fae-ef669270b1a9
+      Data: c1c25e98-5564-4239-8bf2-be8996bc3b08
     - Name: name
       Entry: 1
-      Data: Complete_9c05a677-1458-4424-9fae-ef669270b1a9
-    - Name: nodeType
-      Entry: 3
-      Data: 2
-    - Name: position
-      Entry: 7
-      Data: UnityEngine.Rect, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 4110
-    - Name: 
-      Entry: 4
-      Data: 12
-    - Name: 
-      Entry: 4
-      Data: 114
-    - Name: 
-      Entry: 4
-      Data: 77
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: data
-      Entry: 6
-      Data: 
-    - Name: outNodes
-      Entry: 7
-      Data: 153|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 154|QuestSaveNode, Assembly-CSharp
-    - Name: ID
-      Entry: 1
-      Data: 60c75890-3e6e-44a9-ae4f-8981816514a9
-    - Name: name
-      Entry: 1
-      Data: Timer
+      Data: Build energetic turret
     - Name: nodeType
       Entry: 3
       Data: 1
@@ -2585,13 +2353,13 @@ MonoBehaviour:
       Data: UnityEngine.Rect, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 3910
+      Data: 2711
     - Name: 
       Entry: 4
-      Data: 15
+      Data: 10
     - Name: 
       Entry: 4
-      Data: 138
+      Data: 185
     - Name: 
       Entry: 4
       Data: 77
@@ -2600,16 +2368,16 @@ MonoBehaviour:
       Data: 
     - Name: data
       Entry: 7
-      Data: 155|QuestObjective, Assembly-CSharp
+      Data: 153|QuestObjective, Assembly-CSharp
     - Name: m_text
       Entry: 7
-      Data: 156|QuestObjectiveText, Assembly-CSharp
+      Data: 154|QuestObjectiveText, Assembly-CSharp
     - Name: title
-      Entry: 6
-      Data: 
+      Entry: 1
+      Data: Build a turret
     - Name: details
       Entry: 7
-      Data: 157|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+      Data: 155|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
     - Name: 
       Entry: 12
       Data: 0
@@ -2627,17 +2395,612 @@ MonoBehaviour:
       Data: 1
     - Name: m_subObjectives
       Entry: 7
-      Data: 158|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+      Data: 156|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 157|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
+    - Name: m_texts
+      Entry: 7
+      Data: 158|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 1
+      Data: Build energetic turret
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_dialogEndType
+      Entry: 3
+      Data: 3
+    - Name: m_delayToClose
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 159|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
+    - Name: m_buildingType
+      Entry: 3
+      Data: 13
+    - Name: m_unlocked
+      Entry: 5
+      Data: true
+    - Name: m_globalyUnlocked
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 160|QuestSubObjectiveSpawnObject, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
+    - Name: m_prefab
+      Entry: 10
+      Data: 2
+    - Name: m_name
+      Entry: 1
+      Data: Turret
+    - Name: m_location
+      Entry: 1
+      Data: LockTurret
+    - Name: m_waitTaskComplete
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 161|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 159|QuestSubObjectiveTimer, Assembly-CSharp
+      Data: 162|QuestSaveConnection, Assembly-CSharp
+    - Name: currentPortName
+      Entry: 1
+      Data: Out
+    - Name: nextPortName
+      Entry: 1
+      Data: In
+    - Name: nextNodeID
+      Entry: 1
+      Data: b343ad71-f71a-48c5-9d50-c0448dfd30af
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 163|QuestSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: b343ad71-f71a-48c5-9d50-c0448dfd30af
+    - Name: name
+      Entry: 1
+      Data: Explanation nine
+    - Name: nodeType
+      Entry: 3
+      Data: 1
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 2944
+    - Name: 
+      Entry: 4
+      Data: 9
+    - Name: 
+      Entry: 4
+      Data: 160
+    - Name: 
+      Entry: 4
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 7
+      Data: 164|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 7
+      Data: 165|QuestObjectiveText, Assembly-CSharp
+    - Name: title
+      Entry: 6
+      Data: 
+    - Name: details
+      Entry: 7
+      Data: 166|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_multipleInputOperator
+      Entry: 3
+      Data: 1
+    - Name: m_subObjectives
+      Entry: 7
+      Data: 167|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 168|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
+    - Name: m_texts
+      Entry: 7
+      Data: 169|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 1
+      Data: This turret will kill enemis when they'll be there with energy. When
+        it shoots, it consume energy. Make sure you stay positive.
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_dialogEndType
+      Entry: 3
+      Data: 0
+    - Name: m_delayToClose
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 170|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 171|QuestSaveConnection, Assembly-CSharp
+    - Name: currentPortName
+      Entry: 1
+      Data: Out
+    - Name: nextPortName
+      Entry: 1
+      Data: In
+    - Name: nextNodeID
+      Entry: 1
+      Data: 15a96b0d-885d-4f28-8b17-7035daba52c2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 172|QuestSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: f8cb44b3-0277-49dc-810f-fc5f3b504c32
+    - Name: name
+      Entry: 1
+      Data: Waves
+    - Name: nodeType
+      Entry: 3
+      Data: 1
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 3548
+    - Name: 
+      Entry: 4
+      Data: 11
+    - Name: 
+      Entry: 4
+      Data: 138
+    - Name: 
+      Entry: 4
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 7
+      Data: 173|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 7
+      Data: 174|QuestObjectiveText, Assembly-CSharp
+    - Name: title
+      Entry: 6
+      Data: 
+    - Name: details
+      Entry: 7
+      Data: 175|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_multipleInputOperator
+      Entry: 3
+      Data: 1
+    - Name: m_subObjectives
+      Entry: 7
+      Data: 176|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 177|QuestSubObjectiveStartGamemode, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
+    - Name: m_name
+      Entry: 1
+      Data: Waves
+    - Name: m_gamemode
+      Entry: 10
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 178|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 179|QuestSaveConnection, Assembly-CSharp
+    - Name: currentPortName
+      Entry: 1
+      Data: Out
+    - Name: nextPortName
+      Entry: 1
+      Data: In
+    - Name: nextNodeID
+      Entry: 1
+      Data: 110254f7-f4e9-46dd-9d93-c0efc6e68b06
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 180|QuestSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: 110254f7-f4e9-46dd-9d93-c0efc6e68b06
+    - Name: name
+      Entry: 1
+      Data: IsComplete
+    - Name: nodeType
+      Entry: 3
+      Data: 1
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 3738
+    - Name: 
+      Entry: 4
+      Data: 10
+    - Name: 
+      Entry: 4
+      Data: 138
+    - Name: 
+      Entry: 4
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 7
+      Data: 181|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 7
+      Data: 182|QuestObjectiveText, Assembly-CSharp
+    - Name: title
+      Entry: 1
+      Data: Survive the waves
+    - Name: details
+      Entry: 7
+      Data: 183|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_multipleInputOperator
+      Entry: 3
+      Data: 1
+    - Name: m_subObjectives
+      Entry: 7
+      Data: 184|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 185|QuestSubObjectiveGamemodeStatus, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
+    - Name: m_name
+      Entry: 1
+      Data: Waves
+    - Name: m_status
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 186|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 187|QuestSaveConnection, Assembly-CSharp
+    - Name: currentPortName
+      Entry: 1
+      Data: Out
+    - Name: nextPortName
+      Entry: 1
+      Data: In
+    - Name: nextNodeID
+      Entry: 1
+      Data: 60c75890-3e6e-44a9-ae4f-8981816514a9
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 188|QuestSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: 9c05a677-1458-4424-9fae-ef669270b1a9
+    - Name: name
+      Entry: 1
+      Data: Complete_9c05a677-1458-4424-9fae-ef669270b1a9
+    - Name: nodeType
+      Entry: 3
+      Data: 2
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 4330
+    - Name: 
+      Entry: 4
+      Data: 10
+    - Name: 
+      Entry: 4
+      Data: 114
+    - Name: 
+      Entry: 4
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 6
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 189|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 190|QuestSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: 60c75890-3e6e-44a9-ae4f-8981816514a9
+    - Name: name
+      Entry: 1
+      Data: Timer
+    - Name: nodeType
+      Entry: 3
+      Data: 1
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 3921
+    - Name: 
+      Entry: 4
+      Data: 10
+    - Name: 
+      Entry: 4
+      Data: 138
+    - Name: 
+      Entry: 4
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 7
+      Data: 191|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 7
+      Data: 192|QuestObjectiveText, Assembly-CSharp
+    - Name: title
+      Entry: 6
+      Data: 
+    - Name: details
+      Entry: 7
+      Data: 193|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_multipleInputOperator
+      Entry: 3
+      Data: 1
+    - Name: m_subObjectives
+      Entry: 7
+      Data: 194|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 195|QuestSubObjectiveTimer, Assembly-CSharp
     - Name: m_detailSockets
       Entry: 7
-      Data: 160|System.Collections.Generic.List`1[[System.Int32, mscorlib]], mscorlib
+      Data: 196|System.Collections.Generic.List`1[[System.Int32, mscorlib]], mscorlib
     - Name: 
       Entry: 12
       Data: 3
@@ -2673,14 +3036,164 @@ MonoBehaviour:
       Data: 
     - Name: outNodes
       Entry: 7
-      Data: 161|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+      Data: 197|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 162|QuestSaveConnection, Assembly-CSharp
+      Data: 198|QuestSaveConnection, Assembly-CSharp
+    - Name: currentPortName
+      Entry: 1
+      Data: Out
+    - Name: nextPortName
+      Entry: 1
+      Data: In
+    - Name: nextNodeID
+      Entry: 1
+      Data: f89d2899-8b1d-4476-ab44-0b2012e47392
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 199|QuestSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: f89d2899-8b1d-4476-ab44-0b2012e47392
+    - Name: name
+      Entry: 1
+      Data: Explaination End
+    - Name: nodeType
+      Entry: 3
+      Data: 1
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 4119
+    - Name: 
+      Entry: 4
+      Data: 10
+    - Name: 
+      Entry: 4
+      Data: 160
+    - Name: 
+      Entry: 4
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 7
+      Data: 200|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 7
+      Data: 201|QuestObjectiveText, Assembly-CSharp
+    - Name: title
+      Entry: 6
+      Data: 
+    - Name: details
+      Entry: 7
+      Data: 202|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_multipleInputOperator
+      Entry: 3
+      Data: 1
+    - Name: m_subObjectives
+      Entry: 7
+      Data: 203|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 204|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 7
+      Data: 205|System.Collections.Generic.List`1[[System.Int32, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_texts
+      Entry: 7
+      Data: 206|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 1
+      Data: Congratulation, you have completed the tutorial !
+    - Name: 
+      Entry: 1
+      Data: All the buildings are unlocked, explore the levels and experiment with
+        theses new possibilities.
+    - Name: 
+      Entry: 1
+      Data: Good luck !
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_dialogEndType
+      Entry: 3
+      Data: 0
+    - Name: m_delayToClose
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 207|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 208|QuestSaveConnection, Assembly-CSharp
     - Name: currentPortName
       Entry: 1
       Data: Out

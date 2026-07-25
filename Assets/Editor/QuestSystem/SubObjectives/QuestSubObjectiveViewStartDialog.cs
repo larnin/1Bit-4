@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
 public class QuestSubObjectiveViewStartDialog : QuestSubObjectiveViewBase
@@ -10,6 +11,7 @@ public class QuestSubObjectiveViewStartDialog : QuestSubObjectiveViewBase
     new QuestSubObjectiveStartDialog m_subObjective;
 
     VisualElement m_textsContainer;
+    VisualElement m_delayElement;
 
     public QuestSubObjectiveViewStartDialog(QuestSystemNodeObjective node, QuestSubObjectiveStartDialog subObjective) : base(node, subObjective)
     {
@@ -20,13 +22,14 @@ public class QuestSubObjectiveViewStartDialog : QuestSubObjectiveViewBase
     {
         var element = new VisualElement();
 
-        VisualElement DialogEnd = QuestSystemEditorUtility.CreateCheckbox("Wait dialog end", m_subObjective.waitDialogEndToComplete, WaitDialogEndComplete);
-        DialogEnd.tooltip = "If not checked, this sub objective is completed instantly";
-        element.Add(DialogEnd);
+        EnumField EndType = new EnumField("End type", m_subObjective.dialogEndType);
+        EndType.RegisterValueChangedCallback(OnEndTypeChange);
+        element.Add(EndType);
 
-        VisualElement NeedPlayerInput = QuestSystemEditorUtility.CreateCheckbox("Need player input", m_subObjective.inputToEndDialog, InputEndDialog);
-        NeedPlayerInput.tooltip = "If not checked, this dialog will need to be closed manually with an other quest objective";
-        element.Add(NeedPlayerInput);
+        m_delayElement = QuestSystemEditorUtility.CreateFloatField(m_subObjective.delayToClose, "Delay to close", OnDelayChange);
+        m_delayElement.tooltip = "Only active if the End type is CloseAfterTimer";
+        element.Add(m_delayElement);
+        UpdateDelayVisibility();
 
         m_textsContainer = new VisualElement();
         element.Add(m_textsContainer);
@@ -37,14 +40,15 @@ public class QuestSubObjectiveViewStartDialog : QuestSubObjectiveViewBase
         return element;
     }
 
-    void WaitDialogEndComplete(ChangeEvent<bool> value)
+    void OnEndTypeChange(ChangeEvent<Enum> value)
     {
-        m_subObjective.waitDialogEndToComplete = value.newValue;
+        m_subObjective.dialogEndType = value.newValue as QuestDialogEndType? ?? QuestDialogEndType.InputToEnd;
+        UpdateDelayVisibility();
     }
 
-    void InputEndDialog(ChangeEvent<bool> value)
+    void OnDelayChange(ChangeEvent<float> value)
     {
-        m_subObjective.inputToEndDialog = value.newValue;
+        m_subObjective.delayToClose = value.newValue;
     }
 
     void AddTextClick()
@@ -87,5 +91,10 @@ public class QuestSubObjectiveViewStartDialog : QuestSubObjectiveViewBase
 
             m_textsContainer.Add(elem);
         }
+    }
+
+    void UpdateDelayVisibility()
+    {
+        m_delayElement.SetEnabled(m_subObjective.dialogEndType == QuestDialogEndType.CloseAfterTimer);
     }
 }

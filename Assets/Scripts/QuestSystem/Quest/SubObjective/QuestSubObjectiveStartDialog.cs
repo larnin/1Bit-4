@@ -5,6 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+public enum QuestDialogEndType
+{
+    InputToEnd,
+    InputToEndNoWait,
+    KeepOpen,
+    CloseAfterTimer,
+    CloseAtEndObjective,
+}
+
 [Serializable]
 public class QuestSubObjectiveStartDialog : QuestSubObjectiveBase
 {
@@ -12,12 +21,14 @@ public class QuestSubObjectiveStartDialog : QuestSubObjectiveBase
     List<string> m_texts = new List<string>();
 
     [SerializeField]
-    bool m_inputToEndDialog = true;
-    public bool inputToEndDialog { get { return m_inputToEndDialog; } set { m_inputToEndDialog = value; } }
+    QuestDialogEndType m_dialogEndType = QuestDialogEndType.InputToEndNoWait;
+    public QuestDialogEndType dialogEndType { get { return m_dialogEndType; } set { m_dialogEndType = value; } }
 
     [SerializeField]
-    bool m_waitDialogEndToComplete = false;
-    public bool waitDialogEndToComplete { get { return m_waitDialogEndToComplete; } set { m_waitDialogEndToComplete = value; } }
+    float m_delayToClose = 0;
+    public float delayToClose { get { return m_delayToClose; } set { m_delayToClose = value; } }
+
+    float m_timer = 0;
 
     public int GetTextCount() { return m_texts.Count; }
 
@@ -49,7 +60,10 @@ public class QuestSubObjectiveStartDialog : QuestSubObjectiveBase
 
     public override bool IsCompleted()
     {
-        if (!m_waitDialogEndToComplete)
+        if (m_dialogEndType == QuestDialogEndType.InputToEndNoWait || m_dialogEndType == QuestDialogEndType.KeepOpen || m_dialogEndType == QuestDialogEndType.CloseAtEndObjective)
+            return true;
+
+        if (m_dialogEndType == QuestDialogEndType.CloseAfterTimer && m_timer > m_delayToClose)
             return true;
 
         if (MenuSystem.instance == null)
@@ -73,11 +87,31 @@ public class QuestSubObjectiveStartDialog : QuestSubObjectiveBase
         if (popup == null)
             return;
 
-        popup.DisplayTexts(m_texts, m_inputToEndDialog);
+        popup.DisplayTexts(m_texts, m_dialogEndType == QuestDialogEndType.InputToEnd || m_dialogEndType == QuestDialogEndType.InputToEndNoWait);
     }
 
-    public override void Update(float deltaTime) { }
+    public override void Update(float deltaTime)
+    {
+        if (m_dialogEndType == QuestDialogEndType.CloseAfterTimer)
+        {
+            if (MenuSystem.instance != null)
+            {
+                DialogPopup popup = MenuSystem.instance.GetOpenedMenu<DialogPopup>();
+                if (popup != null && popup.IsDisplayingLastText())
+                {
+                    m_timer += deltaTime;
+                    if(m_timer > m_delayToClose)
+                        MenuSystem.instance.CloseMenu<DialogPopup>();
+                }
+            }
+        }
+    }
 
-    public override void End() { }
+    public override void End()
+    {
+        if(m_dialogEndType == QuestDialogEndType.CloseAtEndObjective || m_dialogEndType == QuestDialogEndType.CloseAfterTimer
+            )
+            MenuSystem.instance.CloseMenu<DialogPopup>();
+    }
 
 }
