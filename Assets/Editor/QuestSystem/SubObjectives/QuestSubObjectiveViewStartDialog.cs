@@ -22,9 +22,9 @@ public class QuestSubObjectiveViewStartDialog : QuestSubObjectiveViewBase
     {
         var element = new VisualElement();
 
-        EnumField EndType = new EnumField("End type", m_subObjective.dialogEndType);
-        EndType.RegisterValueChangedCallback(OnEndTypeChange);
-        element.Add(EndType);
+        EnumField endType = new EnumField("End type", m_subObjective.dialogEndType);
+        endType.RegisterValueChangedCallback(OnEndTypeChange);
+        element.Add(endType);
 
         m_delayElement = QuestSystemEditorUtility.CreateFloatField(m_subObjective.delayToClose, "Delay to close", OnDelayChange);
         m_delayElement.tooltip = "Only active if the End type is CloseAfterTimer";

@@ -20,6 +20,10 @@ public class QuestSubObjectiveSpawnObject : QuestSubObjectiveBase
     [SerializeField] bool m_waitTaskComplete = false;
     public bool waitTaskComplete { get { return m_waitTaskComplete; } set { m_waitTaskComplete = value; } }
 
+    [SerializeField] bool m_destroyOnObjectiveComplete = false;
+    public bool destroyOnObjectiveComplete { get { return m_destroyOnObjectiveComplete; } set { m_destroyOnObjectiveComplete = value; } }
+
+    GameObject m_obj = null;
     NamedQuestObject m_instance = null;
 
     public override bool IsCompleted()
@@ -53,16 +57,20 @@ public class QuestSubObjectiveSpawnObject : QuestSubObjectiveBase
             rot = pivot.transform.rotation;
         }
 
-        var obj = GameObject.Instantiate(m_prefab);
-        obj.transform.position = pos;
-        obj.transform.rotation = rot;
+        m_obj = GameObject.Instantiate(m_prefab);
+        m_obj.transform.position = pos;
+        m_obj.transform.rotation = rot;
 
-        m_instance = obj.GetComponent<NamedQuestObject>();
+        m_instance = m_obj.GetComponent<NamedQuestObject>();
         if (m_instance != null)
             m_instance.SetName(m_name);
     }
 
     public override void Update(float deltaTime) { }
 
-    public override void End() { }
+    public override void End()
+    {
+        if (m_destroyOnObjectiveComplete && m_obj != null)
+            GameObject.Destroy(m_obj);
+    }
 }
