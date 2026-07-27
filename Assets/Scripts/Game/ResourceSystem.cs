@@ -73,6 +73,8 @@ public class ResourceSystem : MonoBehaviour
     private void Start()
     {
         var level = GameInfos.instance.gameParams.level;
+        if (level == null)
+            return;
 
         foreach (var r in level.initialResources)
         {

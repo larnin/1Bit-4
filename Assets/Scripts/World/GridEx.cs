@@ -177,7 +177,7 @@ public static class GridEx
         return new Vector2Int(LoopPos(pos.x, size), LoopPos(pos.y, size));
     }
 
-    static int LoopPos(int pos, int size)
+    public static int LoopPos(int pos, int size)
     {
         if (pos >= 0)
             return pos % size;
@@ -341,12 +341,12 @@ public static class GridEx
         bool loopX = false;
         var jsonLoopX = obj.GetElement("loopX");
         if (jsonLoopX != null && jsonLoopX.IsJsonNumber())
-            loopX = jsonLoopX.Int() != 0 ? true : false;
+            loopX = jsonLoopX.Bool();
 
         bool loopZ = false;
         var jsonLoopZ = obj.GetElement("loopZ");
         if (jsonLoopZ != null && jsonLoopZ.IsJsonNumber())
-            loopZ = jsonLoopZ.Int() != 0 ? true : false;
+            loopZ = jsonLoopZ.Bool();
 
         var jsonData = obj.GetElement("data");
         if (jsonData == null || !jsonData.IsJsonArray())
@@ -390,8 +390,8 @@ public static class GridEx
         int height = GridEx.GetRealHeight(grid);
 
         obj.AddElement("size", Json.FromVector3Int(new Vector3Int(size, height, size)));
-        obj.AddElement("loopX", new JsonNumber(grid.LoopX() ? 1 : 0));
-        obj.AddElement("loopZ", new JsonNumber(grid.LoopZ() ? 1 : 0));
+        obj.AddElement("loopX", grid.LoopX());
+        obj.AddElement("loopZ", grid.LoopZ());
 
         var data = new JsonArray();
         obj.AddElement("data", data);

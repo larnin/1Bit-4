@@ -17,25 +17,25 @@ MonoBehaviour:
     powValue: 1.2
     multiplierValue: 1
     addValue: 0
-    finalAddValue: -0.3
+    finalAddValue: 0
   difficultyPerDistance:
     baseValue: 0.02
     powValue: 1.2
     multiplierValue: 1
     addValue: 0
-    finalAddValue: -0.2
+    finalAddValue: 0
   difficultyPerKill:
     baseValue: 0.005
     powValue: 1
     multiplierValue: 1
     addValue: 0
-    finalAddValue: -0.1
+    finalAddValue: 0
   difficultyPerSpawner:
     baseValue: 0.8
     powValue: 1.2
     multiplierValue: 1
     addValue: 0
-    finalAddValue: -0.5
+    finalAddValue: 0
   difficultyToSpawnerNb:
     baseValue: 0.8
     powValue: 1
@@ -57,8 +57,8 @@ MonoBehaviour:
   spawnersData:
     displayHeight: 6
     displayBeforeWave: 10
-    firstDelayAdd: 90
-    delayBetweenWavesMin: 45
+    firstDelayAdd: 60
+    delayBetweenWavesMin: 35
     delayBetweenWavesMax: 60
     delayDecreasePerLifePercentLoss: 0
     distanceFromBuildingsMin: 25
@@ -80,14 +80,21 @@ MonoBehaviour:
     - entityType:
         m_value: ProtoEnnemyDistance
       difficultyMin: 0
-      difficultyMax: -1
+      difficultyMax: 1
       difficultyCostMin: 0.1
       difficultyCostMax: 0.1
       weight: 1.5
     - entityType:
         m_value: ProtoEnnemyMelee
       difficultyMin: 0
-      difficultyMax: -1
+      difficultyMax: 1
       difficultyCostMin: 0.1
       difficultyCostMax: 0.1
       weight: 1
+    - entityType:
+        m_value: ProtoEnnemyKamikaze
+      difficultyMin: 0
+      difficultyMax: 1
+      difficultyCostMin: 0.2
+      difficultyCostMax: 0.2
+      weight: 0.8

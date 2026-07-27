@@ -74,6 +74,12 @@ public class LevelSelectionElement : MonoBehaviour
                     m_locked = !GameInfos.instance.persistant.IsLevelCompleted(previous.name);
             }
         }
+        else if(info.unlockCondition == LevelUnlockCondition.WhenTutorialCompleted)
+        {
+            var level = Global.instance.levelsData.GetLevelInfo(0, false);
+            if(level != null)
+                m_locked = !GameInfos.instance.persistant.IsLevelCompleted(level.name);
+        }
 
         var lockTr = transform.Find("Lock");
         if (lockTr != null)

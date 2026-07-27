@@ -48,7 +48,6 @@ public class DialogPopup : MonoBehaviour
         StartWriting(0);
     }
 
-
     private void Update()
     {
         switch(m_state)
@@ -121,5 +120,10 @@ public class DialogPopup : MonoBehaviour
             m_nextButton.gameObject.SetActive(true);
 
         m_state = State.Waiting;
+    }
+
+    public bool IsDisplayingLastText()
+    {
+        return m_state == State.Waiting && m_currentIndex == m_texts.Count - 1;
     }
 }

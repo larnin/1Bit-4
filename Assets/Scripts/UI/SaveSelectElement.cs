@@ -26,6 +26,12 @@ public class SaveSelectElement : MonoBehaviour
 
     public void OnPlay()
     {
+        Save.instance.SelectSaveSlot(m_index);
+
+        var header = Save.instance.GetHeader(m_index);
+        if (header.empty)
+            Save.instance.SaveCurrentSlot();
+
         if (m_menu != null)
             m_menu.OnPlay(m_index);
     }

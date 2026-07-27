@@ -49,6 +49,8 @@ public abstract class QuestSubObjectiveViewBase
             return new QuestSubObjectiveViewEmpty(node, subObjective);
         if (subObjective is QuestSubObjectiveSpawnObject)
             return new QuestSubObjectiveViewSpawnObject(node, subObjective as QuestSubObjectiveSpawnObject);
+        if (subObjective is QuestSubObjectiveSpawnCanvasObject)
+            return new QuestSubObjectiveViewSpawnCanvasObject(node, subObjective as QuestSubObjectiveSpawnCanvasObject);
         if (subObjective is QuestSubObjectiveDestroyObject)
             return new QuestSubObjectiveViewDestroyObject(node, subObjective as QuestSubObjectiveDestroyObject);
         if (subObjective is QuestSubObjectiveSetBuildingUnlocked)

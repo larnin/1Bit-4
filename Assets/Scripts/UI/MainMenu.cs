@@ -12,7 +12,6 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField] Button m_continueButton;
     [SerializeField] Button m_quitButton;
-    [SerializeField] string m_gameSceneName;
     [SerializeField] Transform m_submenuPivot;
 
     string m_currentMenu;
@@ -21,6 +20,8 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
+        ResetSave();
+
         HideContinueButton();
         HideQuitButton();
     }
@@ -32,7 +33,7 @@ public class MainMenu : MonoBehaviour
 
         m_selected = true;
 
-        var scene = new ChangeSceneParams(m_gameSceneName);
+        var scene = new ChangeSceneParams(Global.instance.editorDatas.lobbySceneName);
         SceneSystem.changeScene(scene);
 
         int currentSave = Save.instance.GetGlobal().lastPlayedSlot;
@@ -116,5 +117,20 @@ public class MainMenu : MonoBehaviour
     void CloseCurrentMenu()
     {
         MenuSystem.instance.CloseMenu(m_currentMenu);
+    }
+
+    void ResetSave()
+    {
+        if(Save.instance != null)
+        {
+            Save.instance.SelectSaveSlot(-1);
+        }
+
+        if(QuestSystem.instance != null)
+        {
+            QuestSystem.instance.StopAllQuests();
+        }
+
+        GameInfos.instance.persistant.Reset();
     }
 }

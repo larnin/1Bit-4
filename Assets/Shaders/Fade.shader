@@ -9,6 +9,7 @@ Shader "UI/Fade"
 		_PerlinAmplitude("NoiseAmplitude", float) = 1
 		_CircleAmplitude("CircleAmplitude", float) = 1
 		_Percent("Percent", Range(0.0, 1.0)) = 1
+		_Ratio("Ratio", float) = 1
     }
     SubShader
     {
@@ -53,6 +54,7 @@ Shader "UI/Fade"
 			float _CircleAmplitude;
 
 			float _Percent;
+			float _Ratio;
 
 			v2f vert(appdata v)
 			{
@@ -65,14 +67,16 @@ Shader "UI/Fade"
 
 			fixed4 frag(v2f i) : SV_Target
 			{
-				float2 pos = i.uv - float2(0.5, 0.5);
+				float2 uv = float2(i.uv.x, i.uv.y / _Ratio);
+
+				float2 pos = uv - float2(0.5, 0.5 / _Ratio);
 
 				float distToCenter = sqrt(pos.x * pos.x + pos.y * pos.y) * sqrt(2) * _CircleAmplitude;
 
 				float min = 0 - _PerlinAmplitude;
 				float max = _CircleAmplitude + _PerlinAmplitude;
 
-				float4 noiseCol = tex2D(_PerlinTex, i.uv * _PerlinScale);
+				float4 noiseCol = tex2D(_PerlinTex, uv * _PerlinScale);
 				float noiseValue = (noiseCol.r + noiseCol.g + noiseCol.b) / 3 * _PerlinAmplitude;
 
 				float scaledPercent = _Percent * (max - min) + min;

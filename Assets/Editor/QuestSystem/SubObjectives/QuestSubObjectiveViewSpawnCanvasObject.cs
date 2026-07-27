@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class QuestSubObjectiveViewSpawnObject : QuestSubObjectiveViewBase
+public class QuestSubObjectiveViewSpawnCanvasObject : QuestSubObjectiveViewBase
 {
-    new QuestSubObjectiveSpawnObject m_subObjective;
+    new QuestSubObjectiveSpawnCanvasObject m_subObjective;
 
-    public QuestSubObjectiveViewSpawnObject(QuestSystemNodeObjective node, QuestSubObjectiveSpawnObject subObjective) : base(node, subObjective)
+    public QuestSubObjectiveViewSpawnCanvasObject(QuestSystemNodeObjective node, QuestSubObjectiveSpawnCanvasObject subObjective) : base(node, subObjective)
     {
         m_subObjective = subObjective;
     }
@@ -25,8 +26,12 @@ public class QuestSubObjectiveViewSpawnObject : QuestSubObjectiveViewBase
         VisualElement nameElement = QuestSystemEditorUtility.CreateTextField(m_subObjective.name, "Name", OnNameChange);
         element.Add(nameElement);
 
-        VisualElement locationElement = QuestSystemEditorUtility.CreateTextField(m_subObjective.location, "Location", OnLocationChange);
+        VisualElement locationElement = QuestSystemEditorUtility.CreateVector3Field(m_subObjective.location, "Location", OnLocationChange);
         element.Add(locationElement);
+
+        EnumField anchorElement = new EnumField("Anchor", m_subObjective.anchor);
+        anchorElement.RegisterValueChangedCallback(OnAnchorChange);
+        element.Add(anchorElement);
 
         VisualElement waitElement = QuestSystemEditorUtility.CreateCheckbox("Wait task completion", m_subObjective.waitTaskComplete, OnWaitChange);
         element.Add(waitElement);
@@ -51,7 +56,7 @@ public class QuestSubObjectiveViewSpawnObject : QuestSubObjectiveViewBase
         m_subObjective.name = name.newValue;
     }
 
-    void OnLocationChange(ChangeEvent<string> location)
+    void OnLocationChange(ChangeEvent<Vector3> location)
     {
         m_subObjective.location = location.newValue;
     }
@@ -65,4 +70,10 @@ public class QuestSubObjectiveViewSpawnObject : QuestSubObjectiveViewBase
     {
         m_subObjective.destroyOnObjectiveComplete = value.newValue;
     }
+
+    void OnAnchorChange(ChangeEvent<Enum> value)
+    {
+        m_subObjective.anchor = value.newValue as QuestSpawnCanvasObjectAnchor? ?? QuestSpawnCanvasObjectAnchor.Center;
+    }
 }
+

@@ -30,35 +30,21 @@ MonoBehaviour:
       entities:
       - entityType:
           m_value: ProtoEnnemyMelee
-        count: 10
+        count: 5
         stats:
         - stat: 0
           value: 4
-    - delayBeforeFirstEntity: 0
-      spawnDuration: 10
-      entities:
-      - entityType:
-          m_value: ProtoEnnemyMelee
-        count: 10
-        stats: []
   - positionName: Portal2
     portalType: 100
     waveStart: 2
     destroyAfterLastWave: 0
     waves:
     - delayBeforeFirstEntity: 0
-      spawnDuration: 15
+      spawnDuration: 10
       entities:
       - entityType:
           m_value: ProtoEnnemyDistance
         count: 5
         stats: []
-    - delayBeforeFirstEntity: 0
-      spawnDuration: 10
-      entities:
-      - entityType:
-          m_value: ProtoEnnemyDistance
-        count: 10
-        stats: []
-  delayBeforeFirstWave: 0
-  delayBetweenWave: 30
+  delayBeforeFirstWave: 10
+  delayBetweenWave: 15

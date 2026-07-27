@@ -398,7 +398,7 @@ MonoBehaviour:
       prefab: {fileID: 6645571961945564104, guid: 845fcb3417acb4f4f8c610b63aa90822, type: 3}
       sprite: {fileID: 322178047, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
       spriteWithBorder: {fileID: -1644204466, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
-      size: {x: 2, y: 6, z: 2}
+      size: {x: 3, y: 5, z: 3}
       team: 0
       name: Tower
       description: The core of your factory, you must keep it alive at all cost.
@@ -830,7 +830,12 @@ MonoBehaviour:
       prefab: {fileID: 3302721522315360713, guid: fd02a8739d258cb46ad45fda8ddc0d9f, type: 3}
     - type: 3
       prefab: {fileID: 204099878833362203, guid: 1159a36e7549da64ea094558ee982fdc, type: 3}
-    sauvableQuests: []
+    sauvableQuests:
+    - {fileID: 11400000, guid: b8d347b18d23e8e41ab889d0838dfc56, type: 2}
+    mainSceneName: Main
+    lobbySceneName: Lobby
+    gameSceneName: Game
+    editorSceneName: Editor
   m_statusDatas:
     burning:
       effectPrefab: {fileID: 0}
