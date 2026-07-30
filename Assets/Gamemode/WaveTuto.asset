@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c89a4b76a7f6b2446827e54dded60038, type: 3}
   m_Name: WaveTuto
   m_EditorClassIdentifier: 
+  m_HudPrefab: {fileID: 2667999300915922819, guid: b3a1e5eb33257a14d8e665ca9a671bb8, type: 3}
   portals:
   - positionName: Portal1
     portalType: 100

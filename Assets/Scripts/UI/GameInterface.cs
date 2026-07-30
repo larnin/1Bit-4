@@ -25,6 +25,7 @@ public class GameInterface : MonoBehaviour
     [SerializeField] SelectCursor m_selectCursor;
     [SerializeField] BuildingDetailDisplay m_detail;
     [SerializeField] TMP_Text m_questText;
+    [SerializeField] Transform m_gamemodePivot;
 
     RectTransform m_buildingsBackground;
     List<BuildingButton> m_buildingButtons = new List<BuildingButton>();
@@ -35,6 +36,7 @@ public class GameInterface : MonoBehaviour
     {
         m_subscriberList.Add(new Event<IsMouseOverUIEvent>.Subscriber(IsMouseOverUI));
         m_subscriberList.Add(new Event<GetCanvasEvent>.Subscriber(GetCanvas));
+        m_subscriberList.Add(new Event<GetGamemodeHudPivotEvent>.Subscriber(GetGamemodePivot));
         m_subscriberList.Subscribe();
     }
 
@@ -247,6 +249,11 @@ public class GameInterface : MonoBehaviour
     void GetCanvas(GetCanvasEvent e)
     {
         e.canvas = GetComponent<Canvas>();
+    }
+
+    void GetGamemodePivot(GetGamemodeHudPivotEvent e)
+    {
+        e.pivot = m_gamemodePivot;
     }
 
     void UpdateQuestText()

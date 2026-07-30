@@ -21,3 +21,8 @@ public class GetCanvasEvent
 {
     public Canvas canvas;
 }
+
+public class GetGamemodeHudPivotEvent
+{
+    public Transform pivot;
+}

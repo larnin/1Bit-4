@@ -7,11 +7,13 @@ using UnityEngine;
 
 public class GamemodeSystem : MonoBehaviour
 {
-
     static GamemodeSystem m_instance = null;
     public static GamemodeSystem instance { get { return m_instance; } }
 
     Dictionary<string, GamemodeBase> m_gamemodes = new Dictionary<string, GamemodeBase>();
+
+    string m_HudMode;
+    GameObject m_Hud;
 
     private void Awake()
     {
@@ -54,6 +56,7 @@ public class GamemodeSystem : MonoBehaviour
         gamemode.Begin();
 
         m_gamemodes.Add(name, gamemode);
+        UpdateHud();
     }
 
     public void StopGamemode(string name)
@@ -65,6 +68,7 @@ public class GamemodeSystem : MonoBehaviour
                 gamemode.End();
             m_gamemodes.Remove(name);
         }
+        UpdateHud();
     }
 
     public bool IsGamemodeRunning(string name)
@@ -131,6 +135,42 @@ public class GamemodeSystem : MonoBehaviour
             if (mode.Value == null)
                 continue;
             mode.Value.Process();
+        }
+
+        UpdateHud();
+    }
+
+    void UpdateHud()
+    {
+        if(m_Hud == null)
+        {
+            var pivot = Event<GetGamemodeHudPivotEvent>.Broadcast(new GetGamemodeHudPivotEvent()).pivot;
+            if (pivot == null)
+                return;
+
+            foreach(var mode in m_gamemodes)
+            {
+                var asset = mode.Value.GetAsset();
+                var prefab = asset.GetHudPrefab();
+                if (prefab == null)
+                    continue;
+
+                var instance = Instantiate(prefab);
+                instance.transform.SetParent(pivot, false);
+                instance.transform.localScale = Vector3.one;
+                instance.transform.localRotation = Quaternion.identity;
+
+                var rectTransform = instance.GetComponent<RectTransform>();
+                if (rectTransform != null)
+                    rectTransform.anchoredPosition = Vector2.zero;
+
+                mode.Value.SetOwnedHud(instance);
+
+                m_Hud = instance;
+                m_HudMode = mode.Key;
+
+                break;
+            }
         }
     }
 }

@@ -14,6 +14,9 @@ public enum GamemodeStatus
 
 public abstract class GamemodeAssetBase : ScriptableObject
 {
+    [SerializeField] GameObject m_HudPrefab;
+    public GameObject GetHudPrefab() { return m_HudPrefab; }
+
     public abstract GamemodeBase MakeGamemode(GamemodeSystem owner);
 }
 
@@ -31,6 +34,8 @@ public abstract class GamemodeBase
     public virtual void Begin() { }
     public virtual void Process() { }
     public virtual void End() { }
+
+    public virtual void SetOwnedHud(GameObject Hud) { }
 
     public abstract GamemodeStatus GetStatus();
     public abstract GamemodeAssetBase GetAsset();

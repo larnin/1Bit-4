@@ -38,14 +38,14 @@ public class MonolithMode : GamemodeBase
 
     MonolithModeAsset m_asset;
 
-    SubscriberList m_subscriberList;
-
     float m_currentScore = 0;
 
     List<NewSpawnerData> m_newSpawners = new List<NewSpawnerData>();
 
     LightState m_lightState = LightState.Idle;
     float m_lightTimer = 0;
+
+    MonolithModeHud m_hud;
 
     public MonolithMode(MonolithModeAsset asset, GamemodeSystem owner)
         : base(owner)
@@ -62,6 +62,12 @@ public class MonolithMode : GamemodeBase
     public MonolithModeAsset GetMonolithAsset()
     {
         return m_asset;
+    }
+
+    public override void SetOwnedHud(GameObject Hud)
+    {
+        m_hud = Hud.GetComponent<MonolithModeHud>();
+        UpdateHud();
     }
 
     public override GamemodeStatus GetStatus()
@@ -85,15 +91,6 @@ public class MonolithMode : GamemodeBase
 
     public override void Begin()
     { 
-        if(m_subscriberList == null)
-        {
-            m_subscriberList = new SubscriberList();
-            m_subscriberList.Add(new Event<OnBuildingDamagedEvent>.Subscriber(OnBuildingDamaged));
-            m_subscriberList.Add(new Event<OnBuildingDestroyEvent>.Subscriber(OnBuildingDestroyed));
-        }
-
-        m_subscriberList.Subscribe();
-
         if(BuildingList.instance != null)
         {
             var buildings = BuildingList.instance.GetAllBuilding(BuildingType.Monolith, Team.Ennemy);
@@ -130,21 +127,33 @@ public class MonolithMode : GamemodeBase
         UpdateNewSpawners();
 
         UpdateLight();
+
+        UpdateHud();
     }
 
-    public override void End() 
+    void UpdateHud()
     {
-        m_subscriberList.Unsubscribe();
-    }
+        if (m_hud == null)
+            return;
 
-    void OnBuildingDamaged(OnBuildingDamagedEvent e)
-    {
+        bool found = false;
+        float currentTime = 0;
 
-    }
+        foreach (var b in m_aliveBuildings)
+        {
+            if (b.building == null)
+                continue;
+            if (b.building.GetState() == BuildingMonolith.State.Nullified || b.building.GetState() == BuildingMonolith.State.Idle)
+                continue;
 
-    void OnBuildingDestroyed(OnBuildingDestroyEvent e)
-    {
+            found = true;
+            currentTime = b.nullifyPower;
+            break;
+        }
 
+        if (!found)
+            m_hud.SetDisabled();
+        else m_hud.SetStatus(currentTime, m_asset.nullifyDuration);
     }
 
     public void TriggerMonolith(BuildingMonolith building)

@@ -22,6 +22,8 @@ public class WaveMode : GamemodeBase
 
     List<WaveModeSpawner> m_portals = new List<WaveModeSpawner>();
 
+    WaveModeHud m_hud;
+
     public WaveMode(WaveModeAsset asset, GamemodeSystem owner)
     : base(owner)
     {
@@ -77,6 +79,8 @@ public class WaveMode : GamemodeBase
             if (allEnded)
                 StartWave(m_waveIndex + 1);
         }
+
+        UpdateHud();
     }
 
     public override void End()
@@ -84,6 +88,13 @@ public class WaveMode : GamemodeBase
         foreach(var portal in m_portals)
             portal.OnEnd();
     }
+
+    public override void SetOwnedHud(GameObject Hud)
+    {
+        m_hud = Hud.GetComponent<WaveModeHud>();
+        UpdateHud();
+    }
+
 
     void StartWave(int index)
     {
@@ -129,5 +140,24 @@ public class WaveMode : GamemodeBase
         }
 
         return count;
+    }
+
+    void UpdateHud()
+    {
+        if (m_hud == null)
+            return;
+
+        int currentWave = m_waveIndex + 1;
+        int maxWave = GetWaveNb();
+        bool ended = currentWave > maxWave;
+        currentWave = Mathf.Min(currentWave, maxWave);
+
+        m_hud.SetWave(currentWave, maxWave);
+
+        if (ended)
+            m_hud.SetSpawning();
+        else if (m_state == State.Spawning)
+            m_hud.SetSpawning();
+        else m_hud.SetWaitingTime(m_timerMax - m_timer);
     }
 }
