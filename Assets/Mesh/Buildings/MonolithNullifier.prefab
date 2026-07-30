@@ -136,7 +136,7 @@ MonoBehaviour:
   m_meshComponent: {fileID: 598667234590879652}
   m_selectionPopupPrefab: {fileID: 8340278486877683676, guid: 031dabb4c712d88408d37448444667fa, type: 3}
   m_selectionPopupOffset: 2
-  m_energyConsumption: 1
+  m_energyConsumption: 20
   m_nullifierMesh: {fileID: 1898658399358536260}
 --- !u!65 &198484882313568561
 BoxCollider:
@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a6c11ee1fb1dda429dd1226b2d17eb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_initialValues: []
+  m_values: []
 --- !u!114 &7943669457645680268
 MonoBehaviour:
   m_ObjectHideFlags: 0
