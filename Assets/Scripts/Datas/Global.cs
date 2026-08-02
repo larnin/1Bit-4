@@ -73,6 +73,9 @@ public class Global : ScriptableObject
     [SerializeField] ColorsData m_colorsDatas;
     public ColorsData colorsDatas { get { return m_colorsDatas; } }
 
+    [SerializeField] string m_playtestFormUrl;
+    public string playtestFormUrl { get { return m_playtestFormUrl; } }
+
     static Global m_instance;
 
     static string s_path = "World";
