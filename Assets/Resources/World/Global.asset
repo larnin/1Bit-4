@@ -611,7 +611,7 @@ MonoBehaviour:
 
         Be ready before activation,
         you have been warned'
-      firstFree: 1
+      firstFree: 0
       cost:
         cost:
         - type: 1
@@ -620,8 +620,8 @@ MonoBehaviour:
           count: 100
     - type: 18
       prefab: {fileID: 3302297477251710701, guid: e0d2315b947d7654c8e85adac6a0bdd3, type: 3}
-      sprite: {fileID: 0}
-      spriteWithBorder: {fileID: 0}
+      sprite: {fileID: -301700940, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
+      spriteWithBorder: {fileID: 440978925, guid: ca2cfa71147a05c46895ae2bc6522254, type: 3}
       size: {x: 3, y: 2, z: 3}
       team: 0
       name: Geothermal Generator
@@ -977,3 +977,4 @@ MonoBehaviour:
     - name: Matrix
       lightColor: {r: 0.5254902, g: 0.91764706, b: 0.08627451, a: 0}
       darkColor: {r: 0.03137255, g: 0.03137255, b: 0.03137255, a: 0}
+  m_playtestFormUrl: https://perdu.com/
