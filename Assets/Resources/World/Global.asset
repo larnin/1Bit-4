@@ -733,7 +733,7 @@ MonoBehaviour:
       description: Be prepared !
       icon: {fileID: 0}
       unlockCondition: 0
-      level: {fileID: 11400000, guid: ddef90a164e422941a6479ea55bde5fb, type: 2}
+      level: {fileID: 11400000, guid: 553be94c07e26844b88389a9a0fb01e6, type: 2}
       quest: {fileID: 11400000, guid: f2bb7d584cb7a2540940ad6188326905, type: 2}
       initialResources: []
     - name: Test Ennemies

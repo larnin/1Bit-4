@@ -572,7 +572,7 @@ public class BuildingList : MonoBehaviour
 
     public void Clear()
     {
-        m_locker.EnterWriteLock();
+        m_locker.EnterUpgradeableReadLock();
 
         //destroying elements can change the list
         var elements = m_buildings.ToList();
@@ -583,7 +583,7 @@ public class BuildingList : MonoBehaviour
             Destroy(e.gameObject);
         }
 
-        m_locker.ExitWriteLock();
+        m_locker.ExitUpgradeableReadLock();
     }
 
     public void Load(JsonObject obj)
