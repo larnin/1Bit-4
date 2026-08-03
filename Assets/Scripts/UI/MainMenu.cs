@@ -66,6 +66,11 @@ public class MainMenu : MonoBehaviour
         SetCurrentMenu(menu.gameObject, "Options");
     }
 
+    public void Feedback()
+    {
+        Application.OpenURL(Global.instance.playtestFormUrl);
+    }
+
     public void Quit()
     {
         if (m_selected)

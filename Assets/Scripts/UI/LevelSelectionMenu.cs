@@ -9,7 +9,7 @@ using DG.Tweening;
 public class LevelSelectionMenu : MonoBehaviour
 {
     [SerializeField] GameObject m_OneLevelPrefab;
-    [SerializeField] float m_distanceBetweenLevel = 200;
+    [SerializeField] float m_distanceBetweenLevel = 200; 
     [SerializeField] float m_transitionDuration = 0.5f;
 
     GameObject m_leftButton;

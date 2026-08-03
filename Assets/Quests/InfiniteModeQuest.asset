@@ -31,7 +31,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 4
     - Name: 
       Entry: 7
       Data: 2|QuestSaveNode, Assembly-CSharp
@@ -129,6 +129,9 @@ MonoBehaviour:
     - Name: data
       Entry: 7
       Data: 6|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 6
+      Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
@@ -142,6 +145,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 8|QuestSubObjectiveStartGamemode, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_name
       Entry: 1
       Data: Infinite
@@ -166,7 +172,258 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 10|QuestSaveConnection, Assembly-CSharp
+    - Name: currentPortName
+      Entry: 1
+      Data: Out
+    - Name: nextPortName
+      Entry: 1
+      Data: In
+    - Name: nextNodeID
+      Entry: 1
+      Data: c7c9f48d-48e7-4c2a-bf76-d8c12a7b3695
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 11|QuestSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: 022f6a49-9f4d-4d45-9845-4eacef58588f
+    - Name: name
+      Entry: 1
+      Data: Description
+    - Name: nodeType
+      Entry: 3
+      Data: 1
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 595
+    - Name: 
+      Entry: 4
+      Data: 10
+    - Name: 
+      Entry: 4
+      Data: 138
+    - Name: 
+      Entry: 4
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 7
+      Data: 12|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 7
+      Data: 13|QuestObjectiveText, Assembly-CSharp
+    - Name: title
+      Entry: 6
+      Data: 
+    - Name: details
+      Entry: 7
+      Data: 14|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
       Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_multipleInputOperator
+      Entry: 3
+      Data: 1
+    - Name: m_subObjectives
+      Entry: 7
+      Data: 15|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 16|QuestSubObjectiveStartDialog, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 7
+      Data: 17|System.Collections.Generic.List`1[[System.Int32, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_texts
+      Entry: 7
+      Data: 18|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 1
+      Data: This level have no end.
+    - Name: 
+      Entry: 1
+      Data: You have to survive for as long as possible. The ennemies attacks increase
+        with time.
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_dialogEndType
+      Entry: 3
+      Data: 0
+    - Name: m_delayToClose
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 19|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 20|QuestSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: c7c9f48d-48e7-4c2a-bf76-d8c12a7b3695
+    - Name: name
+      Entry: 1
+      Data: Wait
+    - Name: nodeType
+      Entry: 3
+      Data: 1
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 385
+    - Name: 
+      Entry: 4
+      Data: 10
+    - Name: 
+      Entry: 4
+      Data: 138
+    - Name: 
+      Entry: 4
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 7
+      Data: 21|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 7
+      Data: 22|QuestObjectiveText, Assembly-CSharp
+    - Name: title
+      Entry: 6
+      Data: 
+    - Name: details
+      Entry: 7
+      Data: 23|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_multipleInputOperator
+      Entry: 3
+      Data: 1
+    - Name: m_subObjectives
+      Entry: 7
+      Data: 24|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 25|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 26|QuestSaveConnection, Assembly-CSharp
+    - Name: currentPortName
+      Entry: 1
+      Data: Out
+    - Name: nextPortName
+      Entry: 1
+      Data: In
+    - Name: nextNodeID
+      Entry: 1
+      Data: 022f6a49-9f4d-4d45-9845-4eacef58588f
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
