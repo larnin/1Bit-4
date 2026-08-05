@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: MonolithMission1
   m_EditorClassIdentifier: 
   m_HudPrefab: {fileID: 5050790678298929593, guid: bfed4731271fa6941ab5dfac055afdcd, type: 3}
+  delayBeforeFirstWave: 15
   delayBetweenWave: 30
   spawnerRadiusAroundMonolith: 50
   spawnerRadiusBetweenSpawner: 5

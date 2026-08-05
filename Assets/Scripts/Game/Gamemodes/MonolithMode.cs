@@ -23,6 +23,7 @@ public class MonolithMode : GamemodeBase
     class BuildingStatus
     {
         public BuildingMonolith building;
+        public bool haveLaunchedFirstWave = false;
         public float timer = 0;
         public List<MonolithModeSpawner> spawners = new List<MonolithModeSpawner>();
         public float nullifyPower = 0;
@@ -191,10 +192,13 @@ public class MonolithMode : GamemodeBase
 
         building.timer += deltaTime;
 
-        if(building.timer >= m_asset.delayBetweenWave)
+        float MaxTimer = building.haveLaunchedFirstWave ? m_asset.delayBetweenWave : m_asset.delayBeforeFirstWave;
+
+        if (building.timer >= MaxTimer)
         {
             StartWaveFromBuilding(building);
             building.timer = 0;
+            building.haveLaunchedFirstWave = true;
             building.building.StartWave();
             StartLightState(LightState.WaveStart);
         }
