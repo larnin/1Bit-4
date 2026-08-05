@@ -74,6 +74,7 @@ public class NavigationSurface
         navGrid.SetAll(defaultNavElem);
 
         Matrix<int> heights = new Matrix<int>(size, size);
+        heights.SetAll(-1);
 
         for(int i = 0; i < size; i++)
         {
@@ -271,6 +272,8 @@ public class NavigationSurface
                     Vector2Int end;
                     if(GetValidEnd(heights, new Vector2Int(i, j), leftDir, out end))
                     {
+                        if (navGrid.Get(end.x, end.y).height < 0)
+                            continue;
                         if (heights.Get(end.x, end.y) >= 0)
                             elem.leftPos = end;
                     }
@@ -282,6 +285,8 @@ public class NavigationSurface
                     Vector2Int end;
                     if (GetValidEnd(heights, new Vector2Int(i, j), rightDir, out end))
                     {
+                        if (navGrid.Get(end.x, end.y).height < 0)
+                            continue;
                         if (heights.Get(end.x, end.y) >= 0)
                             elem.rightPos = end;
                     }
@@ -298,9 +303,9 @@ public class NavigationSurface
 
         var end = current + dir;
         Vector2Int endLoop = GridEx.GetRealPosFromLoop(m_grid, end);
-        if (endLoop.x != end.x && !m_grid.LoopX())
+        if (!m_grid.LoopX() && endLoop.x != end.x)
             return false;
-        if (endLoop.y != end.y && !m_grid.LoopZ())
+        if (!m_grid.LoopZ() && endLoop.y != end.y)
             return false;
 
         float cost = 0;
@@ -313,14 +318,8 @@ public class NavigationSurface
 
     static Vector2Int GetLeftDir(Vector2Int dir)
     {
-        if (dir.x > 1)
-            dir.x = 1;
-        if (dir.x < -1)
-            dir.x = -1;
-        if (dir.y > 1)
-            dir.y = 1;
-        if (dir.y < -1)
-            dir.y = -1;
+        dir.x = Mathf.Clamp(dir.x, -1, 1);
+        dir.y = Mathf.Clamp(dir.y, -1, 1);
 
         if (dir.x == 0 && dir.y == 0)
             return Vector2Int.zero;
@@ -346,16 +345,10 @@ public class NavigationSurface
 
     static Vector2Int GetRightDir(Vector2Int dir)
     {
-        if (dir.x > 1)
-            dir.x = 1;
-        if (dir.x < -1)
-            dir.x = -1;
-        if (dir.y > 1)
-            dir.y = 1;
-        if (dir.y < -1)
-            dir.y = -1;
+        dir.x = Mathf.Clamp(dir.x, -1, 1);
+        dir.y = Mathf.Clamp(dir.y, -1, 1);
 
-        if(dir.x == 0 && dir.y == 0)
+        if (dir.x == 0 && dir.y == 0)
             return Vector2Int.zero;
 
         if (dir.x == 0 && dir.y == 1)
@@ -575,13 +568,13 @@ public class NavigationSurface
                         if (offset.y < -1)
                             nextPosI.y = j + 1;
                         if (offset.y > 1)
-                            nextPosI.y = i - 1;
+                            nextPosI.y = j - 1;
 
                         Vector3 nextPos = new Vector3(nextPosI.x, nextElem.height, nextPosI.y);
                         nextPos.y += 0.6f;
 
                         DebugDraw.Line(pos, nextPos, Color.blue);
-
+                        
                         if (elem.leftPos.x >= 0 && elem.leftPos.y >= 0)
                         {
                             Vector2Int leftPosI = elem.leftPos;
@@ -593,8 +586,9 @@ public class NavigationSurface
                             if (offset.y < -1)
                                 leftPosI.y = j + 1;
                             if (offset.y > 1)
-                                leftPosI.y = i - 1;
+                                leftPosI.y = j - 1;
 
+                            nextElem = m_navigationGrid.Get(elem.leftPos.x, elem.leftPos.y);
                             nextPos = new Vector3(leftPosI.x, nextElem.height, leftPosI.y);
                             nextPos.y += 0.7f;
                             pos.y += 0.1f;
@@ -613,8 +607,9 @@ public class NavigationSurface
                             if (offset.y < -1)
                                 rightPosI.y = j + 1;
                             if (offset.y > 1)
-                                rightPosI.y = i - 1;
+                                rightPosI.y = j - 1;
 
+                            nextElem = m_navigationGrid.Get(elem.rightPos.x, elem.rightPos.y);
                             nextPos = new Vector3(rightPosI.x, nextElem.height, rightPosI.y);
                             nextPos.y += 0.8f;
                             pos.y += 0.1f;

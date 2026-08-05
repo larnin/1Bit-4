@@ -98,13 +98,13 @@ public class NavigationSystem : MonoBehaviour
 
             NavigationSurface surface = m_surfaces.First().Value;
 
-            //surface.DebugDrawGrid();
+            surface.DebugDrawGrid();
 
-            var cam = Event<GetCameraEvent>.Broadcast(new GetCameraEvent());
-            if (cam.camera != null)
+            Camera cam = null;// Event<GetCameraEvent>.Broadcast(new GetCameraEvent()).camera;
+            if (cam != null)
             {
                 Vector3 pos;
-                var ray = cam.camera.ScreenPointToRay(Input.mousePosition);
+                var ray = cam.ScreenPointToRay(Input.mousePosition);
                 if(PlaceBuildingCursor.LoopCursorRatcast(ray, Global.instance.editorDatas.groundLayer, out pos))
                 {
                     Vector2Int startPos = new Vector2Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.z));
