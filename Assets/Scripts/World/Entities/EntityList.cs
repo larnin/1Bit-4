@@ -139,20 +139,30 @@ public class EntityList : MonoBehaviour
         if (m_chunks == null)
             return null;
 
+        Grid grid = GridEx.GetCurrentGrid();
+        if (grid == null)
+            return null;
+
         Vector3 minPos = new Vector3(pos.x - maxDistance, pos.y, pos.z - maxDistance);
         Vector3 maxPos = new Vector3(pos.x + maxDistance, pos.y, pos.z + maxDistance);
 
         Vector3Int minChunk = Grid.PosToChunkIndex(minPos);
         Vector3Int maxChunk = Grid.PosToChunkIndex(maxPos);
 
-        if (minChunk.x < 0)
-            minChunk.x = 0;
-        if (minChunk.z < 0)
-            minChunk.z = 0;
-        if (maxChunk.x >= m_chunks.width)
-            maxChunk.x = m_chunks.width - 1;
-        if (maxChunk.z >= m_chunks.depth)
-            maxChunk.z = m_chunks.depth - 1;
+        if (!grid.LoopX())
+        {
+            if (minChunk.x < 0)
+                minChunk.x = 0;
+            if (maxChunk.x >= m_chunks.width)
+                maxChunk.x = m_chunks.width - 1;
+        }
+        if(!grid.LoopZ())
+        {
+            if (minChunk.z < 0)
+                minChunk.z = 0;
+            if (maxChunk.z >= m_chunks.depth)
+                maxChunk.z = m_chunks.depth - 1;
+        }
 
         float bestDist = maxDistance * maxDistance;
         GameEntity bestEntity = null;
@@ -161,7 +171,9 @@ public class EntityList : MonoBehaviour
         {
             for (int j = minChunk.z; j <= maxChunk.z; j++)
             {
-                var list = m_chunks.Get(i, j);
+                var chunkPos = GridEx.GetPosFromLoop(grid, new Vector2Int(i, j));
+
+                var list = m_chunks.Get(chunkPos.x, chunkPos.y);
                 if (list == null)
                     continue;
 
@@ -169,7 +181,8 @@ public class EntityList : MonoBehaviour
                 {
                     if (e == null)
                         continue;
-                    float dist = (e.transform.position - pos).sqrMagnitude;
+
+                    float dist = GridEx.GetDistance(grid, e.transform.position, pos);
                     if (dist >= bestDist)
                         continue;
 

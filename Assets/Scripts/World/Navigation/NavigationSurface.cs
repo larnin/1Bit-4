@@ -156,6 +156,19 @@ public class NavigationSurface
 
         Matrix<float> exploredDistance = new Matrix<float>(navGrid.width, navGrid.depth);
         exploredDistance.SetAll(-1);
+        if (startPos.x < 0 || startPos.x >= navGrid.width)
+        {
+            if (m_grid.LoopX())
+                startPos.x = GridEx.LoopPos(startPos.x, GridEx.GetRealSize(m_grid));
+            else startPos.x = Mathf.Clamp(startPos.x, 0, GridEx.GetRealSize(m_grid) - 1);
+        }
+
+        if(startPos.y < 0 || startPos.y > navGrid.depth)
+        {
+            if (m_grid.LoopZ())
+                startPos.y = GridEx.LoopPos(startPos.y, GridEx.GetRealSize(m_grid));
+            else startPos.y = Mathf.Clamp(startPos.y, 0, GridEx.GetRealSize(m_grid) - 1);
+        }
         exploredDistance.Set(startPos.x, startPos.y, 0);
 
         NavigationElement startElem = new NavigationElement();
