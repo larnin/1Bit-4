@@ -611,7 +611,7 @@ MonoBehaviour:
 
         Be ready before activation,
         you have been warned'
-      firstFree: 0
+      firstFree: 1
       cost:
         cost:
         - type: 1

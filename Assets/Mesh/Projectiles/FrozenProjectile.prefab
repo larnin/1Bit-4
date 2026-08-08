@@ -5099,7 +5099,7 @@ MonoBehaviour:
   m_damageType: 2
   m_damageEffect: 2.5
   m_speed: 8
-  m_maxLife: 5
+  m_maxLife: 2
   m_hitLayer:
     serializedVersion: 2
     m_Bits: 448
@@ -5110,7 +5110,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 384
   m_explosionDuration: 0.5
-  m_explosionRadius: 8
+  m_explosionRadius: 10
   m_explosionCurve: 3
   m_explosionFadeEndPercent: 0.8
   m_explosionSound: IceExplosion

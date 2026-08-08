@@ -302,11 +302,11 @@ public class BuildingList : MonoBehaviour
             }
 
             BuildingBase best = null;
-            float bestDistance = radius;
+            float bestDistance = radius * radius;
 
-            for(int i = chunkMin.x; i < chunkMax.x; i++)
+            for(int i = chunkMin.x; i <= chunkMax.x; i++)
             {
-                for(int j = chunkMin.y; j < chunkMax.y; j++)
+                for(int j = chunkMin.y; j <= chunkMax.y; j++)
                 {
                     Vector2Int chunkLoop = GridEx.GetPosFromLoop(grid, new Vector2Int(i, j));
                     var b = GetNearestBuilding(GetChunk(chunkLoop), pos, condition);

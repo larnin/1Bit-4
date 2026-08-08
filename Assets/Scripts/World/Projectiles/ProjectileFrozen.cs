@@ -161,17 +161,16 @@ class ProjectileFrozen : ProjectileBase
 
     void StartExplosion(RaycastHit hit)
     {
-        var targetType = GameSystem.GetEntityType(hit.collider.gameObject);
-        if (targetType != EntityType.Building && targetType != EntityType.GameEntity && targetType != EntityType.Projectile)
-        {
-            if (m_distance < m_minimalDistance)
-                return;
-        }
-
         bool startExplosion = true;
 
         if (hit.collider != null)
         {
+            var targetType = GameSystem.GetEntityType(hit.collider.gameObject);
+            if (targetType != EntityType.Building && targetType != EntityType.GameEntity && targetType != EntityType.Projectile)
+            {
+                if (m_distance < m_minimalDistance)
+                    return;
+            }
             startExplosion = false;
             if ((m_groundLayer.value & (1 << hit.collider.gameObject.layer)) != 0)
                 startExplosion = true;

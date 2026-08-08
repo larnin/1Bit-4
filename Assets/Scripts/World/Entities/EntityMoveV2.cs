@@ -114,9 +114,9 @@ public class EntityMoveV2 : MonoBehaviour
             Vector3 newPos = transform.position + moveDir * Time.deltaTime * m_speed;
             newPos.y = GetHeight(newPos);
 
-            newPos = ReplacePosOnGridWithLoop(newPos);
             MoveTo(newPos);
 
+            transform.position = ReplacePosOnGridWithLoop(transform.position);
             transform.forward = moveDir;
         }
     }
@@ -204,6 +204,8 @@ public class EntityMoveV2 : MonoBehaviour
 
     void MoveTo(Vector3 next, bool retry = false)
     {
+        Grid grid = GridEx.GetCurrentGrid();
+
         Vector3 current = transform.position;
         Vector3Int currentI = new Vector3Int(Mathf.RoundToInt(current.x), Mathf.RoundToInt(current.y), Mathf.RoundToInt(current.z));
         Vector3Int nextI = new Vector3Int(Mathf.RoundToInt(next.x), Mathf.RoundToInt(next.y), Mathf.RoundToInt(next.z));
