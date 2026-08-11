@@ -479,8 +479,8 @@ public class SelectCursor : MonoBehaviour, CursorInterface
             return;
         var canvasRect = canvas.GetComponent<RectTransform>();
 
-        var camera = Event<GetCameraEvent>.Broadcast(new GetCameraEvent());
-        if (camera.UICamera == null)
+        var camera = Event<GetCameraEvent>.Broadcast(new GetCameraEvent()).UICamera;
+        if (camera == null)
             return;
 
         var popup = m_popup.GetComponent<EntityPopupBase>();
@@ -494,21 +494,31 @@ public class SelectCursor : MonoBehaviour, CursorInterface
         var bounds = building.GetBounds();
         pos.y += bounds.size.y;
 
-        Vector2 screenPos = camera.UICamera.WorldToScreenPoint(pos);
+        Vector3 screenCenter = new Vector3(Screen.width, Screen.height, 0) / 2;
+        Plane p = new Plane(Vector3.up, pos);
+        var ray = camera.ScreenPointToRay(screenCenter);
+        Vector3 screenCenterPoint = pos;
+        float enter = 0;
+        if (p.Raycast(ray, out enter))
+            screenCenterPoint = ray.GetPoint(enter);
+        var grid = GridEx.GetCurrentGrid();
+        if (grid != null)
+            pos = GridEx.GetNearestPoint(grid, pos, screenCenterPoint);
+
+        Vector2 screenPos = camera.WorldToScreenPoint(pos);
         var rectTransform = m_popup.GetComponent<RectTransform>();
         if (rectTransform == null)
             return;
 
-        var cam = camera.UICamera;
         if (canvas.renderMode == RenderMode.ScreenSpaceOverlay)
-            cam = null;
+            camera = null;
 
         Vector2 screenMin, screenMax;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, Vector2.zero, cam, out screenMin);
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, new Vector2(width, height), cam, out screenMax);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, Vector2.zero, camera, out screenMin);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, new Vector2(width, height), camera, out screenMax);
 
         Vector2 popupPos;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screenPos, cam, out popupPos);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screenPos, camera, out popupPos);
 
         popupPos.y += building.GetSelectionPopupOffset();
 
