@@ -63,13 +63,13 @@ public class LevelSelectionElement : MonoBehaviour
             }
         }
 
-
         m_locked = false;
         if (info.unlockCondition == LevelUnlockCondition.WhenPreviousCompleted && !m_infiniteMode)
         {
-            if (m_levelIndex > 0)
+            int previousLevel = GetPreviousLevelIndex();
+            if (previousLevel > 0)
             {
-                var previous = Global.instance.levelsData.GetLevelInfo(m_levelIndex - 1, false);
+                var previous = Global.instance.levelsData.GetLevelInfo(m_levelIndex, false);
                 if (previous != null)
                     m_locked = !GameInfos.instance.persistant.IsLevelCompleted(previous.name);
             }
@@ -84,6 +84,19 @@ public class LevelSelectionElement : MonoBehaviour
         var lockTr = transform.Find("Lock");
         if (lockTr != null)
             lockTr.gameObject.SetActive(m_locked);
+    }
+
+    int GetPreviousLevelIndex()
+    {
+        for(int i = m_levelIndex - 1; i >= 0; i--)
+        {
+            var level = Global.instance.levelsData.GetLevelInfo(i, false);
+            if (level == null || level.disabled)
+                continue;
+            return i;
+        }
+
+        return -1;
     }
 
     public int GetLevelIndex()

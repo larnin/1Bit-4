@@ -29,6 +29,7 @@ public class LevelInfo
     public JsonScriptableObject level;
     public QuestScriptableObject quest;
     public List<InitialResource> initialResources = new List<InitialResource>();
+    public bool disabled;
 }
 
 [Serializable]

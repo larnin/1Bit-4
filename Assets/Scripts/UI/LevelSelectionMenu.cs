@@ -42,8 +42,14 @@ public class LevelSelectionMenu : MonoBehaviour
 
     void PopulateLevels()
     {
+        int levelCount = 0;
+
         for(int i = 0; i < Global.instance.levelsData.Levels.Count; i++)
         {
+            var level = Global.instance.levelsData.Levels[i];
+            if (level.disabled)
+                continue;
+
             var instance = Instantiate(m_OneLevelPrefab);
             var element = instance.GetComponent<LevelSelectionElement>();
             if(element == null)
@@ -55,25 +61,29 @@ public class LevelSelectionMenu : MonoBehaviour
             element.SetLevelIndex(i);
 
             instance.transform.SetParent(m_levelsPivot.transform, false);
-            instance.transform.localPosition = new Vector3(i * m_distanceBetweenLevel, 0, 0);
+            instance.transform.localPosition = new Vector3(levelCount * m_distanceBetweenLevel, 0, 0);
 
             m_elements.Add(element);
+            levelCount++;
         }
 
-        var infiniteInstance = Instantiate(m_OneLevelPrefab);
-        var infiniteElement = infiniteInstance.GetComponent<LevelSelectionElement>();
-        if(infiniteElement == null)
+        if (!Global.instance.levelsData.InfiniteMode.disabled)
         {
-            Destroy(infiniteInstance);
-            return;
+            var infiniteInstance = Instantiate(m_OneLevelPrefab);
+            var infiniteElement = infiniteInstance.GetComponent<LevelSelectionElement>();
+            if (infiniteElement == null)
+            {
+                Destroy(infiniteInstance);
+                return;
+            }
+
+            infiniteElement.SetInfiniteMode();
+
+            infiniteInstance.transform.SetParent(m_levelsPivot.transform, false);
+            infiniteInstance.transform.localPosition = new Vector3(levelCount * m_distanceBetweenLevel, 0, 0);
+
+            m_elements.Add(infiniteElement);
         }
-
-        infiniteElement.SetInfiniteMode();
-
-        infiniteInstance.transform.SetParent(m_levelsPivot.transform, false);
-        infiniteInstance.transform.localPosition = new Vector3(Global.instance.levelsData.Levels.Count * m_distanceBetweenLevel, 0, 0);
-
-        m_elements.Add(infiniteElement);
     }
 
     void UpdateArrowsButtons()
