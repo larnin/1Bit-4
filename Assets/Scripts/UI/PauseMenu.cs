@@ -38,7 +38,8 @@ public class PauseMenu : MonoBehaviour
         if (m_selected)
             return;
 
-        Destroy(gameObject);
+        if (MenuSystem.instance != null)
+            MenuSystem.instance.CloseMenu(gameObject);
     }
 
     public void OnOptions()
@@ -49,7 +50,7 @@ public class PauseMenu : MonoBehaviour
         if (MenuSystem.instance == null)
             return;
 
-        MenuSystem.instance.OpenMenu<OptionsMenu>("Options", false, false, true);
+        MenuSystem.instance.OpenMenu<OptionsMenu>("Options", false, false, true, 100);
     }
 
     public void OnQuit()

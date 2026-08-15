@@ -83,7 +83,7 @@ public class GameInterface : MonoBehaviour
         if (MenuSystem.instance == null)
             return;
 
-        MenuSystem.instance.OpenMenu<PauseMenu>("Pause", false, false, false);
+        MenuSystem.instance.OpenMenu<PauseMenu>("Pause", false, false, true, 4);
     }
 
     private void Update()

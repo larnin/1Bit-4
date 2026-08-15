@@ -42,7 +42,7 @@ public class MenuSystem : MonoBehaviour
         GameInfos.instance.paused = false;
     }
 
-    public T OpenMenu<T>(string name, bool overrideOpen = false, bool returnOpen = false, bool withHolder = true) where T : Component
+    public T OpenMenu<T>(string name, bool overrideOpen = false, bool returnOpen = false, bool withHolder = true, int order = 1) where T : Component
     {
         GameObject openMenu = null;
         foreach (var w in m_openMenus)
@@ -95,6 +95,7 @@ public class MenuSystem : MonoBehaviour
                 canvas.worldCamera = camera.UICamera;
                 canvas.renderMode = RenderMode.ScreenSpaceCamera;
                 canvas.planeDistance = 1;
+                canvas.sortingOrder = order;
             }
 
             if (canvas != null)
@@ -116,7 +117,22 @@ public class MenuSystem : MonoBehaviour
                     
                 }
             }
+        }
+        else
+        {
+            var canvas = menu.GetComponent<Canvas>();
+            if(canvas != null)
+            {
+                var camera = Event<GetCameraEvent>.Broadcast(new GetCameraEvent());
 
+                if (camera.UICamera != null)
+                {
+                    canvas.worldCamera = camera.UICamera;
+                    canvas.renderMode = RenderMode.ScreenSpaceCamera;
+                    canvas.planeDistance = 1;
+                    canvas.sortingOrder = order;
+                }
+            }
         }
 
         T comp = menu.GetComponentInChildren<T>();
@@ -179,7 +195,26 @@ public class MenuSystem : MonoBehaviour
 
             var comp = m_openMenus[i].menuData.menu.GetComponentInChildren<T>();
             if (comp != null)
+            {
                 menuIndex = i;
+                break;
+            }
+        }
+
+        return RemoveAt(menuIndex);
+    }
+
+    public bool CloseMenu(GameObject menu)
+    {
+        int menuIndex = -1;
+
+        for(int i = 0; i < m_openMenus.Count; i++)
+        {
+            if(m_openMenus[i].menuData.menu == menu)
+            {
+                menuIndex = i;
+                break;
+            }
         }
 
         return RemoveAt(menuIndex);
@@ -207,6 +242,8 @@ public class MenuSystem : MonoBehaviour
 
         if (m_openMenus[menuIndex].menuData.menu != null)
             Destroy(m_openMenus[menuIndex].menuData.menu);
+        if (m_openMenus[menuIndex].holder != null)
+            Destroy(m_openMenus[menuIndex].holder);
 
         m_openMenus.RemoveAt(menuIndex);
 
