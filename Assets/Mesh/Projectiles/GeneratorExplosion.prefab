@@ -5019,7 +5019,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 384
   m_explosionDuration: 1
-  m_explosionRadius: 16
+  m_explosionRadius: 12
   m_explosionCurve: 3
   m_explosionFadeEndPercent: 0.8
   m_explosionSound: BuildingExplosion

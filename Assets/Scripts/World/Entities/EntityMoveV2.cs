@@ -82,15 +82,16 @@ public class EntityMoveV2 : MonoBehaviour
 
         bool moving = m_moveInterface.CanMove();
 
-        if(moving)
+        if (moving)
             m_speed += m_acceleration * Time.deltaTime;
-        else m_speed -= 2 * m_acceleration * Time.deltaTime;
-        if (m_speed < 0)
-            m_speed = 0;
-        if (m_speed > m_moveSpeed)
-            m_speed = m_moveSpeed;
+        else
+        {
+            float deceleration = m_moveSpeed / 0.25f;
+            m_speed -= deceleration * Time.deltaTime;
+        }
+        m_speed = Mathf.Clamp(m_speed, 0, m_moveSpeed);
 
-        if (m_speed > 0.001f)
+        if (m_speed > 0.01f)
         {
             Vector3 target = m_moveInterface.GetNextPos();
 

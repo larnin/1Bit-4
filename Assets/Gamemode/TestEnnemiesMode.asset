@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ea14c018ead8464e85aa0f56efbe7c6, type: 3}
   m_Name: TestEnnemiesMode
   m_EditorClassIdentifier: 
+  m_HudPrefab: {fileID: 0}
   positionName: Spawner
   ennemiesPerSecond: 5
   ennemies:
   - entityType:
       m_value: ProtoEnnemyMelee
     weight: 1
-  onlyOneEnnemy: 0
+  onlyOneEnnemy: 1

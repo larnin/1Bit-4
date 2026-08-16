@@ -107,6 +107,12 @@ public class MonolithModeSpawner
     {
         var grid = GridEx.GetCurrentGrid();
 
+        if (m_building == null)
+            return;
+
+        if (m_building.IsDead())
+            return;
+
         if (entityIndex < 0 || entityIndex >= Global.instance.editorDatas.entities.Count)
             return;
         var prefab = Global.instance.editorDatas.entities[entityIndex].prefab;

@@ -81,6 +81,19 @@ class ProjectileFrozen : ProjectileBase
 
             m_hitEntitiesSave.Clear();
         }
+        if (m_caster != null)
+        {
+            Vector3 dir = transform.forward;
+
+            float dist = (transform.position - m_caster.transform.position).MagnitudeXZ();
+            Vector3 startPos = transform.position - dir * dist;
+
+            var ray = new Ray(startPos, dir);
+            RaycastHit hit;
+            var haveHit = Physics.Raycast(ray, out hit, Time.deltaTime * m_speed + 0.01f, m_hitLayer);
+            if (haveHit)
+                StartExplosion(hit);
+        }
     }
 
     protected override void Update()

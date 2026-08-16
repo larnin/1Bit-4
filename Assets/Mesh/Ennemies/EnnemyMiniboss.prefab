@@ -157,7 +157,7 @@ MonoBehaviour:
   m_description: Deal heavy damage in close combat
   m_defaultTeam: 1
   m_entityType:
-    m_value: ProtoEnnemyMelee
+    m_value: ProtoEnnemyMiniboss
 --- !u!114 &4138828221521969377
 MonoBehaviour:
   m_ObjectHideFlags: 0

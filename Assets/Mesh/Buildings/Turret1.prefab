@@ -55,7 +55,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7566a92e6c74f2489fe792a67f7a91b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_radius: 15
+  m_radius: 14
 --- !u!114 &888804988172163593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,7 +138,7 @@ MonoBehaviour:
   m_selectionPopupPrefab: {fileID: 0}
   m_selectionPopupOffset: 0
   m_fireRate: 3
-  m_range: 15
+  m_range: 14
   m_recoilDistance: 0.3
   m_recoilDuration: 0.2
   m_recoilTarget: {fileID: 3717175037673376934}
