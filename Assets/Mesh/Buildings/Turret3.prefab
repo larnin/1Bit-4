@@ -55,7 +55,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7566a92e6c74f2489fe792a67f7a91b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_radius: 22
+  m_radius: 20
 --- !u!114 &4599273482230721443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,6 +69,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_turretRotSpeed: 3
+  m_predictonPercent: 1
 --- !u!65 &4599273482230721440
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -137,7 +138,7 @@ MonoBehaviour:
   m_selectionPopupPrefab: {fileID: 0}
   m_selectionPopupOffset: 0
   m_fireRate: 1
-  m_range: 22
+  m_range: 20
   m_recoilDistance: 0.5
   m_recoilDuration: 0.4
   m_recoilTarget: {fileID: 4599273482714574944}
@@ -146,7 +147,6 @@ MonoBehaviour:
   m_consumption: 2
   m_projectileType:
     m_value: FrozenPlayerProjectile
-  m_projectilePrefab: {fileID: 4663558457059073221, guid: 40944aad284fb12449a32e5dc9a68036, type: 3}
   m_fireSound: TurretIceFire
   m_fireSoundVolume: 0.5
 --- !u!114 &759066009924349017
@@ -161,6 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a6c11ee1fb1dda429dd1226b2d17eb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_values: []
 --- !u!114 &4189495704371027519
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -454,7 +454,7 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
 
     void UpdateConnexions()
     {
-        if(ConnexionSystem.instance == null)
+        if (ConnexionSystem.instance == null)
         {
             RemoveAllConnexions();
             return;
@@ -487,7 +487,9 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
                 var targetPos = b.GetGroundCenter();
                 var targetRadius = Global.instance.buildingDatas.GetRealPlaceRadius(radius, b.PlacementRadius()) - 0.01f;
 
-                if (VectorEx.SqrMagnitudeXZ(targetPos - pos) < targetRadius * targetRadius)
+                float distance = GridEx.GetDistance(grid, new Vector2(targetPos.x, targetPos.z), new Vector2(pos.x, pos.z));
+
+                if (distance < targetRadius)
                 {
                     if (connexionIndex >= m_connexions.Count)
                         m_connexions.Add(CreateConnexion(m_instance, b));
@@ -512,6 +514,8 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
 
     LineRenderer CreateConnexion(BuildingBase building1, BuildingBase building2)
     {
+        var grid = GridEx.GetCurrentGrid();
+
         var obj = new GameObject("Connexion");
         obj.transform.parent = transform;
 
@@ -522,7 +526,7 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
         line.endColor = m_connexionColor;
 
         Vector3 pos1 = building1.GetRayPoint();
-        Vector3 pos2 = building2.GetRayPoint();
+        Vector3 pos2 = GridEx.GetNearestPoint(grid, building2.GetRayPoint(), pos1);
 
         line.positionCount = 2;
         Vector3[] points = new Vector3[2] { pos1, pos2 };

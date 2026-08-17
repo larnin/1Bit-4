@@ -16,6 +16,26 @@ public class ProjectileSimple : ProjectileBase
     float m_time = 0;
     float m_distance = 0;
 
+    protected override void Start()
+    {
+        base.Start();
+
+        if(m_caster != null)
+        {
+            Vector3 dir = transform.forward;
+
+            float dist = (transform.position - m_caster.transform.position).MagnitudeXZ();
+            Vector3 startPos = transform.position - dir * dist;
+            
+            var ray = new Ray(startPos, dir);
+            RaycastHit hit;
+            var haveHit = Physics.Raycast(ray, out hit, Time.deltaTime * m_speed + 0.01f, m_hitLayer);
+            if (haveHit)
+                OnHit(hit);
+        }
+
+    }
+
     protected override void Update()
     {
         if (GameInfos.instance.paused)

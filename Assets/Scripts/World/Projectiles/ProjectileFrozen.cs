@@ -81,6 +81,19 @@ class ProjectileFrozen : ProjectileBase
 
             m_hitEntitiesSave.Clear();
         }
+        if (m_caster != null)
+        {
+            Vector3 dir = transform.forward;
+
+            float dist = (transform.position - m_caster.transform.position).MagnitudeXZ();
+            Vector3 startPos = transform.position - dir * dist;
+
+            var ray = new Ray(startPos, dir);
+            RaycastHit hit;
+            var haveHit = Physics.Raycast(ray, out hit, Time.deltaTime * m_speed + 0.01f, m_hitLayer);
+            if (haveHit)
+                StartExplosion(hit);
+        }
     }
 
     protected override void Update()
@@ -161,17 +174,16 @@ class ProjectileFrozen : ProjectileBase
 
     void StartExplosion(RaycastHit hit)
     {
-        var targetType = GameSystem.GetEntityType(hit.collider.gameObject);
-        if (targetType != EntityType.Building && targetType != EntityType.GameEntity && targetType != EntityType.Projectile)
-        {
-            if (m_distance < m_minimalDistance)
-                return;
-        }
-
         bool startExplosion = true;
 
         if (hit.collider != null)
         {
+            var targetType = GameSystem.GetEntityType(hit.collider.gameObject);
+            if (targetType != EntityType.Building && targetType != EntityType.GameEntity && targetType != EntityType.Projectile)
+            {
+                if (m_distance < m_minimalDistance)
+                    return;
+            }
             startExplosion = false;
             if ((m_groundLayer.value & (1 << hit.collider.gameObject.layer)) != 0)
                 startExplosion = true;

@@ -97,11 +97,14 @@ public class EnemyBehaviourV2 : MonoBehaviour, EntityMoveTargetInterface
 
         var target = GetTarget();
         if (target == null)
+        {
+            m_needMove = false;
             return;
+        }
 
         var targetPos = TurretBehaviour.GetTargetCenter(target.gameObject);
 
-        float sqrDist = (transform.position - targetPos).sqrMagnitude;
+        float sqrDist = (transform.position - targetPos).SqrMagnitudeXZ();
         float minDist = GetStopDistance();
 
         m_needMove = sqrDist > minDist * minDist;
@@ -149,6 +152,19 @@ public class EnemyBehaviourV2 : MonoBehaviour, EntityMoveTargetInterface
 
     public bool IsNavigable(Vector3Int pos)
     {
+        if(BuildingList.instance != null)
+        {
+            BuildingBase b = BuildingList.instance.GetBuildingAt(pos);
+            if(b != null)
+            {
+                var buildingTeam = b.GetTeam();
+                var currentTeam = Event<GetTeamEvent>.Broadcast(new GetTeamEvent(), gameObject).team;
+
+                if (currentTeam != buildingTeam)
+                    return false;
+            }
+        }
+
         if (NavigationSystem.instance == null)
             return false;
 

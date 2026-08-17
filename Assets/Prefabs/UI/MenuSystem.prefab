@@ -47,10 +47,10 @@ MonoBehaviour:
   m_menuHolder: {fileID: 1067762561132561513, guid: 9d9905ab15a9a5d4eabdfd6dc5dd9421, type: 3}
   m_menus:
   - name: Pause
-    menu: {fileID: 3465249205839453648, guid: 0751f46b97d8eb542b06198c407f8feb, type: 3}
+    menu: {fileID: 5421752882283160084, guid: ce60b59dc74002d45b797d4426d29c92, type: 3}
     pauseGame: 1
   - name: GameOver
-    menu: {fileID: 7463857494357893067, guid: e4e4528e0ba14ac499fde26e7e4325aa, type: 3}
+    menu: {fileID: 7648127148377111383, guid: d02fb6dd7820b2c4194f3b1a60864f4a, type: 3}
     pauseGame: 1
   - name: Options
     menu: {fileID: 3465249205839453648, guid: a2c6b762f43245e48b418a4ca3401567, type: 3}
@@ -59,10 +59,10 @@ MonoBehaviour:
     menu: {fileID: 4191772307496459155, guid: cf24542f69ff6ca4286c216e0ad04f93, type: 3}
     pauseGame: 1
   - name: GenericGameOver
-    menu: {fileID: 3559934224464040901, guid: 63d0250b4e0adb0488e91fe36cc67a94, type: 3}
+    menu: {fileID: 7388689878588147803, guid: a32884fb138e0864d94c3c0ebc4b02f0, type: 3}
     pauseGame: 1
   - name: DialogPopup
-    menu: {fileID: 6369474051510242215, guid: 7bac6f7bcf76b404284259c6c6d9a056, type: 3}
+    menu: {fileID: 6369474051510242215, guid: 1a1b0a2d17a3db648be0248675624b41, type: 3}
     pauseGame: 0
   - name: SaveSelect
     menu: {fileID: 8508195838324088670, guid: dcd84c1652274214caa06a331448d59b, type: 3}

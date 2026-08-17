@@ -19,6 +19,7 @@ public class MonolithModeEnnemy
 [CreateAssetMenu(fileName = "MonolithMode", menuName = "Game/Gamemode/MonolithMode", order = 1)]
 public class MonolithModeAsset : GamemodeAssetBase
 {
+    public float delayBeforeFirstWave = 15;
     public float delayBetweenWave = 30;
     public float spawnerRadiusAroundMonolith = 50;
     public float spawnerRadiusBetweenSpawner = 5;

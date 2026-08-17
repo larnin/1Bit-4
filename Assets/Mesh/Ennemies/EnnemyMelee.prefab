@@ -73,7 +73,7 @@ MonoBehaviour:
   m_description: Deal heavy damage in close combat
   m_defaultTeam: 1
   m_entityType:
-    m_value: 
+    m_value: ProtoEnnemyMelee
 --- !u!114 &4138828221521969377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,8 +214,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_moveSpeed: 2.5
-  m_acceleration: 2
-  m_rotationSpeed: 6
+  m_acceleration: 3
+  m_rotationSpeed: 5
 --- !u!1 &8666071389132884092
 GameObject:
   m_ObjectHideFlags: 0

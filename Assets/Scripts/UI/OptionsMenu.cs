@@ -113,7 +113,8 @@ public class OptionsMenu : MonoBehaviour
 
     public void CloseMenu()
     {
-        Destroy(gameObject);
+        if (MenuSystem.instance != null)
+            MenuSystem.instance.CloseMenu(gameObject);
     }
 
     int GetCurrentColorIndex()
