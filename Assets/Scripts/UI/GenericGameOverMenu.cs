@@ -29,20 +29,18 @@ public class GenericGameOverMenu : MonoBehaviour
 
     private void Awake()
     {
-        var obj = transform.Find("Pivot");
-        if (obj != null)
-        {
-            var target = obj.localPosition;
-            var start = obj.localPosition + new Vector3(0, m_appearOffset, 0);
+        var objTitle = transform.Find("Title");
+        if (objTitle != null)
+            m_title = objTitle.GetComponent<TMP_Text>();
+    }
 
-            obj.localPosition = start;
+    private void Start()
+    {
+        var target = transform.localPosition;
+        var start = transform.localPosition + new Vector3(0, m_appearOffset, 0);
 
-            obj.DOLocalMove(target, m_appearDuration).SetEase(m_appearCurve);
-
-            var objTitle = obj.Find("Title");
-            if (objTitle != null)
-                m_title = objTitle.GetComponent<TMP_Text>();
-        }
+        transform.localPosition = start;
+        transform.DOLocalMove(target, m_appearDuration).SetEase(m_appearCurve);
     }
 
     public void SetStatus(bool succes)
