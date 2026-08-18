@@ -757,7 +757,7 @@ MonoBehaviour:
       initialResources: []
       disabled: 0
     InfiniteLevel:
-      size: 4
+      size: 5
       height: 1
       loopX: 0
       loopZ: 0

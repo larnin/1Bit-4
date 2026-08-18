@@ -53,17 +53,16 @@ public class GameOverMenu : MonoBehaviour
         transform.DOLocalMove(target, m_appearDuration).SetEase(m_appearCurve);
     }
 
+    public void SetScore(float Difficulty)
+    {
+        int score = Mathf.RoundToInt(Difficulty * Difficulty * 10);
+
+        if (m_scoreValue != null)
+            m_scoreValue.text = score.ToString();
+    }
+
     void DrawScores()
     {
-        //todo
-        //if (DifficultySystem.instance != null)
-        //{
-        //    int score = Mathf.RoundToInt(DifficultySystem.instance.GetDifficulty() * DifficultySystem.instance.GetDifficulty() * 10);
-
-        //    if (m_scoreValue != null)
-        //        m_scoreValue.text = score.ToString();
-        //}
-
         if (StatsSystem.instance != null)
         {
             var stats = StatsSystem.instance.GetStats();
