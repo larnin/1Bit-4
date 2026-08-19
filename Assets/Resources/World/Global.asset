@@ -758,7 +758,7 @@ MonoBehaviour:
       disabled: 0
     InfiniteLevel:
       size: 5
-      height: 1
+      height: 2
       loopX: 0
       loopZ: 0
       presetName: InfiniteMode

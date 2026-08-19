@@ -31,7 +31,7 @@ MonoBehaviour:
         layerAmplitudeScale: 0.5
       plainsHeight:
         baseFrequency: 3
-        baseAmplitude: 9
+        baseAmplitude: 7
         nbLayers: 4
         layerAmplitudeScale: 0.4
       montainsMinDistanceFromCenter: 25
