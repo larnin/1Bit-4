@@ -203,7 +203,7 @@ public class EntityMoveV2 : MonoBehaviour
             new Vector2(0.5f, 0.5f),
             new Vector2(0.5f, -0.5f)};
 
-    void MoveTo(Vector3 next, bool retry = false)
+    Vector3 MoveTo(Vector3 next, bool retry = false)
     {
         Grid grid = GridEx.GetCurrentGrid();
 
@@ -214,24 +214,33 @@ public class EntityMoveV2 : MonoBehaviour
         if(currentI == nextI || m_moveInterface.IsNavigable(nextI))
         {
             transform.position = next;
-            return;
+            return current - next;
         }
 
         if (retry)
-            return;
+            return Vector3.zero;
 
         Vector3Int dirI = nextI - currentI;
         Vector3 dir = next - current;
         if (dirI.x != 0 && dirI.z != 0)
         {
-            return;
+            Vector3Int nextLeft = currentI + new Vector3Int(dirI.x, dirI.y, 0);
+            if (m_moveInterface.IsNavigable(nextLeft))
+                dir.z = 0;
+            else
+            {
+                Vector3Int nextRight = currentI + new Vector3Int(0, dirI.y, dirI.z);
+                if (m_moveInterface.IsNavigable(nextRight))
+                    dir.x = 0;
+                else return Vector3.zero;
+            }
         }
         else if (dirI.x != 0)
-            dir.z = 0;
-        else if (dirI.z != 0)
             dir.x = 0;
+        else if (dirI.z != 0)
+            dir.z = 0;
 
-        MoveTo(current + dir, true);
+        return MoveTo(current + dir, true);
 
 
 
