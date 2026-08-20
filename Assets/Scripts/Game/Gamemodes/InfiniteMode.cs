@@ -319,7 +319,9 @@ public class InfiniteMode : GamemodeBase
         if (MenuSystem.instance == null)
             return;
 
-        MenuSystem.instance.OpenMenu<GameOverMenu>("GameOver", false, false, true, 5);
+        var Menu = MenuSystem.instance.OpenMenu<GameOverMenu>("GameOver", false, false, true, 5);
+        if (Menu != null)
+            Menu.SetScore(GetDifficulty());
 
         e.displayed = true;
     }

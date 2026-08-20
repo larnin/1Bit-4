@@ -15,7 +15,7 @@ MonoBehaviour:
   m_HudPrefab: {fileID: 2667999300915922819, guid: b3a1e5eb33257a14d8e665ca9a671bb8, type: 3}
   portals:
   - positionName: Portal1
-    portalType: 100
+    portalType: 101
     waveStart: 0
     destroyAfterLastWave: 0
     waves:
@@ -59,7 +59,7 @@ MonoBehaviour:
         count: 20
         stats: []
   - positionName: Portal2
-    portalType: 100
+    portalType: 101
     waveStart: 1
     destroyAfterLastWave: 0
     waves:
@@ -108,7 +108,7 @@ MonoBehaviour:
         count: 10
         stats: []
   - positionName: Portal3
-    portalType: 100
+    portalType: 101
     waveStart: 2
     destroyAfterLastWave: 0
     waves:
@@ -134,7 +134,7 @@ MonoBehaviour:
         count: 10
         stats: []
   - positionName: Portal4
-    portalType: 100
+    portalType: 101
     waveStart: 5
     destroyAfterLastWave: 0
     waves:
@@ -150,7 +150,7 @@ MonoBehaviour:
         count: 20
         stats: []
   - positionName: Portal5
-    portalType: 100
+    portalType: 101
     waveStart: 5
     destroyAfterLastWave: 0
     waves:

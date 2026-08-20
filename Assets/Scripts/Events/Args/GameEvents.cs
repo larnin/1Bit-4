@@ -7,9 +7,9 @@ using UnityEngine;
 
 public class OnEnnemyKillEvent 
 {
-    public EnnemyBehaviour ennemy;
+    public GameObject ennemy;
 
-    public OnEnnemyKillEvent(EnnemyBehaviour _ennemy)
+    public OnEnnemyKillEvent(GameObject _ennemy)
     {
         ennemy = _ennemy;
     }

@@ -203,7 +203,7 @@ public class EntityMoveV2 : MonoBehaviour
             new Vector2(0.5f, 0.5f),
             new Vector2(0.5f, -0.5f)};
 
-    void MoveTo(Vector3 next, bool retry = false)
+    Vector3 MoveTo(Vector3 next, bool retry = false)
     {
         Grid grid = GridEx.GetCurrentGrid();
 
@@ -214,63 +214,90 @@ public class EntityMoveV2 : MonoBehaviour
         if(currentI == nextI || m_moveInterface.IsNavigable(nextI))
         {
             transform.position = next;
-            return;
+            return current - next;
         }
 
-        Vector2 current2 = new Vector2(current.x, current.z);
-        Vector2Int currentI2 = new Vector2Int(currentI.x, currentI.z);
+        if (retry)
+            return Vector3.zero;
 
-        bool intersect = false;
-        float intersectDist = 0;
-        Vector2 intersectPos = Vector2.zero;
-        Vector2 intersectDir = Vector2.zero;
-
-        for (int i = 0; i < 4; i++)
+        Vector3Int dirI = nextI - currentI;
+        Vector3 dir = next - current;
+        if (dirI.x != 0 && dirI.z != 0)
         {
-            Vector2 p1 = offsets[i] + current2;
-            Vector2 p2 = (i == 3 ? offsets[0] : offsets[i + 1]) + currentI2;
-
-            Vector2 result = Utility.IntersectLines(current2, new Vector2(next.x, next.z), p1, p2);
-
-            Vector2 dir = result - current2;
-            float dist = dir.magnitude;
-            dir /= dist;
-
-            if (dist > 1)
-                continue;
-
-            if (dist < 0.001f)
-                continue;
-
-            if (dist > 0.01f)
-                dist -= 0.01f;
-            else dist = 0;
-
-            if(!intersect || dist < intersectDist)
+            Vector3Int nextLeft = currentI + new Vector3Int(dirI.x, dirI.y, 0);
+            if (m_moveInterface.IsNavigable(nextLeft))
+                dir.z = 0;
+            else
             {
-                intersect = true;
-                intersectDist = dist;
-                intersectPos = dir * dist + current2;
-                intersectDir = (p2 - p1).normalized;
+                Vector3Int nextRight = currentI + new Vector3Int(0, dirI.y, dirI.z);
+                if (m_moveInterface.IsNavigable(nextRight))
+                    dir.x = 0;
+                else return Vector3.zero;
             }
         }
+        else if (dirI.x != 0)
+            dir.x = 0;
+        else if (dirI.z != 0)
+            dir.z = 0;
 
-        if(!intersect)
-        {
-            transform.position = next;
-            return;
-        }
+        return MoveTo(current + dir, true);
 
-        transform.position = new Vector3(intersectPos.x, next.y, intersectPos.y);
-        if (retry)
-            return;
 
-        Vector3 remaining = next - transform.position;
-        Vector3 remainingDir = Vector3.Project(remaining, new Vector3(intersectDir.x, 0, intersectDir.y));
 
-        Vector3 newNext = transform.position + remainingDir;
+        //Vector2 current2 = new Vector2(current.x, current.z);
+        //Vector2Int currentI2 = new Vector2Int(currentI.x, currentI.z);
 
-        MoveTo(newNext, true);
+        //bool intersect = false;
+        //float intersectDist = 0;
+        //Vector2 intersectPos = Vector2.zero;
+        //Vector2 intersectDir = Vector2.zero;
+
+        //for (int i = 0; i < 4; i++)
+        //{
+        //    Vector2 p1 = offsets[i] + current2;
+        //    Vector2 p2 = (i == 3 ? offsets[0] : offsets[i + 1]) + currentI2;
+
+        //    Vector2 result = Utility.IntersectLines(current2, new Vector2(next.x, next.z), p1, p2);
+
+        //    Vector2 dir = result - current2;
+        //    float dist = dir.magnitude;
+        //    dir /= dist;
+
+        //    if (dist > 1)
+        //        continue;
+
+        //    if (dist < 0.001f)
+        //        continue;
+
+        //    if (dist > 0.01f)
+        //        dist -= 0.01f;
+        //    else dist = 0;
+
+        //    if(!intersect || dist < intersectDist)
+        //    {
+        //        intersect = true;
+        //        intersectDist = dist;
+        //        intersectPos = dir * dist + current2;
+        //        intersectDir = (p2 - p1).normalized;
+        //    }
+        //}
+
+        //if(!intersect)
+        //{
+        //    transform.position = next;
+        //    return;
+        //}
+
+        //transform.position = new Vector3(intersectPos.x, next.y, intersectPos.y);
+        //if (retry)
+        //    return;
+
+        //Vector3 remaining = next - transform.position;
+        //Vector3 remainingDir = Vector3.Project(remaining, new Vector3(intersectDir.x, 0, intersectDir.y));
+
+        //Vector3 newNext = transform.position + remainingDir;
+
+        //MoveTo(newNext, true);
     }
 
     Vector3 ReplacePosOnGridWithLoop(Vector3 pos)

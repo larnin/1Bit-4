@@ -92,7 +92,7 @@ public class EnnemyBehaviour : MonoBehaviour
 
     void OnDeath(DeathEvent e)
     {
-        Event<OnEnnemyKillEvent>.Broadcast(new OnEnnemyKillEvent(this));
+        Event<OnEnnemyKillEvent>.Broadcast(new OnEnnemyKillEvent(gameObject));
     }
 
     void OnLifeLoss(LifeLossEvent e)

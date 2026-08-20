@@ -884,7 +884,7 @@ public static class WorldGenerator
 
                     float d = new Vector2Int(x - size / 2, y - size / 2).sqrMagnitude;
                     if (d < m_settings.titaniumMinDistance * m_settings.titaniumMinDistance)
-                        break;
+                        continue;
 
                     if (!CanPlaceTitaniumAt(new Vector2Int(x, y)))
                         continue;
@@ -1050,6 +1050,7 @@ public static class WorldGenerator
 
             int height = GridEx.GetHeight(m_grid, initialI);
             GridEx.SetBlock(m_grid, new Vector3Int(initialI.x, height, initialI.y), new Block(BlockType.Geothermal));
+            break;
         }
 
         // rain drop patchs
@@ -1070,7 +1071,7 @@ public static class WorldGenerator
 
                     float d = new Vector2Int(x - size / 2, y - size / 2).sqrMagnitude;
                     if (d < m_settings.geothermalMinDistance * m_settings.geothermalMinDistance)
-                        break;
+                        continue;
 
                     if (!CanPlaceOilAt(new Vector2Int(x, y)))
                         continue;

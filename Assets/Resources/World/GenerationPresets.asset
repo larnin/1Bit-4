@@ -19,19 +19,19 @@ MonoBehaviour:
       height: 2
       loopX: 0
       loopZ: 0
-      waterHeight: -18
+      waterHeight: 0
       baseSurfaceHeight: 1
-      baseSurfaceNormalizedRadius: 0.8
-      baseSurfaceNormalizedTopRadius: 0.5
+      baseSurfaceNormalizedRadius: 0.65
+      baseSurfaceNormalizedTopRadius: 0.45
       baseSurfaceDescreaseCurve: 4
       baseSurfaceRandomization:
         baseFrequency: 2
-        baseAmplitude: 100
-        nbLayers: 6
+        baseAmplitude: 50
+        nbLayers: 5
         layerAmplitudeScale: 0.5
       plainsHeight:
         baseFrequency: 3
-        baseAmplitude: 9
+        baseAmplitude: 7
         nbLayers: 4
         layerAmplitudeScale: 0.4
       montainsMinDistanceFromCenter: 25
@@ -82,7 +82,7 @@ MonoBehaviour:
       titaniumMinHeight: 1
       titaniumMaxHeight: 2
       titaniumHeightNeighbour: 0.3
-      geothermalDensity: 2
+      geothermalDensity: 5
       geothermalRetryCount: 1
-      geothermalInitialPatchDistance: 30
-      geothermalMinDistance: 60
+      geothermalInitialPatchDistance: 25
+      geothermalMinDistance: 40

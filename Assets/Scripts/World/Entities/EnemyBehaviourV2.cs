@@ -28,6 +28,7 @@ public class EnemyBehaviourV2 : MonoBehaviour, EntityMoveTargetInterface
 
     private void Awake()
     {
+        m_subscriberList.Add(new Event<DeathEvent>.LocalSubscriber(OnDeath, gameObject));
         m_subscriberList.Subscribe();
 
         m_deviation = Rand.UniformFloatDistribution(-1, 1, StaticRandomGenerator<MT19937>.Get());
@@ -59,6 +60,12 @@ public class EnemyBehaviourV2 : MonoBehaviour, EntityMoveTargetInterface
 
         return minDist;
     }
+
+    void OnDeath(DeathEvent e)
+    {
+        Event<OnEnnemyKillEvent>.Broadcast(new OnEnnemyKillEvent(gameObject));
+    }
+
 
     private void Update()
     {

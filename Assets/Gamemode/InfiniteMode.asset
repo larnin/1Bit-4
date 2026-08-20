@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa7965d62a1b72742ab57ab97593543a, type: 3}
   m_Name: InfiniteMode
   m_EditorClassIdentifier: 
+  m_HudPrefab: {fileID: 0}
   difficultyPerMinute:
     baseValue: 0.3
     powValue: 1.2
@@ -39,11 +40,11 @@ MonoBehaviour:
   difficultyToSpawnerNb:
     baseValue: 0.8
     powValue: 1
-    multiplierValue: 1
+    multiplierValue: 1.2
     addValue: 0
     finalAddValue: 0
   difficultyToLifeMultiplier:
-    baseValue: 0.3
+    baseValue: 0.2
     powValue: 1.25
     multiplierValue: 1
     addValue: 0
@@ -64,15 +65,15 @@ MonoBehaviour:
     distanceFromBuildingsMin: 25
     distanceFromBuildingsMax: 50
     distanceFromSpawnerMin: 10
-    delayBaseBetweenEnnemies: 1
+    delayBaseBetweenEnnemies: 0.5
     delayReduceAfterNbEnnemies: 10
     delaySpeedMultiplayerPerEnnemies: 0.05
     minSpawningIconDisplayTime: 2
     appearIconDisplayTime: 5
     timerDecreaseOnHit: 1.5
     difficultyToMaxEnnemies:
-      baseValue: 3
-      powValue: 0.75
+      baseValue: 4
+      powValue: 1.2
       multiplierValue: 1
       addValue: 0
       finalAddValue: 2
@@ -80,21 +81,21 @@ MonoBehaviour:
     - entityType:
         m_value: ProtoEnnemyDistance
       difficultyMin: 0
-      difficultyMax: 1
+      difficultyMax: -1
       difficultyCostMin: 0.1
       difficultyCostMax: 0.1
       weight: 1.5
     - entityType:
         m_value: ProtoEnnemyMelee
       difficultyMin: 0
-      difficultyMax: 1
+      difficultyMax: -1
       difficultyCostMin: 0.1
       difficultyCostMax: 0.1
       weight: 1
     - entityType:
         m_value: ProtoEnnemyKamikaze
-      difficultyMin: 0
-      difficultyMax: 1
+      difficultyMin: 8
+      difficultyMax: -1
       difficultyCostMin: 0.2
       difficultyCostMax: 0.2
       weight: 0.8
