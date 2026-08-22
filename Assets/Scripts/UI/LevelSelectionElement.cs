@@ -67,9 +67,9 @@ public class LevelSelectionElement : MonoBehaviour
         if (info.unlockCondition == LevelUnlockCondition.WhenPreviousCompleted && !m_infiniteMode)
         {
             int previousLevel = GetPreviousLevelIndex();
-            if (previousLevel > 0)
+            if (previousLevel >= 0)
             {
-                var previous = Global.instance.levelsData.GetLevelInfo(m_levelIndex, false);
+                var previous = Global.instance.levelsData.GetLevelInfo(previousLevel, false);
                 if (previous != null)
                     m_locked = !GameInfos.instance.persistant.IsLevelCompleted(previous.name);
             }
