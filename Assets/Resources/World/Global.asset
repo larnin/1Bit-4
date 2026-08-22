@@ -751,7 +751,7 @@ MonoBehaviour:
       name: Infinite
       description: How many time can you survive ?
       icon: {fileID: 0}
-      unlockCondition: 1
+      unlockCondition: 2
       level: {fileID: 0}
       quest: {fileID: 11400000, guid: 6af5cff95c08abc459d1f74fe64230ae, type: 2}
       initialResources: []
