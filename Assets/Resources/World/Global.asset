@@ -749,7 +749,7 @@ MonoBehaviour:
       disabled: 1
     InfiniteMode:
       name: Infinite
-      description: How many time can you survive ?
+      description: How much time can you survive ?
       icon: {fileID: 0}
       unlockCondition: 1
       level: {fileID: 0}

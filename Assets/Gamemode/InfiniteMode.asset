@@ -21,8 +21,8 @@ MonoBehaviour:
     finalAddValue: 0
   difficultyPerDistance:
     baseValue: 0.02
-    powValue: 1.2
-    multiplierValue: 1
+    powValue: 0.2
+    multiplierValue: 0.5
     addValue: 0
     finalAddValue: 0
   difficultyPerKill:
@@ -33,7 +33,7 @@ MonoBehaviour:
     finalAddValue: 0
   difficultyPerSpawner:
     baseValue: 0.8
-    powValue: 1.2
+    powValue: 1.1
     multiplierValue: 1
     addValue: 0
     finalAddValue: 0
