@@ -128,19 +128,43 @@ MonoBehaviour:
     - Name: data
       Entry: 7
       Data: 6|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 7
+      Data: 7|QuestObjectiveText, Assembly-CSharp
+    - Name: title
+      Entry: 6
+      Data: 
+    - Name: details
+      Entry: 7
+      Data: 8|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
     - Name: m_subObjectives
       Entry: 7
-      Data: 7|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+      Data: 9|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 8|QuestSubObjectiveIsLevelCompleted, Assembly-CSharp
+      Data: 10|QuestSubObjectiveIsLevelCompleted, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_levelName
       Entry: 1
       Data: Tutorial
@@ -161,14 +185,14 @@ MonoBehaviour:
       Data: 
     - Name: outNodes
       Entry: 7
-      Data: 9|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+      Data: 11|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 10|QuestSaveConnection, Assembly-CSharp
+      Data: 12|QuestSaveConnection, Assembly-CSharp
     - Name: currentPortName
       Entry: 1
       Data: Out
@@ -192,7 +216,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 11|QuestSaveNode, Assembly-CSharp
+      Data: 13|QuestSaveNode, Assembly-CSharp
     - Name: ID
       Entry: 1
       Data: 6423bc81-80f7-4391-9c85-7b57200981e6
@@ -222,20 +246,44 @@ MonoBehaviour:
       Data: 
     - Name: data
       Entry: 7
-      Data: 12|QuestObjective, Assembly-CSharp
+      Data: 14|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 7
+      Data: 15|QuestObjectiveText, Assembly-CSharp
+    - Name: title
+      Entry: 6
+      Data: 
+    - Name: details
+      Entry: 7
+      Data: 16|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
     - Name: m_subObjectives
       Entry: 7
-      Data: 13|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+      Data: 17|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 13
     - Name: 
       Entry: 7
-      Data: 14|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+      Data: 18|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_buildingType
       Entry: 3
       Data: 1
@@ -250,7 +298,10 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 15|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+      Data: 19|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_buildingType
       Entry: 3
       Data: 3
@@ -265,7 +316,10 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 16|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+      Data: 20|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_buildingType
       Entry: 3
       Data: 5
@@ -280,7 +334,28 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 17|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+      Data: 21|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
+    - Name: m_buildingType
+      Entry: 3
+      Data: 18
+    - Name: m_unlocked
+      Entry: 5
+      Data: true
+    - Name: m_globalyUnlocked
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 22|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_buildingType
       Entry: 3
       Data: 6
@@ -295,7 +370,10 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 18|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+      Data: 23|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_buildingType
       Entry: 3
       Data: 9
@@ -310,7 +388,10 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 19|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+      Data: 24|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_buildingType
       Entry: 3
       Data: 10
@@ -325,7 +406,10 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 20|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+      Data: 25|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_buildingType
       Entry: 3
       Data: 11
@@ -340,7 +424,10 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 21|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+      Data: 26|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_buildingType
       Entry: 3
       Data: 12
@@ -355,52 +442,10 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 22|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
-    - Name: m_buildingType
-      Entry: 3
-      Data: 13
-    - Name: m_unlocked
-      Entry: 5
-      Data: true
-    - Name: m_globalyUnlocked
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
+      Data: 27|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
       Data: 
-    - Name: 
-      Entry: 7
-      Data: 23|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
-    - Name: m_buildingType
-      Entry: 3
-      Data: 14
-    - Name: m_unlocked
-      Entry: 5
-      Data: true
-    - Name: m_globalyUnlocked
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 24|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
-    - Name: m_buildingType
-      Entry: 3
-      Data: 15
-    - Name: m_unlocked
-      Entry: 5
-      Data: true
-    - Name: m_globalyUnlocked
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 25|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
     - Name: m_buildingType
       Entry: 3
       Data: 16
@@ -415,10 +460,49 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 26|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+      Data: 28|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_buildingType
       Entry: 3
-      Data: 18
+      Data: 13
+    - Name: m_unlocked
+      Entry: 5
+      Data: true
+    - Name: m_globalyUnlocked
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 29|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
+    - Name: m_buildingType
+      Entry: 3
+      Data: 14
+    - Name: m_unlocked
+      Entry: 5
+      Data: true
+    - Name: m_globalyUnlocked
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 30|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
+    - Name: m_buildingType
+      Entry: 3
+      Data: 15
     - Name: m_unlocked
       Entry: 5
       Data: true
@@ -439,7 +523,7 @@ MonoBehaviour:
       Data: 
     - Name: outNodes
       Entry: 7
-      Data: 27|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+      Data: 31|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12

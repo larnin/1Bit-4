@@ -668,7 +668,7 @@ MonoBehaviour:
     regenSpeed: 2
     regenDelay: 30
     alarmSound: BuildingAlarm
-    alarmVolume: 1
+    alarmVolume: 0.5
     alarmRestartDelay: 30
     alarmGlobalRestartDelay: 10
     multiplePlaceReduction: 4
