@@ -193,7 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea1b57c4fdc500c40aa17e0bc75161ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_maxLife: 1
+  m_maxLife: 50
 --- !u!114 &1982064669056982052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,8 +316,8 @@ MonoBehaviour:
   - entityType:
       m_value: ProtoEnnemyMelee
     count: 15
-    delayBeforeFirstGroup: 15
-    delayBetweenGroups: 10
+    delayBeforeFirstGroup: 5
+    delayBetweenGroups: 15
     delayBetweenEntities: 0.1
     groupCount: -1
   m_spawnMinRadius: 1

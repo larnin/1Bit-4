@@ -135,7 +135,7 @@ MonoBehaviour:
         stats: []
   - positionName: Portal4
     portalType: 101
-    waveStart: 5
+    waveStart: 4
     destroyAfterLastWave: 0
     waves:
     - delayBeforeFirstEntity: 0
@@ -149,9 +149,20 @@ MonoBehaviour:
           m_value: ProtoEnnemyMelee
         count: 20
         stats: []
+    - delayBeforeFirstEntity: 0
+      spawnDuration: 5
+      entities:
+      - entityType:
+          m_value: ProtoEnnemyDistance
+        count: 10
+        stats: []
+      - entityType:
+          m_value: ProtoEnnemyMelee
+        count: 10
+        stats: []
   - positionName: Portal5
     portalType: 101
-    waveStart: 5
+    waveStart: 4
     destroyAfterLastWave: 0
     waves:
     - delayBeforeFirstEntity: 0
@@ -160,6 +171,25 @@ MonoBehaviour:
       - entityType:
           m_value: ProtoEnnemyKamikaze
         count: 5
+        stats: []
+    - delayBeforeFirstEntity: 0
+      spawnDuration: 1
+      entities:
+      - entityType:
+          m_value: ProtoEnnemyKamikaze
+        count: 5
+        stats: []
+  - positionName: Portal6
+    portalType: 101
+    waveStart: 5
+    destroyAfterLastWave: 0
+    waves:
+    - delayBeforeFirstEntity: 0
+      spawnDuration: 1
+      entities:
+      - entityType:
+          m_value: ProtoEnnemyMiniboss
+        count: 1
         stats: []
   delayBeforeFirstWave: 90
   delayBetweenWave: 30
