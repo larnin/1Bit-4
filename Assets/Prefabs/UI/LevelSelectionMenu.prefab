@@ -723,7 +723,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_hoverSound: Hover
   m_hoverSoundVolume: 0.5
-  m_clickSound: Clic
+  m_clickSound: Play
   m_clickSoundVolume: 1
 --- !u!1 &4191772307496459155
 GameObject:
@@ -849,8 +849,6 @@ MonoBehaviour:
   m_OneLevelPrefab: {fileID: 2741984086175630370, guid: ed5df918b037b5644a371438612fb487, type: 3}
   m_distanceBetweenLevel: 1000
   m_transitionDuration: 0.5
-  m_gameSceneName: Game
-  m_mainMenuName: Main
 --- !u!1 &5010701809317082500
 GameObject:
   m_ObjectHideFlags: 0

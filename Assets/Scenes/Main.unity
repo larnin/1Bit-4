@@ -837,7 +837,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_hoverSound: Hover
   m_hoverSoundVolume: 0.5
-  m_clickSound: Play
+  m_clickSound: Clic
   m_clickSoundVolume: 1
 --- !u!114 &831120921
 MonoBehaviour:
