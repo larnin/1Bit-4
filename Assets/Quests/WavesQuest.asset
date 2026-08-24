@@ -129,6 +129,9 @@ MonoBehaviour:
     - Name: data
       Entry: 7
       Data: 6|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 6
+      Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
@@ -142,6 +145,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 8|QuestSubObjectiveTimer, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_duration
       Entry: 4
       Data: 5
@@ -221,19 +227,43 @@ MonoBehaviour:
     - Name: data
       Entry: 7
       Data: 12|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 7
+      Data: 13|QuestObjectiveText, Assembly-CSharp
+    - Name: title
+      Entry: 6
+      Data: 
+    - Name: details
+      Entry: 7
+      Data: 14|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
     - Name: m_subObjectives
       Entry: 7
-      Data: 13|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+      Data: 15|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 14|QuestSubObjectiveStartGamemode, Assembly-CSharp
+      Data: 16|QuestSubObjectiveStartGamemode, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_name
       Entry: 1
       Data: Waves
@@ -254,14 +284,14 @@ MonoBehaviour:
       Data: 
     - Name: outNodes
       Entry: 7
-      Data: 15|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+      Data: 17|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 16|QuestSaveConnection, Assembly-CSharp
+      Data: 18|QuestSaveConnection, Assembly-CSharp
     - Name: currentPortName
       Entry: 1
       Data: Out
@@ -285,7 +315,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 17|QuestSaveNode, Assembly-CSharp
+      Data: 19|QuestSaveNode, Assembly-CSharp
     - Name: ID
       Entry: 1
       Data: e0e8945e-fe38-4f2e-b60b-0e04ac7c2425
@@ -318,7 +348,7 @@ MonoBehaviour:
       Data: 
     - Name: outNodes
       Entry: 7
-      Data: 18|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+      Data: 20|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -334,7 +364,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 19|QuestSaveNode, Assembly-CSharp
+      Data: 21|QuestSaveNode, Assembly-CSharp
     - Name: ID
       Entry: 1
       Data: 2d4f7ad4-054e-4aac-8a68-0bfa5f3d2264
@@ -364,26 +394,95 @@ MonoBehaviour:
       Data: 
     - Name: data
       Entry: 7
-      Data: 20|QuestObjective, Assembly-CSharp
+      Data: 22|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 7
+      Data: 23|QuestObjectiveText, Assembly-CSharp
+    - Name: title
+      Entry: 6
+      Data: 
+    - Name: details
+      Entry: 7
+      Data: 24|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
     - Name: m_subObjectives
       Entry: 7
-      Data: 21|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+      Data: 25|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 7
-      Data: 22|QuestSubObjectiveGamemodeStatus, Assembly-CSharp
+      Data: 26|QuestSubObjectiveGamemodeStatus, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 6
+      Data: 
     - Name: m_name
       Entry: 1
       Data: Waves
     - Name: m_status
       Entry: 3
       Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 27|QuestSubObjectiveEntityCount, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 7
+      Data: 28|System.Collections.Generic.List`1[[System.Int32, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 3
+      Data: -1
+    - Name: 
+      Entry: 3
+      Data: -1
+    - Name: 
+      Entry: 3
+      Data: -1
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_useType
+      Entry: 5
+      Data: true
+    - Name: m_entityType
+      Entry: 1
+      Data: ProtoEnnemyMiniboss
+    - Name: m_useTeam
+      Entry: 5
+      Data: false
+    - Name: m_team
+      Entry: 3
+      Data: 0
+    - Name: m_count
+      Entry: 3
+      Data: 0
+    - Name: m_operator
+      Entry: 3
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -398,14 +497,14 @@ MonoBehaviour:
       Data: 
     - Name: outNodes
       Entry: 7
-      Data: 23|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+      Data: 29|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 24|QuestSaveConnection, Assembly-CSharp
+      Data: 30|QuestSaveConnection, Assembly-CSharp
     - Name: currentPortName
       Entry: 1
       Data: Out
@@ -429,7 +528,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 25|QuestSaveNode, Assembly-CSharp
+      Data: 31|QuestSaveNode, Assembly-CSharp
     - Name: ID
       Entry: 1
       Data: 1b237522-3f84-4ac8-9396-42930ed7e0c2
@@ -459,23 +558,65 @@ MonoBehaviour:
       Data: 
     - Name: data
       Entry: 7
-      Data: 26|QuestObjective, Assembly-CSharp
+      Data: 32|QuestObjective, Assembly-CSharp
+    - Name: m_text
+      Entry: 7
+      Data: 33|QuestObjectiveText, Assembly-CSharp
+    - Name: title
+      Entry: 6
+      Data: 
+    - Name: details
+      Entry: 7
+      Data: 34|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: m_multipleInputOperator
       Entry: 3
       Data: 1
     - Name: m_subObjectives
       Entry: 7
-      Data: 27|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
+      Data: 35|System.Collections.Generic.List`1[[QuestSubObjectiveBase, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 28|QuestSubObjectiveTimer, Assembly-CSharp
+      Data: 36|QuestSubObjectiveTimer, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 7
+      Data: 37|System.Collections.Generic.List`1[[System.Int32, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 3
+      Data: -1
+    - Name: 
+      Entry: 3
+      Data: -1
+    - Name: 
+      Entry: 3
+      Data: -1
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: m_duration
       Entry: 4
-      Data: 30
+      Data: 5
     - Name: 
       Entry: 8
       Data: 
@@ -490,14 +631,14 @@ MonoBehaviour:
       Data: 
     - Name: outNodes
       Entry: 7
-      Data: 29|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+      Data: 38|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 30|QuestSaveConnection, Assembly-CSharp
+      Data: 39|QuestSaveConnection, Assembly-CSharp
     - Name: currentPortName
       Entry: 1
       Data: Out
