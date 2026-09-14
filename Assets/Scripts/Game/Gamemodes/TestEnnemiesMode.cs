@@ -13,6 +13,7 @@ public class TestEnnemiesMode : GamemodeBase
     BuildingEnnemySpawner m_spawner = null;
     float m_remainingTimer = 0;
     int m_nbSpawned = 0;
+    float m_burstTimer = 0;
 
     public TestEnnemiesMode(TestEnnemiesModeAsset asset, GamemodeSystem owner)
         : base(owner)
@@ -42,12 +43,32 @@ public class TestEnnemiesMode : GamemodeBase
                 return;
         }
 
-        m_remainingTimer += Time.deltaTime;
-        int nbEnnemies = Mathf.FloorToInt(m_remainingTimer * m_asset.ennemiesPerSecond);
-        m_remainingTimer -= nbEnnemies / m_asset.ennemiesPerSecond;
+        if (m_asset.ennemiesPerSecond > 0)
+        {
+            m_remainingTimer += Time.deltaTime;
+            int nbEnnemies = Mathf.FloorToInt(m_remainingTimer * m_asset.ennemiesPerSecond);
+            m_remainingTimer -= nbEnnemies / m_asset.ennemiesPerSecond;
 
-        for(int i = 0; i < nbEnnemies; i++)
-            SpawnOneEnnemy();
+            for (int i = 0; i < nbEnnemies; i++)
+                SpawnOneEnnemy();
+        }
+
+        if(m_asset.burstCount > 0 && m_asset.burstDelay > 0)
+        {
+            m_burstTimer -= Time.deltaTime;
+            if(m_burstTimer <= 0)
+            {
+                m_burstTimer += m_asset.burstDelay;
+                for (int i = 0; i < m_asset.burstCount; i++)
+                    SpawnOneEnnemy();
+
+            }    
+        }
+    }
+
+    public override void Begin()
+    {
+        m_burstTimer = m_asset.burstDelay;
     }
 
     public override void End()

@@ -16,6 +16,9 @@ public class TestEnnemiesModeAsset : GamemodeAssetBase
     public float ennemiesPerSecond;
     public List<TestEnnemiesData> ennemies;
     public bool onlyOneEnnemy = false;
+    public int burstCount = 0;
+    public float burstDelay = 1;
+
 
     public override GamemodeBase MakeGamemode(GamemodeSystem owner)
     {

@@ -12,6 +12,7 @@ public class GameEntity : MonoBehaviour
     [SerializeField] string m_description;
     [SerializeField] Team m_defaultTeam = Team.Neutral;
     [SerializeField] EntityChoice m_entityType;
+    [SerializeField] int m_avoidanceDiameter = 1;
 
     bool m_added = false;
 
@@ -188,4 +189,5 @@ public class GameEntity : MonoBehaviour
         }
     }
 
+    public int GetAvoidanceDiameter() { return m_avoidanceDiameter; }
 }

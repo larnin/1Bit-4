@@ -12,6 +12,7 @@ public class EnemyBehaviourV2 : MonoBehaviour, EntityMoveTargetInterface
     static readonly ProfilerMarker ms_profilerMarker = new ProfilerMarker(ProfilerCategory.Scripts, "EnemyBehaviourTest");
 
     [SerializeField] NavigationProfileChoice m_navigationProfile;
+    [SerializeField] float m_maxDeviation = 1;
 
     List<EntityWeaponBase> m_weapons = new List<EntityWeaponBase>();
 
@@ -31,7 +32,8 @@ public class EnemyBehaviourV2 : MonoBehaviour, EntityMoveTargetInterface
         m_subscriberList.Add(new Event<DeathEvent>.LocalSubscriber(OnDeath, gameObject));
         m_subscriberList.Subscribe();
 
-        m_deviation = Rand.UniformFloatDistribution(-1, 1, StaticRandomGenerator<MT19937>.Get());
+        m_deviation = Rand.UniformFloatDistribution(-m_maxDeviation, m_maxDeviation, StaticRandomGenerator<MT19937>.Get());
+        m_deviation = Mathf.Clamp(m_deviation, -1, 1);
         m_seed = m_lastSeed;
         m_lastSeed++;
     }

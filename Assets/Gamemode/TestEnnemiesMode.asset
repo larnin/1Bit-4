@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HudPrefab: {fileID: 0}
   positionName: Spawner
-  ennemiesPerSecond: 5
+  ennemiesPerSecond: 0
   ennemies:
   - entityType:
       m_value: ProtoEnnemyMelee
     weight: 1
-  onlyOneEnnemy: 1
+  onlyOneEnnemy: 0
+  burstCount: 20
+  burstDelay: 10

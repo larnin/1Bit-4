@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Unity.Profiling;
 using UnityEngine;
+using NRand;
 
 public class EntityMoveV2 : MonoBehaviour
 {
@@ -32,6 +33,7 @@ public class EntityMoveV2 : MonoBehaviour
     Vector3 m_jumpEnd = Vector3.zero;
     float m_jumpTimer = 0;
     float m_jumpTimeMax = 0;
+    float m_avoidanceVelocityMultiplier = 1;
 
     SubscriberList m_subscriberList = new SubscriberList();
 
@@ -82,13 +84,22 @@ public class EntityMoveV2 : MonoBehaviour
 
         bool moving = m_moveInterface.CanMove();
 
-        if (moving)
+        float targetSpeed = m_moveSpeed * m_avoidanceVelocityMultiplier;
+        if (!moving)
+            targetSpeed = 0;
+
+        float m_lastSpeed = m_speed;
+        if (targetSpeed > m_speed)
             m_speed += m_acceleration * Time.deltaTime;
         else
         {
             float deceleration = m_moveSpeed / 0.25f;
             m_speed -= deceleration * Time.deltaTime;
         }
+        if (m_lastSpeed <= targetSpeed && m_speed > targetSpeed)
+            m_speed = targetSpeed;
+        else if (m_lastSpeed >= targetSpeed && m_speed < targetSpeed)
+            m_speed = targetSpeed;
         m_speed = Mathf.Clamp(m_speed, 0, m_moveSpeed);
 
         if (m_speed > 0.01f)
@@ -97,6 +108,7 @@ public class EntityMoveV2 : MonoBehaviour
 
             Vector3 dir = target - transform.position;
             dir = GetDirWithLoop(dir);
+            dir = DeviateDirWithAvoidance(dir, out m_avoidanceVelocityMultiplier);
             float angleDir = Mathf.Atan2(dir.z, dir.x);
             float deltaAngle = angleDir - m_angle;
             while (deltaAngle < -Mathf.PI)
@@ -120,6 +132,7 @@ public class EntityMoveV2 : MonoBehaviour
             transform.position = ReplacePosOnGridWithLoop(transform.position);
             transform.forward = moveDir;
         }
+        else m_avoidanceVelocityMultiplier = 1;
     }
 
     Vector3 GetDirWithLoop(Vector3 dir)
@@ -155,6 +168,65 @@ public class EntityMoveV2 : MonoBehaviour
         }
 
         return dir;
+    }
+
+    Vector3 DeviateDirWithAvoidance(Vector3 dir, out float outVelocityMultiplier)
+    {
+        outVelocityMultiplier = 1;
+
+        if (EntityList.instance == null)
+            return dir;
+
+        Vector3 pos = gameObject.transform.position;
+        Vector3 target = pos + dir;
+
+        bool ownerCurrent = IsEntityAvoidanceValid(EntityList.instance.GetFilledAvoidance(pos));
+        bool ownerTarget = IsEntityAvoidanceValid(EntityList.instance.GetFilledAvoidance(target));
+
+        if (ownerCurrent && ownerTarget)
+            return dir;
+
+        Vector3 leftDir = GetOffsetAvoidanceVector(dir, false);
+        Vector3 targetLeft = pos + leftDir;
+        Vector3Int targetLeftI = new Vector3Int(Mathf.RoundToInt(targetLeft.x), Mathf.RoundToInt(targetLeft.y), Mathf.RoundToInt(targetLeft.z));
+        bool leftNavigable = m_moveInterface.IsNavigable(targetLeftI);
+        bool ownerLeft = leftNavigable && IsEntityAvoidanceValid(EntityList.instance.GetFilledAvoidance(targetLeft));
+
+        Vector3 rightDir = GetOffsetAvoidanceVector(dir, true);
+        Vector3 targetRight = pos + rightDir;
+        Vector3Int targetRightI = new Vector3Int(Mathf.RoundToInt(targetRight.x), Mathf.RoundToInt(targetRight.y), Mathf.RoundToInt(targetRight.z));
+        bool rightNavigable = m_moveInterface.IsNavigable(targetRightI);
+        bool ownerRight = rightNavigable && IsEntityAvoidanceValid(EntityList.instance.GetFilledAvoidance(targetRight));
+
+        if (ownerLeft && !ownerRight)
+            return leftDir;
+        if (ownerRight && !ownerLeft)
+            return rightDir;
+        if(!ownerLeft && !ownerRight)
+        {
+            outVelocityMultiplier = 0;
+            return dir;
+        }
+
+        RandomHash rand = new RandomHash(GetInstanceID());
+        bool left = Rand.BernoulliDistribution(rand);
+        if (left)
+            return leftDir;
+        return rightDir;
+    }
+
+    bool IsEntityAvoidanceValid(GameEntity e)
+    {
+        return e == null || e.gameObject == gameObject;
+    }
+
+    Vector3 GetOffsetAvoidanceVector(Vector3 dir, bool right)
+    {
+        float offsetAngle = (right ? 45.0f : -45.0f) * Mathf.Deg2Rad;
+
+        float angle = Mathf.Atan2(dir.z, dir.x) + offsetAngle;
+
+        return new Vector3(Mathf.Cos(angle), dir.y, Mathf.Sin(angle));
     }
 
     //infos used in the next function
@@ -241,63 +313,6 @@ public class EntityMoveV2 : MonoBehaviour
             dir.z = 0;
 
         return MoveTo(current + dir, true);
-
-
-
-        //Vector2 current2 = new Vector2(current.x, current.z);
-        //Vector2Int currentI2 = new Vector2Int(currentI.x, currentI.z);
-
-        //bool intersect = false;
-        //float intersectDist = 0;
-        //Vector2 intersectPos = Vector2.zero;
-        //Vector2 intersectDir = Vector2.zero;
-
-        //for (int i = 0; i < 4; i++)
-        //{
-        //    Vector2 p1 = offsets[i] + current2;
-        //    Vector2 p2 = (i == 3 ? offsets[0] : offsets[i + 1]) + currentI2;
-
-        //    Vector2 result = Utility.IntersectLines(current2, new Vector2(next.x, next.z), p1, p2);
-
-        //    Vector2 dir = result - current2;
-        //    float dist = dir.magnitude;
-        //    dir /= dist;
-
-        //    if (dist > 1)
-        //        continue;
-
-        //    if (dist < 0.001f)
-        //        continue;
-
-        //    if (dist > 0.01f)
-        //        dist -= 0.01f;
-        //    else dist = 0;
-
-        //    if(!intersect || dist < intersectDist)
-        //    {
-        //        intersect = true;
-        //        intersectDist = dist;
-        //        intersectPos = dir * dist + current2;
-        //        intersectDir = (p2 - p1).normalized;
-        //    }
-        //}
-
-        //if(!intersect)
-        //{
-        //    transform.position = next;
-        //    return;
-        //}
-
-        //transform.position = new Vector3(intersectPos.x, next.y, intersectPos.y);
-        //if (retry)
-        //    return;
-
-        //Vector3 remaining = next - transform.position;
-        //Vector3 remainingDir = Vector3.Project(remaining, new Vector3(intersectDir.x, 0, intersectDir.y));
-
-        //Vector3 newNext = transform.position + remainingDir;
-
-        //MoveTo(newNext, true);
     }
 
     Vector3 ReplacePosOnGridWithLoop(Vector3 pos)

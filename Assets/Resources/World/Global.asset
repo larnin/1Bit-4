@@ -746,7 +746,7 @@ MonoBehaviour:
       level: {fileID: 11400000, guid: f441ab70e66490d43918c733fcf8d6fa, type: 2}
       quest: {fileID: 11400000, guid: b87f32c0993863846a41d79887db9f1b, type: 2}
       initialResources: []
-      disabled: 1
+      disabled: 0
     InfiniteMode:
       name: Infinite
       description: How much time can you survive ?
