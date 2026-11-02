@@ -71,6 +71,11 @@ public class OnBuildingBuildEvent
     }
 }
 
+public class GetPlaceWallCursorEvent
+{
+    public PlaceWallCursor cursor;
+}
+
 public class OnBuildingRemovedEvent
 {
     public BuildingType type;

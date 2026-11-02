@@ -216,7 +216,7 @@ public class BuildingList : MonoBehaviour
         return GetAllBuilding(x => { return x.GetTeam() == team; });
     }
 
-    public List<BuildingBase> GetAllBuilding(BuildingType type,  Team team)
+    public List<BuildingBase> GetAllBuilding(BuildingType type, Team team)
     {
         return GetAllBuilding(x => { return x.GetBuildingType() == type && x.GetTeam() == team; });
     }

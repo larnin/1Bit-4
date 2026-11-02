@@ -22,6 +22,7 @@ public class GameInterface : MonoBehaviour
     [SerializeField] float m_buildingStartOffset;
     [SerializeField] float m_buildingListMoreSpace;
     [SerializeField] PlaceBuildingCursor m_buildingCursor;
+    [SerializeField] PlaceWallCursor m_wallCursor;
     [SerializeField] SelectCursor m_selectCursor;
     [SerializeField] BuildingDetailDisplay m_detail;
     [SerializeField] TMP_Text m_questText;
@@ -57,8 +58,18 @@ public class GameInterface : MonoBehaviour
         if (m_buildingCursor == null)
             return;
 
-        m_buildingCursor.SetBuildingType(type);
-        m_buildingCursor.SetCursorEnabled(true);
+        if (BuildingTypeEx.IsWall(type))
+        {
+            m_wallCursor.SetBuildingType(type);
+            m_wallCursor.SetCursorEnabled(true);
+            m_buildingCursor.SetCursorEnabled(false);
+        }
+        else
+        {
+            m_buildingCursor.SetBuildingType(type);
+            m_buildingCursor.SetCursorEnabled(true);
+            m_wallCursor.SetCursorEnabled(false);
+        }
         m_selectCursor.SetCursorEnabled(false);
     }
 
@@ -79,6 +90,7 @@ public class GameInterface : MonoBehaviour
 
         m_selectCursor.SetCursorEnabled(false);
         m_buildingCursor.SetCursorEnabled(false);
+        m_wallCursor.SetCursorEnabled(false);
 
         if (MenuSystem.instance == null)
             return;
@@ -93,9 +105,16 @@ public class GameInterface : MonoBehaviour
 
         if (!GameInfos.instance.paused)
         {
-            if (m_buildingCursor != null && m_selectCursor != null)
+            if (m_selectCursor != null)
             {
-                if (!m_buildingCursor.IsCursorEnabled() && !m_selectCursor.IsCursorEnabled())
+                bool aCursorEnabled = false;
+                if (m_selectCursor.IsCursorEnabled())
+                    aCursorEnabled = true;
+                else if (m_buildingCursor != null && m_buildingCursor.IsCursorEnabled())
+                    aCursorEnabled = true;
+                else if (m_wallCursor != null && m_wallCursor.IsCursorEnabled())
+                    aCursorEnabled = true;
+                if (!aCursorEnabled)
                     m_selectCursor.SetCursorEnabled(true);
             }
 

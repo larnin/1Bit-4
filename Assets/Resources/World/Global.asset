@@ -643,6 +643,19 @@ MonoBehaviour:
       firstFree: 0
       cost:
         cost: []
+    - type: 20
+      prefab: {fileID: 5997532118309597559, guid: 828835ef5175a9c408d6fa460d06d990, type: 3}
+      sprite: {fileID: 0}
+      spriteWithBorder: {fileID: 0}
+      size: {x: 1, y: 2, z: 1}
+      team: 0
+      name: Titanium Wall
+      description: A sturdy wall that can withstand hard blows
+      firstFree: 0
+      cost:
+        cost:
+        - type: 2
+          count: 5
     defaultUnlockedBuildings: 01000000090000000d000000
     mineItemPrefab: {fileID: 6943061212826655842, guid: 020dedfdfd13d1c49ac25e185f22167b, type: 3}
     lifeLossDisplayDuration: 10
@@ -743,9 +756,17 @@ MonoBehaviour:
       description: Just a level to test ennemies behavior
       icon: {fileID: 0}
       unlockCondition: 1
-      level: {fileID: 11400000, guid: f441ab70e66490d43918c733fcf8d6fa, type: 2}
+      level: {fileID: 11400000, guid: 0fd90a8600095044ba7fca831dd1be22, type: 2}
       quest: {fileID: 11400000, guid: b87f32c0993863846a41d79887db9f1b, type: 2}
-      initialResources: []
+      initialResources:
+      - type: 1
+        count: 1000
+      - type: 2
+        count: 1000
+      - type: 3
+        count: 1000
+      - type: 5
+        count: 1000
       disabled: 0
     InfiniteMode:
       name: Infinite
@@ -754,7 +775,9 @@ MonoBehaviour:
       unlockCondition: 2
       level: {fileID: 0}
       quest: {fileID: 11400000, guid: 6af5cff95c08abc459d1f74fe64230ae, type: 2}
-      initialResources: []
+      initialResources:
+      - type: 1
+        count: 200
       disabled: 0
     InfiniteLevel:
       size: 5

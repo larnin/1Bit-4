@@ -277,7 +277,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 13
+      Data: 14
     - Name: 
       Entry: 7
       Data: 18|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
@@ -513,6 +513,33 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
+      Entry: 7
+      Data: 31|QuestSubObjectiveSetBuildingUnlocked, Assembly-CSharp
+    - Name: m_detailSockets
+      Entry: 7
+      Data: 32|System.Collections.Generic.List`1[[System.Int32, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_buildingType
+      Entry: 3
+      Data: 20
+    - Name: m_unlocked
+      Entry: 5
+      Data: true
+    - Name: m_globalyUnlocked
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -523,7 +550,7 @@ MonoBehaviour:
       Data: 
     - Name: outNodes
       Entry: 7
-      Data: 31|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
+      Data: 33|System.Collections.Generic.List`1[[QuestSaveConnection, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12

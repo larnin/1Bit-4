@@ -8,6 +8,7 @@ using UnityEngine;
 public class EditorToolHolder : MonoBehaviour
 {
     [SerializeField] PlaceBuildingCursor m_placeBuildingCursor;
+    [SerializeField] PlaceWallCursor m_placeWallCursor;
 
     EditorToolBase m_currentTool;
 
@@ -76,6 +77,14 @@ public class EditorToolHolder : MonoBehaviour
 
     public EditorToolBase MakePlaceBuildingTool(BuildingType building)
     {
+        if(BuildingTypeEx.IsWall(building))
+        {
+            m_placeWallCursor.SetBuildingType(building);
+            EditorToolCursor wallTool = new EditorToolCursor();
+            wallTool.SetCursor(m_placeWallCursor);
+            return wallTool;
+        }
+        
         m_placeBuildingCursor.SetBuildingType(building);
         EditorToolCursor tool = new EditorToolCursor();
         tool.SetCursor(m_placeBuildingCursor);

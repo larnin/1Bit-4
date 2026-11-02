@@ -74,6 +74,7 @@ MonoBehaviour:
   m_defaultTeam: 1
   m_entityType:
     m_value: ProtoEnnemyKamikaze
+  m_avoidanceDiameter: 1
 --- !u!114 &4873590828060934996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,6 +179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_navigationProfile:
     m_value: SmallEnnemies
+  m_maxDeviation: 0.5
 --- !u!114 &6818936937117030791
 MonoBehaviour:
   m_ObjectHideFlags: 0

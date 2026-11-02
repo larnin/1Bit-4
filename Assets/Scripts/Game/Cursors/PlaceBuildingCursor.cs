@@ -153,7 +153,7 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
         m_instance.transform.position = m_cursorPos;
 
         if (m_decal != null)
-            m_decal.SetTarget(m_cursorPos, m_instance.GetBuildingType(), m_instance.PlacementRadius());
+            m_decal.SetTarget(m_cursorPos, m_instance.PlacementRadius());
 
         m_posValid = true;
     }
@@ -230,7 +230,7 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
             m_canPlace = m_instance.CanBePlaced(m_cursorPos);
 
         if (m_decal != null)
-            m_decal.SetTarget(m_cursorPos, m_instance.GetBuildingType(), m_instance.PlacementRadius());
+            m_decal.SetTarget(m_cursorPos, m_instance.PlacementRadius());
 
         if (m_onEditor)
             return;
@@ -248,18 +248,19 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
             return;
         }
 
-        //test at range of an other pylon
-        Vector3 pos = m_instance.GetGroundCenter();
-        float radius = m_instance.PlacementRadius();
+        var grid = GridEx.GetCurrentGrid();
 
+        if (!CanBePlaced(grid, m_instance.GetGroundCenter(), m_instance.PlacementRadius()))
+            m_canPlace = BuildingPlaceType.TooFar;
+    }
+
+    public static bool CanBePlaced(Grid grid, Vector3 center, float placementRadius)
+    {
         List<BuildingBase> connectable = new List<BuildingBase>();
         connectable.AddRange(BuildingList.instance.GetAllBuilding(BuildingType.Tower));
         connectable.AddRange(BuildingList.instance.GetAllBuilding(BuildingType.Pylon));
         connectable.AddRange(BuildingList.instance.GetAllBuilding(BuildingType.BigPylon));
 
-        var grid = GridEx.GetCurrentGrid();
-
-        bool canPlace = false;
         if (grid != null)
         {
             foreach (var b in connectable)
@@ -268,19 +269,15 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
                     continue;
 
                 var targetPos = b.GetGroundCenter();
-                var targetRadius = Global.instance.buildingDatas.GetRealPlaceRadius(radius, b.PlacementRadius()) - 0.01f;
-                if(GridEx.GetDistance(grid, new Vector2(pos.x, pos.z), new Vector2(targetPos.x, targetPos.z)) < targetRadius)
+                var targetRadius = Global.instance.buildingDatas.GetRealPlaceRadius(placementRadius, b.PlacementRadius()) - 0.01f;
+                if (GridEx.GetDistance(grid, new Vector2(center.x, center.z), new Vector2(targetPos.x, targetPos.z)) < targetRadius)
                 {
-                    canPlace = true;
-                    break;
+                    return true;
                 }
             }
         }
-        if (!canPlace)
-        {
-            m_canPlace = BuildingPlaceType.TooFar;
-            return;
-        }
+
+        return false;
     }
 
     Vector3Int GetNearestValidPos(Vector3Int pos)
@@ -408,7 +405,7 @@ public class PlaceBuildingCursor : MonoBehaviour, CursorInterface
         else DisplayIconsV2.instance.Unregister(m_instance.gameObject);
     }
 
-    string GetMessage(BuildingPlaceType type)
+    public static string GetMessage(BuildingPlaceType type)
     {
         switch(type)
         {

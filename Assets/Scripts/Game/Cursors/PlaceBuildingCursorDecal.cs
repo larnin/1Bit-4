@@ -28,7 +28,6 @@ public class PlaceBuildingCursorDecal : MonoBehaviour
         public Vector2Int offset;
     }
 
-    BuildingType m_buildingType;
     float m_placementRadius;
 
     private void Awake()
@@ -45,12 +44,11 @@ public class PlaceBuildingCursorDecal : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void SetTarget(Vector3Int pos, BuildingType type, float placementRadius)
+    public void SetTarget(Vector3Int pos, float placementRadius)
     {
         pos.y += 100;
         transform.position = pos;
 
-        m_buildingType = type;
         m_placementRadius = placementRadius;
 
         var grid = GridEx.GetCurrentGrid();

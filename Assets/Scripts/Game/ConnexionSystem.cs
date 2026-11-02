@@ -61,6 +61,9 @@ public class ConnexionSystem : MonoBehaviour
         if (b.GetBuildingType() == BuildingType.Tower)
             newBuilding.connectedToTower = true;
 
+        if (BuildingTypeEx.IsWall(b.GetBuildingType()))
+            return; // no connexions on walls
+
         foreach(var building in m_allBuildings)
         {
             if(AreConnectable(b, building.building))
@@ -95,6 +98,9 @@ public class ConnexionSystem : MonoBehaviour
 
     public void OnBuildingRemove(BuildingBase b)
     {
+        if (BuildingTypeEx.IsWall(b.GetBuildingType()))
+            return; // no connexions on walls
+
         BuildingInfo node;
         if (!m_connexionFinder.TryGetValue(b, out node))
             return;

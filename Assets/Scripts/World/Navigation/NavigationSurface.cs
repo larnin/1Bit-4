@@ -105,6 +105,9 @@ public class NavigationSurface
                 if (b.GetBuildingType() == BuildingType.Tower)
                     continue;
 
+                if (BuildingTypeEx.IsWall(b.GetBuildingType()))
+                    continue;
+
                 if (b.IsDead())
                     continue;
 
@@ -405,6 +408,16 @@ public class NavigationSurface
             if (m_profile.climbStep < heightDiff)
                 return false;
             cost = m_profile.climbCost;
+        }
+
+        if(BuildingList.instance != null)
+        {
+            var building = BuildingList.instance.GetBuildingAt(new Vector3Int(end.x, endHeight + 1, end.y));
+            float buildingCost = 0;
+            if (!building.IsMoveValid(out buildingCost))
+                return false;
+
+            cost += buildingCost;
         }
 
         // need test diagonals

@@ -191,6 +191,7 @@ MonoBehaviour:
   m_defaultTeam: 1
   m_entityType:
     m_value: ProtoEnnemyDistance
+  m_avoidanceDiameter: 1
 --- !u!114 &3136065468102887465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,6 +252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_turretRotSpeed: 10
+  m_predictonPercent: 1
 --- !u!114 &-5360164222209047576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,6 +345,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_navigationProfile:
     m_value: SmallEnnemies
+  m_maxDeviation: 0.5
 --- !u!1 &6536032200619290587
 GameObject:
   m_ObjectHideFlags: 0

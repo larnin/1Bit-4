@@ -150,6 +150,12 @@ public class BuildingEnnemySpawner : BuildingBase
             m_appearTimer = jsonAppearTimer.Float();
     }
 
+    public override bool IsMoveValid(out float cost)
+    {
+        cost = 0;
+        return true;
+    }
+
     protected override void SaveImpl(JsonObject obj)
     {
         obj.AddElement("timer", m_timer);

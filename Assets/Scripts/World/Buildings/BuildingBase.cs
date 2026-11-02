@@ -26,6 +26,9 @@ public enum BuildingType
     Storage,
     MonolithNullifier,
     GeothermalGenerator,
+    WallCrystal,
+    WallTitanium,
+    WallGlitch,
     EnnemySpawner = 100,
     EnnemySpawnerIndestructible,
     Monolith = 150,
@@ -36,6 +39,11 @@ public static class BuildingTypeEx
     public static bool IsNode(BuildingType type)
     {
         return type == BuildingType.Tower || type == BuildingType.Pylon || type == BuildingType.BigPylon;
+    }
+
+    public static bool IsWall(BuildingType type)
+    {
+        return type == BuildingType.WallCrystal || type == BuildingType.WallTitanium || type == BuildingType.WallGlitch;
     }
 }
 
@@ -269,6 +277,7 @@ public abstract class BuildingBase : MonoBehaviour
     public virtual float EnergyStorageMax() { return 0; }
     public virtual void ConsumeStoredEnergy(float value) { }
     public virtual float PlacementRadius() { return 0; }
+    public virtual bool IsMoveValid(out float cost) { cost = 0; return false; }
 
     public virtual BuildingPlaceType CanBePlaced(Vector3Int pos) 
     {

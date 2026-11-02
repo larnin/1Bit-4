@@ -43,7 +43,7 @@ public class OneResourceCost
 [Serializable]
 public class ResourceCost
 {
-    public List<OneResourceCost> cost;
+    public List<OneResourceCost> cost = new List<OneResourceCost>();
 
     public bool HaveMoney()
     {
@@ -76,6 +76,49 @@ public class ResourceCost
             ResourceSystem.instance.RemoveResource(r.type, r.count, false);
         }
     }
+
+    public static ResourceCost Mult(ResourceCost cost, int value)
+    {
+        ResourceCost newCost = new ResourceCost();
+        foreach(var resource in cost.cost)
+        {
+            OneResourceCost newResource = new OneResourceCost();
+            newResource.count = resource.count * value;
+            newResource.type = resource.type;
+
+            newCost.cost.Add(newResource);
+        }
+
+        return newCost;
+    }
+
+    public static ResourceCost Add(ResourceCost costA, ResourceCost costB)
+    {
+        ResourceCost newCost = new ResourceCost();
+        foreach (var resource in costA.cost)
+        {
+            OneResourceCost newResource = new OneResourceCost();
+            newResource.count = resource.count;
+            newResource.type = resource.type;
+
+            newCost.cost.Add(newResource);
+        }
+
+        foreach (var resource in costB.cost)
+        {
+            OneResourceCost addedResource = newCost.cost.Find(x => { return x.type == resource.type; });
+            if (addedResource != null)
+                addedResource.count += resource.count;
+
+            OneResourceCost newResource = new OneResourceCost();
+            newResource.count = resource.count;
+            newResource.type = resource.type;
+
+            newCost.cost.Add(newResource);
+        }
+
+        return newCost;
+    }
 }
 
 [Serializable]
@@ -104,7 +147,7 @@ public class OneBuildingData
         if (BuildingList.instance == null)
             return true;
 
-        int nb = BuildingList.instance.GetAllBuilding(type).Count;
+        int nb = BuildingList.instance.GetAllBuilding(type, Team.Player).Count;
         return nb == 0;
     }
 }
