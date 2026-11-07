@@ -68,7 +68,7 @@ Shader "Unlit/CustomLighted"
             float noise(float2 uv, float time)
             {
                 float2 offset1 = float2(time, time);
-                float offset2 = float2(-time / 2, time * 1.5);
+                float2 offset2 = float2(-time / 2, time * 1.5);
 
                 float4 col1 = tex2D(_PerlinTex, uv * _NoiseTextureScale + offset1);
                 float4 col2 = tex2D(_PerlinTex, uv * _NoiseTextureScale + offset2);

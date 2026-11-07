@@ -29,9 +29,12 @@ public enum BuildingType
     WallCrystal,
     WallTitanium,
     WallGlitch,
+    Turret4,
+    Turret5,
     EnnemySpawner = 100,
     EnnemySpawnerIndestructible,
     Monolith = 150,
+    DebugTarget = 500,
 }
 
 public static class BuildingTypeEx

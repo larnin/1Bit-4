@@ -656,6 +656,28 @@ MonoBehaviour:
         cost:
         - type: 2
           count: 5
+    - type: 23
+      prefab: {fileID: 2386629846189063210, guid: 8597785485c11884bafd0e9fc3f3d6e7, type: 3}
+      sprite: {fileID: 0}
+      spriteWithBorder: {fileID: 0}
+      size: {x: 1, y: 2, z: 1}
+      team: 0
+      name: Laser Turret
+      description: Death ray !
+      firstFree: 0
+      cost:
+        cost: []
+    - type: 500
+      prefab: {fileID: 1461841332799344722, guid: ba262ebbb11c58e48a181da878527e97, type: 3}
+      sprite: {fileID: 0}
+      spriteWithBorder: {fileID: 0}
+      size: {x: 1, y: 2, z: 1}
+      team: 1
+      name: DebugTarget
+      description: 
+      firstFree: 0
+      cost:
+        cost: []
     defaultUnlockedBuildings: 01000000090000000d000000
     mineItemPrefab: {fileID: 6943061212826655842, guid: 020dedfdfd13d1c49ac25e185f22167b, type: 3}
     lifeLossDisplayDuration: 10

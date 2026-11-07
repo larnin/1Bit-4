@@ -170,4 +170,33 @@ public class LevelSelectionMenu : MonoBehaviour
 
         SceneSystem.changeScene(scene);
     }
+
+    public void ClickUnlock()
+    {
+        var allBuildings = Enum.GetValues(typeof(BuildingType));
+        foreach (var type in allBuildings)
+        {
+            var b = (BuildingType)type;
+
+            var buildingInfo = Global.instance.buildingDatas.GetBuilding(b);
+            if (buildingInfo == null)
+                continue;
+
+            if (buildingInfo.team != Team.Player)
+                continue;
+
+            GameInfos.instance.persistant.SetBuildingUnlocked(b, true);
+        }
+
+        foreach(var level in Global.instance.levelsData.Levels)
+        {
+            GameInfos.instance.persistant.SetLevelCompleted(level.name);
+        }
+
+        foreach (var e in m_elements)
+            Destroy(e.gameObject);
+        m_elements.Clear();
+
+        PopulateLevels();
+    }
 }

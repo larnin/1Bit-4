@@ -82,7 +82,7 @@ Shader "Unlit/EnnemyPortal"
             float noise(float2 uv)
             {
                 float2 offset1 = float2(_Time.y, -_Time.y);
-                float offset2 = float2(-_Time.y / 2, _Time.y * 1.5);
+                float2 offset2 = float2(-_Time.y / 2, _Time.y * 1.5);
 
                 float4 col1 = tex2D(_PerlinTex, uv * _NoiseTextureScale + offset1 * _TextureOffsetSpeed);
                 float4 col2 = tex2D(_PerlinTex, uv * _NoiseTextureScale + offset2 * _TextureOffsetSpeed);

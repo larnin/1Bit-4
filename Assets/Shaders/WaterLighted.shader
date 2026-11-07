@@ -100,7 +100,7 @@ Shader "Unlit/WaterLighted"
             float noise(float2 uv, float time, float scale, float amplitude)
             {
                 float2 offset1 = float2(time, time);
-                float offset2 = float2(-time / 2 + 1, time * 1.53 - 1.37);
+                float2 offset2 = float2(-time / 2 + 1, time * 1.53 - 1.37);
 
                 float4 col1 = tex2D(_PerlinTex, uv * scale + offset1);
                 float4 col2 = tex2D(_PerlinTex, uv * scale + offset2);

@@ -15,11 +15,8 @@ public abstract class BuildingTurretBase : BuildingBase
     [HideIf("@(this.IsContinuousWeapon())")]
     [SerializeField] float m_fireRate = 1;
     [SerializeField] float m_range = 5;
-    [HideIf("@(this.IsContinuousWeapon())")]
     [SerializeField] float m_recoilDistance = 0.5f;
-    [HideIf("@(this.IsContinuousWeapon())")]
     [SerializeField] float m_recoilDuration = 0.5f;
-    [HideIf("@(this.IsContinuousWeapon())")]
     [SerializeField] Transform m_recoilTarget;
     [SerializeField] ParticleSystem m_fireParticles;
 
@@ -203,6 +200,7 @@ public abstract class BuildingTurretBase : BuildingBase
             if (m_firing)
             {
                 StartFire();
+                StartRecoil();
                 if (m_fireParticles != null)
                     m_fireParticles.Play();
             }
@@ -215,7 +213,7 @@ public abstract class BuildingTurretBase : BuildingBase
         }
     }
 
-    void StartRecoil()
+    protected void StartRecoil()
     {
         m_recoilTimer = 0;
     }
