@@ -22,3 +22,17 @@ MonoBehaviour:
   onlyOneEnnemy: 0
   burstCount: 20
   burstDelay: 10
+  burstOnKey: 1
+  spawnSpawnerOnKey: 1
+  angryLightNoiseSpeedOffset: 3
+  angryLightNoiseAmplitude: 0.35
+  angryLightBaseRange: 0.3
+  angryLightTransitionTime: 2
+  angryLightTransitionCurve: 4
+  waveLightIncreaseRadius: -3
+  waveLightNoiseSpeedOffset: 0
+  waveLightNoiseAmplitude: 0.2
+  waveLightTransitionTimeIn: 0.5
+  waveLightTransitionTimeOut: 2
+  waveLightTopTime: 0.5
+  waveLightTransitionCurve: 4
