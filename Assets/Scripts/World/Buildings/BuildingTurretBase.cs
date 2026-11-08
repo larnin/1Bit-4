@@ -70,7 +70,7 @@ public abstract class BuildingTurretBase : BuildingBase
         for (int i = 0; i < nbChild; i++)
         {
             var child = transform.GetChild(i);
-            if (child.name == "FirePoint")
+            if (child.name.Contains("FirePoint"))
                 m_firePoints.Add(child);
 
             GetFirePoints(child);
@@ -92,28 +92,7 @@ public abstract class BuildingTurretBase : BuildingBase
                 {
                     m_updateTargetTimer = updateTargetDelay;
 
-                    Team targetTeam = TeamEx.GetOppositeTeam(GetTeam());
-                    m_target = null;
-
-                    var groundCenter = GetGroundCenter();
-
-                    var entity = EntityList.instance.GetNearestEntity(groundCenter, m_range, targetTeam, AliveType.Alive);
-                    var building = BuildingList.instance.GetNearestBuildingInRadius(groundCenter, m_range, targetTeam, AliveType.Alive);
-
-                    if (entity == null && building == null)
-                        m_target = null;
-                    else if (entity == null)
-                        m_target = building.gameObject;
-                    else if (building == null)
-                        m_target = entity.gameObject;
-                    else
-                    {
-                        float distEntity = (entity.transform.position - groundCenter).sqrMagnitude;
-                        float distBuilding = (building.GetGroundCenter() - groundCenter).sqrMagnitude;
-                        if (distBuilding < distEntity)
-                            m_target = building.gameObject;
-                        else m_target = entity.gameObject;
-                    }
+                    m_target = GetTarget(GetGroundCenter(), m_range, TeamEx.GetOppositeTeam(GetTeam()));
                 }
             }
 
@@ -145,6 +124,25 @@ public abstract class BuildingTurretBase : BuildingBase
         }
     }
 
+    public static GameObject GetTarget(Vector3 center, float radius, Team team)
+    {
+        var entity = EntityList.instance.GetNearestEntity(center, radius, team, AliveType.Alive);
+        var building = BuildingList.instance.GetNearestBuildingInRadius(center, radius, team, AliveType.Alive);
+
+        if (entity == null && building == null)
+            return null;
+        if (entity == null)
+            return building.gameObject;
+        if (building == null)
+            return entity.gameObject;
+
+        float distEntity = (entity.transform.position - center).sqrMagnitude;
+        float distBuilding = (building.GetGroundCenter() - center).sqrMagnitude;
+        if (distBuilding < distEntity)
+           return building.gameObject;
+        return entity.gameObject;
+    }
+
     void UpdateBulletTurret()
     {
         float rateTimer = 1 / m_fireRate;
@@ -171,6 +169,9 @@ public abstract class BuildingTurretBase : BuildingBase
 
         if(m_fireParticles != null)
         {
+            var firePoint = GetCurrentFirepoint();
+            if (firePoint != null)
+                m_fireParticles.transform.position = firePoint.position;
             m_fireParticles.Play();
         }
 
@@ -202,7 +203,12 @@ public abstract class BuildingTurretBase : BuildingBase
                 StartFire();
                 StartRecoil();
                 if (m_fireParticles != null)
+                {
+                    var firePoint = GetCurrentFirepoint();
+                    if (firePoint != null)
+                        m_fireParticles.transform.position = firePoint.position;
                     m_fireParticles.Play();
+                }
             }
             else
             {

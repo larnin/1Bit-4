@@ -11,6 +11,7 @@ public abstract class ProjectileBase : MonoBehaviour
     [SerializeField] protected float m_damages = 1;
     [SerializeField] protected DamageType m_damageType = DamageType.Normal;
     [SerializeField] protected float m_damageEffect = 1;
+    [SerializeField] protected float m_particlesDurationOnDeath = 0;
 
     protected GameObject m_target;
     protected Team m_casterTeam;
@@ -259,5 +260,18 @@ public abstract class ProjectileBase : MonoBehaviour
             return 0;
 
         return value;
+    }
+
+    protected void AskDestroy()
+    {
+        if (m_particlesDurationOnDeath > 0)
+        {
+            var particles = GetComponentInChildren<ParticleSystem>();
+            particles.transform.parent = null;
+            particles.Stop();
+            Destroy(particles.gameObject, m_particlesDurationOnDeath);
+        }
+
+        Destroy(gameObject);
     }
 }

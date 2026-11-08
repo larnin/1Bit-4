@@ -678,6 +678,17 @@ MonoBehaviour:
       firstFree: 0
       cost:
         cost: []
+    - type: 22
+      prefab: {fileID: 4599273482230721453, guid: 99479d6dfdf4cc94ba83ea170790762c, type: 3}
+      sprite: {fileID: 0}
+      spriteWithBorder: {fileID: 0}
+      size: {x: 2, y: 2, z: 2}
+      team: 0
+      name: Rocket Launcher
+      description: 12 loaded rockets that follow its target. Never miss.
+      firstFree: 0
+      cost:
+        cost: []
     defaultUnlockedBuildings: 01000000090000000d000000
     mineItemPrefab: {fileID: 6943061212826655842, guid: 020dedfdfd13d1c49ac25e185f22167b, type: 3}
     lifeLossDisplayDuration: 10
@@ -873,6 +884,8 @@ MonoBehaviour:
       prefab: {fileID: 4663558457059073221, guid: ebfdddaab9f821d41974171d3319a020, type: 3}
     - type: KamikazeExplosion
       prefab: {fileID: 4663558457059073221, guid: 31bea621bcde2564e920a042ac7635cf, type: 3}
+    - type: RocketProjectile
+      prefab: {fileID: 9030378141569406407, guid: 419114af8dd14a3438dc1b4909f631e8, type: 3}
     questElements:
     - type: 0
       prefab: {fileID: 8340473304973191108, guid: f19020f353dd98046998669ae18bd18c, type: 3}

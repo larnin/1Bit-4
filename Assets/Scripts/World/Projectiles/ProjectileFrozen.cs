@@ -169,7 +169,7 @@ class ProjectileFrozen : ProjectileBase
     {
         m_time += Time.deltaTime;
         if (m_time >= 2)
-            Destroy(gameObject);
+            AskDestroy();
     }
 
     void StartExplosion(RaycastHit hit)

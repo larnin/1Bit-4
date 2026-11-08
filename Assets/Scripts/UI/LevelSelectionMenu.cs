@@ -198,5 +198,7 @@ public class LevelSelectionMenu : MonoBehaviour
         m_elements.Clear();
 
         PopulateLevels();
+
+        global::Save.instance.SaveCurrentSlot();
     }
 }

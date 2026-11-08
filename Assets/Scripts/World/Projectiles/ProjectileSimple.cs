@@ -38,6 +38,8 @@ public class ProjectileSimple : ProjectileBase
 
     protected override void Update()
     {
+        base.Update();
+
         if (GameInfos.instance.paused)
             return;
 
@@ -57,7 +59,7 @@ public class ProjectileSimple : ProjectileBase
         {
             m_time += Time.deltaTime;
             if (m_time > m_maxLife)
-                Destroy(gameObject);
+                AskDestroy();
         }
     }
 
@@ -91,7 +93,7 @@ public class ProjectileSimple : ProjectileBase
                 obj.transform.forward = hit.normal;
             }
 
-            Destroy(gameObject);
+            AskDestroy();
         }
     }
 

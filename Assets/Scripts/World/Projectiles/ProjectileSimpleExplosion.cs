@@ -19,6 +19,7 @@ public class ProjectileSimpleExplosion : ProjectileBase
     [SerializeField] float m_explosionSoundVolume = 1;
     [SerializeField] bool m_hitAll = false;
     [SerializeField] float m_delayBeforeFadeout = 1;
+    [SerializeField] float m_colorIntensity = 1;
 
     float m_time = 0;
 
@@ -39,7 +40,7 @@ public class ProjectileSimpleExplosion : ProjectileBase
             if (m_explosionMaterial != null)
             {
                 m_explosionInitialColor = m_explosionMaterial.GetColor(m_colorName);
-                m_explosionInitialColor.a = 1;
+                m_explosionInitialColor.a = m_colorIntensity;
                 m_explosionMaterial.SetColor(m_colorName, m_explosionInitialColor);
             }
         }
@@ -101,7 +102,7 @@ public class ProjectileSimpleExplosion : ProjectileBase
         if (normTime > m_explosionFadeEndPercent)
         {
             float percent = (normTime - m_explosionFadeEndPercent) / (1 - m_explosionFadeEndPercent);
-            c.a = 1 - percent;
+            c.a = (1 - percent) * m_colorIntensity;
             m_explosionMaterial.SetColor(m_colorName, c);
             m_explosionRenderer.material = m_explosionMaterial;
         }
