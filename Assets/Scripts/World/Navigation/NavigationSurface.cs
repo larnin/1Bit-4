@@ -81,17 +81,40 @@ public class NavigationSurface
             for(int j = 0; j < size; j++)
             {
                 int height = GridEx.GetHeight(m_grid, new Vector2Int(i, j));
-                var block = GridEx.GetBlock(m_grid, new Vector3Int(i, height, j));
 
-                bool canWalk = block.type == BlockType.ground;
-                if (m_profile.canWalkOnWater && block.type == BlockType.water)
-                    canWalk = true;
+                if (m_profile.navigationType == NavigationType.Air)
+                {
+                    if (BuildingList.instance != null)
+                    {
+                        var b = BuildingList.instance.GetBuildingAt(new Vector3Int(i, height + 1, j));
+                        if(b != null)
+                        {
+                            var bounds = b.GetBoundsThread();
+                            int h = bounds.yMax;
+                            if(h > height)
+                                heights.Set(i, j, h);
+                            else heights.Set(i, j, height);
+                        }
+                        else heights.Set(i, j, height);
+                    }
+                }
+                else
+                {
+                    var block = GridEx.GetBlock(m_grid, new Vector3Int(i, height, j));
 
-                if (!canWalk)
-                    heights.Set(i, j, -1);
-                else heights.Set(i, j, height);
+                    bool canWalk = block.type == BlockType.ground;
+                    if (m_profile.canWalkOnWater && block.type == BlockType.water)
+                        canWalk = true;
+
+                    if (!canWalk)
+                        heights.Set(i, j, -1);
+                    else heights.Set(i, j, height);
+                }
             }
         }
+
+        if (m_profile.navigationType == NavigationType.Air)
+            SmoothHeightForAirNavigation(heights);
 
         MakeNavToTower(navGrid, heights);
 
@@ -397,27 +420,32 @@ public class NavigationSurface
             return false;
 
         int heightDiff = endHeight - startHeight;
-        if (heightDiff < 0)
+        if (m_profile.navigationType == NavigationType.Air)
+            cost += Mathf.Abs(heightDiff) * m_profile.stepCost;
+        else
         {
-            if (m_profile.fallStep < -heightDiff)
-                return false;
-            cost = m_profile.fallCost;
-        }
-        if (heightDiff > 0)
-        {
-            if (m_profile.climbStep < heightDiff)
-                return false;
-            cost = m_profile.climbCost;
-        }
+            if (heightDiff < 0)
+            {
+                if (m_profile.fallStep < -heightDiff)
+                    return false;
+                cost = m_profile.fallCost;
+            }
+            if (heightDiff > 0)
+            {
+                if (m_profile.climbStep < heightDiff)
+                    return false;
+                cost = m_profile.climbCost;
+            }
 
-        if(BuildingList.instance != null)
-        {
-            var building = BuildingList.instance.GetBuildingAt(new Vector3Int(end.x, endHeight + 1, end.y));
-            float buildingCost = 0;
-            if (!building.IsMoveValid(out buildingCost))
-                return false;
+            if(BuildingList.instance != null)
+            {
+                var building = BuildingList.instance.GetBuildingAt(new Vector3Int(end.x, endHeight + 1, end.y));
+                float buildingCost = 0;
+                if (!building.IsMoveValid(out buildingCost))
+                    return false;
 
-            cost += buildingCost;
+                cost += buildingCost;
+            }
         }
 
         // need test diagonals
@@ -679,6 +707,158 @@ public class NavigationSurface
 
             current = new Vector2Int(result.nextPos.x, result.nextPos.z);
             height = result.nextPos.y;
+        }
+    }
+
+    void SmoothHeightForAirNavigation(Matrix<int> heights)
+    {
+        const int centerWeight = 10;
+        const int borderWeight = 3;
+        const int cornerWeight = 1;
+
+        Matrix<int> originalHeights = new Matrix<int>(heights.width, heights.depth);
+        for(int i = 0; i < heights.width; i++)
+        {
+            for (int j = 0; j < heights.depth; j++)
+                originalHeights.Set(i, j, heights.Get(i, j));
+        }
+
+        //next small smooth
+        for (int i = 0; i < heights.width; i++)
+        {
+            for (int j = 0; j < heights.depth; j++)
+            {
+                int totalHeight = 0;
+                int totalWeight = 0;
+
+                for(int k = -1; k <=1; k++)
+                {
+                    for(int l = -1; l <= 1; l++)
+                    {
+                        Vector2Int pos = new Vector2Int(i + k, j + l);
+                        Vector2Int loopPos = GridEx.GetRealPosFromLoop(m_grid, pos);
+                        if (!m_grid.LoopX() && loopPos.x != pos.x)
+                            loopPos.x = pos.x;
+                        if (!m_grid.LoopZ() && loopPos.y != pos.y)
+                            loopPos.y = pos.y;
+
+                        if (loopPos.x < 0 || loopPos.y < 0 || loopPos.x >= heights.width || loopPos.y >= heights.depth)
+                            continue;
+
+                        int dist = Mathf.Abs(k) + Mathf.Abs(l);
+                        int weight = centerWeight;
+                        if (dist == 1)
+                            weight = borderWeight;
+                        else if (dist >= 2)
+                            weight = cornerWeight;
+
+                        totalHeight += weight * originalHeights.Get(loopPos.x, loopPos.y);
+                        totalWeight += weight;
+
+                    }
+                }
+
+                if(totalWeight > 0)
+                {
+                    int originalHeight = originalHeights.Get(i, j);
+                    int finalHeight = Mathf.RoundToInt(totalHeight / (float)(totalWeight)) + m_profile.nominalHeight;
+                    finalHeight = Mathf.Max(finalHeight, originalHeight + m_profile.minHeight);
+                    finalHeight = Mathf.Min(finalHeight, originalHeight + m_profile.nominalHeight);
+                    heights.Set(i, j, finalHeight);
+                }
+            }
+        }
+
+        //reduce slope
+        //todo optimize this process to register modified positions (fleme, maybe this way is just fast enought)
+        bool haveChangedSomething = true;
+        while(haveChangedSomething)
+        {
+            haveChangedSomething = false;
+
+            for (int i = 0; i < heights.width; i++)
+            {
+                for (int j = 0; j < heights.depth; j++)
+                {
+                    int height = -1;
+
+                    for (int k = -1; k <= 1; k++)
+                    {
+                        for (int l = -1; l <= 1; l++)
+                        {
+                            if (k != 0 && l != 0)
+                                continue;
+
+                            Vector2Int pos = new Vector2Int(i + k, j + l);
+                            Vector2Int loopPos = GridEx.GetRealPosFromLoop(m_grid, pos);
+                            if (!m_grid.LoopX() && loopPos.x != pos.x)
+                                loopPos.x = pos.x;
+                            if (!m_grid.LoopZ() && loopPos.y != pos.y)
+                                loopPos.y = pos.y;
+
+                            if (loopPos.x < 0 || loopPos.y < 0 || loopPos.x >= heights.width || loopPos.y >= heights.depth)
+                                continue;
+
+                            int originalHeight = heights.Get(loopPos.x, loopPos.y);
+                            height = Mathf.Max(height, originalHeight);
+                        }
+                    }
+
+                    int currentHeight = heights.Get(i, j);
+                    if(currentHeight < height - m_profile.maxStep)
+                    {
+                        heights.Set(i, j, height - m_profile.maxStep);
+                        haveChangedSomething = true;
+                    }
+                }
+            }
+        }
+
+        //and now, spread to smooth outside montains
+        for (int i = 0; i < m_profile.spreadDistance; i++)
+            Spread(heights);
+    }
+
+    void Spread(Matrix<int> heights)
+    {
+        Matrix<int> originalHeights = new Matrix<int>(heights.width, heights.depth);
+        for (int i = 0; i < heights.width; i++)
+        {
+            for (int j = 0; j < heights.depth; j++)
+                originalHeights.Set(i, j, heights.Get(i, j));
+        }
+
+        for (int i = 0; i < heights.width; i++)
+        {
+            for (int j = 0; j < heights.depth; j++)
+            {
+                int height = -1;
+
+                for (int k = -1; k <= 1; k++)
+                {
+                    for (int l = -1; l <= 1; l++)
+                    {
+                        if (k != 0 && l != 0)
+                            continue;
+
+                        Vector2Int pos = new Vector2Int(i + k, j + l);
+                        Vector2Int loopPos = GridEx.GetRealPosFromLoop(m_grid, pos);
+                        if (!m_grid.LoopX() && loopPos.x != pos.x)
+                            loopPos.x = pos.x;
+                        if (!m_grid.LoopZ() && loopPos.y != pos.y)
+                            loopPos.y = pos.y;
+
+                        if (loopPos.x < 0 || loopPos.y < 0 || loopPos.x >= heights.width || loopPos.y >= heights.depth)
+                            continue;
+
+                        int originalHeight = originalHeights.Get(loopPos.x, loopPos.y);
+                        height = Mathf.Max(height, originalHeight);
+                    }
+                }
+
+                if (height > 0)
+                    heights.Set(i, j, height);
+            }
         }
     }
 }

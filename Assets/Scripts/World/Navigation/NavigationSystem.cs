@@ -96,24 +96,27 @@ public class NavigationSystem : MonoBehaviour
             if (m_surfaces.Count == 0)
                 return;
 
-            NavigationSurface surface = m_surfaces.First().Value;
+            NavigationSurface surface = m_surfaces["FlyingEnnemies"];
 
-            surface.DebugDrawGrid();
-
-            Camera cam = null;// Event<GetCameraEvent>.Broadcast(new GetCameraEvent()).camera;
-            if (cam != null)
+            if (surface != null)
             {
-                Vector3 pos;
-                var ray = cam.ScreenPointToRay(Input.mousePosition);
-                if(PlaceBuildingCursor.LoopCursorRatcast(ray, Global.instance.editorDatas.groundLayer, out pos))
-                {
-                    Vector2Int startPos = new Vector2Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.z));
+                surface.DebugDrawGrid();
 
-                    surface.DebugDrawPathFromPos(startPos, 1, -1, Color.red);
-                    surface.DebugDrawPathFromPos(startPos, 1, -0.5f, Color.yellow);
-                    surface.DebugDrawPathFromPos(startPos, 1, 0, Color.green);
-                    surface.DebugDrawPathFromPos(startPos, 1, 0.5f, Color.cyan);
-                    surface.DebugDrawPathFromPos(startPos, 1, 1, Color.blue);
+                Camera cam = Event<GetCameraEvent>.Broadcast(new GetCameraEvent()).camera;
+                if (cam != null)
+                {
+                    Vector3 pos;
+                    var ray = cam.ScreenPointToRay(Input.mousePosition);
+                    if (PlaceBuildingCursor.LoopCursorRatcast(ray, Global.instance.editorDatas.groundLayer, out pos))
+                    {
+                        Vector2Int startPos = new Vector2Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.z));
+
+                        surface.DebugDrawPathFromPos(startPos, 1, -1, Color.red);
+                        surface.DebugDrawPathFromPos(startPos, 1, -0.5f, Color.yellow);
+                        surface.DebugDrawPathFromPos(startPos, 1, 0, Color.green);
+                        surface.DebugDrawPathFromPos(startPos, 1, 0.5f, Color.cyan);
+                        surface.DebugDrawPathFromPos(startPos, 1, 1, Color.blue);
+                    }
                 }
             }
         }
